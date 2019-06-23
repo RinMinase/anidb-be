@@ -8,6 +8,7 @@ Homestead.yaml
 /.vagrant
 
 /bootstrap/cache/*
+# !/bootstrap/cache/.gitkeep
 
 /database/*.sqlite
 /database/*.sqlite-journal
@@ -20,5 +21,6 @@ Homestead.yaml
 
 /public/hot
 /public/storage
+/public/deploy-status
 
 /vendor
