@@ -8,7 +8,6 @@ Homestead.yaml
 /.vagrant
 
 /bootstrap/cache/*
-!/bootstrap/cache/.gitkeep
 
 /database/*.sqlite
 /database/*.sqlite-journal
