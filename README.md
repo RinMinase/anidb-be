@@ -1,4 +1,4 @@
-<h1 align="center"> Rin Minase's Anime Database<br><small>(Back-end API Service)</small> </h1>
+<h1 align="center"> Rin Minase's Anime Database<br>(Back-end API Service) </h1>
 
 <p align="center">
     <a href="">
