@@ -12,7 +12,11 @@ Homestead.yaml
 /database/*.sqlite
 /database/*.sqlite-journal
 
-/storage/
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+/storage/logs/*
 
 /public/hot
 /public/storage
