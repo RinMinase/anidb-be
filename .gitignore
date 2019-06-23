@@ -1,11 +1,20 @@
-/node_modules
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
+# General files
 .env
 .phpunit.result.cache
+
+# Homestead and Vagrant Files
 Homestead.json
 Homestead.yaml
-npm-debug.log
-yarn-error.log
+/.vagrant
+
+/bootstrap/cache
+
+/database/*.sqlite
+/database/*.sqlite-journal
+
+/storage/
+
+/public/hot
+/public/storage
+
+/vendor
