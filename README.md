@@ -1,72 +1,52 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+<h1 align="center"> Rin Minase's Anime Database<br><small>(Back-end API Service)</small> </h1>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+    <a href="">
+        <img alt="Circle-CI" src="https://heroku-badge.herokuapp.com/?app=rin-anidb&svg=1&root=deploy-status">
+    </a>
+    <a href="http://isitmaintained.com/project/RinMinase/anidb-be">
+        <img alt="Issue Resolution" src="http://isitmaintained.com/badge/resolution/RinMinase/anidb-be.svg">
+    </a>
+    <a href="http://isitmaintained.com/project/RinMinase/anidb-be">
+        <img alt="Open Issues" src="http://isitmaintained.com/badge/open/RinMinase/anidb-be.svg">
+    </a>
+</p>
+<p align="center">
+    <a href="https://laravel.com/">
+        <img alt="Laravel" src="https://img.shields.io/badge/laravel-%5E5.8.0-red.svg?logo=laravel&logoColor=white">
+    </a>
+    <a href="https://php.net/">
+        <img alt="PHP" src="https://img.shields.io/badge/php-7.2.19-blue.svg?logo=php&logoColor=white">
+    </a>
 </p>
 
-## About Laravel
+## Introduction
+_Add info here_
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Getting Started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Creating and cloning the project
+_Add info here_
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Code Scaffolding
+_Add info here_
 
-## Learning Laravel
+### Project Structure
+_Add info here_
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Deploying the project to Firebase
+_Add info here_
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Testing the project
+_Add info here_
 
-## Laravel Sponsors
+## Built with
+* <img width=20 height=20 src="https://laravel.com/favicon.png"> [Laravel 5.8](https://laravel.com/) - Web Framework
+* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 7.2](https://php.net/) - Language syntax
+* <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB](https://www.mongodb.com/) - Database
+* <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku CI](https://www.heroku.com/) - Continuous Integration (CI) service
+* <img width=20 height=20 src="https://getcomposer.org/favicon.ico"> [Composer](https://getcomposer.org/) - Package Manager
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<!-- * <img width=20 height=20 src="https://codecov.io/static/favicons/favicon-32x32.png"> [Codecov](https://codecov.io/) - Code Coverage -->
+<!-- * <img width=20 height=20 src="https://jasmine.github.io/favicon.ico"> [Jasmine](https://jasmine.github.io/) - Testing Framework
+* <img width=20 height=20 src="https://karma-runner.github.io/assets/img/favicon/favicon.ico"> [Karma](https://karma-runner.github.io) - Test Runner Framework -->
