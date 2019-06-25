@@ -28,6 +28,12 @@
         ]
     },
     "scripts": {
+        "pre-install-cmd": [
+            "rm -f public/deploy-status"
+        ],
+        "post-autoload-dump": [
+            "touch public/deploy-status"
+        ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ]
