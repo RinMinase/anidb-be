@@ -2,26 +2,27 @@
 .env
 .phpunit.result.cache
 
-# Homestead and Vagrant Files
+# Homestead, Vagrant and IDE Files
 Homestead.json
 Homestead.yaml
 /.vagrant
+/.idea
 
-/bootstrap/cache/*
-!/bootstrap/cache/.gitkeep
+# /bootstrap/cache/*
+# !/bootstrap/cache/.gitkeep
 
-/database/*.sqlite
-/database/*.sqlite-journal
+# /database/*.sqlite
+# /database/*.sqlite-journal
 
 /storage/framework/cache/*
-/storage/framework/sessions/*
-!/storage/framework/sessions/.gitkeep
+# /storage/framework/sessions/*
+# !/storage/framework/sessions/.gitkeep
 /storage/framework/views/*
 !/storage/framework/views/.gitkeep
 /storage/logs/*
 
-/public/hot
-/public/storage
+# /public/hot
+# /public/storage
 /public/deploy-status
 
 /vendor
