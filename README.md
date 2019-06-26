@@ -44,8 +44,8 @@ _Add info here_
 * <img width=20 height=20 src="https://lumen.laravel.com/img/favicons/favicon-32x32.png"> [Lumen 5.8](https://lumen.laravel.com/) - Web Framework
 * <img width=20 height=20 src="https://laravel.com/favicon.png"> [Laravel 5.8](https://laravel.com/) - Core Framework
 * <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 7.2](https://php.net/) - Language syntax
-* <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB](https://www.mongodb.com/) - Database
-* <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku CI](https://www.heroku.com/) - Continuous Integration (CI) service
+* <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database
+* <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com/) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://getcomposer.org/favicon.ico"> [Composer](https://getcomposer.org/) - Package Manager
 
 <!-- * <img width=20 height=20 src="https://codecov.io/static/favicons/favicon-32x32.png"> [Codecov](https://codecov.io/) - Code Coverage -->
