@@ -125,6 +125,8 @@ $creds = json_encode([
 
 $validatedCreds = str_replace('\\\\n', '\\n', $creds);
 
+dd($validatedCreds);
+
 $app->firebase = (new Factory)
 	-> withServiceAccount(ServiceAccount::fromJson($validatedCreds))
 	-> withDisabledAutoDiscovery()
