@@ -19,4 +19,11 @@ class HomeController extends Controller
 
 		return response()->json($data);
 	}
+
+	public function query()
+	{
+		$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
+
+		return response()->json($data);
+	}
 }
