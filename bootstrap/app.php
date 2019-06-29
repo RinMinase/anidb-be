@@ -123,8 +123,6 @@ $creds = json_encode([
 	"client_x509_cert_url" => env('FIRE_CERT_URL', ''),
 ]);
 
-dd($creds);
-
 $validatedCreds = str_replace('\\\\n', '\\n', $creds);
 
 $app->firebase = (new Factory)

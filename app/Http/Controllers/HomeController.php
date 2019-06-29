@@ -26,11 +26,4 @@ class HomeController extends Controller
 
 		return response()->json($data);
 	}
-
-	public function test_database()
-	{
-		$data = app('firebase');
-
-		return dd($data);
-	}
 }
