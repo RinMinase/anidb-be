@@ -123,9 +123,9 @@ $creds = json_encode([
 	"client_x509_cert_url" => env('FIRE_CERT_URL', ''),
 ]);
 
-$validatedCreds = str_replace('\\\\n', '\\n', $creds);
+dd($creds);
 
-dd($validatedCreds);
+$validatedCreds = str_replace('\\\\n', '\\n', $creds);
 
 $app->firebase = (new Factory)
 	-> withServiceAccount(ServiceAccount::fromJson($validatedCreds))
