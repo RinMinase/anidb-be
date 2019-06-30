@@ -104,7 +104,7 @@ $app->router->group([
 
 
 /*
- * Register the Firebase DB
+ * Register Firebase DB
  */
 
 use Kreait\Firebase\Factory;
@@ -130,6 +130,21 @@ $app->firebase = (new Factory)
 	-> withDisabledAutoDiscovery()
 	-> create();
 
+/*
+ * Register Mongo DB
+ */
+
+if (env('DB_USERNAME') && env('DB_PASSWORD') && env('DB_CLUSTER') && env('DB_DATABASE')) {
+	$mongoURI = 'mongodb+srv://'
+		. env('DB_USERNAME', '') . ':'
+		. env('DB_PASSWORD', '') . '@'
+		. env('DB_CLUSTER', '') . '/'
+		. env('DB_DATABASE', '') . '?retryWrites=true&w=majority';
+
+	$app->mongo = (new MongoDB\Client($mongoURI))->anidb;
+} else {
+	throw new Exception('MongoDB Atlas configuration not found');
+}
 
 /*
  * Return Application Configurations
