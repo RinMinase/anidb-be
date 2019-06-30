@@ -8,12 +8,12 @@ class HomeController extends Controller
 	public function index()
 	{
 		$data = [
-			"status" => "200",
-			"details" => [
-				"id" => 1,
-				"email" => "test@email.com",
-				"mobile" => "123000123",
-				"message" => "This is a test response"
+			'status' => '200',
+			'details' => [
+				'id' => 1,
+				'email' => 'test@email.com',
+				'mobile' => '123000123',
+				'message' => 'This is a test response'
 			]
 		];
 
