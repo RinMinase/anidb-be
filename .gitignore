@@ -26,3 +26,7 @@ Homestead.yaml
 /public/deploy-status
 
 /vendor
+
+/docker/logs/
+/docker/ssl/*
+!/docker/ssl/.gitkeep

@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  workspace:
+    container_name: anidb
+    build:
+      context: ./docker
+      dockerfile: workspace.dockerfile
+      args:
+        - LARADOCK_PHP_VERSION=7.3
+    volumes:
+      - ./:/var/www:cached
+    tty: true
+
+  php-fpm:
+    container_name: anidb-php
+    build:
+      context: ./docker
+      dockerfile: php.dockerfile
+      args:
+        - LARADOCK_PHP_VERSION=7.3
+    volumes:
+      - ./docker/php-config/php7.3.ini:/usr/local/etc/php/php.ini
+      - ./:/var/www:cached
+    expose:
+      - "9000"
+    depends_on:
+      - workspace
+
+  nginx:
+    container_name: anidb-nginx
+    build:
+      context: ./docker
+      dockerfile: nginx.dockerfile
+      args:
+        - PHP_UPSTREAM_CONTAINER=php-fpm
+        - PHP_UPSTREAM_PORT=9000
+    volumes:
+      - ./:/var/www:cached
+      - ./docker/logs/:/var/log/nginx
+      - ./docker/sites/:/etc/nginx/sites-available
+      - ./docker/ssl/:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php-fpm
