@@ -4,27 +4,23 @@ FROM php:${LARADOCK_PHP_VERSION}-fpm-alpine
 
 RUN set -xe; \
     apk add --no-cache \
-    openssl-dev \
-    icu-dev \
     libzip-dev \
+    openssl-dev \
     autoconf \
     make \
+    icu-dev \
     g++
 
 # icu-dev and g++ are required by php-ext intl
-# openssl-dev are required by php-mongo
-
-RUN docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-install zip && \
-    php -m | grep -q 'zip'
+# openssl-dev autoconf make are required by php-mongo
 
 ###########################################################################
 # PHP Extensions
 ###########################################################################
 
-RUN printf "\n" | pecl install -o -f grpc \
-    && rm -rf /tmp/pear \
-    && docker-php-ext-enable grpc
+RUN docker-php-ext-configure zip --with-libzip && \
+    docker-php-ext-install zip && \
+    php -m | grep -q 'zip'
 
 RUN docker-php-ext-install bcmath
 
@@ -35,6 +31,13 @@ COPY ./php-config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 # Human Language and Character Encoding Support:
 RUN docker-php-ext-configure intl && \
     docker-php-ext-install intl
+
+###########################################################################
+# Firebase Requirements:
+###########################################################################
+
+RUN pecl install -o -f grpc \
+    && docker-php-ext-enable grpc
 
 ###########################################################################
 # MongoDB:
