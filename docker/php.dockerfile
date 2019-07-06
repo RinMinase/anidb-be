@@ -4,12 +4,17 @@ FROM php:${LARADOCK_PHP_VERSION}-fpm-alpine
 
 RUN set -xe; \
     apk add --no-cache \
+    bash \
+    composer \
     libzip-dev \
     openssl-dev \
     autoconf \
     make \
     icu-dev \
     g++
+
+RUN addgroup -g 1000 laradock && \
+    adduser -u 1000 -h /home/laradock -G laradock -s /bin/bash -S laradock
 
 # icu-dev and g++ are required by php-ext intl
 # openssl-dev autoconf make are required by php-mongo
@@ -47,15 +52,32 @@ RUN pecl install mongodb && \
     docker-php-ext-enable mongodb
 
 ###########################################################################
+# Composer:
+###########################################################################
+
+USER root
+
+COPY ./composer.json /home/laradock/.composer/composer.json
+
+RUN chown -R laradock:laradock /home/laradock/.composer
+
+USER laradock
+
+RUN composer global install
+
+RUN echo "" >> ~/.bashrc && \
+    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+
+###########################################################################
 # Final Touch
 ###########################################################################
+
+USER root
 
 RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 COPY ./php-config/laravel.ini /usr/local/etc/php/conf.d
 COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
-
-USER root
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
