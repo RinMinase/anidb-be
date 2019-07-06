@@ -1,6 +1,7 @@
 # General files
 .env
 .phpunit.result.cache
+/.sonarlint
 
 # Homestead, Vagrant and IDE Files
 Homestead.json
