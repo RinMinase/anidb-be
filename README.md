@@ -25,16 +25,41 @@ _Add info here_
 
 ## Getting Started
 
-### Creating and cloning the project
-_Add info here_
+### Running the project
+1. If you are running Windows 10, [download](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) and install `Docker for Windows`.
+
+    **Note:** If you're not running Windows 10, use `Docker Toolbox` instead, [download](https://docs.docker.com/toolbox/toolbox_install_windows/) and install it. Also make sure that you are also running `vitualization`.
+
+2. Clone the project
+
+    ```
+    git clone https://github.com/RinMinase/anidb-be.git
+    cd anidb-be
+    ```
+
+3. Run the necessary docker containers
+
+    ```
+    docker-compose up -d
+    ```
+
+4. Fire up your browser and go to `localhost`.
+
+    **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
+
+**Note:**
+In case you need to remove the images
+From the project folder, run: 
+1. `docker-compose down`
+2. `docker images`
+3. Look for the IDs of `anidb`, `anidb-nginx`, `php-fpm-alpine` and `nginx`
+4. Run `docker rmi <Image ID> <Image ID>...`
+
 
 ### Code Scaffolding
 _Add info here_
 
 ### Project Structure
-_Add info here_
-
-### Deploying the project to Firebase
 _Add info here_
 
 ### Testing the project
