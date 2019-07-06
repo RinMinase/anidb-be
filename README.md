@@ -64,6 +64,18 @@ From the project folder, run:
 3. Look for the IDs of `anidb`, `anidb-nginx`, `php-fpm-alpine` and `nginx`
 4. Run `docker rmi <Image ID> <Image ID>...`
 
+### Re-running the project
+1. Make sure `Docker` is running, then open your terminal.
+
+    **Note:** If you are running `Docker Toolbox`, then open the docker terminal.
+
+2. Navigate to the project foler then run `docker-compose up -d`
+
+3. Fire up your browser and go to `localhost`.
+
+    **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
+
+
 ### Code Scaffolding
 _Add info here_
 
