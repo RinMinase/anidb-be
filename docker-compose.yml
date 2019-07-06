@@ -27,7 +27,6 @@ services:
       - ./:/var/www:cached
       - ./docker/logs/:/var/log/nginx
       - ./docker/sites/:/etc/nginx/sites-available
-      - ./docker/ssl/:/etc/nginx/ssl
     ports:
       - "80:80"
       - "443:443"

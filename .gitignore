@@ -29,5 +29,3 @@ Homestead.yaml
 /vendor
 
 /docker/logs/
-/docker/ssl/*
-!/docker/ssl/.gitkeep
