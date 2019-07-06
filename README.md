@@ -68,7 +68,33 @@ From the project folder, run:
 _Add info here_
 
 ### Project Structure
-_Add info here_
+    .
+    ├── app/                     # Project source code
+    │   ├── Exceptions           # Exception handlers
+    │   ├── Http                 # Request handlers
+    │   │   ├── Controllers/     # Controllers
+    │   │   └── Middleware/      # Middleware
+    │   └── ...                  # Other project components
+    ├── bootstrap/               # Project initializers
+    │   ├── app.php              # Framework bootstrapper
+    │   └── helpers.php          # Helper functions
+    ├── database/                # Database functions
+    ├── docker/                  # Docker functions
+    │   ├── php-config/          # PHP settings for docker
+    │   ├── sites/               # Nginx sites for docker
+    │   ├── nginx.dockerfile     # Nginx container docker file
+    │   ├── php.dockerfile       # PHP container docker file
+    │   └── ...                  # Other docker files
+    ├── public/                  # Project entry point
+    ├── resources/               # Project assets folder
+    ├── routes/                  # Route definitions
+    ├── storage/                 # Project cache directory
+    ├── tests/                   # Project testing
+    ├── .env.example             # Environmental variables template
+    ├── docker-compose.yml       # Main docker file
+    ├── phpunit.xml              # Project testing configuration
+    ├── Procfile                 # Heroku process file
+    └── ...                      # Other project files
 
 ### Testing the project
 _Add info here_
