@@ -14,9 +14,9 @@
 				color: #636b6f;
 				font-family: 'Nunito', sans-serif;
 				height: 100vh;
-				align-items: flex-end;
+				align-items: center;
 				display: flex;
-				flex-wrap: wrap;
+				justify-content: center;
 			}
 
 			.title {
@@ -34,7 +34,9 @@
 			.subtitle {
 				text-align: center;
 				font-size: 18px;
-				margin: 0 auto 30px;
+				margin-bottom: 30px;
+				position: fixed;
+				bottom: 0;
 			}
 		</style>
 	</head>
