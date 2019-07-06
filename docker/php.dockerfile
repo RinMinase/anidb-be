@@ -57,7 +57,13 @@ RUN pecl install mongodb && \
 
 USER root
 
-COPY ./composer.json /home/laradock/.composer/composer.json
+RUN mkdir /home/laradock/.composer \
+    && touch /home/laradock/.composer/composer.json \
+    && echo '{' >> /home/laradock/.composer/composer.json \
+    && echo '    "require": {' >> /home/laradock/.composer/composer.json \
+    && echo '' >> /home/laradock/.composer/composer.json \
+    && echo '    }' >> /home/laradock/.composer/composer.json \
+    && echo '}' >> /home/laradock/.composer/composer.json
 
 RUN chown -R laradock:laradock /home/laradock/.composer
 
