@@ -41,9 +41,18 @@ _Add info here_
 
     ```
     docker-compose up -d
+    docker exec -it anidb bash
     ```
 
-4. Fire up your browser and go to `localhost`.
+4. Inside the docker image, run install dependencies and generate application key
+
+    ```
+    cp .env.example .env
+    composer install
+    php artisan key:generate
+    ```
+
+5. Fire up your browser and go to `localhost`.
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
@@ -54,7 +63,6 @@ From the project folder, run:
 2. `docker images`
 3. Look for the IDs of `anidb`, `anidb-nginx`, `php-fpm-alpine` and `nginx`
 4. Run `docker rmi <Image ID> <Image ID>...`
-
 
 ### Code Scaffolding
 _Add info here_
