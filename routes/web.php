@@ -4,7 +4,7 @@ $router->get('/', function() use ($router) {
 	$version = explode(' ', $router->app->version())[1];
 	$version = substr($version, 1, -1);
 
-	return view('index', ['version' => $version]);
+	return display_index_page($version);
 });
 
 $router->group(['prefix' => 'api'], function() use ($router) {
