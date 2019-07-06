@@ -1,20 +1,22 @@
 ARG LARADOCK_PHP_VERSION
 
-FROM letsdockerize/laradock-php-fpm:2.4-${LARADOCK_PHP_VERSION}
-
-ENV DEBIAN_FRONTEND noninteractive
+FROM php:${LARADOCK_PHP_VERSION}-fpm-alpine
 
 RUN set -xe; \
-    apt-get update -yqq && \
-    pecl channel-update pecl.php.net && \
-    apt-get install -yqq \
-      apt-utils \
-      libzip-dev \
-      zip \
-      unzip && \
-      docker-php-ext-configure zip --with-libzip && \
-      docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
+    apk add --no-cache \
+    openssl-dev \
+    icu-dev \
+    libzip-dev \
+    autoconf \
+    make \
+    g++
+
+# icu-dev and g++ are required by php-ext intl
+# openssl-dev are required by php-mongo
+
+RUN docker-php-ext-configure zip --with-libzip && \
+    docker-php-ext-install zip && \
+    php -m | grep -q 'zip'
 
 ###########################################################################
 # PHP Extensions
@@ -31,8 +33,7 @@ RUN docker-php-ext-install opcache
 COPY ./php-config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Human Language and Character Encoding Support:
-RUN apt-get install -y zlib1g-dev libicu-dev g++ && \
-    docker-php-ext-configure intl && \
+RUN docker-php-ext-configure intl && \
     docker-php-ext-install intl
 
 ###########################################################################
@@ -53,11 +54,7 @@ COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
 
 USER root
 
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    rm /var/log/lastlog /var/log/faillog
-
-RUN usermod -u 1000 www-data
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/www
 
