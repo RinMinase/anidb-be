@@ -2106,16 +2106,16 @@
         },
         {
             "name": "laravel/lumen-framework",
-            "version": "v5.8.9",
+            "version": "v5.8.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/lumen-framework.git",
-                "reference": "9077df27b56ddfe8504f48aba3ef6ac62119a390"
+                "reference": "aba436b4824ed688726c3b0086c4e98577a760f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/lumen-framework/zipball/9077df27b56ddfe8504f48aba3ef6ac62119a390",
-                "reference": "9077df27b56ddfe8504f48aba3ef6ac62119a390",
+                "url": "https://api.github.com/repos/laravel/lumen-framework/zipball/aba436b4824ed688726c3b0086c4e98577a760f5",
+                "reference": "aba436b4824ed688726c3b0086c4e98577a760f5",
                 "shasum": ""
             },
             "require": {
@@ -2186,7 +2186,7 @@
                 "laravel",
                 "lumen"
             ],
-            "time": "2019-06-25T15:24:45+00:00"
+            "time": "2019-07-02T15:34:29+00:00"
         },
         {
             "name": "lcobucci/jwt",
