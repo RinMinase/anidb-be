@@ -19,7 +19,16 @@ RUN touch /var/log/messages
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
 
-ADD ./startup.sh /opt/startup.sh
+RUN touch /opt/startup.sh \
+    && echo "#!/bin/bash" >> /opt/startup.sh \
+    && echo "if [ ! -f /etc/nginx/ssl/default.crt ]; then" >> /opt/startup.sh \
+    && echo "openssl genrsa -out '/etc/nginx/ssl/default.key' 2048" >> /opt/startup.sh \
+    && echo "openssl req -new -key '/etc/nginx/ssl/default.key' -out '/etc/nginx/ssl/default.csr' -subj '/CN=default/O=default/C=UK'" >> /opt/startup.sh \
+    && echo "openssl x509 -req -days 365 -in '/etc/nginx/ssl/default.csr' -signkey '/etc/nginx/ssl/default.key' -out '/etc/nginx/ssl/default.crt'" >> /opt/startup.sh \
+    && echo "fi" >> /opt/startup.sh \
+    && echo "crond -l 2 -b" >> /opt/startup.sh \
+    && echo "nginx" >> /opt/startup.sh
+
 RUN sed -i 's/\r//g' /opt/startup.sh
 CMD ["/bin/bash", "/opt/startup.sh"]
 
