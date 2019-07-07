@@ -2,29 +2,16 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
-	dirname(__DIR__)
-))->bootstrap();
+(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
 
+/* Create The Application */
 
-/*--------------------------------------------------------------------------
- * Create The Application
- *--------------------------------------------------------------------------
- */
-
-$app = new Laravel\Lumen\Application(
-	dirname(__DIR__)
-);
-
+$app = new Laravel\Lumen\Application(dirname(__DIR__));
 // $app->withFacades();
-
 // $app->withEloquent();
 
 
-/*--------------------------------------------------------------------------
- * Register Container Bindings
- *--------------------------------------------------------------------------
-*/
+/* Register Container Bindings */
 
 $app->singleton(
 	Illuminate\Contracts\Debug\ExceptionHandler::class,
@@ -37,31 +24,21 @@ $app->singleton(
 );
 
 
-/*--------------------------------------------------------------------------
- * Register Middleware
- *--------------------------------------------------------------------------
- */
+/* Register Middleware */
 
 // $app->routeMiddleware([
 //     'auth' => App\Middleware\Authenticate::class,
 // ]);
 
 
-/*--------------------------------------------------------------------------
- * Load The Application Routes
- *--------------------------------------------------------------------------
- */
+/* Load The Application Routes */
 
 $app->router->group([
 	'namespace' => 'App\Controllers',
-], function ($router) {
-	require __DIR__.'/../routes/web.php';
-});
+], function ($router) { require __DIR__.'/../routes/web.php'; });
 
 
-/*
- * Register Firebase DB
- */
+/* Register Firebase DB */
 
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -86,9 +63,8 @@ $app->firebase = (new Factory)
 	-> withDisabledAutoDiscovery()
 	-> create();
 
-/*
- * Register Mongo DB
- */
+
+/* Register Mongo DB */
 
 if (env('DB_USERNAME') && env('DB_PASSWORD') && env('DB_CLUSTER') && env('DB_DATABASE')) {
 	$mongoURI = 'mongodb+srv://'
@@ -102,7 +78,6 @@ if (env('DB_USERNAME') && env('DB_PASSWORD') && env('DB_CLUSTER') && env('DB_DAT
 	throw new Exception('MongoDB Atlas configuration not found');
 }
 
-/*
- * Return Application Configurations
- */
+
+/* Return Application Configurations */
 return $app;
