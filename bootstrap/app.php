@@ -18,11 +18,6 @@ $app->singleton(
 	App\Middleware\ExceptionsHandler::class
 );
 
-$app->singleton(
-	Illuminate\Contracts\Console\Kernel::class,
-	App\Console\Kernel::class
-);
-
 
 /* Register Middleware */
 
