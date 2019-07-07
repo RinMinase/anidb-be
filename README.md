@@ -97,7 +97,6 @@ Where:
     .
     ├── app/                     # Project source code
     │   ├── Controllers/         # Project controllers
-    │   ├── Exceptions/          # Exception handlers
     │   ├── Middleware/          # Project middleware
     │   ├── Models/              # Project models
     │   ├── Routes/              # Route definitions
