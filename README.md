@@ -100,6 +100,7 @@ Where:
     │   ├── Exceptions/          # Exception handlers
     │   ├── Middleware/          # Project middleware
     │   ├── Models/              # Project models
+    │   ├── Routes/              # Route definitions
     │   └── ...                  # Other project components
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
@@ -111,7 +112,6 @@ Where:
     │   ├── php.dockerfile       # PHP container docker file
     │   └── ...                  # Other docker files
     ├── public/                  # Project entry point
-    ├── routes/                  # Route definitions
     ├── storage/                 # Project cache directory
     ├── tests/                   # Project testing
     ├── .env.example             # Environmental variables template
