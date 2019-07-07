@@ -1,7 +1,9 @@
-# General files
+# General files and directories
 .env
 .phpunit.result.cache
 /.sonarlint
+/vendor
+/docker/logs/
 
 # Homestead, Vagrant and IDE Files
 Homestead.json
@@ -12,20 +14,9 @@ Homestead.yaml
 # /bootstrap/cache/*
 # !/bootstrap/cache/.gitkeep
 
-# /database/*.sqlite
-# /database/*.sqlite-journal
-
 /storage/framework/cache/*
-# /storage/framework/sessions/*
-# !/storage/framework/sessions/.gitkeep
 /storage/framework/views/*
 !/storage/framework/views/.gitkeep
 /storage/logs/*
 
-# /public/hot
-# /public/storage
 /public/deploy-status
-
-/vendor
-
-/docker/logs/
