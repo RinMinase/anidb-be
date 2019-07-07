@@ -30,7 +30,7 @@ $app->singleton(
 
 $app->router->group([
 	'namespace' => 'App\Controllers',
-], function ($router) { require __DIR__.'/../app/routes/web.php'; });
+], function ($router) { require __DIR__.'/../app/Routes/web.php'; });
 
 
 /* Register Firebase DB */
