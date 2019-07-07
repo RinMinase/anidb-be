@@ -30,7 +30,8 @@
     },
     "scripts": {
         "pre-install-cmd": [
-            "rm -f public/deploy-status"
+            "rm -f public/deploy-status",
+            "mkdir -p storage/framework/cache && mkdir -p storage/framework/views"
         ],
         "post-autoload-dump": [
             "touch public/deploy-status"
