@@ -99,8 +99,7 @@ Where:
     │   ├── Controllers/         # Project controllers
     │   ├── Middleware/          # Project middleware
     │   ├── Models/              # Project models
-    │   ├── Routes/              # Route definitions
-    │   └── ...                  # Other project components
+    │   └── Routes/              # Route definitions
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
     │   └── helpers.php          # Helper functions
