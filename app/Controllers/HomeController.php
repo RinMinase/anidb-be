@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Controllers;
 
-class HomeController extends Controller
-{
+class HomeController {
 
-	public function index()
-	{
+	public function index() {
 		$data = [
 			'status' => '200',
 			'details' => [
@@ -20,15 +18,13 @@ class HomeController extends Controller
 		return response()->json($data);
 	}
 
-	public function query()
-	{
+	public function query() {
 		$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
 
 		return response()->json($data);
 	}
 
-	public function mongo()
-	{
+	public function mongo() {
 		$data = app('mongo')->hdd->find();
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
