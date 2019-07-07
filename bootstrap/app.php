@@ -15,7 +15,7 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 $app->singleton(
 	Illuminate\Contracts\Debug\ExceptionHandler::class,
-	App\Exceptions\Handler::class
+	App\Middleware\ExceptionsHandler::class
 );
 
 $app->singleton(

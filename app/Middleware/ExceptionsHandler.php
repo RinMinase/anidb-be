@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Middleware;
 
 use Exception;
 use Illuminate\Validation\ValidationException;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class Handler extends ExceptionHandler
+class ExceptionsHandler extends ExceptionHandler
 {
 	protected $dontReport = [
 		AuthorizationException::class,
