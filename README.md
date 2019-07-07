@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="">
-        <img alt="Circle-CI" src="https://rin-heroku-badge.herokuapp.com/?app=rin-anidb&svg=1&root=deploy-status">
+        <img alt="Heroku" src="https://rin-heroku-badge.herokuapp.com/?app=rin-anidb&svg=1&root=deploy-status">
     </a>
     <a href="http://isitmaintained.com/project/RinMinase/anidb-be">
         <img alt="Issue Resolution" src="http://isitmaintained.com/badge/resolution/RinMinase/anidb-be.svg">
