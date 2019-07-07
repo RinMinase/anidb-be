@@ -13,7 +13,7 @@
 </p>
 <p align="center">
     <a href="https://lumen.laravel.com/">
-        <img alt="Lumen" src="https://img.shields.io/badge/lumen-%5E5.8.8-red.svg?logo=laravel&logoColor=white">
+        <img alt="Lumen" src="https://img.shields.io/badge/lumen-%5E5.8.10-red.svg?logo=laravel&logoColor=white">
     </a>
     <a href="https://php.net/">
         <img alt="PHP" src="https://img.shields.io/badge/php-7.2.19-blue.svg?logo=php&logoColor=white">
