@@ -110,7 +110,6 @@ Where:
     │   ├── php.dockerfile       # PHP container docker file
     │   └── ...                  # Other docker files
     ├── public/                  # Project entry point
-    ├── storage/                 # Project cache directory
     ├── tests/                   # Project testing
     ├── .env.example             # Environmental variables template
     ├── docker-compose.yml       # Main docker file
