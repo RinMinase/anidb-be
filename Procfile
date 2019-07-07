@@ -1,1 +1,1 @@
-web: heroku-php-nginx -C resources/docker/heroku-nginx.conf public/
+web: heroku-php-nginx -C docker/heroku-nginx.conf public/
