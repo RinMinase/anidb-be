@@ -104,7 +104,6 @@ Where:
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
     │   └── helpers.php          # Helper functions
-    ├── database/                # Database functions
     ├── docker/                  # Docker functions
     │   ├── php-config/          # PHP settings for docker
     │   ├── sites/               # Nginx sites for docker
