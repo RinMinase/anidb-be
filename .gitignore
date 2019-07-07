@@ -11,12 +11,6 @@ Homestead.yaml
 /.vagrant
 /.idea
 
-# /bootstrap/cache/*
-# !/bootstrap/cache/.gitkeep
-
-/storage/framework/cache/*
-/storage/framework/views/*
-!/storage/framework/views/.gitkeep
-/storage/logs/*
+/storage/
 
 /public/deploy-status
