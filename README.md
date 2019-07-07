@@ -96,10 +96,10 @@ Where:
 ### Project Structure
     .
     ├── app/                     # Project source code
-    │   ├── Exceptions           # Exception handlers
-    │   ├── Http                 # Request handlers
-    │   │   ├── Controllers/     # Controllers
-    │   │   └── Middleware/      # Middleware
+    │   ├── Controllers/         # Project controllers
+    │   ├── Exceptions/          # Exception handlers
+    │   ├── Middleware/          # Project middleware
+    │   ├── Models/              # Project models
     │   └── ...                  # Other project components
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
@@ -112,7 +112,6 @@ Where:
     │   ├── php.dockerfile       # PHP container docker file
     │   └── ...                  # Other docker files
     ├── public/                  # Project entry point
-    ├── resources/               # Project assets folder
     ├── routes/                  # Route definitions
     ├── storage/                 # Project cache directory
     ├── tests/                   # Project testing
