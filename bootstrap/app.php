@@ -18,6 +18,11 @@ $app->singleton(
 	App\Middleware\ExceptionsHandler::class
 );
 
+$app->singleton(
+	Illuminate\Contracts\Console\Kernel::class,
+	Laravel\Lumen\Console\Kernel::class
+);
+
 
 /* Register Middleware */
 
