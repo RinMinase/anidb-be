@@ -111,9 +111,10 @@ Where:
     │   └── ...                  # Other docker files
     ├── public/                  # Project entry point
     ├── tests/                   # Project testing
+    │   ├── cases/               # Test cases
+    │   └── phpunit.sml          # Testing configuration
     ├── .env.example             # Environmental variables template
     ├── docker-compose.yml       # Main docker file
-    ├── phpunit.xml              # Project testing configuration
     ├── Procfile                 # Heroku process file
     └── ...                      # Other project files
 
