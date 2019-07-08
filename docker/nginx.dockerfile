@@ -20,6 +20,8 @@ RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREA
     && rm /etc/nginx/conf.d/default.conf
 
 RUN touch /opt/startup.sh \
+    && chmod +x /opt/startup.sh \
+    && mkdir -p /etc/nginx/ssl \
     && echo "#!/bin/bash" >> /opt/startup.sh \
     && echo "if [ ! -f /etc/nginx/ssl/default.crt ]; then" >> /opt/startup.sh \
     && echo "openssl genrsa -out '/etc/nginx/ssl/default.key' 2048" >> /opt/startup.sh \
