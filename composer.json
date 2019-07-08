@@ -40,7 +40,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "test": [
-            "phpunit -c tests/phpunit.xml"
+            "phpunit -c tests/phpunit.xml; rm tests/.phpunit.result.cache"
         ]
     },
     "config": {
