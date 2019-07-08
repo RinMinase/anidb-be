@@ -130,7 +130,7 @@ _Add info here_
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com/) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://getcomposer.org/favicon.ico"> [Composer](https://getcomposer.org/) - Package Manager
 * <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net/) - HTTP Requests Architecture
-* <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1562606638/phpunit.png"> [PHPUnit](https://phpunit.de/index.html) - Testing framework
+* <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1562606888/phpunit.png"> [PHPUnit](https://phpunit.de/index.html) - Testing framework
 <!-- * <img width=20 height=20 src="https://www.sonarqube.org/favicon.ico"> [Codecov](https://www.sonarqube.org/) - Code Inspection and Reliability -->
 <!-- * <img width=20 height=20 src="https://codecov.io/static/favicons/favicon-32x32.png"> [Codecov](https://codecov.io/) - Code Coverage -->
 
