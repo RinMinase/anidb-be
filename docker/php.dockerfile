@@ -75,7 +75,7 @@ RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
 ###########################################################################
-# Final Touch
+# Verify and Copy PHP Settings
 ###########################################################################
 
 USER root
@@ -84,6 +84,20 @@ RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 COPY ./php-config/laravel.ini /usr/local/etc/php/conf.d
 COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
+
+###########################################################################
+# Setup ENV File
+###########################################################################
+
+RUN cp -p /var/www/.env.example /var/www/.env
+
+# RUN grep -Hrn "APP_KEY=$" /var/www/.env && php bootstrap/artisan key:generate
+
+RUN cd /var/www/ && composer install
+
+###########################################################################
+# Final Touches
+###########################################################################
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
