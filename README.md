@@ -82,9 +82,7 @@ Where:
 | ----------------- | ------------------------------------------------------ |
 | `make:auth`       | Scaffold basic login and registration views and routes |
 | `make:controller` | Creates a new controller class                         |
-| `make:migration`  | Creates a new migration file                           |
 | `make:model`      | Create a new Eloquent model class                      |
-| `make:seeder`     | Create a new seeder class                              |
 | `make:test`       | Create a new test class                                |
 
 ### Project Structure
