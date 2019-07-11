@@ -28,7 +28,7 @@ _Add info here_
 ### Running the project
 1. If you are running Windows 10, [download](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) and install `Docker for Windows`.
 
-    **Note:** If you're not running Windows 10, use `Docker Toolbox` instead, [download](https://docs.docker.com/toolbox/toolbox_install_windows/) and install it. Also make sure that you are also running `vitualization`.
+    **Note:** If you're not running Windows 10, use `Docker Toolbox` instead, [download](https://docs.docker.com/toolbox/toolbox_install_windows/#step-2-install-docker-toolbox) and install it. Also make sure that you are also running [vitualization](https://docs.docker.com/toolbox/toolbox_install_windows/#step-1-check-your-version).
 
 2. Clone the project
 
