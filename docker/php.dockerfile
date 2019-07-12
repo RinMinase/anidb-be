@@ -12,9 +12,6 @@ RUN set -xe; \
     icu-dev \
     g++
 
-RUN addgroup -g 1000 laradock && \
-    adduser -u 1000 -h /home/laradock -G laradock -s /bin/bash -S laradock
-
 # icu-dev and g++ are required by php-ext intl
 
 ###########################################################################
