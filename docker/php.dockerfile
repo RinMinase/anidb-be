@@ -16,7 +16,6 @@ RUN addgroup -g 1000 laradock && \
     adduser -u 1000 -h /home/laradock -G laradock -s /bin/bash -S laradock
 
 # icu-dev and g++ are required by php-ext intl
-# openssl-dev autoconf make are required by php-mongo
 
 ###########################################################################
 # PHP Extensions
@@ -37,14 +36,14 @@ RUN docker-php-ext-configure intl && \
     docker-php-ext-install intl
 
 ###########################################################################
-# Firebase Requirements:
+# Firebase Requirements: Requires g++ and autoconf
 ###########################################################################
 
 RUN pecl install -o -f grpc \
     && docker-php-ext-enable grpc
 
 ###########################################################################
-# MongoDB:
+# MongoDB: Requires openssl-dev, autoconf and make
 ###########################################################################
 
 RUN pecl install mongodb && \
