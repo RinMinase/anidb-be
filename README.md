@@ -41,9 +41,17 @@ _Add info here_
 
     ```
     docker-compose up -d
+    docker exec -it anidb bash
     ```
 
-4. Fire up your browser and go to `localhost`.
+4. Inside the docker image, copy the env file and install the necessary dependencies
+
+    ```
+    cp .env.example .env
+    composer install
+    ```
+
+5. Fire up your browser and go to `localhost`.
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
