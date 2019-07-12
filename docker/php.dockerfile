@@ -5,7 +5,6 @@ FROM php:${LARADOCK_PHP_VERSION}-fpm-alpine
 RUN set -xe; \
     apk add --no-cache \
     bash \
-    composer \
     libzip-dev \
     openssl-dev \
     autoconf \
@@ -55,24 +54,9 @@ RUN pecl install mongodb && \
 # Composer:
 ###########################################################################
 
-USER root
-
-RUN mkdir /home/laradock/.composer \
-    && touch /home/laradock/.composer/composer.json \
-    && echo '{' >> /home/laradock/.composer/composer.json \
-    && echo '    "require": {' >> /home/laradock/.composer/composer.json \
-    && echo '' >> /home/laradock/.composer/composer.json \
-    && echo '    }' >> /home/laradock/.composer/composer.json \
-    && echo '}' >> /home/laradock/.composer/composer.json
-
-RUN chown -R laradock:laradock /home/laradock/.composer
-
-USER laradock
-
-RUN composer global install
-
-RUN echo "" >> ~/.bashrc && \
-    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+	&& php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+	&& php -r "unlink('composer-setup.php');"
 
 ###########################################################################
 # Verify and Copy PHP Settings
