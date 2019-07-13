@@ -1,6 +1,6 @@
-ARG LARADOCK_PHP_VERSION
+ARG PHP_VERSION
 
-FROM php:${LARADOCK_PHP_VERSION}-fpm-alpine
+FROM php:${PHP_VERSION}-fpm-alpine
 
 RUN set -xe; \
     apk add --no-cache \
