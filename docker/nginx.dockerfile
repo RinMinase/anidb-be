@@ -4,7 +4,6 @@ COPY nginx.conf /etc/nginx/
 
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache openssl \
     && apk add --no-cache bash
 
 RUN set -x ; \
@@ -21,13 +20,7 @@ RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREA
 
 RUN touch /opt/startup.sh \
     && chmod +x /opt/startup.sh \
-    && mkdir -p /etc/nginx/ssl \
     && echo "#!/bin/bash" >> /opt/startup.sh \
-    && echo "if [ ! -f /etc/nginx/ssl/default.crt ]; then" >> /opt/startup.sh \
-    && echo "openssl genrsa -out '/etc/nginx/ssl/default.key' 2048" >> /opt/startup.sh \
-    && echo "openssl req -new -key '/etc/nginx/ssl/default.key' -out '/etc/nginx/ssl/default.csr' -subj '/CN=default/O=default/C=UK'" >> /opt/startup.sh \
-    && echo "openssl x509 -req -days 365 -in '/etc/nginx/ssl/default.csr' -signkey '/etc/nginx/ssl/default.key' -out '/etc/nginx/ssl/default.crt'" >> /opt/startup.sh \
-    && echo "fi" >> /opt/startup.sh \
     && echo "crond -l 2 -b" >> /opt/startup.sh \
     && echo "nginx" >> /opt/startup.sh
 
