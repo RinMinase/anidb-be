@@ -2,10 +2,6 @@ FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/
 
-RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache bash
-
 RUN set -x ; \
     addgroup -g 82 -S www-data ; \
     adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
@@ -20,11 +16,11 @@ RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREA
 
 RUN touch /opt/startup.sh \
     && chmod +x /opt/startup.sh \
-    && echo "#!/bin/bash" >> /opt/startup.sh \
+    && echo "#!/bin/sh" >> /opt/startup.sh \
     && echo "crond -l 2 -b" >> /opt/startup.sh \
     && echo "nginx" >> /opt/startup.sh
 
 RUN sed -i 's/\r//g' /opt/startup.sh
-CMD ["/bin/bash", "/opt/startup.sh"]
+CMD ["/bin/sh", "/opt/startup.sh"]
 
 EXPOSE 80 443
