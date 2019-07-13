@@ -22,5 +22,3 @@ RUN touch /opt/startup.sh \
 
 RUN sed -i 's/\r//g' /opt/startup.sh
 CMD ["/bin/sh", "/opt/startup.sh"]
-
-EXPOSE 80

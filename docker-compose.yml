@@ -13,6 +13,7 @@ services:
       - ./:/var/www:cached
     expose:
       - "9000"
+    working_dir: /var/www
     tty: true
 
   nginx:
@@ -29,5 +30,7 @@ services:
       - ./docker/sites/:/etc/nginx/sites-available
     ports:
       - "80:80"
+    expose:
+      - "80"
     depends_on:
       - php

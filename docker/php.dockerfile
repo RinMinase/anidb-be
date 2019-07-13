@@ -51,8 +51,4 @@ COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-WORKDIR /var/www
-
 CMD ["php-fpm"]
-
-EXPOSE 9000
