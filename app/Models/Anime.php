@@ -10,19 +10,6 @@ class Anime {
 	private $episodes;
 	private $premiered;
 
-	public static function parse($input): Anime {
-		$instance = new self();
-
-		$instance->url = $input->filterXPath('//meta[@property=\'og:url\']')->attr('content');
-		$instance->title = $input->filterXPath('//meta[@property=\'og:title\']')->attr('content');
-
-		$instance->synonyms = $instance->parseSynonyms($input);
-		$instance->episodes = $instance->parseEpisodes($input);
-		$instance->premiered = $instance->parsePremiered($input);
-
-		return $instance;
-	}
-
 	public function get() {
 		return [
 			'url' => $this->url,
@@ -51,6 +38,19 @@ class Anime {
 
 	public function getPremiered(): string {
 		return $this->premiered;
+	}
+
+	public static function parse($input): Anime {
+		$instance = new self();
+
+		$instance->url = $input->filterXPath('//meta[@property=\'og:url\']')->attr('content');
+		$instance->title = $input->filterXPath('//meta[@property=\'og:title\']')->attr('content');
+
+		$instance->synonyms = $instance->parseSynonyms($input);
+		$instance->episodes = $instance->parseEpisodes($input);
+		$instance->premiered = $instance->parsePremiered($input);
+
+		return $instance;
 	}
 
 	private function parseSynonyms($input): string {
