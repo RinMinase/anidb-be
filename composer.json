@@ -1,9 +1,25 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "rin-anidb-be",
+    "description": "Rin Minase's Anime Database API Service utilizing Lumen 5.8 by Laravel and Mongo DB Atlas and is deployed to Heroku.",
+    "keywords": [
+        "laravel",
+        "lumen",
+        "mongodb-atlas",
+        "docker",
+        "heroku",
+        "restful-api",
+        "phpunit"
+    ],
     "license": "MIT",
     "type": "project",
+    "authors": [
+        {
+            "name": "Rin Minase",
+            "email": "rin.black.raison.detre@gmail.com",
+            "homepage": "https://anidb.netlify.com",
+            "role": "Full Stack Developer"
+        }
+    ],
     "require": {
         "php": ">=7.1.3",
         "kreait/firebase-php": "^4.26",
