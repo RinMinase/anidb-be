@@ -41,17 +41,13 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php -r "unlink('composer-setup.php');"
 
 ###########################################################################
-# Verify and Copy PHP Settings
+# Final Setup
 ###########################################################################
 
 RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 COPY ./php-config/laravel.ini /usr/local/etc/php/conf.d
 COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
-
-###########################################################################
-# Final Touches
-###########################################################################
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
