@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Middleware\MAL;
+
 class HomeController {
 
 	public function index() {
@@ -19,9 +21,9 @@ class HomeController {
 	}
 
 	public function mal() {
-		$data = app('mal')->request('get', '/anime/37430');
+		$mal = new MAL();
 
-		dd($data);
+		dd($mal->anime(37430));
 
 		// return response($data)->header('Content-Type', 'application/json');
 	}
