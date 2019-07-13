@@ -1,6 +1,7 @@
 # General files and directories
 .env
 .phpunit.result.cache
+composer.lock
 /.sonarlint
 /vendor
 /docker/logs/
