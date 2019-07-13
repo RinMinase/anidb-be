@@ -19,8 +19,7 @@ RUN set -xe; \
 ###########################################################################
 
 RUN docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-install zip && \
-    php -m | grep -q 'zip'
+    docker-php-ext-install zip
 
 RUN docker-php-ext-install bcmath
 
