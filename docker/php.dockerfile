@@ -33,7 +33,7 @@ RUN pecl install mongodb && \
     docker-php-ext-enable mongodb
 
 ###########################################################################
-# Composer:
+# Composer
 ###########################################################################
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
