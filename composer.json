@@ -1,5 +1,5 @@
 {
-    "name": "rin-anidb-be",
+    "name": "rin-anidb/anidb-be",
     "description": "Rin Minase's Anime Database API Service utilizing Lumen 5.8 by Laravel and Mongo DB Atlas and is deployed to Heroku.",
     "keywords": [
         "laravel",
