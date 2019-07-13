@@ -37,6 +37,18 @@ $app->router->group([
 	'namespace' => 'App\Controllers',
 ], function ($router) { require __DIR__.'/../app/Routes/web.php'; });
 
+/* Register Goute and Guzzle */
+
+use Goutte\Client as GoutteClient;
+use GuzzleHttp\Client as GuzzleClient;
+
+$guzzleClient = new GuzzleClient([
+	'base_uri' => 'https://myanimelist.net',
+	'timeout' => 10,
+]);
+
+$app->mal = (new GoutteClient())->setClient($guzzleClient);
+
 
 /* Register Firebase DB */
 
