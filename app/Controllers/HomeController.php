@@ -23,7 +23,7 @@ class HomeController {
 	public function mal() {
 		$mal = new MAL();
 
-		dd($mal->anime(37430));
+		return response()->json($mal->anime(37430)->get());
 
 		// return response($data)->header('Content-Type', 'application/json');
 	}
