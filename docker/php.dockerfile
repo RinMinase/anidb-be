@@ -9,7 +9,6 @@ RUN set -xe; \
     openssl-dev \
     autoconf \
     make \
-    icu-dev \
     g++
 
 # icu-dev and g++ are required by php-ext intl
@@ -26,10 +25,6 @@ RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install opcache
 
 COPY ./php-config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-
-# Human Language and Character Encoding Support:
-RUN docker-php-ext-configure intl && \
-    docker-php-ext-install intl
 
 ###########################################################################
 # Firebase Requirements: Requires g++ and autoconf
