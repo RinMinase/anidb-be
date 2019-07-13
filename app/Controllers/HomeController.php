@@ -20,12 +20,10 @@ class HomeController {
 		return response()->json($data);
 	}
 
-	public function mal() {
+	public function mal($id = 37430) {
 		$mal = new MAL();
 
-		return response()->json($mal->anime(37430)->get());
-
-		// return response($data)->header('Content-Type', 'application/json');
+		return response()->json($mal->anime($id)->get());
 	}
 
 	public function query() {
