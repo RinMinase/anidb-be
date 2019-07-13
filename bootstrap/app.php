@@ -37,6 +37,7 @@ $app->router->group([
 	'namespace' => 'App\Controllers',
 ], function ($router) { require __DIR__.'/../app/Routes/web.php'; });
 
+
 /* Register Goute and Guzzle */
 
 use Goutte\Client as GoutteClient;
