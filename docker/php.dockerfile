@@ -20,9 +20,9 @@ RUN docker-php-ext-configure zip --with-libzip && \
 
 RUN docker-php-ext-install bcmath
 
-RUN docker-php-ext-install opcache
+# RUN docker-php-ext-install opcache
 
-COPY ./php-config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+# COPY ./php-config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 ###########################################################################
 # Firebase Requirements: Requires g++ and autoconf
