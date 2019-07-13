@@ -18,6 +18,14 @@ class HomeController {
 		return response()->json($data);
 	}
 
+	public function mal() {
+		$data = app('mal')->request('get', '/anime/37430');
+
+		dd($data);
+
+		// return response($data)->header('Content-Type', 'application/json');
+	}
+
 	public function query() {
 		$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
 
