@@ -82,14 +82,10 @@ class Anime {
 			$airedYear = explode(' ', $aired)[2];
 
 			switch ($airedMonth) {
-				case 'Jan': case 'Feb': case 'Mar':
-					$premiered = 'Winter ' . $airedYear;
-				case 'Apr': case 'May': case 'Jun':
-					$premiered = 'Spring ' . $airedYear;
-				case 'Jul': case 'Aug': case 'Sep':
-					$premiered = 'Summer ' . $airedYear;
-				case 'Oct': case 'Nov': case 'Dec':
-					$premiered = 'Fall ' . $airedYear;
+				case 'Jan': case 'Feb': case 'Mar': $premiered = 'Winter ' . $airedYear; break;
+				case 'Apr': case 'May': case 'Jun': $premiered = 'Spring ' . $airedYear; break;
+				case 'Jul': case 'Aug': case 'Sep': $premiered = 'Summer ' . $airedYear; break;
+				case 'Oct': case 'Nov': case 'Dec': $premiered = 'Fall ' . $airedYear; break;
 			}
 
 			return $premiered;
