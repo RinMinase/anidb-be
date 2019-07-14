@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Middleware\MAL;
-
 class HomeController {
 
 	public function index() {
@@ -21,9 +19,9 @@ class HomeController {
 	}
 
 	public function mal($id = 37430) {
-		$mal = new MAL();
+		$data = app('mal')->anime($id)->get();
 
-		return response()->json($mal->anime($id)->get());
+		return response()->json($data);
 	}
 
 	public function query() {
