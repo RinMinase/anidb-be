@@ -55,7 +55,7 @@ class Anime {
 
 	private function parseSynonyms($input): string {
 		$title = $input->filterXPath('//span[text()="Synonyms:"]');
-		if (!$title->count()) { return null; }
+		if (!$title->count()) { return ''; }
 
 		$titles = trim_dom_crawler($title);
 
