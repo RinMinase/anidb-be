@@ -8,7 +8,6 @@ class Anime {
 	private $title;
 	private $synonyms;
 	private $episodes;
-	private $aired;
 	private $premiered;
 
 	public function get() {
@@ -17,7 +16,6 @@ class Anime {
 			'title' => $this->title,
 			'synonyms' => $this->synonyms,
 			'episodes' => $this->episodes,
-			'aired' => $this->aired,
 			'premiered' => $this->premiered,
 		];
 	}
@@ -38,10 +36,6 @@ class Anime {
 		return $this->episodes;
 	}
 
-	public function getAired(): string {
-		return $this->aired;
-	}
-
 	public function getPremiered(): string {
 		return $this->premiered;
 	}
@@ -54,7 +48,6 @@ class Anime {
 
 		$instance->synonyms = $instance->parseSynonyms($input);
 		$instance->episodes = $instance->parseEpisodes($input);
-		$instance->aired = $instance->parseAired($input);
 		$instance->premiered = $instance->parsePremiered($input);
 
 		return $instance;
@@ -76,16 +69,27 @@ class Anime {
 		return (int)$episodes;
 	}
 
-	private function parseAired($input): string {
-		$aired = $input->filterXPath('//span[contains(text(), "Aired")]/..')->text();
-		$aired = explode("\n", trim($aired))[1];
-
-		return trim($aired);
-	}
-
 	private function parsePremiered($input): string {
 		$premiered = $input->filterXPath('//span[text()="Premiered:"]');
-		if (!$premiered->count()) { return ''; }
+		if (!$premiered->count()) {
+			$aired = $input->filterXPath('//span[contains(text(), "Aired")]/..')->text();
+			$aired = trim(explode("\n", trim($aired))[1]);
+			$airedMonth = explode(' ', $aired)[0];
+			$airedYear = explode(' ', $aired)[2];
+
+			switch ($airedMonth) {
+				case 'Jan': case 'Feb': case 'Mar':
+					$premiered = 'Winter ' . $airedYear;
+				case 'Apr': case 'May': case 'Jun':
+					$premiered = 'Spring ' . $airedYear;
+				case 'Jul': case 'Aug': case 'Sep':
+					$premiered = 'Summer ' . $airedYear;
+				case 'Oct': case 'Nov': case 'Dec':
+					$premiered = 'Fall ' . $airedYear;
+			}
+
+			return $premiered;
+		}
 
 		$premiered = trim_dom_crawler($premiered);
 		if ($premiered === '?') { return ''; }
