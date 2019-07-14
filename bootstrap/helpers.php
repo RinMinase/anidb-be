@@ -10,6 +10,12 @@ if (! function_exists('mongo_json')) {
 	}
 }
 
+if (! function_exists('trim_dom_crawler')) {
+	function trim_dom_crawler($input) {
+		return trim(str_replace($input->text(), '', $input->parents()->text()));
+	}
+}
+
 if (! function_exists('display_index_page')) {
 	function display_index_page($version) {
 		return '<html lang="en"><head>'
