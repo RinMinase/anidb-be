@@ -57,7 +57,7 @@ class Anime {
 		$title = $input->filterXPath('//span[text()="Synonyms:"]');
 		if (!$title->count()) { return null; }
 
-		$titles = trim(str_replace($title->text(), '', $title->parents()->text()));
+		$titles = trim_dom_crawler($title);
 
 		return $titles;
 	}
@@ -66,7 +66,7 @@ class Anime {
 		$episodes = $input->filterXPath('//span[text()="Episodes:"]');
 		if (!$episodes->count()) { return null; }
 
-		$episodes = trim(str_replace($episodes->text(), '', $episodes->parents()->text()));
+		$episodes = trim_dom_crawler($episodes);
 		if ($episodes === 'Unknown') { return null; }
 
 		return (int)$episodes;
@@ -76,7 +76,7 @@ class Anime {
 		$premiered = $input->filterXPath('//span[text()="Premiered:"]');
 		if (!$premiered->count()) { return null; }
 
-		$premiered = trim(str_replace($premiered->text(), '', $premiered->parents()->text()));
+		$premiered = trim_dom_crawler($premiered);
 		if ($premiered === '?') { return null; }
 
 		return $premiered;
