@@ -30,6 +30,10 @@ $app->singleton(
 //     'auth' => App\Middleware\Authenticate::class,
 // ]);
 
+use App\Middleware\MAL;
+
+$app->mal = new MAL();
+
 
 /* Load The Application Routes */
 
@@ -48,7 +52,7 @@ $guzzleClient = new GuzzleClient([
 	'timeout' => 10,
 ]);
 
-$app->mal = (new GoutteClient())->setClient($guzzleClient);
+$app->goutte = (new GoutteClient())->setClient($guzzleClient);
 
 
 /* Register Firebase DB */
