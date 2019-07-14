@@ -85,10 +85,10 @@ class Anime {
 
 	private function parsePremiered($input): string {
 		$premiered = $input->filterXPath('//span[text()="Premiered:"]');
-		if (!$premiered->count()) { return null; }
+		if (!$premiered->count()) { return ''; }
 
 		$premiered = trim_dom_crawler($premiered);
-		if ($premiered === '?') { return null; }
+		if ($premiered === '?') { return ''; }
 
 		return $premiered;
 	}
