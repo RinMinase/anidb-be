@@ -47,12 +47,16 @@ $app->router->group([
 use Goutte\Client as GoutteClient;
 use GuzzleHttp\Client as GuzzleClient;
 
-$guzzleClient = new GuzzleClient([
-	'base_uri' => 'https://myanimelist.net',
-	'timeout' => 10,
-]);
+if (env('SCRAPER_BASE_URI')) {
+	$guzzleClient = new GuzzleClient([
+		'base_uri' => 'https://' . env('SCRAPER_BASE_URI'),
+		'timeout' => 10,
+	]);
 
-$app->goutte = (new GoutteClient())->setClient($guzzleClient);
+	$app->goutte = (new GoutteClient())->setClient($guzzleClient);
+} else {
+	throw new Exception('Web Scraper configuration not found');
+}
 
 
 /* Register Firebase DB */
