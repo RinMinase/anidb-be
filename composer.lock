@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a6d256848a64df38064688ffdca1914",
+    "content-hash": "a5787e157056febfd79b44cdb93d0ab4",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -2389,16 +2389,16 @@
         },
         {
             "name": "mongodb/mongodb",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mongodb/mongo-php-library.git",
-                "reference": "bd148eab0493e38354e45e2cd7db59b90fdcad79"
+                "reference": "18fca8cc8d0c2cc07f76605760d20632bb3dab96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/bd148eab0493e38354e45e2cd7db59b90fdcad79",
-                "reference": "bd148eab0493e38354e45e2cd7db59b90fdcad79",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/18fca8cc8d0c2cc07f76605760d20632bb3dab96",
+                "reference": "18fca8cc8d0c2cc07f76605760d20632bb3dab96",
                 "shasum": ""
             },
             "require": {
@@ -2411,11 +2411,6 @@
                 "phpunit/phpunit": "^4.8.36 || ^6.4"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "MongoDB\\": "src/"
@@ -2450,7 +2445,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2018-07-18T14:33:41+00:00"
+            "time": "2019-07-02T18:04:14+00:00"
         },
         {
             "name": "monolog/monolog",

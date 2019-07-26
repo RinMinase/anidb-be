@@ -26,7 +26,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "kreait/firebase-php": "^4.26",
         "laravel/lumen-framework": "^5.8.11",
-        "mongodb/mongodb": "^1.4.2"
+        "mongodb/mongodb": "^1.4.3"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8.0",
