@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c2292918a3c9d593af1c5fc033f6593",
+    "content-hash": "074aa233d831ae8082d4a886070ac866",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -400,16 +400,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.15",
+            "version": "8.10.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "e67ce0839ba448988d109c6c17718472a5d9ccff"
+                "reference": "c62db205bb94fef8bd377c12d3a14e5677895db2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/e67ce0839ba448988d109c6c17718472a5d9ccff",
-                "reference": "e67ce0839ba448988d109c6c17718472a5d9ccff",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/c62db205bb94fef8bd377c12d3a14e5677895db2",
+                "reference": "c62db205bb94fef8bd377c12d3a14e5677895db2",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +464,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-07-15T14:58:27+00:00"
+            "time": "2019-08-01T13:17:58+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2036,16 +2036,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.27.0",
+            "version": "4.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "98d87925e7e82fc4cbdf388f942fef3694666fee"
+                "reference": "da08505dd606fa69b75e3c98faed0af1fe5fff11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/98d87925e7e82fc4cbdf388f942fef3694666fee",
-                "reference": "98d87925e7e82fc4cbdf388f942fef3694666fee",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/da08505dd606fa69b75e3c98faed0af1fe5fff11",
+                "reference": "da08505dd606fa69b75e3c98faed0af1fe5fff11",
                 "shasum": ""
             },
             "require": {
@@ -2058,7 +2058,7 @@
                 "guzzlehttp/guzzle": "^6.2.1",
                 "kreait/firebase-tokens": "^1.8.0",
                 "kreait/gcp-metadata": "^1.0.1",
-                "lcobucci/jwt": "^3.2",
+                "lcobucci/jwt": "^3.3.1",
                 "mtdowling/jmespath.php": "^2.3",
                 "php": "^7.0",
                 "psr/simple-cache": "^1.0",
@@ -2105,7 +2105,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-07-19T21:48:05+00:00"
+            "time": "2019-07-29T19:51:05+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
