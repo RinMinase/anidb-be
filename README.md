@@ -99,10 +99,10 @@ Where:
     │   ├── Controllers/         # Project controllers
     │   ├── Middleware/          # Project middleware
     │   ├── Models/              # Project models
-    │   └── Routes/              # Route definitions
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
-    │   └── helpers.php          # Helper functions
+    │   ├── helpers.php          # Helper functions
+    │   └── routes.php           # Route definitions
     ├── docker/                  # Docker functions
     │   ├── php-config/          # PHP settings for docker
     │   ├── sites/               # Nginx sites for docker
