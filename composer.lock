@@ -568,16 +568,16 @@
         },
         {
             "name": "google/cloud-core",
-            "version": "v1.30.0",
+            "version": "v1.31.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-core.git",
-                "reference": "5158d214f100ae0413e2bc829960e92c8f38136b"
+                "reference": "c7b8890cdab3761e341ecf8f5d7c141aa616978f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/5158d214f100ae0413e2bc829960e92c8f38136b",
-                "reference": "5158d214f100ae0413e2bc829960e92c8f38136b",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/c7b8890cdab3761e341ecf8f5d7c141aa616978f",
+                "reference": "c7b8890cdab3761e341ecf8f5d7c141aa616978f",
                 "shasum": ""
             },
             "require": {
@@ -593,7 +593,7 @@
             "require-dev": {
                 "erusev/parsedown": "^1.6",
                 "google/common-protos": "^1.0",
-                "google/gax": "^1.0",
+                "google/gax": "^1.1",
                 "opis/closure": "^3",
                 "phpdocumentor/reflection": "^3.0",
                 "phpunit/phpunit": "^4.8|^5.0",
@@ -625,24 +625,24 @@
                 "Apache-2.0"
             ],
             "description": "Google Cloud PHP shared dependency, providing functionality useful to all components.",
-            "time": "2019-07-25T17:46:28+00:00"
+            "time": "2019-08-07T20:57:43+00:00"
         },
         {
             "name": "google/cloud-storage",
-            "version": "v1.13.0",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-storage.git",
-                "reference": "0db437b36ba9afd4bd4feadf96087c42c09ebd4a"
+                "reference": "7315239270318e618f025791b20ac8cc2586ccf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/0db437b36ba9afd4bd4feadf96087c42c09ebd4a",
-                "reference": "0db437b36ba9afd4bd4feadf96087c42c09ebd4a",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/7315239270318e618f025791b20ac8cc2586ccf0",
+                "reference": "7315239270318e618f025791b20ac8cc2586ccf0",
                 "shasum": ""
             },
             "require": {
-                "google/cloud-core": "^1.28",
+                "google/cloud-core": "^1.31",
                 "google/crc32": "^0.1.0"
             },
             "require-dev": {
@@ -676,7 +676,7 @@
                 "Apache-2.0"
             ],
             "description": "Cloud Storage Client for PHP",
-            "time": "2019-07-25T17:46:28+00:00"
+            "time": "2019-08-07T20:57:43+00:00"
         },
         {
             "name": "google/crc32",
