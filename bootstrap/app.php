@@ -31,7 +31,7 @@ $app->mal = new MAL();
 
 $app->router->group([
 	'namespace' => 'App\Controllers',
-], function ($router) { require __DIR__.'/../app/Routes/web.php'; });
+], function ($router) { require __DIR__.'/routes.php'; });
 
 
 /* Register Goute and Guzzle */
