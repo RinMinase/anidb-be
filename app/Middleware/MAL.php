@@ -16,7 +16,7 @@ class MAL {
 
 	public function search($query) {
 		try {
-			return AnimeSearch::parse(app('goutte')->request('get', '/anime.php?q=' . urlencode($query)));
+			return AnimeSearch::parse(app('goutte')->request('get', '/anime.php?q=' . urldecode($query)));
 		} catch (Exception $e) { throw new Exception('Issues in connecting to MAL Servers'); }
 	}
 
