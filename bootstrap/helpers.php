@@ -2,6 +2,8 @@
 
 if (! function_exists('mongo_json')) {
 	function mongo_json($query_result) {
+		$data = [];
+
 		foreach($query_result as $k => $row) {
 			$data[] = $row;
 		}
