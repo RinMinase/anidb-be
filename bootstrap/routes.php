@@ -8,8 +8,6 @@ $router->get('/', function() use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function() use ($router) {
-	$router->get('changelog', ['uses' => 'HomeController@changelog']);
-	$router->get('issues', ['uses' => 'HomeController@issues']);
 	$router->get('mongo', ['uses' => 'HomeController@mongo']);
 
 	$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
@@ -19,4 +17,7 @@ $router->group(['prefix' => 'api'], function() use ($router) {
 
 	$router->get('img/{param:.*}', ['uses' => 'ImageController@retrieve']);
 	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
+
+	$router->get('changelog[/{limit}]', ['uses' => 'ReleaseController@changelog']);
+	$router->get('issues[/{limit}]', ['uses' => 'ReleaseController@issues']);
 });
