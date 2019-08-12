@@ -9,12 +9,12 @@ $router->get('/', function() use ($router) {
 
 $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('mongo', ['uses' => 'HomeController@mongo']);
-	$router->get('query[/{param}]', ['uses' => 'HomeController@query']);
 
 	$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
 	$router->get('download[/{params}]', ['uses' => 'DownloadController@retrieve']);
 	$router->get('hdd[/{params}]', ['uses' => 'HddController@retrieve']);
 	$router->get('summer[/{params}]', ['uses' => 'SummerController@retrieve']);
 
+	$router->get('img/{param:.*}', ['uses' => 'ImageController@retrieve']);
 	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
 });
