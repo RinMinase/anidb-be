@@ -9,6 +9,7 @@ $router->get('/', function() use ($router) {
 
 $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('home', ['uses' => 'HomeController@index']);
-	$router->get('mal[/{query}]', ['uses' => 'MalController@queryMal']);
 	$router->get('mongo', ['uses' => 'HomeController@mongo']);
+
+	$router->get('mal[/{query}]', ['uses' => 'MalController@queryMal']);
 });
