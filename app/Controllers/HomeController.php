@@ -6,14 +6,14 @@ use DateTime;
 
 class HomeController {
 
-	public function query($params = null) {
+	public function query($param = null) {
 		$data = app('firebase')
 			->getStorage()
 			->getBucket()
 			->object('assets/user.jpg')
 			->signedUrl(new DateTime('tomorrow'));
 
-		return response()->string($data);
+		return response($data);
 	}
 
 	public function mongo() {
