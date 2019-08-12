@@ -11,5 +11,6 @@ $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('home', ['uses' => 'HomeController@index']);
 	$router->get('mongo', ['uses' => 'HomeController@mongo']);
 
-	$router->get('mal[/{query}]', ['uses' => 'MalController@queryMal']);
+	$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
+	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
 });
