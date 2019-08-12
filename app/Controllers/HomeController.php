@@ -2,13 +2,19 @@
 
 namespace App\Controllers;
 
+use DateTime;
+
 class HomeController {
 
-	// public function query() {
-	// 	$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
+	public function query($params = null) {
+		$data = app('firebase')
+			->getStorage()
+			->getBucket()
+			->object('assets/user.jpg')
+			->signedUrl(new DateTime('tomorrow'));
 
-	// 	return response()->json($data);
-	// }
+		return response()->string($data);
+	}
 
 	public function mongo() {
 		$data = app('mongo')->hdd->find();
