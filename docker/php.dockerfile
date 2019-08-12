@@ -22,8 +22,8 @@ RUN docker-php-ext-configure zip --with-libzip && \
 # Firebase Requirements: Requires g++ and autoconf
 ###########################################################################
 
-RUN pecl install -o -f grpc \
-    && docker-php-ext-enable grpc
+# RUN pecl install -o -f grpc \
+#     && docker-php-ext-enable grpc
 
 ###########################################################################
 # MongoDB: Requires openssl-dev, autoconf and make
