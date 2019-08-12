@@ -21,6 +21,7 @@ if (! function_exists('display_index_page')) {
 		return '<html lang="en"><head>'
 				. '<meta name="viewport" content="width=device-width, initial-scale=1">'
 				. '<link href="https://fonts.googleapis.com/css?family=Nunito:200" rel="stylesheet" type="text/css">'
+				. '<link rel="icon" href="data:;base64,=">'
 				. '<title>Rin\'s AniDB API</title>'
 				. '<style>'
 					. 'body {'
