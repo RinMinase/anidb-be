@@ -30,11 +30,11 @@ class HomeController {
 		return response()->json($data);
 	}
 
-	public function query() {
-		$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
+	// public function query() {
+	// 	$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
 
-		return response()->json($data);
-	}
+	// 	return response()->json($data);
+	// }
 
 	public function mongo() {
 		$data = app('mongo')->hdd->find();
