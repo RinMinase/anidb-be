@@ -9,6 +9,7 @@ $router->get('/', function() use ($router) {
 
 $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('changelog', ['uses' => 'HomeController@changelog']);
+	$router->get('issues', ['uses' => 'HomeController@issues']);
 	$router->get('mongo', ['uses' => 'HomeController@mongo']);
 
 	$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
