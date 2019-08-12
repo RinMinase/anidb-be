@@ -14,6 +14,8 @@ class ReleaseController {
 			->getBody()
 			->getContents();
 
+		$data = $this->parseChangelog($data);
+
 		return response($data)->header('Content-Type', 'application/json');
 	}
 
@@ -28,7 +30,17 @@ class ReleaseController {
 			->getBody()
 			->getContents();
 
+		$data = $this->parseIssues($data);
+
 		return response($data)->header('Content-Type', 'application/json');
+	}
+
+	private function parseChangelog($data) {
+		return $data;
+	}
+
+	private function parseIssues($data) {
+		return $data;
 	}
 
 }
