@@ -50,6 +50,15 @@ if (env('SCRAPER_BASE_URI')) {
 	throw new Exception('Web Scraper configuration not found');
 }
 
+if (env('RELEASE_BASE_URI')) {
+	$app->release = new GuzzleClient([
+		'base_uri' => 'https://' . env('RELEASE_BASE_URI') . '/',
+		'timeout' => 10,
+	]);
+} else {
+	throw new Exception('Release URL configuration not found');
+}
+
 
 /* Register Firebase DB */
 
