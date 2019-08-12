@@ -18,24 +18,11 @@ class HomeController {
 		return response()->json($data);
 	}
 
-	public function mal($id = 37430) {
-		$data = app('mal')->anime($id)->get();
-
-		return response()->json($data);
-	}
-
-	public function mal_search($query = 'kimi no') {
-		$data = app('mal')->search($query)->get();
-
-		return response()->json($data);
-	}
-
 	// public function query() {
 	// 	$data = app('firebase')->getDatabase()->getReference('hdd')->getValue();
 
 	// 	return response()->json($data);
 	// }
-
 	public function mongo() {
 		$data = app('mongo')->hdd->find();
 
