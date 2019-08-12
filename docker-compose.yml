@@ -10,7 +10,7 @@ services:
         - PHP_VERSION=7.3
     volumes:
       - ./docker/php-config/php7.3.ini:/usr/local/etc/php/php.ini
-      - ./:/var/www:cached
+      - ./:/var/www
     expose:
       - "9000"
     working_dir: /var/www
@@ -25,7 +25,7 @@ services:
         - PHP_UPSTREAM_CONTAINER=php
         - PHP_UPSTREAM_PORT=9000
     volumes:
-      - ./:/var/www:cached
+      - ./:/var/www
       - ./docker/logs/:/var/log/nginx
       - ./docker/sites/:/etc/nginx/sites-available
     ports:
