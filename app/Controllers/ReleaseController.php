@@ -55,10 +55,56 @@ class ReleaseController {
 			];
 		}
 
-		return json_encode($data);
+		return json_encode($this->categorizeChangelog($data));
 	}
 
 	private function parseIssues($data) {
+		return $data;
+	}
+
+	private function categorizeChangelog($changelog) {
+		$data = [];
+		$keywords = [
+			'dep' => [ 'dependency', 'dependencies' ],
+			'fix' => [ 'fixed', 'removed' ],
+			'new' => [ 'added', 'functional', 'migrated' ],
+		];
+
+		foreach ($changelog as $change) {
+			$change = (object) $change;
+
+			if (strpos($change->message, 'Merge branch') === false) {
+				$commitDate = 'changes_' . (new DateTime($change->date))->format('Ymd');
+				$title = (new DateTime($change->date))->format('M D, Y');
+
+				if (!isset($data[$commitDate])) {
+					$data[$commitDate] = [
+						'dep' => [],
+						'fix' => [],
+						'new' => [],
+						'improve' => [],
+						'title' => $title,
+					];
+				}
+
+				$isDep = $this->parseMessageType($change->message, $keywords['dep'])
+					&& $change->module === '';
+				$isFix = $this->parseMessageType($change->message, $keywords['fix']);
+				$isNew = $this->parseMessageType($change->message, $keywords['new']);
+
+				if ($isDep) {
+					$data[$commitDate]['dep'][] = $change;
+				} else if ($isFix) {
+					$data[$commitDate]['fix'][] = $change;
+				} else if ($isNew) {
+					$data[$commitDate]['new'][] = $change;
+				} else {
+					$data[$commitDate]['improve'][] = $change;
+				}
+
+			}
+		}
+
 		return $data;
 	}
 
@@ -83,6 +129,18 @@ class ReleaseController {
 			'module' => $module,
 			'message' => $message,
 		];
+	}
+
+	private function parseMessageType($message, $keywords) {
+		$value = false;
+
+		foreach($keywords as $key) {
+			if (strpos($message, $key) !== false) {
+				$value = true;
+			}
+		}
+
+		return $value;
 	}
 
 }
