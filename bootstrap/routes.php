@@ -19,5 +19,6 @@ $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
 
 	$router->get('changelog[/{limit}]', ['uses' => 'ReleaseController@changelog']);
+	$router->get('changelog-be[/{limit}]', ['uses' => 'ReleaseController@changelogBE']);
 	$router->get('issues[/{limit}]', ['uses' => 'ReleaseController@issues']);
 });
