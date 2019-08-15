@@ -46,7 +46,7 @@ RUN echo "export COMPOSER_ALLOW_SUPERUSER=1" > ~/.bashrc
 # Final Setup
 ###########################################################################
 
-RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+RUN set -xe; php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 
 COPY ./php-config/laravel.ini /usr/local/etc/php/conf.d
 COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
