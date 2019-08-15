@@ -21,6 +21,21 @@ class ReleaseController {
 		return response($data)->header('Content-Type', 'application/json');
 	}
 
+	public function changelogBE($limit = 20) {
+		$data = app('release_be')
+			->get('commits', [
+				'query' => [
+					'per_page' => $limit,
+				],
+			])
+			->getBody()
+			->getContents();
+
+		$data = $this->parseChangelog($data);
+
+		return response($data)->header('Content-Type', 'application/json');
+	}
+
 	public function issues($limit = 100) {
 		$data = app('release')
 			->get('issues', [
