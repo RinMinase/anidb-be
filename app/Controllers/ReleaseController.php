@@ -73,10 +73,6 @@ class ReleaseController {
 		return json_encode($this->categorizeChangelog($data));
 	}
 
-	private function parseIssues($data) {
-		return $data;
-	}
-
 	private function categorizeChangelog($changelog) {
 		$data = [];
 		$keywords = [
@@ -156,6 +152,41 @@ class ReleaseController {
 		}
 
 		return $value;
+	}
+
+	private function parseIssues($issues) {
+		$issues = json_decode($issues);
+		$data = [];
+
+		foreach ($issues as $issue) {
+			if ($issue->state === 'open') {
+				$labels = [];
+
+				foreach ($issue->labels as $label) {
+					if (!($label->name === 'todo' || $label->name === 'in progress')) {
+						$className = str_replace(':', '', $label->name);
+						$className = strtolower(str_replace(' ', '-', $className));
+						$labelName = strtoupper(explode(' ', $label->name)[1]);
+
+						$labels[] = [
+							'class' => $className,
+							'name' => $labelName,
+						];
+					}
+				}
+
+				$labels = array_reverse($labels);
+				$data[] = [
+					'date' => (new DateTime($issue->created_at))->format('M d, Y'),
+					'labels' => $labels,
+					'number' => $issue->number,
+					'title' => $issue->title,
+					'url' => $issue->html_url,
+				];
+			}
+		}
+
+		return $data;
 	}
 
 }
