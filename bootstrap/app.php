@@ -59,6 +59,15 @@ if (env('RELEASE_BASE_URI')) {
 	throw new Exception('Release URL configuration not found');
 }
 
+if (env('RELEASE_BE_BASE_URI')) {
+	$app->release_be = new GuzzleClient([
+		'base_uri' => 'https://' . env('RELEASE_BE_BASE_URI') . '/',
+		'timeout' => 10,
+	]);
+} else {
+	throw new Exception('Release BE URL configuration not found');
+}
+
 
 /* Register Firebase DB */
 
