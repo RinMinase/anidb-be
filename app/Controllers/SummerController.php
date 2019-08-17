@@ -20,7 +20,8 @@ class SummerController {
 
 			return response('Success');
 		} else {
-			return response('"timeStart", "timeEnd" and "title" fields are required')->setStatusCode(400);
+			return response('"timeStart", "timeEnd" and "title" fields are required')
+				->setStatusCode(400);
 		}
 	}
 
@@ -34,6 +35,33 @@ class SummerController {
 		}
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
+	}
+
+	public function update($params, Request $request) {
+		$data = [];
+
+		if ($request->input('timeEnd')) {
+			$data['timeEnd'] = $request->input('timeEnd');
+		}
+
+		if ($request->input('timeStart')) {
+			$data['timeStart'] = $request->input('timeStart');
+		}
+
+		if ($request->input('title')) {
+			$data['title'] = $request->input('title');
+		}
+
+		$query = app('mongo')->summer->updateOne(
+			[ '_id' => new MongoID($params) ],
+			[ '$set' => $data ],
+		);
+
+		if ($query->getModifiedCount()) {
+			return response('Success');
+		} else {
+			return response('Failed')->setStatusCode(500);
+		}
 	}
 
 }
