@@ -21,7 +21,17 @@ class SummerController {
 			return response('Success');
 		} else {
 			return response('"timeStart", "timeEnd" and "title" fields are required')
-				->setStatusCode(400);
+			->setStatusCode(400);
+		}
+	}
+
+	public function remove($params) {
+		$query = app('mongo')->summer->deleteOne([ '_id' => new MongoID($params) ]);
+
+		if ($query->getDeletedCount()) {
+			return response('Success');
+		} else {
+			return response('Failed')->setStatusCode(500);
 		}
 	}
 
