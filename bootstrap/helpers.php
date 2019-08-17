@@ -50,3 +50,9 @@ if (! function_exists('display_index_page')) {
 			. '</body></html>';
 	}
 }
+
+if (! function_exists('is_authenticated')) {
+	function is_authenticated($key) {
+		return ($key->header('api-key') === env('API_KEY'));
+	}
+}
