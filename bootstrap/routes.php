@@ -10,11 +10,15 @@ $router->get('/', function() use ($router) {
 $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('mongo', ['uses' => 'HomeController@mongo']);
 
-	$router->post('anime', ['uses' => 'AnimeController@create']);
 	$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
+	$router->post('anime', ['uses' => 'AnimeController@create']);
+
 	$router->get('download[/{params}]', ['uses' => 'DownloadController@retrieve']);
+
 	$router->get('hdd[/{params}]', ['uses' => 'HddController@retrieve']);
+
 	$router->get('summer[/{params}]', ['uses' => 'SummerController@retrieve']);
+	$router->post('summer', ['uses' => 'SummerController@create']);
 
 	$router->get('img/{param:.*}', ['uses' => 'ImageController@retrieve']);
 	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
