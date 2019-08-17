@@ -20,6 +20,7 @@ $router->group(['prefix' => 'api'], function() use ($router) {
 	$router->get('summer[/{params}]', ['uses' => 'SummerController@retrieve']);
 	$router->post('summer', ['uses' => 'SummerController@create']);
 	$router->patch('summer/{params}', ['uses' => 'SummerController@update']);
+	$router->delete('summer/{params}', ['uses' => 'SummerController@remove']);
 
 	$router->get('img/{param:.*}', ['uses' => 'ImageController@retrieve']);
 	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
