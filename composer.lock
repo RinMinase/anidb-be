@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4450e6a6050a34f9833b240c4c4974c",
+    "content-hash": "74a4afab6c0e29ef88cff318a64c07e0",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -517,16 +517,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.5.1",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "0f75e20e7392e863f5550ed2c2d3d50af21710fb"
+                "reference": "2ee962e5df3e9427fda859f1b0515d6d62c4afa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/0f75e20e7392e863f5550ed2c2d3d50af21710fb",
-                "reference": "0f75e20e7392e863f5550ed2c2d3d50af21710fb",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/2ee962e5df3e9427fda859f1b0515d6d62c4afa5",
+                "reference": "2ee962e5df3e9427fda859f1b0515d6d62c4afa5",
                 "shasum": ""
             },
             "require": {
@@ -564,7 +564,7 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2019-04-16T18:48:28+00:00"
+            "time": "2019-07-22T21:01:31+00:00"
         },
         {
             "name": "google/cloud-core",
@@ -2036,16 +2036,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.29.0",
+            "version": "4.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "509278dde549ff13801561b6e4f139c1b6a5cece"
+                "reference": "e65a53dd369d6316f134b6d9f92dc07a7e55882d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/509278dde549ff13801561b6e4f139c1b6a5cece",
-                "reference": "509278dde549ff13801561b6e4f139c1b6a5cece",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/e65a53dd369d6316f134b6d9f92dc07a7e55882d",
+                "reference": "e65a53dd369d6316f134b6d9f92dc07a7e55882d",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2106,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-08-13T09:04:03+00:00"
+            "time": "2019-08-16T01:14:37+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
