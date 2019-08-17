@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use MongoDB\BSON\ObjectID as MongoID;
 
@@ -43,7 +42,7 @@ class AnimeController {
 
 			return response('Success');
 		} else {
-			return response('TITLE field is required')->setStatusCode(400);
+			return response('"title" field is required')->setStatusCode(400);
 		}
 	}
 
