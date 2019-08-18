@@ -9,7 +9,8 @@ RUN set -xe; \
     openssl-dev \
     autoconf \
     make \
-    g++
+    g++ \
+    libpng-dev
 
 ###########################################################################
 # PHP Extensions
@@ -31,6 +32,12 @@ RUN docker-php-ext-configure zip --with-libzip && \
 
 RUN pecl install mongodb && \
     docker-php-ext-enable mongodb
+
+###########################################################################
+# PHPSpreadsheet: Requires libpng-dev
+###########################################################################
+
+RUN docker-php-ext-install gd
 
 ###########################################################################
 # Composer
