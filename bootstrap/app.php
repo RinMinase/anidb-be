@@ -22,9 +22,7 @@ $app->singleton(Illuminate\Contracts\Console\Kernel::class, Laravel\Lumen\Consol
 //     'auth' => App\Middleware\Authenticate::class,
 // ]);
 
-use App\Middleware\MAL;
-
-$app->mal = new MAL();
+$app->mal = new App\Middleware\MAL();
 
 
 /* Load The Application Routes */
