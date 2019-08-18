@@ -18,10 +18,6 @@ $app->singleton(Illuminate\Contracts\Console\Kernel::class, Laravel\Lumen\Consol
 
 /* Register Middleware */
 
-// $app->routeMiddleware([
-//     'auth' => App\Middleware\Authenticate::class,
-// ]);
-
 $app->mal = new App\Middleware\MAL();
 
 
