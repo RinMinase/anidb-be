@@ -13,7 +13,15 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 /* Register Container Bindings */
 
-$app->singleton(Illuminate\Contracts\Console\Kernel::class, Laravel\Lumen\Console\Kernel::class);
+$app->singleton(
+	Illuminate\Contracts\Console\Kernel::class,
+	App\Console\Kernel::class
+);
+
+$app->singleton(
+	Illuminate\Contracts\Debug\ExceptionHandler::class,
+	Laravel\Lumen\Exceptions\Handler::class
+);
 
 
 /* Register Middleware and Providers */
