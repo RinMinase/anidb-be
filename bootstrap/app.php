@@ -15,7 +15,7 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 $app->singleton(
 	Illuminate\Contracts\Console\Kernel::class,
-	App\Console\Kernel::class
+	App\Commands\Kernel::class
 );
 
 $app->singleton(
