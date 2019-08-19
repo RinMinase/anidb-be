@@ -96,6 +96,7 @@ Where:
 ### Project Structure
     .
     ├── app/                     # Project source code
+    │   ├── Commands/            # Project artisan commands
     │   ├── Controllers/         # Project controllers
     │   ├── Middleware/          # Project middleware
     │   ├── Models/              # Project models
