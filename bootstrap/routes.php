@@ -7,26 +7,32 @@ $router->get('/', function() use ($router) {
 	return display_index_page($version);
 });
 
-$router->group(['prefix' => 'api'], function() use ($router) {
-	$router->get('mongo', ['uses' => 'HomeController@mongo']);
-	$router->get('export', ['uses' => 'HomeController@export']);
+$router->group(
+	[
+		'prefix' => 'api',
+		'middleware' => 'auth'
+	],
+	function() use ($router) {
+		$router->get('mongo', ['uses' => 'HomeController@mongo']);
+		$router->get('export', ['uses' => 'HomeController@export']);
 
-	$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
-	$router->post('anime', ['uses' => 'AnimeController@create']);
+		$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
+		$router->post('anime', ['uses' => 'AnimeController@create']);
 
-	$router->get('download[/{params}]', ['uses' => 'DownloadController@retrieve']);
+		$router->get('download[/{params}]', ['uses' => 'DownloadController@retrieve']);
 
-	$router->get('hdd[/{params}]', ['uses' => 'HddController@retrieve']);
+		$router->get('hdd[/{params}]', ['uses' => 'HddController@retrieve']);
 
-	$router->get('summer[/{params}]', ['uses' => 'SummerController@retrieve']);
-	$router->post('summer', ['uses' => 'SummerController@create']);
-	$router->patch('summer/{params}', ['uses' => 'SummerController@update']);
-	$router->delete('summer/{params}', ['uses' => 'SummerController@remove']);
+		$router->get('summer[/{params}]', ['uses' => 'SummerController@retrieve']);
+		$router->post('summer', ['uses' => 'SummerController@create']);
+		$router->patch('summer/{params}', ['uses' => 'SummerController@update']);
+		$router->delete('summer/{params}', ['uses' => 'SummerController@remove']);
 
-	$router->get('img/{param:.*}', ['uses' => 'ImageController@retrieve']);
-	$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
+		$router->get('img/{param:.*}', ['uses' => 'ImageController@retrieve']);
+		$router->get('mal[/{params}]', ['uses' => 'MalController@queryMal']);
 
-	$router->get('changelog[/{limit}]', ['uses' => 'ReleaseController@changelog']);
-	$router->get('changelog-be[/{limit}]', ['uses' => 'ReleaseController@changelogBE']);
-	$router->get('issues[/{limit}]', ['uses' => 'ReleaseController@issues']);
-});
+		$router->get('changelog[/{limit}]', ['uses' => 'ReleaseController@changelog']);
+		$router->get('changelog-be[/{limit}]', ['uses' => 'ReleaseController@changelogBE']);
+		$router->get('issues[/{limit}]', ['uses' => 'ReleaseController@issues']);
+	}
+);
