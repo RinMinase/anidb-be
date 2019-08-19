@@ -16,7 +16,10 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 $app->singleton(Illuminate\Contracts\Console\Kernel::class, Laravel\Lumen\Console\Kernel::class);
 
 
-/* Register Middleware */
+/* Register Middleware and Providers */
+
+$app->routeMiddleware([ 'auth' => App\Middleware\Authenticate::class ]);
+$app->register(App\Middleware\AuthServiceProvider::class);
 
 $app->mal = new App\Middleware\MAL();
 
