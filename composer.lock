@@ -2110,16 +2110,16 @@
         },
         {
             "name": "kreait/firebase-tokens",
-            "version": "1.8.0",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-tokens-php.git",
-                "reference": "a7c85da988b77ba6424a36d91668112fe21e9e30"
+                "reference": "ee0d336ec7ea55eb145e3e246a355c61b81ada58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/a7c85da988b77ba6424a36d91668112fe21e9e30",
-                "reference": "a7c85da988b77ba6424a36d91668112fe21e9e30",
+                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/ee0d336ec7ea55eb145e3e246a355c61b81ada58",
+                "reference": "ee0d336ec7ea55eb145e3e246a355c61b81ada58",
                 "shasum": ""
             },
             "require": {
@@ -2159,7 +2159,7 @@
                 "google",
                 "token"
             ],
-            "time": "2019-06-12T18:38:34+00:00"
+            "time": "2019-08-19T22:34:37+00:00"
         },
         {
             "name": "kreait/gcp-metadata",
