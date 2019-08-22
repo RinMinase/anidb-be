@@ -22,6 +22,7 @@ $router->group(
 		$router->get('download[/{params}]', ['uses' => 'DownloadController@retrieve']);
 
 		$router->get('hdd[/{params}]', ['uses' => 'HddController@retrieve']);
+		$router->delete('hdd[/{params}]', ['uses' => 'HddController@remove']);
 
 		$router->get('summer[/{params}]', ['uses' => 'SummerController@retrieve']);
 		$router->post('summer', ['uses' => 'SummerController@create']);
