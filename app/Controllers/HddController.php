@@ -17,4 +17,14 @@ class HddController {
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
 	}
 
+	public function remove($params, Request $request) {
+		$query = app('mongo')->hdd->deleteOne([ '_id' => new MongoID($params) ]);
+
+		if ($query->getDeletedCount()) {
+			return response('Success');
+		} else {
+			return response('Failed')->setStatusCode(500);
+		}
+	}
+
 }
