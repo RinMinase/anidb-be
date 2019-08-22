@@ -27,4 +27,35 @@ class HddController {
 		}
 	}
 
+	public function update($params, Request $request) {
+		$data = [];
+
+		if ($request->input('from')) {
+			$data['from'] = $request->input('from');
+		}
+
+		if ($request->input('to')) {
+			$data['to'] = $request->input('to');
+		}
+
+		if ($request->input('size')) {
+			$data['size'] = $request->input('size');
+		}
+
+		if ($request->input('number')) {
+			$data['number'] = $request->input('number');
+		}
+
+		$query = app('mongo')->hdd->updateOne(
+			[ '_id' => new MongoID($params) ],
+			[ '$set' => $data ],
+		);
+
+		if ($query->getModifiedCount()) {
+			return response('Success');
+		} else {
+			return response('Failed')->setStatusCode(500);
+		}
+	}
+
 }
