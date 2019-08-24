@@ -67,10 +67,10 @@ class HddController {
 				$data['size'] = $request->input('size');
 			}
 
-			$query = app('mongo')->hdd->updateOne([
+			$query = app('mongo')->hdd->updateOne(
 				[ '_id' => new MongoID($params) ],
-				[ '$set' => $data ],
-			]);
+				[ '$set' => $data ]
+			);
 
 			if ($query->getModifiedCount()) {
 				return response('Success');
