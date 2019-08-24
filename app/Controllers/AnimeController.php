@@ -48,7 +48,20 @@ class AnimeController {
 
 	public function retrieve($params = null, Request $request) {
 		if (is_null($params)) {
-			$data = app('mongo')->anime->find();
+			if ($request->query('orderBy') === 'rewatch') {
+				$limit = 20;
+
+				if (is_numeric($request->query('limit'))) {
+					$limit = (int) $request->query('limit');
+				}
+
+				$data = app('mongo')->anime->find([], [
+					'limit' => $limit,
+					'sort' => [ 'rewatchLast' => -1 ]
+				]);
+			} else {
+				$data = app('mongo')->anime->find();
+			}
 		} else {
 			$data = app('mongo')->anime->findOne([ '_id' => new MongoID($params) ]);
 		}
