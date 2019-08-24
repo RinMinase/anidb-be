@@ -50,9 +50,7 @@ class AnimeController {
 		if (is_null($params)) {
 			$data = app('mongo')->anime->find();
 		} else {
-			$data = app('mongo')->anime->find([
-				'_id' => new MongoID($params),
-			]);
+			$data = app('mongo')->anime->findOne([ '_id' => new MongoID($params) ]);
 		}
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
