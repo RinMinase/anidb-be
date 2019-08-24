@@ -11,10 +11,15 @@ class HddController {
 		if ($request->input('from')
 			&& $request->input('to')) {
 
+			if ($request->input('size')
+				&& !is_numeric($request->input('size'))) {
+				return response('"size" field is invalid')->setStatusCode(400);
+			}
+
 			app('mongo')->hdd->insertOne([
-				'from' => $request->input('from'),
-				'to' => $request->input('to'),
-				'size' => ($request->input('size')) ? $request->input('size') : 1000169533440,
+				'from' => $request->input('from')[0],
+				'to' => $request->input('to')[0],
+				'size' => ($request->input('size')) ? (int) $request->input('size') : 1000169533440,
 			]);
 
 			return response('Success');
@@ -27,9 +32,7 @@ class HddController {
 		if (is_null($params)) {
 			$data = app('mongo')->hdd->find(
 				[],
-				[ 'sort' =>
-					[ 'from' => 1 ]
-				]
+				[ 'sort' => [ 'from' => 1 ] ]
 			);
 		} else {
 			$data = app('mongo')->hdd->find([ '_id' => new MongoID($params) ]);
@@ -56,15 +59,19 @@ class HddController {
 			$data = [];
 
 			if ($request->input('from')) {
-				$data['from'] = $request->input('from');
+				$data['from'] = $request->input('from')[0];
 			}
 
 			if ($request->input('to')) {
-				$data['to'] = $request->input('to');
+				$data['to'] = $request->input('to')[0];
 			}
 
 			if ($request->input('size')) {
-				$data['size'] = $request->input('size');
+				if (!is_numeric($request->input('size'))) {
+					return response('"size" field is invalid')->setStatusCode(400);
+				}
+
+				$data['size'] = (int) $request->input('size');
 			}
 
 			$query = app('mongo')->hdd->updateOne(
