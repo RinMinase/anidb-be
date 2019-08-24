@@ -31,7 +31,12 @@ class HddController {
 
 	public function retrieve($params = null, Request $request) {
 		if (is_null($params)) {
-			$data = app('mongo')->hdd->find();
+			$data = app('mongo')->hdd->find(
+				[],
+				[ 'sort' =>
+					[ 'from' => 1 ]
+				]
+			);
 		} else {
 			$data = app('mongo')->hdd->find([ '_id' => new MongoID($params) ]);
 		}
