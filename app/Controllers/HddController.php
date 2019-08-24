@@ -11,16 +11,10 @@ class HddController {
 		if ($request->input('from')
 			&& $request->input('to')) {
 
-			$hddData = app('mongo')->hdd->find()->toArray();
-			$number = $this->parseHddNumber($hddData, $request->input('from'));
-
-			$this->reorderHdd($hddData, $number);
-
 			app('mongo')->hdd->insertOne([
 				'from' => $request->input('from'),
 				'to' => $request->input('to'),
 				'size' => ($request->input('size')) ? $request->input('size') : 1000169533440,
-				'number' => $number,
 			]);
 
 			return response('Success');
@@ -60,7 +54,6 @@ class HddController {
 			|| $request->input('size')) {
 
 			$data = [];
-			$hddData = app('mongo')->hdd->find()->toArray();
 
 			if ($request->input('from')) {
 				$data['from'] = $request->input('from');
@@ -74,31 +67,16 @@ class HddController {
 				$data['size'] = $request->input('size');
 			}
 
-			$from;
+			$query = app('mongo')->hdd->updateOne([
+				[ '_id' => new MongoID($params) ],
+				[ '$set' => $data ],
+			]);
 
-			if (!$request->input('from')) {
-				$currentData = app('mongo')->hdd->findOne([ '_id' => new MongoID($params) ]);
-				foreach ($currentData as $currData) {
-					$from = $currentData->from;
-				}
+			if ($query->getModifiedCount()) {
+				return response('Success');
 			} else {
-				$from = $request->input('from');
+				return response('Failed')->setStatusCode(500);
 			}
-
-			$data['number'] = $this->parseHddNumber($hddData, $from);
-
-			// $this->reorderHdd($hddData, $data['number']);
-
-			// $query = app('mongo')->hdd->updateOne([
-			// 	[ '_id' => new MongoID($params) ],
-			// 	[ '$set' => $data ],
-			// ]);
-
-			// if ($query->getModifiedCount()) {
-			// 	return response('Success');
-			// } else {
-			// 	return response('Failed')->setStatusCode(500);
-			// }
 		} else {
 			return response('"from", "to" or "size" fields are required')->setStatusCode(400);
 		}
