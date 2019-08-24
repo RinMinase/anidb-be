@@ -82,25 +82,4 @@ class HddController {
 		}
 	}
 
-	private function parseHddNumber($hddData, $from) {
-		foreach ($hddData as $hdd) {
-			if (ord($hdd->to) > ord($from) && ord($hdd->from) >= ord($from)) {
-				return $hdd->number + 1;
-			}
-		}
-	}
-
-	private function reorderHdd($hddData, $number) {
-		$data = [];
-
-		foreach ($hddData as $hdd) {
-			if ($hdd->number >= $number) {
-				app('mongo')->hdd->updateOne(
-					[ '_id' => $hdd['_id'] ],
-					[ '$set' => [ 'number' => $hdd->number + 1 ] ],
-				);
-			}
-		}
-	}
-
 }
