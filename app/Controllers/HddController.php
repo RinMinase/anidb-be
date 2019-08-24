@@ -25,8 +25,7 @@ class HddController {
 
 			return response('Success');
 		} else {
-			return response('"timeStart", "timeEnd" and "title" fields are required')
-			->setStatusCode(400);
+			return response('"from" and "to" fields are required')->setStatusCode(400);
 		}
 	}
 
@@ -51,34 +50,53 @@ class HddController {
 	}
 
 	public function update($params, Request $request) {
-		// $data = [];
-		// $number = $this->parseHddNumber(app('mongo')->hdd->find());
+		if ($request->input('from')
+			|| $request->input('to')
+			|| $request->input('size')) {
 
-		// if ($request->input('from')) {
-		// 	$data['from'] = $request->input('from');
-		// }
+			$data = [];
+			$hddData = app('mongo')->hdd->find()->toArray();
 
-		// if ($request->input('to')) {
-		// 	$data['to'] = $request->input('to');
-		// }
+			if ($request->input('from')) {
+				$data['from'] = $request->input('from');
+			}
 
-		// if ($request->input('size')) {
-		// 	$data['size'] = ($request->input('size')) ? $request->input('size') : 1000169533440;
-		// }
+			if ($request->input('to')) {
+				$data['to'] = $request->input('to');
+			}
 
-		// $number = $this->parseHddNumber();
-		// $data['number'] = $this->parseHddNumber(app('mongo')->hdd->find(), $params);
+			if ($request->input('size')) {
+				$data['size'] = $request->input('size');
+			}
 
-		// $query = app('mongo')->hdd->updateOne(
-		// 	[ '_id' => new MongoID($params) ],
-		// 	[ '$set' => $data ],
-		// );
+			$from;
 
-		// if ($query->getModifiedCount()) {
-		// 	return response('Success');
-		// } else {
-		// 	return response('Failed')->setStatusCode(500);
-		// }
+			if (!$request->input('from')) {
+				$currentData = app('mongo')->hdd->findOne([ '_id' => new MongoID($params) ]);
+				foreach ($currentData as $currData) {
+					$from = $currentData->from;
+				}
+			} else {
+				$from = $request->input('from');
+			}
+
+			$data['number'] = $this->parseHddNumber($hddData, $from);
+
+			// $this->reorderHdd($hddData, $data['number']);
+
+			// $query = app('mongo')->hdd->updateOne([
+			// 	[ '_id' => new MongoID($params) ],
+			// 	[ '$set' => $data ],
+			// ]);
+
+			// if ($query->getModifiedCount()) {
+			// 	return response('Success');
+			// } else {
+			// 	return response('Failed')->setStatusCode(500);
+			// }
+		} else {
+			return response('"from", "to" or "size" fields are required')->setStatusCode(400);
+		}
 	}
 
 	private function parseHddNumber($hddData, $from) {
