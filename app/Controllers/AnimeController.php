@@ -50,6 +50,12 @@ class AnimeController {
 		if (is_null($params)) {
 			if ($request->query('orderBy') === 'rewatch') {
 				$data = $this->retrieveByRewatch($request->query('limit'));
+			} else if ($request->query('group') === 'hdd') {
+				$data = $this->retrieveByHdd();
+			} else if ($request->query('group') === 'release') {
+				$data = $this->retrieveByRelease();
+			} else if ($request->query('group') === 'title') {
+				$data = $this->retrieveByTitle();
 			} else {
 				$data = $this->retrieveAll();
 			}
@@ -69,11 +75,11 @@ class AnimeController {
 	}
 
 	private function retrieveByHdd() {
-
+		return;
 	}
 
 	private function retrieveByRelease() {
-
+		return;
 	}
 
 	private function retrieveByRewatch($limit) {
@@ -86,7 +92,7 @@ class AnimeController {
 	}
 
 	private function retrieveByTitle() {
-
+		return;
 	}
 
 }
