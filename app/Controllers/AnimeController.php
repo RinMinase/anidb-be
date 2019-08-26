@@ -49,18 +49,12 @@ class AnimeController {
 	public function retrieve($params = null, Request $request) {
 		if (is_null($params)) {
 			if ($request->query('orderBy') === 'rewatch') {
-				$limit = 20;
-
-				if (is_numeric($request->query('limit'))) {
-					$limit = (int) $request->query('limit');
-				}
-
-				$data = $this->retrieveByRewatch($limit);
+				$data = $this->retrieveByRewatch($request->query('limit'));
 			} else {
 				$data = $this->retrieveAll();
 			}
 		} else {
-			$data = app('mongo')->anime->findOne([ '_id' => new MongoID($params) ]);
+			$data = $this->retrieveAnime($params);
 		}
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
@@ -68,6 +62,10 @@ class AnimeController {
 
 	private function retrieveAll() {
 		return app('mongo')->anime->find();
+	}
+
+	private function retrieveAnime($id) {
+		return app('mongo')->anime->findOne([ '_id' => new MongoID($id) ]);
 	}
 
 	private function retrieveByHdd() {
@@ -79,6 +77,8 @@ class AnimeController {
 	}
 
 	private function retrieveByRewatch($limit) {
+		$limit = (is_numeric($limit)) ? (int) $limit : 20;
+
 		return app('mongo')->anime->find([], [
 			'limit' => $limit,
 			'sort' => [ 'rewatchLast' => -1 ]
