@@ -55,10 +55,7 @@ class AnimeController {
 					$limit = (int) $request->query('limit');
 				}
 
-				$data = app('mongo')->anime->find([], [
-					'limit' => $limit,
-					'sort' => [ 'rewatchLast' => -1 ]
-				]);
+				$data = $this->retrieveByRewatch($limit);
 			} else {
 				$data = app('mongo')->anime->find();
 			}
@@ -67,6 +64,13 @@ class AnimeController {
 		}
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
+	}
+
+	private function retrieveByRewatch($limit) {
+		$data = app('mongo')->anime->find([], [
+			'limit' => $limit,
+			'sort' => [ 'rewatchLast' => -1 ]
+		]);
 	}
 
 }
