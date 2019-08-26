@@ -48,8 +48,12 @@ class AnimeController {
 
 	public function retrieve($params = null, Request $request) {
 		if (is_null($params)) {
-			if ($request->query('orderBy') === 'rewatch') {
-				$data = $this->retrieveByRewatch($request->query('limit'));
+			if ($request->query('orderBy')) {
+				$data = $this->retrieveSpecific(
+					$request->query('orderBy'),
+					$request->query('order'),
+					$request->query('limit'),
+				);
 			} else if ($request->query('group') === 'hdd') {
 				$data = $this->retrieveByHdd();
 			} else if ($request->query('group') === 'release') {
@@ -82,17 +86,18 @@ class AnimeController {
 		return;
 	}
 
-	private function retrieveByRewatch($limit) {
+	private function retrieveByTitle() {
+		return;
+	}
+
+	private function retrieveSpecific($orderBy, $order, $limit) {
 		$limit = (is_numeric($limit)) ? (int) $limit : 20;
+		$order = ($order === 'desc') ? -1 : 1;
 
 		return app('mongo')->anime->find([], [
 			'limit' => $limit,
-			'sort' => [ 'rewatchLast' => -1 ]
+			'sort' => [ $orderBy => $order ]
 		]);
-	}
-
-	private function retrieveByTitle() {
-		return;
 	}
 
 }
