@@ -48,10 +48,9 @@ class AnimeController {
 
 	public function retrieve($params = null, Request $request) {
 		if (is_null($params)) {
-			if ($request->query('orderBy')) {
+			if ($request->query('order')) {
 				$data = $this->retrieveSpecific(
-					$request->query('orderBy'),
-					$request->query('order'),
+					$this->parseOrder($request->query('order')),
 					$request->query('limit'),
 				);
 			} else if ($request->query('group') === 'hdd') {
@@ -68,6 +67,21 @@ class AnimeController {
 		}
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
+	}
+
+	private function parseOrder($order) {
+		$orders = [];
+
+		if (!!$order) {
+			$splitOrders = explode(',', rtrim($order, ','));
+
+			foreach ($splitOrders as $item) {
+				$splitItem = explode(':', $item);
+				$orders[$splitItem[0]] = ($splitItem[1] === 'desc') ? -1 : 1;
+			}
+		}
+
+		return $orders;
 	}
 
 	private function retrieveAll() {
@@ -90,13 +104,12 @@ class AnimeController {
 		return;
 	}
 
-	private function retrieveSpecific($orderBy, $order, $limit) {
+	private function retrieveSpecific($orders, $limit) {
 		$limit = (is_numeric($limit)) ? (int) $limit : 20;
-		$order = ($order === 'desc') ? -1 : 1;
 
 		return app('mongo')->anime->find([], [
 			'limit' => $limit,
-			'sort' => [ $orderBy => $order ]
+			'sort' => $orders,
 		]);
 	}
 
