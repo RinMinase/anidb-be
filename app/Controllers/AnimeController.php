@@ -66,11 +66,23 @@ class AnimeController {
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
 	}
 
+	private function retrieveByHdd() {
+
+	}
+
+	private function retrieveByRelease() {
+
+	}
+
 	private function retrieveByRewatch($limit) {
 		$data = app('mongo')->anime->find([], [
 			'limit' => $limit,
 			'sort' => [ 'rewatchLast' => -1 ]
 		]);
+	}
+
+	private function retrieveByTitle() {
+
 	}
 
 }
