@@ -7,10 +7,14 @@ $router->get('/', function() use ($router) {
 	return display_index_page($version);
 });
 
+$router->group([ 'prefix' => 'api' ], function() use ($router) {
+	$router->get('logs', ['uses' => 'LogsController@retrieve']);
+});
+
 $router->group(
 	[
 		'prefix' => 'api',
-		'middleware' => 'auth'
+		'middleware' => 'auth',
 	],
 	function() use ($router) {
 		$router->get('mongo', ['uses' => 'HomeController@mongo']);
