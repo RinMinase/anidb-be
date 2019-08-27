@@ -17,7 +17,16 @@ class LogsController {
 	}
 
 	public function retrieve() {
-		$data = app('mongo')->logs->find();
+		$query = app('mongo')->logs->find();
+		$data = [];
+
+		foreach ($query as $item) {
+			$data[] = [
+				'timestamp' => $item->timestamp,
+				'url' => $item->url,
+				'action' => $item->action,
+			];
+		}
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
 	}
