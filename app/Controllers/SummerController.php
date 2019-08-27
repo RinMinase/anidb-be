@@ -21,7 +21,7 @@ class SummerController {
 			return response('Success');
 		} else {
 			return response('"timeStart", "timeEnd" and "title" fields are required')
-			->setStatusCode(400);
+				->setStatusCode(400);
 		}
 	}
 
