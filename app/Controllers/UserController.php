@@ -36,7 +36,7 @@ class UserController {
 						}
 
 						if ($user->role === 3 || $user->role === 2) {
-							$timeout = (new DateTime())->add(new DateInterval('PT10S'))->getTimestamp();
+							$timeout = (new DateTime())->add(new DateInterval('PT3H'))->getTimestamp();
 						} else if ($user->role === 1) {
 							$timeout = (new DateTime())->add(new DateInterval('P7D'))->getTimestamp();
 						}
