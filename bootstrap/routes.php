@@ -8,6 +8,7 @@ $router->get('/', function() use ($router) {
 });
 
 $router->group([ 'prefix' => 'api' ], function() use ($router) {
+	$router->post('login', ['uses' => 'UserController@login']);
 	$router->post('register', ['uses' => 'UserController@register']);
 
 	$router->get('logs', ['uses' => 'LogsController@retrieve']);
