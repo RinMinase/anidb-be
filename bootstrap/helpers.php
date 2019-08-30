@@ -18,6 +18,19 @@ if (! function_exists('trim_dom_crawler')) {
 	}
 }
 
+if (! function_exists('random_string')) {
+	function random_string($length = 32) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$randomString = '';
+
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, strlen($characters) - 1)];
+		}
+
+		return $randomString;
+	}
+}
+
 if (! function_exists('display_index_page')) {
 	function display_index_page($version) {
 		return '<html lang="en"><head>'
