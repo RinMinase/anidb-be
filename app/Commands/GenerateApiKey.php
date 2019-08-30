@@ -16,7 +16,7 @@ class GenerateApiKey extends Command {
 
 		try {
 			if (file_exists($envFile)) {
-				$apiKey = $this->generateRandomString($length);
+				$apiKey = random_string($length);
 
 				$this->info('Client API Key:');
 				$this->info($apiKey);
@@ -36,14 +36,4 @@ class GenerateApiKey extends Command {
 		}
 	}
 
-	private function generateRandomString($length = 32) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$randomString = '';
-
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, strlen($characters) - 1)];
-		}
-
-		return $randomString;
-	}
 }
