@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserController {
 
 	public function login(Request $request) {
-		if ($request->header('api-key') !== env('API_KEY') {
+		if ($request->header('api-key') !== env('API_KEY')) {
 			return response('Unauthorized')->setStatusCode(401);
 		}
 
