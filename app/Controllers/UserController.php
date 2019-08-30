@@ -56,7 +56,7 @@ class UserController {
 		$data = [
 			'username' => $user->username,
 			'role' => $user->role,
-			'token' => $this->generateRandomString(),
+			'token' => random_string(64),
 			'timeout' => $timeout,
 		];
 
@@ -88,17 +88,6 @@ class UserController {
 		]);
 
 		return response('Success');
-	}
-
-	private function generateRandomString($length = 64) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$randomString = '';
-
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, strlen($characters) - 1)];
-		}
-
-		return $randomString;
 	}
 
 }
