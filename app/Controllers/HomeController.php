@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Mailgun\Mailgun;
 
 class HomeController {
 
@@ -24,5 +25,24 @@ class HomeController {
 		$writer->save('php://output');
 
 		return $writer;
+	}
+
+	public function email() {
+		if (!env('MAILGUN_TEST_USER')) {
+			return response('Mailgun Test User configuration not present')->setStatusCode(500);
+		}
+
+		$domain = 'sandbox' . env('MAILGUN_DOMAIN') . '.mailgun.org';
+		$result = app('mail')->sendMessage(
+			"$domain",
+			[
+				'from' => 'Mailgun Sandbox <postmaster@sandbox' . env('MAILGUN_DOMAIN') . '.mailgun.org>',
+				'to' => env('MAILGUN_TEST_USER'),
+				'subject' => 'Hello User',
+				'text' => 'Congratulations, you just sent an email!'
+			]
+		);
+
+		return response()->json($result);
 	}
 }
