@@ -132,6 +132,7 @@ _Add info here_
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com/) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://getcomposer.org/favicon.ico"> [Composer](https://getcomposer.org/) - Package Manager
 * <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net/) - HTTP Requests Architecture
+* <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com/) - Email Service
 * <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1563088072/guzzle.png"> [Guzzle](http://docs.guzzlephp.org/) and [Goutte](https://goutte.readthedocs.io/) - HTTP Request Handler and Web Crawler
 * <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1562606888/phpunit.png"> [PHPUnit](https://phpunit.de/index.html) - Testing framework
 <!-- * <img width=20 height=20 src="https://www.sonarqube.org/favicon.ico"> [Codecov](https://www.sonarqube.org/) - Code Inspection and Reliability -->
