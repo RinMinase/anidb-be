@@ -26,7 +26,9 @@
         "guzzlehttp/guzzle": "^6.3",
         "kreait/firebase-php": "^4.31.0",
         "laravel/lumen-framework": "^5.8.12",
+        "mailgun/mailgun-php": "^2.8",
         "mongodb/mongodb": "^1.4.3",
+        "php-http/guzzle6-adapter": "^1.1",
         "phpoffice/phpspreadsheet": "^1.9"
     },
     "require-dev": {
