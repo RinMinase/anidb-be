@@ -22,6 +22,7 @@ $router->group(
 	function() use ($router) {
 		$router->get('mongo', ['uses' => 'HomeController@mongo']);
 		$router->get('export', ['uses' => 'HomeController@export']);
+		$router->get('email', ['uses' => 'HomeController@email']);
 
 		$router->get('anime[/{params}]', ['uses' => 'AnimeController@retrieve']);
 		$router->post('anime', ['uses' => 'AnimeController@create']);
