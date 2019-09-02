@@ -105,5 +105,14 @@ if (env('DB_USERNAME') && env('DB_PASSWORD') && env('DB_CLUSTER') && env('DB_DAT
 }
 
 
+/* Register Mailgun */
+
+if (env('MAILGUN_API_KEY') && env('MAILGUN_DOMAIN')) {
+	$app->mail = new Mailgun\Mailgun(env('MAILGUN_API_KEY'));
+} else {
+	throw new Exception('Mailgun configuration not found');
+}
+
+
 /* Return Application Configurations */
 return $app;
