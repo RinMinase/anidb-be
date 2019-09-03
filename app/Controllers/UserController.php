@@ -41,6 +41,24 @@ class UserController {
 		return response()->json($data);
 	}
 
+	public function logout(Request $request) {
+		if ($request->header('api-key') !== env('API_KEY')) {
+			return response('Unauthorized')->setStatusCode(401);
+		}
+
+		if (!$request->input('token')) {
+			return response('"token" is required')->setStatusCode(403);
+		}
+		
+		$query = app('mongo')->session->deleteOne([ 'token' => $request->input('token') ]);
+
+		if ($query->getDeletedCount()) {
+			return response('Logout success');
+		} else {
+			return response('Session token not found')->setStatusCode(403);
+		}
+	}
+
 	public function register(Request $request) {
 		if ($request->header('api-key') !== env('API_KEY')) {
 			return response('Unauthorized')->setStatusCode(401);
