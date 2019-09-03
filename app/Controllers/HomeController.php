@@ -29,7 +29,7 @@ class HomeController {
 
 	public function email() {
 		if (!env('MAILGUN_TEST_USER')) {
-			return response('Mailgun Test User configuration not present')->setStatusCode(500);
+			return response('Mailgun Test User configuration not present', 500);
 		}
 
 		$domain = 'sandbox' . env('MAILGUN_DOMAIN') . '.mailgun.org';

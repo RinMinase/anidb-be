@@ -10,23 +10,23 @@ class UserController {
 
 	public function login(Request $request) {
 		if ($request->header('api-key') !== env('API_KEY')) {
-			return response('Unauthorized')->setStatusCode(401);
+			return response('Unauthorized', 401);
 		}
 
 		if (!$request->input('username') || !$request->input('password')) {
-			return response('"username" and "password" fields are required')->setStatusCode(400);
+			return response('"username" and "password" fields are required', 403);
 		}
 
 		$user = app('mongo')->users->findOne(['username' => $request->input('username')]);
 
 		if (!isset($user)) {
-			return response('"username" or "password" is invalid')->setStatusCode(403);
+			return response('"username" or "password" is invalid', 403);
 		}
 
 		$isVerified = password_verify($request->input('password'), $user->password);
 
 		if (!$isVerified) {
-			return response('"username" or "password" is invalid')->setStatusCode(403);
+			return response('"username" or "password" is invalid', 403);
 		}
 
 		$this->checkIfUserIsLoggedIn($user);
@@ -43,35 +43,35 @@ class UserController {
 
 	public function logout(Request $request) {
 		if ($request->header('api-key') !== env('API_KEY')) {
-			return response('Unauthorized')->setStatusCode(401);
+			return response('Unauthorized', 401);
 		}
 
 		if (!$request->input('token')) {
-			return response('"token" is required')->setStatusCode(403);
+			return response('"token" is required', 403);
 		}
-		
+
 		$query = app('mongo')->session->deleteOne([ 'token' => $request->input('token') ]);
 
 		if ($query->getDeletedCount()) {
-			return response('Logout success');
+			return response('Sucess');
 		} else {
-			return response('Session token not found')->setStatusCode(403);
+			return response('Session token not found', 403);
 		}
 	}
 
 	public function register(Request $request) {
 		if ($request->header('api-key') !== env('API_KEY')) {
-			return response('Unauthorized')->setStatusCode(401);
+			return response('Unauthorized', 401);
 		}
 
 		if (!$request->input('username') || !$request->input('password')) {
-			return response('"username" and "password" fields are required')->setStatusCode(400);
+			return response('"username" and "password" fields are required', 403);
 		}
 
 		$isExisting = app('mongo')->users->findOne([ 'username' => $request->input('username') ]);
 
 		if (isset($isExisting->username)) {
-			return response('"username" is already taken')->setStatusCode(400);
+			return response('"username" is already taken', 400);
 		}
 
 		app('mongo')->users->insertOne([

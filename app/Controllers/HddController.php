@@ -13,7 +13,7 @@ class HddController {
 
 			if ($request->input('size')
 				&& !is_numeric($request->input('size'))) {
-				return response('"size" field is invalid')->setStatusCode(400);
+				return response('"size" field is invalid', 403);
 			}
 
 			app('mongo')->hdd->insertOne([
@@ -24,7 +24,7 @@ class HddController {
 
 			return response('Success');
 		} else {
-			return response('"from" and "to" fields are required')->setStatusCode(400);
+			return response('"from" and "to" fields are required', 403);
 		}
 	}
 
@@ -47,7 +47,7 @@ class HddController {
 		if ($query->getDeletedCount()) {
 			return response('Success');
 		} else {
-			return response('Failed')->setStatusCode(500);
+			return response('Failed', 500);
 		}
 	}
 
@@ -68,7 +68,7 @@ class HddController {
 
 			if ($request->input('size')) {
 				if (!is_numeric($request->input('size'))) {
-					return response('"size" field is invalid')->setStatusCode(400);
+					return response('"size" field is invalid', 403);
 				}
 
 				$data['size'] = (int) $request->input('size');
@@ -82,10 +82,10 @@ class HddController {
 			if ($query->getModifiedCount()) {
 				return response('Success');
 			} else {
-				return response('Failed')->setStatusCode(500);
+				return response('Failed', 500);
 			}
 		} else {
-			return response('"from", "to" or "size" fields are required')->setStatusCode(400);
+			return response('"from", "to" or "size" fields are required', 403);
 		}
 	}
 

@@ -12,7 +12,7 @@ class LogsController {
 				'action' => $action,
 			]);
 		} else {
-			return response('Required logs were not generated')->setStatusCode(500);
+			return response('Required logs were not generated', 500);
 		}
 	}
 

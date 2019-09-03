@@ -42,7 +42,7 @@ class AnimeController {
 
 			return response('Success');
 		} else {
-			return response('"title" field is required')->setStatusCode(400);
+			return response('"title" field is required', 403);
 		}
 	}
 

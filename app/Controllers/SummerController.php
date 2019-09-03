@@ -20,8 +20,7 @@ class SummerController {
 
 			return response('Success');
 		} else {
-			return response('"timeStart", "timeEnd" and "title" fields are required')
-				->setStatusCode(400);
+			return response('"timeStart", "timeEnd" and "title" fields are required', 403);
 		}
 	}
 
@@ -31,7 +30,7 @@ class SummerController {
 		if ($query->getDeletedCount()) {
 			return response('Success');
 		} else {
-			return response('Failed')->setStatusCode(500);
+			return response('Failed', 500);
 		}
 	}
 
@@ -70,7 +69,7 @@ class SummerController {
 		if ($query->getModifiedCount()) {
 			return response('Success');
 		} else {
-			return response('Failed')->setStatusCode(500);
+			return response('Failed', 500);
 		}
 	}
 
