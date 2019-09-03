@@ -33,6 +33,10 @@ class UserController {
 
 		$data = $this->generateLoginToken($user);
 		app('mongo')->session->insertOne($data);
+		app('mongo')->users->updateOne(
+			[ 'username' => $request->input('username') ],
+			[ '$set' => [ 'last_login' => (new DateTime())->getTimestamp() ] ],
+		);
 
 		return response()->json($data);
 	}
@@ -57,6 +61,7 @@ class UserController {
 			'password' => password_hash($request->input('password'), PASSWORD_BCRYPT),
 			'role' => 3,
 			'last_login' => null,
+			'date_created' => (new DateTime())->getTimestamp(),
 		]);
 
 		return response('Success');
