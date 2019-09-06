@@ -64,6 +64,12 @@ _Add info here_
     - Set `RELEASE_BASE_URI` to the API of the repository it fetches its list (e.g api.github.com/repos/<UserName>/<Repository>)
 
 4. Mailgun
+    - Fire up your browser and login your [Mailgun Account](https://app.mailgun.com). If you have no account yet, [create one](https://signup.mailgun.com/new/signup).
+    - After you signup, you will be given an API key and its domain. If not, you can navigate to `Settings > Security & Users > API security`. Domain is in a form of `postmaster@<domain>.mailgun.org`
+    - View your Private API Key and copy them over to `MAILGUN_API_KEY` of your env file
+    - Navigate to `Sending > Domain Settings > SMTP Credentials`
+    - Copy the domain under `Login`. (e.g `postmaster@<domain>.mailgun.org`) to `MAILGUN_DOMAIN` of your env file
+    - Place any email you want to send your temporary verification code to in `MAILGUN_TEST_USER` with the format `{user name} <{email address}>`
 
 ### Running the project
 1. If you are running Windows 10, [download](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) and install `Docker for Windows`.
