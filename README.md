@@ -25,6 +25,15 @@ _Add info here_
 
 ## Getting Started
 
+### Environmental variables setup
+1. MongoDB
+
+2. Firebase (Firebase Storage)
+
+3. Web Scraper
+
+4. Mailgun
+
 ### Running the project
 1. If you are running Windows 10, [download](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) and install `Docker for Windows`.
 
@@ -44,11 +53,12 @@ _Add info here_
     docker exec -it anidb bash
     ```
 
-4. Inside the docker image, copy the env file and install the necessary dependencies
+4. Inside the docker image, copy the env file, install the necessary dependencies and generate the API Key
 
     ```
     cp .env.example .env
     composer install
+    php bootstrap/artisan api:generate
     ```
 
 5. Fire up your browser and go to `localhost`.
