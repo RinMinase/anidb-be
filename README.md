@@ -27,6 +27,20 @@ _Add info here_
 
 ### Environmental variables setup
 1. MongoDB
+    - Fire up your browser and login your [MongoDB Atlas](https://cloud.mongodb.com/user#/atlas/login) account. If you still have no account, [create one](https://cloud.mongodb.com/user#/atlas/register/accountProfile).
+    - If you have no databases yet, create one and name it with anything you like
+    - Once you have a database already, click the `connect` button, and select `Connect your application`
+    - Place the parts of the `Connection String` in you environmental variables as follows:
+
+        ```
+        Connection String:
+        mongodb+srv://<username>:<password>@<cluster>/<database>?retryWrites=true&w=majority
+
+        DB_USERNAME = <username>
+        DB_PASSWORD = <password>
+        DB_CLUSTER = <cluster>
+        DB_DATABASE = <database> or the name of the database you created
+        ```
 
 2. Firebase (Firebase Storage)
 
