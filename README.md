@@ -27,8 +27,8 @@ _Add info here_
 
 ### Environmental variables setup
 1. MongoDB
-    - Fire up your browser and login your [MongoDB Atlas](https://cloud.mongodb.com/user#/atlas/login) account. If you still have no account, [create one](https://cloud.mongodb.com/user#/atlas/register/accountProfile).
-    - If you have no databases yet, create one and name it with anything you like
+    - Fire up your browser and login your [MongoDB Atlas](https://cloud.mongodb.com/user#/atlas/login) account. If you have no account yet, [create one](https://cloud.mongodb.com/user#/atlas/register/accountProfile).
+    - If you have no databases yet, create one and name it with anything you like.
     - Once you have a database already, click the `connect` button, and select `Connect your application`
     - Place the parts of the `Connection String` in you environmental variables as follows:
 
@@ -43,6 +43,22 @@ _Add info here_
         ```
 
 2. Firebase (Firebase Storage)
+    - Fire up your browser and login your [Firebase/Google Account](https://console.firebase.google.com). If you have no account yet, [create one](https://accounts.google.com/signup/v2/webcreateaccount?flowEntry=SignUp&flowName=GlifWebSignIn).
+    - If you have no Firebase projects yet, create one and name it with anything you like.
+    - Once you have a project already, navigate to your project, then to the `settings page` (cog icon) on your top left near Project Overview
+    - Once you are inside your settings page, if you already have an app connected to this project, skip this step, otherwise:
+        - Click on `Add app` and click on `Web`
+        - Register a name for your app, then submit it
+    - Go back to firebase settings page, then navigate to `Service Accounts`
+    - Click on `Generate new private key` button, then click `Generate Key` on the popup.
+    - Open the downloaded JSON file and copy these specific values to your ENV file:
+
+        ```
+        FIRE_PROJECT_ID = project_id
+        FIRE_KEY = private_key (note, change all \n to \\n)
+        FIRE_EMAIL = client_email
+        FIRE_CLIENT_ID = client_id
+        ```
 
 3. Web Scraper
 
