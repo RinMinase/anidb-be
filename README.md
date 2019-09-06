@@ -61,6 +61,7 @@ _Add info here_
         ```
 
 3. Web Scraper
+    - Set `RELEASE_BASE_URI` to the API of the repository it fetches its list (e.g api.github.com/repos/<UserName>/<Repository>)
 
 4. Mailgun
 
