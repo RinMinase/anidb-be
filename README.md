@@ -126,19 +126,16 @@ From the project folder, run:
 
 
 ### Code Scaffolding
-This is using `php artisan make:<item> <name> <arguments>` command.
+This is using `php bootstrap/artisan <task> <arguments>` command.
 
 Where:
-- item - is the type of code being generated
+- task - refer to the task list below
 - arguments - (optional) specific parameters in generating the code
-- name - name of the file being generated
 
-| Task              | Description                                            |
-| ----------------- | ------------------------------------------------------ |
-| `make:auth`       | Scaffold basic login and registration views and routes |
-| `make:controller` | Creates a new controller class                         |
-| `make:model`      | Create a new Eloquent model class                      |
-| `make:test`       | Create a new test class                                |
+| Task                 | Description                                                              |
+| -------------------- | ------------------------------------------------------------------------ |
+| `api:generate`       | Generate an API Key and saves it to your ENV file                        |
+| `api:generate <len>` | Generate an API Key with a specific length and saves it to your ENV file |
 
 ### Project Structure
     .
