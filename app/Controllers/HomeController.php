@@ -36,7 +36,7 @@ class HomeController {
 		$result = app('mail')->sendMessage(
 			"$domain",
 			[
-				'from' => 'Mailgun Sandbox <postmaster@sandbox' . env('MAILGUN_DOMAIN') . '.mailgun.org>',
+				'from' => 'Mailgun Sandbox <anidb@sandbox' . env('MAILGUN_DOMAIN') . '.mailgun.org>',
 				'to' => env('MAILGUN_TEST_USER'),
 				'subject' => 'Greetings from AniDB!',
 				'text' => generate_verification_text('User', 'testurl'),
