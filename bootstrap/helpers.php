@@ -63,3 +63,45 @@ if (! function_exists('display_index_page')) {
 			. '</body></html>';
 	}
 }
+
+if (! function_exists('generate_verification_email')) {
+	function generate_verification_email($name, $verifyUrl) {
+		if ($name) { $name = ' ' . $name; }
+
+		return '<div style="background-color: rgb(245,249,250); padding: 25px 0; font-family: Roboto, Arial, Helvetica;">'
+			. '<h1 style="text-align: center; color: #333">AniDB</h1>'
+			. '<div style="background-color: #fff; width: 800px; margin: 0 auto; padding: 15px 40px 25px;">'
+				. '<div style="color: #444">'
+					. '<h2>Verify this Email Address</h2>'
+					. '<p style="margin-top: 35px;">Hi' . $name . ',</p>'
+					. '<p style="margin-top: 35px;">Welcome!</p>'
+					. '<p>Please click the button below to verify your email address.</p>'
+					. '<p>If you did not signup with AniDB, please ignore this email.</p>'
+		
+					. '<p style="margin-top: 40px;">Rin Minase<br>AniDB Creator</p>'
+				. '</div>'
+				
+				. '<table style="margin: 0 auto;"><tbody><tr>'
+					. '<td style="background-color: #ce636c; border-radius: 5px; padding: 8px 32px;">'
+						. '<a href="' . $verifyUrl . '" target="_blank" style="text-decoration: none; color: #fff; outline: none;">Verify Email</a>'
+					. '</td>'
+				. '</tr></tbody></table>'
+			. '</div>'
+			. '<div style="text-align: center; margin-top: 15px;">'
+				. '<table style="margin: 0 auto;"><tbody><tr>'
+					. '<td style="background-color: #1a2052; border-radius: 5px; padding: 8px 24px;">'
+						. '<a href="https://github.com/RinMinase/anidb" target="_blank" style="text-decoration: none; color: #fff; outline: none;">Github Repository</a>'
+					. '</td>'
+				. '</tr></tbody></table>'
+			. '</div>'
+		. '</div>';
+	}
+}
+
+if (! function_exists('generate_verification_text')) {
+	function generate_verification_text($name, $verifyUrl) {
+		if ($name) { $name = ' ' . $name; }
+
+		return 'Hi' . $name . '! Please copy the URL in your browser to verify your email address. ' . $verifyUrl;
+	}
+}

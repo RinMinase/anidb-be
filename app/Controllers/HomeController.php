@@ -38,8 +38,9 @@ class HomeController {
 			[
 				'from' => 'Mailgun Sandbox <postmaster@sandbox' . env('MAILGUN_DOMAIN') . '.mailgun.org>',
 				'to' => env('MAILGUN_TEST_USER'),
-				'subject' => 'Hello User',
-				'text' => 'Congratulations, you just sent an email!'
+				'subject' => 'Greetings from AniDB!',
+				'text' => generate_verification_text('User', 'testurl'),
+				'html' => generate_verification_email('User', 'testurl'),
 			]
 		);
 
