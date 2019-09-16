@@ -26,6 +26,18 @@ _Add info here_
 ## Getting Started
 
 ### Environmental variables setup
+
+> Note: You can disable specific modules
+
+This is done by setting these specific ENV flags to true, to disable them.
+
+```
+DISABLE_DB       - Disables MongoDB
+DISABLE_FIREBASE - Disables Firebase Storage
+DISABLE_SCRAPTER - Disables WebScraper
+DISABLE_MAILGUN  - Disables Mailgun
+```
+
 1. MongoDB
     - Fire up your browser and login your [MongoDB Atlas](https://cloud.mongodb.com/user#/atlas/login) account. If you have no account yet, [create one](https://cloud.mongodb.com/user#/atlas/register/accountProfile).
     - If you have no databases yet, create one and name it with anything you like.
