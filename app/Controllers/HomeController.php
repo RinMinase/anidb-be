@@ -9,6 +9,8 @@ use Mailgun\Mailgun;
 class HomeController {
 
 	public function mongo() {
+		if (env('DISABLE_DB')) { return response('Database module is disabled', 403); }
+
 		$data = app('mongo')->hdd->find();
 
 		return response(mongo_json($data))->header('Content-Type', 'application/json');
