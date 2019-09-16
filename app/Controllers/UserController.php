@@ -14,19 +14,19 @@ class UserController {
 		}
 
 		if (!$request->input('username') || !$request->input('password')) {
-			return response('"username" and "password" fields are required', 403);
+			return response('"username" and "password" fields are required', 400);
 		}
 
 		$user = app('mongo')->users->findOne(['username' => $request->input('username')]);
 
 		if (!isset($user)) {
-			return response('"username" or "password" is invalid', 403);
+			return response('"username" or "password" is invalid', 400);
 		}
 
 		$isVerified = password_verify($request->input('password'), $user->password);
 
 		if (!$isVerified) {
-			return response('"username" or "password" is invalid', 403);
+			return response('"username" or "password" is invalid', 400);
 		}
 
 		$this->checkIfUserIsLoggedIn($user);
@@ -47,7 +47,7 @@ class UserController {
 		}
 
 		if (!$request->input('token')) {
-			return response('"token" is required', 403);
+			return response('"token" is required', 400);
 		}
 
 		$query = app('mongo')->session->deleteOne([ 'token' => $request->input('token') ]);
@@ -55,7 +55,7 @@ class UserController {
 		if ($query->getDeletedCount()) {
 			return response('Sucess');
 		} else {
-			return response('Session token not found', 403);
+			return response('Session token not found', 400);
 		}
 	}
 
@@ -65,7 +65,7 @@ class UserController {
 		}
 
 		if (!$request->input('username') || !$request->input('password')) {
-			return response('"username" and "password" fields are required', 403);
+			return response('"username" and "password" fields are required', 400);
 		}
 
 		$isExisting = app('mongo')->users->findOne([ 'username' => $request->input('username') ]);

@@ -20,7 +20,7 @@ class SummerController {
 
 			return response('Success');
 		} else {
-			return response('"timeStart", "timeEnd" and "title" fields are required', 403);
+			return response('"timeStart", "timeEnd" and "title" fields are required', 400);
 		}
 	}
 
