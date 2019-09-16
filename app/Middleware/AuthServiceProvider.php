@@ -13,6 +13,8 @@ class AuthServiceProvider extends ServiceProvider {
 
 	public function boot() {
 		$this->app['auth']->viaRequest('api', function ($request) {
+			if (env('DISABLE_DB')) { return true; }
+			
 			$currentSession = app('mongo')->session->findOne([ 'token' => $request->header('token') ]);
 			$isValidToken = $currentSession !== null;
 
