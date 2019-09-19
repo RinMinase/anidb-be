@@ -16,7 +16,7 @@
         <img alt="Lumen" src="https://img.shields.io/badge/lumen-%5E6.0.2-red.svg?logo=laravel&logoColor=white">
     </a>
     <a href="https://php.net/">
-        <img alt="PHP" src="https://img.shields.io/badge/php-7.2.19-blue.svg?logo=php&logoColor=white">
+        <img alt="PHP" src="https://img.shields.io/badge/php-7.3-blue.svg?logo=php&logoColor=white">
     </a>
 </p>
 
@@ -181,7 +181,7 @@ _Add info here_
 ## Built with
 * <img width=20 height=20 src="https://lumen.laravel.com/img/favicons/favicon-32x32.png"> [Lumen 6.0](https://lumen.laravel.com/) - Web Framework
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 6.0](https://laravel.com/) - Core Framework
-* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 7.2](https://php.net/) - Language syntax
+* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 7.3](https://php.net/) - Language syntax
 * <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database
 * <img width=20 height=20 src="https://firebase.google.com/favicon.ico"> [Firebase Storage](https://firebase.google.com/) - Image Storage
 * <img width=20 height=20 src="https://www.docker.com/sites/default/files/d8/Docker-R-Logo-08-2018-Monochomatic-RGB_Moby-x1.png"> [Docker](https://www.docker.com/) - Container platform
