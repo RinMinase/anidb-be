@@ -27,7 +27,7 @@
         "kreait/firebase-php": "^4.31.0",
         "laravel/lumen-framework": "^6.0.2",
         "mailgun/mailgun-php": "^2.8",
-        "mongodb/mongodb": "^1.4.3",
+        "mongodb/mongodb": "^1.5.0",
         "php-http/guzzle6-adapter": "^1.1",
         "phpoffice/phpspreadsheet": "^1.9"
     },
