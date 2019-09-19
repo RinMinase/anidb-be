@@ -111,7 +111,7 @@ if (!env('DISABLE_DB')) {
 
 if (!env('DISABLE_MAILGUN')) {
 	if (env('MAILGUN_API_KEY') && env('MAILGUN_DOMAIN')) {
-		$app->mail = new Mailgun\Mailgun(env('MAILGUN_API_KEY'));
+		$app->mail = Mailgun\Mailgun::create(env('MAILGUN_API_KEY'));
 	} else {
 		throw new Exception('Mailgun configuration not found');
 	}
