@@ -37,6 +37,9 @@
         "phpunit/phpunit": "^8.3.5",
         "mockery/mockery": "^1.2.2"
     },
+    "provide": {
+        "ext-mongo": "1.6"
+    },
     "autoload": {
         "files": [
             "bootstrap/helpers.php"
