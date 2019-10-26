@@ -23,7 +23,7 @@
     "require": {
         "php": ">=7.1.3",
         "fabpot/goutte": "^3.2",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^6.4",
         "kreait/firebase-php": "^4.35.0",
         "kriswallsmith/buzz": "^1.0",
         "laravel/lumen-framework": "^6.2.0",
