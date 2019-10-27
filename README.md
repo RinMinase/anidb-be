@@ -1,6 +1,14 @@
 <h1 align="center"> Rin Minase's Anime Database<br>(Back-end API Service) </h1>
 
 <p align="center">
+    <a href="https://lumen.laravel.com/">
+        <img alt="Lumen" src="https://img.shields.io/badge/lumen-%5E6.0.2-red.svg?logo=lumen&logoColor=white&style=for-the-badge">
+    </a>
+    <a href="https://php.net/">
+        <img alt="PHP" src="https://img.shields.io/badge/php-7.3-blue.svg?logo=php&logoColor=white&style=for-the-badge">
+    </a>
+</p>
+<p align="center">
     <a href="">
         <img alt="Heroku" src="https://rin-heroku-badge.herokuapp.com/?app=rin-anidb&svg=1&root=deploy-status">
     </a>
@@ -9,14 +17,6 @@
     </a>
     <a href="http://isitmaintained.com/project/RinMinase/anidb-be">
         <img alt="Open Issues" src="http://isitmaintained.com/badge/open/RinMinase/anidb-be.svg">
-    </a>
-</p>
-<p align="center">
-    <a href="https://lumen.laravel.com/">
-        <img alt="Lumen" src="https://img.shields.io/badge/lumen-%5E6.0.2-red.svg?logo=lumen&logoColor=white">
-    </a>
-    <a href="https://php.net/">
-        <img alt="PHP" src="https://img.shields.io/badge/php-7.3-blue.svg?logo=php&logoColor=white">
     </a>
 </p>
 
