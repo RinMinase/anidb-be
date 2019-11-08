@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdcba852742a9ee8232f02121ba96858",
+    "content-hash": "32f4111adb79c87d7d65578c27572dc5",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -452,16 +452,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.21",
+            "version": "8.10.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "04d0228908237931bc1d9c841e3380991055a7e6"
+                "reference": "f3a55dcb6fead9d4fb291c6dadda0564e5ae8d3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/04d0228908237931bc1d9c841e3380991055a7e6",
-                "reference": "04d0228908237931bc1d9c841e3380991055a7e6",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f3a55dcb6fead9d4fb291c6dadda0564e5ae8d3f",
+                "reference": "f3a55dcb6fead9d4fb291c6dadda0564e5ae8d3f",
                 "shasum": ""
             },
             "require": {
@@ -516,7 +516,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-10-16T11:25:36+00:00"
+            "time": "2019-10-30T11:52:30+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -569,16 +569,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "6d5455b4c0f4a58b1f1b4bdf2ba49221123698b3"
+                "reference": "45635ac69d0b95f38885531d4ebcdfcb2ebb6f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/6d5455b4c0f4a58b1f1b4bdf2ba49221123698b3",
-                "reference": "6d5455b4c0f4a58b1f1b4bdf2ba49221123698b3",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/45635ac69d0b95f38885531d4ebcdfcb2ebb6f36",
+                "reference": "45635ac69d0b95f38885531d4ebcdfcb2ebb6f36",
                 "shasum": ""
             },
             "require": {
@@ -616,20 +616,20 @@
                 "google",
                 "oauth2"
             ],
-            "time": "2019-10-01T18:35:05+00:00"
+            "time": "2019-10-29T20:13:04+00:00"
         },
         {
             "name": "google/cloud-core",
-            "version": "v1.33.1",
+            "version": "v1.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-core.git",
-                "reference": "7b8773a5c6d501b3ed31655a8e243e1c17e2862e"
+                "reference": "52db21acb2da25d2d79e493842de58da7836c97f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/7b8773a5c6d501b3ed31655a8e243e1c17e2862e",
-                "reference": "7b8773a5c6d501b3ed31655a8e243e1c17e2862e",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-core/zipball/52db21acb2da25d2d79e493842de58da7836c97f",
+                "reference": "52db21acb2da25d2d79e493842de58da7836c97f",
                 "shasum": ""
             },
             "require": {
@@ -677,20 +677,20 @@
                 "Apache-2.0"
             ],
             "description": "Google Cloud PHP shared dependency, providing functionality useful to all components.",
-            "time": "2019-10-02T20:38:25+00:00"
+            "time": "2019-10-28T19:05:44+00:00"
         },
         {
             "name": "google/cloud-storage",
-            "version": "v1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-storage.git",
-                "reference": "7315239270318e618f025791b20ac8cc2586ccf0"
+                "reference": "003eb1a735d77f8196f816c4a921199d15c4a82c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/7315239270318e618f025791b20ac8cc2586ccf0",
-                "reference": "7315239270318e618f025791b20ac8cc2586ccf0",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/003eb1a735d77f8196f816c4a921199d15c4a82c",
+                "reference": "003eb1a735d77f8196f816c4a921199d15c4a82c",
                 "shasum": ""
             },
             "require": {
@@ -728,7 +728,7 @@
                 "Apache-2.0"
             ],
             "description": "Cloud Storage Client for PHP",
-            "time": "2019-08-07T20:57:43+00:00"
+            "time": "2019-10-28T19:05:44+00:00"
         },
         {
             "name": "google/crc32",
@@ -2137,16 +2137,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.35.0",
+            "version": "4.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "709013996868f18d2abef2e2058dbeb324582162"
+                "reference": "15e8a6058acb41824276b5ccf5ca0a13954efb42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/709013996868f18d2abef2e2058dbeb324582162",
-                "reference": "709013996868f18d2abef2e2058dbeb324582162",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/15e8a6058acb41824276b5ccf5ca0a13954efb42",
+                "reference": "15e8a6058acb41824276b5ccf5ca0a13954efb42",
                 "shasum": ""
             },
             "require": {
@@ -2211,7 +2211,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-10-18T13:29:05+00:00"
+            "time": "2019-11-01T16:08:34+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
