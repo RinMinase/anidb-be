@@ -34,7 +34,7 @@
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8.0",
-        "phpunit/phpunit": "^8.4.1",
+        "phpunit/phpunit": "^8.4.3",
         "mockery/mockery": "^1.2.4"
     },
     "autoload": {
