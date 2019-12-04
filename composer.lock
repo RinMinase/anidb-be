@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32f4111adb79c87d7d65578c27572dc5",
+    "content-hash": "fd65c187751ab1d680e2c08244311b64",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -452,16 +452,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.22",
+            "version": "8.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "f3a55dcb6fead9d4fb291c6dadda0564e5ae8d3f"
+                "reference": "356a97b1601edde8256dace68fe7ffeec0d777f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f3a55dcb6fead9d4fb291c6dadda0564e5ae8d3f",
-                "reference": "f3a55dcb6fead9d4fb291c6dadda0564e5ae8d3f",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/356a97b1601edde8256dace68fe7ffeec0d777f9",
+                "reference": "356a97b1601edde8256dace68fe7ffeec0d777f9",
                 "shasum": ""
             },
             "require": {
@@ -516,7 +516,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-10-30T11:52:30+00:00"
+            "time": "2019-11-26T16:09:47+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -681,16 +681,16 @@
         },
         {
             "name": "google/cloud-storage",
-            "version": "v1.15.0",
+            "version": "v1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-storage.git",
-                "reference": "003eb1a735d77f8196f816c4a921199d15c4a82c"
+                "reference": "308ad790b257286e02777e3bf1a2c0473a4651a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/003eb1a735d77f8196f816c4a921199d15c4a82c",
-                "reference": "003eb1a735d77f8196f816c4a921199d15c4a82c",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/308ad790b257286e02777e3bf1a2c0473a4651a7",
+                "reference": "308ad790b257286e02777e3bf1a2c0473a4651a7",
                 "shasum": ""
             },
             "require": {
@@ -728,7 +728,7 @@
                 "Apache-2.0"
             ],
             "description": "Cloud Storage Client for PHP",
-            "time": "2019-10-28T19:05:44+00:00"
+            "time": "2019-11-12T23:35:42+00:00"
         },
         {
             "name": "google/crc32",
@@ -2137,16 +2137,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.35.1",
+            "version": "4.36.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "15e8a6058acb41824276b5ccf5ca0a13954efb42"
+                "reference": "759dd2d51812e9eb61954348caa4cf62c7c2f988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/15e8a6058acb41824276b5ccf5ca0a13954efb42",
-                "reference": "15e8a6058acb41824276b5ccf5ca0a13954efb42",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/759dd2d51812e9eb61954348caa4cf62c7c2f988",
+                "reference": "759dd2d51812e9eb61954348caa4cf62c7c2f988",
                 "shasum": ""
             },
             "require": {
@@ -2169,11 +2169,11 @@
                 "superbalist/flysystem-google-storage": "^7.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.15",
-                "jangregor/phpstan-prophecy": "^0.1.2",
-                "phpstan/phpstan-phpunit": "^0.9.2",
-                "phpunit/phpunit": "^6.0",
-                "symfony/var-dumper": "^3.3"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "jangregor/phpstan-prophecy": "^0.1.2|^0.2|^0.3|^0.4.2",
+                "phpstan/phpstan-phpunit": "^0.9.4|^0.11.2",
+                "phpunit/phpunit": "^6.5.14|^7.5.17",
+                "symfony/var-dumper": "^3.4|^4.4|^5.0"
             },
             "suggest": {
                 "google/cloud-firestore": "^1.0 to use the Firestore component"
@@ -2211,7 +2211,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-11-01T16:08:34+00:00"
+            "time": "2019-12-02T18:03:56+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
