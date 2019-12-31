@@ -5,6 +5,7 @@
  * @apiName retrieve
  * @apiGroup Image
  *
+ * @apiHeader {String} token User login token
  * @apiParam {Path} param Complete image file path (i.e. 'assets/test.jpg')
  *
  * @apiSuccess {String} url Signed URL of image
