@@ -56,7 +56,7 @@
             "mkdir -p storage/framework/cache && mkdir -p storage/framework/views"
         ],
         "post-autoload-dump": [
-            "apidoc -i docs -o docs-api",
+            "apidoc -i docs -o public/docs",
             "touch public/deploy-status"
         ],
         "post-root-package-install": [
