@@ -3,7 +3,7 @@
 /**
  * @api {get} /user/:id Request User information
  * @apiName GetUser
- * @apiGroup User
+ * @apiGroup Sample
  *
  * @apiParam {Number} id Users unique ID.
  *
