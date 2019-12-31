@@ -85,7 +85,8 @@ if (!env('DISABLE_FIREBASE')) {
 
 	$app->firebase = (new Kreait\Firebase\Factory)
 		-> withServiceAccount(Kreait\Firebase\ServiceAccount::fromJson($validatedCreds))
-		-> withDisabledAutoDiscovery();
+		-> withDisabledAutoDiscovery()
+		-> createStorage();
 }
 
 
