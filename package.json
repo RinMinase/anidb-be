@@ -10,9 +10,13 @@
     "url": "https://github.com/RinMinase/anidb-be.git"
   },
   "scripts": {
-    "docs": "apidoc -i docs -o public/docs"
+    "docs": "apidoc -i docs -o public/docs",
+    "watch": "nodemon -e php -x npm run docs -w docs/"
   },
   "dependencies": {
     "apidoc": "^0.19.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
