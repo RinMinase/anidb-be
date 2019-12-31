@@ -8,7 +8,7 @@ $router->get('/', function() use ($router) {
 });
 
 $router->get('/docs', function() use ($router) {
-	return $router->get('/docs/index.html');
+	return File::get(public_path() . '/docs/index.html');
 });
 
 $router->group([ 'prefix' => 'api' ], function() use ($router) {
