@@ -185,6 +185,7 @@ _Add info here_
 * <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database
 * <img width=20 height=20 src="https://firebase.google.com/favicon.ico"> [Firebase Storage](https://firebase.google.com/) - Image Storage
 * <img width=20 height=20 src="https://www.docker.com/sites/default/files/d8/Docker-R-Logo-08-2018-Monochomatic-RGB_Moby-x1.png"> [Docker](https://www.docker.com/) - Container platform
+* <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com/) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com/) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com/) - Email Service
 * <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1563088072/guzzle.png"> [Guzzle](http://docs.guzzlephp.org/) and [Goutte](https://goutte.readthedocs.io/) - HTTP Request Handler and Web Crawler
