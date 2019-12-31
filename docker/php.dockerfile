@@ -43,6 +43,17 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN echo "export COMPOSER_ALLOW_SUPERUSER=1" > ~/.bashrc
 
 ###########################################################################
+# NodeJS for APIDoc
+###########################################################################
+
+RUN set -xe; \
+    apk add --no-cache \
+    nodejs \
+    npm
+
+RUN npm install apidoc -g
+
+###########################################################################
 # Final Setup
 ###########################################################################
 
