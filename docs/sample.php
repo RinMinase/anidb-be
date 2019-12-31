@@ -1,4 +1,4 @@
-<? php
+<?php
 
 /**
  * @api {get} /user/:id Request User information
