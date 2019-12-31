@@ -56,14 +56,14 @@
             "mkdir -p storage/framework/cache && mkdir -p storage/framework/views"
         ],
         "post-autoload-dump": [
-            "apidoc -i docs -o public/docs",
+            "npm run docs",
             "touch public/deploy-status"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "docs": [
-            "apidoc -i docs -o public/docs"
+            "npm run docs"
         ],
         "test": [
             "phpunit -c tests/phpunit.xml; rm tests/.phpunit.result.cache"
