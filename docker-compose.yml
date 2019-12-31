@@ -7,7 +7,7 @@ services:
       context: ./docker
       dockerfile: php.dockerfile
       args:
-        - PHP_VERSION=7.4
+        - PHP_VERSION=7.3
     volumes:
       - ./docker/php-config/php7.3.ini:/usr/local/etc/php/php.ini
       - ./:/var/www
