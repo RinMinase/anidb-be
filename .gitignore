@@ -4,6 +4,7 @@
 /.sonarlint
 /vendor
 /docker/logs/
+/node_modules
 
 # Homestead, Vagrant and IDE Files
 Homestead.json
@@ -12,7 +13,6 @@ Homestead.yaml
 /.idea
 
 /storage/
+/public/docs
 
 /public/deploy-status
-
-/public/docs
