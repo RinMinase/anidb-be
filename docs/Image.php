@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @api {get} /img/:param Retrieve Image URL
+ * @api {get} /api/img/:param Retrieve Image URL
  * @apiName retrieve
  * @apiGroup Image
  *
