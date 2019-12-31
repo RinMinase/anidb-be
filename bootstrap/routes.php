@@ -7,10 +7,6 @@ $router->get('/', function() use ($router) {
 	return display_index_page($version);
 });
 
-$router->get('/docs', function() use ($router) {
-	return File::get(public_path() . '/docs/index.html');
-});
-
 $router->group([ 'prefix' => 'api' ], function() use ($router) {
 	$router->post('login', ['uses' => 'UserController@login']);
 	$router->post('logout', ['uses' => 'UserController@logout']);
