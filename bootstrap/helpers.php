@@ -61,6 +61,7 @@ if (! function_exists('display_index_page')) {
 						. 'margin: 0 10px;'
 						. 'padding: 10px;'
 						. 'font-weight: bold;'
+						. 'cursor: pointer;'
 					. '}'
 					. '.nav .item:hover {'
 						. 'background-color: #eee;'
