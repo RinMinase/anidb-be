@@ -10,7 +10,7 @@ class ImageController {
 		$data = app('firebase')
 			->getBucket()
 			->object(urldecode($param))
-			->signedUrl(new DateTime('tomorrow'));
+			->signedUrl(new DateTime('tomorrow'), [ 'version' => 'v4' ]);
 
 		return response($data);
 	}
