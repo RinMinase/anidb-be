@@ -20,7 +20,7 @@ class ImageController {
 	private function verifyImageContents($url) {
 		try {
 			$response = (new Client())->get($url)->getHeaderLine('content-type');
-			$data = ($response == 'image/jpeg') ? $url : 'error';
+			$data = ($response == 'image/jpeg') ? $url : 'Image path is invalid';
 		} catch (Exception $e) {
 			$data = 'Image path is invalid';
 		}
