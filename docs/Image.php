@@ -12,11 +12,16 @@
  *
  * @apiSuccessExample Success Response
  *     HTTP/1.1 200 OK
- *     https://storage.googleapis.com/example.appspot.com/assets/test.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40appspot.gserviceaccount.com{{url and key contents}}
+ *     {
+ *       "url": "https://storage.googleapis.com/example.appspot.com/assets/test.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40appspot.gserviceaccount.com{{url and key contents}}"
+ *     }
  *
- * @apiError NoSuchKey The specified key does not exist
+ * @apiError Invalid The specified image path does not exist
  *
- * @apiErrorExample Error Response
- *     HTTP/1.1 200 Success Response (Error is shown after using the URL provided)
- *     https://storage.googleapis.com/example.appspot.com/assets/test.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40appspot.gserviceaccount.com{{url and key contents}}
+ * @apiErrorExample Invalid
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "status": "Invalid",
+ *       "message": "Image path is invalid"
+ *     }
  */
