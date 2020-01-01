@@ -2,6 +2,7 @@
 
 /**
  * @api {post} /api/login User Login
+ * @apiName UserLogin
  * @apiGroup User
  *
  * @apiHeader {String} api-key Back-end API Key
@@ -42,6 +43,7 @@
 
 /**
  * @api {post} /api/logout User Logout
+ * @apiName UserLogout
  * @apiGroup User
  *
  * @apiHeader {String} api-key Back-end API Key
@@ -85,6 +87,7 @@
 
 /**
  * @api {post} /api/register User Registration
+ * @apiName UserRegistration
  * @apiGroup User
  *
  * @apiHeader {String} api-key Back-end API Key
