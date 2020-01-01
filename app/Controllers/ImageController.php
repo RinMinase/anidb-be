@@ -26,8 +26,8 @@ class ImageController {
 		];
 
 		try {
-			$response = (new Client())->get($url)->getHeaderLine('content-type');
-			$data = ($response == 'image/jpeg') ? ['url' => $url] : $invalidMsg;
+			$type = (new Client())->get($url)->getHeaderLine('content-type');
+			$data = (strpos($type, 'image') !== false) ? ['url' => $url] : $invalidMsg;
 		} catch (Exception $e) {
 			$data = $invalidMsg;
 		}
