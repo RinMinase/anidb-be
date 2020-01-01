@@ -2,7 +2,6 @@
 
 /**
  * @api {get} /api/img/:param Retrieve Image URL
- * @apiName retrieve
  * @apiGroup Image
  *
  * @apiHeader {String} token User login token
