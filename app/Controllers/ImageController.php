@@ -9,20 +9,27 @@ use GuzzleHttp\Client;
 class ImageController {
 
 	public function retrieve($param) {
-		$data = app('firebase')
+		$url = app('firebase')
 			->getBucket()
 			->object(urldecode($param))
 			->signedUrl(new DateTime('tomorrow'), [ 'version' => 'v4' ]);
 
-		return response($this->verifyImageContents($data));
+		$data = $this->verifyImageContents($url);
+
+		return response()->json($data);
 	}
 
 	private function verifyImageContents($url) {
+		$invalidMsg = [
+			'Status' => 'Invalid',
+			'Message' => 'Image path is invalid',
+		];
+
 		try {
 			$response = (new Client())->get($url)->getHeaderLine('content-type');
-			$data = ($response == 'image/jpeg') ? $url : 'Image path is invalid';
+			$data = ($response == 'image/jpeg') ? ['url' => $url] : $invalidMsg;
 		} catch (Exception $e) {
-			$data = 'Image path is invalid';
+			$data = $invalidMsg;
 		}
 
 		return $data;
