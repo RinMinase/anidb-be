@@ -15,8 +15,9 @@ class ImageController {
 			->signedUrl(new DateTime('tomorrow'), [ 'version' => 'v4' ]);
 
 		$data = $this->verifyImageContents($url);
+		$statusCode = (array_key_exists('Status', $data)) ? 400 : 200;
 
-		return response()->json($data);
+		return response()->json($data, $statusCode);
 	}
 
 	private function verifyImageContents($url) {
