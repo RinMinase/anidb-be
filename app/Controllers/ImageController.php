@@ -22,8 +22,8 @@ class ImageController {
 
 	private function verifyImageContents($url) {
 		$invalidMsg = [
-			'Status' => 'Invalid',
-			'Message' => 'Image path is invalid',
+			'status' => 'Invalid',
+			'message' => 'Image path is invalid',
 		];
 
 		try {
