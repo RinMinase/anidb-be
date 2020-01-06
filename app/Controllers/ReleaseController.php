@@ -86,7 +86,7 @@ class ReleaseController {
 
 			if (strpos($change->message, 'Merge branch') === false) {
 				$commitDate = 'changes_' . (new DateTime($change->date))->format('Ymd');
-				$title = (new DateTime($change->date))->format('M D, Y');
+				$title = (new DateTime($change->date))->format('M d, Y');
 
 				if (!isset($data[$commitDate])) {
 					$data[$commitDate] = [
