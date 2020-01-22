@@ -166,6 +166,7 @@ Where:
     │   ├── nginx.dockerfile     # Nginx container docker file
     │   ├── php.dockerfile       # PHP container docker file
     │   └── ...                  # Other docker files
+    ├── docs/                    # API documentation
     ├── public/                  # Project entry point
     ├── tests/                   # Project testing
     │   ├── cases/               # Test cases
