@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70de364d619b07e8298247b8f39f022f",
+    "content-hash": "43de4d8f9b40f4a0e9dc233e1e8ac366",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -451,16 +451,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.11.1",
+            "version": "8.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "f6a367f08e323edc1c27546d8d5818bb016d812e"
+                "reference": "1ec1059b56b40cc1b6b02b438711e4a90ba4bbc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f6a367f08e323edc1c27546d8d5818bb016d812e",
-                "reference": "f6a367f08e323edc1c27546d8d5818bb016d812e",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/1ec1059b56b40cc1b6b02b438711e4a90ba4bbc7",
+                "reference": "1ec1059b56b40cc1b6b02b438711e4a90ba4bbc7",
                 "shasum": ""
             },
             "require": {
@@ -515,7 +515,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-12-11T10:03:19+00:00"
+            "time": "2020-01-15T09:35:09+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -680,16 +680,16 @@
         },
         {
             "name": "google/cloud-storage",
-            "version": "v1.16.1",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-storage.git",
-                "reference": "43dadb634dcbca85c5b9b44296bef2bf22d5153c"
+                "reference": "626e910530f0b9463a15563f697a66f1cfbd6369"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/43dadb634dcbca85c5b9b44296bef2bf22d5153c",
-                "reference": "43dadb634dcbca85c5b9b44296bef2bf22d5153c",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/626e910530f0b9463a15563f697a66f1cfbd6369",
+                "reference": "626e910530f0b9463a15563f697a66f1cfbd6369",
                 "shasum": ""
             },
             "require": {
@@ -727,7 +727,7 @@
                 "Apache-2.0"
             ],
             "description": "Cloud Storage Client for PHP",
-            "time": "2019-12-17T22:51:23+00:00"
+            "time": "2020-01-07T21:25:58+00:00"
         },
         {
             "name": "google/crc32",
@@ -2137,16 +2137,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.38.0",
+            "version": "4.39.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "0a9bec0e8e1cb7fa9ca1c1e5dad1036ee8860b2a"
+                "reference": "fbe8348f1246d6c5bc91a49cc334497cfb159dab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/0a9bec0e8e1cb7fa9ca1c1e5dad1036ee8860b2a",
-                "reference": "0a9bec0e8e1cb7fa9ca1c1e5dad1036ee8860b2a",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/fbe8348f1246d6c5bc91a49cc334497cfb159dab",
+                "reference": "fbe8348f1246d6c5bc91a49cc334497cfb159dab",
                 "shasum": ""
             },
             "require": {
@@ -2157,9 +2157,9 @@
                 "giggsey/libphonenumber-for-php": "^8.9",
                 "google/auth": "^0.11.0|^1.0",
                 "google/cloud-storage": "^1.14",
-                "guzzlehttp/guzzle": "^6.2.1",
+                "guzzlehttp/guzzle": "^6.2.1|^7.0@beta",
                 "kreait/clock": "^1.0.1",
-                "kreait/firebase-tokens": "^1.8.1",
+                "kreait/firebase-tokens": "^1.10",
                 "kreait/gcp-metadata": "^1.0.1",
                 "lcobucci/jwt": "^3.3.1",
                 "mtdowling/jmespath.php": "^2.3",
@@ -2211,27 +2211,27 @@
                 "google",
                 "sdk"
             ],
-            "time": "2020-01-02T22:39:48+00:00"
+            "time": "2020-01-17T15:44:28+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
-            "version": "1.9.2",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-tokens-php.git",
-                "reference": "59d4f0239d7c4cc9de2cd327df1bce695a05e48d"
+                "reference": "fb4449094a7ac27b26269a388bb21cfb35f90d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/59d4f0239d7c4cc9de2cd327df1bce695a05e48d",
-                "reference": "59d4f0239d7c4cc9de2cd327df1bce695a05e48d",
+                "url": "https://api.github.com/repos/kreait/firebase-tokens-php/zipball/fb4449094a7ac27b26269a388bb21cfb35f90d3d",
+                "reference": "fb4449094a7ac27b26269a388bb21cfb35f90d3d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "fig/http-message-util": "^1.1",
-                "guzzlehttp/guzzle": "^6.2.1",
+                "guzzlehttp/guzzle": "^6.2.1|^7.0@beta",
                 "kreait/clock": "^1.0.1",
                 "lcobucci/jwt": "^3.2",
                 "php": "^7.0",
@@ -2240,15 +2240,15 @@
             },
             "require-dev": {
                 "firebase/php-jwt": "^5.0",
-                "friendsofphp/php-cs-fixer": "^2.0",
-                "phpstan/phpstan-phpunit": "^0.9.3",
-                "phpunit/phpunit": "^6.0",
-                "symfony/cache": "^3.4",
-                "symfony/var-dumper": "^3.4"
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan-phpunit": "^0.9.4|^0.11.2",
+                "phpunit/phpunit": "^6.5.14|^7.5.17",
+                "symfony/cache": "^3.4|^4.4|^5.0",
+                "symfony/var-dumper": "^3.4|^4.4|^5.0"
             },
             "suggest": {
                 "firebase/php-jwt": "^5.0 can be used to create and parse tokens",
-                "guzzlehttp/guzzle": "^6.2.1 can be used as an HTTP handler",
+                "guzzlehttp/guzzle": "^6.2.1|^7.0 can be used as an HTTP handler",
                 "lcobucci/jwt": "^3.2 can be used to create and parse tokens",
                 "psr/cache-implementation": "to cache fetched remote public keys",
                 "psr/simple-cache-implementation": "to cache fetched remote public keys"
@@ -2279,7 +2279,7 @@
                 "google",
                 "token"
             ],
-            "time": "2019-10-16T21:09:11+00:00"
+            "time": "2020-01-14T16:43:39+00:00"
         },
         {
             "name": "kreait/gcp-metadata",
@@ -4226,16 +4226,16 @@
         },
         {
             "name": "riverline/multipart-parser",
-            "version": "2.0.6",
+            "version": "2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Riverline/multipart-parser.git",
-                "reference": "f71c80281d8f04e840c31edede6516b63f4d699b"
+                "reference": "675d35cb42d2b32c56a8d5ed4dca8331a043cd58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Riverline/multipart-parser/zipball/f71c80281d8f04e840c31edede6516b63f4d699b",
-                "reference": "f71c80281d8f04e840c31edede6516b63f4d699b",
+                "url": "https://api.github.com/repos/Riverline/multipart-parser/zipball/675d35cb42d2b32c56a8d5ed4dca8331a043cd58",
+                "reference": "675d35cb42d2b32c56a8d5ed4dca8331a043cd58",
                 "shasum": ""
             },
             "require": {
@@ -4243,10 +4243,10 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
+                "laminas/laminas-diactoros": "^1.8.7",
                 "phpunit/phpunit": "^5.2 || ^6.0 || ^7.0",
                 "psr/http-message": "^1.0",
-                "symfony/psr-http-message-bridge": "^1.1",
-                "zendframework/zend-diactoros": "^1.0"
+                "symfony/psr-http-message-bridge": "^1.1"
             },
             "type": "library",
             "autoload": {
@@ -4274,7 +4274,7 @@
                 "multipart",
                 "parser"
             ],
-            "time": "2019-12-16T11:23:08+00:00"
+            "time": "2020-01-20T15:25:10+00:00"
         },
         {
             "name": "rize/uri-template",
