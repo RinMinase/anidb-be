@@ -26,6 +26,7 @@ $app->singleton(
 
 /* Register Middleware and Providers */
 
+$app->middleware([ App\Http\Middleware\CorsMiddleware::class ]);
 $app->routeMiddleware([ 'auth' => App\Middleware\Authenticate::class ]);
 $app->register(App\Middleware\AuthServiceProvider::class);
 
