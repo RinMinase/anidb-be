@@ -1,5 +1,10 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, api-key, token');
+set_time_limit(0);
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
@@ -26,7 +31,6 @@ $app->singleton(
 
 /* Register Middleware and Providers */
 
-$app->middleware([ App\Middleware\CorsMiddleware::class ]);
 $app->routeMiddleware([ 'auth' => App\Middleware\Authenticate::class ]);
 $app->register(App\Middleware\AuthServiceProvider::class);
 
