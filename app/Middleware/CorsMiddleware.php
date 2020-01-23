@@ -1,4 +1,6 @@
-<?php namespace App\Middleware;
+<?php
+
+namespace App\Middleware;
 
 use Closure;
 
@@ -13,14 +15,12 @@ class CorsMiddleware {
 			'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With'
 		];
 
-		if ($request->isMethod('OPTIONS'))
-		{
+		if ($request->isMethod('OPTIONS')) {
 			return response()->json('{"method":"OPTIONS"}', 200, $headers);
 		}
 
 		$response = $next($request);
-		foreach($headers as $key => $value)
-		{
+		foreach($headers as $key => $value) {
 			$response->header($key, $value);
 		}
 
