@@ -180,7 +180,7 @@ Where:
 _Add info here_
 
 ## Built with
-* <img width=20 height=20 src="https://lumen.laravel.com/img/favicons/favicon-32x32.png"> [Lumen 6.2](https://lumen.laravel.com/) - Web Framework
+* <img width=20 height=20 src="https://lumen.laravel.com/img/favicons/favicon-32x32.png"> [Lumen 6.2](https://lumen.laravel.com/) - API Framework
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 6](https://laravel.com/) - Core Framework
 * <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 7.3](https://php.net/) - Language syntax
 * <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database
