@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="../bootstrap/app.php"
+         bootstrap="bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
+         processIsolation="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         verbose="true">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./cases</directory>

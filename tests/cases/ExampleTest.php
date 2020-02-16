@@ -14,8 +14,11 @@ class ExampleTest extends TestCase
 	{
 		$this->get('/');
 
-		$this->assertEquals(
-			$this->app->version(), $this->response->getContent()
+		$app_version = explode(' ', $this->app->version())[1];
+		$app_version = substr($app_version, 1, -1);
+
+		$this->assertStringContainsString(
+			$app_version, $this->response->getContent()
 		);
 	}
 }
