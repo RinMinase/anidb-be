@@ -14,7 +14,7 @@
     "watch": "nodemon -e php -x npm run docs -w docs/"
   },
   "dependencies": {
-    "apidoc": "^0.19.1"
+    "apidoc": "^0.20.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
