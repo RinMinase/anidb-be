@@ -10,18 +10,22 @@
  * @apiParam {String='hdd','release','title'} [group] Grouping
  *
  * @apiSuccess {Object[]} data Anime Data
- * @apiSuccess {Number} dateFinished Date Finished in Unix formatting
- * @apiSuccess {Number} duration Duration in seconds
- * @apiSuccess {Number} filesize Filesize in bytes
- * @apiSuccess {Boolean} inhdd Flag if title is located in HDD
- * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} quality Video quality
- * @apiSuccess {Object} rating Rating of Audio, Enjoyment, Graphics and Plot
- * @apiSuccess {String='Winter','Spring','Summer','Fall'} releaseSeason Season in which the title was released
- * @apiSuccess {String} releaseYear Year in which the title was released converted to String
- * @apiSuccess {String} rewatch Comma-separated string for rewatches in Unix formatted dates
- * @apiSuccess {Number} rewatchLast Last rewatched date in Unix formatting
- * @apiSuccess {String} variants Comma-separated title variants
- * @apiSuccess {Number=0,1,2} watchStatus 0 = Unwatched, 1 = Watched, 2 = Downloaded
+ * @apiSuccess {Number} data.dateFinished Date Finished in Unix formatting
+ * @apiSuccess {Number} data.duration Duration in seconds
+ * @apiSuccess {Number} data.filesize Filesize in bytes
+ * @apiSuccess {Boolean} data.inhdd Flag if title is located in HDD
+ * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
+ * @apiSuccess {Object} data.rating Rating of Audio, Enjoyment, Graphics and Plot
+ * @apiSuccess {Number} data.rating.audio Rating of Audio quality
+ * @apiSuccess {Number} data.rating.enjoyment Rating of Enjoyment
+ * @apiSuccess {Number} data.rating.graphics Rating of Graphics quality
+ * @apiSuccess {Number} data.rating.plot Rating of Plot depth
+ * @apiSuccess {String='Winter','Spring','Summer','Fall'} data.releaseSeason Season in which the title was released
+ * @apiSuccess {String} data.releaseYear Year in which the title was released converted to String
+ * @apiSuccess {String} data.rewatch Comma-separated string for rewatches in Unix formatted dates
+ * @apiSuccess {Number} data.rewatchLast Last rewatched date in Unix formatting
+ * @apiSuccess {String} data.variants Comma-separated title variants
+ * @apiSuccess {Number=0,1,2} data.watchStatus 0 = Unwatched, 1 = Watched, 2 = Downloaded
  *
  * @apiSuccessExample Success Response
  *     HTTP/1.1 200 OK
@@ -79,18 +83,22 @@
  * @apiHeader {String} token User login token
  *
  * @apiSuccess {Object} data Anime Data
- * @apiSuccess {Number} dateFinished Date Finished in Unix formatting
- * @apiSuccess {Number} duration Duration in seconds
- * @apiSuccess {Number} filesize Filesize in bytes
- * @apiSuccess {Boolean} inhdd Flag if title is located in HDD
- * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} quality Video quality
- * @apiSuccess {Object} rating Rating of Audio, Enjoyment, Graphics and Plot
- * @apiSuccess {String='Winter','Spring','Summer','Fall'} releaseSeason Season in which the title was released
- * @apiSuccess {String} releaseYear Year in which the title was released converted to String
- * @apiSuccess {String} rewatch Comma-separated string for rewatches in Unix formatted dates
- * @apiSuccess {Number} rewatchLast Last rewatched date in Unix formatting
- * @apiSuccess {String} variants Comma-separated title variants
- * @apiSuccess {Number=0,1,2} watchStatus 0 = Unwatched, 1 = Watched, 2 = Downloaded
+ * @apiSuccess {Number} data.dateFinished Date Finished in Unix formatting
+ * @apiSuccess {Number} data.duration Duration in seconds
+ * @apiSuccess {Number} data.filesize Filesize in bytes
+ * @apiSuccess {Boolean} data.inhdd Flag if title is located in HDD
+ * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
+ * @apiSuccess {Object} data.rating Rating of Audio, Enjoyment, Graphics and Plot
+ * @apiSuccess {Number} data.rating.audio Rating of Audio quality
+ * @apiSuccess {Number} data.rating.enjoyment Rating of Enjoyment
+ * @apiSuccess {Number} data.rating.graphics Rating of Graphics quality
+ * @apiSuccess {Number} data.rating.plot Rating of Plot depth
+ * @apiSuccess {String='Winter','Spring','Summer','Fall'} data.releaseSeason Season in which the title was released
+ * @apiSuccess {String} data.releaseYear Year in which the title was released converted to String
+ * @apiSuccess {String} data.rewatch Comma-separated string for rewatches in Unix formatted dates
+ * @apiSuccess {Number} data.rewatchLast Last rewatched date in Unix formatting
+ * @apiSuccess {String} data.variants Comma-separated title variants
+ * @apiSuccess {Number=0,1,2} data.watchStatus 0 = Unwatched, 1 = Watched, 2 = Downloaded
  *
  * @apiSuccessExample Success Response
  *     HTTP/1.1 200 OK
@@ -157,10 +165,10 @@
  * @apiParam {String} [prequel] Title of prequel
  * @apiParam {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} [quality='FHD 1080p'] Video quality
  * @apiParam {Object} [rating] Rating of Audio, Enjoyment, Graphics and Plot
- * @apiParam {Object} [rating.audio] Rating of Audio quality
- * @apiParam {Object} [rating.enjoyment] Rating of Enjoyment
- * @apiParam {Object} [rating.graphics] Rating of Graphics quality
- * @apiParam {Object} [rating.plot] Rating of Plot depth
+ * @apiParam {Number} [rating.audio] Rating of Audio quality
+ * @apiParam {Number} [rating.enjoyment] Rating of Enjoyment
+ * @apiParam {Number} [rating.graphics] Rating of Graphics quality
+ * @apiParam {Number} [rating.plot] Rating of Plot depth
  * @apiParam {String='Winter','Spring','Summer','Fall'} [releaseSeason] Season in which the title was released
  * @apiParam {String} [releaseYear] Year in which the title was released converted to String
  * @apiParam {String} [remarks] Any comments or remarks
