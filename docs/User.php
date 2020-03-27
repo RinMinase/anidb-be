@@ -23,20 +23,28 @@
  *       "timeout": "{{ timestamp }}"
  *     }
  *
- * @apiError Invalid Either the Username or Password of the User is invalid
+ * @apiError Invalid Either the Username or Password is not provided
+ * @apiError InvalidCredentials Either the Username or Password of the User is invalid
  * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
  *
  * @apiErrorExample Invalid
  *     HTTP/1.1 400 Bad Request
  *     {
- *       "status": "Invalid",
- *       "message": "Username or Password is invalid"
+ *       "status": 400,
+ *       "message": "username and password fields are required"
+ *     }
+ *
+ * @apiErrorExample InvalidCredentials
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "status": 400,
+ *       "message": "username or password is invalid"
  *     }
  *
  * @apiErrorExample Unauthorized
  *     HTTP/1.1 401 Forbidden
  *     {
- *       "status": "Unauthorized",
+ *       "status": 401,
  *       "message": "Unauthorized"
  *     }
  */
@@ -55,32 +63,32 @@
  * @apiSuccessExample Success Response
  *     HTTP/1.1 200 OK
  *     {
- *       "status": "Success",
- *       "message": "User has been logged-out"
+ *       "status": 200,
+ *       "message": "Success"
  *     }
  *
- * @apiError Invalid Login session is not found
- * @apiError InvalidToken There is no token provided, or the token provided is invalid
+ * @apiError Invalid There is no token provided
+ * @apiError InvalidToken The token provided is invalid
  * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
  *
  * @apiErrorExample Invalid
  *     HTTP/1.1 400 Bad Request
  *     {
- *       "status": "Invalid",
- *       "message": "Username or Password is invalid"
+ *       "status": 400,
+ *       "message": "token is required"
  *     }
  *
  * @apiErrorExample InvalidToken
  *     HTTP/1.1 400 Bad Request
  *     {
- *       "status": "InvalidToken",
- *       "message": "Session Token not found or invalid"
+ *       "status": 400,
+ *       "message": "Session Token not found"
  *     }
  *
  * @apiErrorExample Unauthorized
  *     HTTP/1.1 401 Forbidden
  *     {
- *       "status": "Unauthorized",
+ *       "status": 401,
  *       "message": "Unauthorized"
  *     }
  */

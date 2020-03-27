@@ -10,23 +10,35 @@ class UserController {
 
 	public function login(Request $request) {
 		if ($request->header('api-key') !== env('API_KEY')) {
-			return response('Unauthorized', 401);
+			return response([
+				'status' => 401,
+				'message' => 'Unauthorized',
+			], 401);
 		}
 
 		if (!$request->input('username') || !$request->input('password')) {
-			return response('"username" and "password" fields are required', 400);
+			return response([
+				'status' => 400,
+				'message' => '"username" and "password" fields are required',
+			], 400);
 		}
 
 		$user = app('mongo')->users->findOne(['username' => $request->input('username')]);
 
 		if (!isset($user)) {
-			return response('"username" or "password" is invalid', 400);
+			return response([
+				'status' => 400,
+				'message' => '"username" or "password" is invalid',
+			], 400);
 		}
 
 		$isVerified = password_verify($request->input('password'), $user->password);
 
 		if (!$isVerified) {
-			return response('"username" or "password" is invalid', 400);
+			return response([
+				'status' => 400,
+				'message' => '"username" or "password" is invalid',
+			], 400);
 		}
 
 		$this->checkIfUserIsLoggedIn($user);
@@ -47,15 +59,24 @@ class UserController {
 		}
 
 		if (!$request->input('token')) {
-			return response('"token" is required', 400);
+			return response([
+				'status' => 400,
+				'message' => '"token" is required',
+			], 400);
 		}
 
 		$query = app('mongo')->session->deleteOne([ 'token' => $request->input('token') ]);
 
 		if ($query->getDeletedCount()) {
-			return response('Sucess');
+			return response([
+				'status' => 200,
+				'message' => 'Success',
+			], 200);
 		} else {
-			return response('Session token not found', 400);
+			return response([
+				'status' => 400,
+				'message' => 'Session token not found',
+			], 400);
 		}
 	}
 
