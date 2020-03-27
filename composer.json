@@ -30,7 +30,7 @@
         "mailgun/mailgun-php": "^3.0",
         "mongodb/mongodb": "1.4.3",
         "nyholm/psr7": "^1.2",
-        "phpoffice/phpspreadsheet": "^1.10.1"
+        "phpoffice/phpspreadsheet": "^1.11"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9",
