@@ -24,7 +24,7 @@
         "php": "^7.2.5",
         "fabpot/goutte": "^3.3",
         "guzzlehttp/guzzle": "^6.5",
-        "kreait/firebase-php": "^4.39",
+        "kreait/firebase-php": "^4.41",
         "kriswallsmith/buzz": "^1.1",
         "laravel/lumen-framework": "^7.0",
         "mailgun/mailgun-php": "^3.0",
