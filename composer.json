@@ -23,6 +23,7 @@
     "require": {
         "php": "^7.2.5",
         "fabpot/goutte": "^3.3",
+        "filp/whoops": "^2.7",
         "guzzlehttp/guzzle": "^6.5",
         "kreait/firebase-php": "^4.41",
         "kriswallsmith/buzz": "^1.1",
