@@ -46,7 +46,7 @@ RUN echo "export COMPOSER_ALLOW_SUPERUSER=1" > ~/.bashrc
 # Composer Autocomplete
 ###########################################################################
 
-RUN curl -#L https://git.io/JfUy0 \
+RUN curl -#L https://git.io/JfUy0 -o composer-autocomplete \
 	&& mv ./composer-autocomplete ~/composer-autocomplete
 
 RUN echo "" >> ~/.bashrc \
