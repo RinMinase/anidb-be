@@ -98,12 +98,13 @@ if (!env('DISABLE_FIREBASE')) {
 		'private_key' => env('FIRE_KEY', ''),
 		'client_email' => env('FIRE_EMAIL', ''),
 		'client_id' => env('FIRE_CLIENT_ID', ''),
+		'type' => 'service_account',
 	]);
 
 	$validatedCreds = str_replace('\\\\n', '\\n', $creds);
 
 	$app->firebase = (new Kreait\Firebase\Factory)
-		-> withServiceAccount(Kreait\Firebase\ServiceAccount::fromJson($validatedCreds))
+		-> withServiceAccount(Kreait\Firebase\ServiceAccount::fromValue($validatedCreds))
 		-> withDisabledAutoDiscovery()
 		-> createStorage();
 }
