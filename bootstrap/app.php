@@ -4,10 +4,12 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, api-key, token');
 set_time_limit(0);
+date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
+
 
 /* Create The Application */
 
@@ -16,16 +18,18 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 // $app->withEloquent();
 
 
+/* Register Error Handler */
+
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
+
+
 /* Register Container Bindings */
 
 $app->singleton(
 	Illuminate\Contracts\Console\Kernel::class,
 	App\Commands\Kernel::class
-);
-
-$app->singleton(
-	Illuminate\Contracts\Debug\ExceptionHandler::class,
-	Laravel\Lumen\Exceptions\Handler::class
 );
 
 
