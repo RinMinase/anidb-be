@@ -3,28 +3,28 @@ ARG PHP_VERSION
 FROM php:${PHP_VERSION}-fpm-alpine
 
 RUN set -xe; \
-    apk add --no-cache \
-    bash \
-    libzip-dev \
-    openssl-dev \
-    autoconf \
-    make \
-    g++ \
-    libpng-dev
+		apk add --no-cache \
+		bash \
+		libzip-dev \
+		openssl-dev \
+		autoconf \
+		make \
+		g++ \
+		libpng-dev
 
 ###########################################################################
 # PHP Extensions
 ###########################################################################
 
 RUN docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-install zip
+		docker-php-ext-install zip
 
 ###########################################################################
 # MongoDB: Requires openssl-dev, autoconf, make and g++
 ###########################################################################
 
 RUN pecl install mongodb && \
-    docker-php-ext-enable mongodb
+		docker-php-ext-enable mongodb
 
 ###########################################################################
 # PHPSpreadsheet: Requires libpng-dev
@@ -43,13 +43,25 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN echo "export COMPOSER_ALLOW_SUPERUSER=1" > ~/.bashrc
 
 ###########################################################################
+# Composer Autocomplete
+###########################################################################
+
+RUN curl -#L https://git.io/JfUy0 \
+	&& mv ./composer-autocomplete ~/composer-autocomplete
+
+RUN echo "" >> ~/.bashrc \
+	&& echo 'if [ -f "$HOME/composer-autocomplete" ] ; then' >> ~/.bashrc \
+	&& echo '    . $HOME/composer-autocomplete' >> ~/.bashrc \
+	&& echo "fi" >> ~/.bashrc
+
+###########################################################################
 # NodeJS for APIDoc
 ###########################################################################
 
 RUN set -xe; \
-    apk add --no-cache \
-    nodejs \
-    npm
+		apk add --no-cache \
+		nodejs \
+		npm
 
 ###########################################################################
 # Final Setup
