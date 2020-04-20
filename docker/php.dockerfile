@@ -61,7 +61,8 @@ RUN echo "" >> ~/.bashrc \
 RUN set -xe; \
 		apk add --no-cache \
 		nodejs \
-		npm
+		npm \
+		yarn
 
 ###########################################################################
 # Final Setup
