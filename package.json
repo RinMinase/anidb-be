@@ -17,6 +17,6 @@
     "apidoc": "^0.20.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3"
   }
 }
