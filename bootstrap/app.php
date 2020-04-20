@@ -24,10 +24,16 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 /* Register Error Handler */
 
-$whoops = new \Whoops\Run;
-$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-$whoops->register();
-
+if (env('APP_DEBUG')) {
+	$whoops = new \Whoops\Run;
+	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+	$whoops->register();
+} else {
+	$app->singleton(
+		Illuminate\Contracts\Console\Kernel::class,
+		Laravel\Lumen\Exceptions\Handler::class
+	);
+}
 
 /* Register Container Bindings */
 
