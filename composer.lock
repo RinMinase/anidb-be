@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a85ef2b5b34c7fc983d374d37611058",
+    "content-hash": "813f637e12eb6fce168a3f5b0c0c8558",
     "packages": [
         {
             "name": "brick/math",
@@ -589,16 +589,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.2",
+            "version": "8.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "030682bc4fcdc0c6fb85b68aec2ffeff6978768a"
+                "reference": "efe098354b5dd49a5457d9e35aa92298de736343"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/030682bc4fcdc0c6fb85b68aec2ffeff6978768a",
-                "reference": "030682bc4fcdc0c6fb85b68aec2ffeff6978768a",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/efe098354b5dd49a5457d9e35aa92298de736343",
+                "reference": "efe098354b5dd49a5457d9e35aa92298de736343",
                 "shasum": ""
             },
             "require": {
@@ -653,7 +653,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-04-22T19:37:04+00:00"
+            "time": "2020-05-06T11:46:14+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -2338,16 +2338,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "5.1.1",
+            "version": "5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "ec99153ae1fcfc69edbcdbc86a11db07338496ba"
+                "reference": "6b5eff9b371bf838c3c72efa51df6545fcd1439c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/ec99153ae1fcfc69edbcdbc86a11db07338496ba",
-                "reference": "ec99153ae1fcfc69edbcdbc86a11db07338496ba",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/6b5eff9b371bf838c3c72efa51df6545fcd1439c",
+                "reference": "6b5eff9b371bf838c3c72efa51df6545fcd1439c",
                 "shasum": ""
             },
             "require": {
@@ -2413,7 +2413,13 @@
                 "google",
                 "sdk"
             ],
-            "time": "2020-04-16T14:33:24+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/jeromegamez",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-05-03T15:57:15+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
