@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "license": "MIT",
   "author": "Rin Minase",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/RinMinase/anidb-be.git"
