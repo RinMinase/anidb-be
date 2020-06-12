@@ -46,13 +46,13 @@ RUN echo "export COMPOSER_ALLOW_SUPERUSER=1" > ~/.bashrc
 # Composer Autocomplete
 ###########################################################################
 
-RUN curl -#L https://git.io/JfUy0 -o composer-autocomplete \
-	&& mv ./composer-autocomplete ~/composer-autocomplete
+# RUN curl -#L https://git.io/JfUy0 -o composer-autocomplete \
+# 	&& mv ./composer-autocomplete ~/composer-autocomplete
 
-RUN echo "" >> ~/.bashrc \
-	&& echo 'if [ -f "$HOME/composer-autocomplete" ] ; then' >> ~/.bashrc \
-	&& echo '    . $HOME/composer-autocomplete' >> ~/.bashrc \
-	&& echo "fi" >> ~/.bashrc
+# RUN echo "" >> ~/.bashrc \
+# 	&& echo 'if [ -f "$HOME/composer-autocomplete" ] ; then' >> ~/.bashrc \
+# 	&& echo '    . $HOME/composer-autocomplete' >> ~/.bashrc \
+# 	&& echo "fi" >> ~/.bashrc
 
 ###########################################################################
 # NodeJS for APIDoc
