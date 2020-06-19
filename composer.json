@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.3",
         "fabpot/goutte": "^3.3",
         "filp/whoops": "^2.7",
         "guzzlehttp/guzzle": "^6.5",
