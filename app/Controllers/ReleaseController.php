@@ -8,13 +8,12 @@ class ReleaseController {
 
 	public function changelog($limit = 20) {
 		$data = app('release')
-			->get('commits', [
+			->request('GET', 'commits', [
 				'query' => [
 					'per_page' => $limit,
 				],
 			])
-			->getBody()
-			->getContents();
+			->getContent();
 
 		$data = $this->parseChangelog($data);
 
@@ -23,13 +22,12 @@ class ReleaseController {
 
 	public function changelogBE($limit = 20) {
 		$data = app('release_be')
-			->get('commits', [
+			->request('GET', 'commits', [
 				'query' => [
 					'per_page' => $limit,
 				],
 			])
-			->getBody()
-			->getContents();
+			->getContent();
 
 		$data = $this->parseChangelog($data);
 
