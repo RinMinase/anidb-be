@@ -22,7 +22,6 @@
     ],
     "require": {
         "php": "^7.3",
-        "filp/whoops": "^2.9",
         "kreait/firebase-php": "^5.11",
         "laravel/lumen-framework": "^8.2",
         "mailgun/mailgun-php": "^3.1",
@@ -33,6 +32,7 @@
         "symfony/http-client": "^5.1"
     },
     "require-dev": {
+        "filp/whoops": "^2.9",
         "fzaninotto/faker": "^1.9",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.4"
