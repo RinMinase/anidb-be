@@ -22,25 +22,19 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 // $app->withEloquent();
 
 
-/* Register Error Handler */
+/* Register Error Handler and Container Bindings */
+
+use Illuminate\Contracts\Console\Kernel;
 
 if (env('APP_DEBUG')) {
 	$whoops = new \Whoops\Run;
 	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 	$whoops->register();
 } else {
-	$app->singleton(
-		Illuminate\Contracts\Console\Kernel::class,
-		Laravel\Lumen\Exceptions\Handler::class
-	);
+	$app->singleton(Kernel::class, Laravel\Lumen\Exceptions\Handler::class);
 }
 
-/* Register Container Bindings */
-
-$app->singleton(
-	Illuminate\Contracts\Console\Kernel::class,
-	App\Commands\Kernel::class
-);
+$app->singleton(Kernel::class, App\Commands\Kernel::class);
 
 
 /* Register Middleware and Providers */
@@ -60,7 +54,7 @@ $app->router->group([
 ], function ($router) { require __DIR__.'/routes.php'; });
 
 
-/* Register Goute and Guzzle */
+/* Register Web Scrapers */
 
 use Symfony\Component\HttpClient\HttpClient;
 
