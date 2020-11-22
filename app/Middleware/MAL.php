@@ -5,13 +5,17 @@ namespace App\Middleware;
 use Exception;
 use App\Models\Anime;
 use App\Models\AnimeSearch;
+use Symfony\Component\DomCrawler\Crawler;
 
 class MAL {
 
 	public function anime($id) {
 		try {
-			return Anime::parse(app('goutte')
-				->request('GET', 'https://' . env('SCRAPER_BASE_URI') . '/anime/' . $id));
+			$html = app('scraper')
+				->request('GET', '/anime/' . $id)
+				->getContent();
+
+			return Anime::parse(new Crawler($html));
 		} catch (Exception $e) {
 			if (env('APP_DEBUG')) {
 				throw new Exception('Issues in connecting to MAL Servers');
@@ -26,12 +30,11 @@ class MAL {
 
 	public function search($query) {
 		try {
-			// Commented as Base URI is not currently working properly with Goutte
-			// https://github.com/FriendsOfPHP/Goutte/issues/427
+			$html = app('scraper')
+				->request('GET', 'anime.php?q=' . urldecode($query))
+				->getContent();
 
-			return AnimeSearch::parse(app('goutte')
-				->request('GET', 'https://' . env('SCRAPER_BASE_URI') . '/anime.php?q=' . urldecode($query)));
-			// return AnimeSearch::parse(app('goutte')->request('GET', '/anime.php?q=' . urldecode($query)));
+			return AnimeSearch::parse(new Crawler($html));
 		} catch (Exception $e) {
 			if (env('APP_DEBUG')) {
 				throw new Exception('Issues in connecting to MAL Servers');
