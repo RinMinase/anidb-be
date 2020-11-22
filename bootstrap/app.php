@@ -62,18 +62,14 @@ $app->router->group([
 
 /* Register Goute and Guzzle */
 
-use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
 
 if (!env('DISABLE_SCRAPER')) {
 	if (env('SCRAPER_BASE_URI')) {
-		// Commented as Base URI is not currently working properly with Goutte
-		// https://github.com/FriendsOfPHP/Goutte/issues/427
-
-		$app->goutte = new Client(HttpClient::create([
-		// 	'base_uri' => 'https://' . env('SCRAPER_BASE_URI'),
+		$app->scraper = HttpClient::create([
+			'base_uri' => 'https://' . env('SCRAPER_BASE_URI'),
 			'timeout' => 10,
-		]));
+		]);
 	} else {
 		throw new Exception('Web Scraper configuration not found');
 	}
