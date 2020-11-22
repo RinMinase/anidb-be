@@ -33,7 +33,6 @@
     },
     "require-dev": {
         "filp/whoops": "^2.9",
-        "fzaninotto/faker": "^1.9",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.4"
     },
