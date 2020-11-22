@@ -36,14 +36,13 @@ class ReleaseController {
 
 	public function issues($limit = 100) {
 		$data = app('release')
-			->get('issues', [
+			->request('GET', 'issues', [
 				'query' => [
 					'per_page' => $limit,
 					'page' => 1,
 				],
 			])
-			->getBody()
-			->getContents();
+			->getContent();
 
 		$data = $this->parseIssues($data);
 
