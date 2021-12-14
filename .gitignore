@@ -5,6 +5,7 @@
 /vendor
 /docker/logs/
 /node_modules
+/.DS_Store
 
 # Homestead, Vagrant and IDE Files
 Homestead.json
