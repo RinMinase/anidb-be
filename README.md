@@ -106,6 +106,7 @@ DISABLE_MAILGUN  - Disables Mailgun
 
     ```
     cp .env.example .env
+    npm install
     composer install
     php bootstrap/artisan api:generate
     ```
