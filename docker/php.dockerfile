@@ -62,8 +62,7 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN set -xe; \
 		apk add --no-cache \
 		nodejs \
-		npm \
-		yarn
+		npm
 
 ###########################################################################
 # Final Setup
