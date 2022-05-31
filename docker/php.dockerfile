@@ -23,8 +23,8 @@ RUN docker-php-ext-configure zip --with-libzip && \
 # MongoDB: Requires openssl-dev, autoconf, make and g++
 ###########################################################################
 
-RUN pecl install mongodb && \
-		docker-php-ext-enable mongodb
+# RUN pecl install mongodb && \
+# 		docker-php-ext-enable mongodb
 
 ###########################################################################
 # PHPSpreadsheet: Requires libpng-dev
