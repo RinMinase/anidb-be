@@ -1,6 +1,8 @@
 # General files and directories
 .env
 .phpunit.result.cache
+npm-debug.log
+yarn-error.log
 /.sonarlint
 /vendor
 /docker/logs/
@@ -13,7 +15,10 @@ Homestead.yaml
 /.vagrant
 /.idea
 
-/storage/
+# Others
+/storage/*.key
 /public/docs
 
+/public/hot
+/public/storage
 /public/deploy-status
