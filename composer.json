@@ -53,14 +53,14 @@
             "mkdir -p storage/framework/cache && mkdir -p storage/framework/views"
         ],
         "post-autoload-dump": [
-            "npm i && npm run docs",
+            "npm i || npm run docs || true",
             "touch public/deploy-status"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "docs": [
-            "npm i && npm run docs"
+            "npm i || npm run docs || true"
         ],
         "test": [
             "phpunit -c tests/phpunit.xml"
