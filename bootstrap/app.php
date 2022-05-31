@@ -1,136 +1,55 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, api-key, token');
-set_time_limit(0);
+/*
+|--------------------------------------------------------------------------
+| Create The Application
+|--------------------------------------------------------------------------
+|
+| The first thing we will do is create a new Laravel application instance
+| which serves as the "glue" for all the components of Laravel, and is
+| the IoC container for the system binding all of the various parts.
+|
+*/
 
-require_once __DIR__.'/../vendor/autoload.php';
+$app = new Illuminate\Foundation\Application(
+    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+);
 
-(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
+/*
+|--------------------------------------------------------------------------
+| Bind Important Interfaces
+|--------------------------------------------------------------------------
+|
+| Next, we need to bind some important interfaces into the container so
+| we will be able to resolve them when needed. The kernels serve the
+| incoming requests to this application from both the web and CLI.
+|
+*/
 
+$app->singleton(
+    Illuminate\Contracts\Http\Kernel::class,
+    App\Console\HttpKernel::class
+);
 
-/* Set the default timezone */
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\ConsoleKernel::class
+);
 
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
 
+/*
+|--------------------------------------------------------------------------
+| Return The Application
+|--------------------------------------------------------------------------
+|
+| This script returns the application instance. The instance is given to
+| the calling script so we can separate the building of the instances
+| from the actual running of the application and sending responses.
+|
+*/
 
-/* Create The Application */
-
-$app = new Laravel\Lumen\Application(dirname(__DIR__));
-// $app->withFacades();
-// $app->withEloquent();
-
-
-/* Register Error Handler and Container Bindings */
-
-use Illuminate\Contracts\Console\Kernel;
-
-if (env('APP_DEBUG')) {
-	$whoops = new \Whoops\Run;
-	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-	$whoops->register();
-} else {
-	$app->singleton(Kernel::class, Laravel\Lumen\Exceptions\Handler::class);
-}
-
-$app->singleton(Kernel::class, App\Commands\Kernel::class);
-
-
-/* Register Middleware and Providers */
-
-$app->routeMiddleware([ 'auth' => App\Middleware\Authenticate::class ]);
-$app->register(App\Middleware\AuthServiceProvider::class);
-
-if (!env('DISABLE_SCRAPER')) {
-	$app->mal = new App\Middleware\MAL();
-}
-
-
-/* Load The Application Routes */
-
-$app->router->group([
-	'namespace' => 'App\Controllers',
-], function ($router) { require __DIR__.'/routes.php'; });
-
-
-/* Register Web Scrapers */
-
-use Symfony\Component\HttpClient\HttpClient;
-
-if (!env('DISABLE_SCRAPER')) {
-	if (env('SCRAPER_BASE_URI')) {
-		$app->scraper = HttpClient::create([
-			'base_uri' => 'https://' . env('SCRAPER_BASE_URI'),
-			'timeout' => 10,
-		]);
-	} else {
-		throw new Exception('Web Scraper configuration not found');
-	}
-
-	if (env('RELEASE_BASE_URI')) {
-		$app->release = HttpClient::create([
-			'base_uri' => 'https://' . env('RELEASE_BASE_URI') . '/',
-			'timeout' => 10,
-		]);
-
-		$app->release_be = HttpClient::create([
-			'base_uri' => 'https://' . env('RELEASE_BASE_URI') . '-be/',
-			'timeout' => 10,
-		]);
-	} else {
-		throw new Exception('Release URL configuration not found');
-	}
-}
-
-
-/* Register Firebase DB */
-
-if (!env('DISABLE_FIREBASE')) {
-	$creds = json_encode([
-		'project_id' => env('FIRE_PROJECT_ID', ''),
-		'private_key' => env('FIRE_KEY', ''),
-		'client_email' => env('FIRE_EMAIL', ''),
-		'client_id' => env('FIRE_CLIENT_ID', ''),
-		'type' => 'service_account',
-	]);
-
-	$validatedCreds = str_replace('\\\\n', '\\n', $creds);
-
-	$app->firebase = (new Kreait\Firebase\Factory)
-		-> withServiceAccount(Kreait\Firebase\ServiceAccount::fromValue($validatedCreds))
-		-> withDisabledAutoDiscovery()
-		-> createStorage();
-}
-
-
-/* Register Mongo DB */
-
-if (!env('DISABLE_DB')) {
-	if (env('DB_USERNAME') && env('DB_PASSWORD') && env('DB_CLUSTER') && env('DB_DATABASE')) {
-		$mongoURI = 'mongodb+srv://'
-			. env('DB_USERNAME', '') . ':'
-			. env('DB_PASSWORD', '') . '@'
-			. env('DB_CLUSTER', '') . '/'
-			. env('DB_DATABASE', '') . '?retryWrites=true&w=majority';
-
-		$app->mongo = (new MongoDB\Client($mongoURI))->anidb;
-	} else {
-		throw new Exception('MongoDB Atlas configuration not found');
-	}
-}
-
-
-/* Register Mailgun */
-
-if (!env('DISABLE_MAILGUN')) {
-	if (env('MAILGUN_API_KEY') && env('MAILGUN_DOMAIN')) {
-		$app->mail = Mailgun\Mailgun::create(env('MAILGUN_API_KEY'));
-	} else {
-		throw new Exception('Mailgun configuration not found');
-	}
-}
-
-
-/* Return Application Configurations */
 return $app;
