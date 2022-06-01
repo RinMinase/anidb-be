@@ -24,7 +24,10 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "nyholm/psr7": "^1.5",
+        "symfony/dom-crawler": "^5.4",
+        "symfony/http-client": "^5.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
