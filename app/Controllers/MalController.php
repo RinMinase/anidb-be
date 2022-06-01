@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 use App\Models\Anime;
