@@ -19,7 +19,7 @@ class MalController extends Controller {
   public function index($params) {
     if (!env('DISABLE_SCRAPER')) {
       if (env('SCRAPER_BASE_URI')) {
-        $this->scrape($params);
+        return $this->scrape($params);
       } else {
         throw new Exception('Web Scraper configuration not found');
       }
@@ -36,9 +36,8 @@ class MalController extends Controller {
 
   private function getAnime($id = 37430) {
     try {
-      $html = Http::get($this->scrapeURI . '/anime/' . $id)->body();
-
-      return Anime::parse(new Crawler($html));
+      $data = Http::get($this->scrapeURI . '/anime/' . $id)->body();
+      $data = Anime::parse(new Crawler($data))->get();
     } catch (Exception $e) {
       if (env('APP_DEBUG')) {
         throw new Exception('Issues in connecting to MAL Servers');
@@ -54,12 +53,9 @@ class MalController extends Controller {
   }
 
   private function searchAnime($query) {
-    $data = app('mal')->search($query)->get();
-
     try {
-      $html = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query))->body();
-
-      return AnimeSearch::parse(new Crawler($html));
+      $data = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query))->body();
+      $data = AnimeSearch::parse(new Crawler($data))->get();
     } catch (Exception $e) {
       if (env('APP_DEBUG')) {
         throw new Exception('Issues in connecting to MAL Servers');
