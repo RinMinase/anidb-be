@@ -13,7 +13,7 @@ class MalController extends Controller {
   protected $scrapeURI;
 
   public function __construct() {
-    $this->scrapeURI = env('SCRAPER_BASE_URI') || null;
+    $this->scrapeURI = env('SCRAPER_BASE_URI', null);
   }
 
   public function index($params) {
