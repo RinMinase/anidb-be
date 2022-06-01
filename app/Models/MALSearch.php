@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Symfony\Component\DomCrawler\Crawler;
 
-class AnimeSearch {
+class MALSearch {
 
   private $results;
 
@@ -12,7 +12,7 @@ class AnimeSearch {
     return $this->results;
   }
 
-  public static function parse($input): AnimeSearch {
+  public static function parse($input): MALSearch {
     $instance = new self();
     $instance->results = $instance->parseResults($input);
 

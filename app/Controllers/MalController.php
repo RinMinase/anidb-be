@@ -5,8 +5,8 @@ namespace App\Controllers;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
-use App\Models\Anime;
-use App\Models\AnimeSearch;
+use App\Models\MALEntry;
+use App\Models\MALSearch;
 
 class MalController extends Controller {
 
@@ -37,7 +37,7 @@ class MalController extends Controller {
   private function getAnime($id = 37430) {
     try {
       $data = Http::get($this->scrapeURI . '/anime/' . $id)->body();
-      $data = Anime::parse(new Crawler($data))->get();
+      $data = MALEntry::parse(new Crawler($data))->get();
     } catch (Exception $e) {
       if (env('APP_DEBUG')) {
         throw new Exception('Issues in connecting to MAL Servers');
@@ -55,7 +55,7 @@ class MalController extends Controller {
   private function searchAnime($query) {
     try {
       $data = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query))->body();
-      $data = AnimeSearch::parse(new Crawler($data))->get();
+      $data = MALSearch::parse(new Crawler($data))->get();
     } catch (Exception $e) {
       if (env('APP_DEBUG')) {
         throw new Exception('Issues in connecting to MAL Servers');

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Anime {
+class MALEntry {
 
   private $url;
   private $title;
@@ -40,7 +40,7 @@ class Anime {
     return $this->premiered;
   }
 
-  public static function parse($input): Anime {
+  public static function parse($input): MALEntry {
     $instance = new self();
 
     $instance->url = $input->filterXPath('//meta[@property=\'og:url\']')->attr('content');
