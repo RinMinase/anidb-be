@@ -6,8 +6,8 @@
  * @apiGroup User
  *
  * @apiHeader {String} api-key Back-end API Key
- * @apiParam {String} username Username
- * @apiParam {String} password Password
+ * @apiBody {String} username Username
+ * @apiBody {String} password Password
  *
  * @apiSuccess {String} username Username of the Logged-in user
  * @apiSuccess {String} role Role of the Logged-in user
@@ -55,7 +55,7 @@
  * @apiGroup User
  *
  * @apiHeader {String} api-key Back-end API Key
- * @apiParam {String} token Token received from logging-in
+ * @apiBody {String} token Token received from logging-in
  *
  * @apiSuccess {String} status Status code
  * @apiSuccess {String} message Status message
@@ -99,8 +99,8 @@
  * @apiGroup User
  *
  * @apiHeader {String} api-key Back-end API Key
- * @apiParam {String} username Username
- * @apiParam {String} password Password
+ * @apiBody {String} username Username
+ * @apiBody {String} password Password
  *
  * @apiSuccess {String} status Status code
  * @apiSuccess {String} message Status message

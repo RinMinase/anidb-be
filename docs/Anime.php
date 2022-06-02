@@ -81,6 +81,7 @@
  * @apiGroup Anime
  *
  * @apiHeader {String} token User login token
+ * @apiParam {Number} id Anime ID.
  *
  * @apiSuccess {Object} data Anime Data
  * @apiSuccess {Number} data.dateFinished Date Finished in Unix formatting
@@ -153,32 +154,32 @@
  *
  * @apiHeader {String} token User login token
  *
- * @apiParam {String} title Anime title
- * @apiParam {Number} [dateFinished] Date Finished in Unix formatting
- * @apiParam {Number} [duration] Duration in seconds
- * @apiParam {Number} [episodes] Number of episodes
- * @apiParam {Number} [filesize] Filesize in bytes
- * @apiParam {String} [firstSeasonTitle] Title of the first season in a series
- * @apiParam {Boolean} [inhdd=true] Flag if title is located in HDD
- * @apiParam {String} [offquel] Comma-separated offquel titles
- * @apiParam {Number} [ovas] Number of OVAs
- * @apiParam {String} [prequel] Title of prequel
- * @apiParam {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} [quality='FHD 1080p'] Video quality
- * @apiParam {Object} [rating] Rating of Audio, Enjoyment, Graphics and Plot
- * @apiParam {Number} [rating.audio] Rating of Audio quality
- * @apiParam {Number} [rating.enjoyment] Rating of Enjoyment
- * @apiParam {Number} [rating.graphics] Rating of Graphics quality
- * @apiParam {Number} [rating.plot] Rating of Plot depth
- * @apiParam {String='Winter','Spring','Summer','Fall'} [releaseSeason] Season in which the title was released
- * @apiParam {String} [releaseYear] Year in which the title was released converted to String
- * @apiParam {String} [remarks] Any comments or remarks
- * @apiParam {String} [rewatch] Comma-separated string for rewatches in Unix formatted dates
- * @apiParam {Number} [rewatchLast] Last rewatched date in Unix formatting
- * @apiParam {Number} [seasonNumber] Current season number of title
- * @apiParam {String} [sequel] Sequel title
- * @apiParam {Number} [specials] Number of special episodes
- * @apiParam {String} [variants] Comma-separated title variants
- * @apiParam {Number=0,1,2} [watchStatus=1] 0 = Unwatched, 1 = Watched, 2 = Downloaded
+ * @apiBody {String} title Anime title
+ * @apiBody {Number} [dateFinished] Date Finished in Unix formatting
+ * @apiBody {Number} [duration] Duration in seconds
+ * @apiBody {Number} [episodes] Number of episodes
+ * @apiBody {Number} [filesize] Filesize in bytes
+ * @apiBody {String} [firstSeasonTitle] Title of the first season in a series
+ * @apiBody {Boolean} [inhdd=true] Flag if title is located in HDD
+ * @apiBody {String} [offquel] Comma-separated offquel titles
+ * @apiBody {Number} [ovas] Number of OVAs
+ * @apiBody {String} [prequel] Title of prequel
+ * @apiBody {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} [quality='FHD 1080p'] Video quality
+ * @apiBody {Object} [rating] Rating of Audio, Enjoyment, Graphics and Plot
+ * @apiBody {Number} [rating.audio] Rating of Audio quality
+ * @apiBody {Number} [rating.enjoyment] Rating of Enjoyment
+ * @apiBody {Number} [rating.graphics] Rating of Graphics quality
+ * @apiBody {Number} [rating.plot] Rating of Plot depth
+ * @apiBody {String='Winter','Spring','Summer','Fall'} [releaseSeason] Season in which the title was released
+ * @apiBody {String} [releaseYear] Year in which the title was released converted to String
+ * @apiBody {String} [remarks] Any comments or remarks
+ * @apiBody {String} [rewatch] Comma-separated string for rewatches in Unix formatted dates
+ * @apiBody {Number} [rewatchLast] Last rewatched date in Unix formatting
+ * @apiBody {Number} [seasonNumber] Current season number of title
+ * @apiBody {String} [sequel] Sequel title
+ * @apiBody {Number} [specials] Number of special episodes
+ * @apiBody {String} [variants] Comma-separated title variants
+ * @apiBody {Number=0,1,2} [watchStatus=1] 0 = Unwatched, 1 = Watched, 2 = Downloaded
  *
  * @apiSuccess {Object} data Created Anime Data
  *
