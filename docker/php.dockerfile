@@ -10,7 +10,8 @@ RUN set -xe; \
 		autoconf \
 		make \
 		g++ \
-		libpng-dev
+		libpng-dev \
+		postgresql-dev
 
 ###########################################################################
 # PHP Extensions
@@ -31,6 +32,12 @@ RUN docker-php-ext-configure zip --with-libzip && \
 ###########################################################################
 
 RUN docker-php-ext-install gd
+
+###########################################################################
+# PostgreSQL: Requires postgresql-dev
+###########################################################################
+
+RUN docker-php-ext-install pdo pdo_pgsql
 
 ###########################################################################
 # Composer
