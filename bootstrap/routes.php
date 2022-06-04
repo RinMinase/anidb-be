@@ -9,6 +9,9 @@ Route::prefix('api')
   ->namespace('App\Controllers')
   ->group(function () {
 
+    Route::get('img/{params}', 'ImageController@index')
+      ->where('params', '.*');
+
     Route::get('/mal/{params?}', 'MalController@index');
 
     Route::get('/changelog/{params?}', 'ReleaseController@getLogs');

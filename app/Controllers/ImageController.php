@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Controllers;
+
+use DateTime;
+use Exception;
+use App\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
+
+// use GuzzleHttp\Client;
+use Kreait\Firebase\Factory as FirebaseFactory;
+use Kreait\Firebase\ServiceAccount as FirebaseServiceAcct;
+
+class ImageController extends Controller {
+
+  protected $firebase;
+
+  public function __construct() {
+    $creds = json_encode([
+      'project_id' => env('FIRE_PROJECT_ID', ''),
+      'private_key' => env('FIRE_KEY', ''),
+      'client_email' => env('FIRE_EMAIL', ''),
+      'client_id' => env('FIRE_CLIENT_ID', ''),
+      'type' => 'service_account',
+    ]);
+
+    $validatedCreds = str_replace('\\\\n', '\\n', $creds);
+
+    $this->firebase = (new FirebaseFactory)
+      -> withServiceAccount(FirebaseServiceAcct::fromValue($validatedCreds))
+      -> withDisabledAutoDiscovery()
+      -> createStorage();
+  }
+
+  public function index($params) {
+    if (!env('DISABLE_FIREBASE')) {
+      if (
+        env('FIRE_PROJECT_ID')
+        && env('FIRE_KEY')
+        && env('FIRE_EMAIL')
+        && env('FIRE_CLIENT_ID')
+      ) {
+
+        return $this->retrieve($params);
+      } else {
+        throw new Exception('Firebase configuration not found');
+      }
+    }
+  }
+
+  private function retrieve($params) {
+    $url = $this->firebase
+      ->getBucket()
+      ->object(urldecode($params))
+      ->signedUrl(new DateTime('tomorrow'), ['version' => 'v4']);
+
+    $data = $this->verifyImageContents($url);
+    $statusCode = (array_key_exists('Status', $data)) ? 400 : 200;
+
+    return response()->json($data, $statusCode);
+  }
+
+  private function verifyImageContents($url) {
+    $invalidMsg = [
+      'status' => 'Invalid',
+      'message' => 'Image path is invalid',
+    ];
+
+    try {
+      $type = Http::get($url)->header('content-type');
+      $data = (strpos($type, 'image') !== false) ? ['url' => $url] : $invalidMsg;
+    } catch (Exception) {
+      $data = $invalidMsg;
+    }
+
+    return $data;
+  }
+}
