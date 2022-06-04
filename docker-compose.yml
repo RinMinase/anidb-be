@@ -11,10 +11,10 @@ services:
       context: ./docker
       dockerfile: php.dockerfile
       args:
-        - PHP_VERSION=7.3
-        - COMPOSER_VERSION=2.0.7
+        - PHP_VERSION=8.0
+        - COMPOSER_VERSION=2.3.5
     volumes:
-      - ./docker/php-config/php7.3.ini:/usr/local/etc/php/php.ini
+      # - ./docker/php-config/php7.3.ini:/usr/local/etc/php/php.ini
       - ./:/var/www
     expose:
       - "9000"
