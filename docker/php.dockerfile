@@ -5,7 +5,6 @@ FROM php:${PHP_VERSION}-fpm-alpine3.13
 RUN set -xe; \
 		apk add --no-cache \
 		bash \
-		libzip-dev \
 		openssl-dev \
 		autoconf \
 		make \
@@ -17,7 +16,7 @@ RUN set -xe; \
 # PHP Extensions: Requires libzip-dev
 ###########################################################################
 
-RUN docker-php-ext-install zip
+# RUN docker-php-ext-install zip
 
 ###########################################################################
 # MongoDB: Requires openssl-dev, autoconf, make and g++
