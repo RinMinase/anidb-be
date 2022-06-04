@@ -5,10 +5,6 @@ FROM php:${PHP_VERSION}-fpm-alpine3.13
 RUN set -xe; \
 		apk add --no-cache \
 		bash \
-		openssl-dev \
-		autoconf \
-		make \
-		g++ \
 		libpng-dev \
 		postgresql-dev
 
