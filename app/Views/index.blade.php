@@ -63,6 +63,9 @@
         text-align: center;
         bottom: 0;
       }
+      .subtitle p {
+        margin: 6px 0;
+      }
     </style>
   </head>
 
@@ -80,6 +83,9 @@
     </div>
 
     <div class="title">Rin's AniDB API / Middleware</div>
-    <div class="subtitle">Lumen Framework v{{ app()->version(); }}</div>
+    <div class="subtitle">
+      <p>Lumen Framework v{{ app()->version(); }}</p>
+      <p>PHP v{{ phpversion(); }}</p>
+    </div>
   </body>
 </html>
