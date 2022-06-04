@@ -26,7 +26,7 @@ services:
       context: ./docker
       dockerfile: nginx.dockerfile
       args:
-        - NGINX_VERSION=1.16
+        - NGINX_VERSION=1.22
         - PHP_UPSTREAM_CONTAINER=php
         - PHP_UPSTREAM_PORT=9000
     volumes:
