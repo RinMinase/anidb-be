@@ -120,6 +120,6 @@ class MALEntry {
   }
 
   private function trim_dom_crawler($input) {
-    return trim(str_replace($input->text(), '', $input->parents()->text()));
+    return trim(str_replace($input->text(), '', $input->closest('div')->text()));
   }
 }
