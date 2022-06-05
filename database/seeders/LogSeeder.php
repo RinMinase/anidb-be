@@ -22,7 +22,7 @@ class LogSeeder extends Seeder {
         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ],
       [
-        'table_changed' => 'summer',
+        'table_changed' => 'marathon',
         'id_changed' => 1,
         'description' => 'title from "old" to "new"',
         'action' => 'edit',
