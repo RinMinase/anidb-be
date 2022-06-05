@@ -3,9 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'index');
+Route::middleware('web')
+  ->group(function () {
+    Route::view('/', 'index');
+  });
 
 Route::prefix('api')
+  ->middleware('api')
   ->namespace('App\Controllers')
   ->group(function () {
 
