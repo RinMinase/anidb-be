@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
+
 use App\Models\MALEntry;
 use App\Models\MALSearch;
 
@@ -152,5 +153,4 @@ class MalController extends Controller {
 
     return response()->json($data);
   }
-
 }

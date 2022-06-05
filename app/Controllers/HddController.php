@@ -2,16 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Repositories\HddRepository;
 use Illuminate\Http\JsonResponse;
+use App\Repositories\HddRepository;
 
 class HddController extends Controller {
 
   private HddRepository $hddRepository;
 
-  public function __construct(HddRepository $hddRepository)
-  {
-      $this->hddRepository = $hddRepository;
+  public function __construct(HddRepository $hddRepository) {
+    $this->hddRepository = $hddRepository;
   }
 
   /**
@@ -56,5 +55,4 @@ class HddController extends Controller {
       'data' => $this->hddRepository->getAll(),
     ]);
   }
-
 }

@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Repositories\MarathonRepository;
 use Illuminate\Http\JsonResponse;
+
+use App\Repositories\MarathonRepository;
 
 class MarathonController extends Controller {
 

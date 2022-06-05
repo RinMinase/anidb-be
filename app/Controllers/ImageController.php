@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use DateTime;
 use Exception;
-use App\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 
 // use GuzzleHttp\Client;
@@ -27,9 +26,9 @@ class ImageController extends Controller {
     $validatedCreds = str_replace('\\\\n', '\\n', $creds);
 
     $this->firebase = (new FirebaseFactory)
-      -> withServiceAccount(FirebaseServiceAcct::fromValue($validatedCreds))
-      -> withDisabledAutoDiscovery()
-      -> createStorage();
+      ->withServiceAccount(FirebaseServiceAcct::fromValue($validatedCreds))
+      ->withDisabledAutoDiscovery()
+      ->createStorage();
   }
 
   /**
