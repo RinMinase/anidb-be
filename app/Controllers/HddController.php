@@ -14,6 +14,39 @@ class HddController extends Controller {
       $this->hddRepository = $hddRepository;
   }
 
+  /**
+   * @api {get} /api/hdd Retrieve all HDDs
+   * @apiName HDDRetrieve
+   * @apiGroup HDD
+   *
+   * @apiHeader {String} token User login token
+   *
+   * @apiSuccess {Object[]} data HDD Data
+   * @apiSuccess {String} data.from Starting letter of library
+   * @apiSuccess {String} data.to Ending letter of library
+   * @apiSuccess {Number} data.size Size of the library
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     {
+   *       "data": [
+   *         {
+   *           from: 'a',
+   *           to: 'd',
+   *           size: 2000339066880,
+   *         }
+   *       ]
+   *     }
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   *
+   * @apiErrorExample Unauthorized
+   *     HTTP/1.1 401 Forbidden
+   *     {
+   *       "status": "Unauthorized",
+   *       "message": "Unauthorized"
+   *     }
+   */
   public function index(): JsonResponse {
     return response()->json([
       'data' => $this->hddRepository->getAll(),
