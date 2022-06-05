@@ -53,6 +53,6 @@ class HddSeeder extends Seeder {
       ],
     ];
 
-    DB::table('hdd')->insert($testData);
+    DB::table('hdds')->insert($testData);
   }
 }
