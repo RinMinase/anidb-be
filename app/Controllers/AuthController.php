@@ -24,9 +24,14 @@ class AuthController extends Controller {
     $token = $user->createToken('API Token')
       ->plainTextToken;
 
+    // token format "<id>|<alphanumeric>"
+    $token = explode('|', $token)[1];
+
     return response()->json([
       'status' => 'Success',
-      'data' => $token,
+      'data' => [
+        'token' => $token,
+      ],
     ], 200);
   }
 
@@ -48,9 +53,14 @@ class AuthController extends Controller {
       ->createToken('API Token')
       ->plainTextToken;
 
+    // token format "<id>|<alphanumeric>"
+    $token = explode('|', $token)[1];
+
     return response()->json([
       'status' => 'Success',
-      'data' => $token,
+      'data' => [
+        'token' => $token,
+      ]
     ], 200);
   }
 
