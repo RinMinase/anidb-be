@@ -20,11 +20,8 @@ Route::prefix('api')
 
         Route::middleware('auth:sanctum')
           ->group(function () {
-            Route::get('me', function () {
-              return auth()->user();
-            });
-
-            Route::post('/logout', 'AuthController@logout');
+            Route::get('user', 'AuthController@getUser');
+            Route::post('logout', 'AuthController@logout');
           });
       });
 

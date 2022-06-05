@@ -3,13 +3,14 @@
 namespace App\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 
 class AuthController extends Controller {
 
-  public function register(Request $request) {
+  public function register(Request $request): JsonResponse {
     $attr = $request->validate([
       'email' => 'required|string|email|unique:users,email',
       'password' => 'required|string|min:6|confirmed'
@@ -29,7 +30,7 @@ class AuthController extends Controller {
     ], 200);
   }
 
-  public function login(Request $request) {
+  public function login(Request $request): JsonResponse {
     $attr = $request->validate([
       'email' => 'required|string|email|',
       'password' => 'required|string|min:6'
@@ -53,11 +54,15 @@ class AuthController extends Controller {
     ], 200);
   }
 
-  public function logout() {
+  public function logout(): JsonResponse {
     auth()->user()->tokens()->delete();
 
     return response()->json([
       'status' => 'Success',
     ], 200);
+  }
+
+  public function getUser(): JsonResponse {
+    return response()->json(auth()->user());
   }
 }
