@@ -10,7 +10,6 @@ use App\Models\User;
 
 class AuthController extends Controller {
 
-
   /**
    * @api {post} /api/auth/register User Registration
    * @apiName UserRegistration
@@ -165,25 +164,17 @@ class AuthController extends Controller {
    *       "message": "Success"
    *     }
    *
-   * @apiError Invalid There is no token provided
-   * @apiError InvalidToken The token provided is invalid
+   * @apiError Invalid There is no token provided or the token is invalid
    *
    * @apiErrorExample Invalid
    *     HTTP/1.1 400 Bad Request
    *     {
    *       "status": 400,
-   *       "message": "token is required"
-   *     }
-   *
-   * @apiErrorExample InvalidToken
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": 400,
-   *       "message": "Session not found"
+   *       "message": "Invalid request"
    *     }
    */
   public function logout(): JsonResponse {
-    auth()->user()->tokens()->delete();
+    Auth::user()->tokens()->delete();
 
     return response()->json([
       'status' => 200,
@@ -217,21 +208,13 @@ class AuthController extends Controller {
    *       ]
    *     }
    *
-   * @apiError Invalid There is no token provided
-   * @apiError InvalidToken The token provided is invalid
+   * @apiError Invalid There is no token provided or the token is invalid
    *
    * @apiErrorExample Invalid
    *     HTTP/1.1 400 Bad Request
    *     {
    *       "status": 400,
-   *       "message": "token is required"
-   *     }
-   *
-   * @apiErrorExample InvalidToken
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": 400,
-   *       "message": "Session not found"
+   *       "message": "Invalid request"
    *     }
    */
   public function getUser(): JsonResponse {
