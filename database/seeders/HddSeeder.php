@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class HddsSeeder extends Seeder {
+class HddSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
