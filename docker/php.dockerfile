@@ -75,7 +75,9 @@ RUN set -xe; \
 ENV ENV="/root/.ashrc"
 
 RUN echo "alias pa='php artisan'" >> "$ENV" \
-	&& echo "alias la='ls -la'" >> "$ENV"
+	&& echo "alias la='ls -la'" >> "$ENV" \
+	&& echo "alias da='composer dumpautoload'" >> "$ENV" \
+	&& echo "alias dump='composer dumpautoload'" >> "$ENV"
 
 ###########################################################################
 # Final Setup
