@@ -22,18 +22,22 @@ class HddController extends Controller {
    * @apiHeader {String} token User login token
    *
    * @apiSuccess {Object[]} data HDD Data
+   * @apiSuccess {Number} data.id ID of the library
    * @apiSuccess {String} data.from Starting letter of library
    * @apiSuccess {String} data.to Ending letter of library
    * @apiSuccess {Number} data.size Size of the library
+   * @apiSuccess {DateTime} data.created_at Creation date of the library
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
    *     {
    *       "data": [
    *         {
-   *           from: 'a',
-   *           to: 'd',
+   *           id: 1,
+   *           from: "a",
+   *           to: "d",
    *           size: 2000339066880,
+   *           created_at: "2020-01-01 00:00:00",
    *         }
    *       ]
    *     }
