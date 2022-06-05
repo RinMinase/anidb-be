@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder {
 
     $this->call([
       HddSeeder::class,
+      LogSeeder::class,
       MarathonSeeder::class,
     ]);
   }
