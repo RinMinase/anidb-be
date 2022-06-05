@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler {
   /**
@@ -44,6 +45,13 @@ class Handler extends ExceptionHandler {
         'status' => 400,
         'message' => 'Invalid request',
       ], 400);
+    }
+
+    if ($e instanceof NotFoundHttpException) {
+      return response()->json([
+        'status' => 404,
+        'message' => 'This API endpoint does not exist',
+      ], 404);
     }
 
     return parent::render($request, $e);
