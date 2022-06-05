@@ -23,9 +23,23 @@ Route::prefix('api')
     Route::get('/marathon', 'MarathonController@index');
 
     Route::get('/log', 'LogController@index');
+
+    Route::prefix('auth')
+      ->group(function () {
+        Route::post('register', 'AuthController@register');
+        Route::post('login', 'AuthController@login');
+
+        Route::middleware('auth:sanctum')
+          ->group(function () {
+            Route::get('me', function () {
+              return auth()->user();
+            });
+
+            Route::post('/logout', 'AuthController@logout');
+          });
+      });
   });
 
-Route::middleware('auth:sanctum')
-  ->get('/user', function (Request $request) {
-    return $request->user();
-  });
+// ->get('/user', function (Request $request) {
+//   return $request->user();
+// });
