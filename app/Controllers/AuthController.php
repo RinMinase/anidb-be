@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
+use App\Requests\Auth\RegisterRequest;
+
 use App\Models\User;
 
 class AuthController extends Controller {
@@ -51,15 +53,10 @@ class AuthController extends Controller {
    *       "message": "Username and Password fields are required"
    *     }
    */
-  public function register(Request $request): JsonResponse {
-    $attr = $request->validate([
-      'email' => 'required|string|email|unique:users,email',
-      'password' => 'required|string|min:6|confirmed'
-    ]);
-
+  public function register(RegisterRequest $request): JsonResponse {
     $user = User::create([
-      'password' => bcrypt($attr['password']),
-      'email' => $attr['email']
+      'password' => bcrypt($request['password']),
+      'email' => $request['email']
     ]);
 
     $token = $user->createToken('API Token')
