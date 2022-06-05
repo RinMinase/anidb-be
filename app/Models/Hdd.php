@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Hdd extends Model {
-  // use HasFactory;
 
   /**
    * The attributes that are mass assignable.
@@ -25,7 +24,7 @@ class Hdd extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
-      'updated_at',
+    'updated_at',
   ];
 
   /**
@@ -34,6 +33,6 @@ class Hdd extends Model {
    * @var array<string, string>
    */
   protected $casts = [
-      'created_at' => 'datetime:Y-m-d H:m:s',
+    'created_at' => 'datetime:Y-m-d H:m:s',
   ];
 }

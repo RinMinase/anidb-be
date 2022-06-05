@@ -6,9 +6,7 @@ use App\Models\Hdd;
 
 class HddRepository {
 
-  public function getAll()
-  {
+  public function getAll() {
     return Hdd::all();
   }
-
 }
