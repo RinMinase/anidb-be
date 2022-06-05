@@ -17,6 +17,8 @@ Route::prefix('api')
     Route::get('/changelog/{params?}', 'ReleaseController@getLogs');
     Route::get('/changelog-be/{params?}', 'ReleaseController@getLogsBE');
     Route::get('/issues/{params?}', 'ReleaseController@getIssues');
+
+    Route::get('/hdd', 'HddController@index');
   });
 
 Route::middleware('auth:sanctum')
