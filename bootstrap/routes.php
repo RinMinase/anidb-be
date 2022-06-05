@@ -21,6 +21,8 @@ Route::prefix('api')
     Route::get('/hdd', 'HddController@index');
 
     Route::get('/marathon', 'MarathonController@index');
+
+    Route::get('/log', 'LogController@index');
   });
 
 Route::middleware('auth:sanctum')
