@@ -32,8 +32,8 @@ class MarathonsSeeder extends Seeder
         ],
         [
           'title' => 'Summer 2015',
-          'date_from' => Carbon::parse('2014-03-29')->format('Y-m-d'),
-          'date_to' => Carbon::parse('2014-06-08')->format('Y-m-d'),
+          'date_from' => Carbon::parse('2015-03-29')->format('Y-m-d'),
+          'date_to' => Carbon::parse('2015-06-08')->format('Y-m-d'),
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ],

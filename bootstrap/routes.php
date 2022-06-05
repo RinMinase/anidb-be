@@ -19,6 +19,8 @@ Route::prefix('api')
     Route::get('/issues/{params?}', 'ReleaseController@getIssues');
 
     Route::get('/hdd', 'HddController@index');
+
+    Route::get('/marathon', 'MarathonController@index');
   });
 
 Route::middleware('auth:sanctum')
