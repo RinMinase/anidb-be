@@ -69,13 +69,19 @@ RUN set -xe; \
 		yarn
 
 ###########################################################################
+# Setting up shell profile
+###########################################################################
+
+ENV ENV="/root/.ashrc"
+
+RUN echo "alias pa='php artisan'" >> "$ENV" \
+	&& echo "alias la='ls -la'" >> "$ENV"
+
+###########################################################################
 # Final Setup
 ###########################################################################
 
 RUN set -xe; php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
-
-RUN echo "" >> ~/.bashrc \
-	&& echo "alias pa='php artisan'" >> ~/.bashrc
 
 COPY ./php-config/laravel.ini /usr/local/etc/php/conf.d
 COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
