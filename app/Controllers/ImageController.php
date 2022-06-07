@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use DateTime;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
-// use GuzzleHttp\Client;
 use Kreait\Firebase\Factory as FirebaseFactory;
 use Kreait\Firebase\ServiceAccount as FirebaseServiceAcct;
 
@@ -56,19 +56,26 @@ class ImageController extends Controller {
    *       "message": "Image path is invalid"
    *     }
    */
-  public function index($params) {
+  public function index($params): JsonResponse {
     if (!env('DISABLE_FIREBASE')) {
-      if (
-        env('FIRE_PROJECT_ID')
+      $hasCredentials = env('FIRE_PROJECT_ID')
         && env('FIRE_KEY')
         && env('FIRE_EMAIL')
-        && env('FIRE_CLIENT_ID')
-      ) {
+        && env('FIRE_CLIENT_ID');
 
+      if ($hasCredentials) {
         return $this->retrieve($params);
       } else {
-        throw new Exception('Firebase configuration not found');
+        return response()->json([
+          'status' => 500,
+          'message' => 'Firebase configuration not found',
+        ], 500);
       }
+    } else {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Firebase is disabled',
+      ], 500);
     }
   }
 
