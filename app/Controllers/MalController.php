@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -17,21 +18,25 @@ class MalController extends Controller {
     $this->scrapeURI = env('SCRAPER_BASE_URI', null);
   }
 
-  public function index($params) {
+  public function index($params): JsonResponse {
     if (!env('DISABLE_SCRAPER')) {
       if (env('SCRAPER_BASE_URI')) {
-        return $this->scrape($params);
+        if (is_numeric($params)) {
+          return $this->getAnime($params);
+        } else {
+          return $this->searchAnime($params);
+        }
       } else {
-        throw new Exception('Web Scraper configuration not found');
+        return response()->json([
+          'status' => 500,
+          'message' => 'Web Scraper configuration not found',
+        ], 500);
       }
-    }
-  }
-
-  private function scrape($params) {
-    if (is_numeric($params)) {
-      return $this->getAnime($params);
     } else {
-      return $this->searchAnime($params);
+      return response()->json([
+        'status' => 500,
+        'message' => 'Web Scraper is disabled',
+      ], 500);
     }
   }
 
@@ -76,19 +81,15 @@ class MalController extends Controller {
    *       "message": "Issues in connecting to MAL Servers"
    *     }
    */
-  private function getAnime($id = 37430) {
+  private function getAnime($id = 37430): JsonResponse {
     try {
       $data = Http::get($this->scrapeURI . '/anime/' . $id)->body();
       $data = MALEntry::parse(new Crawler($data))->get();
     } catch (Exception $e) {
-      if (env('APP_DEBUG')) {
-        throw new Exception('Issues in connecting to MAL Servers');
-      } else {
-        return response([
-          'status' => 503,
-          'message' => 'Issues in connecting to MAL Servers',
-        ], 503);
-      }
+      return response([
+        'status' => 503,
+        'message' => 'Issues in connecting to MAL Servers',
+      ], 503);
     }
 
     return response()->json($data);
@@ -136,19 +137,15 @@ class MalController extends Controller {
    *       "message": "Issues in connecting to MAL Servers"
    *     }
    */
-  private function searchAnime($query) {
+  private function searchAnime($query): JsonResponse {
     try {
       $data = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query))->body();
       $data = MALSearch::parse(new Crawler($data))->get();
     } catch (Exception $e) {
-      if (env('APP_DEBUG')) {
-        throw new Exception('Issues in connecting to MAL Servers');
-      } else {
-        return response([
-          'status' => 503,
-          'message' => 'Issues in connecting to MAL Servers',
-        ], 503);
-      }
+      return response([
+        'status' => 503,
+        'message' => 'Issues in connecting to MAL Servers',
+      ], 503);
     }
 
     return response()->json($data);
