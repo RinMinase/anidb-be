@@ -12,7 +12,7 @@ services:
       dockerfile: php.dockerfile
       args:
         - PHP_VERSION=8.0
-        - COMPOSER_VERSION=2.3.5
+        - COMPOSER_VERSION=2.3.7
     volumes:
       - ./:/var/www
     expose:

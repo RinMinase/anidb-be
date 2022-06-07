@@ -3,10 +3,10 @@ ARG PHP_VERSION
 FROM php:${PHP_VERSION}-fpm-alpine3.13
 
 RUN set -xe; \
-		apk add --no-cache \
-		bash \
-		libpng-dev \
-		postgresql-dev
+    apk add --no-cache \
+    bash \
+    libpng-dev \
+    postgresql-dev
 
 ###########################################################################
 # PHP Extensions: Requires libzip-dev
@@ -40,9 +40,8 @@ RUN docker-php-ext-install pdo pdo_pgsql
 ARG COMPOSER_VERSION
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-	&& php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-	&& php composer-setup.php --version=${COMPOSER_VERSION:-2.3.5} \
-	&& php -r "unlink('composer-setup.php');"
+  && php composer-setup.php --version=${COMPOSER_VERSION:-2.3.7} \
+  && php -r "unlink('composer-setup.php');"
 
 RUN mv composer.phar /usr/local/bin/composer
 
@@ -63,10 +62,10 @@ RUN mv composer.phar /usr/local/bin/composer
 ###########################################################################
 
 RUN set -xe; \
-		apk add --no-cache \
-		nodejs \
-		npm \
-		yarn
+    apk add --no-cache \
+    nodejs \
+    npm \
+    yarn
 
 ###########################################################################
 # Setting up shell profile
@@ -75,9 +74,9 @@ RUN set -xe; \
 ENV ENV="/root/.ashrc"
 
 RUN echo "alias pa='php artisan'" >> "$ENV" \
-	&& echo "alias la='ls -la'" >> "$ENV" \
-	&& echo "alias da='composer dumpautoload'" >> "$ENV" \
-	&& echo "alias dump='composer dumpautoload'" >> "$ENV"
+  && echo "alias la='ls -la'" >> "$ENV" \
+  && echo "alias da='composer dumpautoload'" >> "$ENV" \
+  && echo "alias dump='composer dumpautoload'" >> "$ENV"
 
 ###########################################################################
 # Final Setup
