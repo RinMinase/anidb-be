@@ -85,7 +85,7 @@ class MalController extends Controller {
     try {
       $data = Http::get($this->scrapeURI . '/anime/' . $id)->body();
       $data = MALEntry::parse(new Crawler($data))->get();
-    } catch (Exception $e) {
+    } catch (Exception) {
       return response([
         'status' => 503,
         'message' => 'Issues in connecting to MAL Servers',
@@ -141,7 +141,7 @@ class MalController extends Controller {
     try {
       $data = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query))->body();
       $data = MALSearch::parse(new Crawler($data))->get();
-    } catch (Exception $e) {
+    } catch (Exception) {
       return response([
         'status' => 503,
         'message' => 'Issues in connecting to MAL Servers',
