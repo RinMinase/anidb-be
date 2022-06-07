@@ -49,13 +49,14 @@ RUN mv composer.phar /usr/local/bin/composer
 # Composer Autocomplete
 ###########################################################################
 
-# RUN curl -#L https://git.io/JfUy0 -o composer-autocomplete \
-# 	&& mv ./composer-autocomplete ~/composer-autocomplete
+# RUN curl -#L https://raw.githubusercontent.com/bramus/composer-autocomplete/master/composer-autocomplete -o composer-autocomplete \
+#   && mv ./composer-autocomplete ~/composer-autocomplete
 
-# RUN echo "" >> ~/.bashrc \
-# 	&& echo 'if [ -f "$HOME/composer-autocomplete" ] ; then' >> ~/.bashrc \
-# 	&& echo '    . $HOME/composer-autocomplete' >> ~/.bashrc \
-# 	&& echo "fi" >> ~/.bashrc
+# RUN echo "" >> "$ENV" \
+#   && echo 'if [ -f "$HOME/composer-autocomplete" ] ; then' >> "$ENV" \
+#   && echo '    . $HOME/composer-autocomplete' >> "$ENV" \
+#   && echo "fi" >> "$ENV" \
+#   && echo "" >> "$ENV"
 
 ###########################################################################
 # NodeJS for APIDoc
