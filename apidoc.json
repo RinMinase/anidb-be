@@ -1,6 +1,0 @@
-{
-  "name": "Rin's AniDB API / Middleware",
-  "version": "0.1.0",
-  "description": "Rin Minase's Anime Database API Service utilizing Lumen 5.8 by Laravel and Mongo DB Atlas and is deployed to Heroku.",
-  "title": "AniDB API Documentation"
-}
