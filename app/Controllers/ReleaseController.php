@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use DateTime;
-use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
 class ReleaseController extends Controller {
@@ -63,7 +63,7 @@ class ReleaseController extends Controller {
    *       "message": "Unauthorized"
    *     }
    */
-  public function getLogs($limit = 20) {
+  public function getLogs($limit = 20): JsonResponse {
     if ($this->isScraperEnabled()) {
       $data = Http::get($this->feReleaseURI . 'commits', [
         'query' => [
@@ -123,7 +123,7 @@ class ReleaseController extends Controller {
    *       "message": "Unauthorized"
    *     }
    */
-  public function getLogsBE($limit = 20) {
+  public function getLogsBE($limit = 20): JsonResponse {
     if ($this->isScraperEnabled()) {
       $data = Http::get($this->beReleaseURI . 'commits', [
         'query' => [
@@ -181,7 +181,7 @@ class ReleaseController extends Controller {
    *       "message": "Unauthorized"
    *     }
    */
-  public function getIssues($limit = 100) {
+  public function getIssues($limit = 100): JsonResponse {
     if ($this->isScraperEnabled()) {
       $data = Http::get($this->beReleaseURI . 'issues', [
         'query' => [
@@ -202,8 +202,16 @@ class ReleaseController extends Controller {
       if (env('RELEASE_BASE_URI')) {
         return true;
       } else {
-        throw new Exception('Release URL configuration not found');
+        return response()->json([
+          'status' => 500,
+          'message' => 'Release URL configuration not found',
+        ], 500);
       }
+    } else {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Release URL / Web Scraper is disabled',
+      ], 500);
     }
   }
 
