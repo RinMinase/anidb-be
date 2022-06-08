@@ -99,19 +99,24 @@ DISABLE_MAILGUN  - Disables Mailgun
 
     ```
     docker-compose up -d
-    docker exec -it anidb bash
+    docker-compose php sh
     ```
 
 4. Inside the docker image, copy the env file, install the necessary dependencies and generate the API Key
 
     ```
     cp .env.example .env
-    npm install
-    composer install
-    php bootstrap/artisan api:generate
+    php artisan key:generate
     ```
 
-5. Fire up your browser and go to `localhost`.
+5. Modify the ENV with the necessary configuration values, run the migrations, then install the dependencies
+    ```
+    php artisan config:clear
+    php artisan migrate:fresh --seed
+    composer install
+    ```
+
+6. Fire up your browser and go to `localhost`.
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
@@ -133,7 +138,13 @@ From the project folder, run:
 
 2. Navigate to the project foler then run `docker-compose up -d`
 
-3. Fire up your browser and go to `localhost`.
+3. Run the migrations when necessary, then install the dependencies also when necessary
+    ```
+    php artisan migrate
+    composer install
+    ```
+
+4. Fire up your browser and go to `localhost`.
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
