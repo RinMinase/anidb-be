@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
+use App\Requests\Auth\LoginRequest;
 use App\Requests\Auth\RegisterRequest;
 
 use App\Models\User;
@@ -114,7 +115,7 @@ class AuthController extends Controller {
    *       "message": "username or password is invalid"
    *     }
    */
-  public function login(Request $request): JsonResponse {
+  public function login(LoginRequest $request): JsonResponse {
     $attr = $request->validate([
       'email' => 'required|string|email|',
       'password' => 'required|string|min:6'
