@@ -1,22 +1,11 @@
 <h1 align="center"> Rin Minase's Anime Database<br>(Back-end API Service) </h1>
 
 <p align="center">
-    <a href="https://lumen.laravel.com/">
-        <img alt="Lumen" src="https://img.shields.io/badge/lumen-%5E7.0-red.svg?logo=lumen&logoColor=white&style=for-the-badge">
+    <a href="https://laravel.com">
+        <img alt="Lumen" src="https://img.shields.io/badge/laravel-%5E9.0-red.svg?logo=laravel&logoColor=white&style=for-the-badge">
     </a>
-    <a href="https://php.net/">
-        <img alt="PHP" src="https://img.shields.io/badge/php-7.3-blue.svg?logo=php&logoColor=white&style=for-the-badge">
-    </a>
-</p>
-<p align="center">
-    <a href="">
-        <img alt="Heroku" src="https://rin-heroku-badge.herokuapp.com/?app=rin-anidb&svg=1&root=deploy-status">
-    </a>
-    <a href="http://isitmaintained.com/project/RinMinase/anidb-be">
-        <img alt="Issue Resolution" src="http://isitmaintained.com/badge/resolution/RinMinase/anidb-be.svg">
-    </a>
-    <a href="http://isitmaintained.com/project/RinMinase/anidb-be">
-        <img alt="Open Issues" src="http://isitmaintained.com/badge/open/RinMinase/anidb-be.svg">
+    <a href="https://php.net">
+        <img alt="PHP" src="https://img.shields.io/badge/php-8.0-blue.svg?logo=php&logoColor=white&style=for-the-badge">
     </a>
 </p>
 
@@ -191,12 +180,12 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 9](https://laravel.com) - Core Framework
 * <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8](https://php.net) - Language syntax
 * <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
-* <img width=20 height=20 src="https://firebase.google.com/favicon.ico"> [Firebase Storage](https://firebase.google.com/) - Image Storage
+* <img width=20 height=20 src="https://firebase.google.com/favicon.ico"> [Firebase Storage](https://firebase.google.com) - Image Storage
 * <img width=20 height=20 src="https://docs.docker.com/favicons/docs.ico"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com) - Email Service
-* <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net/) - HTTP Requests Architecture
+* <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net) - HTTP Requests Architecture
 
 ## Deployed to
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](http://rin-anidb.herokuapp.com)
