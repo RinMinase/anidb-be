@@ -147,6 +147,16 @@ From the project folder, run:
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
+### Project shorthands / aliases inside the PHP Docker container
+
+This shortcuts were created to reduce the need to keep typing the same long commands over and over again.
+
+| Shortcut          | Long version            |
+| ----------------- | ----------------------- |
+| `pa` or `artisan` | `php artisan`           |
+| `la`              | `ls -la`                |
+| `dump` or `da`    | `composer dumpautoload` |
+
 ### Project Structure
     .
     ├── app/                     # Project source code
