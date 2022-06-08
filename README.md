@@ -151,25 +151,28 @@ From the project folder, run:
 ### Project Structure
     .
     ├── app/                     # Project source code
-    │   ├── Commands/            # Project artisan commands
+    │   ├── Console/             # Project artisan commands and console setup
     │   ├── Controllers/         # Project controllers
+    │   ├── Exceptions/          # Project exception handlers
     │   ├── Middleware/          # Project middleware
     │   ├── Models/              # Project models
+    │   ├── Providers/           # Project service providers
+    │   ├── Repositories/        # Project repositories
+    │   ├── Requests/            # Project request handlers
+    │   └── Views/               # Project blade / view files
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
     │   ├── helpers.php          # Helper functions
     │   └── routes.php           # Route definitions
+    ├── config/                  # Laravel configuration files
+    ├── database/                # Database migrations and seeders
     ├── docker/                  # Docker functions
     │   ├── php-config/          # PHP settings for docker
     │   ├── sites/               # Nginx sites for docker
     │   ├── nginx.dockerfile     # Nginx container docker file
     │   ├── php.dockerfile       # PHP container docker file
     │   └── ...                  # Other docker files
-    ├── docs/                    # API documentation
     ├── public/                  # Project entry point
-    ├── tests/                   # Project testing
-    │   ├── cases/               # Test cases
-    │   └── phpunit.xml          # Testing configuration
     ├── .env.example             # Environmental variables template
     ├── docker-compose.yml       # Main docker file
     ├── Procfile                 # Heroku process file
