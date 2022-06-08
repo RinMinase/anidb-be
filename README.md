@@ -32,27 +32,26 @@ _Add info here_
 This is done by setting these specific ENV flags to true, to disable them.
 
 ```
-DISABLE_DB       - Disables MongoDB
+DISABLE_DB       - Disables Database
 DISABLE_FIREBASE - Disables Firebase Storage
 DISABLE_SCRAPTER - Disables WebScraper
 DISABLE_MAILGUN  - Disables Mailgun
 ```
 
-1. MongoDB
-    - Fire up your browser and login your [MongoDB Atlas](https://cloud.mongodb.com/user#/atlas/login) account. If you have no account yet, [create one](https://cloud.mongodb.com/user#/atlas/register/accountProfile).
-    - If you have no databases yet, create one and name it with anything you like.
-    - Once you have a database already, click the `connect` button, and select `Connect your application`
-    - Place the parts of the `Connection String` in you environmental variables as follows:
+1. Database (PostgreSQL)
+    - These are the configuration options for the database:
 
         ```
-        Connection String:
-        mongodb+srv://<username>:<password>@<cluster>/<database>?retryWrites=true&w=majority
-
-        DB_USERNAME = <username>
-        DB_PASSWORD = <password>
-        DB_CLUSTER = <cluster>
-        DB_DATABASE = <database> or the name of the database you created
+        DB_CONNECTION=pgsql       <the database configuration being used by Laravel>
+        DATABASE_URL=             <this is populated whenever an online database is being used>
+        DB_HOST=anidb-pgsql       <docker container name of the database>
+        DB_PORT=5432              <port used by the database>
+        DB_DATABASE=anidb         <database name>
+        DB_USERNAME=postgres      <database username>
+        DB_PASSWORD=postgres      <database password>
         ```
+
+        **Notes :** DB_HOST **should** use docker container name of db, by default this is 'anidb-pgsql', but yours could be different. You can check this by running `docker ps` then check the container name of the `postgres` container.
 
 2. Firebase (Firebase Storage)
     - Fire up your browser and login your [Firebase/Google Account](https://console.firebase.google.com). If you have no account yet, [create one](https://accounts.google.com/signup/v2/webcreateaccount?flowEntry=SignUp&flowName=GlifWebSignIn).
@@ -84,7 +83,7 @@ DISABLE_MAILGUN  - Disables Mailgun
     - Place any email you want to send your temporary verification code to in `MAILGUN_TEST_USER` with the format `{user name} <{email address}>`
 
 ### Running the project
-1. If you are running Windows 10, [download](https://download.docker.com/win/stable/Docker%20for%20Windows%20Installer.exe) and install `Docker for Windows`.
+1. [Download](https://www.docker.com/products/docker-desktop) and install `Docker for Windows`.
 
     **Note:** If you're not running Windows 10, use `Docker Toolbox` instead, [download](https://docs.docker.com/toolbox/toolbox_install_windows/#step-2-install-docker-toolbox) and install it. Also make sure that you are also running [vitualization](https://docs.docker.com/toolbox/toolbox_install_windows/#step-1-check-your-version).
 
