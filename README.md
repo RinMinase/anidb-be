@@ -178,9 +178,6 @@ From the project folder, run:
     ├── Procfile                 # Heroku process file
     └── ...                      # Other project files
 
-### Testing the project
-_Add info here_
-
 ## Built with
 * <img width=20 height=20 src="https://lumen.laravel.com/img/favicons/favicon-32x32.png"> [Lumen 7](https://lumen.laravel.com/) - API Framework
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 7](https://laravel.com/) - Core Framework
