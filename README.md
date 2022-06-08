@@ -148,19 +148,6 @@ From the project folder, run:
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
-
-### Code Scaffolding
-This is using `php bootstrap/artisan <task> <arguments>` command.
-
-Where:
-- task - refer to the task list below
-- arguments - (optional) specific parameters in generating the code
-
-| Task                 | Description                                                              |
-| -------------------- | ------------------------------------------------------------------------ |
-| `api:generate`       | Generate an API Key and saves it to your ENV file                        |
-| `api:generate <len>` | Generate an API Key with a specific length and saves it to your ENV file |
-
 ### Project Structure
     .
     ├── app/                     # Project source code
