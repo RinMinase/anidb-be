@@ -18,7 +18,7 @@ class HddController extends Controller {
    * @apiName HDDRetrieve
    * @apiGroup HDD
    *
-   * @apiHeader {String} token User login token
+   * @apiHeader {String} Authorization Token received from logging-in
    *
    * @apiSuccess {Object[]} data HDD Data
    * @apiSuccess {Number} data.id ID of the library

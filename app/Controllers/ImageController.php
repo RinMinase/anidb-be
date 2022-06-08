@@ -36,7 +36,7 @@ class ImageController extends Controller {
    * @apiName ImageRetrieve
    * @apiGroup Image
    *
-   * @apiHeader {String} token User login token
+   * @apiHeader {String} Authorization Token received from logging-in
    * @apiParam {Path} param Complete image file path (i.e. 'assets/test.jpg')
    *
    * @apiSuccess {String} url Signed URL of image

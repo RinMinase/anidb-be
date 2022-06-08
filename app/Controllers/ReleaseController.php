@@ -23,7 +23,7 @@ class ReleaseController extends Controller {
    * @apiName ChangelogFE
    * @apiGroup Release
    *
-   * @apiHeader {String} api-key Back-end API Key
+   * @apiHeader {String} Authorization Token received from logging-in
    * @apiParam {String} limit Page Limit (Optional)
    *
    * @apiSuccess {Array} dep Dependencies type of changes
@@ -83,7 +83,7 @@ class ReleaseController extends Controller {
    * @apiName ChangelogBE
    * @apiGroup Release
    *
-   * @apiHeader {String} api-key Back-end API Key
+   * @apiHeader {String} Authorization Token received from logging-in
    * @apiParam {String} limit Page Limit (Optional)
    *
    * @apiSuccess {Array} dep Dependencies type of changes
@@ -143,7 +143,7 @@ class ReleaseController extends Controller {
    * @apiName Issues
    * @apiGroup Release
    *
-   * @apiHeader {String} api-key Back-end API Key
+   * @apiHeader {String} Authorization Token received from logging-in
    * @apiParam {String} limit Page Limit (Optional)
    *
    * @apiSuccess {String} date Date of posted issue

@@ -19,7 +19,7 @@ class MarathonController extends Controller {
    * @apiName MarathonRetrieve
    * @apiGroup Marathon
    *
-   * @apiHeader {String} token User login token
+   * @apiHeader {String} Authorization Token received from logging-in
    *
    * @apiSuccess {Object[]} data Marathon Data
    * @apiSuccess {Number} data.id ID of the marathon entry

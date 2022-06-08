@@ -19,7 +19,7 @@ class LogController extends Controller {
    * @apiName LogRetrieve
    * @apiGroup Logs
    *
-   * @apiHeader {String} token User login token
+   * @apiHeader {String} Authorization Token received from logging-in
    *
    * @apiSuccess {Object[]} data Log Data
    * @apiSuccess {Number} data.id ID of the log

@@ -45,7 +45,7 @@ class MalController extends Controller {
    * @apiName RetrieveTitleInfo
    * @apiGroup MAL
    *
-   * @apiHeader {String} token User login token
+   * @apiHeader {String} Authorization Token received from logging-in
    * @apiParam {Number} id MAL Title ID
    *
    * @apiSuccess {String} url MAL Title URL
@@ -100,7 +100,7 @@ class MalController extends Controller {
    * @apiName QueryTitles
    * @apiGroup MAL
    *
-   * @apiHeader {String} token User login token
+   * @apiHeader {String} Authorization Token received from logging-in
    * @apiParam {String} query Query string to match
    *
    * @apiSuccess {Object[]} data MAL Title ID
