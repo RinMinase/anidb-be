@@ -179,21 +179,15 @@ From the project folder, run:
     └── ...                      # Other project files
 
 ## Built with
-* <img width=20 height=20 src="https://lumen.laravel.com/img/favicons/favicon-32x32.png"> [Lumen 7](https://lumen.laravel.com/) - API Framework
-* <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 7](https://laravel.com/) - Core Framework
-* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 7.3](https://php.net/) - Language syntax
-* <img width=20 height=20 src="https://www.mongodb.com/assets/images/global/favicon.ico"> [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database
+* <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 9](https://laravel.com) - Core Framework
+* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8](https://php.net) - Language syntax
+* <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
 * <img width=20 height=20 src="https://firebase.google.com/favicon.ico"> [Firebase Storage](https://firebase.google.com/) - Image Storage
-* <img width=20 height=20 src="https://www.docker.com/sites/default/files/d8/Docker-R-Logo-08-2018-Monochomatic-RGB_Moby-x1.png"> [Docker](https://www.docker.com/) - Container platform
-* <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com/) - API Documentation
-* <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com/) - Hosting and Continuous Integration (CI) service
-* <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com/) - Email Service
-* <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1563088072/guzzle.png"> [Guzzle](http://docs.guzzlephp.org/) and [Goutte](https://goutte.readthedocs.io/) - HTTP Request Handler and Web Crawler
-* <img width=20 height=20 src="https://res.cloudinary.com/rin-minase/image/upload/v1562606888/phpunit.png"> [PHPUnit](https://phpunit.de/index.html) - Testing framework
+* <img width=20 height=20 src="https://docs.docker.com/favicons/docs.ico"> [Docker](https://www.docker.com) - Container platform
+* <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com) - API Documentation
+* <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
+* <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com) - Email Service
 * <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net/) - HTTP Requests Architecture
-* <img width=20 height=20 src="https://getcomposer.org/favicon.ico"> [Composer](https://getcomposer.org/) - Package Manager
-<!-- * <img width=20 height=20 src="https://www.sonarqube.org/favicon.ico"> [Codecov](https://www.sonarqube.org/) - Code Inspection and Reliability -->
-<!-- * <img width=20 height=20 src="https://codecov.io/static/favicons/favicon-32x32.png"> [Codecov](https://codecov.io/) - Code Coverage -->
 
 ## Deployed to
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](http://rin-anidb.herokuapp.com)
