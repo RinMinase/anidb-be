@@ -157,7 +157,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     │   ├── Providers/           # Project service providers
     │   ├── Repositories/        # Project repositories
     │   ├── Requests/            # Project request handlers
-    │   └── Views/               # Project blade / view files
+    │   └── index.blade.php      # Landing page template
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
     │   ├── helpers.php          # Helper functions
