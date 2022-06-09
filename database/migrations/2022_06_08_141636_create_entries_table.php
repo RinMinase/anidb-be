@@ -14,30 +14,32 @@ return new class extends Migration {
     Schema::create('entries', function (Blueprint $table) {
       $table->id();
 
+      $table->integer('id_quality')->nullable();
+      $table->foreign('id_quality')->references('id')->on('qualities');
+
       $table->date('date_finished')->nullable();
-      // $table->string('download_priority')->nullable();
-      $table->mediumInteger('duration')->unsigned()->nullable();
+      $table->mediumInteger('duration')->nullable();
       $table->string('title', 256)->nullable();
-      $table->bigInteger('filesize')->unsigned()->nullable();
+      $table->bigInteger('filesize')->nullable();
 
-      $table->smallInteger('episodes')->unsigned()->default(0)->nullable();
-      $table->smallInteger('ovas')->unsigned()->default(0)->nullable();
-      $table->smallInteger('specials')->unsigned()->default(0)->nullable();
+      $table->smallInteger('episodes')->default(0)->nullable();
+      $table->smallInteger('ovas')->default(0)->nullable();
+      $table->smallInteger('specials')->default(0)->nullable();
 
-      $table->tinyInteger('season_number')->unsigned()->nullable();
-      $table->integer('season_first_title')->unsigned()->nullable();
+      $table->tinyInteger('season_number')->nullable();
+      $table->integer('season_first_title')->nullable();
       $table->foreign('season_first_title')->references('id')->on('entries');
 
-      $table->integer('prequel')->unsigned()->nullable();
+      $table->integer('prequel')->nullable();
       $table->foreign('prequel')->references('id')->on('entries');
-      $table->integer('sequel')->unsigned()->nullable();
+      $table->integer('sequel')->nullable();
       $table->foreign('sequel')->references('id')->on('entries');
 
       $table->string('encoder_video', 128)->nullable();
       $table->string('encoder_audio', 128)->nullable();
       $table->string('encoder_subs', 128)->nullable();
 
-      $table->smallInteger('release_year')->unsigned()->nullable();
+      $table->smallInteger('release_year')->nullable();
       $table->enum(
         'release_season',
         ['Winter', 'Spring', 'Summer', 'Fall'],
