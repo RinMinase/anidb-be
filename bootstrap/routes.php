@@ -25,27 +25,31 @@ Route::prefix('api')
           });
       });
 
-    Route::get('img/{params}', 'ImageController@index')
-      ->where('params', '.*');
 
-    Route::get('mal/{params?}', 'MalController@index');
-
-    Route::get('changelog/{params?}', 'ReleaseController@getLogs');
-    Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
-    Route::get('issues/{params?}', 'ReleaseController@getIssues');
-
-    Route::get('hdd', 'HddController@index');
-
-    Route::get('marathon', 'MarathonController@index');
-
-    Route::get('log', 'LogController@index');
-
-    Route::prefix('entry')
+    Route::middleware('auth:sanctum')
       ->group(function () {
-        Route::get('', 'EntryController@index');
-        Route::get('{id}', 'EntryController@get');
-        Route::post('', 'EntryController@add');
-        Route::put('{id}', 'EntryController@edit');
-        Route::delete('{id}', 'EntryController@delete');
+        Route::get('img/{params}', 'ImageController@index')
+          ->where('params', '.*');
+
+        Route::get('mal/{params?}', 'MalController@index');
+
+        Route::get('changelog/{params?}', 'ReleaseController@getLogs');
+        Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
+        Route::get('issues/{params?}', 'ReleaseController@getIssues');
+
+        Route::get('hdd', 'HddController@index');
+
+        Route::get('marathon', 'MarathonController@index');
+
+        Route::get('log', 'LogController@index');
+
+        Route::prefix('entry')
+          ->group(function () {
+            Route::get('', 'EntryController@index');
+            Route::get('{id}', 'EntryController@get');
+            Route::post('', 'EntryController@add');
+            Route::put('{id}', 'EntryController@edit');
+            Route::delete('{id}', 'EntryController@delete');
+          });
       });
   });
