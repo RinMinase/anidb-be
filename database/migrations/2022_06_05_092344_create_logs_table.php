@@ -22,7 +22,7 @@ return new class extends Migration {
       // for now: add, delete, edit is preferred
       $table->string('action')->nullable();
 
-      $table->timestamp('created_at');
+      $table->timestamps();
     });
   }
 
