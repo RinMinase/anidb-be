@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -52,6 +53,13 @@ class Handler extends ExceptionHandler {
         'status' => 404,
         'message' => 'This API endpoint does not exist',
       ], 404);
+    }
+
+    if ($e instanceof AuthenticationException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Unauthorized',
+      ]);
     }
 
     return parent::render($request, $e);
