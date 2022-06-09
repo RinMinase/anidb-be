@@ -39,4 +39,13 @@ Route::prefix('api')
     Route::get('marathon', 'MarathonController@index');
 
     Route::get('log', 'LogController@index');
+
+    Route::prefix('entry')
+      ->group(function () {
+        Route::get('', 'EntryController@index');
+        Route::get('{id}', 'EntryController@get');
+        Route::post('', 'EntryController@add');
+        Route::put('{id}', 'EntryController@edit');
+        Route::delete('{id}', 'EntryController@delete');
+      });
   });
