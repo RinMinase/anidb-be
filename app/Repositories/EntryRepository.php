@@ -12,7 +12,7 @@ class EntryRepository {
   }
 
   public function get($id) {
-    return Entry::whereId($id)
+    return Entry::where('entries.id', $id)
       ->join('qualities', 'entries.id_quality', '=', 'qualities.id')
       ->get();
   }
