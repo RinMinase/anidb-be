@@ -11,15 +11,9 @@ return new class extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('entries_quality', function (Blueprint $table) {
+    Schema::create('qualities', function (Blueprint $table) {
       $table->id();
-
-      $table->integer('id_entries')->unsigned()->nullable();
-      $table->foreign('id_entries')->references('id')->on('entries');
-
-      $table->string('quality', 16)->nullable();
-
-      $table->timestamp('created_at');
+      $table->string('quality', 16);
     });
   }
 
@@ -29,6 +23,6 @@ return new class extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('entries_quality');
+    Schema::dropIfExists('qualities');
   }
 };
