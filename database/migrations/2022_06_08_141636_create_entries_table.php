@@ -49,6 +49,7 @@ return new class extends Migration {
       $table->string('remarks', 256)->nullable();
 
       $table->timestamp('created_at');
+      $table->softDeletes();
     });
   }
 

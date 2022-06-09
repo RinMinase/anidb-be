@@ -21,6 +21,7 @@ return new class extends Migration {
       $table->foreign('id_entries_offquel')->references('id')->on('entries');
 
       $table->timestamp('created_at');
+      $table->softDeletes();
     });
   }
 
