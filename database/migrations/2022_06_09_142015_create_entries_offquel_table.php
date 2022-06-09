@@ -20,7 +20,7 @@ return new class extends Migration {
       $table->integer('id_entries_offquel')->unsigned()->nullable();
       $table->foreign('id_entries_offquel')->references('id')->on('entries');
 
-      $table->timestamp('created_at');
+      $table->timestamps();
       $table->softDeletes();
     });
   }
