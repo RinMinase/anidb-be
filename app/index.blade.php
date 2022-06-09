@@ -84,7 +84,7 @@
 
     <div class="title">Rin's AniDB API / Middleware</div>
     <div class="subtitle">
-      <p>Lumen Framework v{{ app()->version(); }}</p>
+      <p>Laravel Framework v{{ app()->version(); }}</p>
       <p>PHP v{{ phpversion(); }}</p>
     </div>
   </body>
