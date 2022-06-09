@@ -42,6 +42,7 @@ class Entry extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id_quality',
     'created_at',
     'updated_at',
   ];

@@ -7,11 +7,14 @@ use App\Models\Entry;
 class EntryRepository {
 
   public function getAll() {
-    return Entry::all();
+    return Entry::join('qualities', 'entries.id_quality', '=', 'qualities.id')
+      ->get();
   }
 
   public function get($id) {
-    return Entry::whereId($id)->get();
+    return Entry::whereId($id)
+      ->join('qualities', 'entries.id_quality', '=', 'qualities.id')
+      ->get();
   }
 
   public function add(array $values) {
