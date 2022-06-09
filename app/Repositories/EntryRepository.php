@@ -11,7 +11,15 @@ class EntryRepository {
   }
 
   public function get($id) {
-    return Entry::where('id', $id)->get();
+    return Entry::whereId($id)->get();
+  }
+
+  public function add(array $values) {
+    return Entry::create($values);
+  }
+
+  public function edit(array $values, $id) {
+    return Entry::whereId($id)->update($values);
   }
 
   public function delete($id) {

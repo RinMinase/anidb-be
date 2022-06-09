@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 use App\Repositories\EntryRepository;
-use Exception;
+use App\Requests\Entry\AddRequest;
+use App\Requests\Entry\EditRequest;
 
 class EntryController extends Controller {
 
@@ -28,15 +29,15 @@ class EntryController extends Controller {
     ]);
   }
 
-  public function add(Request $request): JsonResponse {
+  public function add(AddRequest $request): JsonResponse {
     return response()->json([
-      'data' => [],
+      'data' => $this->entryRepository->add($request->all()),
     ]);
   }
 
-  public function edit(Request $request, $id): JsonResponse {
+  public function edit(EditRequest $request, $id): JsonResponse {
     return response()->json([
-      'data' => [],
+      'data' => $this->entryRepository->edit($request->all(), $id),
     ]);
   }
 
