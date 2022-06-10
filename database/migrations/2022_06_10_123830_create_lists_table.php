@@ -14,7 +14,8 @@ return new class extends Migration {
     Schema::create('lists', function (Blueprint $table) {
       $table->id();
 
-      $table->string('description', 16);
+      $table->string('description', 16)->unique();
+      $table->smallInteger('order')->unique()->nullable();
 
       $table->smallInteger('year')->nullable();
       $table->enum(
