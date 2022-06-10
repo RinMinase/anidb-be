@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\EntryRepository;
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
+use App\Resources\EntryResource;
 
 class EntryController extends Controller {
 
@@ -19,13 +20,13 @@ class EntryController extends Controller {
 
   public function index(): JsonResponse {
     return response()->json([
-      'data' => $this->entryRepository->getAll(),
+      'data' => EntryResource::collection($this->entryRepository->getAll()),
     ]);
   }
 
   public function get($id): JsonResponse {
     return response()->json([
-      'data' => $this->entryRepository->get($id),
+      'data' => new EntryResource($this->entryRepository->get($id)),
     ]);
   }
 
