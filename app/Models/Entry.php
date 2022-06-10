@@ -43,7 +43,6 @@ class Entry extends Model {
    */
   protected $hidden = [
     'id_quality',
-    'created_at',
     'updated_at',
     'deleted_at',
   ];
@@ -53,7 +52,9 @@ class Entry extends Model {
    *
    * @var array<string, string>
    */
-  protected $casts = [];
+  protected $casts = [
+    'created_at' => 'datetime:Y-m-d H:m:s',
+  ];
 
   public function rating() {
     return $this->hasOne(EntryRating::class);
