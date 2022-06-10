@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder {
       HddSeeder::class,
       LogSeeder::class,
       MarathonSeeder::class,
+      PrioritySeeder::class,
       QualitySeeder::class,
     ]);
   }
