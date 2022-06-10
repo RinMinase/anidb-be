@@ -16,8 +16,8 @@ return new class extends Migration {
 
       $table->string('title', 256)->nullable();
 
-      $table->integer('id_list')->nullable();
-      $table->foreign('id_list')->references('id')->on('lists');
+      $table->integer('id_catalogs')->nullable();
+      $table->foreign('id_catalogs')->references('id')->on('catalogs');
 
       $table->integer('id_priority')->nullable();
       $table->foreign('id_priority')->references('id')->on('priorities');
