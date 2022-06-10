@@ -8,6 +8,7 @@ class EntryRepository {
 
   public function getAll() {
     return Entry::join('qualities', 'entries.id_quality', '=', 'qualities.id')
+      ->select('entries.*', 'qualities.quality')
       ->get();
   }
 

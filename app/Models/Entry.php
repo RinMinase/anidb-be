@@ -45,6 +45,7 @@ class Entry extends Model {
     'id_quality',
     'created_at',
     'updated_at',
+    'deleted_at',
   ];
 
   /**
