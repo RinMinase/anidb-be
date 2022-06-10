@@ -12,11 +12,15 @@ class DatabaseSeeder extends Seeder {
    */
   public function run() {
     $this->call([
-      HddSeeder::class,
-      LogSeeder::class,
-      MarathonSeeder::class,
       PrioritySeeder::class,
       QualitySeeder::class,
+
+      CatalogSeeder::class,     // test data
+      EntrySeeder::class,       // test data
+      HddSeeder::class,         // test data
+      LogSeeder::class,         // test data
+      MarathonSeeder::class,    // test data
+      PartialSeeder::class,     // test data
     ]);
   }
 }
