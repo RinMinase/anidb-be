@@ -51,5 +51,13 @@ Route::prefix('api')
             Route::put('{id}', 'EntryController@edit');
             Route::delete('{id}', 'EntryController@delete');
           });
+
+        Route::prefix('catalog')
+          ->group(function () {
+            Route::get('', 'CatalogController@index');
+            Route::post('', 'CatalogController@add');
+            Route::put('{id?}', 'CatalogController@edit');
+            Route::delete('{id}', 'CatalogController@delete');
+          });
       });
   });
