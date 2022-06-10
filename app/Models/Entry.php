@@ -16,9 +16,9 @@ class Entry extends Model {
    */
   protected $fillable = [
     'id_quality',
+    'title',
     'date_finished',
     'duration',
-    'title',
     'filesize',
     'episodes',
     'ovas',
