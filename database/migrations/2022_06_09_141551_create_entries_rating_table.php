@@ -22,7 +22,6 @@ return new class extends Migration {
       $table->tinyInteger('graphics')->unsigned()->default(0)->nullable();
       $table->tinyInteger('plot')->unsigned()->default(0)->nullable();
 
-      $table->timestamps();
       $table->softDeletes();
     });
   }

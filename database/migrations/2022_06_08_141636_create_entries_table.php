@@ -17,9 +17,9 @@ return new class extends Migration {
       $table->integer('id_quality')->nullable();
       $table->foreign('id_quality')->references('id')->on('qualities');
 
+      $table->string('title', 256)->nullable();
       $table->date('date_finished')->nullable();
       $table->mediumInteger('duration')->nullable();
-      $table->string('title', 256)->nullable();
       $table->bigInteger('filesize')->nullable();
 
       $table->smallInteger('episodes')->default(0)->nullable();
