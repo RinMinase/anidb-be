@@ -4,7 +4,7 @@ namespace App\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EntryResource extends JsonResource {
+class EntryCollection extends JsonResource {
 
   public function toArray($request) {
     $rating = 0;

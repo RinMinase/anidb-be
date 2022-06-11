@@ -9,6 +9,8 @@ class EntryRepository {
   public function getAll() {
     return Entry::join('qualities', 'entries.id_quality', '=', 'qualities.id')
       ->leftJoin('entries_rating', 'entries.id', '=', 'entries_rating.id_entries')
+      ->with('offquels')
+      ->with('rewatches')
       ->select(
         'entries.*',
         'qualities.quality',
@@ -23,6 +25,8 @@ class EntryRepository {
     return Entry::where('entries.id', $id)
       ->join('qualities', 'entries.id_quality', '=', 'qualities.id')
       ->leftJoin('entries_rating', 'entries.id', '=', 'entries_rating.id_entries')
+      ->with('offquels')
+      ->with('rewatches')
       ->select(
         'entries.*',
         'qualities.quality',
@@ -30,7 +34,7 @@ class EntryRepository {
         'entries_rating.enjoyment as rating_enjoyment',
         'entries_rating.graphics as rating_graphics',
         'entries_rating.plot as rating_plot',
-      )->get();
+      )->first();
   }
 
   public function add(array $values) {

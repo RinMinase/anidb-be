@@ -9,6 +9,7 @@ use App\Repositories\EntryRepository;
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
 use App\Resources\EntryResource;
+use App\Resources\EntryCollection;
 
 class EntryController extends Controller {
 
@@ -20,7 +21,7 @@ class EntryController extends Controller {
 
   public function index(): JsonResponse {
     return response()->json([
-      'data' => EntryResource::collection($this->entryRepository->getAll()),
+      'data' => EntryCollection::collection($this->entryRepository->getAll()),
     ]);
   }
 
