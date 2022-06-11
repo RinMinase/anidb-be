@@ -57,10 +57,14 @@ class Entry extends Model {
   ];
 
   public function rating() {
-    return $this->hasOne(EntryRating::class);
+    return $this->hasOne(EntryRating::class, 'id_entries');
   }
 
   public function offquels() {
-    return $this->hasMany(EntryOffquel::class);
+    return $this->hasMany(EntryOffquel::class, 'id_entries');
+  }
+
+  public function rewatches() {
+    return $this->hasMany(EntryRewatch::class, 'id_entries');
   }
 }

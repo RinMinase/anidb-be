@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EntryOffquel extends Model {
+class EntryRewatch extends Model {
 
-  use SoftDeletes;
-
-  protected $table = 'entries_offquel';
+  protected $table = 'entries_rewatch';
 
   /**
    * The attributes that are mass assignable.
@@ -18,7 +15,7 @@ class EntryOffquel extends Model {
    */
   protected $fillable = [
     'id_entries',
-    'id_entries_offquel',
+    'date_rewatched',
   ];
 
   /**
@@ -27,10 +24,8 @@ class EntryOffquel extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id',
     'id_entries',
-    'created_at',
-    'updated_at',
-    'deleted_at',
   ];
 
   /**
