@@ -39,4 +39,8 @@ class EntryOffquel extends Model {
    * @var array<string, string>
    */
   protected $casts = [];
+
+  public function entry() {
+    return $this->belongsTo(Entry::class, 'id_entries_offquel');
+  }
 }
