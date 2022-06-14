@@ -8,10 +8,10 @@ class EntryResource extends JsonResource {
 
   public function toArray($request) {
     $rating = 0;
-    $rating += $this->rating_audio;
-    $rating += $this->rating_enjoyment;
-    $rating += $this->rating_graphics;
-    $rating += $this->rating_plot;
+    $rating += $this->rating->audio;
+    $rating += $this->rating->enjoyment;
+    $rating += $this->rating->graphics;
+    $rating += $this->rating->plot;
     $rating = round($rating / 4, 2);
 
     return [
