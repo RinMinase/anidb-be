@@ -9,6 +9,7 @@ class CatalogRepository {
   public function getAll() {
     return Catalog::orderBy('order', 'desc')
       ->orderBy('created_at', 'asc')
+      ->with('partials')
       ->get();
   }
 

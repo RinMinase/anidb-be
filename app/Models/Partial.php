@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Catalog extends Model {
-
-  use SoftDeletes;
+class Partial extends Model {
 
   /**
    * The attributes that are mass assignable.
@@ -15,10 +12,9 @@ class Catalog extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
-    'description',
-    'order',
-    'year',
-    'season',
+    'title',
+    'id_catalogs',
+    'id_priority',
   ];
 
   /**
@@ -39,7 +35,7 @@ class Catalog extends Model {
     'created_at' => 'datetime:Y-m-d H:m:s',
   ];
 
-  public function partials() {
-    return $this->hasMany(Partial::class, 'id_catalogs');
+  public function priority() {
+    return $this->belongsTo(Catalog::class, 'id_priority');
   }
 }
