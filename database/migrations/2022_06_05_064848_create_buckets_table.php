@@ -11,7 +11,7 @@ return new class extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('hdds', function (Blueprint $table) {
+    Schema::create('buckets', function (Blueprint $table) {
       $table->id();
 
       $table->char('from', 1);
@@ -28,6 +28,6 @@ return new class extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('hdds');
+    Schema::dropIfExists('buckets');
   }
 };

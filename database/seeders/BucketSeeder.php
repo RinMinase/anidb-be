@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class HddSeeder extends Seeder {
+class BucketSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
@@ -53,6 +53,6 @@ class HddSeeder extends Seeder {
       ],
     ];
 
-    DB::table('hdds')->insert($testData);
+    DB::table('buckets')->insert($testData);
   }
 }

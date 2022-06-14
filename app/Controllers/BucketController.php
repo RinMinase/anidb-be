@@ -3,24 +3,24 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use App\Repositories\HddRepository;
+use App\Repositories\BucketRepository;
 
-class HddController extends Controller {
+class BucketController extends Controller {
 
-  private HddRepository $hddRepository;
+  private BucketRepository $bucketRepository;
 
-  public function __construct(HddRepository $hddRepository) {
-    $this->hddRepository = $hddRepository;
+  public function __construct(BucketRepository $bucketRepository) {
+    $this->bucketRepository = $bucketRepository;
   }
 
   /**
-   * @api {get} /api/hdd Retrieve all HDDs
-   * @apiName HDDRetrieve
-   * @apiGroup HDD
+   * @api {get} /api/buckets Retrieve all buckets
+   * @apiName BucketRetrieve
+   * @apiGroup Bucket
    *
    * @apiHeader {String} Authorization Token received from logging-in
    *
-   * @apiSuccess {Object[]} data HDD Data
+   * @apiSuccess {Object[]} data Bucket Data
    * @apiSuccess {Number} data.id ID of the library
    * @apiSuccess {String} data.from Starting letter of library
    * @apiSuccess {String} data.to Ending letter of library
@@ -52,7 +52,7 @@ class HddController extends Controller {
    */
   public function index(): JsonResponse {
     return response()->json([
-      'data' => $this->hddRepository->getAll(),
+      'data' => $this->bucketRepository->getAll(),
     ]);
   }
 }

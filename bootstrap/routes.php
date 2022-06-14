@@ -37,8 +37,6 @@ Route::prefix('api')
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
 
-        Route::get('hdd', 'HddController@index');
-
         Route::get('marathon', 'MarathonController@index');
 
         Route::get('log', 'LogController@index');
@@ -58,6 +56,11 @@ Route::prefix('api')
             Route::post('', 'CatalogController@add');
             Route::put('{id?}', 'CatalogController@edit');
             Route::delete('{id}', 'CatalogController@delete');
+          });
+
+        Route::prefix('bucket')
+          ->group(function () {
+            Route::get('', 'BucketController@index');
           });
       });
   });
