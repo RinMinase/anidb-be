@@ -56,6 +56,10 @@ class Entry extends Model {
     'created_at' => 'datetime:Y-m-d H:m:s',
   ];
 
+  public function quality() {
+    return $this->belongsTo(Quality::class, 'id_quality');
+  }
+
   public function rating() {
     return $this->hasOne(EntryRating::class, 'id_entries');
   }

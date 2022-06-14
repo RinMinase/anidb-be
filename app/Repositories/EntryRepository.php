@@ -7,13 +7,11 @@ use App\Models\Entry;
 class EntryRepository {
 
   public function getAll() {
-    return Entry::join('qualities', 'entries.id_quality', '=', 'qualities.id')
-      ->leftJoin('entries_rating', 'entries.id', '=', 'entries_rating.id_entries')
+    return Entry::leftJoin('entries_rating', 'entries.id', '=', 'entries_rating.id_entries')
       ->with('offquels')
       ->with('rewatches')
       ->select(
         'entries.*',
-        'qualities.quality',
         'entries_rating.audio as rating_audio',
         'entries_rating.enjoyment as rating_enjoyment',
         'entries_rating.graphics as rating_graphics',
@@ -23,13 +21,11 @@ class EntryRepository {
 
   public function get($id) {
     return Entry::where('entries.id', $id)
-      ->join('qualities', 'entries.id_quality', '=', 'qualities.id')
       ->leftJoin('entries_rating', 'entries.id', '=', 'entries_rating.id_entries')
       ->with('offquels')
       ->with('rewatches')
       ->select(
         'entries.*',
-        'qualities.quality',
         'entries_rating.audio as rating_audio',
         'entries_rating.enjoyment as rating_enjoyment',
         'entries_rating.graphics as rating_graphics',

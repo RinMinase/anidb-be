@@ -15,7 +15,7 @@ class EntryResource extends JsonResource {
     $rating = round($rating / 4, 2);
 
     return [
-      'quality' => $this->quality,
+      'quality' => $this->quality->quality,
       'title' => $this->title,
       'date_finished' => $this->date_finished,
       'duration' => $this->duration,
