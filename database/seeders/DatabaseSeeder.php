@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder {
       LogSeeder::class,         // test data
       MarathonSeeder::class,    // test data
       PartialSeeder::class,     // test data
+      SearchSeeder::class,      // test data
     ]);
   }
 }
