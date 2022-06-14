@@ -25,8 +25,9 @@ Route::prefix('api')
           });
       });
 
+    $isDevelopment = strcasecmp(env('APP_ENV'), 'local') == 0;
 
-    Route::middleware('auth:sanctum')
+    Route::middleware($isDevelopment ? 'api' : 'auth:sanctum')
       ->group(function () {
         Route::get('img/{params}', 'ImageController@index')
           ->where('params', '.*');
