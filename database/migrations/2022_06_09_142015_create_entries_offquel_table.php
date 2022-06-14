@@ -14,9 +14,11 @@ return new class extends Migration {
     Schema::create('entries_offquel', function (Blueprint $table) {
       $table->id();
 
+      // parent entry
       $table->integer('id_entries')->unsigned()->nullable();
       $table->foreign('id_entries')->references('id')->on('entries');
 
+      // child / offquel entry
       $table->integer('id_entries_offquel')->unsigned()->nullable();
       $table->foreign('id_entries_offquel')->references('id')->on('entries');
 

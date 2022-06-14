@@ -58,8 +58,8 @@ class EntrySeeder extends Seeder {
 
     $testDataOffquel = [
       [
-        'id_entries' => 1,
-        'id_entries_offquel' => 3,
+        'id_entries' => 1,          // parent entry
+        'id_entries_offquel' => 3,  // offquel entry
       ],
     ];
 
