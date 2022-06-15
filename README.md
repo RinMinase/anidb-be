@@ -148,15 +148,14 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 
 ### Project Structure
     .
-    ├── app/                     # Project source code
-    │   ├── Console/             # Project artisan commands and console setup
-    │   ├── Controllers/         # Project controllers
-    │   ├── Exceptions/          # Project exception handlers
-    │   ├── Middleware/          # Project middleware
-    │   ├── Models/              # Project models
+    ├── app/                     # Application source code
+    │   ├── Console/             # Important interfaces of the project
+    │   ├── Controllers/         # API request receivers
+    │   ├── Middleware/          # API middleware
+    │   ├── Models/              # Database models
     │   ├── Providers/           # Project service providers
-    │   ├── Repositories/        # Project repositories
-    │   ├── Requests/            # Project request handlers
+    │   ├── Repositories/        # Database queries
+    │   ├── Requests/            # API request validators
     │   └── index.blade.php      # Landing page template
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
