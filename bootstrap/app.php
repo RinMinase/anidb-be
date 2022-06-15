@@ -20,7 +20,7 @@ $app->singleton(
 
 $app->singleton(
   Illuminate\Contracts\Debug\ExceptionHandler::class,
-  App\Exceptions\Handler::class
+  App\Console\ExceptionHandler::class
 );
 
 /* Return The Application */

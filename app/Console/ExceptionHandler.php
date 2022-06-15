@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Console;
 
 use Exception;
 use Throwable;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Handler extends ExceptionHandler {
+class ExceptionHandler extends Handler {
   /**
    * A list of the exception types that are not reported.
    *
