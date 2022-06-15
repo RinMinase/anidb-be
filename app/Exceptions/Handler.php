@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
@@ -59,6 +60,14 @@ class Handler extends ExceptionHandler {
       return response()->json([
         'status' => 401,
         'message' => 'Unauthorized',
+      ]);
+    }
+
+    $isDevelopment = strcasecmp(env('APP_ENV'), 'local') == 0;
+    if ($e instanceof Exception && !$isDevelopment) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Unknown exception',
       ]);
     }
 
