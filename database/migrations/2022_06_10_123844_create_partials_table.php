@@ -23,6 +23,7 @@ return new class extends Migration {
       $table->foreign('id_priority')->references('id')->on('priorities');
 
       $table->timestamps();
+      $table->softDeletes();
     });
   }
 

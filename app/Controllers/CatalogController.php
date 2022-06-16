@@ -22,6 +22,12 @@ class CatalogController extends Controller {
     ]);
   }
 
+  public function get($id): JsonResponse {
+    return response()->json([
+      'data' => $this->catalogRepository->get($id),
+    ]);
+  }
+
   public function add(Request $request): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->add($request->all()),

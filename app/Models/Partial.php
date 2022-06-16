@@ -23,7 +23,9 @@ class Partial extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id_catalogs',
     'updated_at',
+    'deleted_at',
   ];
 
   /**
