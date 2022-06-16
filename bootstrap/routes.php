@@ -42,6 +42,8 @@ Route::prefix('api')
 
         Route::get('log', 'LogController@index');
 
+        Route::get('quality', 'QualityController@index');
+
         Route::prefix('entry')
           ->group(function () {
             Route::get('', 'EntryController@index');
