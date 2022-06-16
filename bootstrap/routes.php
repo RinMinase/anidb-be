@@ -62,6 +62,13 @@ Route::prefix('api')
             Route::delete('{id}', 'CatalogController@delete');
           });
 
+        Route::prefix('partial')
+          ->group(function () {
+            Route::post('', 'PartialController@add');
+            Route::put('{id?}', 'PartialController@edit');
+            Route::delete('{id}', 'PartialController@delete');
+          });
+
         Route::prefix('bucket')
           ->group(function () {
             Route::get('', 'BucketController@index');
