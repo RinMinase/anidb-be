@@ -8,6 +8,7 @@ yarn-error.log
 /docker/logs/
 /node_modules
 /.DS_Store
+/storage/api-docs/
 
 # Homestead, Vagrant and IDE Files
 Homestead.json
