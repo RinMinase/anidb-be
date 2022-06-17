@@ -46,7 +46,7 @@
             "rm -f public/deploy-status"
         ],
         "post-autoload-dump": [
-            "yarn && npm run docs || true",
+            "yarn && npm run build || true",
             "touch public/deploy-status",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -61,7 +61,7 @@
             "@php artisan key:generate --ansi"
         ],
         "docs": [
-            "yarn && npm run docs || true"
+            "yarn && npm run build || true"
         ]
     },
     "extra": {
