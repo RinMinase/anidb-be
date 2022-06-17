@@ -1,6 +1,6 @@
 ARG PHP_VERSION
 
-FROM php:${PHP_VERSION}-fpm-alpine3.13
+FROM php:${PHP_VERSION}-fpm-alpine3.16
 
 RUN set -xe; \
     apk add --no-cache \
@@ -67,6 +67,8 @@ RUN set -xe; \
     nodejs \
     npm \
     yarn
+
+RUN yarn install
 
 ###########################################################################
 # Setting up shell profile
