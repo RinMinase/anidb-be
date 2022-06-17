@@ -25,7 +25,6 @@
   "apidoc": {
     "name": "Rin's AniDB API / Middleware",
     "version": "0.1.0",
-    "description": "Rin Minase's AniDB API Service utilizing Laravel deployed to Heroku",
     "title": "AniDB API Documentation",
     "url": "https://anidb-staging.herokuapp.com/docs"
   }
