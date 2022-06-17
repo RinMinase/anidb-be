@@ -10,15 +10,12 @@
   },
   "scripts": {
     "docs": "apidoc -i app/Controllers -i docs -o public/docs",
-    "build": "npm run docs",
-    "watch": "nodemon -e php -x npm run docs -w docs/"
+    "build": "npm run docs"
   },
   "dependencies": {
     "apidoc": "^0.51.1"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.16"
-  },
+  "devDependencies": {},
   "engines": {
     "node": ">=14.0.0"
   },
