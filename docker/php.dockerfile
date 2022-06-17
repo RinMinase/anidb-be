@@ -78,7 +78,9 @@ RUN echo "alias pa='php artisan'" >> "$ENV" \
   && echo "alias artisan='php artisan'" >> "$ENV" \
   && echo "alias la='ls -la'" >> "$ENV" \
   && echo "alias da='composer dumpautoload'" >> "$ENV" \
-  && echo "alias dump='composer dumpautoload'" >> "$ENV"
+  && echo "alias dump='composer dumpautoload'" >> "$ENV" \
+  && echo "alias doc='composer docs'" >> "$ENV" \
+  && echo "alias docs='composer docs'" >> "$ENV"
 
 ###########################################################################
 # Final Setup
