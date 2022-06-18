@@ -60,6 +60,18 @@ class Entry extends Model {
     return $this->belongsTo(Quality::class, 'id_quality');
   }
 
+  public function season_first_title() {
+    return $this->belongsTo(self::class, 'season_first_title_id');
+  }
+
+  public function prequel() {
+    return $this->belongsTo(self::class, 'prequel_id');
+  }
+
+  public function sequel() {
+    return $this->belongsTo(self::class, 'sequel_id');
+  }
+
   public function rating() {
     return $this->hasOne(EntryRating::class, 'id_entries');
   }
