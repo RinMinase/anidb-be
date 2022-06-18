@@ -34,8 +34,8 @@ class EntryResource extends JsonResource {
       'release_season' => $this->release_season,
       'variants' => $this->variants,
       'remarks' => $this->remarks,
-      'offquels' => $this->offquels,
-      'rewatches' => $this->rewatches,
+      'offquels' => EntryOffquelCollection::collection($this->offquels),
+      'rewatches' => EntryRewatchCollection::collection($this->rewatches),
       'rating' => $rating,
     ];
   }
