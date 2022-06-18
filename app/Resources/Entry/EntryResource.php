@@ -11,30 +11,40 @@ class EntryResource extends JsonResource {
   public function toArray($request) {
 
     return [
+      'id' => $this->id,
       'quality' => $this->quality->quality,
       'title' => $this->title,
-      'initial_date_finished' => $this->calcDateInitFinish(),
-      'last_date_finished' => $this->calcDateLastFinish(),
+      'dateInitFinished' => $this->calcDateInitFinish(),
+      'dateLastFinished' => $this->calcDateLastFinish(),
       'duration' => $this->calcDuration(),
       'filesize' => parse_filesize($this->filesize ?? 0),
+
       'episodes' => $this->episodes ?? 0,
       'ovas' => $this->ovas ?? 0,
       'specials' => $this->specials ?? 0,
-      'season_number' => $this->season_number,
-      'season_first_title' => $this->season_first_title->title ?? '',
+
+      'seasonNumber' => $this->season_number,
+      'seasonFirstTitle' => $this->season_first_title->title ?? '',
+
       'prequel' => $this->prequel->title ?? '',
       'sequel' => $this->sequel->title ?? '',
+
       'encoder' => $this->calcEncoder(),
-      'encoder_video' => $this->encoder_video,
-      'encoder_audio' => $this->encoder_audio,
-      'encoder_subs' => $this->encoder_subs,
-      'release_season' => $this->release_season, // for icon
+      'encoderVideo' => $this->encoder_video,
+      'encoderAudio' => $this->encoder_audio,
+      'encoderSubs' => $this->encoder_subs,
+
+      'releaseSeason' => $this->release_season, // for icon
       'release' => $this->calcRelease(),
+
       'variants' => $this->variants,
       'remarks' => $this->remarks,
+
       'offquels' => EntryOffquelCollection::collection($this->offquels),
       'rewatches' => EntryRewatchCollection::collection($this->rewatches),
-      'rating' => $this->calcRating(),
+
+      'ratingAverage' => $this->calcRating(),
+      'rating' => $this->rating,
     ];
   }
 

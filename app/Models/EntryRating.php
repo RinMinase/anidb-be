@@ -30,8 +30,11 @@ class EntryRating extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id',
+    'id_entries',
     'created_at',
     'updated_at',
+    'deleted_at',
   ];
 
   /**

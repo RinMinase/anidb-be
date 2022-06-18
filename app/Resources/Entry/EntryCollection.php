@@ -15,9 +15,11 @@ class EntryCollection extends JsonResource {
       'title' => $this->title,
       'dateFinished' => $this->calcDateFinished(),
       'filesize' => parse_filesize($this->filesize ?? 0),
+
       'episodes' => $this->episodes ?? 0,
       'ovas' => $this->ovas ?? 0,
       'specials' => $this->specials ?? 0,
+
       'encoder' => $this->calcEncoder(),
       'release' => $this->calcRelease(),
       'remarks' => $this->remarks,
