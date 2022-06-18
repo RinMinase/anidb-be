@@ -27,13 +27,13 @@ return new class extends Migration {
       $table->smallInteger('specials')->default(0)->nullable();
 
       $table->tinyInteger('season_number')->nullable();
-      $table->integer('season_first_title')->nullable();
-      $table->foreign('season_first_title')->references('id')->on('entries');
+      $table->integer('season_first_title_id')->nullable();
+      $table->foreign('season_first_title_id')->references('id')->on('entries');
 
-      $table->integer('prequel')->nullable();
-      $table->foreign('prequel')->references('id')->on('entries');
-      $table->integer('sequel')->nullable();
-      $table->foreign('sequel')->references('id')->on('entries');
+      $table->integer('prequel_id')->nullable();
+      $table->foreign('prequel_id')->references('id')->on('entries');
+      $table->integer('sequel_id')->nullable();
+      $table->foreign('sequel_id')->references('id')->on('entries');
 
       $table->string('encoder_video', 128)->nullable();
       $table->string('encoder_audio', 128)->nullable();
