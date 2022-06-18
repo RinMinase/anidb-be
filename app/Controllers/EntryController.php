@@ -33,7 +33,7 @@ class EntryController extends Controller {
    * @apiSuccess {Date} data.dateFinsihed Date fisished or date last rewatched
    * @apiSuccess {String} data.encoder Title encoder
    * @apiSuccess {Number} data.episodes Number of episodes
-   * @apiSuccess {String} data.filesize Filesize in bytes
+   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
    * @apiSuccess {Number} data.ovas Number of OVAs
    * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
    * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
@@ -57,7 +57,7 @@ class EntryController extends Controller {
    *         "release": "Spring 2017",
    *         "remarks": "some remarks",
    *         "specials": 1,
-   *         "title": "Title",
+   *         "title": "Title"
    *       }, { ... }
    *     ]
    *
@@ -86,57 +86,60 @@ class EntryController extends Controller {
    * @apiParam {Number} id Entry ID.
    *
    * @apiSuccess {Object} data Entry Data
-   * @apiSuccess {Number} data.dateFinished Date Finished in Unix formatting
-   * @apiSuccess {Number} data.duration Duration in seconds
-   * @apiSuccess {Number} data.filesize Filesize in bytes
-   * @apiSuccess {Boolean} data.inhdd Flag if title is located in HDD
+   * @apiSuccess {Number} data.id Entry ID
+   * @apiSuccess {Date} data.dateInitFinished Intial date finished
+   * @apiSuccess {Date} data.dateLastFinished Last rewatch date
+   * @apiSuccess {String} data.duration Duration in xx hours xx minutes xx seconds
+   * @apiSuccess {String} data.encoder Combined encoder value
+   * @apiSuccess {String} data.encoderAudio Audio encoder
+   * @apiSuccess {String} data.encoderSubs Subs encoder
+   * @apiSuccess {String} data.encoderVideo Video encoder
+   * @apiSuccess {Number} data.episodes Number of episodes
+   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
+   * @apiSuccess {Object[]} offquels List of offquel titles
+   * @apiSuccess {Number} data.offquels.id Offquel title id
+   * @apiSuccess {String} data.offquels.title Offquel title name
+   * @apiSuccess {Number} data.ovas Number of OVAs
+   * @apiSuccess {String} data.prequel Prequel title
    * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {Object} data.rating Rating of Audio, Enjoyment, Graphics and Plot
-   * @apiSuccess {Number} data.rating.audio Rating of Audio quality
-   * @apiSuccess {Number} data.rating.enjoyment Rating of Enjoyment
-   * @apiSuccess {Number} data.rating.graphics Rating of Graphics quality
-   * @apiSuccess {Number} data.rating.plot Rating of Plot depth
-   * @apiSuccess {String='Winter','Spring','Summer','Fall'} data.releaseSeason Season in which the title was released
-   * @apiSuccess {String} data.releaseYear Year in which the title was released converted to String
-   * @apiSuccess {String} data.rewatch Comma-separated string for rewatches in Unix formatted dates
-   * @apiSuccess {Number} data.rewatchLast Last rewatched date in Unix formatting
-   * @apiSuccess {String} data.variants Comma-separated title variants
-   * @apiSuccess {Number=0,1,2} data.watchStatus 0 = Unwatched, 1 = Watched, 2 = Downloaded
+   * @apiSuccess {String[]} rewatches List of rewatch dates
+   * @apiSuccess {Number} data.seasonNumber nth season from first title in series
+   * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
+   * @apiSuccess {String} data.sequel Sequel title
+   * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.variants Comma separated title variants
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
    *     {
-   *       "_id": {
-   *         "$oid": 1234abcd5678efgh
-   *       },
-   *       "dateFinished": 1546185600,
-   *       "duration": 12345,
-   *       "encoder": "encoder",
+   *       "id": 1
+   *       "dateInitFinished": "Jan 01, 2001",
+   *       "dateLastFinished": "Mar 01, 2011",
+   *       "duration": 12 hours 34 minutes 56 seconds,
+   *       "encoder": "encVideo—encAudio—encSubs",
+   *       "encoderAudio": "encAudio",
+   *       "encoderSubs": "encVideo",
+   *       "encoderVideo": "encSubs",
    *       "episodes": 25,
-   *       "filesize": 123456789,
-   *       "firstSeasonTitle": "First Season Title",
-   *       "inhdd": true,
-   *       "offquel": "Offquel1, Offquel2, Offquel3",
+   *       "filesize": "10.25 GB",
+   *       "offquels" [
+   *         {
+   *           "id": 3,
+   *           "title": "Offquel Title",
+   *         }, {...}
+   *       ]
    *       "ovas": 1,
    *       "prequel": "Prequel Title",
    *       "quality": "FHD 1080p",
-   *       "rating": {
-   *           "audio": 5,
-   *           "enjoyment": 7,
-   *           "graphics": 4,
-   *           "plot": 7
-   *       },
-   *       "releaseSeason": "Spring",
-   *       "releaseYear": "2017",
-   *       "remarks": "",
-   *       "rewatch": "1553270400, 1553260400",
-   *       "rewatchLast": 1553270400,
+   *       "rewatches": [
+   *         "Feb 10, 2011",
+   *         "Mar 01, 2011"
+   *       ]
    *       "seasonNumber": 2,
+   *       "seasonFirstTitle": "First Title",
    *       "sequel": "Sequel Title",
    *       "specials": 1,
-   *       "title": "Title",
-   *       "variants": "Variant1, Variant2",
-   *       "watchStatus": 0
+   *       "variants": "ShortTitle"
    *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
