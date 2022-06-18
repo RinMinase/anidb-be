@@ -47,6 +47,7 @@ class ImageController extends Controller {
    *       "url": "https://storage.googleapis.com/example.appspot.com/assets/test.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=example%40appspot.gserviceaccount.com{{url and key contents}}"
    *     }
    *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    * @apiError Invalid The specified image path does not exist
    *
    * @apiErrorExample Invalid

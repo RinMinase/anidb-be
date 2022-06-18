@@ -161,14 +161,7 @@ class AuthController extends Controller {
    *       "message": "Success"
    *     }
    *
-   * @apiError Invalid There is no token provided or the token is invalid
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": 400,
-   *       "message": "Invalid request"
-   *     }
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
   public function logout(): JsonResponse {
     Auth::user()->tokens()->delete();
@@ -205,14 +198,7 @@ class AuthController extends Controller {
    *       ]
    *     }
    *
-   * @apiError Invalid There is no token provided or the token is invalid
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": 400,
-   *       "message": "Invalid request"
-   *     }
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
   public function getUser(): JsonResponse {
     return response()->json(auth()->user());

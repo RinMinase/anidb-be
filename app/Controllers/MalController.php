@@ -67,13 +67,6 @@ class MalController extends Controller {
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    * @apiError (Error 5xx) ServiceUnavailable There is no login token provided, or the login token provided is invalid
    *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": 401,
-   *       "message": "Unauthorized"
-   *     }
-   *
    * @apiErrorExample ServiceUnavailable
    *     HTTP/1.1 503 Forbidden
    *     {
@@ -122,13 +115,6 @@ class MalController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    * @apiError (Error 5xx) ServiceUnavailable There is no login token provided, or the login token provided is invalid
-   *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": 401,
-   *       "message": "Unauthorized"
-   *     }
    *
    * @apiErrorExample ServiceUnavailable
    *     HTTP/1.1 503 Forbidden

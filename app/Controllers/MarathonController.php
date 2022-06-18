@@ -43,13 +43,6 @@ class MarathonController extends Controller {
    *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "Unauthorized",
-   *       "message": "Unauthorized"
-   *     }
    */
   public function index(): JsonResponse {
     return response()->json([

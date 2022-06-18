@@ -55,13 +55,6 @@ class ReleaseController extends Controller {
    *     ]
    *
    * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
-   *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "Unauthorized",
-   *       "message": "Unauthorized"
-   *     }
    */
   public function getLogs($limit = 20): JsonResponse {
     if ($this->isScraperEnabled()) {
@@ -115,13 +108,6 @@ class ReleaseController extends Controller {
    *     ]
    *
    * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
-   *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "Unauthorized",
-   *       "message": "Unauthorized"
-   *     }
    */
   public function getLogsBE($limit = 20): JsonResponse {
     if ($this->isScraperEnabled()) {
@@ -173,13 +159,6 @@ class ReleaseController extends Controller {
    *     }
    *
    * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
-   *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "Unauthorized",
-   *       "message": "Unauthorized"
-   *     }
    */
   public function getIssues($limit = 100): JsonResponse {
     if ($this->isScraperEnabled()) {
