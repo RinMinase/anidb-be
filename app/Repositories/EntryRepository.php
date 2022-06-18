@@ -9,6 +9,7 @@ class EntryRepository {
   public function getAll() {
     return Entry::select()
       ->with('rating')
+      ->limit(30)
       ->get();
   }
 
