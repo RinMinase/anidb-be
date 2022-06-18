@@ -8,8 +8,6 @@ class EntryRepository {
 
   public function getAll() {
     return Entry::select()
-      ->with('offquels')
-      ->with('rewatches')
       ->with('rating')
       ->get();
   }
