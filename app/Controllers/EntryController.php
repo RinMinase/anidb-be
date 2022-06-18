@@ -27,61 +27,37 @@ class EntryController extends Controller {
    *
    * @apiHeader {String} token User login token
    * @apiParam {String} [limit] Page Limit
-   * @apiParam {String='hdd','release','title'} [group] Grouping
    *
    * @apiSuccess {Object[]} data Entry Data
-   * @apiSuccess {Number} data.dateFinished Date Finished in Unix formatting
-   * @apiSuccess {Number} data.duration Duration in seconds
-   * @apiSuccess {Number} data.filesize Filesize in bytes
-   * @apiSuccess {Boolean} data.inhdd Flag if title is located in HDD
+   * @apiSuccess {Number} data.id Entry ID
+   * @apiSuccess {Date} data.dateFinsihed Date fisished or date last rewatched
+   * @apiSuccess {String} data.encoder Title encoder
+   * @apiSuccess {Number} data.episodes Number of episodes
+   * @apiSuccess {String} data.filesize Filesize in bytes
+   * @apiSuccess {Number} data.ovas Number of OVAs
    * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {Object} data.rating Rating of Audio, Enjoyment, Graphics and Plot
-   * @apiSuccess {Number} data.rating.audio Rating of Audio quality
-   * @apiSuccess {Number} data.rating.enjoyment Rating of Enjoyment
-   * @apiSuccess {Number} data.rating.graphics Rating of Graphics quality
-   * @apiSuccess {Number} data.rating.plot Rating of Plot depth
-   * @apiSuccess {String='Winter','Spring','Summer','Fall'} data.releaseSeason Season in which the title was released
-   * @apiSuccess {String} data.releaseYear Year in which the title was released converted to String
-   * @apiSuccess {String} data.rewatch Comma-separated string for rewatches in Unix formatted dates
+   * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
+   * @apiSuccess {String} data.release Season and year in which the title was released
+   * @apiSuccess {String} data.remarks Any remarks for the title
    * @apiSuccess {Number} data.rewatchLast Last rewatched date in Unix formatting
-   * @apiSuccess {String} data.variants Comma-separated title variants
-   * @apiSuccess {Number=0,1,2} data.watchStatus 0 = Unwatched, 1 = Watched, 2 = Downloaded
+   * @apiSuccess {Number} data.specials Number of specials
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
    *     [
    *       {
-   *         "_id": {
-   *           "$oid": 1234abcd5678efgh
-   *         },
-   *         "dateFinished": 1546185600,
-   *         "duration": 12345,
-   *         "encoder": "encoder",
+   *         "id": 1
+   *         "dateFinished": "Mar 01, 2011",
+   *         "encoder": "encoder—encoder2",
    *         "episodes": 25,
-   *         "filesize": 123456789,
-   *         "firstSeasonTitle": "First Season Title",
-   *         "inhdd": true,
-   *         "offquel": "Offquel1, Offquel2, Offquel3",
+   *         "filesize": "10.25 GB",
    *         "ovas": 1,
-   *         "prequel": "Prequel Title",
    *         "quality": "FHD 1080p",
-   *         "rating": {
-   *             "audio": 5,
-   *             "enjoyment": 7,
-   *             "graphics": 4,
-   *             "plot": 7
-   *         },
-   *         "releaseSeason": "Spring",
-   *         "releaseYear": "2017",
-   *         "remarks": "",
-   *         "rewatch": "1553270400, 1553260400",
-   *         "rewatchLast": 1553270400,
-   *         "seasonNumber": 2,
-   *         "sequel": "Sequel Title",
+   *         "rating": 7.5,
+   *         "release": "Spring 2017",
+   *         "remarks": "some remarks",
    *         "specials": 1,
    *         "title": "Title",
-   *         "variants": "Variant1, Variant2",
-   *         "watchStatus": 0
    *       }, { ... }
    *     ]
    *
