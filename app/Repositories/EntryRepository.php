@@ -9,6 +9,8 @@ class EntryRepository {
   public function getAll() {
     return Entry::select()
       ->with('rating')
+      ->orderBy('id_quality', 'asc')
+      ->orderBy('id')
       ->limit(30)
       ->get();
   }
