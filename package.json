@@ -9,7 +9,7 @@
     "url": "https://github.com/RinMinase/anidb-be.git"
   },
   "scripts": {
-    "docs": "apidoc -i app/Controllers -i docs -o public/docs",
+    "docs": "apidoc -i app/Controllers -o public/docs",
     "build": "npm run docs"
   },
   "dependencies": {
