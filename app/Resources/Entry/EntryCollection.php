@@ -22,17 +22,17 @@ class EntryCollection extends JsonResource {
     /**
      * Last Date Finished Computation
      */
-    $last_date_finsihed = '';
+    $last_date_finished = '';
 
     if ($this->date_finished) {
-      $last_date_finsihed = Carbon::parse($this->date_finished)
+      $last_date_finished = Carbon::parse($this->date_finished)
         ->format('M d, Y');
     }
 
     if (count($this->rewatches)) {
       $len = count($this->rewatches);
       $last_date = $this->rewatches[$len - 1]->date_rewatched;
-      $last_date_finsihed = Carbon::parse($last_date)
+      $last_date_finished = Carbon::parse($last_date)
         ->format('M d, Y');
     }
 
@@ -73,7 +73,7 @@ class EntryCollection extends JsonResource {
       'id' => $this->id,
       'quality' => $this->quality->quality,
       'title' => $this->title,
-      'dateFinished' => $last_date_finsihed,
+      'dateFinished' => $last_date_finished,
       'filesize' => $filesize,
       'episodes' => $this->episodes,
       'ovas' => $this->ovas,
