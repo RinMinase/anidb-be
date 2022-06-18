@@ -23,6 +23,9 @@
     "name": "Rin's AniDB API / Middleware",
     "version": "0.1.0",
     "title": "AniDB API Documentation",
-    "url": "https://anidb-staging.herokuapp.com/docs"
+    "url": "https://anidb-staging.herokuapp.com/docs",
+    "order": [
+      "❌ Errors ❌"
+    ]
   }
 }
