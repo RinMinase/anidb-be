@@ -76,11 +76,12 @@ DISABLE_MAILGUN  - Disables Mailgun
 
     **Note:** If you're not running Windows 10, use `Docker Toolbox` instead, [download](https://docs.docker.com/toolbox/toolbox_install_windows/#step-2-install-docker-toolbox) and install it. Also make sure that you are also running [vitualization](https://docs.docker.com/toolbox/toolbox_install_windows/#step-1-check-your-version).
 
-2. Clone the project
+2. Clone the project, then install the dependencies
 
     ```
     git clone https://github.com/RinMinase/anidb-be.git
     cd anidb-be
+    composer install
     ```
 
 3. Run the necessary docker containers
@@ -97,11 +98,10 @@ DISABLE_MAILGUN  - Disables Mailgun
     php artisan key:generate
     ```
 
-5. Modify the ENV with the necessary configuration values, run the migrations, then install the dependencies
+5. Modify the ENV with the necessary configuration values, run the migrations
     ```
     php artisan config:clear
     php artisan migrate:fresh --seed
-    composer install
     ```
 
 6. Fire up your browser and go to `localhost`.
