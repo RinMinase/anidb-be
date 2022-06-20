@@ -115,12 +115,7 @@ class AuthController extends Controller {
    *     }
    */
   public function login(LoginRequest $request): JsonResponse {
-    $attr = $request->validate([
-      'email' => 'required|string|email|',
-      'password' => 'required|string|min:6'
-    ]);
-
-    if (!Auth::attempt($attr)) {
+    if (!Auth::attempt($request)) {
       return response()->json([
         'status' => 401,
         'message' => 'Credentials does not match',
