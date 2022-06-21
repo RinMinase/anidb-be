@@ -14,6 +14,7 @@ class EntryCollection extends JsonResource {
       'quality' => $this->quality->quality,
       'title' => $this->title,
       'dateFinished' => $this->calcDateFinished(),
+      'rewatched' => $this->calcRewatched(),
       'filesize' => parse_filesize($this->filesize ?? 0),
 
       'episodes' => $this->episodes ?? 0,
@@ -68,5 +69,9 @@ class EntryCollection extends JsonResource {
 
   private function calcRelease() {
     return trim($this->release_season . ' ' . $this->release_year);
+  }
+
+  private function calcRewatched() {
+    return (bool)count($this->rewatches);
   }
 }
