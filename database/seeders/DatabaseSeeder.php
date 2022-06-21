@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder {
       CatalogSeeder::class,     // test data
       EntrySeeder::class,       // test data
       LogSeeder::class,         // test data
-      MarathonSeeder::class,    // test data
       PartialSeeder::class,     // test data
       SearchSeeder::class,      // test data
+      SequenceSeeder::class,    // test data
     ]);
   }
 }

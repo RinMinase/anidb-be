@@ -38,7 +38,7 @@ Route::prefix('api')
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
 
-        Route::get('marathon', 'MarathonController@index');
+        Route::get('sequences', 'SequenceController@index');
 
         Route::get('log', 'LogController@index');
 

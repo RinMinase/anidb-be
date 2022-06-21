@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Marathon extends Model {
+class Sequence extends Model {
   /**
    * The attributes that are mass assignable.
    *

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class MarathonSeeder extends Seeder {
+class SequenceSeeder extends Seeder {
 
   /**
    * Run the database seeds.
@@ -38,6 +38,6 @@ class MarathonSeeder extends Seeder {
       ],
     ];
 
-    DB::table('marathons')->insert($testData);
+    DB::table('sequences')->insert($testData);
   }
 }
