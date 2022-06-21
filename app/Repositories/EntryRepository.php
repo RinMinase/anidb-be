@@ -2,17 +2,34 @@
 
 namespace App\Repositories;
 
+use Illuminate\Http\Request;
+
 use App\Models\Entry;
 
 class EntryRepository {
 
-  public function getAll() {
-    return Entry::select()
-      ->with('rating')
-      ->orderBy('id_quality', 'asc')
-      ->orderBy('id')
-      ->limit(30)
-      ->get();
+  public function getAll(Request $request) {
+    $column = $request->query('column', 'id_quality');
+    $order = $request->query('order', 'asc');
+    $limit = $request->query('limit', 30);
+    $page = $request->query('page', 1);
+    $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+
+    $data = Entry::select()->with('rating');
+
+    if ($column === 'date_rewatched') {
+      $data = $data->with(['rewatches' => function ($query) {
+        $query->orderBy('date_rewatched', 'desc');
+      }]);
+    } else {
+      $data = $data->orderBy($column, $order);
+    }
+
+    $data = $data->orderBy('id')
+      ->skip($skip)
+      ->paginate($limit);
+
+    return $data;
   }
 
   public function get($id) {

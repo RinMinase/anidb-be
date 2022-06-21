@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 
@@ -27,7 +28,10 @@ class EntryController extends Controller {
    * @apiGroup Entry
    *
    * @apiHeader {String} token User login token
+   * @apiParam {String} [column] Page Limit
+   * @apiParam {String} [order] Page Limit
    * @apiParam {String} [limit] Page Limit
+   * @apiParam {String} [page] Page number
    *
    * @apiSuccess {Object[]} data Entry Data
    * @apiSuccess {UUID} data.id Entry ID
@@ -64,9 +68,9 @@ class EntryController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function index(): JsonResponse {
+  public function index(Request $request): JsonResponse {
     return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getAll()),
+      'data' => EntryCollection::collection($this->entryRepository->getAll($request)),
     ]);
   }
 
