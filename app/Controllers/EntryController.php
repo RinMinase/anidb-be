@@ -44,7 +44,7 @@ class EntryController extends Controller {
    * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
    * @apiSuccess {String} data.release Season and year in which the title was released
    * @apiSuccess {String} data.remarks Any remarks for the title
-   * @apiSuccess {Number} data.rewatchLast Last rewatched date in Unix formatting
+   * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
    * @apiSuccess {Number} data.specials Number of specials
    *
    * @apiSuccessExample Success Response
