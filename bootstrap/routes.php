@@ -40,11 +40,11 @@ Route::prefix('api')
 
         Route::get('sequences', 'SequenceController@index');
 
-        Route::get('log', 'LogController@index');
+        Route::get('logs', 'LogController@index');
 
-        Route::get('quality', 'QualityController@index');
+        Route::get('qualities', 'QualityController@index');
 
-        Route::prefix('entry')
+        Route::prefix('entries')
           ->group(function () {
             Route::get('', 'EntryController@index');
             Route::get('{id}', 'EntryController@get');
@@ -53,7 +53,7 @@ Route::prefix('api')
             Route::delete('{id}', 'EntryController@delete');
           });
 
-        Route::prefix('catalog')
+        Route::prefix('catalogs')
           ->group(function () {
             Route::get('', 'CatalogController@index');
             Route::get('{id}', 'CatalogController@get');
@@ -62,14 +62,14 @@ Route::prefix('api')
             Route::delete('{id}', 'CatalogController@delete');
           });
 
-        Route::prefix('partial')
+        Route::prefix('partials')
           ->group(function () {
             Route::post('', 'PartialController@add');
             Route::put('{id?}', 'PartialController@edit');
             Route::delete('{id}', 'PartialController@delete');
           });
 
-        Route::prefix('bucket')
+        Route::prefix('buckets')
           ->group(function () {
             Route::get('', 'BucketController@index');
           });
