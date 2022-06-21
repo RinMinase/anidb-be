@@ -9,7 +9,7 @@ class EntryOffquelCollection extends JsonResource {
   public function toArray($request) {
 
     return [
-      'id' => $this->id_entries_offquel,
+      'id' => $this->entry->uuid,
       'title' => $this->entry->title,
     ];
   }

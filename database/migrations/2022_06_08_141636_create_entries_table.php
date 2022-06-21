@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('entries', function (Blueprint $table) {
       $table->id();
+      $table->uuid('uuid');
 
       $table->integer('id_quality')->nullable();
       $table->foreign('id_quality')->references('id')->on('qualities');

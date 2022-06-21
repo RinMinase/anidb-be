@@ -11,7 +11,7 @@ class EntryResource extends JsonResource {
   public function toArray($request) {
 
     return [
-      'id' => $this->id,
+      'id' => $this->uuid,
       'quality' => $this->quality->quality,
       'title' => $this->title,
       'dateInitFinished' => $this->calcDateInitFinish(),

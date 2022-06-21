@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 
 use App\Repositories\EntryRepository;
 use App\Requests\Entry\AddRequest;
@@ -29,7 +30,7 @@ class EntryController extends Controller {
    * @apiParam {String} [limit] Page Limit
    *
    * @apiSuccess {Object[]} data Entry Data
-   * @apiSuccess {Number} data.id Entry ID
+   * @apiSuccess {UUID} data.id Entry ID
    * @apiSuccess {Date} data.dateFinsihed Date fisished or date last rewatched
    * @apiSuccess {String} data.encoder Title encoder
    * @apiSuccess {Number} data.episodes Number of episodes
@@ -46,7 +47,7 @@ class EntryController extends Controller {
    *     HTTP/1.1 200 OK
    *     [
    *       {
-   *         "id": 1
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
    *         "dateFinished": "Mar 01, 2011",
    *         "encoder": "encoder—encoder2",
    *         "episodes": 25,
@@ -76,10 +77,10 @@ class EntryController extends Controller {
    * @apiGroup Entry
    *
    * @apiHeader {String} token User login token
-   * @apiParam {Number} id Entry ID.
+   * @apiParam {UUID} id Entry UUID.
    *
    * @apiSuccess {Object} data Entry Data
-   * @apiSuccess {Number} data.id Entry ID
+   * @apiSuccess {UUID} data.id Entry ID
    * @apiSuccess {Date} data.dateInitFinished Intial date finished
    * @apiSuccess {Date} data.dateLastFinished Last rewatch date
    * @apiSuccess {String} data.duration Duration in xx hours xx minutes xx seconds
@@ -105,7 +106,7 @@ class EntryController extends Controller {
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
    *     {
-   *       "id": 1
+   *       "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
    *       "dateInitFinished": "Jan 01, 2001",
    *       "dateLastFinished": "Mar 01, 2011",
    *       "duration": 12 hours 34 minutes 56 seconds,
@@ -136,11 +137,26 @@ class EntryController extends Controller {
    *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @apiError Invalid The provided ID is invalid, or the item does not exist
+   *
+   * @apiErrorExample Invalid
+   *     HTTP/1.1 401 Forbidden
+   *     {
+   *       "status": "401",
+   *       "message": "The provided ID is invalid, or the item does not exist"
+   *     }
    */
   public function get($id): JsonResponse {
-    return response()->json([
-      'data' => new EntryResource($this->entryRepository->get($id)),
-    ]);
+    try {
+      return response()->json([
+        'data' => new EntryResource($this->entryRepository->get($id)),
+      ]);
+    } catch (QueryException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'The provided ID is invalid, or the item does not exist',
+      ], 401);
+    }
   }
 
 

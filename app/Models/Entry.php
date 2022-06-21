@@ -15,6 +15,7 @@ class Entry extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'uuid',
     'id_quality',
     'title',
     'date_finished',
@@ -42,6 +43,7 @@ class Entry extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id',
     'id_quality',
     'updated_at',
     'deleted_at',

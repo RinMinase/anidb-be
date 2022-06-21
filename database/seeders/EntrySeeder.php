@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
@@ -15,6 +16,7 @@ class EntrySeeder extends Seeder {
   public function run() {
     $testData = [
       [
+        'uuid' => Str::uuid()->toString(),
         'id_quality' => 1,
         'title' => "title 1",
         'date_finished' => Carbon::parse('01-01-2001')->format('Y-m-d'),
@@ -29,6 +31,7 @@ class EntrySeeder extends Seeder {
         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
+        'uuid' => Str::uuid()->toString(),
         'id_quality' => 2,
         'title' => "title 2",
         'date_finished' => Carbon::parse('01-01-2011')->format('Y-m-d'),
@@ -43,6 +46,7 @@ class EntrySeeder extends Seeder {
         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
         'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
+        'uuid' => Str::uuid()->toString(),
         'id_quality' => 3,
         'title' => "title 1 offquel",
         'date_finished' => Carbon::parse('01-01-2011')->format('Y-m-d'),

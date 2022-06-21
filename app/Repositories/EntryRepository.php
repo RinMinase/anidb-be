@@ -16,7 +16,7 @@ class EntryRepository {
   }
 
   public function get($id) {
-    return Entry::where('entries.id', $id)
+    return Entry::where('entries.uuid', $id)
       ->with('offquels')
       ->with('rewatches')
       ->with('rating')
