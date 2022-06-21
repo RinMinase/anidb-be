@@ -21,7 +21,7 @@ class Controller extends BaseController {
    * @apiErrorExample Unauthorized
    *     HTTP/1.1 401 Forbidden
    *     {
-   *       "status": "Unauthorized",
+   *       "status": "401",
    *       "message": "Unauthorized"
    *     }
    */
