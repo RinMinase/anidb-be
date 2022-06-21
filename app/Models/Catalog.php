@@ -15,6 +15,7 @@ class Catalog extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'uuid',
     'description',
     'order',
     'year',
@@ -27,6 +28,7 @@ class Catalog extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id',
     'updated_at',
     'deleted_at',
   ];

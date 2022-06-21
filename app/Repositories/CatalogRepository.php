@@ -8,7 +8,7 @@ use App\Models\Partial;
 class CatalogRepository {
 
   public function getAll() {
-    return Catalog::orderBy('order', 'desc')
+    return Catalog::orderBy('order', 'asc')
       ->orderBy('created_at', 'asc')
       ->get();
   }
@@ -24,10 +24,12 @@ class CatalogRepository {
   }
 
   public function edit(array $values, $id) {
-    return Catalog::whereId($id)->update($values);
+    return Catalog::where('uuid', $id)->update($values);
   }
 
   public function delete($id) {
-    return Catalog::findOrFail($id)->delete();
+    return Catalog::where('uuid', $id)
+      ->firstOrFail()
+      ->delete();
   }
 }

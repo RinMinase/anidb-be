@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('catalogs', function (Blueprint $table) {
       $table->id();
+      $table->uuid('uuid');
 
       $table->string('description', 16)->unique();
       $table->smallInteger('order')->unique()->nullable();
