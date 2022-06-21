@@ -28,6 +28,8 @@ class EntryController extends Controller {
    * @apiGroup Entry
    *
    * @apiHeader {String} token User login token
+   * @apiParam {String} [needle] Search keyword / query
+   * @apiParam {String} [haystack=title] Column used for the searching the needle
    * @apiParam {String} [column] Page Limit
    * @apiParam {String} [order] Page Limit
    * @apiParam {String} [limit] Page Limit
