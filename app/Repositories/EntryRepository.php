@@ -32,6 +32,8 @@ class EntryRepository {
   }
 
   public function delete($id) {
-    return Entry::findOrFail($id)->delete();
+    return Entry::where('uuid', $id)
+      ->firstOrFail()
+      ->delete();
   }
 }
