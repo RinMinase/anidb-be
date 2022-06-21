@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('logs', function (Blueprint $table) {
       $table->id();
+      $table->uuid('uuid');
 
       $table->string('table_changed')->nullable();
       $table->integer('id_changed')->nullable();

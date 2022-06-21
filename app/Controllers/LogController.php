@@ -22,7 +22,7 @@ class LogController extends Controller {
    * @apiHeader {String} Authorization Token received from logging-in
    *
    * @apiSuccess {Object[]} data Log Data
-   * @apiSuccess {Number} data.id ID of the log
+   * @apiSuccess {UUID} data.id ID of the log
    * @apiSuccess {String} data.table_changed Changed table name of the log
    * @apiSuccess {String} data.id_changed Changed id under the table name
    * @apiSuccess {String} data.description Any description for the table_changed and id_changed
@@ -34,7 +34,7 @@ class LogController extends Controller {
    *     {
    *       "data": [
    *         {
-   *           id: 1,
+   *           id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
    *           table_changed: "marathon",
    *           id_changed: 1,
    *           description: "title changed from 'old' to 'new'",

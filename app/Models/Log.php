@@ -12,6 +12,7 @@ class Log extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'uuid',
     'table_changed',
     'id_changed',
     'description',
@@ -24,6 +25,7 @@ class Log extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id',
     'updated_at',
   ];
 
