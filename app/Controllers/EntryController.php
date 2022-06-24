@@ -35,7 +35,7 @@ class EntryController extends Controller {
    * @apiParam {String} [limit] Page Limit
    * @apiParam {String} [page] Page number
    *
-   * @apiSuccess {Object[]} data Entry Data
+   * @apiSuccess {Object[]} data Entry data
    * @apiSuccess {UUID} data.id Entry ID
    * @apiSuccess {Date} data.dateFinsihed Date fisished or date last rewatched
    * @apiSuccess {String} data.encoder Title encoder
@@ -85,7 +85,7 @@ class EntryController extends Controller {
    * @apiHeader {String} token User login token
    * @apiParam {UUID} id Entry UUID.
    *
-   * @apiSuccess {Object} data Entry Data
+   * @apiSuccess {Object} data Entry data
    * @apiSuccess {UUID} data.id Entry ID
    * @apiSuccess {Date} data.dateInitFinished Intial date finished
    * @apiSuccess {Date} data.dateLastFinished Last rewatch date
@@ -173,7 +173,7 @@ class EntryController extends Controller {
    *
    * @apiHeader {String} token User login token
    *
-   * @apiSuccess {Object[]} data Entry Data
+   * @apiSuccess {Object[]} data Entry data
    * @apiSuccess {UUID} data.id Entry ID
    * @apiSuccess {Date} data.dateFinsihed Date fisished or date last rewatched
    * @apiSuccess {String} data.encoder Title encoder
@@ -222,7 +222,7 @@ class EntryController extends Controller {
    *
    * @apiHeader {String} token User login token
    *
-   * @apiSuccess {Object} data Entry Data
+   * @apiSuccess {Object} data By name data
    * @apiSuccess {Object} data.letter Letter of each alphabet
    * @apiSuccess {Number} data.letter.titles Count of titles on this letter
    * @apiSuccess {Number} data.letter.filesize Count of filesize on this letter
@@ -261,7 +261,7 @@ class EntryController extends Controller {
    * @apiHeader {String} token User login token
    * @apiParam {String} letter Letter of the alphabet
    *
-   * @apiSuccess {Object[]} data Entry Data
+   * @apiSuccess {Object[]} data Entry data
    * @apiSuccess {UUID} data.id Entry ID
    * @apiSuccess {Date} data.dateFinsihed Date fisished or date last rewatched
    * @apiSuccess {String} data.encoder Title encoder
@@ -302,9 +302,54 @@ class EntryController extends Controller {
     ]);
   }
 
+
+  /**
+   * @api {get} /api/entries/by-year Retrieve By Year Stats
+   * @apiName RetrieveByYearStats
+   * @apiGroup Entry
+   *
+   * @apiHeader {String} token User login token
+   *
+   * @apiSuccess {Object[]} data By Year Data
+   * @apiSuccess {String} data.release_season Season the count belongs to
+   * @apiSuccess {String} data.release_year Year the count belongs to
+   * @apiSuccess {Number} data.count Count entries per year per season
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     [
+   *       {
+   *         "release_season": null,
+   *         "release_year": null,
+   *         "count": 1
+   *       },
+   *       {
+   *         "release_season": null,
+   *         "release_year": 2010,
+   *         "count": 10
+   *       },
+   *       {
+   *         "release_season": "Winter",
+   *         "release_year": 2010,
+   *         "count": 2
+   *       },
+   *       {
+   *         "release_season": "Spring",
+   *         "release_year": 2010,
+   *         "count": 3
+   *       },
+   *       {
+   *         "release_season": "Winter",
+   *         "release_year": 2000,
+   *         "count": 12
+   *       }
+   *     ]
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   */
   public function getByYear(): JsonResponse {
     return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getByYear()),
+      'data' => $this->entryRepository->getByYear(),
     ]);
   }
 
@@ -349,7 +394,7 @@ class EntryController extends Controller {
    * @apiBody {String} [variants] Comma-separated title variants
    * @apiBody {Number=0,1,2} [watchStatus=1] 0 = Unwatched, 1 = Watched, 2 = Downloaded
    *
-   * @apiSuccess {Object} data Created Entry Data
+   * @apiSuccess {Object} data Created Entry data
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK

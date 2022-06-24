@@ -112,7 +112,19 @@ class EntryRepository {
   }
 
   public function getByYear() {
-    return [];
+    $data = Entry::select('release_season', 'release_year')
+      ->addSelect(DB::raw('count(*) as count'))
+      ->groupBy('release_year', 'release_season')
+      ->orderBy('release_year', 'desc')
+      ->orderByRaw('CASE
+        WHEN release_season=\'Winter\' THEN 1
+        WHEN release_season=\'Spring\' THEN 2
+        WHEN release_season=\'Summer\' THEN 3
+        WHEN release_season=\'Fall\' THEN 4
+        ELSE 0 END
+      ');
+
+    return $data->get();
   }
 
   public function getBySeason($year) {
