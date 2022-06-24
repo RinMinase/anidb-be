@@ -9,13 +9,23 @@ if (!function_exists('parse_filesize')) {
 
     if ($size < $KB) {
       $filesize = $size ?? 0 . " B";
-    } else if ($size < $MB || $forced_unit === 'KB') {
+    } else if ($size < $MB) {
       $filesize = round($size / $KB, 2) . " KB";
-    } else if ($size < $GB || $forced_unit === 'MB') {
+    } else if ($size < $GB) {
       $filesize = round($size / $MB, 2) . " MB";
-    } else if ($size < $TB || $forced_unit === 'GB') {
+    } else if ($size < $TB) {
       $filesize = round($size / $GB, 2) . " GB";
     } else {
+      $filesize = round($size / $TB, 2) . " TB";
+    }
+
+    if ($forced_unit === 'KB') {
+      $filesize = round($size / $KB, 2) . " KB";
+    } else if ($forced_unit === 'MB') {
+      $filesize = round($size / $MB, 2) . " MB";
+    } else if ($forced_unit === 'GB') {
+      $filesize = round($size / $GB, 2) . " GB";
+    } else if ($forced_unit === 'TB') {
       $filesize = round($size / $TB, 2) . " TB";
     }
 
