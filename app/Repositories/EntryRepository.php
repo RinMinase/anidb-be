@@ -64,7 +64,14 @@ class EntryRepository {
   }
 
   public function getByLetter($letter) {
-    return [];
+    $data = Entry::select()
+      ->with('rating')
+      ->where('title', 'like', $letter . '%')
+      ->orderBy('title', 'asc')
+      ->orderBy('id')
+      ->get();
+
+    return $data;
   }
 
   public function getByYear() {
