@@ -3,8 +3,10 @@
 namespace App\Repositories;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Entry;
+use App\Models\EntryRewatch;
 
 class EntryRepository {
 
@@ -22,9 +24,20 @@ class EntryRepository {
       ->where($haystack, 'like', '%' . $needle . '%');
 
     if ($column === 'date_rewatched') {
-      $data = $data->with(['rewatches' => function ($sub_query) {
-        $sub_query->orderBy('date_rewatched', 'desc');
-      }]);
+      $sub_query = EntryRewatch::select('id_entries', 'date_rewatched')
+        ->whereIn('date_rewatched', function ($where_in) {
+          $where_in->select(DB::raw('max(date_rewatched)'))
+            ->from('entries_rewatch')
+            ->groupBy('id_entries');
+        });
+
+      $data = $data->leftJoinSub($sub_query, 'rewatch', function ($join) {
+        $join->on('entries.id', '=', 'rewatch.id_entries');
+      })->orderByRaw('
+        CASE WHEN date_rewatched > date_finished
+        THEN date_rewatched ELSE date_finished
+        END DESC
+      ');
     } else {
       $data = $data->orderBy($column, $order);
     }
