@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
@@ -233,6 +234,7 @@ class EntryRepository {
   }
 
   public function add(array $values) {
+    $values['uuid'] = Str::uuid()->toString();
     return Entry::create($values);
   }
 
