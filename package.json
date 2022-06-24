@@ -25,6 +25,7 @@
     "title": "AniDB API Documentation",
     "url": "https://anidb-staging.herokuapp.com/docs",
     "order": [
+      "✅ Success ✅",
       "❌ Errors ❌"
     ]
   }

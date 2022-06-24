@@ -25,4 +25,21 @@ class Controller extends BaseController {
    *       "message": "Unauthorized"
    *     }
    */
+
+
+  /**
+   * @api {get} /api Default Success Response
+   * @apiName SuccessDefault
+   * @apiGroup ✅ Success ✅
+   *
+   * @apiSuccess {Number} status Status code
+   * @apiSuccess {String} message Message
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     {
+   *       "status": 200,
+   *       "message": "Success",
+   *     }
+   */
 }
