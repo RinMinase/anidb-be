@@ -128,7 +128,18 @@ class EntryRepository {
   }
 
   public function getBySeason($year) {
-    return [];
+    $data = Entry::select()
+      ->with('rating')
+      ->where('release_year', '=', $year)
+      ->orderByRaw('CASE
+        WHEN release_season=\'Winter\' THEN 1
+        WHEN release_season=\'Spring\' THEN 2
+        WHEN release_season=\'Summer\' THEN 3
+        WHEN release_season=\'Fall\' THEN 4
+        ELSE 0 END
+      ');
+
+    return $data->get();
   }
 
   public function add(array $values) {
