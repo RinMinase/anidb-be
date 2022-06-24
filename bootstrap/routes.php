@@ -54,14 +54,14 @@ Route::prefix('api')
 
             Route::get('last', 'EntryLastController@index');
 
-            Route::get('by-name', 'EntryByNameController@getByName');
-            Route::get('by-name/{letter}', 'EntryByNameController@getByLetter');
+            Route::get('by-name', 'EntryByNameController@index');
+            Route::get('by-name/{letter}', 'EntryByNameController@get');
 
-            Route::get('by-year', 'EntryByYearController@getByYear');
-            Route::get('by-year/{year}', 'EntryByYearController@getBySeason');
+            Route::get('by-year', 'EntryByYearController@index');
+            Route::get('by-year/{year}', 'EntryByYearController@get');
 
-            Route::get('by-bucket', 'EntryByBucketController@getBuckets');
-            Route::get('by-bucket/{id}', 'EntryByBucketController@getByBucket');
+            Route::get('by-bucket', 'EntryByBucketController@index');
+            Route::get('by-bucket/{id}', 'EntryByBucketController@get');
           });
 
         Route::prefix('catalogs')

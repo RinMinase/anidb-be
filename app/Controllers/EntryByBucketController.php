@@ -69,7 +69,7 @@ class EntryByBucketController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function getBuckets(): JsonResponse {
+  public function index(): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getBuckets(),
     ]);
@@ -111,7 +111,7 @@ class EntryByBucketController extends Controller {
    *       "message": "Bucket ID does not exist"
    *     }
    */
-  public function getByBucket($id): JsonResponse {
+  public function get($id): JsonResponse {
     try {
       return response()->json([
         'data' => EntryCollection::collection($this->entryRepository->getByBucket($id)),

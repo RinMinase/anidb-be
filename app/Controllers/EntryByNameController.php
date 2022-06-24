@@ -47,7 +47,7 @@ class EntryByNameController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function getByName(): JsonResponse {
+  public function index(): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getByName(),
     ]);
@@ -98,7 +98,7 @@ class EntryByNameController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function getByLetter($letter): JsonResponse {
+  public function get($letter): JsonResponse {
     return response()->json([
       'data' => EntryCollection::collection($this->entryRepository->getByLetter($letter)),
     ]);

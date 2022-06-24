@@ -59,7 +59,7 @@ class EntryByYearController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function getByYear(): JsonResponse {
+  public function index(): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getByYear(),
     ]);
@@ -96,7 +96,7 @@ class EntryByYearController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function getBySeason($year): JsonResponse {
+  public function get($year): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getBySeason($year),
     ]);
