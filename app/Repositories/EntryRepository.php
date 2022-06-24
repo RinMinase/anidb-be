@@ -129,18 +129,22 @@ class EntryRepository {
   }
 
   public function getBySeason($year) {
-    $data = Entry::select()
-      ->with('rating')
-      ->where('release_year', '=', $year)
-      ->orderByRaw('CASE
-        WHEN release_season=\'Winter\' THEN 1
-        WHEN release_season=\'Spring\' THEN 2
-        WHEN release_season=\'Summer\' THEN 3
-        WHEN release_season=\'Fall\' THEN 4
-        ELSE 0 END
-      ');
+    function entriesBySeason($season, $year) {
+      return Entry::select('uuid', 'title')
+        ->where('release_year', '=', $year)
+        ->where('release_season', '=', $season)
+        ->get();
+    }
 
-    return $data->get();
+    $data = [
+      'Winter' => entriesBySeason('Winter', $year),
+      'Spring' => entriesBySeason('Spring', $year),
+      'Summer' => entriesBySeason('Summer', $year),
+      'Fall' => entriesBySeason('Fall', $year),
+      'Uncategorized' => entriesBySeason(null, $year),
+    ];
+
+    return $data;
   }
 
   public function getBuckets() {
