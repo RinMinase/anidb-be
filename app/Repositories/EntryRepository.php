@@ -207,7 +207,25 @@ class EntryRepository {
   }
 
   public function getByBucket($id) {
-    return [];
+    $bucket = Bucket::where('id', $id)->firstOrFail();
+
+    $data = Entry::select('uuid', 'id_quality', 'title', 'filesize')
+      ->whereBetween('title', [$bucket->from, $bucket->to])
+      ->orWhereBetween(
+        'title',
+        [
+          strtoupper($bucket->from),
+          strtoupper($bucket->to)
+        ]
+      );
+
+    if ($bucket->from === 'a') {
+      $data = $data->orWhereBetween('title', [0, 9]);
+    }
+
+    $data = $data->orderBy('title', 'asc')->get();
+
+    return $data;
   }
 
   public function add(array $values) {

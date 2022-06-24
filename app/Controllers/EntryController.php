@@ -48,6 +48,7 @@ class EntryController extends Controller {
    * @apiSuccess {String} data.remarks Any remarks for the title
    * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
    * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.title Entry title
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -107,6 +108,7 @@ class EntryController extends Controller {
    * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
    * @apiSuccess {String} data.sequel Sequel title
    * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.title Entry title
    * @apiSuccess {String} data.variants Comma separated title variants
    *
    * @apiSuccessExample Success Response
@@ -139,6 +141,7 @@ class EntryController extends Controller {
    *       "seasonFirstTitle": "First Title",
    *       "sequel": "Sequel Title",
    *       "specials": 1,
+   *       "title": "Title",
    *       "variants": "ShortTitle"
    *     }
    *
@@ -186,6 +189,7 @@ class EntryController extends Controller {
    * @apiSuccess {String} data.remarks Any remarks for the title
    * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
    * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.title Entry title
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -274,6 +278,7 @@ class EntryController extends Controller {
    * @apiSuccess {String} data.remarks Any remarks for the title
    * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
    * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.title Entry title
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -375,6 +380,7 @@ class EntryController extends Controller {
    * @apiSuccess {String} data.remarks Any remarks for the title
    * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
    * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.title Entry title
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -406,7 +412,7 @@ class EntryController extends Controller {
 
   /**
    * @api {get} /api/entries/by-bucket Retrieve By Buckets
-   * @apiName RetrieveBySeason
+   * @apiName RetrieveByBuckets
    * @apiGroup Entry
    *
    * @apiHeader {String} token User login token
@@ -457,10 +463,54 @@ class EntryController extends Controller {
     ]);
   }
 
+
+
+  /**
+   * @api {get} /api/entries/by-bucket/:id Retrieve By Buckets with Entries
+   * @apiName RetrieveByBucketsWithEntries
+   * @apiGroup Entry
+   *
+   * @apiHeader {String} token User login token
+   * @apiParam {Number} year Bucket ID
+   *
+   * @apiSuccess {Object[]} data Entry data
+   * @apiSuccess {UUID} data.id Entry ID
+   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
+   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
+   * @apiSuccess {String} data.title Entry title
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     [
+   *       {
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *         "filesize": "10.25 GB",
+   *         "quality": "FHD 1080p",
+   *         "title": "Title",
+   *       }, { ... }
+   *     ]
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @apiError Invalid The provided ID is invalid, or the item does not exist
+   *
+   * @apiErrorExample Invalid
+   *     HTTP/1.1 401 Forbidden
+   *     {
+   *       "status": "401",
+   *       "message": "Bucket ID does not exist"
+   *     }
+   */
   public function getByBucket($id): JsonResponse {
-    return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getByBucket($id)),
-    ]);
+    try {
+      return response()->json([
+        'data' => EntryCollection::collection($this->entryRepository->getByBucket($id)),
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Bucket ID does not exist',
+      ], 401);
+    }
   }
 
 
