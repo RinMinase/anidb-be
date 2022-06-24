@@ -174,7 +174,7 @@ class EntryController extends Controller {
 
   public function getByName(): JsonResponse {
     return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getByName()),
+      'data' => $this->entryRepository->getByName(),
     ]);
   }
 

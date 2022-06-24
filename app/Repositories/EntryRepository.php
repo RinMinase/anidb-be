@@ -60,7 +60,44 @@ class EntryRepository {
   }
 
   public function getByName() {
-    return [];
+    $ctrTitles = array_fill(0, 27, 0);
+    $ctrSizes = array_fill(0, 27, 0);
+    $data = Entry::select('title', 'filesize')
+      ->orderBy('title', 'asc')
+      ->get();
+
+    foreach ($data as $item) {
+      if ($item->title) {
+        $first_letter = $item->title[0];
+        if (is_numeric($first_letter)) {
+          $ctrTitles[0]++;
+          $ctrSizes[0] += $item->filesize;
+        } else {
+          // convert first letter to ascii value
+          // a = 97
+          $ascii = ord(strtolower($first_letter));
+          $ctrTitles[$ascii - 96]++;
+          $ctrSizes[$ascii - 96] += $item->filesize;
+        }
+      }
+    }
+
+    $letters = [];
+    foreach ($ctrTitles as $index => $item) {
+      if ($index == 0) {
+        $letters['#'] = [
+          'titles' => $item,
+          'filesize' => parse_filesize($ctrSizes[$index]),
+        ];
+      } else {
+        $letters[chr($index + 96)] = [
+          'titles' => $item,
+          'filesize' => parse_filesize($ctrSizes[$index]),
+        ];
+      }
+    }
+
+    return $letters;
   }
 
   public function getByLetter($letter) {
