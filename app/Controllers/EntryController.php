@@ -464,14 +464,13 @@ class EntryController extends Controller {
   }
 
 
-
   /**
    * @api {get} /api/entries/by-bucket/:id Retrieve By Buckets with Entries
    * @apiName RetrieveByBucketsWithEntries
    * @apiGroup Entry
    *
    * @apiHeader {String} token User login token
-   * @apiParam {Number} year Bucket ID
+   * @apiParam {Number} id Bucket ID
    *
    * @apiSuccess {Object[]} data Entry data
    * @apiSuccess {UUID} data.id Entry ID
@@ -600,10 +599,34 @@ class EntryController extends Controller {
     ]);
   }
 
+
+  /**
+   * @api {delete} /api/entries/:uuid Delete Entry
+   * @apiName DeleteEntry
+   * @apiGroup Entry
+   *
+   * @apiHeader {String} token User login token
+   * @apiParam {UUID} uuid Entry ID
+   *
+   * @apiSuccess Success Default success message
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @apiError Invalid The provided ID is invalid, or the item does not exist
+   *
+   * @apiErrorExample Invalid
+   *     HTTP/1.1 401 Forbidden
+   *     {
+   *       "status": "401",
+   *       "message": "BucEntry ID does not existt"
+   *     }
+   */
   public function delete($id): JsonResponse {
     try {
+      $this->entryRepository->delete($id);
+
       return response()->json([
-        'data' => $this->entryRepository->delete($id),
+        'status' => 200,
+        'message' => 'Success',
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([
