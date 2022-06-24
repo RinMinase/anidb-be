@@ -82,9 +82,13 @@ Route::prefix('api')
             Route::delete('{id}', 'PartialController@delete');
           });
 
-        Route::prefix('buckets')
+        Route::get('buckets')
           ->group(function () {
             Route::get('', 'BucketController@index');
+            Route::get('{id}', 'BucketController@get');
+            Route::post('', 'BucketController@add');
+            Route::put('{id?}', 'BucketController@edit');
+            Route::delete('{id}', 'BucketController@delete');
           });
       });
   });

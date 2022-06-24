@@ -48,4 +48,35 @@ class BucketController extends Controller {
       'data' => $this->bucketRepository->getAll(),
     ]);
   }
+
+  public function get($id): JsonResponse {
+    return response()->json([
+      'data' => $this->bucketRepository->get($id),
+    ]);
+  }
+
+  public function add(Request $request): JsonResponse {
+    return response()->json([
+      'data' => $this->bucketRepository->add($request->all()),
+    ]);
+  }
+
+  public function edit(Request $request, $id): JsonResponse {
+    return response()->json([
+      'data' => $this->bucketRepository->edit($request->all(), $id),
+    ]);
+  }
+
+  public function delete($id): JsonResponse {
+    try {
+      return response()->json([
+        'data' => $this->bucketRepository->delete($id),
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Catalog ID does not exist',
+      ], 401);
+    }
+  }
 }
