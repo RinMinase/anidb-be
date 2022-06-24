@@ -63,8 +63,8 @@ class ExceptionHandler extends Handler {
       ]);
     }
 
-    $isDevelopment = strcasecmp(env('APP_ENV'), 'local') == 0;
-    if ($e instanceof Exception && !$isDevelopment) {
+    $is_development = strcasecmp(env('APP_ENV'), 'local') == 0;
+    if ($e instanceof Exception && !$is_development) {
       return response()->json([
         'status' => 500,
         'message' => 'Unknown exception',
