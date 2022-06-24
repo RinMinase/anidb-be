@@ -21,28 +21,9 @@ class EntryRepository {
 
     $data = Entry::select()
       ->with('rating')
-      ->where($haystack, 'like', '%' . $needle . '%');
-
-    if ($column === 'date_rewatched') {
-      $sub_query = EntryRewatch::select('id_entries', 'date_rewatched')
-        ->whereIn('date_rewatched', function ($where_in) {
-          $where_in->select(DB::raw('max(date_rewatched)'))
-            ->from('entries_rewatch')
-            ->groupBy('id_entries');
-        });
-
-      $data = $data->leftJoinSub($sub_query, 'rewatch', function ($join) {
-        $join->on('entries.id', '=', 'rewatch.id_entries');
-      })->orderByRaw('
-        CASE WHEN date_rewatched > date_finished
-        THEN date_rewatched ELSE date_finished
-        END DESC
-      ');
-    } else {
-      $data = $data->orderBy($column, $order);
-    }
-
-    $data = $data->orderBy('id')
+      ->where($haystack, 'like', '%' . $needle . '%')
+      ->orderBy($column, $order)
+      ->orderBy('id')
       ->skip($skip)
       ->paginate($limit);
 
@@ -55,6 +36,33 @@ class EntryRepository {
       ->with('rewatches')
       ->with('rating')
       ->first();
+  }
+
+  public function getLast() {
+    $sub_query = EntryRewatch::select('id_entries', 'date_rewatched')
+      ->whereIn('date_rewatched', function ($where_in) {
+        $where_in->select(DB::raw('max(date_rewatched)'))
+          ->from('entries_rewatch')
+          ->groupBy('id_entries');
+      });
+
+    $data = Entry::select()
+      ->with('rating')
+      ->leftJoinSub($sub_query, 'rewatch', function ($join) {
+        $join->on('entries.id', '=', 'rewatch.id_entries');
+      })->orderByRaw('
+        CASE WHEN date_rewatched > date_finished
+        THEN date_rewatched ELSE date_finished
+        END DESC
+      ');
+
+    return $data->get();
+  }
+
+  public function getByName() {
+  }
+
+  public function getBySeason() {
   }
 
   public function add(array $values) {

@@ -46,12 +46,19 @@ Route::prefix('api')
 
         Route::prefix('entries')
           ->group(function () {
+            $uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+
             Route::get('', 'EntryController@index');
-            Route::get('{id}', 'EntryController@get');
+            Route::get('{id}', 'EntryController@get')->where('id', $uuid);
             Route::post('', 'EntryController@add');
             Route::put('{id}', 'EntryController@edit');
             Route::delete('{id}', 'EntryController@delete');
+
+            Route::get('last', 'EntryController@getLast');
+            Route::get('by-name', 'EntryController@getByName');
+            Route::get('by-season', 'EntryController@getBySeason');
           });
+
 
         Route::prefix('catalogs')
           ->group(function () {

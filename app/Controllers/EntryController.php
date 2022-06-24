@@ -166,6 +166,25 @@ class EntryController extends Controller {
   }
 
 
+  public function getLast(): JsonResponse {
+    return response()->json([
+      'data' => EntryCollection::collection($this->entryRepository->getLast()),
+    ]);
+  }
+
+  public function getByName(): JsonResponse {
+    return response()->json([
+      'data' => EntryCollection::collection($this->entryRepository->getByName()),
+    ]);
+  }
+
+  public function getBySeason(): JsonResponse {
+    return response()->json([
+      'data' => EntryCollection::collection($this->entryRepository->getBySeason()),
+    ]);
+  }
+
+
   /**
    * @api {post} /api/entry Create Entry
    * @apiName CreateEntry
