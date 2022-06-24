@@ -40,9 +40,7 @@ Route::prefix('api')
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
 
         Route::get('sequences', 'SequenceController@index');
-
         Route::get('logs', 'LogController@index');
-
         Route::get('qualities', 'QualityController@index');
 
         Route::prefix('entries')
@@ -81,7 +79,7 @@ Route::prefix('api')
             Route::delete('{id}', 'PartialController@delete');
           });
 
-        Route::get('buckets')
+        Route::prefix('buckets')
           ->group(function () {
             Route::get('', 'BucketController@index');
             Route::get('{id}', 'BucketController@get');
