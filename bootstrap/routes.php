@@ -57,8 +57,8 @@ Route::prefix('api')
             Route::get('by-name', 'EntryByNameController@getByName');
             Route::get('by-name/{letter}', 'EntryByNameController@getByLetter');
 
-            Route::get('by-year', 'EntryController@getByYear');
-            Route::get('by-year/{year}', 'EntryController@getBySeason');
+            Route::get('by-year', 'EntryByYearController@getByYear');
+            Route::get('by-year/{year}', 'EntryByYearController@getBySeason');
 
             Route::get('by-bucket', 'EntryController@getBuckets');
             Route::get('by-bucket/{id}', 'EntryController@getByBucket');
