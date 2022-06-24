@@ -117,7 +117,7 @@ class EntryRepository {
   }
 
   public function getByYear() {
-    $data = Entry::select('release_season', 'release_year')
+    $entries = Entry::select('release_season', 'release_year')
       ->addSelect(DB::raw('count(*) as count'))
       ->groupBy('release_year', 'release_season')
       ->orderBy('release_year', 'desc')
@@ -127,9 +127,30 @@ class EntryRepository {
         WHEN release_season=\'Summer\' THEN 3
         WHEN release_season=\'Fall\' THEN 4
         ELSE 0 END
-      ');
+      ')->get();
 
-    return $data->get();
+    $data = [
+      'Uncategorized' => [],
+    ];
+
+    foreach ($entries as $entry) {
+      $to_push = [
+        'release_season' => $entry->release_season,
+        'count' => $entry->count,
+      ];
+
+      if ($entry->release_year == null) {
+        array_push($data['Uncategorized'], $to_push);
+      } else {
+        if (!array_key_exists($entry->release_year, $data)) {
+          $data[$entry->release_year] = [];
+        }
+
+        array_push($data[$entry->release_year], $to_push);
+      }
+    }
+
+    return $data;
   }
 
   public function getBySeason($year) {
