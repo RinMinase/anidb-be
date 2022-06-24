@@ -52,7 +52,10 @@ class EntryRepository {
       ->with('rating')
       ->leftJoinSub($sub_query, 'rewatch', function ($join) {
         $join->on('entries.id', '=', 'rewatch.id_entries');
-      })->orderByRaw('
+      })
+      ->whereNotNull('rewatch.date_rewatched')
+      ->orWhereNotNull('date_finished')
+      ->orderByRaw('
         CASE WHEN date_rewatched > date_finished
         THEN date_rewatched ELSE date_finished
         END DESC
