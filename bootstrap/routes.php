@@ -60,8 +60,8 @@ Route::prefix('api')
             Route::get('by-year', 'EntryByYearController@getByYear');
             Route::get('by-year/{year}', 'EntryByYearController@getBySeason');
 
-            Route::get('by-bucket', 'EntryController@getBuckets');
-            Route::get('by-bucket/{id}', 'EntryController@getByBucket');
+            Route::get('by-bucket', 'EntryByBucketController@getBuckets');
+            Route::get('by-bucket/{id}', 'EntryByBucketController@getByBucket');
           });
 
         Route::prefix('catalogs')
