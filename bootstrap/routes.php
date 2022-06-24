@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+
 Route::middleware('web')
   ->group(function () {
     Route::view('/', 'index')->name('home');
@@ -46,19 +48,20 @@ Route::prefix('api')
 
         Route::prefix('entries')
           ->group(function () {
-            $uuid = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
-
             Route::get('', 'EntryController@index');
-            Route::get('{id}', 'EntryController@get')->where('id', $uuid);
+            Route::get('{uuid}', 'EntryController@get');
             Route::post('', 'EntryController@add');
-            Route::put('{id}', 'EntryController@edit');
-            Route::delete('{id}', 'EntryController@delete');
+            Route::put('{uuid}', 'EntryController@edit');
+            Route::delete('{uuid}', 'EntryController@delete');
 
             Route::get('last', 'EntryController@getLast');
-            Route::get('by-name', 'EntryController@getByName');
-            Route::get('by-season', 'EntryController@getBySeason');
-          });
 
+            Route::get('by-name', 'EntryController@getByName');
+            Route::get('by-name/{letter}', 'EntryController@getByLetter');
+
+            Route::get('by-year', 'EntryController@getByYear');
+            Route::get('by-year/{year}', 'EntryController@getBySeason');
+          });
 
         Route::prefix('catalogs')
           ->group(function () {

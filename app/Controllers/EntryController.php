@@ -178,9 +178,21 @@ class EntryController extends Controller {
     ]);
   }
 
-  public function getBySeason(): JsonResponse {
+  public function getByLetter($letter): JsonResponse {
     return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getBySeason()),
+      'data' => EntryCollection::collection($this->entryRepository->getByLetter($letter)),
+    ]);
+  }
+
+  public function getByYear(): JsonResponse {
+    return response()->json([
+      'data' => EntryCollection::collection($this->entryRepository->getByYear()),
+    ]);
+  }
+
+  public function getBySeason($year): JsonResponse {
+    return response()->json([
+      'data' => EntryCollection::collection($this->entryRepository->getBySeason($year)),
     ]);
   }
 

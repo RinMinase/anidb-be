@@ -60,9 +60,19 @@ class EntryRepository {
   }
 
   public function getByName() {
+    return [];
   }
 
-  public function getBySeason() {
+  public function getByLetter($letter) {
+    return [];
+  }
+
+  public function getByYear() {
+    return [];
+  }
+
+  public function getBySeason($year) {
+    return [];
   }
 
   public function add(array $values) {
