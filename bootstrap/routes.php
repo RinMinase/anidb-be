@@ -52,7 +52,7 @@ Route::prefix('api')
             Route::put('{uuid}', 'EntryController@edit');
             Route::delete('{uuid}', 'EntryController@delete');
 
-            Route::get('last', 'EntryController@getLast');
+            Route::get('last', 'EntryLastController@index');
 
             Route::get('by-name', 'EntryController@getByName');
             Route::get('by-name/{letter}', 'EntryController@getByLetter');
