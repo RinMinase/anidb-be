@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\Models\Entry;
+use App\Models\EntryRating;
 
 class ImportController extends Controller {
 
@@ -34,17 +35,41 @@ class ImportController extends Controller {
           'release_season' => $this->parse_season($item['releaseSeason']) ?? 0,
           'release_year' => $item['releaseYear'],
 
+          'remarks' => $item['remarks'] ?? null,
+          'variants' => $item['variants'] ?? null,
+
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ];
-
-        $item['remarks'] ? $data['remarks'] = $item['remarks'] : null;
-        $item['variants'] ? $data['variants'] = $item['variants'] : null;
 
         array_push($import, $data);
       }
 
       Entry::insert($import);
+
+      $importRatings = [];
+
+      // second run-through for all foreign keys
+      foreach ($request->all() as $item) {
+        if (
+          $item['rating']['audio']
+          || $item['rating']['enjoyment']
+          || $item['rating']['graphics']
+          || $item['rating']['plot']
+        ) {
+          $id_entry = Entry::where('title', $item['title'])->first()->id;
+
+          array_push($importRatings, [
+            'id_entries' => $id_entry,
+            'audio' => $item['rating']['audio'],
+            'enjoyment' => $item['rating']['enjoyment'],
+            'graphics' => $item['rating']['graphics'],
+            'plot' => $item['rating']['plot'],
+          ]);
+        }
+      }
+
+      EntryRating::insert($importRatings);
 
       return response()->json([
         'status' => 200,
