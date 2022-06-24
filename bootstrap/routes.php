@@ -54,8 +54,8 @@ Route::prefix('api')
 
             Route::get('last', 'EntryLastController@index');
 
-            Route::get('by-name', 'EntryController@getByName');
-            Route::get('by-name/{letter}', 'EntryController@getByLetter');
+            Route::get('by-name', 'EntryByNameController@getByName');
+            Route::get('by-name/{letter}', 'EntryByNameController@getByLetter');
 
             Route::get('by-year', 'EntryController@getByYear');
             Route::get('by-year/{year}', 'EntryController@getBySeason');
