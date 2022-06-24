@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
+use App\Models\Bucket;
 
 class EntryRepository {
 
@@ -143,7 +144,66 @@ class EntryRepository {
   }
 
   public function getBuckets() {
-    return [];
+    $buckets = Bucket::all();
+    $returnValue = [];
+    $bucket_full_size = 0;
+    $entries_full_size = 0;
+    $count_full_size = 0;
+
+    foreach ($buckets as $bucket) {
+      $bucket_full_size += $bucket->size;
+
+      $entries = Entry::select('filesize')
+        ->whereBetween('title', [$bucket->from, $bucket->to])
+        ->orWhereBetween(
+          'title',
+          [
+            strtoupper($bucket->from),
+            strtoupper($bucket->to)
+          ]
+        )->get();
+
+      $entries_size = 0;
+      foreach ($entries as $entry) {
+        $entries_size += $entry->filesize;
+      }
+
+      $free = $bucket->size - $entries_size;
+      $used = $entries_size;
+      $total = $bucket->size;
+      $percent = round(($used / $total) * 100, 0);
+      $titles = count($entries);
+
+      array_push($returnValue, [
+        'from' => $bucket->from,
+        'to' => $bucket->to,
+        'free' => parse_filesize($free),
+        'freeTB' => null,
+        'used' => parse_filesize($used),
+        'percent' => $percent,
+        'total' => parse_filesize($total),
+        'titles' => $titles,
+      ]);
+
+      $entries_full_size += $entries_size;
+      $count_full_size += $titles;
+    }
+
+    $free = $bucket_full_size - $entries_full_size;
+    $percent = round(($entries_full_size / $bucket_full_size) * 100, 0);
+
+    array_push($returnValue, [
+      'from' => null,
+      'to' => null,
+      'free' => parse_filesize($free),
+      'freeTB' => parse_filesize($free, 'TB'),
+      'used' => parse_filesize($entries_full_size),
+      'percent' => $percent,
+      'total' => parse_filesize($bucket_full_size),
+      'titles' => $count_full_size,
+    ]);
+
+    return $returnValue;
   }
 
   public function getByBucket($id) {

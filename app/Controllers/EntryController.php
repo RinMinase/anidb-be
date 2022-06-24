@@ -403,6 +403,54 @@ class EntryController extends Controller {
     ]);
   }
 
+
+  /**
+   * @api {get} /api/entries/by-bucket Retrieve By Buckets
+   * @apiName RetrieveBySeason
+   * @apiGroup Entry
+   *
+   * @apiHeader {String} token User login token
+   *
+   * @apiSuccess {Object[]} data Buckets with entries data
+   * @apiSuccess {UUID} data.id Entry ID
+   * @apiSuccess {Date} data.dateFinished Date fisished or date last rewatched
+   * @apiSuccess {String} data.encoder Title encoder
+   * @apiSuccess {Number} data.episodes Number of episodes
+   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
+   * @apiSuccess {Number} data.ovas Number of OVAs
+   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
+   * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
+   * @apiSuccess {String} data.release Season and year in which the title was released
+   * @apiSuccess {String} data.remarks Any remarks for the title
+   * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
+   * @apiSuccess {Number} data.specials Number of specials
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     [
+   *       {
+   *         "from": "a",
+   *         "to": "d",
+   *         "free": "1.11 TB",
+   *         "freeTB": null,
+   *         "used": "123.12 GB",
+   *         "percent": 10,
+   *         "total": "1.23 TB",
+   *         "titles": 1
+   *       }, { ... }, {
+   *         "from": null,
+   *         "to": null,
+   *         "free": "1.11 TB",
+   *         "free": "1.11 TB",
+   *         "used": "123.12 GB",
+   *         "percent": 10,
+   *         "total": "1.23 TB",
+   *         "titles": 1
+   *       }
+   *     ]
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   */
   public function getBuckets(): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getBuckets(),
