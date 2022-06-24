@@ -42,6 +42,7 @@ Route::prefix('api')
         Route::get('sequences', 'SequenceController@index');
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
+        Route::post('import', 'ImportController@index');
 
         Route::prefix('entries')
           ->group(function () {
