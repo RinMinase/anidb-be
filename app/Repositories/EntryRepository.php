@@ -74,10 +74,10 @@ class EntryRepository {
           $ctrSizes[0] += $item->filesize;
         } else {
           // convert first letter to ascii value
-          // a = 97
-          $ascii = ord(strtolower($first_letter));
-          $ctrTitles[$ascii - 96]++;
-          $ctrSizes[$ascii - 96] += $item->filesize;
+          // A = 65
+          $ascii = ord(strtoupper($first_letter));
+          $ctrTitles[$ascii - 64]++;
+          $ctrSizes[$ascii - 64] += $item->filesize;
         }
       }
     }
@@ -90,7 +90,7 @@ class EntryRepository {
           'filesize' => parse_filesize($ctrSizes[$index]),
         ];
       } else {
-        $letters[chr($index + 96)] = [
+        $letters[chr($index + 64)] = [
           'titles' => $item,
           'filesize' => parse_filesize($ctrSizes[$index]),
         ];
@@ -103,7 +103,7 @@ class EntryRepository {
   public function getByLetter($letter) {
     $data = Entry::select()
       ->with('rating')
-      ->where('title', 'like', $letter . '%')
+      ->where('title', 'like', $letter[0] . '%')
       ->orderBy('title', 'asc')
       ->orderBy('id')
       ->get();
