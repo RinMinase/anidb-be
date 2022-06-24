@@ -61,6 +61,9 @@ Route::prefix('api')
 
             Route::get('by-year', 'EntryController@getByYear');
             Route::get('by-year/{year}', 'EntryController@getBySeason');
+
+            Route::get('by-bucket', 'EntryController@getBuckets');
+            Route::get('by-bucket/{id}', 'EntryController@getByBucket');
           });
 
         Route::prefix('catalogs')

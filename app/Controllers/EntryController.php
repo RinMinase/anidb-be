@@ -403,6 +403,18 @@ class EntryController extends Controller {
     ]);
   }
 
+  public function getBuckets(): JsonResponse {
+    return response()->json([
+      'data' => $this->entryRepository->getBuckets(),
+    ]);
+  }
+
+  public function getByBucket($id): JsonResponse {
+    return response()->json([
+      'data' => EntryCollection::collection($this->entryRepository->getByBucket($id)),
+    ]);
+  }
+
 
   /**
    * @api {post} /api/entry Create Entry

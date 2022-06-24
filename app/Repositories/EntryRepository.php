@@ -142,6 +142,14 @@ class EntryRepository {
     return $data->get();
   }
 
+  public function getBuckets() {
+    return [];
+  }
+
+  public function getByBucket($id) {
+    return [];
+  }
+
   public function add(array $values) {
     return Entry::create($values);
   }
