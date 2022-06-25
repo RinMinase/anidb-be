@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 use App\Models\Entry;
 use App\Models\EntryRating;
+use App\Models\EntryRewatch;
 
 class ImportController extends Controller {
 
@@ -25,7 +26,9 @@ class ImportController extends Controller {
           'id_quality' => $this->parse_quality($item['quality']),
           'title' => $item['title'] ?? null,
 
-          'date_finished' => Carbon::parse('@' . $item['dateFinished'])->format('Y-m-d'),
+          'date_finished' => Carbon::createFromTimestamp($item['dateFinished'])
+            ->format('Y-m-d'),
+
           'duration' => $item['duration'] ?? 0,
           'filesize' => $item['filesize'] ?? 0,
 
@@ -52,7 +55,10 @@ class ImportController extends Controller {
 
       $import_updates = [];
       $import_updates_ids = [];
+
       $import_ratings = [];
+      $import_rewatches = [];
+
       $id_entries = DB::table('entries')
         ->select('id', 'title')
         ->get()
@@ -60,7 +66,7 @@ class ImportController extends Controller {
 
       // second run-through for all foreign keys
       foreach ($request->all() as $item) {
-        $index = null;
+        $title_id = null;
 
         /**
          * If it contains ratings
@@ -71,11 +77,10 @@ class ImportController extends Controller {
           || $item['rating']['graphics']
           || $item['rating']['plot']
         ) {
-          $index = array_column($id_entries, 'title');
-          $index = array_search($item['title'], $index);
+          $title_id = $this->search_title_id($id_entries, $item['title']);
 
           array_push($import_ratings, [
-            'id_entries' => $index,
+            'id_entries' => $title_id,
             'audio' => $item['rating']['audio'],
             'enjoyment' => $item['rating']['enjoyment'],
             'graphics' => $item['rating']['graphics'],
@@ -91,9 +96,8 @@ class ImportController extends Controller {
           || $item['prequel']
           || $item['sequel']
         ) {
-          if (!$index) {
-            $index = array_column($id_entries, 'title');
-            $index = array_search($item['title'], $index);
+          if (!$title_id) {
+            $title_id = $this->search_title_id($id_entries, $item['title']);
           }
 
           $first_title_id = null;
@@ -117,12 +121,32 @@ class ImportController extends Controller {
             }
           }
 
-          array_push($import_updates_ids, $index + 1);
+          array_push($import_updates_ids, $title_id);
           array_push($import_updates, [
             'season_first_title_id' => $first_title_id,
             'prequel_id' => $prequel_id,
             'sequel_id' => $sequel_id,
           ]);
+        }
+
+        /**
+         * If it contains rewatches
+         */
+        if (isset($item['rewatch']) && $item['rewatch']) {
+          if (!$title_id) {
+            $title_id = $this->search_title_id($id_entries, $item['title']);
+          }
+
+          $rewatch_list = explode(',', $item['rewatch']);
+          $rewatch_list = array_reverse($rewatch_list);
+
+          foreach ($rewatch_list as $rewatch_item) {
+            array_push($import_rewatches, [
+              'id_entries' => $title_id,
+              'date_rewatched' => Carbon::createFromTimestamp($rewatch_item)
+                ->format('Y-m-d'),
+            ]);
+          }
         }
       }
 
@@ -138,6 +162,7 @@ class ImportController extends Controller {
        * Insert ratings
        */
       EntryRating::insert($import_ratings);
+      EntryRewatch::insert($import_rewatches);
 
       return response()->json([
         'status' => 200,
@@ -179,5 +204,11 @@ class ImportController extends Controller {
       default:
         return null;
     }
+  }
+
+  private function search_title_id(array $haystack, string $needle) {
+    $id = array_column($haystack, 'title');
+    $id = array_search($needle, $id);
+    return $haystack[$id]->id;
   }
 }
