@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CatalogRepository;
+use App\Resources\Catalog\CatalogCollection;
 
 class CatalogController extends Controller {
 
@@ -18,7 +19,7 @@ class CatalogController extends Controller {
 
   public function index(): JsonResponse {
     return response()->json([
-      'data' => $this->catalogRepository->getAll(),
+      'data' => CatalogCollection::collection($this->catalogRepository->getAll()),
     ]);
   }
 
