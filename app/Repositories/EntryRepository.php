@@ -36,7 +36,9 @@ class EntryRepository {
   public function get($id) {
     return Entry::where('entries.uuid', $id)
       ->with('offquels')
-      ->with('rewatches')
+      ->with('rewatches', function ($rewatches) {
+        $rewatches->orderBy('date_rewatched', 'desc');
+      })
       ->with('rating')
       ->first();
   }
