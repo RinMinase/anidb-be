@@ -17,41 +17,7 @@ class ImportController extends Controller {
 
   public function index(Request $request) {
     try {
-      $import = [];
-
-      foreach ($request->all() as $item) {
-        $data = [
-          'uuid' => Str::uuid()->toString(),
-
-          'id_quality' => $this->parse_quality($item['quality']),
-          'title' => $item['title'] ?? null,
-
-          'date_finished' => Carbon::createFromTimestamp($item['dateFinished'])
-            ->format('Y-m-d'),
-
-          'duration' => $item['duration'] ?? 0,
-          'filesize' => $item['filesize'] ?? 0,
-
-          'episodes' => $item['episodes'] ?? 0,
-          'ovas' => $item['ovas'] ?? 0,
-          'specials' => $item['specials'] ?? 0,
-
-          'release_season' => $this->parse_season($item['releaseSeason']) ?? 0,
-          'release_year' => $item['releaseYear'],
-
-          'remarks' => $item['remarks'] ?? null,
-          'variants' => $item['variants'] ?? null,
-
-          'season_number' => $item['seasonNumber'] ?? null,
-
-          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        ];
-
-        array_push($import, $data);
-      }
-
-      Entry::insert($import);
+      $this->initial_import($request);
 
       $import_updates = [];
       $import_updates_ids = [];
@@ -175,6 +141,44 @@ class ImportController extends Controller {
       //   'message' => 'Failed to import JSON file',
       // ]);
     }
+  }
+
+  private function initial_import($request) {
+    $import = [];
+
+    foreach ($request->all() as $item) {
+      $data = [
+        'uuid' => Str::uuid()->toString(),
+
+        'id_quality' => $this->parse_quality($item['quality']),
+        'title' => $item['title'] ?? null,
+
+        'date_finished' => Carbon::createFromTimestamp($item['dateFinished'])
+          ->format('Y-m-d'),
+
+        'duration' => $item['duration'] ?? 0,
+        'filesize' => $item['filesize'] ?? 0,
+
+        'episodes' => $item['episodes'] ?? 0,
+        'ovas' => $item['ovas'] ?? 0,
+        'specials' => $item['specials'] ?? 0,
+
+        'release_season' => $this->parse_season($item['releaseSeason']) ?? 0,
+        'release_year' => $item['releaseYear'],
+
+        'remarks' => $item['remarks'] ?? null,
+        'variants' => $item['variants'] ?? null,
+
+        'season_number' => $item['seasonNumber'] ?? null,
+
+        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+      ];
+
+      array_push($import, $data);
+    }
+
+    Entry::insert($import);
   }
 
   private function parse_quality(string $quality): int {
