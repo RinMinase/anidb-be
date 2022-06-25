@@ -262,7 +262,8 @@ class EntryRepository {
 
   public function add(array $values) {
     $values['uuid'] = Str::uuid()->toString();
-    return Entry::create($values);
+    Entry::create($values);
+    LogRepository::generateLogs('entry', $values['uuid'], null, 'add');
   }
 
   public function edit(array $values, $id) {

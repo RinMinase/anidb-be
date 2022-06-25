@@ -236,9 +236,19 @@ class EntryController extends Controller {
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
   public function add(AddRequest $request): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->add($request->all()),
-    ]);
+    try {
+      $this->entryRepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
   }
 
   public function edit(EditRequest $request, $id): JsonResponse {
