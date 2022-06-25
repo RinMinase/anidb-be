@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Repositories\LogRepository;
 
@@ -15,7 +14,7 @@ class LogController extends Controller {
   }
 
   /**
-   * @api {get} /api/log Retrieve all logs
+   * @api {get} /api/logs Retrieve all logs
    * @apiName LogRetrieve
    * @apiGroup Logs
    *
