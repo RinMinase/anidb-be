@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder {
       BucketSeeder::class,      // test data
       CatalogSeeder::class,     // test data
       EntrySeeder::class,       // test data
+      GroupSeeder::class,         // test data
       LogSeeder::class,         // test data
       PartialSeeder::class,     // test data
       SearchSeeder::class,      // test data

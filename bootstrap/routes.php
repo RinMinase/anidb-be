@@ -39,9 +39,10 @@ Route::prefix('api')
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
 
-        Route::get('sequences', 'SequenceController@index');
+        Route::get('groups', 'GroupController@index');
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
+        Route::get('sequences', 'SequenceController@index');
 
         Route::prefix('entries')
           ->group(function () {
