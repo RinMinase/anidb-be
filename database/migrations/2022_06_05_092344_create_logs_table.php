@@ -15,13 +15,13 @@ return new class extends Migration {
       $table->id();
       $table->uuid('uuid');
 
-      $table->string('table_changed')->nullable();
-      $table->integer('id_changed')->nullable();
-      $table->string('description')->nullable();
+      $table->string('table_changed', 32)->nullable();
+      $table->string('id_changed', 64)->nullable();
+      $table->string('description', 256)->nullable();
 
       // enum not used as it can be anything
       // for now: add, delete, edit is preferred
-      $table->string('action')->nullable();
+      $table->string('action', 32)->nullable();
 
       $table->timestamps();
     });

@@ -17,7 +17,7 @@ class LogSeeder extends Seeder {
       [
         'uuid' => Str::uuid()->toString(),
         'table_changed' => 'hdd',
-        'id_changed' => 1,
+        'id_changed' => Str::uuid()->toString(),
         'description' => 'some description',
         'action' => 'add',
         'created_at' => '2022-01-01 00:00:00',
@@ -25,7 +25,7 @@ class LogSeeder extends Seeder {
       [
         'uuid' => Str::uuid()->toString(),
         'table_changed' => 'marathon',
-        'id_changed' => 1,
+        'id_changed' => Str::uuid()->toString(),
         'description' => 'title from "old" to "new"',
         'action' => 'edit',
         'created_at' => '2022-01-02 00:00:00',
