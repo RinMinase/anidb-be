@@ -18,7 +18,7 @@ class ImportController extends Controller {
 
   public function index(Request $request) {
     try {
-      $this->initial_import($request);
+      $total_count = $this->initial_import($request);
 
       $import_updates = [];
       $import_updates_ids = [];
@@ -39,12 +39,12 @@ class ImportController extends Controller {
         /**
          * If it contains ratings
          */
-        if (
-          $item['rating']['audio']
-          || $item['rating']['enjoyment']
-          || $item['rating']['graphics']
-          || $item['rating']['plot']
-        ) {
+        $has_ratings = !empty($item['rating']['audio'])
+          || !empty($item['rating']['enjoyment'])
+          || !empty($item['rating']['graphics'])
+          || !empty($item['rating']['plot']);
+
+        if ($has_ratings) {
           $title_id = $this->search_title_id($id_entries, $item['title']);
 
           array_push($import_ratings, [
@@ -60,9 +60,9 @@ class ImportController extends Controller {
          * Checking for local relationship keys
          */
         if (
-          $item['firstSeasonTitle']
-          || $item['prequel']
-          || $item['sequel']
+          !empty($item['firstSeasonTitle'])
+          || !empty($item['prequel'])
+          || !empty($item['sequel'])
         ) {
           if (!$title_id) {
             $title_id = $this->search_title_id($id_entries, $item['title']);
@@ -156,6 +156,10 @@ class ImportController extends Controller {
       return response()->json([
         'status' => 200,
         'message' => 'Success',
+        'data' => [
+          'acceptedImports' => $total_count,
+          'totalJsonEntries' => count($request->all()),
+        ],
       ]);
     } catch (Exception $e) {
       throw $e;
@@ -170,38 +174,46 @@ class ImportController extends Controller {
     $import = [];
 
     foreach ($request->all() as $item) {
-      $data = [
-        'uuid' => Str::uuid()->toString(),
+      // accepts only if it 'does not exist' or has a value of '-1'
+      $acceptedPriority = !isset($item['downloadPriority'])
+        || $item['downloadPriority'] == -1;
 
-        'id_quality' => $this->parse_quality($item['quality']),
-        'title' => $item['title'] ?? null,
+      if (!empty($item) && $acceptedPriority) {
+        $data = [
+          'uuid' => Str::uuid()->toString(),
 
-        'date_finished' => Carbon::createFromTimestamp($item['dateFinished'])
-          ->format('Y-m-d'),
+          'id_quality' => $this->parse_quality($item['quality']),
+          'title' => $item['title'] ?? null,
 
-        'duration' => $item['duration'] ?? 0,
-        'filesize' => $item['filesize'] ?? 0,
+          'date_finished' => Carbon::createFromTimestamp($item['dateFinished'])
+            ->format('Y-m-d'),
 
-        'episodes' => $item['episodes'] ?? 0,
-        'ovas' => $item['ovas'] ?? 0,
-        'specials' => $item['specials'] ?? 0,
+          'duration' => $item['duration'] ?? 0,
+          'filesize' => $item['filesize'] ?? 0,
 
-        'release_season' => $this->parse_season($item['releaseSeason']) ?? null,
-        'release_year' => $item['releaseYear'] ?? null,
+          'episodes' => $item['episodes'] ?? 0,
+          'ovas' => $item['ovas'] ?? 0,
+          'specials' => $item['specials'] ?? 0,
 
-        'remarks' => $item['remarks'] ?? null,
-        'variants' => $item['variants'] ?? null,
+          'release_season' => $this->parse_season($item['releaseSeason']) ?? null,
+          'release_year' => $item['releaseYear'] ?? null,
 
-        'season_number' => $item['seasonNumber'] ?? null,
+          'remarks' => $item['remarks'] ?? null,
+          'variants' => $item['variants'] ?? null,
 
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-      ];
+          'season_number' => $item['seasonNumber'] ?? null,
 
-      array_push($import, $data);
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ];
+
+        array_push($import, $data);
+      }
     }
 
     Entry::insert($import);
+
+    return count($import);
   }
 
   private function parse_quality(string $quality): int {
