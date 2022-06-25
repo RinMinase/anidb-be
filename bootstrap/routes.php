@@ -69,10 +69,10 @@ Route::prefix('api')
         Route::prefix('catalogs')
           ->group(function () {
             Route::get('', 'CatalogController@index');
-            Route::get('{id}', 'CatalogController@get');
+            Route::get('{uuid}', 'CatalogController@get');
             Route::post('', 'CatalogController@add');
-            Route::put('{id?}', 'CatalogController@edit');
-            Route::delete('{id}', 'CatalogController@delete');
+            Route::put('{uuid?}', 'CatalogController@edit');
+            Route::delete('{uuid}', 'CatalogController@delete');
           });
 
         Route::prefix('partials')

@@ -13,8 +13,10 @@ class CatalogRepository {
       ->get();
   }
 
-  public function get($id) {
-    return Partial::where('id_catalogs', $id)
+  public function get($uuid) {
+    $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
+
+    return Partial::where('id_catalogs', $catalog->id)
       ->orderBy('created_at', 'asc')
       ->get();
   }

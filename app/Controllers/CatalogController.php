@@ -23,10 +23,17 @@ class CatalogController extends Controller {
     ]);
   }
 
-  public function get($id): JsonResponse {
-    return response()->json([
-      'data' => $this->catalogRepository->get($id),
-    ]);
+  public function get($uuid): JsonResponse {
+    try {
+      return response()->json([
+        'data' => $this->catalogRepository->get($uuid),
+      ]);
+    } catch (QueryException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'The provided ID is invalid, or the item does not exist',
+      ], 401);
+    }
   }
 
   public function add(Request $request): JsonResponse {
