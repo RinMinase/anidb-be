@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\Models\Entry;
+use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 
@@ -99,7 +100,7 @@ class ImportController extends Controller {
         /**
          * If it contains rewatches
          */
-        if (isset($item['rewatch']) && $item['rewatch']) {
+        if (!empty($item['rewatch'])) {
           if (!$title_id) {
             $title_id = $this->search_title_id($id_entries, $item['title']);
           }
@@ -112,6 +113,26 @@ class ImportController extends Controller {
               'id_entries' => $title_id,
               'date_rewatched' => Carbon::createFromTimestamp($rewatch_item)
                 ->format('Y-m-d'),
+            ]);
+          }
+        }
+
+        /**
+         * If it contains offquels
+         */
+        if (!empty($item['offquel'])) {
+          if (!$title_id) {
+            $title_id = $this->search_title_id($id_entries, $item['title']);
+          }
+
+          $offquel_list = explode(', ', $item['offquel']);
+
+          foreach ($offquel_list as $offquel_item) {
+            $id_entries_offquel = $this->search_title_id($id_entries, $offquel_item);
+
+            array_push($import_offquels, [
+              'id_entries' => $title_id,                    // parent
+              'id_entries_offquel' => $id_entries_offquel,  // child
             ]);
           }
         }
@@ -130,6 +151,7 @@ class ImportController extends Controller {
        */
       EntryRating::insert($import_ratings);
       EntryRewatch::insert($import_rewatches);
+      EntryOffquel::insert($import_offquels);
 
       return response()->json([
         'status' => 200,
@@ -214,6 +236,6 @@ class ImportController extends Controller {
   private function search_title_id(array $haystack, string $needle) {
     $id = array_column($haystack, 'title');
     $id = array_search($needle, $id);
-    return $haystack[$id]->id;
+    return $haystack[$id] ? $haystack[$id]->id ?? null : null;
   }
 }
