@@ -146,14 +146,6 @@ class EntryController extends Controller {
    *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError Invalid The provided ID is invalid, or the item does not exist
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "401",
-   *       "message": "The provided ID is invalid, or the item does not exist"
-   *     }
    */
   public function get($id): JsonResponse {
     try {
