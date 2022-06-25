@@ -25,6 +25,7 @@ class EntryRepository {
       ->with('rating')
       ->where($haystack, 'like', '%' . $needle . '%')
       ->orderBy($column, $order)
+      ->orderBy('title')
       ->orderBy('id')
       ->skip($skip)
       ->paginate($limit);
@@ -61,7 +62,7 @@ class EntryRepository {
         END DESC
       ');
 
-    return $data->get();
+    return $data->limit(20)->get();
   }
 
   public function getByName() {
