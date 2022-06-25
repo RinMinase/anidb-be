@@ -14,7 +14,7 @@ use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 
-class ImportController extends Controller {
+class EntryImportController extends Controller {
 
   public function index(Request $request) {
     try {

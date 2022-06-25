@@ -42,7 +42,6 @@ Route::prefix('api')
         Route::get('sequences', 'SequenceController@index');
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
-        Route::post('import', 'ImportController@index');
 
         Route::prefix('entries')
           ->group(function () {
@@ -62,6 +61,8 @@ Route::prefix('api')
 
             Route::get('by-bucket', 'EntryByBucketController@index');
             Route::get('by-bucket/{id}', 'EntryByBucketController@get');
+
+            Route::post('import', 'EntryImportController@index');
           });
 
         Route::prefix('catalogs')
