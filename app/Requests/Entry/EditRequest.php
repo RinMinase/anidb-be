@@ -10,8 +10,8 @@ class EditRequest extends FormRequest {
 
   public function rules() {
     return [
-      'id_quality' => 'required|integer|exists:qualities,id',
-      'title' => 'required|string|max:256',
+      'id_quality' => 'integer|exists:qualities,id',
+      'title' => 'string|max:256',
     ];
   }
 

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -260,19 +261,81 @@ class EntryRepository {
     return $data;
   }
 
-  public function add(array $values) {
+  public function add(FormRequest $values) {
     $values['uuid'] = Str::uuid()->toString();
-    Entry::create($values);
+    $id = Entry::insertGetId($values->except([
+      'season_number',
+      'season_first_title_id',
+      'prequel_id',
+      'sequel_id',
+    ]));
+
+    $this->update_season($values, $id);
+    $this->update_prequel_sequel($values, $id);
+
     LogRepository::generateLogs('entry', $values['uuid'], null, 'add');
   }
 
-  public function edit(array $values, $id) {
-    return Entry::whereId($id)->update($values);
+  public function edit(FormRequest $values, $uuid) {
+    $entry = Entry::where('uuid', $uuid)->first();
+
+    $entry->update($values->except([
+      '_method',
+      'season_number',
+      'season_first_title_id',
+      'prequel_id',
+      'sequel_id',
+    ]));
+
+    $this->update_season($values, $entry->id);
+    $this->update_prequel_sequel($values, $entry->id);
+
+    LogRepository::generateLogs('entry', $entry->uuid, null, 'edit');
   }
 
   public function delete($id) {
     return Entry::where('uuid', $id)
       ->firstOrFail()
       ->delete();
+  }
+
+  private function update_season($values, $inserted_id) {
+    $has_season = empty($values['season_number'])
+      || $values['season_number'] === 1;
+
+    if ($has_season) {
+      Entry::where('id', $inserted_id)
+        ->update([
+          'season_number' => 1,
+          'season_first_title_id' => $inserted_id,
+        ]);
+    } else {
+      $entry = Entry::where('uuid', $values['season_first_title_id'])
+        ->first();
+
+      Entry::where('id', $inserted_id)
+        ->update([
+          'season_number' => $values['season_number'],
+          'season_first_title_id' => $entry->id ?? null,
+        ]);
+    }
+  }
+
+  private function update_prequel_sequel($values, $inserted_id) {
+    if (!empty($values['prequel_id'])) {
+      $entry = Entry::where('uuid', $values['prequel_id'])
+        ->first();
+
+      Entry::where('id', $inserted_id)
+        ->update(['prequel_id' => $entry->id ?? null]);
+    }
+
+    if (!empty($values['sequel_id'])) {
+      $entry = Entry::where('uuid', $values['sequel_id'])
+        ->first();
+
+      Entry::where('id', $inserted_id)
+        ->update(['sequel_id' => $entry->id ?? null]);
+    }
   }
 }

@@ -237,7 +237,7 @@ class EntryController extends Controller {
    */
   public function add(AddRequest $request): JsonResponse {
     try {
-      $this->entryRepository->add($request->all());
+      $this->entryRepository->add($request);
 
       return response()->json([
         'status' => 200,
@@ -251,10 +251,20 @@ class EntryController extends Controller {
     }
   }
 
-  public function edit(EditRequest $request, $id): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->edit($request->all(), $id),
-    ]);
+  public function edit(EditRequest $request, $uuid): JsonResponse {
+    try {
+      $this->entryRepository->edit($request, $uuid);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
   }
 
 
