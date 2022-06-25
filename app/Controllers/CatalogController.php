@@ -17,12 +17,83 @@ class CatalogController extends Controller {
     $this->catalogRepository = $catalogRepository;
   }
 
+
+  /**
+   * @api {get} /api/catalogs Retrieve Catalogs
+   * @apiName RetrieveCatalog
+   * @apiGroup Catalog
+   *
+   * @apiHeader {String} token User login token
+   *
+   * @apiSuccess {Object[]} data Catalog data
+   * @apiSuccess {UUID} data.id Catalog ID
+   * @apiSuccess {String} data.description Catalog description
+   * @apiSuccess {Number} data.order Defined order of catalog entry
+   * @apiSuccess {Number} data.year Catalog year
+   * @apiSuccess {String='Winter','Spring','Summer','Fall'} date.season Catalog season
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     [
+   *       {
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *         "description": "description",
+   *         "order": 1,
+   *         "year": 2010,
+   *         "season": "Winter",
+   *       }, {
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *         "description": "TBA",
+   *         "order": 2,
+   *         "year": null,
+   *         "season": "null",
+   *       }, {
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *         "description": "another description",
+   *         "order": null,
+   *         "year": 2015,
+   *         "season": "Winter",
+   *       }, { ... }
+   *     ]
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   */
   public function index(): JsonResponse {
     return response()->json([
       'data' => CatalogCollection::collection($this->catalogRepository->getAll()),
     ]);
   }
 
+
+  /**
+   * @api {get} /api/catalogs/:id Retrieve Catalogs
+   * @apiName RetrieveCatalog
+   * @apiGroup Catalog
+   *
+   * @apiHeader {String} token User login token
+   * @apiParam {String} id Catalog UUID.
+   *
+   * @apiSuccess {Object[]} data Partials data in Catalog
+   * @apiSuccess {UUID} data.id Partial ID
+   * @apiSuccess {String} data.title Partial title
+   * @apiSuccess {Number} data.priority Partial priority
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     [
+   *       {
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *         "title": "Title",
+   *         "priority": "High",
+   *       }, {
+   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *         "title": "Another Title",
+   *         "priority": "Normal",
+   *       }, { ... }
+   *     ]
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   */
   public function get($uuid): JsonResponse {
     try {
       return response()->json([
