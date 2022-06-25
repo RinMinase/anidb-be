@@ -24,6 +24,7 @@ class ImportController extends Controller {
 
       $import_ratings = [];
       $import_rewatches = [];
+      $import_offquels = [];
 
       $id_entries = DB::table('entries')
         ->select('id', 'title')
@@ -163,8 +164,8 @@ class ImportController extends Controller {
         'ovas' => $item['ovas'] ?? 0,
         'specials' => $item['specials'] ?? 0,
 
-        'release_season' => $this->parse_season($item['releaseSeason']) ?? 0,
-        'release_year' => $item['releaseYear'],
+        'release_season' => $this->parse_season($item['releaseSeason']) ?? null,
+        'release_year' => $item['releaseYear'] ?? null,
 
         'remarks' => $item['remarks'] ?? null,
         'variants' => $item['variants'] ?? null,
@@ -198,7 +199,7 @@ class ImportController extends Controller {
     }
   }
 
-  private function parse_season(string $season): string {
+  private function parse_season($season) {
     switch ($season) {
       case 'Winter':
       case 'Spring':
