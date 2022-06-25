@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('partials', function (Blueprint $table) {
       $table->id();
+      $table->uuid('uuid');
 
       $table->string('title', 256)->nullable();
 

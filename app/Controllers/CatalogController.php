@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CatalogRepository;
 use App\Resources\Catalog\CatalogCollection;
+use App\Resources\Catalog\CatalogPartialCollection;
 
 class CatalogController extends Controller {
 
@@ -97,9 +98,11 @@ class CatalogController extends Controller {
   public function get($uuid): JsonResponse {
     try {
       return response()->json([
-        'data' => $this->catalogRepository->get($uuid),
+        'data' => CatalogPartialCollection::collection(
+          $this->catalogRepository->get($uuid)
+        ),
       ]);
-    } catch (QueryException) {
+    } catch (ModelNotFoundException) {
       return response()->json([
         'status' => 401,
         'message' => 'The provided ID is invalid, or the item does not exist',

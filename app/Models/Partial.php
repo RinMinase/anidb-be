@@ -12,6 +12,7 @@ class Partial extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'uuid',
     'title',
     'id_catalogs',
     'id_priority',
@@ -23,6 +24,7 @@ class Partial extends Model {
    * @var array<int, string>
    */
   protected $hidden = [
+    'id',
     'id_catalogs',
     'updated_at',
     'deleted_at',
@@ -38,6 +40,6 @@ class Partial extends Model {
   ];
 
   public function priority() {
-    return $this->belongsTo(Catalog::class, 'id_priority');
+    return $this->belongsTo(Priority::class, 'id_priority');
   }
 }
