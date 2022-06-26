@@ -202,6 +202,7 @@ class EntryImportController extends Controller {
           'variants' => $item['variants'] ?? null,
 
           'season_number' => $item['seasonNumber'] ?? null,
+          'encoder_video' => $item['encoder'] ?? null,
 
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
