@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
 use App\Repositories\BucketRepository;
 
 class BucketController extends Controller {
