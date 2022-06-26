@@ -49,6 +49,26 @@ class GroupController extends Controller {
     ]);
   }
 
+  /**
+   * @api {delete} /api/entries/:id Delete Group
+   * @apiName DeleteGroup
+   * @apiGroup Group
+   *
+   * @apiHeader {String} token User login token
+   * @apiParam {id} id Group ID
+   *
+   * @apiSuccess Success Default success message
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @apiError Invalid The provided ID is invalid, or the item does not exist
+   *
+   * @apiErrorExample Invalid
+   *     HTTP/1.1 401 Forbidden
+   *     {
+   *       "status": "401",
+   *       "message": "Group ID does not existt"
+   *     }
+   */
   public function delete($id): JsonResponse {
     try {
       $this->grouprepository->delete($id);
