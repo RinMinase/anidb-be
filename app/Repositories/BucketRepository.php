@@ -10,10 +10,6 @@ class BucketRepository {
     return Bucket::all();
   }
 
-  public function get($id) {
-    return Bucket::where('id', $id)->first();
-  }
-
   public function add(array $values) {
     return Bucket::create($values);
   }
