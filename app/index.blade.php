@@ -71,7 +71,7 @@
 
   <body>
     <div class="nav">
-      <p class="item"><a href="/docs">Docs</a></p>
+      <p class="item"><a href="/api/docs">Docs</a></p>
       <p class="item">
         <a
           href="https://github.com/RinMinase/anidb-be"
