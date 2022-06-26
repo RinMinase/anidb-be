@@ -39,7 +39,6 @@ Route::prefix('api')
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
 
-        Route::get('groups', 'GroupController@index');
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
         Route::get('sequences', 'SequenceController@index');
@@ -89,6 +88,13 @@ Route::prefix('api')
             Route::post('', 'BucketController@add');
             Route::put('{id?}', 'BucketController@edit');
             Route::delete('{id}', 'BucketController@delete');
+          });
+
+        Route::prefix('groups')
+          ->group(function () {
+            Route::get('', 'GroupController@index');
+            Route::post('', 'GroupController@add');
+            Route::delete('{id}', 'GroupController@delete');
           });
       });
   });

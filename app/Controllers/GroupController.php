@@ -39,4 +39,23 @@ class GroupController extends Controller {
       'data' => $this->grouprepository->getAll(),
     ]);
   }
+
+  public function add(Request $request): JsonResponse {
+    return response()->json([
+      'data' => $this->grouprepository->add($request->all()),
+    ]);
+  }
+
+  public function delete($id): JsonResponse {
+    try {
+      return response()->json([
+        'data' => $this->grouprepository->delete($id),
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Group ID does not exist',
+      ], 401);
+    }
+  }
 }
