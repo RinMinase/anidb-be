@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Exception;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -15,6 +17,7 @@ class GroupController extends Controller {
   public function __construct(Grouprepository $grouprepository) {
     $this->grouprepository = $grouprepository;
   }
+
 
   /**
    * @api {get} /api/groups Retrieve all groups
@@ -43,15 +46,39 @@ class GroupController extends Controller {
     ]);
   }
 
-  public function add(Request $request): JsonResponse {
-    return response()->json([
-      'data' => $this->grouprepository->add($request->all()),
-    ]);
-  }
 
   /**
-   * @api {delete} /api/entries/:id Delete Group
-   * @apiName DeleteGroup
+   * @api {post} /api/groups/ Add Group
+   * @apiName GroupAdd
+   * @apiGroup Group
+   *
+   * @apiHeader {String} token User login token
+   *
+   * @apiSuccess Success Default success message
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @apiError Failed Some kind of error has happened
+   */
+  public function add(Request $request): JsonResponse {
+    try {
+      $this->grouprepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
+  }
+
+
+  /**
+   * @api {delete} /api/groups/:id Delete Group
+   * @apiName GroupDelete
    * @apiGroup Group
    *
    * @apiHeader {String} token User login token
