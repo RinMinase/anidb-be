@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Exception;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -58,21 +60,47 @@ class BucketController extends Controller {
   }
 
   public function add(Request $request): JsonResponse {
-    return response()->json([
-      'data' => $this->bucketRepository->add($request->all()),
-    ]);
+    try {
+      $this->bucketRepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
   }
 
   public function edit(Request $request, $id): JsonResponse {
-    return response()->json([
-      'data' => $this->bucketRepository->edit($request->all(), $id),
-    ]);
+    try {
+      $this->bucketRepository->edit(
+        $request->except(['_method']),
+        $id
+      );
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
   }
 
   public function delete($id): JsonResponse {
     try {
+      $this->bucketRepository->delete($id);
+
       return response()->json([
-        'data' => $this->bucketRepository->delete($id),
+        'status' => 200,
+        'message' => 'Success',
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([

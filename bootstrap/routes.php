@@ -86,7 +86,6 @@ Route::prefix('api')
         Route::prefix('buckets')
           ->group(function () {
             Route::get('', 'BucketController@index');
-            Route::get('{id}', 'BucketController@get');
             Route::post('', 'BucketController@add');
             Route::put('{id?}', 'BucketController@edit');
             Route::delete('{id}', 'BucketController@delete');
