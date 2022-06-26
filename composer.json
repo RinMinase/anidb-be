@@ -19,7 +19,6 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "fruitcake/laravel-cors": "^3.0",
         "kreait/firebase-php": "^6.5",
         "laravel/framework": "^9.18",
         "laravel/sanctum": "^2.11",
