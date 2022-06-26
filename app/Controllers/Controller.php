@@ -28,6 +28,22 @@ class Controller extends BaseController {
 
 
   /**
+   * @api {get} /api Failed
+   * @apiName ErrorsFailed
+   * @apiGroup ❌ Errors ❌
+   *
+   * @apiError Failed Some kind of error has happened
+   *
+   * @apiErrorExample Failed
+   *     HTTP/1.1 500 Internal Server Error
+   *     {
+   *       "status": "500",
+   *       "message": "Failed"
+   *     }
+   */
+
+
+  /**
    * @api {get} /api Default Success Response
    * @apiName SuccessDefault
    * @apiGroup ✅ Success ✅
