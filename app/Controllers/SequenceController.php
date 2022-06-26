@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
+use Exception;
+
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 use App\Repositories\SequenceRepository;
 
@@ -15,7 +18,7 @@ class SequenceController extends Controller {
   }
 
   /**
-   * @api {get} /api/sequence Retrieve all Sequences
+   * @api {get} /api/sequences Retrieve all Sequences
    * @apiName SequenceRetrieve
    * @apiGroup Sequence
    *
@@ -48,5 +51,62 @@ class SequenceController extends Controller {
     return response()->json([
       'data' => $this->sequenceRepository->getAll(),
     ]);
+  }
+
+  public function get($id): JsonResponse {
+    return response()->json([
+      'data' => $this->sequenceRepository->get($id),
+    ]);
+  }
+
+  public function add(Request $request): JsonResponse {
+    try {
+      $this->sequenceRepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
+  }
+
+  public function edit(Request $request, $id): JsonResponse {
+    try {
+      $this->sequenceRepository->edit(
+        $request->except(['_method']),
+        $id
+      );
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
+  }
+
+  public function delete($id): JsonResponse {
+    try {
+      $this->sequenceRepository->delete($id);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Catalog ID does not exist',
+      ], 401);
+    }
   }
 }

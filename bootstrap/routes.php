@@ -41,7 +41,6 @@ Route::prefix('api')
 
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
-        Route::get('sequences', 'SequenceController@index');
 
         Route::prefix('entries')
           ->group(function () {
@@ -89,6 +88,14 @@ Route::prefix('api')
             Route::post('', 'BucketController@add');
             Route::put('{id?}', 'BucketController@edit');
             Route::delete('{id}', 'BucketController@delete');
+          });
+
+        Route::prefix('sequences')
+          ->group(function () {
+            Route::get('', 'SequenceController@index');
+            Route::post('', 'SequenceController@add');
+            Route::put('{id?}', 'SequenceController@edit');
+            Route::delete('{id}', 'SequenceController@delete');
           });
 
         Route::prefix('groups')
