@@ -15,7 +15,7 @@ class HttpKernel extends IlluminateHttpKernel {
   protected $middleware = [
     // \App\Middleware\TrustHosts::class,
     \App\Middleware\TrustProxies::class,
-    \Fruitcake\Cors\HandleCors::class,
+    \Illuminate\Http\Middleware\HandleCors::class,
     \App\Middleware\PreventRequestsDuringMaintenance::class,
     \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
     \App\Middleware\TrimStrings::class,
