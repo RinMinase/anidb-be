@@ -13,6 +13,8 @@ use App\Models\EntryRewatch;
 use App\Models\Bucket;
 use App\Models\Sequence;
 
+use App\Resources\Entry\EntryBySeqDataCollection;
+
 class EntryRepository {
 
   public function getAll(Request $request) {
@@ -296,7 +298,7 @@ class EntryRepository {
       ->get();
 
     return [
-      'data' => $data,
+      'data' => EntryBySeqDataCollection::collection($data),
       'stats' => $this->calculate_sequence_stats($data, $sequence),
     ];
   }
