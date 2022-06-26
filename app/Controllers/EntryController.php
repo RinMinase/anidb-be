@@ -285,7 +285,7 @@ class EntryController extends Controller {
    *     HTTP/1.1 401 Forbidden
    *     {
    *       "status": "401",
-   *       "message": "BucEntry ID does not existt"
+   *       "message": "Entry ID does not existt"
    *     }
    */
   public function delete($id): JsonResponse {
