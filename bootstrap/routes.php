@@ -62,6 +62,8 @@ Route::prefix('api')
             Route::get('by-bucket', 'EntryByBucketController@index');
             Route::get('by-bucket/{id}', 'EntryByBucketController@get');
 
+            Route::get('by-sequence/{id}', 'EntryBySequenceController@index');
+
             Route::post('import', 'EntryImportController@index');
           });
 

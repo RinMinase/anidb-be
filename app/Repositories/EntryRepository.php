@@ -6,10 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
 use App\Models\Bucket;
+use App\Models\Sequence;
 
 class EntryRepository {
 
@@ -261,6 +263,44 @@ class EntryRepository {
     return $data;
   }
 
+  public function getBySequence($id) {
+    $sequence = Sequence::where('id', $id)->first();
+
+    $rewatch_subquery = EntryRewatch::select('id_entries', 'date_rewatched')
+      ->whereIn('date_rewatched', function ($where_in) use ($sequence) {
+        $where_in->select(DB::raw('max(date_rewatched)'))
+          ->from('entries_rewatch')
+          ->where('date_rewatched', '>=', $sequence->date_from)
+          ->where('date_rewatched', '<=', $sequence->date_to)
+          ->groupBy('id_entries');
+      });
+
+    $subquery = Entry::select()
+      ->addSelect(DB::raw('
+        CASE
+          WHEN rewatch.date_rewatched IS NULL AND date_finished IS NOT NULL
+          THEN date_finished
+          ELSE rewatch.date_rewatched
+        END AS date_lookup'))
+      ->with('rating')
+      ->leftJoinSub($rewatch_subquery, 'rewatch', function ($join) {
+        $join->on('entries.id', '=', 'rewatch.id_entries');
+      })
+      ->whereNotNull('rewatch.date_rewatched')
+      ->orWhereNotNull('date_finished')
+      ->orderBy('date_lookup');
+
+    $data = DB::query()->fromSub($subquery, 'data')
+      ->where('data.date_lookup', '>=', $sequence->date_from)
+      ->where('data.date_lookup', '<=', $sequence->date_to)
+      ->get();
+
+    return [
+      'data' => $data,
+      'stats' => $this->calculate_sequence_stats($data, $sequence),
+    ];
+  }
+
   public function add(FormRequest $values) {
     $values['uuid'] = Str::uuid()->toString();
     $id = Entry::insertGetId($values->except([
@@ -337,5 +377,52 @@ class EntryRepository {
       Entry::where('id', $inserted_id)
         ->update(['sequel_id' => $entry->id ?? null]);
     }
+  }
+
+  private function calculate_sequence_stats($data, $sequence) {
+    $start_date = Carbon::parse($sequence->date_from);
+    $end_date = Carbon::parse($sequence->date_to);
+    $total_days = $end_date->diffInDays($start_date);
+
+    $total_size = 0;
+    $total_eps = 0;
+    $total_titles = count($data);
+    $titles_per_day = round($total_titles / $total_days, 2);
+
+    $quality_2160 = 0;
+    $quality_1080 = 0;
+    $quality_720 = 0;
+    $quality_480 = 0;
+    $quality_360 = 0;
+
+    foreach ($data as $item) {
+      if ($item->id_quality === 1) $quality_2160++;
+      if ($item->id_quality === 2) $quality_1080++;
+      if ($item->id_quality === 3) $quality_720++;
+      if ($item->id_quality === 4) $quality_480++;
+      if ($item->id_quality === 5) $quality_360++;
+
+      if ($item->episodes) $total_eps += $item->episodes;
+      if ($item->ovas) $total_eps += $item->ovas;
+      if ($item->specials) $total_eps += $item->specials;
+
+      if ($item->filesize) $total_size += $item->filesize;
+    }
+
+    return [
+      'titles_per_day' => $titles_per_day,
+      'eps_per_day' => round($total_eps / $total_days, 2),
+      'quality_2160' => $quality_2160,
+      'quality_1080' => $quality_1080,
+      'quality_720' => $quality_720,
+      'quality_480' => $quality_480,
+      'quality_360' => $quality_360,
+      'total_titles' => $total_titles,
+      'total_eps' => $total_eps,
+      'total_size' => parse_filesize($total_size),
+      'total_days' => $total_days,
+      'start_date' => $start_date->format('M d, Y'),
+      'end_date' => $end_date->format('M d, Y'),
+    ];
   }
 }
