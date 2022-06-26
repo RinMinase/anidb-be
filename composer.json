@@ -26,7 +26,6 @@
         "symfony/dom-crawler": "^6.0"
     },
     "require-dev": {
-        "laravel/sail": "^1.14",
         "nunomaduro/collision": "^6.1",
         "spatie/laravel-ignition": "^1.3"
     },
