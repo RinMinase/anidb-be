@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\Grouprepository;
 
@@ -50,8 +51,11 @@ class GroupController extends Controller {
 
   public function delete($id): JsonResponse {
     try {
+      $this->grouprepository->delete($id);
+
       return response()->json([
-        'data' => $this->grouprepository->delete($id),
+        'status' => 200,
+        'message' => 'Success',
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([
