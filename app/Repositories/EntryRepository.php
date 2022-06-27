@@ -305,6 +305,9 @@ class EntryRepository {
 
   public function add(FormRequest $values) {
     $values['uuid'] = Str::uuid()->toString();
+    $values['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+    $values['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+
     $id = Entry::insertGetId($values->except([
       'season_number',
       'season_first_title_id',
