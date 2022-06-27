@@ -162,11 +162,10 @@ class EntryImportController extends Controller {
         ],
       ]);
     } catch (Exception $e) {
-      throw $e;
-      // return response()->json([
-      //   'status' => 401,
-      //   'message' => 'Failed to import JSON file',
-      // ]);
+      return response()->json([
+        'status' => 401,
+        'message' => 'Failed to import JSON file',
+      ]);
     }
   }
 
