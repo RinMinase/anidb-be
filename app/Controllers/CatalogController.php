@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CatalogRepository;
+use App\Requests\Catalog\AddRequest;
 use App\Resources\Catalog\CatalogCollection;
 use App\Resources\Catalog\CatalogPartialCollection;
 
@@ -110,7 +111,7 @@ class CatalogController extends Controller {
     }
   }
 
-  public function add(Request $request): JsonResponse {
+  public function add(AddRequest $request): JsonResponse {
     try {
       $this->catalogRepository->add($request->all());
 
