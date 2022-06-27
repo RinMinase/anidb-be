@@ -6,6 +6,10 @@ use Exception;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Carbon\Carbon;
+
+use App\Models\Sequence;
 
 use App\Repositories\SequenceRepository;
 
@@ -107,6 +111,45 @@ class SequenceController extends Controller {
         'status' => 401,
         'message' => 'Catalog ID does not exist',
       ], 401);
+    }
+  }
+
+  public function import(Request $request) {
+    try {
+      $import = [];
+
+      foreach ($request->all() as $item) {
+        if (!empty($item)) {
+          $data = [
+            'date_from' => Carbon::createFromTimestamp($item['timeStart'])
+              ->format('Y-m-d'),
+            'date_to' => Carbon::createFromTimestamp($item['timeEnd'])
+              ->format('Y-m-d'),
+            'title' => $item['title'],
+
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ];
+
+          array_push($import, $data);
+        }
+      }
+
+      Sequence::insert($import);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+        'data' => [
+          'acceptedImports' => count($import),
+          'totalJsonEntries' => count($request->all()),
+        ],
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Failed to import JSON file',
+      ]);
     }
   }
 }

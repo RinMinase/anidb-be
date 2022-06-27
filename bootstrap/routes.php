@@ -96,6 +96,7 @@ Route::prefix('api')
             Route::post('', 'SequenceController@add');
             Route::put('{id?}', 'SequenceController@edit');
             Route::delete('{id}', 'SequenceController@delete');
+            Route::post('import', 'SequenceController@import');
           });
 
         Route::prefix('groups')
