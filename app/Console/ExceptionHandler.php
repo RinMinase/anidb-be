@@ -67,7 +67,7 @@ class ExceptionHandler extends Handler {
     if ($e instanceof Exception && !$is_development) {
       return response()->json([
         'status' => 500,
-        'message' => 'Unknown exception',
+        'message' => 'Failed',
       ]);
     }
 
