@@ -110,4 +110,25 @@ class BucketController extends Controller {
       ], 401);
     }
   }
+
+  public function import(Request $request) {
+    try {
+      $count = $this->bucketRepository->import($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+        'data' => [
+          'acceptedImports' => $count,
+          'totalJsonEntries' => count($request->all()),
+        ],
+      ]);
+    } catch (Exception $e) {
+      throw $e;
+      return response()->json([
+        'status' => 401,
+        'message' => 'Failed to import JSON file',
+      ]);
+    }
+  }
 }
