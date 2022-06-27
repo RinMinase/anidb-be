@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Str;
+
 use App\Models\Catalog;
 use App\Models\Partial;
 
@@ -22,6 +24,8 @@ class CatalogRepository {
   }
 
   public function add(array $values) {
+    $values['uuid'] = Str::uuid()->toString();
+
     return Catalog::create($values);
   }
 

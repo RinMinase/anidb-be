@@ -111,9 +111,19 @@ class CatalogController extends Controller {
   }
 
   public function add(Request $request): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->add($request->all()),
-    ]);
+    try {
+      $this->catalogRepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
   }
 
   public function edit(Request $request, $id): JsonResponse {
@@ -127,7 +137,7 @@ class CatalogController extends Controller {
   public function delete($id): JsonResponse {
     try {
       return response()->json([
-        'data' => $this->entryRepository->delete($id),
+        'data' => $this->catalogRepository->delete($id),
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([
@@ -139,7 +149,7 @@ class CatalogController extends Controller {
 
   private function singleEdit(Request $request, $id): JsonResponse {
     return response()->json([
-      'data' => $this->entryRepository->edit($request->all(), $id),
+      'data' => $this->catalogRepository->edit($request->all(), $id),
     ]);
   }
 
