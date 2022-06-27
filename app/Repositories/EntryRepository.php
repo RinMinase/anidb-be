@@ -341,6 +341,12 @@ class EntryRepository {
       ->delete();
   }
 
+  public function import(array $values) {
+    $repo = new EntryInputRepository();
+
+    return $repo->import($values);
+  }
+
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;

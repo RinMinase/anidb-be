@@ -49,6 +49,7 @@ Route::prefix('api')
             Route::post('', 'EntryController@add');
             Route::put('{uuid}', 'EntryController@edit');
             Route::delete('{uuid}', 'EntryController@delete');
+            Route::post('import', 'EntryController@import');
 
             Route::get('last', 'EntryLastController@index');
 
@@ -62,8 +63,6 @@ Route::prefix('api')
             Route::get('by-bucket/{id}', 'EntryByBucketController@get');
 
             Route::get('by-sequence/{id}', 'EntryBySequenceController@index');
-
-            Route::post('import', 'EntryImportController@index');
           });
 
         Route::prefix('catalogs')
