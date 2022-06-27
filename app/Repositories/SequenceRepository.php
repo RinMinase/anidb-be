@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Carbon\Carbon;
+
 use App\Models\Sequence;
 
 class SequenceRepository {
@@ -22,5 +24,30 @@ class SequenceRepository {
     return Sequence::where('id', $id)
       ->firstOrFail()
       ->delete();
+  }
+
+  public function import($values) {
+    $import = [];
+
+    foreach ($values as $item) {
+      if (!empty($item)) {
+        $data = [
+          'date_from' => Carbon::createFromTimestamp($item['timeStart'])
+            ->format('Y-m-d'),
+          'date_to' => Carbon::createFromTimestamp($item['timeEnd'])
+            ->format('Y-m-d'),
+          'title' => $item['title'],
+
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ];
+
+        array_push($import, $data);
+      }
+    }
+
+    Sequence::insert($import);
+
+    return count($import);
   }
 }
