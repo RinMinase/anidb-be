@@ -11,7 +11,7 @@ return new class extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('search', function (Blueprint $table) {
+    Schema::create('searches', function (Blueprint $table) {
       $table->id();
 
       $table->integer('id_user')->nullable();
@@ -29,6 +29,6 @@ return new class extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('search');
+    Schema::dropIfExists('searches');
   }
 };

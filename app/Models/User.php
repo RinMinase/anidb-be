@@ -35,4 +35,8 @@ class User extends Authenticatable {
    * @var array<string, string>
    */
   protected $casts = [];
+
+  public function searches() {
+    return $this->hasOne(Search::class, 'id_user');
+  }
 }
