@@ -16,8 +16,6 @@ class Catalog extends Model {
    */
   protected $fillable = [
     'uuid',
-    'description',
-    'order',
     'year',
     'season',
   ];

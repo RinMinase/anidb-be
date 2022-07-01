@@ -10,9 +10,15 @@ use App\Models\Partial;
 class CatalogRepository {
 
   public function getAll() {
-    return Catalog::orderBy('order', 'asc')
-      ->orderBy('created_at', 'asc')
-      ->get();
+    return Catalog::select()
+      ->orderBy('year', 'desc')
+      ->orderByRaw('CASE
+        WHEN season=\'Winter\' THEN 1
+        WHEN season=\'Spring\' THEN 2
+        WHEN season=\'Summer\' THEN 3
+        WHEN season=\'Fall\' THEN 4
+        ELSE 0 END
+      ')->get();
   }
 
   public function get($uuid) {

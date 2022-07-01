@@ -10,8 +10,6 @@ class CatalogCollection extends JsonResource {
 
     return [
       'id' => $this->uuid,
-      'description' => $this->description,
-      'order' => $this->order,
       'year' => $this->year,
       'season' => $this->season,
     ];

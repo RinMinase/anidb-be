@@ -29,8 +29,6 @@ class CatalogController extends Controller {
    *
    * @apiSuccess {Object[]} data Catalog data
    * @apiSuccess {UUID} data.id Catalog ID
-   * @apiSuccess {String} data.description Catalog description
-   * @apiSuccess {Number} data.order Defined order of catalog entry
    * @apiSuccess {Number} data.year Catalog year
    * @apiSuccess {String='Winter','Spring','Summer','Fall'} date.season Catalog season
    *
@@ -39,20 +37,14 @@ class CatalogController extends Controller {
    *     [
    *       {
    *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "description": "description",
-   *         "order": 1,
    *         "year": 2010,
    *         "season": "Winter",
    *       }, {
    *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "description": "TBA",
-   *         "order": 2,
    *         "year": null,
    *         "season": "null",
    *       }, {
    *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "description": "another description",
-   *         "order": null,
    *         "year": 2015,
    *         "season": "Winter",
    *       }, { ... }

@@ -15,14 +15,11 @@ return new class extends Migration {
       $table->id();
       $table->uuid('uuid');
 
-      $table->string('description', 16)->unique();
-      $table->smallInteger('order')->unique()->nullable();
-
-      $table->smallInteger('year')->nullable();
+      $table->smallInteger('year');
       $table->enum(
         'season',
         ['Winter', 'Spring', 'Summer', 'Fall'],
-      )->nullable();
+      );
 
       $table->timestamps();
       $table->softDeletes();
