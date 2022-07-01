@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use Carbon\Carbon;
+
+use App\Models\Group;
 
 class GroupSeeder extends Seeder {
   /**
@@ -13,7 +13,6 @@ class GroupSeeder extends Seeder {
    * @return void
    */
   public function run() {
-    $data = [];
     $groups = [
       'A&C',
       'Anbu',
@@ -68,13 +67,9 @@ class GroupSeeder extends Seeder {
     ];
 
     foreach ($groups as $group) {
-      array_push($data, [
+      Group::create([
         'name' => $group,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ]);
     }
-
-    DB::table('groups')->insert($data);
   }
 }
