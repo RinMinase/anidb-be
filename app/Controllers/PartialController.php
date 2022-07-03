@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use TypeError;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -80,10 +82,40 @@ class PartialController extends Controller {
     }
   }
 
+  public function add_multiple(Request $request, $catalog_uuid): JsonResponse {
+    try {
+      $data = json_decode($request->get('data'));
+      $count = $this->partialRepository->add_multiple($data, $catalog_uuid);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+        'data' => [
+          'accepted' => $count,
+          'total' => count($data),
+        ],
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Catalog ID does not exist',
+      ], 401);
+    } catch (TypeError) {
+      return response()->json([
+        'status' => 400,
+        'message' => 'Error in parsing request body',
+      ], 401);
+    }
+  }
+
   public function edit(EditRequest $request, $uuid): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->edit($request->all(), $uuid),
     ]);
+  }
+
+  public function edit_multiple(Request $request): JsonResponse {
+    return [];
   }
 
   public function delete($id): JsonResponse {

@@ -27,8 +27,28 @@ class PartialRepository {
     return Partial::create($values);
   }
 
+  public function add_multiple(array $values, $catalog_uuid) {
+    $catalog = Catalog::where('uuid', $catalog_uuid)->firstOrFail();
+    $count = 0;
+
+    foreach ($values as $value) {
+      $data = array_merge((array) $value, [
+        'uuid' => Str::uuid()->toString(),
+        'id_catalogs' => $catalog->id,
+      ]);
+
+      Partial::create($data);
+      $count++;
+    }
+
+    return $count;
+  }
+
   public function edit(array $values, $uuid) {
     return Partial::where('uuid', $uuid)->update($values);
+  }
+
+  public function edit_multiple(array $values) {
   }
 
   public function delete($id) {
