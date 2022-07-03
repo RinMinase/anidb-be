@@ -58,51 +58,6 @@ class CatalogController extends Controller {
     ]);
   }
 
-
-  /**
-   * @api {get} /api/catalogs/:id Retrieve Catalogs
-   * @apiName RetrieveCatalog
-   * @apiGroup Catalog
-   *
-   * @apiHeader {String} token User login token
-   * @apiParam {String} id Catalog UUID.
-   *
-   * @apiSuccess {Object[]} data Partials data in Catalog
-   * @apiSuccess {UUID} data.id Partial ID
-   * @apiSuccess {String} data.title Partial title
-   * @apiSuccess {Number} data.priority Partial priority
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "title": "Title",
-   *         "priority": "High",
-   *       }, {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "title": "Another Title",
-   *         "priority": "Normal",
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   */
-  public function get($uuid): JsonResponse {
-    try {
-      return response()->json([
-        'data' => CatalogPartialCollection::collection(
-          $this->catalogRepository->get($uuid)
-        ),
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'The provided ID is invalid, or the item does not exist',
-      ], 401);
-    }
-  }
-
   public function add(AddRequest $request): JsonResponse {
     try {
       $this->catalogRepository->add($request->all());

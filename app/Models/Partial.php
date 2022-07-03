@@ -26,6 +26,7 @@ class Partial extends Model {
   protected $hidden = [
     'id',
     'id_catalogs',
+    'created_at',
     'updated_at',
     'deleted_at',
   ];

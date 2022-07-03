@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Resources\Catalog;
+namespace App\Resources\Partial;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CatalogPartialCollection extends JsonResource {
+class PartialCollection extends JsonResource {
 
   public function toArray($request) {
 
