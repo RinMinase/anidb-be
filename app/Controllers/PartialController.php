@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -64,14 +65,24 @@ class PartialController extends Controller {
   }
 
   public function add(AddRequest $request): JsonResponse {
-    return response()->json([
-      'data' => $this->partialRepository->add($request->all()),
-    ]);
+    try {
+      $this->partialRepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Catalog ID does not exist',
+      ], 401);
+    }
   }
 
-  public function edit(EditRequest $request, $id): JsonResponse {
+  public function edit(EditRequest $request, $uuid): JsonResponse {
     return response()->json([
-      'data' => $this->partialRepository->edit($request->all(), $id),
+      'data' => $this->entryRepository->edit($request->all(), $uuid),
     ]);
   }
 
