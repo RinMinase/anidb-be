@@ -7,9 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CatalogRepository;
-use App\Requests\Catalog\AddRequest;
 use App\Resources\Catalog\CatalogCollection;
-use App\Resources\Catalog\CatalogPartialCollection;
 
 class CatalogController extends Controller {
 
@@ -58,7 +56,7 @@ class CatalogController extends Controller {
     ]);
   }
 
-  public function add(AddRequest $request): JsonResponse {
+  public function add(Request $request): JsonResponse {
     try {
       $this->catalogRepository->add($request->all());
 
@@ -75,10 +73,18 @@ class CatalogController extends Controller {
   }
 
   public function edit(Request $request, $id): JsonResponse {
-    if (!isset($id)) {
-      return $this->groupEdit($request);
-    } else {
-      return $this->singleEdit($request, $id);
+    try {
+      $this->catalogRepository->edit($request->except(['_method']), $id);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Catalog ID does not exist',
+      ], 401);
     }
   }
 
