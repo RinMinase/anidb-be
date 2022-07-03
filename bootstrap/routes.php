@@ -77,8 +77,8 @@ Route::prefix('api')
           ->group(function () {
             Route::get('{uuid}', 'PartialController@index');
             Route::post('', 'PartialController@add');
-            Route::put('{id?}', 'PartialController@edit');
-            Route::delete('{id}', 'PartialController@delete');
+            Route::put('{uuid}', 'PartialController@edit');
+            Route::delete('{uuid}', 'PartialController@delete');
           });
 
         Route::prefix('buckets')
