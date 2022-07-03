@@ -88,10 +88,13 @@ class CatalogController extends Controller {
     }
   }
 
-  public function delete($id): JsonResponse {
+  public function delete($uuid): JsonResponse {
     try {
+      $this->catalogRepository->delete($uuid);
+
       return response()->json([
-        'data' => $this->catalogRepository->delete($id),
+        'status' => 200,
+        'message' => 'Success',
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([
@@ -99,17 +102,5 @@ class CatalogController extends Controller {
         'message' => 'Catalog ID does not exist',
       ], 401);
     }
-  }
-
-  private function singleEdit(Request $request, $id): JsonResponse {
-    return response()->json([
-      'data' => $this->catalogRepository->edit($request->all(), $id),
-    ]);
-  }
-
-  private function groupEdit(Request $request): JsonResponse {
-    return response()->json([
-      'data' => [],
-    ]);
   }
 }
