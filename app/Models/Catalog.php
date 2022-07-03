@@ -43,4 +43,12 @@ class Catalog extends Model {
   public function partials() {
     return $this->hasMany(Partial::class, 'id_catalogs');
   }
+
+  public static function boot() {
+    parent::boot();
+
+    static::deleting(function ($catalog) {
+      $catalog->partials()->delete();
+    });
+  }
 }
