@@ -345,7 +345,7 @@ class EntryRepository {
   }
 
   public function import(array $values) {
-    $repo = new EntryInputRepository();
+    $repo = new EntryImportRepository();
 
     return $repo->import($values);
   }

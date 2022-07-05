@@ -11,7 +11,7 @@ use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 
-class EntryInputRepository {
+class EntryImportRepository {
 
   public function import(array $values) {
     $total_count = $this->initial_import($values);
