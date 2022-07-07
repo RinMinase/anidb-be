@@ -142,8 +142,11 @@ class PartialController extends Controller {
 
   public function delete($id): JsonResponse {
     try {
+      $this->partialRepository->delete($id);
+
       return response()->json([
-        'data' => $this->partialRepository->delete($id),
+        'status' => 200,
+        'message' => 'Success',
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([
