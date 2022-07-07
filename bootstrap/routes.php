@@ -82,7 +82,7 @@ Route::prefix('api')
             Route::delete('{uuid}', 'PartialController@delete');
 
             Route::post('multi/{uuid}', 'PartialController@add_multiple');
-            Route::put('multi/{uuid}', 'PartialController@edit_mutliple');
+            Route::put('multi', 'PartialController@edit_multiple');
           });
 
         Route::prefix('buckets')

@@ -115,7 +115,29 @@ class PartialController extends Controller {
   }
 
   public function edit_multiple(Request $request): JsonResponse {
-    return [];
+    try {
+      $data = json_decode($request->get('data'));
+      $count = $this->partialRepository->edit_multiple($data);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+        'data' => [
+          'accepted' => $count,
+          'total' => count($data),
+        ],
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'A Partial ID in the array does not exist',
+      ], 401);
+    } catch (TypeError) {
+      return response()->json([
+        'status' => 400,
+        'message' => 'Error in parsing request body',
+      ], 401);
+    }
   }
 
   public function delete($id): JsonResponse {

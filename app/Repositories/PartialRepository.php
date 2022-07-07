@@ -48,7 +48,19 @@ class PartialRepository {
     return Partial::where('uuid', $uuid)->update($values);
   }
 
-  public function edit_multiple(array $values) {
+  public function edit_multiple(array $values,) {
+    $count = 0;
+
+    foreach ($values as $value) {
+      Partial::where('uuid', $value->id)
+        ->update([
+          'title' => $value->title,
+          'id_priority' => $value->id_priority,
+        ]);
+      $count++;
+    }
+
+    return $count;
   }
 
   public function delete($id) {
