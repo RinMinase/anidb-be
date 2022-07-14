@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder {
    */
   public function run() {
     $this->call([
+      CodecAudioSeeder::class,
+      CodecVideoSeeder::class,
       PrioritySeeder::class,
       QualitySeeder::class,
 
