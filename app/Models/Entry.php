@@ -81,4 +81,12 @@ class Entry extends Model {
   public function rewatches() {
     return $this->hasMany(EntryRewatch::class, 'id_entries');
   }
+
+  public function codec_video() {
+    return $this->belongsTo(CodecVideo::class, 'id_codec_video');
+  }
+
+  public function codec_audio() {
+    return $this->belongsTo(CodecVideo::class, 'id_codec_audio');
+  }
 }
