@@ -87,6 +87,6 @@ class Entry extends Model {
   }
 
   public function codec_audio() {
-    return $this->belongsTo(CodecVideo::class, 'id_codec_audio');
+    return $this->belongsTo(CodecAudio::class, 'id_codec_audio');
   }
 }

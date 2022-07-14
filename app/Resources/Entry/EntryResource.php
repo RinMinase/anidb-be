@@ -40,6 +40,10 @@ class EntryResource extends JsonResource {
       'variants' => $this->variants,
       'remarks' => $this->remarks,
 
+      'codecHDR' => $this->codec_hdr,
+      'codecVideo' => $this->codec_video->codec,
+      'codecAudio' => $this->codec_audio->codec,
+
       'offquels' => EntryOffquelCollection::collection($this->offquels),
       'rewatches' => EntryRewatchCollection::collection($this->rewatches),
 
