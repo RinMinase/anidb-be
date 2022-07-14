@@ -41,6 +41,7 @@ Route::prefix('api')
 
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
+        Route::get('codecs', 'CodecController@index');
         Route::post('import', 'ImportController@index');
 
         Route::prefix('entries')
