@@ -20,7 +20,7 @@ class RegisterRequest extends FormRequest {
       response()->json([
         'status' => 401,
         'data' => $validator->errors(),
-      ])
+      ], 401)
     );
   }
 
