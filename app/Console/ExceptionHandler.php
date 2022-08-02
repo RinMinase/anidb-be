@@ -60,7 +60,7 @@ class ExceptionHandler extends Handler {
       return response()->json([
         'status' => 401,
         'message' => 'Unauthorized',
-      ]);
+      ], 401);
     }
 
     $is_development = strcasecmp(env('APP_ENV'), 'local') == 0;
@@ -68,7 +68,7 @@ class ExceptionHandler extends Handler {
       return response()->json([
         'status' => 500,
         'message' => 'Failed',
-      ]);
+      ], 500);
     }
 
     return parent::render($request, $e);
