@@ -1,5 +1,11 @@
 <?php
 
+$allowed_origins = ["*"];
+
+if (env('ALLOWED_ORIGINS')) {
+  $allowed_origins = json_decode(env('ALLOWED_ORIGINS'));
+}
+
 return [
 
   /*
@@ -19,7 +25,7 @@ return [
 
   'allowed_methods' => ['*'],
 
-  'allowed_origins' => ['localhost:3000'],
+  'allowed_origins' => $allowed_origins,
 
   'allowed_origins_patterns' => [],
 
