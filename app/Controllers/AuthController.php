@@ -115,7 +115,9 @@ class AuthController extends Controller {
    *     }
    */
   public function login(LoginRequest $request): JsonResponse {
-    if (!Auth::attempt($request)) {
+    $credentials = $request->only('email', 'password');
+
+    if (!Auth::attempt($credentials)) {
       return response()->json([
         'status' => 401,
         'message' => 'Credentials does not match',
