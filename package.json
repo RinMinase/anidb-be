@@ -10,12 +10,16 @@
   },
   "scripts": {
     "docs": "apidoc -i app/Controllers -o public/docs",
-    "build": "npm run docs"
+    "build": "npm run docs",
+    "cz": "cz"
   },
   "dependencies": {
-    "apidoc": "^0.51.1"
+    "apidoc": "^0.51.1",
+    "commitizen": "^4.2.5",
+    "cz-emoji-conventional": "^1.0.1",
+    "devmoji": "^2.3.0",
+    "yorkie": "^2.0.0"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=14.0.0"
   },
@@ -28,5 +32,13 @@
       "✅ Success ✅",
       "❌ Errors ❌"
     ]
+  },
+  "gitHooks": {
+    "prepare-commit-msg": "devmoji -e"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-emoji-conventional"
+    }
   }
 }
