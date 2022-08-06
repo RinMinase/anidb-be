@@ -21,14 +21,18 @@ Route::prefix('api')
 
         Route::middleware('auth:sanctum')
           ->group(function () {
+            Route::post('test-post', function () {
+              return 'value';
+            });
+
             Route::get('user', 'AuthController@getUser');
             Route::post('logout', 'AuthController@logout');
           });
       });
 
-    $is_development = strcasecmp(env('APP_ENV'), 'local') == 0;
+    $api_force = strcasecmp(env('APP_FORCE_API'), 'true') == 0;
 
-    Route::middleware($is_development ? 'api' : 'auth:sanctum')
+    Route::middleware($api_force ? 'api' : 'auth:sanctum')
       ->group(function () {
         Route::get('img/{params}', 'ImageController@index')
           ->where('params', '.*');
