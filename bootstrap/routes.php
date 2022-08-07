@@ -21,10 +21,6 @@ Route::prefix('api')
 
         Route::middleware('auth:sanctum')
           ->group(function () {
-            Route::post('test-post', function () {
-              return 'value';
-            });
-
             Route::get('user', 'AuthController@getUser');
             Route::post('logout', 'AuthController@logout');
           });
