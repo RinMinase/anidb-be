@@ -14,6 +14,7 @@ use App\Models\Bucket;
 use App\Models\Sequence;
 
 use App\Resources\Entry\EntryBySeqDataCollection;
+use App\Resources\Entry\EntryCollection;
 
 class EntryRepository {
 
@@ -69,7 +70,12 @@ class EntryRepository {
         END DESC
       ');
 
-    return $data->limit(20)->get();
+    $data = $data->limit(20)->get();
+
+    return [
+      'data' => EntryCollection::collection($data),
+      'stats' => $this->calculate_last_stats($data),
+    ];
   }
 
   public function getByName() {
@@ -387,6 +393,74 @@ class EntryRepository {
 
       Entry::where('id', $inserted_id)
         ->update(['sequel_id' => $entry->id ?? null]);
+    }
+  }
+
+  private function calc_date_finished($item) {
+    $last_date_finished = '';
+
+    if ($item->date_finished) {
+      $last_date_finished = $item->date_finished;
+    }
+
+    if ($item->date_rewatched) {
+      $last_date_finished = $item->date_rewatched;
+    }
+
+    return $last_date_finished;
+  }
+
+  private function calculate_last_stats($data) {
+    if (count($data)) {
+      $now = Carbon::now();
+
+      $date_last_entry = Carbon::parse(
+        $this->calc_date_finished($data[0])
+      );
+      $days_last_entry = $date_last_entry->diffInDays($now);
+      $date_last_entry = $date_last_entry->format('M d, Y');
+
+      $date_oldest_entry = Carbon::parse(
+        $this->calc_date_finished($data[count($data) - 1])
+      );
+      $weeks_since_oldest_entry = $date_oldest_entry->floatDiffInWeeks($now);
+      $days_oldest_entry = $date_oldest_entry->diffInDays($now);
+      $date_oldest_entry = $date_oldest_entry->format('M d, Y');
+
+      $total_titles = count($data);
+      $total_cours = 0;
+      $total_eps = 0;
+      foreach ($data as $item) {
+        if ($item->episodes) $total_eps += $item->episodes;
+        if ($item->ovas) $total_eps += $item->ovas;
+        if ($item->specials) $total_eps += $item->specials;
+
+        if ($item->episodes) {
+          if ($item->episodes > 12) {
+            $total_cours += round($item->episodes / 12, 0);
+          } else {
+            $total_cours++;
+          }
+        }
+      }
+
+      $titles_per_week = $total_titles / $weeks_since_oldest_entry;
+      $cours_per_week = $total_cours / $weeks_since_oldest_entry;
+      $eps_per_week = $total_eps / $weeks_since_oldest_entry;
+      $eps_per_day = $total_eps / $days_oldest_entry;
+
+      return [
+        'date_last_entry' => $date_last_entry,
+        'days_last_entry' => $days_last_entry,
+        'date_oldest_entry' => $date_oldest_entry,
+        'days_oldest_entry' => $days_oldest_entry,
+        'total_titles' => $total_titles,
+        'total_cours' => $total_cours,
+        'titles_per_week' => round($titles_per_week, 2),
+        'cours_per_week' => round($cours_per_week, 2),
+        'eps_per_week' => round($eps_per_week, 2),
+        'eps_per_day' => round($eps_per_day, 2),
+      ];
     }
   }
 

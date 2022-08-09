@@ -61,7 +61,7 @@ class EntryLastController extends Controller {
    */
   public function index(): JsonResponse {
     return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getLast()),
+      'data' => $this->entryRepository->getLast(),
     ]);
   }
 }
