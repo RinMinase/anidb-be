@@ -454,6 +454,7 @@ class EntryRepository {
         'daysLastEntry' => $days_last_entry,
         'dateOldestEntry' => $date_oldest_entry,
         'daysOldestEntry' => $days_oldest_entry,
+        'totalEps' => $total_eps,
         'totalTitles' => $total_titles,
         'totalCours' => $total_cours,
         'titlesPerWeek' => round($titles_per_week, 2),
