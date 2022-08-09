@@ -450,16 +450,16 @@ class EntryRepository {
       $eps_per_day = $total_eps / $days_oldest_entry;
 
       return [
-        'date_last_entry' => $date_last_entry,
-        'days_last_entry' => $days_last_entry,
-        'date_oldest_entry' => $date_oldest_entry,
-        'days_oldest_entry' => $days_oldest_entry,
-        'total_titles' => $total_titles,
-        'total_cours' => $total_cours,
-        'titles_per_week' => round($titles_per_week, 2),
-        'cours_per_week' => round($cours_per_week, 2),
-        'eps_per_week' => round($eps_per_week, 2),
-        'eps_per_day' => round($eps_per_day, 2),
+        'dateLastEntry' => $date_last_entry,
+        'daysLastEntry' => $days_last_entry,
+        'dateOldestEntry' => $date_oldest_entry,
+        'daysOldestEntry' => $days_oldest_entry,
+        'totalTitles' => $total_titles,
+        'totalCours' => $total_cours,
+        'titlesPerWeek' => round($titles_per_week, 2),
+        'coursPerWeek' => round($cours_per_week, 2),
+        'epsPerWeek' => round($eps_per_week, 2),
+        'epsPerDay' => round($eps_per_day, 2),
       ];
     }
   }
