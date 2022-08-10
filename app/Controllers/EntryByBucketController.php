@@ -47,6 +47,7 @@ class EntryByBucketController extends Controller {
    *     HTTP/1.1 200 OK
    *     [
    *       {
+   *         "id": null,
    *         "from": null,
    *         "to": null,
    *         "free": "1.11 TB",
@@ -56,6 +57,7 @@ class EntryByBucketController extends Controller {
    *         "total": "1.23 TB",
    *         "titles": 1
    *       }, {
+   *         "id": 1,
    *         "from": "a",
    *         "to": "d",
    *         "free": "1.11 TB",

@@ -219,6 +219,7 @@ class EntryRepository {
       $titles = count($entries);
 
       array_push($bucketValues, [
+        'id' => $bucket->id,
         'from' => $bucket->from,
         'to' => $bucket->to,
         'free' => parse_filesize($free),
@@ -237,6 +238,7 @@ class EntryRepository {
     $percent = round(($entries_full_size / $bucket_full_size) * 100, 0);
 
     array_push($returnValue, [
+      'id' => null,
       'from' => null,
       'to' => null,
       'free' => parse_filesize($free),
