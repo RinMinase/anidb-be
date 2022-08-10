@@ -189,6 +189,7 @@ class EntryRepository {
   public function getBuckets() {
     $buckets = Bucket::all();
     $returnValue = [];
+    $bucketValues = [];
     $bucket_full_size = 0;
     $entries_full_size = 0;
     $count_full_size = 0;
@@ -217,7 +218,7 @@ class EntryRepository {
       $percent = round(($used / $total) * 100, 0);
       $titles = count($entries);
 
-      array_push($returnValue, [
+      array_push($bucketValues, [
         'from' => $bucket->from,
         'to' => $bucket->to,
         'free' => parse_filesize($free),
@@ -245,6 +246,8 @@ class EntryRepository {
       'total' => parse_filesize($bucket_full_size),
       'titles' => $count_full_size,
     ]);
+
+    $returnValue = array_merge($returnValue, $bucketValues);
 
     return $returnValue;
   }

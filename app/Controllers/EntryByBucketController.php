@@ -47,15 +47,6 @@ class EntryByBucketController extends Controller {
    *     HTTP/1.1 200 OK
    *     [
    *       {
-   *         "from": "a",
-   *         "to": "d",
-   *         "free": "1.11 TB",
-   *         "freeTB": null,
-   *         "used": "123.12 GB",
-   *         "percent": 10,
-   *         "total": "1.23 TB",
-   *         "titles": 1
-   *       }, { ... }, {
    *         "from": null,
    *         "to": null,
    *         "free": "1.11 TB",
@@ -64,7 +55,16 @@ class EntryByBucketController extends Controller {
    *         "percent": 10,
    *         "total": "1.23 TB",
    *         "titles": 1
-   *       }
+   *       }, {
+   *         "from": "a",
+   *         "to": "d",
+   *         "free": "1.11 TB",
+   *         "freeTB": null,
+   *         "used": "123.12 GB",
+   *         "percent": 10,
+   *         "total": "1.23 TB",
+   *         "titles": 1
+   *       }, { ... }
    *     ]
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
