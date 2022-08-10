@@ -94,14 +94,21 @@ class EntryByBucketController extends Controller {
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "filesize": "10.25 GB",
-   *         "quality": "FHD 1080p",
-   *         "title": "Title",
-   *       }, { ... }
-   *     ]
+   *     {
+   *       data: [
+   *         {
+   *           "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *           "filesize": "10.25 GB",
+   *           "quality": "FHD 1080p",
+   *           "title": "Title",
+   *         }, { ... }
+   *       ],
+   *       stats: {
+   *         from: "a",
+   *         to: "d",
+   *       }
+   *     }
+   *
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    * @apiError Invalid The provided ID is invalid, or the item does not exist
@@ -116,7 +123,7 @@ class EntryByBucketController extends Controller {
   public function get($id): JsonResponse {
     try {
       return response()->json([
-        'data' => EntryCollection::collection($this->entryRepository->getByBucket($id)),
+        'data' => $this->entryRepository->getByBucket($id),
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([

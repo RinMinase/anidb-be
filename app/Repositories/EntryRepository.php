@@ -273,7 +273,13 @@ class EntryRepository {
 
     $data = $data->orderBy('title', 'asc')->get();
 
-    return $data;
+    return [
+      'data' => EntryCollection::collection($data),
+      'stats' => [
+        'from' => $bucket->from,
+        'to' => $bucket->to,
+      ],
+    ];
   }
 
   public function getBySequence($id) {
