@@ -12,7 +12,7 @@ class EntryBySeqDataCollection extends JsonResource {
       'id' => $this->uuid,
       'id_quality' => $this->id_quality,
       'title' => $this->title,
-      'dateFinished' => $this->date_lookup,
+      'dateFinished' => $this->calcDateFinished(),
       'rewatched' => (bool) $this->date_rewatched,
       'filesize' => parse_filesize($this->filesize ?? 0),
 
@@ -20,5 +20,16 @@ class EntryBySeqDataCollection extends JsonResource {
       'ovas' => $this->ovas ?? 0,
       'specials' => $this->specials ?? 0,
     ];
+  }
+
+  private function calcDateFinished() {
+    $last_date_finished = '';
+
+    if ($this->date_lookup) {
+      $last_date_finished = Carbon::parse($this->date_lookup)
+        ->format('M d, Y');
+    }
+
+    return $last_date_finished;
   }
 }
