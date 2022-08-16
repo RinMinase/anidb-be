@@ -143,27 +143,47 @@ class EntryRepository {
         ELSE 0 END
       ')->get();
 
-    $data = [
-      'Uncategorized' => [
-        'release_season' => null,
-        'count' => 0,
-      ],
-    ];
+    $data = [];
 
     foreach ($entries as $entry) {
       if ($entry->release_year == null) {
-        $data['Uncategorized']['count'] = $entry->count;
-      } else {
         $to_push = [
-          'release_season' => $entry->release_season,
+          'year' => null,
+          'seasons' => null,
           'count' => $entry->count,
         ];
 
-        if (!array_key_exists($entry->release_year, $data)) {
-          $data[$entry->release_year] = [];
-        }
+        $data_keys = array_column($data, 'year');
+        $data_index = array_search(null, $data_keys);
 
-        array_push($data[$entry->release_year], $to_push);
+        if ($data_index !== false) {
+          $data[$data_index]['count'] += $entry->count;
+        } else {
+          array_push($data, $to_push);
+        }
+      } else {
+        $season = $entry->release_season ?? "None";
+
+        $to_push = [
+          'year' => $entry->release_year,
+          'seasons' => [
+            $season => $entry->count,
+          ],
+          'count' => null,
+        ];
+
+        $data_keys = array_column($data, 'year');
+        $data_index = array_search($entry->release_year, $data_keys);
+
+        if ($data_index !== false) {
+          if (!array_key_exists('seasons', $data[$data_index])) {
+            $data[$data_index]['seasons'] = [];
+          }
+
+          $data[$data_index]['seasons'][$season] = $entry->count;
+        } else {
+          array_push($data, $to_push);
+        }
       }
     }
 
