@@ -205,7 +205,13 @@ class EntryRepository {
             strtoupper($bucket->from),
             strtoupper($bucket->to)
           ]
-        )->get();
+        );
+
+      if (strtoupper($bucket->from) === 'A') {
+        $entries = $entries->orWhereBetween('title', [0, 9]);
+      }
+
+      $entries = $entries->get();
 
       $entries_size = 0;
       foreach ($entries as $entry) {
@@ -267,7 +273,7 @@ class EntryRepository {
         ]
       );
 
-    if ($bucket->from === 'a') {
+    if (strtoupper($bucket->from) === 'A') {
       $data = $data->orWhereBetween('title', [0, 9]);
     }
 
