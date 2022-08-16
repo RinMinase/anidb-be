@@ -144,18 +144,21 @@ class EntryRepository {
       ')->get();
 
     $data = [
-      'Uncategorized' => [],
+      'Uncategorized' => [
+        'release_season' => null,
+        'count' => 0,
+      ],
     ];
 
     foreach ($entries as $entry) {
-      $to_push = [
-        'release_season' => $entry->release_season,
-        'count' => $entry->count,
-      ];
-
       if ($entry->release_year == null) {
-        array_push($data['Uncategorized'], $to_push);
+        $data['Uncategorized']['count'] = $entry->count;
       } else {
+        $to_push = [
+          'release_season' => $entry->release_season,
+          'count' => $entry->count,
+        ];
+
         if (!array_key_exists($entry->release_year, $data)) {
           $data[$entry->release_year] = [];
         }
