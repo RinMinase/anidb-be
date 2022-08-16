@@ -191,6 +191,8 @@ class EntryRepository {
   }
 
   public function getBySeason($year) {
+    if (intval($year) < 1970) $year = null;
+
     function entriesBySeason($season, $year) {
       return Entry::select('uuid', 'title')
         ->where('release_year', '=', $year)

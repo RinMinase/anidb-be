@@ -73,7 +73,7 @@ class EntryByYearController extends Controller {
    * @apiGroup Entry
    *
    * @apiHeader {String} token User login token
-   * @apiParam {Number} year Release year
+   * @apiParam {Number|String} year Release year, if String value is passed year is considered null
    *
    * @apiSuccess {Object} data By season data
    * @apiSuccess {Object} data.season Entry data per season
