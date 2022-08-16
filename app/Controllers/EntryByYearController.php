@@ -23,38 +23,39 @@ class EntryByYearController extends Controller {
    * @apiHeader {String} token User login token
    *
    * @apiSuccess {Object[]} data By Year Data
-   * @apiSuccess {String} data.release_season Season the count belongs to
-   * @apiSuccess {String} data.release_year Year the count belongs to
-   * @apiSuccess {Number} data.count Count entries per year per season
+   * @apiSuccess {String} data.year Year the count belongs to
+   * @apiSuccess {Object} data.seasons Year the count belongs to
+   * @apiSuccess {Number} data.seasons.None No-season entries in the year
+   * @apiSuccess {Number} data.seasons.Winter Winter entries in the year
+   * @apiSuccess {Number} data.seasons.Spring Spring entries in the year
+   * @apiSuccess {Number} data.seasons.Summer Summer entries in the year
+   * @apiSuccess {Number} data.seasons.Fall Fall entries in the year
+   * @apiSuccess {Number} data.count Only present in first NO-year ANY-season item
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
    *     [
    *       {
-   *         "release_season": null,
-   *         "release_year": null,
-   *         "count": 1
-   *       },
-   *       {
-   *         "release_season": null,
-   *         "release_year": 2010,
-   *         "count": 10
-   *       },
-   *       {
-   *         "release_season": "Winter",
-   *         "release_year": 2010,
+   *         "year": null,
+   *         "seasons": null,
    *         "count": 2
    *       },
    *       {
-   *         "release_season": "Spring",
-   *         "release_year": 2010,
-   *         "count": 3
+   *         "year": 2010,
+   *         "seasons": {
+   *           Spring: 1,
+   *           Summer: 2,
+   *         },
+   *         "count": null
    *       },
    *       {
-   *         "release_season": "Winter",
-   *         "release_year": 2000,
-   *         "count": 12
-   *       }
+   *         "year": 2020,
+   *         "seasons": {
+   *           None: 1,
+   *           Winter: 2,
+   *         },
+   *         "count": null
+   *       },
    *     ]
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
