@@ -104,15 +104,17 @@ class EntryRepository {
     $letters = [];
     foreach ($ctrTitles as $index => $item) {
       if ($index == 0) {
-        $letters['#'] = [
+        array_push($letters, [
+          'letter' => '#',
           'titles' => $item,
           'filesize' => parse_filesize($ctrSizes[$index]),
-        ];
+        ]);
       } else {
-        $letters[chr($index + 64)] = [
+        array_push($letters, [
+          'letter' => chr($index + 64),
           'titles' => $item,
           'filesize' => parse_filesize($ctrSizes[$index]),
-        ];
+        ]);
       }
     }
 
