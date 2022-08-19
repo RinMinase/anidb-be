@@ -23,27 +23,24 @@ class EntryByNameController extends Controller {
    *
    * @apiHeader {String} token User login token
    *
-   * @apiSuccess {Object} data By name data
-   * @apiSuccess {Object} data.letter Letter of each alphabet
-   * @apiSuccess {Number} data.letter.titles Count of titles on this letter
-   * @apiSuccess {Number} data.letter.filesize Count of filesize on this letter
+   * @apiSuccess {Object[]} data By name data
+   * @apiSuccess {String} data.letter Letter of each alphabet
+   * @apiSuccess {Number} data.titles Count of titles on this letter
+   * @apiSuccess {Number} data.filesize Count of filesize on this letter
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
-   *     {
-   *       "#" {
+   *     [
+   *       {
+   *         "letter": "#",
    *         "titles": 12,
    *         "filesize": "10.25 GB",
-   *       },
-   *       "A" {
-   *         "titles": 34,
-   *         "filesize": "12.23 GB",
-   *       },
-   *       "B" {
+   *       }, {
+   *         "letter": "A",
    *         "titles": 34,
    *         "filesize": "12.23 GB",
    *       }, { ... }
-   *     }
+   *     ]
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
