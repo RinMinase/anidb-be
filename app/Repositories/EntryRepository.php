@@ -122,12 +122,16 @@ class EntryRepository {
   public function getByLetter($letter) {
     $data = Entry::select()
       ->with('rating')
-      ->where('title', 'like', $letter[0] . '%')
       ->orderBy('title', 'asc')
-      ->orderBy('id')
-      ->get();
+      ->orderBy('id');
 
-    return $data;
+    if ($letter[0] === "0") {
+      $data = $data->whereBetween('title', [0, 9]);
+    } else {
+      $data = $data->where('title', 'like', $letter[0] . '%');
+    }
+
+    return $data->get();
   }
 
   public function getByYear() {
