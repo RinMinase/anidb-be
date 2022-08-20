@@ -38,6 +38,7 @@ Route::prefix('api')
         Route::get('changelog/{params?}', 'ReleaseController@getLogs');
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
+        Route::get('management', 'ManagementController@index');
 
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
