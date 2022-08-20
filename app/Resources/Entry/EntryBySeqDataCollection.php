@@ -11,7 +11,7 @@ class EntryBySeqDataCollection extends JsonResource {
 
     return [
       'id' => $this->uuid,
-      'id_quality' => $this->id_quality,
+      'quality' => $this->quality,
       'title' => $this->title,
       'dateFinished' => $this->calcDateFinished(),
       'rewatched' => (bool) $this->date_rewatched,

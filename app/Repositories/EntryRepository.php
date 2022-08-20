@@ -343,6 +343,9 @@ class EntryRepository {
       ->leftJoinSub($rewatch_subquery, 'rewatch', function ($join) {
         $join->on('entries.id', '=', 'rewatch.id_entries');
       })
+      ->leftJoin('qualities', function ($join) {
+        $join->on('entries.id_quality', '=', 'qualities.id');
+      })
       ->whereNotNull('rewatch.date_rewatched')
       ->orWhereNotNull('date_finished')
       ->orderBy('date_lookup');
