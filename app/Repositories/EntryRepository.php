@@ -29,7 +29,7 @@ class EntryRepository {
 
     $data = Entry::select()
       ->with('rating')
-      ->where($haystack, 'like', '%' . $needle . '%')
+      ->where($haystack, 'ilike', '%' . $needle . '%')
       ->orderBy($column, $order)
       ->orderBy('title')
       ->orderBy('id')
