@@ -308,14 +308,15 @@ class EntryController extends Controller {
 
   public function import(Request $request): JsonResponse {
     try {
-      $count = $this->entryRepository->import($request->all());
+      $file = json_decode($request->file('file')->get());
+      $count = $this->entryRepository->import($file);
 
       return response()->json([
         'status' => 200,
         'message' => 'Success',
         'data' => [
           'acceptedImports' => $count,
-          'totalJsonEntries' => count($request->all()),
+          'totalJsonEntries' => count($file),
         ],
       ]);
     } catch (ModelNotFoundException) {

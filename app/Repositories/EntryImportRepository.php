@@ -35,20 +35,20 @@ class EntryImportRepository {
       /**
        * If it contains ratings
        */
-      $has_ratings = !empty($item['rating']['audio'])
-        || !empty($item['rating']['enjoyment'])
-        || !empty($item['rating']['graphics'])
-        || !empty($item['rating']['plot']);
+      $has_ratings = !empty($item->rating->audio)
+        || !empty($item->rating->enjoyment)
+        || !empty($item->rating->graphics)
+        || !empty($item->rating->plot);
 
       if ($has_ratings) {
-        $title_id = $this->search_title_id($id_entries, $item['title']);
+        $title_id = $this->search_title_id($id_entries, $item->title);
 
         array_push($import_ratings, [
           'id_entries' => $title_id,
-          'audio' => $item['rating']['audio'],
-          'enjoyment' => $item['rating']['enjoyment'],
-          'graphics' => $item['rating']['graphics'],
-          'plot' => $item['rating']['plot'],
+          'audio' => $item->rating->audio,
+          'enjoyment' => $item->rating->enjoyment,
+          'graphics' => $item->rating->graphics,
+          'plot' => $item->rating->plot,
         ]);
       }
 
@@ -56,12 +56,12 @@ class EntryImportRepository {
        * Checking for local relationship keys
        */
       if (
-        !empty($item['firstSeasonTitle'])
-        || !empty($item['prequel'])
-        || !empty($item['sequel'])
+        !empty($item->firstSeasonTitle)
+        || !empty($item->prequel)
+        || !empty($item->sequel)
       ) {
         if (!$title_id) {
-          $title_id = $this->search_title_id($id_entries, $item['title']);
+          $title_id = $this->search_title_id($id_entries, $item->title);
         }
 
         $first_title_id = null;
@@ -70,17 +70,17 @@ class EntryImportRepository {
 
         foreach ($id_entries as $entry) {
           if (
-            $item['firstSeasonTitle']
-            && $entry->title === $item['firstSeasonTitle']
+            $item->firstSeasonTitle
+            && $entry->title === $item->firstSeasonTitle
           ) {
             $first_title_id = $entry->id;
           }
 
-          if ($item['prequel'] && $entry->title === $item['prequel']) {
+          if ($item->prequel && $entry->title === $item->prequel) {
             $prequel_id = $entry->id;
           }
 
-          if ($item['sequel'] && $entry->title === $item['sequel']) {
+          if ($item->sequel && $entry->title === $item->sequel) {
             $sequel_id = $entry->id;
           }
         }
@@ -96,12 +96,12 @@ class EntryImportRepository {
       /**
        * If it contains rewatches
        */
-      if (!empty($item['rewatch'])) {
+      if (!empty($item->rewatch)) {
         if (!$title_id) {
-          $title_id = $this->search_title_id($id_entries, $item['title']);
+          $title_id = $this->search_title_id($id_entries, $item->title);
         }
 
-        $rewatch_list = explode(',', $item['rewatch']);
+        $rewatch_list = explode(',', $item->rewatch);
         $rewatch_list = array_reverse($rewatch_list);
 
         foreach ($rewatch_list as $rewatch_item) {
@@ -116,12 +116,12 @@ class EntryImportRepository {
       /**
        * If it contains offquels
        */
-      if (!empty($item['offquel'])) {
+      if (!empty($item->offquel)) {
         if (!$title_id) {
-          $title_id = $this->search_title_id($id_entries, $item['title']);
+          $title_id = $this->search_title_id($id_entries, $item->title);
         }
 
-        $offquel_list = explode(', ', $item['offquel']);
+        $offquel_list = explode(', ', $item->offquel);
 
         foreach ($offquel_list as $offquel_item) {
           $id_entries_offquel = $this->search_title_id($id_entries, $offquel_item);
@@ -157,34 +157,34 @@ class EntryImportRepository {
 
     foreach ($values as $item) {
       // accepts only if it 'does not exist' or has a value of '-1'
-      $acceptedPriority = !isset($item['downloadPriority'])
-        || $item['downloadPriority'] == -1;
+      $acceptedPriority = !isset($item->downloadPriority)
+        || $item->downloadPriority == -1;
 
       if (!empty($item) && $acceptedPriority) {
         $data = [
           'uuid' => Str::uuid()->toString(),
 
-          'id_quality' => $this->parse_quality($item['quality']),
-          'title' => $item['title'] ?? null,
+          'id_quality' => $this->parse_quality($item->quality),
+          'title' => $item->title ?? null,
 
-          'date_finished' => Carbon::createFromTimestamp($item['dateFinished'])
+          'date_finished' => Carbon::createFromTimestamp($item->dateFinished)
             ->format('Y-m-d'),
 
-          'duration' => $item['duration'] ?? 0,
-          'filesize' => $item['filesize'] ?? 0,
+          'duration' => $item->duration ?? 0,
+          'filesize' => $item->filesize ?? 0,
 
-          'episodes' => $item['episodes'] ?? 0,
-          'ovas' => $item['ovas'] ?? 0,
-          'specials' => $item['specials'] ?? 0,
+          'episodes' => $item->episodes ?? 0,
+          'ovas' => $item->ovas ?? 0,
+          'specials' => $item->specials ?? 0,
 
-          'release_season' => $this->parse_season($item['releaseSeason']) ?? null,
-          'release_year' => $item['releaseYear'] ?? null,
+          'release_season' => $this->parse_season($item->releaseSeason) ?? null,
+          'release_year' => is_integer($item->releaseYear) ? $item->releaseYear : null,
 
-          'remarks' => $item['remarks'] ?? null,
-          'variants' => $item['variants'] ?? null,
+          'remarks' => $item->remarks ?? null,
+          'variants' => $item->variants ?? null,
 
-          'season_number' => $item['seasonNumber'] ?? null,
-          'encoder_video' => $item['encoder'] ?? null,
+          'season_number' => $item->seasonNumber ?? null,
+          'encoder_video' => $item->encoder ?? null,
 
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
