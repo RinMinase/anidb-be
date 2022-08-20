@@ -178,7 +178,7 @@ class EntryImportRepository {
           'specials' => $item->specials ?? 0,
 
           'release_season' => $this->parse_season($item->releaseSeason) ?? null,
-          'release_year' => is_integer($item->releaseYear) ? $item->releaseYear : null,
+          'release_year' => is_numeric($item->releaseYear) ? $item->releaseYear : null,
 
           'remarks' => $item->remarks ?? null,
           'variants' => $item->variants ?? null,
