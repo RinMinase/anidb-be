@@ -130,7 +130,8 @@ class EntryRepository {
     if ($letter[0] === "0") {
       $data = $data->whereBetween('title', [0, 9]);
     } else {
-      $data = $data->where('title', 'like', $letter[0] . '%');
+      $data = $data->where('title', 'like', strtoupper($letter[0]) . '%')
+        ->orWhere('title', 'like', strtolower($letter[0]) . '%');
     }
 
     return $data->get();
