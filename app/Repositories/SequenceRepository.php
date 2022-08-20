@@ -32,11 +32,11 @@ class SequenceRepository {
     foreach ($values as $item) {
       if (!empty($item)) {
         $data = [
-          'date_from' => Carbon::createFromTimestamp($item['timeStart'])
+          'date_from' => Carbon::createFromTimestamp($item->timeStart)
             ->format('Y-m-d'),
-          'date_to' => Carbon::createFromTimestamp($item['timeEnd'])
+          'date_to' => Carbon::createFromTimestamp($item->timeEnd)
             ->format('Y-m-d'),
-          'title' => $item['title'],
+          'title' => $item->title,
 
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),

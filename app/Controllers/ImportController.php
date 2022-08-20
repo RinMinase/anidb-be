@@ -19,21 +19,22 @@ class ImportController extends Controller {
 
   public function index(Request $request): JsonResponse {
     try {
-      $import_count = $this->importRepository->import($request->all());
+      $file = json_decode($request->file('file')->get());
+      $import_count = $this->importRepository->import($file);
 
       $entry_count = 0;
-      if (!empty($request->all()['entry'])) {
-        $entry_count = count($request->all()['entry']);
+      if (!empty($file->entry)) {
+        $entry_count = count($file->entry);
       }
 
       $bucket_count = 0;
-      if (!empty($request->all()['bucket'])) {
-        $bucket_count = count($request->all()['bucket']);
+      if (!empty($file->bucket)) {
+        $bucket_count = count($file->bucket);
       }
 
       $sequence_count = 0;
-      if (!empty($request->all()['sequence'])) {
-        $sequence_count = count($request->all()['sequence']);
+      if (!empty($file->sequence)) {
+        $sequence_count = count($file->sequence);
       }
 
       return response()->json([
