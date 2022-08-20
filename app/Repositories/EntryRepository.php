@@ -201,18 +201,18 @@ class EntryRepository {
     if (intval($year) < 1970) $year = null;
 
     function entriesBySeason($season, $year) {
-      return Entry::select('uuid', 'title')
+      return Entry::select('uuid', 'title', 'id_quality')
         ->where('release_year', '=', $year)
         ->where('release_season', '=', $season)
         ->get();
     }
 
     $data = [
-      'Winter' => entriesBySeason('Winter', $year),
-      'Spring' => entriesBySeason('Spring', $year),
-      'Summer' => entriesBySeason('Summer', $year),
-      'Fall' => entriesBySeason('Fall', $year),
-      'Uncategorized' => entriesBySeason(null, $year),
+      'Winter' => EntryCollection::collection(entriesBySeason('Winter', $year)),
+      'Spring' => EntryCollection::collection(entriesBySeason('Spring', $year)),
+      'Summer' => EntryCollection::collection(entriesBySeason('Summer', $year)),
+      'Fall' => EntryCollection::collection(entriesBySeason('Fall', $year)),
+      'Uncategorized' => EntryCollection::collection(entriesBySeason(null, $year)),
     ];
 
     return $data;
