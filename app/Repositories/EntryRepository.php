@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Fuse\Fuse;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
@@ -28,12 +29,35 @@ class EntryRepository {
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
     $data = Entry::select()
-      ->with('rating')
-      ->where($haystack, 'ilike', '%' . $needle . '%')
-      ->orderBy($column, $order)
-      ->orderBy('title')
-      ->orderBy('id')
-      ->skip($skip)
+      ->with('rating');
+
+    if ($haystack === 'title' && !empty($needle)) {
+      $names = Entry::select('uuid', 'title')->get()->toArray();
+
+      $fuse = new Fuse($names, ['keys' => ['title']]);
+      $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
+
+      $fuzzy_ids = [];
+      foreach ($fuzzy_names as $fuzzy_name) {
+        $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
+      }
+
+      $case_string = 'CASE ';
+      foreach ($fuzzy_ids as $key => $fuzzy_id) {
+        $data = $data->orWhere('uuid', $fuzzy_id);
+        $case_string .= 'WHEN uuid=\'' . $fuzzy_id . '\' THEN ' . $key + 1 . ' ';
+      }
+      $case_string .= 'END';
+
+      $data = $data->orderByRaw($case_string);
+    } else {
+      $data = $data->where($haystack, 'ilike', '%' . $needle . '%')
+        ->orderBy($column, $order)
+        ->orderBy('title')
+        ->orderBy('id');
+    }
+
+    $data = $data->skip($skip)
       ->paginate($limit);
 
     return $data;
