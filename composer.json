@@ -22,6 +22,7 @@
         "kreait/firebase-php": "^6.7",
         "laravel/framework": "^9.25",
         "laravel/sanctum": "^3.0",
+        "loilo/fuse": "^6.6",
         "symfony/dom-crawler": "^6.0"
     },
     "require-dev": {
