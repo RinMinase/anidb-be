@@ -229,18 +229,19 @@ class EntryRepository {
     foreach ($buckets as $bucket) {
       $bucket_full_size += $bucket->size;
 
+      $upper_from = strtoupper($bucket->from);
+      $upper_to = strtoupper($bucket->to);
+      $regex_lower = '\'^[' . $bucket->from . '-' . $bucket->to . ']\'';
+      $regex_upper = '\'^[' . $upper_from . '-' . $upper_to . ']\'';
+
       $entries = Entry::select('filesize')
-        ->whereBetween('title', [$bucket->from, $bucket->to])
-        ->orWhereBetween(
-          'title',
-          [
-            strtoupper($bucket->from),
-            strtoupper($bucket->to)
-          ]
-        );
+        ->whereRaw('title ~ ' . $regex_lower)
+        ->orWhere(function ($query) use ($regex_upper) {
+          $query->whereRaw('title ~ ' . $regex_upper);
+        });
 
       if (strtoupper($bucket->from) === 'A') {
-        $entries = $entries->orWhereBetween('title', [0, 9]);
+        $entries = $entries->orWhereRaw('title ~ \'^[0-9]\'');
       }
 
       $entries = $entries->get();
