@@ -96,6 +96,12 @@ Route::prefix('api')
             Route::post('import', 'BucketController@import');
           });
 
+        Route::prefix('bucket-sims')
+          ->group(function () {
+            Route::get('', 'BucketSimController@index');
+            Route::get('{id}', 'BucketSimController@get');
+          });
+
         Route::prefix('sequences')
           ->group(function () {
             Route::get('', 'SequenceController@index');

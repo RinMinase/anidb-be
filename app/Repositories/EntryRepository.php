@@ -241,8 +241,8 @@ class EntryRepository {
     return $data;
   }
 
-  public function getBuckets() {
-    $buckets = Bucket::all();
+  public function getBuckets($bucket = null) {
+    $buckets = $bucket ?? Bucket::all();
     $returnValue = [];
     $bucketValues = [];
     $bucket_full_size = 0;
