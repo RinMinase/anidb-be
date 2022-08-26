@@ -5,13 +5,13 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 
-use App\Repositories\bucketSimRepository;
+use App\Repositories\BucketSimRepository;
 
 class BucketSimController extends Controller {
 
-  private bucketSimRepository $bucketSimRepository;
+  private BucketSimRepository $bucketSimRepository;
 
-  public function __construct(bucketSimRepository $bucketSimRepository) {
+  public function __construct(BucketSimRepository $bucketSimRepository) {
     $this->bucketSimRepository = $bucketSimRepository;
   }
 
