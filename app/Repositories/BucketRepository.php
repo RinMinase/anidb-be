@@ -12,6 +12,10 @@ class BucketRepository {
     return Bucket::all();
   }
 
+  public function get($id) {
+    return Bucket::where('id', $id)->firstOrFail();
+  }
+
   public function add(array $values) {
     return Bucket::create($values);
   }
