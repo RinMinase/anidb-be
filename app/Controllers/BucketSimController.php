@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\BucketSimRepository;
@@ -25,5 +25,21 @@ class BucketSimController extends Controller {
     return response()->json([
       'data' => $this->bucketSimRepository->get($uuid),
     ]);
+  }
+
+  public function add(Request $request): JsonResponse {
+    try {
+      $this->bucketSimRepository->add($request->all());
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
   }
 }

@@ -100,6 +100,7 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', 'BucketSimController@index');
             Route::get('{id}', 'BucketSimController@get');
+            Route::post('', 'BucketSimController@add');
           });
 
         Route::prefix('sequences')
