@@ -101,6 +101,7 @@ Route::prefix('api')
             Route::get('', 'BucketSimController@index');
             Route::get('{id}', 'BucketSimController@get');
             Route::post('', 'BucketSimController@add');
+            Route::put('{id}', 'BucketSimController@edit');
           });
 
         Route::prefix('sequences')

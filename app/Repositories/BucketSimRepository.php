@@ -45,4 +45,26 @@ class BucketSimRepository {
 
     BucketSim::insert($buckets);
   }
+
+  public function edit(array $values, string $uuid) {
+    $info = BucketSimInfo::where('uuid', $uuid)->firstOrFail();
+
+    BucketSimInfo::where('uuid', $uuid)->update([
+      'description' => $values['description'],
+    ]);
+
+    $buckets = json_decode($values['buckets'], true);
+
+    BucketSim::where('id_sim_info', $info->id)->delete();
+
+    foreach ($buckets as &$bucket) {
+      $bucket['id_sim_info'] = $info->id;
+      $bucket['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+      $bucket['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+    }
+
+    unset($bucket);
+
+    BucketSim::insert($buckets);
+  }
 }
