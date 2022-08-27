@@ -67,4 +67,11 @@ class BucketSimRepository {
 
     BucketSim::insert($buckets);
   }
+
+  public function delete(string $uuid) {
+    $info = BucketSimInfo::where('uuid', $uuid)->firstOrFail();
+
+    BucketSim::where('id_sim_info', $info->id)->delete();
+    BucketSimInfo::where('uuid', $uuid)->delete();
+  }
 }

@@ -58,4 +58,20 @@ class BucketSimController extends Controller {
       ], 500);
     }
   }
+
+  public function delete($uuid): JsonResponse {
+    try {
+      $this->bucketSimRepository->delete($uuid);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
+  }
 }
