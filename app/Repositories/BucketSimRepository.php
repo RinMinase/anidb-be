@@ -24,7 +24,10 @@ class BucketSimRepository {
 
     $entryRepo = new EntryRepository();
 
-    return $entryRepo->getBuckets($buckets);
+    return [
+      'description' => $info->description,
+      'data' => $entryRepo->getBuckets($buckets),
+    ];
   }
 
   public function add(array $values) {
