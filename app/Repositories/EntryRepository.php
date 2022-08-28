@@ -289,6 +289,7 @@ class EntryRepository {
         'used' => parse_filesize($used),
         'percent' => $percent,
         'total' => parse_filesize($total),
+        'rawTotal' => $total,
         'titles' => $titles,
       ]);
 
@@ -308,6 +309,7 @@ class EntryRepository {
       'used' => parse_filesize($entries_full_size),
       'percent' => $percent,
       'total' => parse_filesize($bucket_full_size),
+      'rawTotal' => $bucket_full_size,
       'titles' => $count_full_size,
     ]);
 
