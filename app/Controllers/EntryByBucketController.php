@@ -3,15 +3,9 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 
 use App\Repositories\EntryRepository;
-use App\Requests\Entry\AddRequest;
-use App\Requests\Entry\EditRequest;
-use App\Resources\Entry\EntryResource;
-use App\Resources\Entry\EntryCollection;
 
 class EntryByBucketController extends Controller {
 
@@ -31,17 +25,14 @@ class EntryByBucketController extends Controller {
    *
    * @apiSuccess {Object[]} data Buckets with entries data
    * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {Date} data.dateFinished Date fisished or date last rewatched
-   * @apiSuccess {String} data.encoder Title encoder
-   * @apiSuccess {Number} data.episodes Number of episodes
-   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
-   * @apiSuccess {Number} data.ovas Number of OVAs
-   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
-   * @apiSuccess {String} data.release Season and year in which the title was released
-   * @apiSuccess {String} data.remarks Any remarks for the title
-   * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
-   * @apiSuccess {Number} data.specials Number of specials
+   * @apiSuccess {String} data.from Filesize in nearest byte unit
+   * @apiSuccess {String} data.free Filesize in nearest byte unit
+   * @apiSuccess {String} data.freeTB Filesize in nearest byte unit
+   * @apiSuccess {String} data.used Filesize in nearest byte unit
+   * @apiSuccess {Number} data.percent Filesize in nearest byte unit
+   * @apiSuccess {String} data.total Filesize in nearest byte unit
+   * @apiSuccess {Number} data.rawTotal Filesize in nearest byte unit
+   * @apiSuccess {Number} data.titles Filesize in nearest byte unit
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -51,10 +42,11 @@ class EntryByBucketController extends Controller {
    *         "from": null,
    *         "to": null,
    *         "free": "1.11 TB",
-   *         "free": "1.11 TB",
+   *         "freeTB": "1.11 TB",
    *         "used": "123.12 GB",
    *         "percent": 10,
    *         "total": "1.23 TB",
+   *         "rawTotal": 1000169533440,
    *         "titles": 1
    *       }, {
    *         "id": 1,
@@ -65,6 +57,7 @@ class EntryByBucketController extends Controller {
    *         "used": "123.12 GB",
    *         "percent": 10,
    *         "total": "1.23 TB",
+   *         "rawTotal": 1000169533440,
    *         "titles": 1
    *       }, { ... }
    *     ]
