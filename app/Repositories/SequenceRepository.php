@@ -12,6 +12,10 @@ class SequenceRepository {
     return Sequence::all();
   }
 
+  public function get($id) {
+    return Sequence::where('id', $id)->first();
+  }
+
   public function add(array $values) {
     return Sequence::create($values);
   }

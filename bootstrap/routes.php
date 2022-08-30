@@ -108,6 +108,7 @@ Route::prefix('api')
         Route::prefix('sequences')
           ->group(function () {
             Route::get('', 'SequenceController@index');
+            Route::get('{id}', 'SequenceController@get');
             Route::post('', 'SequenceController@add');
             Route::put('{id?}', 'SequenceController@edit');
             Route::delete('{id}', 'SequenceController@delete');
