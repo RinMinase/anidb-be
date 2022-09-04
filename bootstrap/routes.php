@@ -85,7 +85,7 @@ Route::prefix('api')
             Route::put('{uuid}', 'PartialController@edit');
             Route::delete('{uuid}', 'PartialController@delete');
 
-            Route::post('multi/{uuid}', 'PartialController@add_multiple');
+            Route::post('multi', 'PartialController@add_multiple');
             Route::put('multi', 'PartialController@edit_multiple');
           });
 

@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\PartialRepository;
 use App\Requests\Partial\AddRequest;
 use App\Requests\Partial\EditRequest;
-use App\Resources\Partial\PartialCollection;
 
 class PartialController extends Controller {
 
@@ -76,17 +75,30 @@ class PartialController extends Controller {
     }
   }
 
-  public function add_multiple(Request $request, $catalog_uuid): JsonResponse {
+  public function add_multiple(Request $request): JsonResponse {
     try {
-      $data = json_decode($request->get('data'));
-      $count = $this->partialRepository->add_multiple($data, $catalog_uuid);
+
+      $data = [];
+      parse_str($request->get('data'), $data);
+
+      $total_count = 0;
+
+      if ($data['low']) $total_count += count($data['low']);
+      if ($data['normal']) $total_count += count($data['normal']);
+      if ($data['high']) $total_count += count($data['high']);
+
+      $count = $this->partialRepository->add_multiple([
+        'data' => $data,
+        'season' => $request->get('season'),
+        'year' => $request->get('year'),
+      ]);
 
       return response()->json([
         'status' => 200,
         'message' => 'Success',
         'data' => [
           'accepted' => $count,
-          'total' => count($data),
+          'total' => $total_count,
         ],
       ]);
     } catch (ModelNotFoundException) {
