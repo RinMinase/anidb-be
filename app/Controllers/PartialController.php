@@ -34,7 +34,7 @@ class PartialController extends Controller {
    * @apiSuccess {UUID} data.uuid Partial ID
    * @apiSuccess {String} data.title Partial title
    * @apiSuccess {Number} data.id_priority Partial priority
-   * @apiSuccess {Number} data.id_priority Partial catalog
+   * @apiSuccess {UUID} data.id_catalogs Partial catalog
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -42,7 +42,7 @@ class PartialController extends Controller {
    *       "uuid": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
    *       "title": "Title",
    *       "id_priority": 2,
-   *       "id_catalogs": 1,
+   *       "id_catalogs": "9ef81943-78f0-4d1c-a831-a59fb5af339c",
    *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid

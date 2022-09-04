@@ -10,7 +10,12 @@ use App\Models\Partial;
 class PartialRepository {
 
   public function get($uuid) {
-    return Partial::where('uuid', $uuid)->firstOrFail();
+    return Partial::select('title', 'id_priority')
+      ->addSelect('partials.uuid as uuid')
+      ->addSelect('catalogs.uuid as id_catalogs')
+      ->leftJoin('catalogs', 'catalogs.id', '=', 'partials.id_catalogs')
+      ->where('partials.uuid', $uuid)
+      ->firstOrFail();
   }
 
   public function add(array $values) {
