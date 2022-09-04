@@ -31,32 +31,26 @@ class PartialController extends Controller {
    * @apiParam {String} uuid Catalog UUID.
    *
    * @apiSuccess {Object[]} data Partials data in Catalog
-   * @apiSuccess {UUID} data.id Partial ID
+   * @apiSuccess {UUID} data.uuid Partial ID
    * @apiSuccess {String} data.title Partial title
-   * @apiSuccess {Number} data.priority Partial priority
+   * @apiSuccess {Number} data.id_priority Partial priority
+   * @apiSuccess {Number} data.id_priority Partial catalog
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "title": "Title",
-   *         "priority": "High",
-   *       }, {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "title": "Another Title",
-   *         "priority": "Normal",
-   *       }, { ... }
-   *     ]
+   *     {
+   *       "uuid": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *       "title": "Title",
+   *       "id_priority": 2,
+   *       "id_catalogs": 1,
+   *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
   public function index($uuid) {
     try {
       return response()->json([
-        'data' => PartialCollection::collection(
-          $this->partialRepository->getAll($uuid)
-        ),
+        'data' => $this->partialRepository->get($uuid),
       ]);
     } catch (ModelNotFoundException) {
       return response()->json([
