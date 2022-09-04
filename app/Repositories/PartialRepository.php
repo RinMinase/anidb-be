@@ -66,7 +66,9 @@ class PartialRepository {
     return $count;
   }
 
-  public function delete($id) {
-    return Partial::findOrFail($id)->delete();
+  public function delete($uuid) {
+    return Partial::where('uuid', $uuid)
+      ->firstOrFail()
+      ->delete();
   }
 }

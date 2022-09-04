@@ -150,9 +150,9 @@ class PartialController extends Controller {
     }
   }
 
-  public function delete($id): JsonResponse {
+  public function delete($uuid): JsonResponse {
     try {
-      $this->partialRepository->delete($id);
+      $this->partialRepository->delete($uuid);
 
       return response()->json([
         'status' => 200,
