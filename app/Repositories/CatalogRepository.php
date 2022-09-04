@@ -25,6 +25,7 @@ class CatalogRepository {
     $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
 
     return Partial::where('id_catalogs', $catalog->id)
+      ->orderBy('title')
       ->orderBy('created_at', 'asc')
       ->get();
   }

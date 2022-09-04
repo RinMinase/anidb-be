@@ -72,6 +72,7 @@ Route::prefix('api')
         Route::prefix('catalogs')
           ->group(function () {
             Route::get('', 'CatalogController@index');
+            Route::get('{uuid}', 'CatalogController@get');
             Route::post('', 'CatalogController@add');
             Route::put('{uuid}', 'CatalogController@edit');
             Route::delete('{uuid}', 'CatalogController@delete');
