@@ -37,7 +37,7 @@ class PartialRepository {
 
     $count = 0;
 
-    if (count($values['data']['low'])) {
+    if (!empty($values['data']['low'])) {
       $priority = Priority::where('priority', 'Low')->first();
 
       foreach ($values['data']['low'] as $item) {
@@ -53,7 +53,7 @@ class PartialRepository {
       }
     }
 
-    if (count($values['data']['normal'])) {
+    if (!empty($values['data']['normal'])) {
       $priority = Priority::where('priority', 'Normal')->first();
 
       foreach ($values['data']['normal'] as $item) {
@@ -69,7 +69,7 @@ class PartialRepository {
       }
     }
 
-    if (count($values['data']['high'])) {
+    if (!empty($values['data']['high'])) {
       $priority = Priority::where('priority', 'High')->first();
 
       foreach ($values['data']['high'] as $item) {

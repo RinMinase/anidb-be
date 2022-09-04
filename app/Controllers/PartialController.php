@@ -83,9 +83,9 @@ class PartialController extends Controller {
 
       $total_count = 0;
 
-      if ($data['low']) $total_count += count($data['low']);
-      if ($data['normal']) $total_count += count($data['normal']);
-      if ($data['high']) $total_count += count($data['high']);
+      if (isset($data['low'])) $total_count += count($data['low']);
+      if (isset($data['normal'])) $total_count += count($data['normal']);
+      if (isset($data['high'])) $total_count += count($data['high']);
 
       $count = $this->partialRepository->add_multiple([
         'data' => $data,
