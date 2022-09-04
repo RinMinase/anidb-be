@@ -103,9 +103,25 @@ class PartialController extends Controller {
   }
 
   public function edit(EditRequest $request, $uuid): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->edit($request->all(), $uuid),
-    ]);
+    try {
+      $body = $request->only('title', 'id_catalogs', 'id_priority');
+      $this->partialRepository->edit($body, $uuid);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Catalog ID does not exist',
+      ], 401);
+    } catch (TypeError) {
+      return response()->json([
+        'status' => 400,
+        'message' => 'Error in parsing request body',
+      ], 401);
+    }
   }
 
   public function edit_multiple(Request $request): JsonResponse {

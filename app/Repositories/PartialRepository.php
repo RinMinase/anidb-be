@@ -45,6 +45,9 @@ class PartialRepository {
   }
 
   public function edit(array $values, $uuid) {
+    $catalog = Catalog::where('uuid', $values['id_catalogs'])->firstOrFail();
+    $values['id_catalogs'] = $catalog->id;
+
     return Partial::where('uuid', $uuid)->update($values);
   }
 
