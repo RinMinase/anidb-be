@@ -138,8 +138,8 @@ class EntryController extends Controller {
    *       "quality": "FHD 1080p",
    *       "id_quality": 2,
    *       "rewatches": [
-   *         "Feb 10, 2011",
-   *         "Mar 01, 2011"
+   *         "March 01, 2011",
+   *         "February 10, 2011"
    *       ]
    *       "seasonNumber": 2,
    *       "seasonFirstTitle": "First Title",
