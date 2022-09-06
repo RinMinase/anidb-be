@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use App\Models\Catalog;
 use App\Models\Partial;
 
+use App\Resources\Partial\PartialCollection;
+
 class CatalogRepository {
 
   public function getAll() {
@@ -24,10 +26,18 @@ class CatalogRepository {
   public function get($uuid) {
     $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
 
-    return Partial::where('id_catalogs', $catalog->id)
+    $partials = Partial::where('id_catalogs', $catalog->id)
       ->orderBy('title')
       ->orderBy('created_at', 'asc')
       ->get();
+
+    return [
+      'data' => PartialCollection::collection($partials),
+      'stats' => [
+        'year' => $catalog->year,
+        'season' => $catalog->season,
+      ],
+    ];
   }
 
   public function add(array $values) {
