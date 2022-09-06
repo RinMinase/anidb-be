@@ -53,7 +53,7 @@ class EntryCollection extends JsonResource {
     if ($this->encoder_audio) $encoders[] = $this->encoder_audio;
     if ($this->encoder_subs) $encoders[] = $this->encoder_subs;
 
-    return join('—', $encoders);
+    return join(' — ', $encoders);
   }
 
   private function calcRating() {
