@@ -105,6 +105,7 @@ class EntryController extends Controller {
    * @apiSuccess {Number} data.ovas Number of OVAs
    * @apiSuccess {String} data.prequel Prequel title
    * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
+   * @apiSuccess {Number} data.id_quality Video quality ID
    * @apiSuccess {String[]} rewatches List of rewatch dates
    * @apiSuccess {Number} data.seasonNumber nth season from first title in series
    * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
@@ -135,6 +136,7 @@ class EntryController extends Controller {
    *       "ovas": 1,
    *       "prequel": "Prequel Title",
    *       "quality": "FHD 1080p",
+   *       "id_quality": 2,
    *       "rewatches": [
    *         "Feb 10, 2011",
    *         "Mar 01, 2011"

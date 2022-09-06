@@ -13,6 +13,7 @@ class EntryResource extends JsonResource {
     return [
       'id' => $this->uuid,
       'quality' => $this->quality->quality,
+      'id_quality' => $this->quality->id,
       'title' => $this->title,
       'dateInitFinished' => $this->calcDateInitFinish(),
       'dateLastFinished' => $this->calcDateLastFinish(),
