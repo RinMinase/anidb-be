@@ -35,6 +35,35 @@ class PartialRepository {
       'year' => $values['year'],
     ]);
 
+    return $this->add_partial_data($values, $catalog);
+  }
+
+  public function edit(array $values, $uuid) {
+    $catalog = Catalog::where('uuid', $values['id_catalogs'])->firstOrFail();
+    $values['id_catalogs'] = $catalog->id;
+
+    return Partial::where('uuid', $uuid)->update($values);
+  }
+
+  public function edit_multiple(array $values, $uuid) {
+    $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
+
+    $catalog->year = $values['year'];
+    $catalog->season = $values['season'];
+    $catalog->save();
+
+    Partial::where('id_catalogs', $catalog->id)->delete();
+
+    return $this->add_partial_data($values, $catalog);
+  }
+
+  public function delete($uuid) {
+    return Partial::where('uuid', $uuid)
+      ->firstOrFail()
+      ->delete();
+  }
+
+  private function add_partial_data(array $values, $catalog) {
     $count = 0;
 
     if (!empty($values['data']['low'])) {
@@ -86,33 +115,5 @@ class PartialRepository {
     }
 
     return $count;
-  }
-
-  public function edit(array $values, $uuid) {
-    $catalog = Catalog::where('uuid', $values['id_catalogs'])->firstOrFail();
-    $values['id_catalogs'] = $catalog->id;
-
-    return Partial::where('uuid', $uuid)->update($values);
-  }
-
-  public function edit_multiple(array $values,) {
-    $count = 0;
-
-    foreach ($values as $value) {
-      Partial::where('uuid', $value->id)
-        ->update([
-          'title' => $value->title,
-          'id_priority' => $value->id_priority,
-        ]);
-      $count++;
-    }
-
-    return $count;
-  }
-
-  public function delete($uuid) {
-    return Partial::where('uuid', $uuid)
-      ->firstOrFail()
-      ->delete();
   }
 }

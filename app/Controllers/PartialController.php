@@ -77,7 +77,6 @@ class PartialController extends Controller {
 
   public function add_multiple(Request $request): JsonResponse {
     try {
-
       $data = [];
       parse_str($request->get('data'), $data);
 
@@ -136,17 +135,29 @@ class PartialController extends Controller {
     }
   }
 
-  public function edit_multiple(Request $request): JsonResponse {
+  public function edit_multiple(Request $request, $uuid): JsonResponse {
     try {
-      $data = json_decode($request->get('data'));
-      $count = $this->partialRepository->edit_multiple($data);
+      $data = [];
+      parse_str($request->get('data'), $data);
+
+      $total_count = 0;
+
+      if (isset($data['low'])) $total_count += count($data['low']);
+      if (isset($data['normal'])) $total_count += count($data['normal']);
+      if (isset($data['high'])) $total_count += count($data['high']);
+
+      $count = $this->partialRepository->edit_multiple([
+        'data' => $data,
+        'season' => $request->get('season'),
+        'year' => $request->get('year'),
+      ], $uuid);
 
       return response()->json([
         'status' => 200,
         'message' => 'Success',
         'data' => [
           'accepted' => $count,
-          'total' => count($data),
+          'total' => $total_count,
         ],
       ]);
     } catch (ModelNotFoundException) {
