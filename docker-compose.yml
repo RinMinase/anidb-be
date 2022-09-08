@@ -7,6 +7,7 @@ volumes:
 services:
   php:
     container_name: anidb
+    restart: unless-stopped
     build:
       context: ./docker
       dockerfile: php.dockerfile
@@ -22,6 +23,7 @@ services:
 
   nginx:
     container_name: anidb-nginx
+    restart: unless-stopped
     build:
       context: ./docker
       dockerfile: nginx.dockerfile
