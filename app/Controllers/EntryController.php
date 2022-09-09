@@ -100,16 +100,20 @@ class EntryController extends Controller {
    * @apiSuccess {Number} data.episodes Number of episodes
    * @apiSuccess {String} data.filesize Filesize in nearest byte unit
    * @apiSuccess {Object[]} offquels List of offquel titles
-   * @apiSuccess {Number} data.offquels.id Offquel title id
+   * @apiSuccess {String} data.offquels.id Offquel title id
    * @apiSuccess {String} data.offquels.title Offquel title name
    * @apiSuccess {Number} data.ovas Number of OVAs
-   * @apiSuccess {String} data.prequel Prequel title
+   * @apiSuccess {Object} data.prequel Prequel item
+   * @apiSuccess {String} data.prequel.id Prequel title id
+   * @apiSuccess {String} data.prequel.title Prequel title name
    * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
    * @apiSuccess {Number} data.id_quality Video quality ID
    * @apiSuccess {String[]} rewatches List of rewatch dates
    * @apiSuccess {Number} data.seasonNumber nth season from first title in series
    * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
-   * @apiSuccess {String} data.sequel Sequel title
+   * @apiSuccess {Object} data.sequel Sequel item
+   * @apiSuccess {String} data.sequel.id Sequel title id
+   * @apiSuccess {String} data.sequel.title Sequel title name
    * @apiSuccess {Number} data.specials Number of specials
    * @apiSuccess {String} data.title Entry title
    * @apiSuccess {String} data.variants Comma separated title variants
