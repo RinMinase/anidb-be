@@ -434,6 +434,22 @@ class EntryRepository {
     return $repo->import($values);
   }
 
+  public function upload(Request $request, $uuid) {
+    $imageURL = cloudinary()
+      ->upload(
+        $request->file('image')->getRealPath(),
+        [
+          'quality' => '90',
+          'folder' => 'entries',
+        ],
+      )
+      ->getSecurePath();
+
+    Entry::where('uuid', $uuid)->update([
+      'image' => $imageURL,
+    ]);
+  }
+
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;
