@@ -20,7 +20,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "kreait/firebase-php": "^6.8",
-        "laravel/framework": "^9.27",
+        "laravel/framework": "^9.29",
         "laravel/sanctum": "^3.0",
         "loilo/fuse": "^6.6",
         "symfony/dom-crawler": "^6.0"
