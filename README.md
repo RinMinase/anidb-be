@@ -71,6 +71,12 @@ DISABLE_MAILGUN  - Disables Mailgun
     - Copy the domain under `Login`. (e.g `postmaster@<domain>.mailgun.org`) to `MAILGUN_DOMAIN` of your env file
     - Place any email you want to send your temporary verification code to in `MAILGUN_TEST_USER` with the format `{user name} <{email address}>`
 
+5. Cloudinary
+    - Fire up your browser and login your [Cloudinary Account](https://cloudinary.com/users/login). If you have no account yet, you can [create one](https://cloudinary.com/users/register/free) for free.
+    - After logging in, navigate to the [Cloudinary Console](https://cloudinary.com/console) to retrieve your Cloudinary URL
+    - Copy the value of `API Environment variable` to `CLOUDINARY_URL` of your ENV file
+
+
 ### Running the project
 1. [Download](https://www.docker.com/products/docker-desktop) and install `Docker for Windows`.
 
