@@ -435,6 +435,13 @@ class EntryRepository {
   }
 
   public function upload(Request $request, $uuid) {
+    $entry = Entry::where('uuid', $uuid)->firstOrFail();
+
+    if (!empty($entry->image)) {
+      $image_id = pathinfo($entry->image);
+      cloudinary()->destroy('entries/' . $image_id['filename']);
+    }
+
     $imageURL = cloudinary()
       ->upload(
         $request->file('image')->getRealPath(),
@@ -442,12 +449,10 @@ class EntryRepository {
           'quality' => '90',
           'folder' => 'entries',
         ],
-      )
-      ->getSecurePath();
+      )->getSecurePath();
 
-    Entry::where('uuid', $uuid)->update([
-      'image' => $imageURL,
-    ]);
+    $entry->image = $imageURL;
+    $entry->save();
   }
 
   private function update_season($values, $inserted_id) {
