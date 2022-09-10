@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "cloudinary/cloudinary_php": "^2.8",
         "kreait/firebase-php": "^6.8",
         "laravel/framework": "^9.29",
         "laravel/sanctum": "^3.0",
