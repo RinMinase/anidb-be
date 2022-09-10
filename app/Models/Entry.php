@@ -31,6 +31,7 @@ class Entry extends Model {
     'release_season',
     'variants',
     'remarks',
+    'image',
   ];
 
   /**

@@ -57,6 +57,7 @@ class EntryResource extends JsonResource {
 
       'ratingAverage' => $this->calcRating(),
       'rating' => $this->rating,
+      'image' => $this->image,
     ];
   }
 
