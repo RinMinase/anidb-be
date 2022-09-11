@@ -49,10 +49,12 @@ Route::prefix('api')
             Route::get('', 'EntryController@index');
             Route::get('{uuid}', 'EntryController@get');
             Route::post('', 'EntryController@add');
-            Route::put('img-upload/{uuid}', 'EntryController@imageUpload');
             Route::put('{uuid}', 'EntryController@edit');
             Route::delete('{uuid}', 'EntryController@delete');
             Route::post('import', 'EntryController@import');
+
+            Route::put('img-upload/{uuid}', 'EntryController@imageUpload');
+            Route::put('ratings/{uuid}', 'EntryController@ratings');
 
             Route::get('last', 'EntryLastController@index');
 

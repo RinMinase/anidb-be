@@ -455,6 +455,17 @@ class EntryRepository {
     $entry->save();
   }
 
+  public function ratings(Request $request, $uuid) {
+    $entry = Entry::where('uuid', $uuid)->firstOrFail();
+
+    $entry->rating()->updateOrCreate(
+      ['id_entries' => $entry->id],
+      $request->only(
+        ['audio', 'enjoyment', 'graphics', 'plot'],
+      )
+    );
+  }
+
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;
