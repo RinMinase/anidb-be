@@ -158,12 +158,16 @@ class EntrySeeder extends Seeder {
         'enjoyment' => 5,
         'graphics' => 4,
         'plot' => 3,
+        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
         'id_entries' => 2,
         'audio' => 7,
         'enjoyment' => 8,
         'graphics' => 9,
         'plot' => 10,
+        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ],
     ];
 
