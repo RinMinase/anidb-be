@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,13 +65,19 @@ class EntryRepository {
   }
 
   public function get($id) {
-    return Entry::where('entries.uuid', $id)
+    $entry = Entry::where('entries.uuid', $id)
       ->with('offquels')
       ->with('rewatches', function ($rewatches) {
         $rewatches->orderBy('date_rewatched', 'desc');
       })
       ->with('rating')
       ->first();
+
+    if (!$entry) {
+      throw new ModelNotFoundException;
+    }
+
+    return $entry;
   }
 
   public function getLast() {

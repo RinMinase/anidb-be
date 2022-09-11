@@ -160,7 +160,7 @@ class EntryController extends Controller {
       return response()->json([
         'data' => new EntryResource($this->entryRepository->get($id)),
       ]);
-    } catch (QueryException) {
+    } catch (ModelNotFoundException) {
       return response()->json([
         'status' => 401,
         'message' => 'The provided ID is invalid, or the item does not exist',
