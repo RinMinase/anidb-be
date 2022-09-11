@@ -26,9 +26,7 @@ Route::prefix('api')
           });
       });
 
-    $api_force = strcasecmp(env('APP_FORCE_API'), 'true') == 0;
-
-    Route::middleware($api_force ? 'api' : 'auth:sanctum')
+    Route::middleware('auth:sanctum')
       ->group(function () {
         Route::get('img/{params}', 'ImageController@index')
           ->where('params', '.*');
