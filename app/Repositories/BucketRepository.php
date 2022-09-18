@@ -48,6 +48,7 @@ class BucketRepository {
       }
     }
 
+    Bucket::truncate();
     Bucket::insert($import);
 
     return count($import);
