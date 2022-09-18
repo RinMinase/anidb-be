@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
+use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
 
@@ -76,5 +77,21 @@ class BucketSimRepository {
 
     BucketSim::where('id_sim_info', $info->id)->delete();
     BucketSimInfo::where('uuid', $uuid)->delete();
+  }
+
+  public function save_bucket(string $uuid) {
+    $info = BucketSimInfo::where('uuid', $uuid)->firstOrFail();
+
+    $buckets = BucketSim::where('id_sim_info', $info->id)->get()->toArray();
+
+    foreach ($buckets as &$bucket) {
+      unset($bucket['id_sim_info']);
+
+      $bucket['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+      $bucket['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
+    }
+
+    Bucket::truncate();
+    Bucket::insert($buckets);
   }
 }

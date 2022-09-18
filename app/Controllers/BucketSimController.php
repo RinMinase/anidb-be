@@ -147,4 +147,20 @@ class BucketSimController extends Controller {
       ], 500);
     }
   }
+
+  public function saveBucket($uuid): JsonResponse {
+    try {
+      $this->bucketSimRepository->save_bucket($uuid);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Bucket Sim ID does not exist',
+      ], 401);
+    }
+  }
 }
