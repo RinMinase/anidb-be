@@ -106,7 +106,7 @@ class BucketController extends Controller {
     } catch (ModelNotFoundException) {
       return response()->json([
         'status' => 401,
-        'message' => 'Catalog ID does not exist',
+        'message' => 'Bucket ID does not exist',
       ], 401);
     }
   }
