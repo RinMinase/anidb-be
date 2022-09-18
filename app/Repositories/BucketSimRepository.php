@@ -93,5 +93,7 @@ class BucketSimRepository {
 
     Bucket::truncate();
     Bucket::insert($buckets);
+
+    $this->delete($uuid);
   }
 }
