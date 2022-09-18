@@ -22,7 +22,6 @@ This is done by setting these specific ENV flags to true, to disable them.
 
 ```
 DISABLE_DB       - Disables Database
-DISABLE_FIREBASE - Disables Firebase Storage
 DISABLE_SCRAPTER - Disables WebScraper
 DISABLE_MAILGUN  - Disables Mailgun
 ```
@@ -42,28 +41,10 @@ DISABLE_MAILGUN  - Disables Mailgun
 
         **Notes :** DB_HOST **should** use docker container name of db, by default this is 'anidb-pgsql', but yours could be different. You can check this by running `docker ps` then check the container name of the `postgres` container.
 
-2. Firebase (Firebase Storage)
-    - Fire up your browser and login your [Firebase/Google Account](https://console.firebase.google.com). If you have no account yet, [create one](https://accounts.google.com/signup/v2/webcreateaccount?flowEntry=SignUp&flowName=GlifWebSignIn).
-    - If you have no Firebase projects yet, create one and name it with anything you like.
-    - Once you have a project already, navigate to your project, then to the `settings page` (cog icon) on your top left near Project Overview
-    - Once you are inside your settings page, if you already have an app connected to this project, skip this step, otherwise:
-        - Click on `Add app` and click on `Web`
-        - Register a name for your app, then submit it
-    - Go back to firebase settings page, then navigate to `Service Accounts`
-    - Click on `Generate new private key` button, then click `Generate Key` on the popup.
-    - Open the downloaded JSON file and copy these specific values to your ENV file:
-
-        ```
-        FIRE_PROJECT_ID = project_id
-        FIRE_KEY = private_key (note, change all \n to \\n)
-        FIRE_EMAIL = client_email
-        FIRE_CLIENT_ID = client_id
-        ```
-
-3. Web Scraper
+2. Web Scraper
     - Set `RELEASE_BASE_URI` to the API of the repository it fetches its list (e.g `api.github.com/repos/<UserName>/<Repository>`)
 
-4. Mailgun
+3. Mailgun
     - Fire up your browser and login your [Mailgun Account](https://app.mailgun.com). If you have no account yet, [create one](https://signup.mailgun.com/new/signup).
     - After you signup, you will be given an API key and its domain. If not, you can navigate to `Settings > Security & Users > API security`. Domain is in a form of `postmaster@<domain>.mailgun.org`
     - View your Private API Key and copy them over to `MAILGUN_API_KEY` of your env file
@@ -71,7 +52,7 @@ DISABLE_MAILGUN  - Disables Mailgun
     - Copy the domain under `Login`. (e.g `postmaster@<domain>.mailgun.org`) to `MAILGUN_DOMAIN` of your env file
     - Place any email you want to send your temporary verification code to in `MAILGUN_TEST_USER` with the format `{user name} <{email address}>`
 
-5. Cloudinary
+4. Cloudinary
     - Fire up your browser and login your [Cloudinary Account](https://cloudinary.com/users/login). If you have no account yet, you can [create one](https://cloudinary.com/users/register/free) for free.
     - After logging in, navigate to the [Cloudinary Console](https://cloudinary.com/console) to retrieve your Cloudinary URL
     - Copy the value of `API Environment variable` to `CLOUDINARY_URL` of your ENV file
@@ -185,7 +166,6 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 9](https://laravel.com) - Core Framework
 * <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8](https://php.net) - Language syntax
 * <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
-* <img width=20 height=20 src="https://firebase.google.com/favicon.ico"> [Firebase Storage](https://firebase.google.com) - Image Storage
 * <img width=20 height=20 src="https://docs.docker.com/favicons/docs.ico"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
