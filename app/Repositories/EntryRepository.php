@@ -477,6 +477,7 @@ class EntryRepository {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
     EntryRewatch::insert([
+      'uuid' => Str::uuid()->toString(),
       'id_entries' => $entry->id,
       'date_rewatched' => $request->get('date_rewatched'),
     ]);
