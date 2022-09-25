@@ -108,7 +108,10 @@ class EntryController extends Controller {
    * @apiSuccess {String} data.prequel.title Prequel title name
    * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
    * @apiSuccess {Number} data.id_quality Video quality ID
-   * @apiSuccess {String[]} rewatches List of rewatch dates
+   * @apiSuccess {Object[]} rewatches List of rewatch dates
+   * @apiSuccess {String} rewatches.uuid Rewatch id
+   * @apiSuccess {String} rewatches.date_iso Unformatted rewatch date
+   * @apiSuccess {String} rewatches.date Pre-formatted rewatch date
    * @apiSuccess {Number} data.seasonNumber nth season from first title in series
    * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
    * @apiSuccess {Object} data.sequel Sequel item
@@ -142,8 +145,16 @@ class EntryController extends Controller {
    *       "quality": "FHD 1080p",
    *       "id_quality": 2,
    *       "rewatches": [
-   *         "March 01, 2011",
-   *         "February 10, 2011"
+   *          {
+   *            id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
+   *            date_iso: "2011-03-01T00:00:00.000000Z",
+   *            date: "March 01, 2011",
+   *          },
+   *          {
+   *            id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
+   *            date_iso: "2011-02-01T00:00:00.000000Z",
+   *            date: "February 10, 2011",
+   *          },
    *       ]
    *       "seasonNumber": 2,
    *       "seasonFirstTitle": "First Title",
