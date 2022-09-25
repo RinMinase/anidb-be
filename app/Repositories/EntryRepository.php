@@ -473,6 +473,15 @@ class EntryRepository {
     );
   }
 
+  public function rewatchAdd(Request $request, $uuid) {
+    $entry = Entry::where('uuid', $uuid)->firstOrFail();
+
+    EntryRewatch::insert([
+      'id_entries' => $entry->id,
+      'date_rewatched' => $request->get('date_rewatched'),
+    ]);
+  }
+
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;
