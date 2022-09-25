@@ -106,6 +106,7 @@ class EntryImportRepository {
 
         foreach ($rewatch_list as $rewatch_item) {
           array_push($import_rewatches, [
+            'uuid' => Str::uuid()->toString(),
             'id_entries' => $title_id,
             'date_rewatched' => Carbon::createFromTimestamp($rewatch_item)
               ->format('Y-m-d'),
