@@ -13,7 +13,7 @@ class EntryRewatchCollection extends JsonResource {
 
     return [
       'id' => $this->uuid,
-      'date_iso' => $date,
+      'dateIso' => $date,
       'date' => $date->isoFormat('MMMM DD, Y'),
     ];
   }

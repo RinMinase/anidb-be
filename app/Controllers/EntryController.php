@@ -110,7 +110,7 @@ class EntryController extends Controller {
    * @apiSuccess {Number} data.id_quality Video quality ID
    * @apiSuccess {Object[]} rewatches List of rewatch dates
    * @apiSuccess {String} rewatches.uuid Rewatch id
-   * @apiSuccess {String} rewatches.date_iso Unformatted rewatch date
+   * @apiSuccess {String} rewatches.dateIso Unformatted rewatch date
    * @apiSuccess {String} rewatches.date Pre-formatted rewatch date
    * @apiSuccess {Number} data.seasonNumber nth season from first title in series
    * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
@@ -147,12 +147,12 @@ class EntryController extends Controller {
    *       "rewatches": [
    *          {
    *            id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-   *            date_iso: "2011-03-01T00:00:00.000000Z",
+   *            dateIso: "2011-03-01T00:00:00.000000Z",
    *            date: "March 01, 2011",
    *          },
    *          {
    *            id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-   *            date_iso: "2011-02-01T00:00:00.000000Z",
+   *            dateIso: "2011-02-01T00:00:00.000000Z",
    *            date: "February 10, 2011",
    *          },
    *       ]
