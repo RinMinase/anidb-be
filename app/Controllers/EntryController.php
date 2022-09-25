@@ -391,4 +391,20 @@ class EntryController extends Controller {
       ], 401);
     }
   }
+
+  public function rewatchDelete($uuid): JsonResponse {
+    try {
+      $this->entryRepository->rewatchDelete($uuid);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 401,
+        'message' => 'Entry ID does not exist',
+      ], 401);
+    }
+  }
 }

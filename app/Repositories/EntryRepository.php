@@ -483,6 +483,12 @@ class EntryRepository {
     ]);
   }
 
+  public function rewatchDelete($uuid) {
+    EntryRewatch::where('uuid', $uuid)
+      ->firstOrFail()
+      ->delete();
+  }
+
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;
