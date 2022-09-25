@@ -174,12 +174,15 @@ class EntrySeeder extends Seeder {
     $testDataRewatch = [
       [
         'id_entries' => 1,
+        'uuid' => Str::uuid()->toString(),
         'date_rewatched' => Carbon::parse('01-02-2011')->format('Y-m-d'),
       ], [
         'id_entries' => 1,
+        'uuid' => Str::uuid()->toString(),
         'date_rewatched' => Carbon::parse('01-03-2011')->format('Y-m-d'),
       ], [
         'id_entries' => 2,
+        'uuid' => Str::uuid()->toString(),
         'date_rewatched' => Carbon::parse('02-01-2013')->format('Y-m-d'),
       ],
     ];

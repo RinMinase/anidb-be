@@ -14,6 +14,7 @@ class EntryRewatch extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'uuid',
     'id_entries',
     'date_rewatched',
   ];

@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('entries_rewatch', function (Blueprint $table) {
       $table->id();
+      $table->uuid('uuid');
 
       $table->integer('id_entries')->unsigned();
       $table->foreign('id_entries')->references('id')->on('entries');
