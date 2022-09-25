@@ -9,7 +9,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class EntryRewatchCollection extends JsonResource {
 
   public function toArray($request) {
-    return Carbon::parse($this->date_rewatched)
-      ->isoFormat('MMMM DD, Y');
+    $date = Carbon::parse($this->date_rewatched);
+
+    return [
+      'id' => $this->uuid,
+      'date_iso' => $date,
+      'date' => $date->isoFormat('MMMM DD, Y'),
+    ];
   }
 }
