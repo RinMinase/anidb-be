@@ -453,10 +453,10 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apidoc@^0.51.1:
-  version "0.51.1"
-  resolved "https://registry.yarnpkg.com/apidoc/-/apidoc-0.51.1.tgz#2a09aa688b3277b61a750a31c26e84c423fb552c"
-  integrity sha512-0dcL7NSUWDibgQ051ne/wXT0Dp+ArD66jwofuurxzRAPMuf2cRwa7GxRm9xlGXbOLaU7dVSZDr8LVeVBdI/oTQ==
+apidoc@^0.53.0:
+  version "0.53.0"
+  resolved "https://registry.yarnpkg.com/apidoc/-/apidoc-0.53.0.tgz#a14a7791dd2d8fc4e6d22fbd24e718a7f31961e7"
+  integrity sha512-H4hYToCrI6TgSksdVHxS7h5/Xoqr/rR9m9/IOQaYqXbX07cPVbg0O3RM4+bR4tJKG1aqBWKKm+xojQ8+4i7O5A==
   dependencies:
     bootstrap "3.4.1"
     commander "^8.3.0"
