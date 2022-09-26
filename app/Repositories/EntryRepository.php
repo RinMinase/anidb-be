@@ -489,6 +489,31 @@ class EntryRepository {
       ->delete();
   }
 
+  public function getTitles(?string $needle) {
+    if (!empty($needle)) {
+      $names = Entry::select('uuid', 'title')->get()->toArray();
+
+      $fuse = new Fuse($names, ['keys' => ['title']]);
+      $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
+
+      $final_array = [];
+      foreach ($fuzzy_names as $fuzzy_name) {
+        array_push($final_array, [
+          'id' => $fuzzy_name['item']['uuid'],
+          'title' => $fuzzy_name['item']['title'],
+        ]);
+      }
+
+      return $final_array;
+    } else {
+      return Entry::select('uuid', 'title')
+        ->orderBy('title')
+        ->take(10)
+        ->get()
+        ->toArray();
+    }
+  }
+
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;

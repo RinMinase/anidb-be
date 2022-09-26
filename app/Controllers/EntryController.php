@@ -407,4 +407,10 @@ class EntryController extends Controller {
       ], 401);
     }
   }
+
+  public function getTitles(Request $request): JsonResponse {
+    return response()->json([
+      'data' => $this->entryRepository->getTitles($request->get('needle')),
+    ]);
+  }
 }

@@ -52,6 +52,7 @@ Route::prefix('api')
 
             Route::put('img-upload/{uuid}', 'EntryController@imageUpload');
             Route::put('ratings/{uuid}', 'EntryController@ratings');
+            Route::get('titles', 'EntryController@getTitles');
 
             Route::post('rewatch/{uuid}', 'EntryController@rewatchAdd');
             Route::delete('rewatch/{uuid}', 'EntryController@rewatchDelete');
