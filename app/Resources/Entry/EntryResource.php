@@ -15,9 +15,12 @@ class EntryResource extends JsonResource {
       'quality' => $this->quality->quality,
       'id_quality' => $this->quality->id,
       'title' => $this->title,
+      'dateInitFinishedRaw' => $this->calcDateInitFinishRaw(),
       'dateInitFinished' => $this->calcDateInitFinish(),
       'dateLastFinished' => $this->calcDateLastFinish(),
+      'durationRaw' => $this->duration ?? 0,
       'duration' => $this->calcDuration(),
+      'filesizeRaw' => $this->filesize ?? 0,
       'filesize' => parse_filesize($this->filesize ?? 0),
 
       'episodes' => $this->episodes ?? 0,
@@ -43,13 +46,16 @@ class EntryResource extends JsonResource {
       'encoderSubs' => $this->encoder_subs,
 
       'releaseSeason' => $this->release_season, // for icon
+      'releaseYear' => $this->release_year, // for icon
       'release' => $this->calcRelease(),
 
       'variants' => $this->variants,
       'remarks' => $this->remarks,
 
       'codecHDR' => $this->codec_hdr,
+      'id_codec_video' => $this->id_codec_video,
       'codecVideo' => $this->codec_video->codec ?? '',
+      'id_codec_audio' => $this->id_codec_audio,
       'codecAudio' => $this->codec_audio->codec ?? '',
 
       'offquels' => EntryOffquelCollection::collection($this->offquels),
@@ -59,6 +65,16 @@ class EntryResource extends JsonResource {
       'rating' => $this->rating,
       'image' => $this->image,
     ];
+  }
+
+  private function calcDateInitFinishRaw() {
+    $initial_date_finished = '';
+
+    if ($this->date_finished) {
+      $initial_date_finished = Carbon::parse($this->date_finished);
+    }
+
+    return $initial_date_finished;
   }
 
   private function calcDateInitFinish() {
