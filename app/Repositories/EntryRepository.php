@@ -29,6 +29,12 @@ class EntryRepository {
     $page = $request->query('page', 1);
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
+    if (empty($needle)) {
+      $total = Entry::count();
+      $total_pages = ceil($total / $limit);
+      $has_next = intval($page) < $total_pages;
+    }
+
     $data = Entry::select()
       ->with('rating');
 
@@ -61,7 +67,20 @@ class EntryRepository {
     $data = $data->skip($skip)
       ->paginate($limit);
 
-    return $data;
+    $return_value = [
+      'data' => EntryCollection::collection($data),
+    ];
+
+    if (empty($needle)) {
+      $return_value['meta'] = [
+        'page' => $page,
+        'limit' => $limit,
+        'total' => $total_pages,
+        'has_next' => $has_next,
+      ];
+    }
+
+    return $return_value;
   }
 
   public function get($id) {

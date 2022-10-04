@@ -74,9 +74,7 @@ class EntryController extends Controller {
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
   public function index(Request $request): JsonResponse {
-    return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getAll($request)),
-    ]);
+    return response()->json($this->entryRepository->getAll($request));
   }
 
 
