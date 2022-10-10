@@ -1,18 +1,14 @@
 # General files and directories
 .env
-.phpunit.result.cache
 npm-debug.log
 yarn-error.log
-/.sonarlint
+
 /vendor
 /docker/logs/
 /node_modules
 /.DS_Store
 
-# Homestead, Vagrant and IDE Files
-Homestead.json
-Homestead.yaml
-/.vagrant
+# IDE Files
 /.idea
 
 # Others
