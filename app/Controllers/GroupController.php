@@ -8,14 +8,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use App\Repositories\Grouprepository;
+use App\Repositories\GroupRepository;
 
 class GroupController extends Controller {
 
-  private Grouprepository $grouprepository;
+  private GroupRepository $groupRepository;
 
-  public function __construct(Grouprepository $grouprepository) {
-    $this->grouprepository = $grouprepository;
+  public function __construct(GroupRepository $groupRepository) {
+    $this->groupRepository = $groupRepository;
   }
 
 
@@ -42,7 +42,7 @@ class GroupController extends Controller {
    */
   public function index(): JsonResponse {
     return response()->json([
-      'data' => $this->grouprepository->getAll(),
+      'data' => $this->groupRepository->getAll(),
     ]);
   }
 
@@ -61,7 +61,7 @@ class GroupController extends Controller {
    */
   public function add(Request $request): JsonResponse {
     try {
-      $this->grouprepository->add($request->all());
+      $this->groupRepository->add($request->all());
 
       return response()->json([
         'status' => 200,
@@ -98,7 +98,7 @@ class GroupController extends Controller {
    */
   public function delete($id): JsonResponse {
     try {
-      $this->grouprepository->delete($id);
+      $this->groupRepository->delete($id);
 
       return response()->json([
         'status' => 200,
@@ -109,6 +109,28 @@ class GroupController extends Controller {
         'status' => 401,
         'message' => 'Group ID does not exist',
       ], 401);
+    }
+  }
+
+  public function import(Request $request) {
+    try {
+      $file = json_decode($request->file('file')->get());
+      $count = $this->groupRepository->import($file);
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+        'data' => [
+          'acceptedImports' => $count,
+          'totalJsonEntries' => count($file),
+        ],
+      ]);
+    } catch (Exception $e) {
+      throw $e;
+      return response()->json([
+        'status' => 401,
+        'message' => 'Failed to import JSON file',
+      ]);
     }
   }
 }
