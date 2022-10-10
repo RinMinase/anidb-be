@@ -37,6 +37,11 @@ class ImportController extends Controller {
         $sequence_count = count($file->sequence);
       }
 
+      $group_count = 0;
+      if (!empty($file->group)) {
+        $group_count = count($file->group);
+      }
+
       return response()->json([
         'status' => 200,
         'message' => 'Success',
@@ -52,6 +57,10 @@ class ImportController extends Controller {
           'sequences' => [
             'accepted' => $import_count['sequence'],
             'total' => $sequence_count,
+          ],
+          'groups' => [
+            'accepted' => $import_count['group'],
+            'total' => $group_count,
           ],
         ]
       ]);
