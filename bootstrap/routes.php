@@ -126,6 +126,7 @@ Route::prefix('api')
             Route::get('', 'GroupController@index');
             Route::post('', 'GroupController@add');
             Route::delete('{id}', 'GroupController@delete');
+            Route::post('import', 'GroupController@import');
           });
       });
   });
