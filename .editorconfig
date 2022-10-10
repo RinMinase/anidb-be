@@ -11,24 +11,14 @@ trim_trailing_whitespace = true
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
-indent_style = space
 indent_size = 4
 
 [*.yml]
 max_line_length = off
-indent_style = space
-indent_size = 2
-
-[*.json]
-indent_style = space
-indent_size = 2
 
 [*.dockerfile]
 max_line_length = off
-indent_style = space
-indent_size = 2
 
 [composer.json]
 max_line_length = off
-indent_style = space
 indent_size = 4
