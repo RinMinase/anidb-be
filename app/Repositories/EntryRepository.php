@@ -374,13 +374,20 @@ class EntryRepository {
 
   public function getBySequence($id) {
     $sequence = Sequence::where('id', $id)->first();
+    $is_seq_future = Carbon::parse($sequence->date_to)->greaterThan(Carbon::now());
+
+    if ($is_seq_future) {
+      $date_to = Carbon::now('+8:00')->format('Y-m-d');
+    } else {
+      $date_to = $sequence->date_to;
+    }
 
     $rewatch_subquery = EntryRewatch::select('id_entries', 'date_rewatched')
-      ->whereIn('date_rewatched', function ($where_in) use ($sequence) {
+      ->whereIn('date_rewatched', function ($where_in) use ($sequence, $date_to) {
         $where_in->select(DB::raw('max(date_rewatched)'))
           ->from('entries_rewatch')
           ->where('date_rewatched', '>=', $sequence->date_from)
-          ->where('date_rewatched', '<=', $sequence->date_to)
+          ->where('date_rewatched', '<=', $date_to)
           ->groupBy('id_entries');
       });
 
@@ -404,12 +411,12 @@ class EntryRepository {
 
     $data = DB::query()->fromSub($subquery, 'data')
       ->where('data.date_lookup', '>=', $sequence->date_from)
-      ->where('data.date_lookup', '<=', $sequence->date_to)
+      ->where('data.date_lookup', '<=', $date_to)
       ->get();
 
     return [
       'data' => EntryBySeqDataCollection::collection($data),
-      'stats' => $this->calculate_sequence_stats($data, $sequence),
+      'stats' => $this->calculate_sequence_stats($data, $sequence, $date_to),
     ];
   }
 
@@ -642,9 +649,9 @@ class EntryRepository {
     }
   }
 
-  private function calculate_sequence_stats($data, $sequence) {
+  private function calculate_sequence_stats($data, $sequence, $date_to) {
     $start_date = Carbon::parse($sequence->date_from);
-    $end_date = Carbon::parse($sequence->date_to);
+    $end_date = Carbon::parse($date_to);
     $total_days = $end_date->diffInDays($start_date);
 
     $total_size = 0;
