@@ -30,11 +30,13 @@ Route::prefix('api')
       ->group(function () {
         Route::get('mal/{params?}', 'MalController@index');
 
+        // ===== Deprecated =====
         Route::get('changelog/{params?}', 'ReleaseController@getLogs');
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');
-        Route::get('management', 'ManagementController@index');
+        // ======================
 
+        Route::get('management', 'ManagementController@index');
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
         Route::get('priorities', 'PriorityController@index');
