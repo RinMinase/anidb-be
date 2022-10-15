@@ -40,7 +40,6 @@ Route::prefix('api')
         Route::get('logs', 'LogController@index');
         Route::get('qualities', 'QualityController@index');
         Route::get('priorities', 'PriorityController@index');
-        Route::get('codecs', 'CodecController@index');
         Route::post('import', 'ImportController@index');
 
         Route::prefix('entries')
@@ -130,6 +129,25 @@ Route::prefix('api')
             Route::put('{uuid}', 'GroupController@edit');
             Route::delete('{uuid}', 'GroupController@delete');
             Route::post('import', 'GroupController@import');
+          });
+
+        Route::prefix('codecs')
+          ->group(function () {
+            Route::get('', 'CodecController@index');
+
+            Route::prefix('audio')
+              ->group(function () {
+                Route::post('', 'CodecController@addAudio');
+                Route::put('{uuid}', 'CodecController@editAudio');
+                Route::delete('{uuid}', 'CodecController@deleteAudio');
+              });
+
+            Route::prefix('video')
+              ->group(function () {
+                Route::post('', 'CodecController@addVideo');
+                Route::put('{uuid}', 'CodecController@editVideo');
+                Route::delete('{uuid}', 'CodecController@deleteVideo');
+              });
           });
       });
   });
