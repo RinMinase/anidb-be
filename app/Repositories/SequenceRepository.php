@@ -9,7 +9,7 @@ use App\Models\Sequence;
 class SequenceRepository {
 
   public function getAll() {
-    return Sequence::all();
+    return Sequence::orderBy('date_from', 'desc')->get();
   }
 
   public function get($id) {
