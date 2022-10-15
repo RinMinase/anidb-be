@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder {
       GroupSeeder::class,         // test data
       LogSeeder::class,         // test data
       PartialSeeder::class,     // test data
-      SearchSeeder::class,      // test data
       SequenceSeeder::class,    // test data
     ]);
   }
