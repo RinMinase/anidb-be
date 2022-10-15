@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 use App\Models\Group;
@@ -68,6 +69,7 @@ class GroupSeeder extends Seeder {
 
     foreach ($groups as $group) {
       Group::create([
+        'uuid' => Str::uuid()->toString(),
         'name' => $group,
       ]);
     }
