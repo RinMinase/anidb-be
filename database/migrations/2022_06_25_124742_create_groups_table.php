@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('groups', function (Blueprint $table) {
       $table->id();
+      $table->uuid();
 
       $table->string('name', 64);
 
