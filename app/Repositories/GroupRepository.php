@@ -20,6 +20,10 @@ class GroupRepository {
     ]);
   }
 
+  public function edit(array $values, $uuid) {
+    return Group::where('uuid', $uuid)->update($values);
+  }
+
   public function delete($uuid) {
     return Group::where('uuid', $uuid)
       ->firstOrFail()

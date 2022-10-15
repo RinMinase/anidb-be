@@ -125,6 +125,7 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', 'GroupController@index');
             Route::post('', 'GroupController@add');
+            Route::put('{uuid}', 'GroupController@edit');
             Route::delete('{uuid}', 'GroupController@delete');
             Route::post('import', 'GroupController@import');
           });

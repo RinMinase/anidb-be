@@ -80,6 +80,40 @@ class GroupController extends Controller {
 
 
   /**
+   * @api {put} /api/groups/:uuid Edit Group
+   * @apiName GroupEdit
+   * @apiGroup Group
+   *
+   * @apiHeader {String} token User login token
+   * @apiParam {uuid} id Group ID
+   * @apiParam {String} name New Group name
+   *
+   * @apiSuccess Success Default success message
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @apiError Failed Some kind of error has happened
+   */
+  public function edit(Request $request, $uuid): JsonResponse {
+    try {
+      $this->groupRepository->edit(
+        $request->except(['_method']),
+        $uuid
+      );
+
+      return response()->json([
+        'status' => 200,
+        'message' => 'Success',
+      ]);
+    } catch (Exception) {
+      return response()->json([
+        'status' => 500,
+        'message' => 'Failed',
+      ], 500);
+    }
+  }
+
+
+  /**
    * @api {delete} /api/groups/:uuid Delete Group
    * @apiName GroupDelete
    * @apiGroup Group
