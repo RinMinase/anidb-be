@@ -26,15 +26,18 @@ class GroupController extends Controller {
    *
    * @apiHeader {String} Authorization Token received from logging-in
    *
-   * @apiSuccess {String[]} data List of groups
+   * @apiSuccess {Object[]} data List of groups
+   * @apiSuccess {String} data.uuid ID of group
+   * @apiSuccess {String} data.name Name of group
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
    *     {
    *       "data": [
-   *         "Group 1",
-   *         "Group 2",
-   *         "Group 3",
+   *         {
+   *           "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+   *           "name": "Group 1",
+   *         }, { ... }
    *       ]
    *     }
    *
@@ -77,12 +80,12 @@ class GroupController extends Controller {
 
 
   /**
-   * @api {delete} /api/groups/:id Delete Group
+   * @api {delete} /api/groups/:uuid Delete Group
    * @apiName GroupDelete
    * @apiGroup Group
    *
    * @apiHeader {String} token User login token
-   * @apiParam {id} id Group ID
+   * @apiParam {uuid} id Group ID
    *
    * @apiSuccess Success Default success message
    *
@@ -96,9 +99,9 @@ class GroupController extends Controller {
    *       "message": "Group ID does not existt"
    *     }
    */
-  public function delete($id): JsonResponse {
+  public function delete($uuid): JsonResponse {
     try {
-      $this->groupRepository->delete($id);
+      $this->groupRepository->delete($uuid);
 
       return response()->json([
         'status' => 200,

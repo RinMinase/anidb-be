@@ -3,21 +3,25 @@
 namespace App\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 use App\Models\Group;
 
 class GroupRepository {
 
   public function getAll() {
-    return Group::orderBy('id')->pluck('name');
+    return Group::orderBy('id')->get();
   }
 
   public function add(array $values) {
-    return Group::create($values);
+    return Group::create([
+      'uuid' => Str::uuid()->toString(),
+      'name' => $values,
+    ]);
   }
 
-  public function delete($id) {
-    return Group::where('id', $id)
+  public function delete($uuid) {
+    return Group::where('uuid', $uuid)
       ->firstOrFail()
       ->delete();
   }
@@ -28,6 +32,7 @@ class GroupRepository {
     if (!empty($values)) {
       foreach ($values as $item) {
         $data = [
+          'uuid' => Str::uuid()->toString(),
           'name' => $item,
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
