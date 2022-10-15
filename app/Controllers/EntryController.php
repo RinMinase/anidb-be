@@ -7,13 +7,11 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 
 use App\Repositories\EntryRepository;
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
 use App\Resources\Entry\EntryResource;
-use App\Resources\Entry\EntryCollection;
 
 class EntryController extends Controller {
 
