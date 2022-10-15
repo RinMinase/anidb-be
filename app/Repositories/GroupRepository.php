@@ -16,7 +16,7 @@ class GroupRepository {
   public function add(array $values) {
     return Group::create([
       'uuid' => Str::uuid()->toString(),
-      'name' => $values,
+      'name' => $values['name'],
     ]);
   }
 
