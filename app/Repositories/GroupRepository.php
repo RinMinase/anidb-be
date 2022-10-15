@@ -10,7 +10,7 @@ use App\Models\Group;
 class GroupRepository {
 
   public function getAll() {
-    return Group::orderBy('id')->get();
+    return Group::orderBy('name')->get();
   }
 
   public function add(array $values) {
