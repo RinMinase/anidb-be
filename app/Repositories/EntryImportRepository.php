@@ -108,7 +108,7 @@ class EntryImportRepository {
           array_push($import_rewatches, [
             'uuid' => Str::uuid()->toString(),
             'id_entries' => $title_id,
-            'date_rewatched' => Carbon::createFromTimestamp($rewatch_item)
+            'date_rewatched' => Carbon::createFromTimestamp($rewatch_item, '+8:00')
               ->format('Y-m-d'),
           ]);
         }
@@ -168,7 +168,7 @@ class EntryImportRepository {
           'id_quality' => $this->parse_quality($item->quality),
           'title' => $item->title ?? null,
 
-          'date_finished' => Carbon::createFromTimestamp($item->dateFinished)
+          'date_finished' => Carbon::createFromTimestamp($item->dateFinished, '+8:00')
             ->format('Y-m-d'),
 
           'duration' => $item->duration ?? 0,
