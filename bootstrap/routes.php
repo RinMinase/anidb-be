@@ -139,16 +139,16 @@ Route::prefix('api')
               ->group(function () {
                 Route::get('', 'CodecController@getAudio');
                 Route::post('', 'CodecController@addAudio');
-                Route::put('{uuid}', 'CodecController@editAudio');
-                Route::delete('{uuid}', 'CodecController@deleteAudio');
+                Route::put('{id}', 'CodecController@editAudio');
+                Route::delete('{id}', 'CodecController@deleteAudio');
               });
 
             Route::prefix('video')
               ->group(function () {
                 Route::get('', 'CodecController@getVideo');
                 Route::post('', 'CodecController@addVideo');
-                Route::put('{uuid}', 'CodecController@editVideo');
-                Route::delete('{uuid}', 'CodecController@deleteVideo');
+                Route::put('{id}', 'CodecController@editVideo');
+                Route::delete('{id}', 'CodecController@deleteVideo');
               });
           });
       });
