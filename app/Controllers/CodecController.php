@@ -56,6 +56,12 @@ class CodecController extends Controller {
     ]);
   }
 
+  public function getAudio(): JsonResponse {
+    return response()->json([
+      'data' => $this->codecRepository->getAudio(),
+    ]);
+  }
+
   public function addAudio(Request $request): JsonResponse {
     try {
       $this->codecRepository->addAudio($request->get('codec'));
@@ -102,6 +108,12 @@ class CodecController extends Controller {
         'message' => 'Codec does not exist',
       ], 401);
     }
+  }
+
+  public function getVideo(): JsonResponse {
+    return response()->json([
+      'data' => $this->codecRepository->getVideo(),
+    ]);
   }
 
   public function addVideo(Request $request): JsonResponse {

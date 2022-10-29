@@ -137,6 +137,7 @@ Route::prefix('api')
 
             Route::prefix('audio')
               ->group(function () {
+                Route::get('', 'CodecController@getAudio');
                 Route::post('', 'CodecController@addAudio');
                 Route::put('{uuid}', 'CodecController@editAudio');
                 Route::delete('{uuid}', 'CodecController@deleteAudio');
@@ -144,6 +145,7 @@ Route::prefix('api')
 
             Route::prefix('video')
               ->group(function () {
+                Route::get('', 'CodecController@getVideo');
                 Route::post('', 'CodecController@addVideo');
                 Route::put('{uuid}', 'CodecController@editVideo');
                 Route::delete('{uuid}', 'CodecController@deleteVideo');

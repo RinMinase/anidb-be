@@ -14,6 +14,10 @@ class CodecRepository {
     ];
   }
 
+  public function getAudio() {
+    return CodecAudio::all();
+  }
+
   public function addAudio(string $codec) {
     return CodecAudio::create($codec);
   }
@@ -26,6 +30,10 @@ class CodecRepository {
     return CodecAudio::where('id', $id)
       ->firstOrFail()
       ->delete();
+  }
+
+  public function getVideo() {
+    return CodecVideo::all();
   }
 
   public function addVideo(string $codec) {
