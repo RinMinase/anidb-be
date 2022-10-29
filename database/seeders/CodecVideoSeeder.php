@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+
+use App\Models\CodecVideo;
 
 class CodecVideoSeeder extends Seeder {
   /**
@@ -19,6 +20,9 @@ class CodecVideoSeeder extends Seeder {
       ['codec' => 'x265 10bit'],
     ];
 
-    DB::table('codec_videos')->insert($data);
+
+    foreach ($data as $item) {
+      CodecVideo::create($item);
+    }
   }
 }

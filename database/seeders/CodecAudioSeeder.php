@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+
+use App\Models\CodecAudio;
 
 class CodecAudioSeeder extends Seeder {
   /**
@@ -27,6 +28,8 @@ class CodecAudioSeeder extends Seeder {
       ['codec' => 'TrueHD 7.1 Atmos'],
     ];
 
-    DB::table('codec_audios')->insert($data);
+    foreach ($data as $item) {
+      CodecAudio::create($item);
+    }
   }
 }
