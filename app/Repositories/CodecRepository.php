@@ -9,13 +9,15 @@ class CodecRepository {
 
   public function getAll() {
     return [
-      'audio' => CodecAudio::all(),
-      'video' => CodecVideo::all(),
+      'audio' => $this->getAudio(),
+      'video' => $this->getVideo(),
     ];
   }
 
   public function getAudio() {
-    return CodecAudio::all();
+    return CodecAudio::orderBy('order')
+      ->orderBy('id')
+      ->get();
   }
 
   public function addAudio(string $codec) {
@@ -33,7 +35,9 @@ class CodecRepository {
   }
 
   public function getVideo() {
-    return CodecVideo::all();
+    return CodecVideo::orderBy('order')
+      ->orderBy('id')
+      ->get();
   }
 
   public function addVideo(string $codec) {
