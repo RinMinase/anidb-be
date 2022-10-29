@@ -10,7 +10,10 @@ class CodecVideo extends Model {
    *
    * @var array<int, string>
    */
-  protected $fillable = [];
+  protected $fillable = [
+    'codec',
+    'order',
+  ];
 
   /**
    * The attributes that should be hidden for serialization.
