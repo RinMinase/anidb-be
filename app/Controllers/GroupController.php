@@ -85,8 +85,8 @@ class GroupController extends Controller {
    * @apiGroup Group
    *
    * @apiHeader {String} token User login token
-   * @apiParam {uuid} id Group ID
-   * @apiParam {String} name New Group name
+   * @apiParam {UUID} uuid Group ID
+   * @apiBody {String} name New Group name
    *
    * @apiSuccess Success Default success message
    *
@@ -119,7 +119,7 @@ class GroupController extends Controller {
    * @apiGroup Group
    *
    * @apiHeader {String} token User login token
-   * @apiParam {uuid} id Group ID
+   * @apiParam {UUID} uuid Group ID
    *
    * @apiSuccess Success Default success message
    *
