@@ -64,7 +64,7 @@ class CodecController extends Controller {
 
   public function addAudio(Request $request): JsonResponse {
     try {
-      $this->codecRepository->addAudio($request->get('codec'));
+      $this->codecRepository->addAudio($request->all());
 
       return response()->json([
         'status' => 200,
@@ -80,7 +80,7 @@ class CodecController extends Controller {
 
   public function editAudio(Request $request, $id): JsonResponse {
     try {
-      $this->codecRepository->addAudio($request->get('codec'), $id);
+      $this->codecRepository->addAudio($request->except(['_method']), $id);
 
       return response()->json([
         'status' => 200,
@@ -118,7 +118,7 @@ class CodecController extends Controller {
 
   public function addVideo(Request $request): JsonResponse {
     try {
-      $this->codecRepository->addVideo($request->get('codec'));
+      $this->codecRepository->addVideo($request->all());
 
       return response()->json([
         'status' => 200,
@@ -134,7 +134,7 @@ class CodecController extends Controller {
 
   public function editVideo(Request $request, $id): JsonResponse {
     try {
-      $this->codecRepository->editVideo($request->get('codec'), $id);
+      $this->codecRepository->editVideo($request->except(['_method']), $id);
 
       return response()->json([
         'status' => 200,

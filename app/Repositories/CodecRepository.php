@@ -20,12 +20,12 @@ class CodecRepository {
       ->get();
   }
 
-  public function addAudio(string $codec) {
-    return CodecAudio::create($codec);
+  public function addAudio(array $values) {
+    return CodecAudio::create($values);
   }
 
-  public function editAudio(string $codec, $id) {
-    return CodecAudio::where('id', $id)->update($codec);
+  public function editAudio(array $values, $id) {
+    return CodecAudio::where('id', $id)->update($values);
   }
 
   public function deleteAudio($id) {
@@ -40,12 +40,12 @@ class CodecRepository {
       ->get();
   }
 
-  public function addVideo(string $codec) {
-    return CodecVideo::create($codec);
+  public function addVideo(array $values) {
+    return CodecVideo::create($values);
   }
 
-  public function editVideo(string $codec, $id) {
-    return CodecVideo::where('id', $id)->update($codec);
+  public function editVideo(array $values, $id) {
+    return CodecVideo::where('id', $id)->update($values);
   }
 
   public function deleteVideo($id) {
