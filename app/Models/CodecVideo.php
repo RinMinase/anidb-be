@@ -20,7 +20,10 @@ class CodecVideo extends Model {
    *
    * @var array<int, string>
    */
-  protected $hidden = [];
+  protected $hidden = [
+    'created_at',
+    'updated_at',
+  ];
 
   /**
    * The attributes that should be cast.
