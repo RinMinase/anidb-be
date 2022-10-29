@@ -14,6 +14,7 @@ return new class extends Migration {
     Schema::create('codec_videos', function (Blueprint $table) {
       $table->id();
       $table->string('codec', 16);
+      $table->smallInteger('order')->nullable();
     });
   }
 
