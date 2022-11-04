@@ -596,7 +596,7 @@ class EntryRepository {
 
   private function calculate_last_stats($data) {
     if (count($data)) {
-      $now = Carbon::now();
+      $now = Carbon::now()->addHours(8);
 
       $date_last_entry = Carbon::parse(
         $this->calc_date_finished($data[0])
