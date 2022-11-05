@@ -258,11 +258,8 @@ class EntryController extends Controller {
         'status' => 200,
         'message' => 'Success',
       ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
+    } catch (Exception $e) {
+      throw $e;
     }
   }
 
