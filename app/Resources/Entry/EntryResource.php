@@ -30,11 +30,13 @@ class EntryResource extends JsonResource {
       'seasonNumber' => $this->season_number,
       'seasonFirstTitle' => $this->season_first_title->title ?? '',
 
+      'prequelTitle' => $this->prequel->title ?? '',
       'prequel' => $this->prequel ? [
         'id' => $this->prequel->uuid,
         'title' => $this->prequel->title,
       ] : null,
 
+      'sequelTitle' => $this->sequel->title ?? '',
       'sequel' => $this->sequel ? [
         'id' => $this->sequel->uuid,
         'title' => $this->sequel->title,

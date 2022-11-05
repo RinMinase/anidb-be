@@ -517,25 +517,22 @@ class EntryRepository {
 
   public function getTitles(?string $needle) {
     if (!empty($needle)) {
-      $names = Entry::select('uuid', 'title')->get()->toArray();
+      $names = Entry::select('title')->get()->toArray();
 
       $fuse = new Fuse($names, ['keys' => ['title']]);
       $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
 
       $final_array = [];
       foreach ($fuzzy_names as $fuzzy_name) {
-        array_push($final_array, [
-          'id' => $fuzzy_name['item']['uuid'],
-          'title' => $fuzzy_name['item']['title'],
-        ]);
+        array_push($final_array, $fuzzy_name['item']['title']);
       }
 
       return $final_array;
     } else {
-      return Entry::select('uuid', 'title')
+      return Entry::select('title')
         ->orderBy('title')
         ->take(10)
-        ->get()
+        ->pluck('title')
         ->toArray();
     }
   }
@@ -563,16 +560,16 @@ class EntryRepository {
   }
 
   private function update_prequel_sequel($values, $inserted_id) {
-    if (!empty($values['prequel_id'])) {
-      $entry = Entry::where('uuid', $values['prequel_id'])
+    if (!empty($values['prequel_title'])) {
+      $entry = Entry::where('title', $values['prequel_title'])
         ->first();
 
       Entry::where('id', $inserted_id)
         ->update(['prequel_id' => $entry->id ?? null]);
     }
 
-    if (!empty($values['sequel_id'])) {
-      $entry = Entry::where('uuid', $values['sequel_id'])
+    if (!empty($values['sequel_title'])) {
+      $entry = Entry::where('uuid', $values['sequel_title'])
         ->first();
 
       Entry::where('id', $inserted_id)
