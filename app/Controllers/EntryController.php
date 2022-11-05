@@ -403,7 +403,10 @@ class EntryController extends Controller {
 
   public function getTitles(Request $request): JsonResponse {
     return response()->json([
-      'data' => $this->entryRepository->getTitles($request->get('needle')),
+      'data' => $this->entryRepository->getTitles(
+        $request->get('id'),
+        $request->get('needle'),
+      ),
     ]);
   }
 }

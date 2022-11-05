@@ -515,9 +515,12 @@ class EntryRepository {
       ->delete();
   }
 
-  public function getTitles(?string $needle) {
+  public function getTitles(string $id, ?string $needle) {
     if (!empty($needle)) {
-      $names = Entry::select('title')->get()->toArray();
+      $names = Entry::select('title')
+        ->where('uuid', '!=', $id)
+        ->get()
+        ->toArray();
 
       $fuse = new Fuse($names, ['keys' => ['title']]);
       $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
@@ -530,6 +533,7 @@ class EntryRepository {
       return $final_array;
     } else {
       return Entry::select('title')
+        ->where('uuid', '!=', $id)
         ->orderBy('title')
         ->take(10)
         ->pluck('title')
