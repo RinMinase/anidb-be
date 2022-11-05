@@ -51,6 +51,33 @@ class GroupController extends Controller {
 
 
   /**
+   * @api {get} /api/groups/names Retrieve all groups
+   * @apiName GroupRetrieveNames
+   * @apiGroup Groups
+   *
+   * @apiHeader {String} Authorization Token received from logging-in
+   *
+   * @apiSuccess {String[]} List of group names
+   *
+   * @apiSuccessExample Success Response
+   *     HTTP/1.1 200 OK
+   *     {
+   *       "data": [
+   *         "Group 1",
+   *         "Group 2",
+   *       ]
+   *     }
+   *
+   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   */
+  public function getNames(): JsonResponse {
+    return response()->json([
+      'data' => $this->groupRepository->getNames(),
+    ]);
+  }
+
+
+  /**
    * @api {post} /api/groups/ Add Group
    * @apiName GroupAdd
    * @apiGroup Group

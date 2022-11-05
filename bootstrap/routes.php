@@ -125,6 +125,7 @@ Route::prefix('api')
         Route::prefix('groups')
           ->group(function () {
             Route::get('', 'GroupController@index');
+            Route::get('names', 'GroupController@getNames');
             Route::post('', 'GroupController@add');
             Route::put('{uuid}', 'GroupController@edit');
             Route::delete('{uuid}', 'GroupController@delete');

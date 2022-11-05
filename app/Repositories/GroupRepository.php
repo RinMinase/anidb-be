@@ -13,6 +13,10 @@ class GroupRepository {
     return Group::orderBy('name')->get();
   }
 
+  public function getNames() {
+    return Group::orderBy('name')->pluck('name')->toArray();
+  }
+
   public function add(array $values) {
     return Group::create([
       'uuid' => Str::uuid()->toString(),
