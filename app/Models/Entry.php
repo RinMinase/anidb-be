@@ -32,6 +32,9 @@ class Entry extends Model {
     'variants',
     'remarks',
     'image',
+    'id_codec_audio',
+    'id_codec_video',
+    'codec_hdr',
   ];
 
   /**
