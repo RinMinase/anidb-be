@@ -21,7 +21,7 @@ class EntryResource extends JsonResource {
       'durationRaw' => $this->duration ?? 0,
       'duration' => $this->calcDuration(),
       'filesizeRaw' => $this->filesize ?? 0,
-      'filesize' => parse_filesize($this->filesize ?? 0),
+      'filesize' => parse_filesize($this->filesize),
 
       'episodes' => $this->episodes ?? 0,
       'ovas' => $this->ovas ?? 0,
