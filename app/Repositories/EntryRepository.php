@@ -515,7 +515,7 @@ class EntryRepository {
       ->delete();
   }
 
-  public function getTitles(string $id, ?string $needle) {
+  public function getTitles(?string $id, ?string $needle) {
     if (!empty($needle)) {
       $names = Entry::select('title')
         ->where('uuid', '!=', $id)
