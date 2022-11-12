@@ -1,7 +1,7 @@
 <?php
 
 if (!function_exists('parse_filesize')) {
-  function parse_filesize(int $size, string $forced_unit = null): string {
+  function parse_filesize(?int $size, string $forced_unit = null): string {
     $KB = 1024;
     $MB = 1024 * $KB;
     $GB = 1024 * $MB;
