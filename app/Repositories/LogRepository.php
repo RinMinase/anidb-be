@@ -6,13 +6,35 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\Models\Log;
+use App\Resources\Log\LogCollection;
 
 class LogRepository {
 
-  public function getAll() {
-    return Log::orderBy('created_at', 'desc')
+  public function getAll($params) {
+    $column = $params['column'] ?? 'created_at';
+    $order = $params['order'] ?? 'desc';
+    $limit = $params['limit'] ?? 30;
+    $page = $params['page'] ?? 1;
+    $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+
+    $total = Log::count();
+    $total_pages = ceil($total / $limit);
+    $has_next = intval($page) < $total_pages;
+
+    $logs = Log::orderBy($column, $order)
       ->orderBy('id', 'asc')
-      ->get();
+      ->skip($skip)
+      ->paginate($limit);
+
+    return [
+      'data' => LogCollection::collection($logs),
+      'meta' => [
+        'page' => $page,
+        'limit' => $limit,
+        'total' => $total_pages,
+        'has_next' => $has_next,
+      ],
+    ];
   }
 
   public static function generateLogs(

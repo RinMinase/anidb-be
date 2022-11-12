@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+
 use App\Repositories\LogRepository;
 
 class LogController extends Controller {
@@ -27,6 +29,7 @@ class LogController extends Controller {
    * @apiSuccess {String} data.description Any description for the table_changed and id_changed
    * @apiSuccess {Number} data.action Action done (add/edit/delete)
    * @apiSuccess {DateTime} data.created_at Creation date of the log
+   * @apiSuccess {Object} data.meta Pagination details
    *
    * @apiSuccessExample Success Response
    *     HTTP/1.1 200 OK
@@ -41,13 +44,19 @@ class LogController extends Controller {
    *           created_at: "2020-01-01 00:00:00",
    *         }
    *       ]
+   *       "meta": {
+   *         page: 1,
+   *         limit: 30,
+   *         total: 5,
+   *         has_next: true,
+   *       }
    *     }
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
-  public function index(): JsonResponse {
-    return response()->json([
-      'data' => $this->logRepository->getAll(),
-    ]);
+  public function index(Request $request): JsonResponse {
+    $logs = $this->logRepository->getAll($request->all());
+
+    return response()->json($logs);
   }
 }
