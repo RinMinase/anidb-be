@@ -30,8 +30,9 @@ class LogRepository {
       'data' => LogCollection::collection($logs),
       'meta' => [
         'page' => $page,
-        'limit' => $limit,
-        'total' => $total_pages,
+        'limit' => intval($limit),
+        'total_data' => $total,
+        'total_pages' => $total_pages,
         'has_next' => $has_next,
       ],
     ];
