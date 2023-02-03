@@ -20,13 +20,13 @@
     "require": {
         "php": "^7.3|^8.0",
         "cloudinary-labs/cloudinary-laravel": "^2.0",
-        "laravel/framework": "^9.42",
-        "laravel/sanctum": "^3.0",
+        "laravel/framework": "^9.50",
+        "laravel/sanctum": "^3.2",
         "loilo/fuse": "^6.6",
         "symfony/dom-crawler": "^6.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "^6.3",
+        "nunomaduro/collision": "^6.4",
         "spatie/laravel-ignition": "^1.6"
     },
     "autoload": {
