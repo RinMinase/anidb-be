@@ -14,8 +14,8 @@
     "cz": "cz"
   },
   "dependencies": {
-    "apidoc": "^0.53.0",
-    "commitizen": "^4.2.5",
+    "apidoc": "^0.53.1",
+    "commitizen": "^4.3.0",
     "cz-emoji-conventional": "^1.0.1",
     "devmoji": "^2.3.0",
     "yorkie": "^2.0.0"
