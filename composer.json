@@ -27,6 +27,7 @@
     },
     "require-dev": {
         "nunomaduro/collision": "^6.4",
+        "phpunit/phpunit": "^9.6",
         "spatie/laravel-ignition": "^1.6"
     },
     "autoload": {
