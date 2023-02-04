@@ -8,6 +8,9 @@ yarn-error.log
 /node_modules
 /.DS_Store
 
+# Unit Test files
+.phpunit.result.cache
+
 # IDE Files
 /.idea
 

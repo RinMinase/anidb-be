@@ -40,6 +40,11 @@
             "bootstrap/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "pre-install-cmd": [
             "rm -f public/deploy-status"
