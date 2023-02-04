@@ -96,7 +96,7 @@ DISABLE_MAILGUN  - Disables Mailgun
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
 **Note:**
-If you need to access the container run, `docker exec -it anidb bash`
+If you need to access the container run, `docker-compose exec php bash`
 
 **Note:**
 In case you need to remove the images
@@ -122,6 +122,18 @@ From the project folder, run:
 4. Fire up your browser and go to `localhost`.
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
+
+### Running the Unit Tests
+1. Make sure `Docker` is running, then open your terminal.
+
+    **Note:** If you are running `Docker Toolbox`, then open the docker terminal.
+
+2. Navigate to the project foler then run `docker-compose up -d`
+
+3. Run the command below:
+    ```
+    php artisan test
+    ```
 
 ### Project shorthands / aliases inside the PHP Docker container
 
@@ -157,8 +169,10 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     │   ├── php.dockerfile       # PHP container docker file
     │   └── ...                  # Other docker files
     ├── public/                  # Project entry point
+    ├── tests/                   # Project test files
     ├── .env.example             # Environmental variables template
     ├── docker-compose.yml       # Main docker file
+    ├── phpunit.xml              # Unit test configuration file
     ├── Procfile                 # Heroku process file
     └── ...                      # Other project files
 
