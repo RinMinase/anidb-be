@@ -184,6 +184,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 * <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com) - Email Service
+* <img width=20 height=20 src="https://phpunit.de/favicon-32x32.png"> [PHPUnit](https://phpunit.de/) - Unit Testing
 * <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net) - HTTP Requests Architecture
 
 ## Deployed to
