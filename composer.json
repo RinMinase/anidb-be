@@ -23,12 +23,12 @@
         "laravel/framework": "^9.50",
         "laravel/sanctum": "^3.2",
         "loilo/fuse": "^6.6",
+        "mockery/mockery": "^1.5",
+        "phpunit/phpunit": "^9.6",
         "symfony/dom-crawler": "^6.0"
     },
     "require-dev": {
-        "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.4",
-        "phpunit/phpunit": "^9.6",
         "spatie/laravel-ignition": "^1.6"
     },
     "autoload": {
