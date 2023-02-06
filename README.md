@@ -134,6 +134,10 @@ From the project folder, run:
     ```
     php artisan test
     ```
+    or if you want to run a specific test
+    ```
+    php artisan test --filter <Class Name of Test File>
+    ```
 
 ### Project shorthands / aliases inside the PHP Docker container
 
