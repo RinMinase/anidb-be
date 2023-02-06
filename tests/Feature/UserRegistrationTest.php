@@ -2,14 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Tests\BaseTestCase;
+use App\Models\User;
 
 class UserRegistrationTest extends BaseTestCase {
 
   public function test_user_registration() {
     $test_email = "unit_testing@mail.com";
     $test_password = "e9597119-8452-4f2b-96d8-f2b1b1d2f158";
+
+    // Clearing possible duplicate data
+    User::where('email', $test_email)->delete();
 
     $response = $this->post('/api/auth/register', [
       'email' => $test_email,
