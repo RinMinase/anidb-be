@@ -4,9 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Tests\BaseTestCase;
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class UserTest extends BaseTestCase {
+class UserRegistrationTest extends BaseTestCase {
 
   public function test_user_registration() {
     $test_email = "unit_testing@mail.com";
@@ -45,7 +44,7 @@ class UserTest extends BaseTestCase {
   }
 
   public function test_user_registration_with_invalid_password() {
-    $test_email = "invalid email";
+    $test_email = "unit_testing@mail.com";
     $test_password = "12345";
 
     $response = $this->post('/api/auth/register', [
