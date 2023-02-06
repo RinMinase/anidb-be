@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\BaseTestCase;

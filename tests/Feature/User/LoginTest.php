@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use Tests\BaseTestCase;
 use App\Models\User;
 
-class UserLoginTest extends BaseTestCase {
+class LoginTest extends BaseTestCase {
 
   public function test_user_login() {
     $test_email = "unit_testing@mail.com";
