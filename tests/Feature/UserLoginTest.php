@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Tests\BaseTestCase;
+use App\Models\User;
 
 class UserLoginTest extends BaseTestCase {
 
@@ -37,9 +37,7 @@ class UserLoginTest extends BaseTestCase {
     ]);
 
     $response->assertStatus(401)
-      ->assertJson([
-        'message' => 'Credentials does not match'
-      ]);
+      ->assertJson(['message' => 'Credentials does not match']);
   }
 
   public function test_user_login_with_invalid_email() {
