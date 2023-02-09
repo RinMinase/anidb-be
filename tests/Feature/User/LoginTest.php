@@ -11,6 +11,8 @@ class LoginTest extends BaseTestCase {
     $test_email = "unit_testing@mail.com";
     $test_password = "e9597119-8452-4f2b-96d8-f2b1b1d2f158";
 
+    // Clearing possible duplicate data
+    User::where('email', $test_email)->delete();
     User::create([
       'password' => bcrypt($test_password),
       'email' => $test_email
