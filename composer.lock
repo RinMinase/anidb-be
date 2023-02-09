@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fa2be8b6e28cab086469696d2c07e89",
+    "content-hash": "5f1c4594db98d1883e9cf758f674b8d1",
     "packages": [
         {
             "name": "brick/math",
@@ -64,16 +64,16 @@
         },
         {
             "name": "cloudinary-labs/cloudinary-laravel",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cloudinary-labs/cloudinary-laravel.git",
-                "reference": "f1b74dd7202b1314c8c8729be5b32dc7c3f5427d"
+                "url": "https://github.com/cloudinary-devs/cloudinary-laravel.git",
+                "reference": "1894a5fb14796dcd32b24420a72fa109a71b36b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cloudinary-labs/cloudinary-laravel/zipball/f1b74dd7202b1314c8c8729be5b32dc7c3f5427d",
-                "reference": "f1b74dd7202b1314c8c8729be5b32dc7c3f5427d",
+                "url": "https://api.github.com/repos/cloudinary-devs/cloudinary-laravel/zipball/1894a5fb14796dcd32b24420a72fa109a71b36b3",
+                "reference": "1894a5fb14796dcd32b24420a72fa109a71b36b3",
                 "shasum": ""
             },
             "require": {
@@ -129,10 +129,10 @@
                 "laravel"
             ],
             "support": {
-                "issues": "https://github.com/cloudinary-labs/cloudinary-laravel/issues",
-                "source": "https://github.com/cloudinary-labs/cloudinary-laravel/tree/2.0.1"
+                "issues": "https://github.com/cloudinary-devs/cloudinary-laravel/issues",
+                "source": "https://github.com/cloudinary-devs/cloudinary-laravel/tree/2.0.2"
             },
-            "time": "2022-06-03T13:17:15+00:00"
+            "time": "2023-02-07T19:25:55+00:00"
         },
         {
             "name": "cloudinary/cloudinary_php",
@@ -1137,17 +1137,101 @@
             "time": "2022-10-26T14:07:24+00:00"
         },
         {
-            "name": "laravel/framework",
-            "version": "v9.50.2",
+            "name": "guzzlehttp/uri-template",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "39932773c09658ddea9045958f305e67f9304995"
+                "url": "https://github.com/guzzle/uri-template.git",
+                "reference": "b945d74a55a25a949158444f09ec0d3c120d69e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/39932773c09658ddea9045958f305e67f9304995",
-                "reference": "39932773c09658ddea9045958f305e67f9304995",
+                "url": "https://api.github.com/repos/guzzle/uri-template/zipball/b945d74a55a25a949158444f09ec0d3c120d69e2",
+                "reference": "b945d74a55a25a949158444f09ec0d3c120d69e2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2.5 || ^8.0",
+                "symfony/polyfill-php80": "^1.17"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5.19 || ^9.5.8",
+                "uri-template/tests": "1.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\UriTemplate\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "George Mponos",
+                    "email": "gmponos@gmail.com",
+                    "homepage": "https://github.com/gmponos"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                }
+            ],
+            "description": "A polyfill class for uri_template of PHP",
+            "keywords": [
+                "guzzlehttp",
+                "uri-template"
+            ],
+            "support": {
+                "issues": "https://github.com/guzzle/uri-template/issues",
+                "source": "https://github.com/guzzle/uri-template/tree/v1.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/uri-template",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v9.51.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "b81123134349a013a738a9f7f715c6ce99d5a414"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b81123134349a013a738a9f7f715c6ce99d5a414",
+                "reference": "b81123134349a013a738a9f7f715c6ce99d5a414",
                 "shasum": ""
             },
             "require": {
@@ -1155,9 +1239,15 @@
                 "doctrine/inflector": "^2.0.5",
                 "dragonmantank/cron-expression": "^3.3.2",
                 "egulias/email-validator": "^3.2.1|^4.0",
+                "ext-ctype": "*",
+                "ext-filter": "*",
+                "ext-hash": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
+                "ext-session": "*",
+                "ext-tokenizer": "*",
                 "fruitcake/php-cors": "^1.2",
+                "guzzlehttp/uri-template": "^1.0",
                 "laravel/serializable-closure": "^1.2.2",
                 "league/commonmark": "^2.2.1",
                 "league/flysystem": "^3.8.0",
@@ -1229,6 +1319,7 @@
                 "ably/ably-php": "^1.0",
                 "aws/aws-sdk-php": "^3.235.5",
                 "doctrine/dbal": "^2.13.3|^3.1.4",
+                "ext-gmp": "*",
                 "fakerphp/faker": "^1.21",
                 "guzzlehttp/guzzle": "^7.5",
                 "league/flysystem-aws-s3-v3": "^3.0",
@@ -1251,10 +1342,13 @@
                 "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage, and SES mail driver (^3.235.5).",
                 "brianium/paratest": "Required to run tests in parallel (^6.0).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.13.3|^3.1.4).",
+                "ext-apcu": "Required to use the APC cache driver.",
+                "ext-fileinfo": "Required to use the Filesystem class.",
                 "ext-ftp": "Required to use the Flysystem FTP driver.",
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
                 "ext-memcached": "Required to use the memcache cache driver.",
-                "ext-pcntl": "Required to use all features of the queue worker.",
+                "ext-pcntl": "Required to use all features of the queue worker and console signal trapping.",
+                "ext-pdo": "Required to use all database features.",
                 "ext-posix": "Required to use all features of the queue worker.",
                 "ext-redis": "Required to use the Redis cache and queue drivers (^4.0|^5.0).",
                 "fakerphp/faker": "Required to use the eloquent factory builder (^1.9.1).",
@@ -1322,7 +1416,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-02-02T20:52:46+00:00"
+            "time": "2023-02-07T15:37:18+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -1849,16 +1943,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.9.0",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "e1c0ae1528ce313a450e5e1ad782765c4a8dd3cb"
+                "reference": "f259e2b15fb95494c83f52d3caad003bbf5ffaa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/e1c0ae1528ce313a450e5e1ad782765c4a8dd3cb",
-                "reference": "e1c0ae1528ce313a450e5e1ad782765c4a8dd3cb",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/f259e2b15fb95494c83f52d3caad003bbf5ffaa1",
+                "reference": "f259e2b15fb95494c83f52d3caad003bbf5ffaa1",
                 "shasum": ""
             },
             "require": {
@@ -1935,7 +2029,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.9.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.9.1"
             },
             "funding": [
                 {
@@ -1947,7 +2041,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-05T13:07:32+00:00"
+            "time": "2023-02-06T13:44:46+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -2202,16 +2296,16 @@
         },
         {
             "name": "nunomaduro/termwind",
-            "version": "v1.15.0",
+            "version": "v1.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/termwind.git",
-                "reference": "594ab862396c16ead000de0c3c38f4a5cbe1938d"
+                "reference": "8ab0b32c8caa4a2e09700ea32925441385e4a5dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/594ab862396c16ead000de0c3c38f4a5cbe1938d",
-                "reference": "594ab862396c16ead000de0c3c38f4a5cbe1938d",
+                "url": "https://api.github.com/repos/nunomaduro/termwind/zipball/8ab0b32c8caa4a2e09700ea32925441385e4a5dc",
+                "reference": "8ab0b32c8caa4a2e09700ea32925441385e4a5dc",
                 "shasum": ""
             },
             "require": {
@@ -2268,7 +2362,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nunomaduro/termwind/issues",
-                "source": "https://github.com/nunomaduro/termwind/tree/v1.15.0"
+                "source": "https://github.com/nunomaduro/termwind/tree/v1.15.1"
             },
             "funding": [
                 {
@@ -2284,7 +2378,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-20T19:00:15+00:00"
+            "time": "2023-02-08T01:06:31+00:00"
         },
         {
             "name": "phpoption/phpoption",
