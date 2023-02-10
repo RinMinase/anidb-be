@@ -39,12 +39,14 @@ class EntryTest extends BaseTestCase {
 
     $test_id_2 = 10000;
     $test_uuid_2 = $this->entry_uuid_2;
+    $test_quality_2 = 1;
     $test_title_2 = "title 2";
     $test_created_at_2 = Carbon::now();
     $test_updated_at_2 = Carbon::now();
 
     $test_id_3 = 10001;
     $test_uuid_3 = $this->entry_uuid_3;
+    $test_quality_3 = 1;
     $test_title_3 = "title 3";
     $test_created_at_3 = Carbon::now();
     $test_updated_at_3 = Carbon::now();
@@ -82,6 +84,7 @@ class EntryTest extends BaseTestCase {
     Entry::create([
       'id' => $test_id_2,
       'uuid' => $test_uuid_2,
+      'id_quality' => $test_quality_2,
       'title' => $test_title_2,
       'created_at' => $test_created_at_2,
       'updated_at' => $test_updated_at_2,
@@ -90,6 +93,7 @@ class EntryTest extends BaseTestCase {
     Entry::create([
       'id' => $test_id_3,
       'uuid' => $test_uuid_3,
+      'id_quality' => $test_quality_3,
       'title' => $test_title_3,
       'created_at' => $test_created_at_3,
       'updated_at' => $test_updated_at_3,
@@ -100,6 +104,41 @@ class EntryTest extends BaseTestCase {
     Entry::where('uuid', $this->entry_uuid)->forceDelete();
     Entry::where('uuid', $this->entry_uuid_2)->forceDelete();
     Entry::where('uuid', $this->entry_uuid_3)->forceDelete();
+  }
+
+  public function test_get_all_entries() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries');
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'id',
+          'quality',
+          'title',
+          'dateFinished',
+          'rewatched',
+          'filesize',
+          'episodes',
+          'ovas',
+          'specials',
+          'encoder',
+          'release',
+          'remarks',
+          'rating',
+        ]],
+        'meta' => [
+          'page',
+          'limit',
+          'total',
+          'has_next',
+        ],
+      ]);
+
+    // Clearing test data
+    $this->setup_clear();
   }
 
   public function test_get_entry() {
