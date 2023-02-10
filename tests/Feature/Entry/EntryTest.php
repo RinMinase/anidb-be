@@ -9,9 +9,13 @@ use App\Models\Entry;
 
 class EntryTest extends BaseTestCase {
 
-  public function test_get_entry() {
+  private $entry_uuid = "e9597119-8452-4f2b-96d8-f2b1b1d2f158";
+  private $entry_uuid_2 = "99831cce-4ab5-46f3-8a84-371d1bd1624f";
+  private $entry_uuid_3 = "620f8679-1b3c-4fe7-a18c-733d0a05dacd";
+
+  private function setup_config() {
     $test_id = 9999;
-    $test_uuid = "e9597119-8452-4f2b-96d8-f2b1b1d2f158";
+    $test_uuid = $this->entry_uuid;
     $test_quality = 1;
     $test_title = "title";
     $test_date_finished = "2001-01-01";
@@ -33,8 +37,23 @@ class EntryTest extends BaseTestCase {
     $test_created_at = Carbon::now();
     $test_updated_at = Carbon::now();
 
+    $test_id_2 = 10000;
+    $test_uuid_2 = $this->entry_uuid_2;
+    $test_title_2 = "title 2";
+    $test_created_at_2 = Carbon::now();
+    $test_updated_at_2 = Carbon::now();
+
+    $test_id_3 = 10001;
+    $test_uuid_3 = $this->entry_uuid_3;
+    $test_title_3 = "title 3";
+    $test_created_at_3 = Carbon::now();
+    $test_updated_at_3 = Carbon::now();
+
     // Clearing possible duplicate data
     Entry::where('uuid', $test_uuid)->delete();
+    Entry::where('uuid', $test_uuid_2)->delete();
+    Entry::where('uuid', $test_uuid_3)->delete();
+
     Entry::create([
       'id' => $test_id,
       'uuid' => $test_uuid,
@@ -59,6 +78,34 @@ class EntryTest extends BaseTestCase {
       'created_at' => $test_created_at,
       'updated_at' => $test_updated_at,
     ]);
+
+    Entry::create([
+      'id' => $test_id_2,
+      'uuid' => $test_uuid_2,
+      'title' => $test_title_2,
+      'created_at' => $test_created_at_2,
+      'updated_at' => $test_updated_at_2,
+    ]);
+
+    Entry::create([
+      'id' => $test_id_3,
+      'uuid' => $test_uuid_3,
+      'title' => $test_title_3,
+      'created_at' => $test_created_at_3,
+      'updated_at' => $test_updated_at_3,
+    ]);
+  }
+
+  private function setup_clear() {
+    Entry::where('uuid', $this->entry_uuid)->delete();
+    Entry::where('uuid', $this->entry_uuid_2)->delete();
+    Entry::where('uuid', $this->entry_uuid_3)->delete();
+  }
+
+  public function test_get_entry() {
+    $test_uuid = $this->entry_uuid;
+
+    $this->setup_config();
 
     $response = $this->withoutMiddleware()
       ->get('/api/entries/' . $test_uuid);
@@ -109,6 +156,6 @@ class EntryTest extends BaseTestCase {
       ]);
 
     // Clearing test data
-    Entry::where('uuid', $test_uuid)->delete();
+    $this->setup_clear();
   }
 }
