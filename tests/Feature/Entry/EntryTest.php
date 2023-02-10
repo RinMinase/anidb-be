@@ -50,9 +50,9 @@ class EntryTest extends BaseTestCase {
     $test_updated_at_3 = Carbon::now();
 
     // Clearing possible duplicate data
-    Entry::where('uuid', $test_uuid)->delete();
-    Entry::where('uuid', $test_uuid_2)->delete();
-    Entry::where('uuid', $test_uuid_3)->delete();
+    Entry::where('uuid', $test_uuid)->forceDelete();
+    Entry::where('uuid', $test_uuid_2)->forceDelete();
+    Entry::where('uuid', $test_uuid_3)->forceDelete();
 
     Entry::create([
       'id' => $test_id,
@@ -97,18 +97,16 @@ class EntryTest extends BaseTestCase {
   }
 
   private function setup_clear() {
-    Entry::where('uuid', $this->entry_uuid)->delete();
-    Entry::where('uuid', $this->entry_uuid_2)->delete();
-    Entry::where('uuid', $this->entry_uuid_3)->delete();
+    Entry::where('uuid', $this->entry_uuid)->forceDelete();
+    Entry::where('uuid', $this->entry_uuid_2)->forceDelete();
+    Entry::where('uuid', $this->entry_uuid_3)->forceDelete();
   }
 
   public function test_get_entry() {
-    $test_uuid = $this->entry_uuid;
-
     $this->setup_config();
 
     $response = $this->withoutMiddleware()
-      ->get('/api/entries/' . $test_uuid);
+      ->get('/api/entries/' . $this->entry_uuid);
 
     $response->assertStatus(200)
       ->assertJsonStructure([
