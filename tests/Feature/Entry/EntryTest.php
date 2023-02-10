@@ -76,6 +76,7 @@ class EntryTest extends BaseTestCase {
       ->get('/api/entries');
 
     $response->assertStatus(200)
+      ->assertJsonCount(30, 'data')
       ->assertJsonStructure([
         'data' => [[
           'id',
@@ -97,6 +98,24 @@ class EntryTest extends BaseTestCase {
           'limit',
           'total',
           'has_next',
+        ],
+      ]);
+
+    // Clearing test data
+    $this->setup_clear();
+  }
+
+  public function test_get_all_entries_pagination() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries?page=2');
+
+    $response->assertStatus(200)
+      ->assertJson([
+        'meta' => [
+          'page' => 2,
+          'limit' => 30,
         ],
       ]);
 
