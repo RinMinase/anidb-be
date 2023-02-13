@@ -346,20 +346,16 @@ class EntryRepository {
 
   public function getByBucket($id) {
     $bucket = Bucket::where('id', $id)->firstOrFail();
-
-    $data = Entry::select('uuid', 'id_quality', 'title', 'filesize')
-      ->whereBetween('title', [$bucket->from, $bucket->to])
-      ->orWhereBetween(
-        'title',
-        [
-          strtoupper($bucket->from),
-          strtoupper($bucket->to)
-        ]
-      );
+    $range = join(range($bucket->from, $bucket->to,));
 
     if (strtoupper($bucket->from) === 'A') {
-      $data = $data->orWhereBetween('title', [0, 9]);
+      $range .= '\\d';
     }
+
+    $range = '^[' . $range . ']+';
+
+    $data = Entry::select('uuid', 'id_quality', 'title', 'filesize')
+      ->where('title', '~*', $range);
 
     $data = $data->orderBy('title', 'asc')->get();
 
