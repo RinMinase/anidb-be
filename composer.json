@@ -20,7 +20,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "cloudinary-labs/cloudinary-laravel": "^2.0",
-        "laravel/framework": "^9.51",
+        "laravel/framework": "^9.52",
         "laravel/sanctum": "^3.2",
         "loilo/fuse": "^6.6",
         "symfony/dom-crawler": "^6.0"
