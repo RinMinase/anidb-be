@@ -426,6 +426,8 @@ class EntryRepository {
       'season_first_title_id',
       'prequel_id',
       'sequel_id',
+      'prequel_title',
+      'sequel_title',
     ]));
 
     $this->update_season($values, $id);
