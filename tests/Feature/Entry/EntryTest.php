@@ -177,4 +177,90 @@ class EntryTest extends BaseTestCase {
     // Clearing test data
     $this->setup_clear();
   }
+
+  public function test_get_invalid_entry() {
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries/' . $this->entry_uuid);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'The provided ID is invalid, or the item does not exist']);
+  }
+
+  public function test_get_entries_no_auth() {
+    $this->setup_config();
+
+    $response = $this->get('/api/entries/');
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
+
+    // Clearing test data
+    $this->setup_clear();
+  }
+
+  public function test_get_entry_no_auth() {
+    $this->setup_config();
+
+    $response = $this->get('/api/entries/' . $this->entry_uuid);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
+
+    // Clearing test data
+    $this->setup_clear();
+  }
+
+  // public function test_add_entry() {
+  // }
+
+  public function test_add_entry_no_auth() {
+    $response = $this->post('/api/entries/');
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
+  }
+
+  // public function test_update_entry() {
+  // }
+
+  // public function test_update_entry_ratings() {
+  // }
+
+  public function test_update_entry_no_auth() {
+    $response = $this->put('/api/entries/' . $this->entry_uuid);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
+  }
+
+  public function test_delete_entry() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->delete('/api/entries/' . $this->entry_uuid);
+
+    $response->assertStatus(200)
+      ->assertJson(['message' => 'Success']);
+
+    $entry = Entry::withTrashed()
+      ->where('uuid', $this->entry_uuid)
+      ->first();
+
+    $this->assertSoftDeleted($entry);
+
+    // Clearing test data
+    $this->setup_clear();
+  }
+
+  public function test_delete_entry_no_auth() {
+    $this->setup_config();
+
+    $response = $this->delete('/api/entries/' . $this->entry_uuid);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
+
+    // Clearing test data
+    $this->setup_clear();
+  }
 }
