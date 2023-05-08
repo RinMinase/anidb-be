@@ -568,14 +568,24 @@ class EntryRepository {
 
       Entry::where('id', $inserted_id)
         ->update(['prequel_id' => $entry->id ?? null]);
+
+      if (empty($entry->sequel_id)) {
+        $entry->sequel_id = $inserted_id;
+        $entry->save();
+      }
     }
 
     if (!empty($values['sequel_title'])) {
-      $entry = Entry::where('uuid', $values['sequel_title'])
+      $entry = Entry::where('title', $values['sequel_title'])
         ->first();
 
       Entry::where('id', $inserted_id)
         ->update(['sequel_id' => $entry->id ?? null]);
+
+      if (empty($entry->prequel_id)) {
+        $entry->prequel_id = $inserted_id;
+        $entry->save();
+      }
     }
   }
 
