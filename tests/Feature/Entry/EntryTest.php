@@ -210,8 +210,141 @@ class EntryTest extends BaseTestCase {
     $this->setup_clear();
   }
 
-  // public function test_add_entry() {
-  // }
+  public function test_add_entry() {
+    $this->setup_clear();
+
+    $expected = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-1',
+      'date_finished' => '2020-10-21',
+      'duration' => 100,
+      'filesize' => 1000000,
+      'episodes' => 12,
+      'ovas' => 11,
+      'specials' => 10,
+      'encoder_video' => 'video',
+      'encoder_audio' => 'audio',
+      'encoder_subs' => 'subs',
+      'release_year' => 2020,
+      'release_season' => 'Spring',
+      'variants' => 'variant',
+      'remarks' => 'remark',
+      'id_codec_audio' => 1,
+      'id_codec_video' => 1,
+      'codec_hdr' => 0,
+    ];
+
+    $response = $this->withoutMiddleware()
+      ->post('/api/entries/', $expected);
+
+    $actual = Entry::where('title', $expected['title'])->first();
+
+    $response->assertStatus(200)
+      ->assertJson(['message' => 'Success']);
+
+    $this->assertModelExists($actual);
+
+    $this->assertEquals($expected['id_quality'], $actual->quality->id);
+    $this->assertEquals($expected['title'], $actual->title);
+    $this->assertEquals($expected['date_finished'], $actual->date_finished);
+    $this->assertEquals($expected['duration'], $actual->duration);
+    $this->assertEquals($expected['filesize'], $actual->filesize);
+    $this->assertEquals($expected['episodes'], $actual->episodes);
+    $this->assertEquals($expected['ovas'], $actual->ovas);
+    $this->assertEquals(1, $actual->season_number);
+    $this->assertEquals($expected['title'], $actual->season_first_title->title);
+    $this->assertEquals($expected['encoder_video'], $actual->encoder_video);
+    $this->assertEquals($expected['encoder_audio'], $actual->encoder_audio);
+    $this->assertEquals($expected['encoder_subs'], $actual->encoder_subs);
+    $this->assertEquals($expected['codec_hdr'], $actual->codec_hdr);
+    $this->assertEquals($expected['id_codec_audio'], $actual->id_codec_audio);
+    $this->assertEquals($expected['id_codec_video'], $actual->id_codec_video);
+    $this->assertEquals($expected['variants'], $actual->variants);
+    $this->assertEquals($expected['remarks'], $actual->remarks);
+    $this->assertEquals($expected['release_season'], $actual->release_season);
+    $this->assertEquals($expected['release_year'], $actual->release_year);
+
+    $actual->forceDelete();
+  }
+
+  public function test_add_entry_connected() {
+    $this->setup_clear();
+
+    $expected1 = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-1',
+      'date_finished' => '2020-10-21',
+      'duration' => 100,
+      'filesize' => 1000000,
+      'episodes' => 12,
+      'ovas' => 11,
+      'specials' => 10,
+      'encoder_video' => 'video',
+      'encoder_audio' => 'audio',
+      'encoder_subs' => 'subs',
+      'release_year' => 2020,
+      'release_season' => 'Spring',
+      'variants' => 'variant',
+      'remarks' => 'remark',
+      'id_codec_audio' => 1,
+      'id_codec_video' => 1,
+      'codec_hdr' => 0,
+    ];
+
+    $expected2 = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-2',
+      'prequel_title' => 'test data --- test-data-part-1',
+      'sequel_title' => 'test data --- test-data-part-3',
+    ];
+
+    $expected3 = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-3',
+    ];
+
+    $response = $this->withoutMiddleware()
+      ->post('/api/entries/', $expected1);
+
+    // Part 3 is inputted prior to check sequel auto-connection
+    $response2 = $this->withoutMiddleware()
+      ->post('/api/entries/', $expected3);
+
+    $response2 = $this->withoutMiddleware()
+      ->post('/api/entries/', $expected2);
+
+    $actual1 = Entry::where('title', $expected1['title'])->first();
+    $actual2 = Entry::where('title', $expected2['title'])->first();
+    $actual3 = Entry::where('title', $expected3['title'])->first();
+
+    $response->assertStatus(200)
+      ->assertJson(['message' => 'Success']);
+
+    $response2->assertStatus(200)
+      ->assertJson(['message' => 'Success']);
+
+    $this->assertModelExists($actual1)
+      ->assertModelExists($actual2)
+      ->assertModelExists($actual3);
+
+    $this->assertEquals($actual1->id, $actual2->prequel_id);
+    $this->assertEquals($actual2->id, $actual1->sequel_id);
+    $this->assertEquals($actual2->id, $actual3->prequel_id);
+    $this->assertEquals($actual3->id, $actual2->sequel_id);
+
+    $actual1->sequel_id = null;
+    $actual2->prequel_id = null;
+    $actual2->sequel_id = null;
+    $actual3->prequel_id = null;
+
+    $actual1->save();
+    $actual2->save();
+    $actual3->save();
+
+    $actual1->forceDelete();
+    $actual2->forceDelete();
+    $actual3->forceDelete();
+  }
 
   public function test_add_entry_no_auth() {
     $response = $this->post('/api/entries/');
