@@ -181,8 +181,8 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     └── ...                      # Other project files
 
 ## Built with
-* <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 9](https://laravel.com) - Core Framework
-* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8](https://php.net) - Language syntax
+* <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 10](https://laravel.com) - Core Framework
+* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8.2](https://php.net) - Language syntax
 * <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
 * <img width=20 height=20 src="https://docs.docker.com/favicons/docs.ico"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://apidocjs.com/img/favicon.ico"> [apiDoc](https://apidocjs.com) - API Documentation
