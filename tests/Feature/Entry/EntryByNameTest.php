@@ -11,35 +11,11 @@ use App\Models\Entry;
 
 class EntryByNameTest extends BaseTestCase {
 
-  private $entry_uuid = "e9597119-8452-4f2b-96d8-f2b1b1d2f158";
-
   private function setup_config() {
     $faker = Faker::create();
 
     // Clearing possible duplicate data
     $this->setup_clear();
-
-    Entry::create([
-      'uuid' => $this->entry_uuid,
-      'id_quality' => 1,
-      'title' => "title",
-      'date_finished' => "2001-01-01",
-      'duration' => 10_000,
-      'filesize' => 10_000_000,
-      'episodes' => 30,
-      'ovas' => 20,
-      'specials' => 10,
-      'encoder_video' => "encoder video",
-      'encoder_audio' => "encoder audio",
-      'encoder_subs' => "encoder subs",
-      'codec_hdr' => 1,
-      'codec_video' => 1,
-      'codec_audio' => 1,
-      'release_year' => 2000,
-      'release_season' => "Winter",
-      'variants' => "variant",
-      'remarks' => "remark",
-    ]);
 
     $uuid_list = [];
     $additional_test_data = [];
@@ -65,18 +41,53 @@ class EntryByNameTest extends BaseTestCase {
   }
 
   private function setup_clear() {
-    Entry::where('uuid', $this->entry_uuid)->forceDelete();
+    Entry::where('title', 'LIKE', 'test data --- %')->forceDelete();
+  }
 
-    $entries = Entry::where('title', 'LIKE', 'test data --- %')->get();
+  public function test_get_entries_by_name() {
+    $this->setup_config();
 
-    foreach ($entries as $entry) {
-      if ($entry->season_first_title_id) $entry->season_first_title()->dissociate();
-      if ($entry->prequel_id) $entry->prequel()->dissociate();
-      if ($entry->sequel_id) $entry->sequel()->dissociate();
+    $test_data_start = 't';
 
-      $entry->save();
-    }
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries/by-name/' . $test_data_start);
 
-    $entries->map(fn ($entry) => $entry->forceDelete());
+    $response->assertStatus(200)
+      ->assertJsonCount(40, 'data')
+      ->assertJsonStructure([
+        'data' => [[]],
+      ]);
+
+    $this->setup_clear();
+  }
+
+  public function test_get_entries_by_name_no_auth() {
+    $test_data_start = 't';
+    $response = $this->get('/api/entries/by-name/' . $test_data_start);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
+  }
+
+  public function test_get_entries_by_name_stats() {
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries/by-name/');
+
+    $response->assertStatus(200)
+      ->assertJsonCount(27, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'letter',
+          'titles',
+          'filesize',
+        ]],
+      ]);
+  }
+
+  public function test_get_entries_by_name_stats_no_auth() {
+    $response = $this->get('/api/entries/by-name/');
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'Unauthorized']);
   }
 }
