@@ -198,27 +198,17 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_get_entries_no_auth() {
-    $this->setup_config();
-
     $response = $this->get('/api/entries/');
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);
-
-    // Clearing test data
-    $this->setup_clear();
   }
 
   public function test_get_entry_no_auth() {
-    $this->setup_config();
-
     $response = $this->get('/api/entries/' . $this->entry_uuid);
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);
-
-    // Clearing test data
-    $this->setup_clear();
   }
 
   public function test_add_entry() {
@@ -548,14 +538,9 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_delete_entry_no_auth() {
-    $this->setup_config();
-
     $response = $this->delete('/api/entries/' . $this->entry_uuid);
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);
-
-    // Clearing test data
-    $this->setup_clear();
   }
 }
