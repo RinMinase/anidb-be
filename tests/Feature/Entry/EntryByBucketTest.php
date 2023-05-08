@@ -45,7 +45,7 @@ class EntryByBucketTest extends BaseTestCase {
     Entry::where('title', 'LIKE', 'test data --- %')->forceDelete();
   }
 
-  public function test_get_buckets_with_entry_stats() {
+  public function test_get_entries_by_bucket() {
     $this->setup_config();
 
     $buckets = Bucket::select('id', 'from', 'to')->get();
@@ -81,14 +81,14 @@ class EntryByBucketTest extends BaseTestCase {
     $this->setup_clear();
   }
 
-  public function test_get_buckets_with_entry_stats_no_auth() {
-    $response = $this->get('/api/entries/by-bucket/');
+  public function test_get_entries_by_bucket_no_auth() {
+    $response = $this->get('/api/entries/by-bucket/1');
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);
   }
 
-  public function test_get_entries_by_bucket() {
+  public function test_get_entries_by_bucket_stats() {
     $response = $this->withoutMiddleware()
       ->get('/api/entries/by-bucket/');
 
@@ -109,8 +109,8 @@ class EntryByBucketTest extends BaseTestCase {
       ]);
   }
 
-  public function test_get_entries_by_bucket_no_auth() {
-    $response = $this->get('/api/entries/by-bucket/1');
+  public function test_get_entries_by_bucket_stats_no_auth() {
+    $response = $this->get('/api/entries/by-bucket/');
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);
