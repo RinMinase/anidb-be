@@ -15,7 +15,7 @@ return new class extends Migration {
       $table->id();
 
       $table->integer('id_entries')->unsigned()->nullable();
-      $table->foreign('id_entries')->references('id')->on('entries');
+      $table->foreign('id_entries')->references('id')->on('entries')->onDelete('cascade');
 
       $table->tinyInteger('audio')->unsigned()->default(0)->nullable();
       $table->tinyInteger('enjoyment')->unsigned()->default(0)->nullable();
