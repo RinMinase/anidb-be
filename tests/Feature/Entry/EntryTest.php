@@ -112,7 +112,6 @@ class EntryTest extends BaseTestCase {
         ],
       ]);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
@@ -130,7 +129,6 @@ class EntryTest extends BaseTestCase {
         ],
       ]);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
@@ -185,7 +183,41 @@ class EntryTest extends BaseTestCase {
         ]
       ]);
 
-    // Clearing test data
+    $this->setup_clear();
+  }
+
+  public function test_get_last_30_entries() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries');
+
+    $response->assertStatus(200)
+      ->assertJsonCount(30, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'id',
+          'quality',
+          'title',
+          'dateFinished',
+          'rewatched',
+          'filesize',
+          'episodes',
+          'ovas',
+          'specials',
+          'encoder',
+          'release',
+          'remarks',
+          'rating',
+        ]],
+        'meta' => [
+          'page',
+          'limit',
+          'total',
+          'has_next',
+        ],
+      ]);
+
     $this->setup_clear();
   }
 
@@ -333,7 +365,6 @@ class EntryTest extends BaseTestCase {
     $this->assertEquals($actual2->id, $actual3->prequel_id);
     $this->assertEquals($actual3->id, $actual2->sequel_id);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
@@ -398,7 +429,6 @@ class EntryTest extends BaseTestCase {
     $this->assertEquals($expected['release_season'], $actual->release_season);
     $this->assertEquals($expected['release_year'], $actual->release_year);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
@@ -478,7 +508,6 @@ class EntryTest extends BaseTestCase {
     $this->assertEquals($actual2->id, $actual3->prequel->id);
     $this->assertEquals($actual3->id, $actual2->sequel->id);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
@@ -507,7 +536,6 @@ class EntryTest extends BaseTestCase {
     $this->assertEquals($expected['graphics'], $actual->rating->graphics);
     $this->assertEquals($expected['plot'], $actual->rating->plot);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
@@ -533,7 +561,6 @@ class EntryTest extends BaseTestCase {
 
     $this->assertSoftDeleted($entry);
 
-    // Clearing test data
     $this->setup_clear();
   }
 
