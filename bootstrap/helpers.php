@@ -36,3 +36,11 @@ if (!function_exists('parse_filesize')) {
     return $filesize;
   }
 }
+
+if (!function_exists('is_json')) {
+  function is_json(string $json_string): bool {
+    json_decode($json_string);
+
+    return json_last_error() === JSON_ERROR_NONE;
+  }
+}
