@@ -76,16 +76,24 @@ class MalController extends Controller {
    */
   private function getAnime($id = 37430): JsonResponse {
     try {
-      $data = Http::get($this->scrapeURI . '/anime/' . $id)->body();
+      $response = Http::get($this->scrapeURI . '/anime/' . $id);
+
+      if ($response->status() >= 500) {
+        // Temporary response, will be changed to backup scraper
+        return response()->json([
+          'status' => 503,
+          'message' => 'Issues in connecting to MAL Servers',
+        ], 503);
+      }
+
+      $data = $response->body();
       $data = MALEntry::parse(new Crawler($data))->get();
     } catch (Exception) {
-      return response([
+      return response()->json([
         'status' => 503,
         'message' => 'Issues in connecting to MAL Servers',
       ], 503);
     }
-
-    return response()->json($data);
   }
 
   /**
@@ -125,10 +133,20 @@ class MalController extends Controller {
    */
   private function searchAnime($query): JsonResponse {
     try {
-      $data = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query))->body();
+      $response = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query));
+
+      if ($response->status() >= 500) {
+        // Temporary response, will be changed to backup scraper
+        return response()->json([
+          'status' => 503,
+          'message' => 'Issues in connecting to MAL Servers',
+        ], 503);
+      }
+
+      $data = $response->body();
       $data = MALSearch::parse(new Crawler($data))->get();
     } catch (Exception) {
-      return response([
+      return response()->json([
         'status' => 503,
         'message' => 'Issues in connecting to MAL Servers',
       ], 503);
