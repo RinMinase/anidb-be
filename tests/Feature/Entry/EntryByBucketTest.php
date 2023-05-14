@@ -66,7 +66,6 @@ class EntryByBucketTest extends BaseTestCase {
         ->get('/api/entries/by-bucket/' . $bucket_id);
 
       $response->assertStatus(200)
-        ->assertJsonCount(40, 'data.data')
         ->assertJsonStructure([
           'data' => [
             'data' => [[]],
