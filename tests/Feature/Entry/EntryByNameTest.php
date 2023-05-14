@@ -53,9 +53,22 @@ class EntryByNameTest extends BaseTestCase {
       ->get('/api/entries/by-name/' . $test_data_start);
 
     $response->assertStatus(200)
-      ->assertJsonCount(40, 'data')
       ->assertJsonStructure([
-        'data' => [[]],
+        'data' => [[
+          'id',
+          'quality',
+          'title',
+          'dateFinished',
+          'rewatched',
+          'filesize',
+          'episodes',
+          'ovas',
+          'specials',
+          'encoder',
+          'release',
+          'remarks',
+          'rating',
+        ]],
       ]);
 
     $this->setup_clear();
