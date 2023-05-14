@@ -88,6 +88,8 @@ class MalController extends Controller {
 
       $data = $response->body();
       $data = MALEntry::parse(new Crawler($data))->get();
+
+      return response()->json($data);
     } catch (Exception) {
       return response()->json([
         'status' => 503,
@@ -145,13 +147,13 @@ class MalController extends Controller {
 
       $data = $response->body();
       $data = MALSearch::parse(new Crawler($data))->get();
+
+      return response()->json($data);
     } catch (Exception) {
       return response()->json([
         'status' => 503,
         'message' => 'Issues in connecting to MAL Servers',
       ], 503);
     }
-
-    return response()->json($data);
   }
 }
