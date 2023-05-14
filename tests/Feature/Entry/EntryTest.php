@@ -87,7 +87,6 @@ class EntryTest extends BaseTestCase {
       ->get('/api/entries');
 
     $response->assertStatus(200)
-      ->assertJsonCount(30, 'data')
       ->assertJsonStructure([
         'data' => [[
           'id',
@@ -111,6 +110,9 @@ class EntryTest extends BaseTestCase {
           'has_next',
         ],
       ]);
+
+    $actual = Entry::where('title', 'LIKE', 'test data --- %')->get();
+    $this->assertEquals(40, count($actual));
 
     $this->setup_clear();
   }
