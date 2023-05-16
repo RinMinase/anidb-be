@@ -10,48 +10,36 @@ use App\Requests\Auth\RegisterRequest;
 
 use App\Models\User;
 
+/**
+ * @OA\Info(
+ *     version="1.0",
+ *     title="Example for response examples value"
+ * )
+ */
 class AuthController extends Controller {
 
   /**
-   * @api {post} /api/auth/register User Registration
-   * @apiName UserRegistration
-   * @apiGroup User
-   *
-   * @apiBody {String} email Email
-   * @apiBody {String} password Password
-   * @apiBody {String} password_confirmation Password Confirmation
-   *
-   * @apiSuccess {Number} status API response code
-   * @apiSuccess {String} message API response message
-   * @apiSuccess {Object[]} data User Data
-   * @apiSuccess {String} data.token Token to be used for API calls
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "status": 200,
-   *       "message": "Success",
-   *       "data": {
-   *         "token": "<alphanumeric value>"
-   *       }
-   *     }
-   *
-   * @apiError Existing Username is already taken
-   * @apiError Invalid Either the Username or Password of the User is not provided
-   *
-   * @apiErrorExample Existing
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": "Existing",
-   *       "message": "Username is already taken"
-   *     }
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": "Invalid",
-   *       "message": "Username and Password fields are required"
-   *     }
+   * @OA\PathItem(path="/api")
+   */
+
+  /**
+   * @OA\Put(
+   *     path="/users/{id}",
+   *     summary="Updates a user",
+   *     @OA\Parameter(
+   *         description="Parameter with mutliple examples",
+   *         in="path",
+   *         name="id",
+   *         required=true,
+   *         @OA\Schema(type="string"),
+   *         @OA\Examples(example="int", value="1", summary="An int value."),
+   *         @OA\Examples(example="uuid", value="0006faf6-7a61-426c-9034-579f2cfcfa83", summary="An UUID value."),
+   *     ),
+   *     @OA\Response(
+   *         response=200,
+   *         description="OK"
+   *     )
+   * )
    */
   public function register(RegisterRequest $request): JsonResponse {
     $user = User::create([
