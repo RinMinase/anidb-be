@@ -134,6 +134,11 @@ From the project folder, run:
     ```
     php artisan l5-swagger:generate
     ```
+    or
+    ```
+    composer docs
+    ```
+
 
 4. Fire up your browser and go to `localhost/docs-v2` to open Swagger UI.
 
