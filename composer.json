@@ -52,10 +52,10 @@
             "rm -f public/deploy-status"
         ],
         "post-autoload-dump": [
-            "yarn && npm run build || true",
             "touch public/deploy-status",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan l5-swagger:generate"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -67,7 +67,7 @@
             "@php artisan key:generate --ansi"
         ],
         "docs": [
-            "yarn && npm run build || true"
+            "@php artisan l5-swagger:generate"
         ]
     },
     "extra": {
