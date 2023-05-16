@@ -17,6 +17,7 @@ return new class extends Migration {
       $table->dateTime('last_updated_at');
       $table->integer('update_speed_mins')->default(60);
       $table->string('url', 512);
+      $table->smallInteger('max_items')->default(250);
 
       $table->timestamps();
     });
