@@ -48,11 +48,7 @@
         }
     },
     "scripts": {
-        "pre-install-cmd": [
-            "rm -f public/deploy-status"
-        ],
         "post-autoload-dump": [
-            "touch public/deploy-status",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan l5-swagger:generate"
