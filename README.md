@@ -123,6 +123,18 @@ From the project folder, run:
 
     **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
 
+### Running the Swagger Generator / API Documentation Generator
+1. Make sure `Docker` is running, then open your terminal.
+
+    **Note:** If you are running `Docker Toolbox`, then open the docker terminal.
+
+2. Navigate to the project foler then run `docker-compose up -d`
+
+3. Run the command below:
+    ```
+    php artisan l5-swagger:generate
+    ```
+
 ### Running the Unit Tests
 1. Make sure `Docker` is running, then open your terminal.
 
