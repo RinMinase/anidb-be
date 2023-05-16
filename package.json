@@ -31,9 +31,6 @@
       "❌ Errors ❌"
     ]
   },
-  "gitHooks": {
-    "prepare-commit-msg": "devmoji -e"
-  },
   "config": {
     "commitizen": {
       "path": "cz-emoji-conventional"
