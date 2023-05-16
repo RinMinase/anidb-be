@@ -26,8 +26,6 @@
         "symfony/dom-crawler": "^6.2"
     },
     "require-dev": {
-        "ccinn/composer-husky-plugin": "^0.2.0",
-        "ccinn/husky-php": "^0.4.2",
         "fakerphp/faker": "^1.22",
         "nunomaduro/collision": "^7.5",
         "phpunit/phpunit": "^10.1",
@@ -81,8 +79,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "ccinn/composer-husky-plugin": true
+            "pestphp/pest-plugin": true
         }
     },
     "minimum-stability": "stable",
