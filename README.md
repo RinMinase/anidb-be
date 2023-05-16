@@ -2,10 +2,10 @@
 
 <p align="center">
     <a href="https://laravel.com">
-        <img alt="Laravel" src="https://img.shields.io/badge/laravel-%5E9.0-red.svg?logo=laravel&logoColor=white&style=for-the-badge">
+        <img alt="Laravel" src="https://img.shields.io/badge/laravel-%5E10.0-red.svg?logo=laravel&logoColor=white&style=for-the-badge">
     </a>
     <a href="https://php.net">
-        <img alt="PHP" src="https://img.shields.io/badge/php-8.0-blue.svg?logo=php&logoColor=white&style=for-the-badge">
+        <img alt="PHP" src="https://img.shields.io/badge/php-8.2-blue.svg?logo=php&logoColor=white&style=for-the-badge">
     </a>
 </p>
 
