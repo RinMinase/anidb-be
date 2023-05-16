@@ -10,9 +10,24 @@ use App\Models\RssItem;
 class RssRepository {
 
   public function getAll() {
-    return Rss::select()
+    $rss = Rss::select()
       ->orderBy('created_at')
       ->get();
+
+    $output = [];
+
+    foreach ($rss as $rssEntry) {
+      $unreadItems = RssItem::where('id_rss', $rssEntry->id)
+        ->where('is_read', false)
+        ->count();
+
+      $output[] = (object) array_merge(
+        $rssEntry->toArray(),
+        ['unread' => $unreadItems]
+      );
+    }
+
+    return collect($output);
   }
 
   public function get($uuid) {

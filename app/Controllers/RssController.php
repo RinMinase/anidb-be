@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\RssRepository;
+use App\Resources\Rss\RssCollection;
 
 class RssController extends Controller {
 
@@ -19,6 +20,7 @@ class RssController extends Controller {
   public function index(): JsonResponse {
     try {
       $data = $this->rssRepository->getAll();
+      $data = RssCollection::collection($data);
 
       return response()->json($data);
     } catch (Exception) {
