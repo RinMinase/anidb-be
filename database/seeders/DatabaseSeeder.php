@@ -21,9 +21,11 @@ class DatabaseSeeder extends Seeder {
       BucketSimSeeder::class,   // test data
       CatalogSeeder::class,     // test data
       EntrySeeder::class,       // test data
-      GroupSeeder::class,         // test data
+      GroupSeeder::class,       // test data
       LogSeeder::class,         // test data
       PartialSeeder::class,     // test data
+      RssSeeder::class,         // test data
+      RssItemsSeeder::class,    // test data
       SequenceSeeder::class,    // test data
     ]);
   }
