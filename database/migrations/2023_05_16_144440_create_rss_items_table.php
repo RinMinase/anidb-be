@@ -17,7 +17,7 @@ return new class extends Migration {
       $table->foreign('id_rss')->references('id')->on('rss')->onDelete('cascade');
 
       $table->string('title', 256);
-      $table->string('link', 256);
+      $table->string('link', 256)->nullable();
       $table->string('guid', 256)->nullable();
       $table->dateTime('date');
 

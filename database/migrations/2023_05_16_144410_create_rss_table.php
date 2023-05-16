@@ -13,6 +13,7 @@ return new class extends Migration {
       $table->id();
       $table->uuid('uuid')->unique();
 
+      $table->string('title', 64);
       $table->dateTime('last_updated_at');
       $table->integer('update_speed_mins')->default(60);
       $table->string('url', 512);
