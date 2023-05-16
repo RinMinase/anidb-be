@@ -10,13 +10,10 @@
   },
   "scripts": {
     "docs": "apidoc -i app/Controllers -o public/docs",
-    "build": "npm run docs",
-    "cz": "cz"
+    "build": "npm run docs"
   },
   "dependencies": {
-    "apidoc": "^1.0.2",
-    "devmoji": "^2.3.0",
-    "yorkie": "^2.0.0"
+    "apidoc": "^1.0.2"
   },
   "engines": {
     "node": ">=16.0.0"
