@@ -1,7 +1,6 @@
 # General files and directories
 .env
 npm-debug.log
-yarn-error.log
 
 /vendor
 /docker/logs/
