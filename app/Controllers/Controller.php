@@ -7,55 +7,48 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+/**
+ * @OA\Info(
+ *     version="1.0",
+ *     title="AniDB API Documentation"
+ * ),
+ */
 class Controller extends BaseController {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+}
 
+/**
+ * @OA\Schema(
+ *   schema="Success",
+ *   title="Default Success Response",
+ *   example={"status": "200", "message": "Success"},
+ *   @OA\Property(property="status", type="string"),
+ *   @OA\Property(property="message", type="string"),
+ * )
+ */
+class SuccessResponse {
+}
 
-  /**
-   * @api {get} /api Unauthorized
-   * @apiName ErrorsUnauthorized
-   * @apiGroup ❌ Errors ❌
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   *
-   * @apiErrorExample Unauthorized
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "401",
-   *       "message": "Unauthorized"
-   *     }
-   */
+/**
+ * @OA\Schema(
+ *   schema="Unauthorized",
+ *   title="401 Forbidden Error Response",
+ *   example={"status": "401", "message": "Unauthorized"},
+ *   @OA\Property(property="status", type="string"),
+ *   @OA\Property(property="message", type="string"),
+ * )
+ */
+class UnauthorizedResponse {
+}
 
-
-  /**
-   * @api {get} /api Failed
-   * @apiName ErrorsFailed
-   * @apiGroup ❌ Errors ❌
-   *
-   * @apiError Failed Some kind of error has happened
-   *
-   * @apiErrorExample Failed
-   *     HTTP/1.1 500 Internal Server Error
-   *     {
-   *       "status": "500",
-   *       "message": "Failed"
-   *     }
-   */
-
-
-  /**
-   * @api {get} /api Default Success Response
-   * @apiName SuccessDefault
-   * @apiGroup ✅ Success ✅
-   *
-   * @apiSuccess {Number} status Status code
-   * @apiSuccess {String} message Message
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "status": 200,
-   *       "message": "Success",
-   *     }
-   */
+/**
+ * @OA\Schema(
+ *   schema="Failed",
+ *   title="500 Internal Server Error Response",
+ *   example={"status": "500", "message": "Failed"},
+ *   @OA\Property(property="status", type="string"),
+ *   @OA\Property(property="message", type="string"),
+ * )
+ */
+class FailedResponse {
 }
