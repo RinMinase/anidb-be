@@ -193,6 +193,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     │   └── ...                  # Other docker files
     ├── public/                  # Project entry point
     ├── tests/                   # Project test files
+    ├── .czrc                    # Commitizen configuration file
     ├── .env.example             # Environmental variables template
     ├── docker-compose.yml       # Main docker file
     ├── phpunit.xml              # Unit test configuration file
