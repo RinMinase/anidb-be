@@ -19,7 +19,11 @@ class AuthController extends Controller {
    *   summary="User Registration",
    *   @OA\RequestBody(
    *     @OA\JsonContent(
-   *       example={"email": "user@mail.com", "password": "password", "password_confirmation": "password"},
+   *       example={
+   *         "email": "user@mail.com",
+   *         "password": "password",
+   *         "password_confirmation": "password"
+   *       },
    *       @OA\Property(property="email", type="string"),
    *       @OA\Property(property="password", type="string"),
    *       @OA\Property(property="password_confirmation", type="string"),
