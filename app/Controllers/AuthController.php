@@ -10,35 +10,51 @@ use App\Requests\Auth\RegisterRequest;
 
 use App\Models\User;
 
-/**
- * @OA\Info(
- *     version="1.0",
- *     title="Example for response examples value"
- * )
- */
 class AuthController extends Controller {
 
   /**
-   * @OA\PathItem(path="/api")
-   */
-
-  /**
-   * @OA\Put(
-   *     path="/users/{id}",
-   *     summary="Updates a user",
-   *     @OA\Parameter(
-   *         description="Parameter with mutliple examples",
-   *         in="path",
-   *         name="id",
-   *         required=true,
-   *         @OA\Schema(type="string"),
-   *         @OA\Examples(example="int", value="1", summary="An int value."),
-   *         @OA\Examples(example="uuid", value="0006faf6-7a61-426c-9034-579f2cfcfa83", summary="An UUID value."),
-   *     ),
-   *     @OA\Response(
-   *         response=200,
-   *         description="OK"
+   * @OA\Post(
+   *   tags={"User"},
+   *   path="/api/auth/register",
+   *   summary="User Registration",
+   *   @OA\RequestBody(
+   *     @OA\JsonContent(
+   *       example={"email": "user@mail.com", "password": "password", "password_confirmation": "password"},
+   *       @OA\Property(property="email", type="string"),
+   *       @OA\Property(property="password", type="string"),
+   *       @OA\Property(property="password_confirmation", type="string"),
    *     )
+   *   ),
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       example={
+   *         "status": 200,
+   *         "message": "Success",
+   *         "data": {
+   *           "token": "alphanumeric token"
+   *         }
+   *       },
+   *       @OA\Property(property="status", type="number"),
+   *       @OA\Property(property="message", type="string"),
+   *       @OA\Property(
+   *         property="data",
+   *         type="object",
+   *         @OA\Property(property="token", type="string"),
+   *       ),
+   *     )
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   *   @OA\Response(
+   *     response=500,
+   *     description="Failed",
+   *     @OA\JsonContent(ref="#/components/schemas/Failed"),
+   *   ),
    * )
    */
   public function register(RegisterRequest $request): JsonResponse {
