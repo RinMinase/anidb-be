@@ -33,16 +33,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN mv composer.phar /usr/local/bin/composer
 
 ###########################################################################
-# NodeJS for APIDoc
-###########################################################################
-
-RUN set -xe; \
-    apk add --no-cache \
-    nodejs \
-    npm \
-    yarn
-
-###########################################################################
 # Setting up shell profile
 ###########################################################################
 
