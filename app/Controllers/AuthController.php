@@ -83,44 +83,67 @@ class AuthController extends Controller {
   }
 
   /**
-   * @api {post} /api/auth/login User Login
-   * @apiName UserLogin
-   * @apiGroup User
-   *
-   * @apiBody {String} email Email
-   * @apiBody {String} password Password
-   *
-   * @apiSuccess {Number} status API response code
-   * @apiSuccess {String} message API response message
-   * @apiSuccess {Object[]} data User Data
-   * @apiSuccess {String} data.token Token to be used for API calls
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "status": 200,
-   *       "message": "Success",
-   *       "data": {
-   *         "token": "<alphanumeric value>"
-   *       }
-   *     }
-   *
-   * @apiError Invalid Either the Username or Password is not provided
-   * @apiError InvalidCredentials Either the Username or Password of the User is invalid
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": 400,
-   *       "message": "username and password fields are required"
-   *     }
-   *
-   * @apiErrorExample InvalidCredentials
-   *     HTTP/1.1 400 Bad Request
-   *     {
-   *       "status": 400,
-   *       "message": "username or password is invalid"
-   *     }
+   * @OA\Post(
+   *   tags={"User"},
+   *   path="/api/auth/login",
+   *   summary="User Login",
+   *   @OA\RequestBody(
+   *     @OA\JsonContent(
+   *       example={
+   *         "email": "user@mail.com",
+   *         "password": "password",
+   *       },
+   *       @OA\Property(property="email", type="string"),
+   *       @OA\Property(property="password", type="string"),
+   *     )
+   *   ),
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       example={
+   *         "status": 200,
+   *         "message": "Success",
+   *         "data": {
+   *           "token": "alphanumeric token"
+   *         }
+   *       },
+   *       @OA\Property(property="status", type="number"),
+   *       @OA\Property(property="message", type="string"),
+   *       @OA\Property(
+   *         property="data",
+   *         type="object",
+   *         @OA\Property(property="token", type="string"),
+   *       ),
+   *     )
+   *   ),
+   *   @OA\Response(
+   *     response=400,
+   *     description="Invalid Form or Invalid Credentials",
+   *     @OA\JsonContent(
+   *       examples={
+   *         @OA\Examples(
+   *           summary="Invalid Form",
+   *           example="InvalidForm",
+   *           value={
+   *             "status": 400,
+   *             "message": "username and password fields are required",
+   *           },
+   *         ),
+   *         @OA\Examples(
+   *           summary="Invalid Credentials",
+   *           example="InvalidCredentials",
+   *           value={
+   *             "status": 400,
+   *             "message": "username or password is invalid",
+   *           },
+   *         ),
+   *       },
+   *       @OA\Property(property="status", type="number"),
+   *       @OA\Property(property="message", type="string"),
+   *     )
+   *   ),
+   * )
    */
   public function login(LoginRequest $request): JsonResponse {
     $credentials = $request->only('email', 'password');
@@ -150,23 +173,22 @@ class AuthController extends Controller {
   }
 
   /**
-   * @api {post} /api/auth/logout User Logout
-   * @apiName UserLogout
-   * @apiGroup User
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Number} status API response code
-   * @apiSuccess {String} message API response message
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "status": 200,
-   *       "message": "Success"
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Post(
+   *   tags={"User"},
+   *   path="/api/auth/logout",
+   *   summary="User Logout",
+   *   security={{"bearerAuth":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function logout(): JsonResponse {
     Auth::user()->tokens()->delete();
@@ -178,32 +200,29 @@ class AuthController extends Controller {
   }
 
   /**
-   * @api {get} /api/auth/user User Details
-   * @apiName UserDetails
-   * @apiGroup User
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Number} status API response code
-   * @apiSuccess {String} message API response message
-   * @apiSuccess {Object[]} data User Data
-   * @apiSuccess {Number} data.id User Id
-   * @apiSuccess {Number} data.email User Email
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "status": 200,
-   *       "message": "Success"
-   *       "data": [
-   *         {
-   *           id: 1,
-   *           email: "test@mail.com",
-   *         }
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"User"},
+   *   path="/api/auth/user",
+   *   summary="Get User",
+   *   security={{"bearerAuth":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       example={
+   *         "id": 1,
+   *         "email": "test@mail.com",
+   *       },
+   *       @OA\Property(property="id", type="number"),
+   *       @OA\Property(property="email", type="string"),
+   *     )
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function getUser(): JsonResponse {
     return response()->json(auth()->user());
