@@ -17,19 +17,29 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/register",
    *   summary="User Registration",
-   *   @OA\RequestBody(
-   *     @OA\JsonContent(
-   *       required={"email", "password", "password_confirmation"},
-   *       example={
-   *         "email": "user@mail.com",
-   *         "password": "password",
-   *         "password_confirmation": "password"
-   *       },
-   *       @OA\Property(property="email", type="string"),
-   *       @OA\Property(property="password", type="string"),
-   *       @OA\Property(property="password_confirmation", type="string"),
-   *     )
+   *
+   *   @OA\Parameter(
+   *     name="email",
+   *     in="query",
+   *     required=true,
+   *     example="user@mail.com",
+   *     @OA\Schema(type="string", format="email"),
+   *       ),
+   *   @OA\Parameter(
+   *     name="password",
+   *     in="query",
+   *     required=true,
+   *     example="password",
+   *     @OA\Schema(type="string"),
    *   ),
+   *   @OA\Parameter(
+   *     name="password_confirmation",
+   *     in="query",
+   *     required=true,
+   *     example="password",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="OK",
@@ -88,17 +98,22 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/login",
    *   summary="User Login",
-   *   @OA\RequestBody(
-   *     @OA\JsonContent(
-   *       required={"email", "password"},
-   *       example={
-   *         "email": "user@mail.com",
-   *         "password": "password",
-   *       },
-   *       @OA\Property(property="email", type="string"),
-   *       @OA\Property(property="password", type="string"),
-   *     )
+   *
+   *   @OA\Parameter(
+   *     name="email",
+   *     in="query",
+   *     required=true,
+   *     example="user@mail.com",
+   *     @OA\Schema(type="string", format="email"),
    *   ),
+   *   @OA\Parameter(
+   *     name="password",
+   *     in="query",
+   *     required=true,
+   *     example="password",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="OK",
@@ -129,7 +144,10 @@ class AuthController extends Controller {
    *           example="InvalidForm",
    *           value={
    *             "status": 400,
-   *             "message": "username and password fields are required",
+   *             "data": {
+   *               "email": {{"The email field is required."}},
+   *               "password": {{"The password field is required."}},
+   *             },
    *           },
    *         ),
    *         @OA\Examples(
@@ -143,6 +161,7 @@ class AuthController extends Controller {
    *       },
    *       @OA\Property(property="status", type="number"),
    *       @OA\Property(property="message", type="string"),
+   *       @OA\Property(property="data", type="object"),
    *     )
    *   ),
    * )
