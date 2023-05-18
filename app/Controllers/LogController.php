@@ -16,43 +16,33 @@ class LogController extends Controller {
   }
 
   /**
-   * @api {get} /api/logs Retrieve all logs
-   * @apiName LogRetrieve
-   * @apiGroup Logs
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Object[]} data Log Data
-   * @apiSuccess {UUID} data.id ID of the log
-   * @apiSuccess {String} data.table_changed Changed table name of the log
-   * @apiSuccess {String} data.id_changed Changed id under the table name
-   * @apiSuccess {String} data.description Any description for the table_changed and id_changed
-   * @apiSuccess {Number} data.action Action done (add/edit/delete)
-   * @apiSuccess {DateTime} data.created_at Creation date of the log
-   * @apiSuccess {Object} data.meta Pagination details
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": [
-   *         {
-   *           id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-   *           table_changed: "marathon",
-   *           id_changed: 1,
-   *           description: "title changed from 'old' to 'new'",
-   *           action: "add",
-   *           created_at: "2020-01-01 00:00:00",
-   *         }
-   *       ]
-   *       "meta": {
-   *         page: 1,
-   *         limit: 30,
-   *         total: 5,
-   *         has_next: true,
-   *       }
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Logs"},
+   *   path="/api/logs",
+   *   summary="Get All Logs",
+   *   security={{"bearerAuth":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Log"),
+   *       ),
+   *       @OA\Property(
+   *         property="meta",
+   *         type="object",
+   *         ref="#/components/schemas/Pagination",
+   *       ),
+   *     )
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function index(Request $request): JsonResponse {
     $logs = $this->logRepository->getAll($request->all());
