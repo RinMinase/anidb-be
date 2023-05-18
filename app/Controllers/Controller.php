@@ -12,6 +12,14 @@ use Illuminate\Routing\Controller as BaseController;
  *     version="1.0",
  *     title="AniDB API Documentation"
  * ),
+ * @OA\SecurityScheme(
+ *   securityScheme="bearerAuth",
+ *   in="header",
+ *   name="Login Token ()",
+ *   type="http",
+ *   scheme="bearer",
+ *   bearerFormat="JWT",
+ * ),
  */
 class Controller extends BaseController {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
