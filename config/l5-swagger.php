@@ -5,14 +5,14 @@ return [
   'documentations' => [
     'default' => [
       'api' => [
-        'title' => 'L5 Swagger UI',
+        'title' => 'AniDB API Documentation',
       ],
 
       'routes' => [
         /*
           * Route for accessing api documentation interface
         */
-        'api' => 'docs-v2/',
+        'api' => 'docs/',
       ],
       'paths' => [
         /*
@@ -82,7 +82,7 @@ return [
       /*
         * Absolute path to directory where to export views
       */
-      'views' => base_path('resources/views/vendor/l5-swagger'),
+      'views' => base_path('app/Swagger'),
 
       /*
         * Edit to set the api's base path
@@ -192,12 +192,12 @@ return [
                   ],
               ],
           ],
-          'sanctum' => [ // Unique name of security
-              'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
-              'description' => 'Enter token in format (Bearer <token>)',
-              'name' => 'Authorization', // The name of the header or query parameter to be used.
-              'in' => 'header', // The location of the API key. Valid values are "query" or "header".
-          ],
+        'Bearer Token' => [ // Unique name of security
+          'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
+          'description' => 'Enter token in format (Bearer &lt;token&gt;)',
+          'name' => 'Authorization', // The name of the header or query parameter to be used.
+          'in' => 'header', // The location of the API key. Valid values are "query" or "header".
+        ],
         */],
       'security' => [
         /*
@@ -262,7 +262,7 @@ return [
         * 'full' (expands the tags and operations),
         * 'none' (expands nothing).
         */
-        'doc_expansion' => env('L5_SWAGGER_UI_DOC_EXPANSION', 'none'),
+        'doc_expansion' => env('L5_SWAGGER_UI_DOC_EXPANSION', 'list'),
 
         /**
          * If set, enables filtering. The top bar will show an edit box that
@@ -272,7 +272,7 @@ return [
          * is case-sensitive matching the filter expression anywhere inside
          * the tag.
          */
-        'filter' => env('L5_SWAGGER_UI_FILTERS', true), // true | false
+        'filter' => env('L5_SWAGGER_UI_FILTERS', false), // true | false
       ],
 
       'authorization' => [
