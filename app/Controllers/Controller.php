@@ -62,3 +62,28 @@ class UnauthorizedResponse {
  */
 class FailedResponse {
 }
+
+/**
+ * @OA\Schema(
+ *   schema="Pagination",
+ *   title="Pagination Meta",
+ *   example={
+ *     "meta": {
+ *       "page": 1,
+ *       "limit": 30,
+ *       "total": 5,
+ *       "has_next": true,
+ *     }
+ *   },
+ *   @OA\Property(
+ *     property="meta",
+ *     type="object",
+ *     @OA\Property(property="page", type="integer", format="int32", minimum=1),
+ *     @OA\Property(property="limit", type="integer", format="int32", minimum=1),
+ *     @OA\Property(property="total", type="integer", format="int32", minimum=1),
+ *     @OA\Property(property="has_next", type="boolean"),
+ *   ),
+ * )
+ */
+class PaginationMeta {
+}
