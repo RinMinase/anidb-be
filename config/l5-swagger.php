@@ -1,5 +1,8 @@
 <?php
 
+$is_prod = env('APP_ENV', 'prod') != 'local';
+$swagger_api_middleware = $is_prod ? ['auth'] : [];
+
 return [
   'default' => 'default',
   'documentations' => [
@@ -61,7 +64,7 @@ return [
         * Middleware allows to prevent unexpected access to API documentation
       */
       'middleware' => [
-        'api' => [],
+        'api' => $swagger_api_middleware,
         'asset' => [],
         'docs' => [],
         'oauth2_callback' => [],
