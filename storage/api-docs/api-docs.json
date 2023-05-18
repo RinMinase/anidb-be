@@ -243,7 +243,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -274,6 +274,50 @@
                                 "example": {
                                     "id": 1,
                                     "email": "test@mail.com"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/buckets": {
+            "get": {
+                "tags": [
+                    "Bucket"
+                ],
+                "summary": "Get All Buckets",
+                "operationId": "79ee2ec8f2dff7429a502d499c7ed000",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Bucket"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -338,7 +382,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -429,6 +473,31 @@
                         "total": 5,
                         "has_next": true
                     }
+                }
+            },
+            "Bucket": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "from": {
+                        "type": "string"
+                    },
+                    "to": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "from": "a",
+                    "to": "d",
+                    "size": 2000339066880
                 }
             },
             "Log": {

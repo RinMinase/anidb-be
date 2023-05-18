@@ -20,7 +20,7 @@ class LogController extends Controller {
    *   tags={"Logs"},
    *   path="/api/logs",
    *   summary="Get All Logs",
-   *   security={{"bearerAuth":{}}},
+   *   security={{"token":{}}},
    *   @OA\Response(
    *     response=200,
    *     description="OK",
