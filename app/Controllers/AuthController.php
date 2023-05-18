@@ -204,7 +204,7 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/user",
    *   summary="Get User",
-   *   security={{"bearerAuth":{}}},
+   *   security={{ "token": {} }},
    *   @OA\Response(
    *     response=200,
    *     description="OK",
