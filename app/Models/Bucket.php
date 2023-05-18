@@ -4,6 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *   example={
+ *     "id": 1,
+ *     "from": "a",
+ *     "to": "d",
+ *     "size": 2000339066880,
+ *   },
+ *   @OA\Property(property="id", type="integer", format="int32"),
+ *   @OA\Property(property="from", type="string"),
+ *   @OA\Property(property="to", type="string"),
+ *   @OA\Property(property="size", type="integer", format="int64"),
+ * )
+ */
 class Bucket extends Model {
 
   /**

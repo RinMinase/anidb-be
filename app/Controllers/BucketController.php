@@ -48,6 +48,31 @@ class BucketController extends Controller {
    *
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
+
+  /**
+   * @OA\Get(
+   *   tags={"Bucket"},
+   *   path="/api/buckets",
+   *   summary="Get All Buckets",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Bucket"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function index(): JsonResponse {
     return response()->json([
       'data' => $this->bucketRepository->getAll(),
