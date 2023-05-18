@@ -19,6 +19,7 @@ class AuthController extends Controller {
    *   summary="User Registration",
    *   @OA\RequestBody(
    *     @OA\JsonContent(
+   *       required={"email", "password", "password_confirmation"},
    *       example={
    *         "email": "user@mail.com",
    *         "password": "password",
@@ -89,6 +90,7 @@ class AuthController extends Controller {
    *   summary="User Login",
    *   @OA\RequestBody(
    *     @OA\JsonContent(
+   *       required={"email", "password"},
    *       example={
    *         "email": "user@mail.com",
    *         "password": "password",
