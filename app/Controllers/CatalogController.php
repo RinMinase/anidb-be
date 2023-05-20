@@ -97,6 +97,40 @@ class CatalogController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Catalog"},
+   *   path="/api/catalogs",
+   *   summary="Add a Catalog",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="year",
+   *     in="query",
+   *     required=true,
+   *     example="2020",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="season",
+   *     in="query",
+   *     required=true,
+   *     example="Winter",
+   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function add(Request $request): JsonResponse {
     try {
       $this->catalogRepository->add($request->all());
@@ -113,6 +147,34 @@ class CatalogController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Catalog"},
+   *   path="/api/catalogs/{catalog_id}",
+   *   summary="Edit a Catalog",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="catalog_id",
+   *     description="Catalog ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function edit(Request $request, $id): JsonResponse {
     try {
       $this->catalogRepository->edit($request->except(['_method']), $id);
@@ -129,6 +191,34 @@ class CatalogController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Catalog"},
+   *   path="/api/catalogs/{catalog_id}",
+   *   summary="Delete a Catalog",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="catalog_id",
+   *     description="Catalog ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function delete($uuid): JsonResponse {
     try {
       $this->catalogRepository->delete($uuid);
