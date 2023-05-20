@@ -18,30 +18,29 @@ class GroupController extends Controller {
     $this->groupRepository = $groupRepository;
   }
 
-
   /**
-   * @api {get} /api/groups Retrieve all groups
-   * @apiName GroupRetrieve
-   * @apiGroup Groups
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Object[]} data List of groups
-   * @apiSuccess {String} data.uuid ID of group
-   * @apiSuccess {String} data.name Name of group
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": [
-   *         {
-   *           "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *           "name": "Group 1",
-   *         }, { ... }
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Group"},
+   *   path="/api/groups",
+   *   summary="Get All Groups",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Group"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
@@ -49,26 +48,25 @@ class GroupController extends Controller {
     ]);
   }
 
-
   /**
-   * @api {get} /api/groups/names Retrieve all groups
-   * @apiName GroupRetrieveNames
-   * @apiGroup Groups
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {String[]} List of group names
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": [
-   *         "Group 1",
-   *         "Group 2",
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Group"},
+   *   path="/api/groups/names",
+   *   summary="Get All Group Names",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(property="data", type="array", @OA\Items(type="string")),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function getNames(): JsonResponse {
     return response()->json([
@@ -76,18 +74,38 @@ class GroupController extends Controller {
     ]);
   }
 
-
   /**
-   * @api {post} /api/groups/ Add Group
-   * @apiName GroupAdd
-   * @apiGroup Group
+   * @OA\Post(
+   *   tags={"Group"},
+   *   path="/api/groups",
+   *   summary="Add a Group",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
+   *   @OA\Parameter(
+   *     name="name",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Group Name",
+   *     @OA\Schema(type="string"),
+   *   ),
    *
-   * @apiSuccess Success Default success message
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError Failed Some kind of error has happened
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Group"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function add(Request $request): JsonResponse {
     try {
@@ -105,20 +123,33 @@ class GroupController extends Controller {
     }
   }
 
-
   /**
-   * @api {put} /api/groups/:uuid Edit Group
-   * @apiName GroupEdit
-   * @apiGroup Group
+   * @OA\Put(
+   *   tags={"Group"},
+   *   path="/api/groups/{group_id}",
+   *   summary="Edit a Group",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {UUID} uuid Group ID
-   * @apiBody {String} name New Group name
+   *   @OA\Parameter(
+   *     name="group_id",
+   *     description="Group ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
    *
-   * @apiSuccess Success Default success message
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError Failed Some kind of error has happened
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
     try {
@@ -139,26 +170,33 @@ class GroupController extends Controller {
     }
   }
 
-
   /**
-   * @api {delete} /api/groups/:uuid Delete Group
-   * @apiName GroupDelete
-   * @apiGroup Group
+   * @OA\Delete(
+   *   tags={"Group"},
+   *   path="/api/groups/{group_id}",
+   *   summary="Delete a Group",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {UUID} uuid Group ID
+   *   @OA\Parameter(
+   *     name="group_id",
+   *     description="Group ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
    *
-   * @apiSuccess Success Default success message
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError Invalid The provided ID is invalid, or the item does not exist
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "401",
-   *       "message": "Group ID does not existt"
-   *     }
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function delete($uuid): JsonResponse {
     try {

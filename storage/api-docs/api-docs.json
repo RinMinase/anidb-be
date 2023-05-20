@@ -382,6 +382,67 @@
                         "token": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Add a Catalog",
+                "operationId": "8d851d66dad56921006fe15cca087444",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": "2020"
+                    },
+                    {
+                        "name": "season",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Winter",
+                                "Spring",
+                                "Summer",
+                                "Fall"
+                            ]
+                        },
+                        "example": "Winter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/catalogs/{catalog_id}": {
@@ -422,6 +483,337 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Edit a Catalog",
+                "operationId": "0eab08efecfd0eb04f1f6805da8af369",
+                "parameters": [
+                    {
+                        "name": "catalog_id",
+                        "in": "path",
+                        "description": "Catalog ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Delete a Catalog",
+                "operationId": "cfdc75fe92bd8e71c989ed0696b8a53f",
+                "parameters": [
+                    {
+                        "name": "catalog_id",
+                        "in": "path",
+                        "description": "Catalog ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/groups": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Get All Groups",
+                "operationId": "74f97965cba29ff042644d03ab580adc",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Group"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Add a Group",
+                "operationId": "d5e58c0df5e02a3de23c70700551aa64",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample Group Name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Group"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/groups/names": {
+            "get": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Get All Group Names",
+                "operationId": "53fbdf770508b509a82ce8241e563ba9",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/groups/{group_id}": {
+            "put": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Edit a Group",
+                "operationId": "c6d4c44e7f3880c4e941de9d7f9ec40c",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Group"
+                ],
+                "summary": "Delete a Group",
+                "operationId": "89ce3046c99740e998e236b35854b8da",
+                "parameters": [
+                    {
+                        "name": "group_id",
+                        "in": "path",
+                        "description": "Group ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
                                 }
                             }
                         }
@@ -629,6 +1021,22 @@
                     "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
                     "year": 2020,
                     "season": "Winter"
+                }
+            },
+            "Group": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                    "name": "Sample Group Name"
                 }
             },
             "Log": {
