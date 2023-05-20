@@ -340,6 +340,110 @@
                 ]
             }
         },
+        "/api/catalogs": {
+            "get": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Get All Catalog",
+                "operationId": "bf7d3c3af4d71538d00b0df849f3d908",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Catalog"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/catalogs/{catalog_id}": {
+            "get": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Get Partials in Catalog",
+                "operationId": "4b0774dc654f92416d46f3d7a10d20b4",
+                "parameters": [
+                    {
+                        "name": "catalog_id",
+                        "in": "path",
+                        "description": "Catalog ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Partial"
+                                            }
+                                        },
+                                        "stats": {
+                                            "$ref": "#/components/schemas/Catalog"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/logs": {
             "get": {
                 "tags": [
@@ -500,6 +604,33 @@
                     "size": 2000339066880
                 }
             },
+            "Catalog": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "season": {
+                        "type": "string",
+                        "enum": [
+                            "Winter",
+                            "Spring",
+                            "Summer",
+                            "Fall"
+                        ]
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                    "year": 2020,
+                    "season": "Winter"
+                }
+            },
             "Log": {
                 "properties": {
                     "id": {
@@ -531,6 +662,31 @@
                     "description": "title changed from 'old' to 'new'",
                     "action": "add",
                     "created_at": "2020-01-01 00:00:00"
+                }
+            },
+            "Partial": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "High",
+                            "Normal",
+                            "Low"
+                        ]
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                    "title": "Sample Title",
+                    "priority": "High"
                 }
             }
         },

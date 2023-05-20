@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CatalogRepository;
 use App\Resources\Catalog\CatalogCollection;
-use App\Resources\Partial\PartialCollection;
 
 class CatalogController extends Controller {
 
@@ -18,38 +17,29 @@ class CatalogController extends Controller {
     $this->catalogRepository = $catalogRepository;
   }
 
-
   /**
-   * @api {get} /api/catalogs Retrieve Catalogs
-   * @apiName RetrieveCatalog
-   * @apiGroup Catalog
-   *
-   * @apiHeader {String} token User login token
-   *
-   * @apiSuccess {Object[]} data Catalog data
-   * @apiSuccess {UUID} data.id Catalog ID
-   * @apiSuccess {Number} data.year Catalog year
-   * @apiSuccess {String='Winter','Spring','Summer','Fall'} date.season Catalog season
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "year": 2010,
-   *         "season": "Winter",
-   *       }, {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "year": null,
-   *         "season": "null",
-   *       }, {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "year": 2015,
-   *         "season": "Winter",
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Catalog"},
+   *   path="/api/catalogs",
+   *   summary="Get All Catalog",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Catalog"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
@@ -57,44 +47,44 @@ class CatalogController extends Controller {
     ]);
   }
 
-
   /**
-   * @api {get} /api/partials/:uuid Retrieve Partials in Catalog
-   * @apiName RetrievePartials
-   * @apiGroup Partial
+   * @OA\Get(
+   *   tags={"Catalog"},
+   *   path="/api/catalogs/{catalog_id}",
+   *   summary="Get Partials in Catalog",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {String} uuid Catalog UUID.
+   *   @OA\Parameter(
+   *     name="catalog_id",
+   *     description="Catalog ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
    *
-   * @apiSuccess {Object} stats Catalog information
-   * @apiSuccess {Number} stats.year Catalog year
-   * @apiSuccess {String='Winter','Spring','Summer','Fall'} stats.season Catalog season
-   * @apiSuccess {Object[]} data Partials data in Catalog
-   * @apiSuccess {UUID} data.id Partial ID
-   * @apiSuccess {String} data.title Partial title
-   * @apiSuccess {Number} data.priority Partial priority
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       data: [
-   *         {
-   *           "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *           "title": "Title",
-   *           "priority": "High",
-   *         }, {
-   *           "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *           "title": "Another Title",
-   *           "priority": "Normal",
-   *         }, { ... }
-   *       ],
-   *       stats: {
-   *         "year": 2020,
-   *         "season": "Winter"
-   *       }
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Partial"),
+   *       ),
+   *       @OA\Property(
+   *         property="stats",
+   *         type="object",
+   *         ref="#/components/schemas/Catalog",
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function get($uuid) {
     try {

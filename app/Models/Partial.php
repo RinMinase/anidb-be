@@ -4,6 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *   example={
+ *     "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+ *     "title": "Sample Title",
+ *     "priority": "High",
+ *   },
+ *   @OA\Property(property="id", type="string", format="uuid"),
+ *   @OA\Property(property="title", type="string"),
+ *   @OA\Property(property="priority", type="string", enum={"High", "Normal", "Low"}),
+ * )
+ */
 class Partial extends Model {
 
   /**
