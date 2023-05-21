@@ -41,40 +41,6 @@ class MalController extends Controller {
   }
 
   /**
-   * @api {get} /api/mal/:id Retrieve Title Information
-   * @apiName RetrieveTitleInfo
-   * @apiGroup MAL
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   * @apiParam {Number} id MAL Title ID
-   *
-   * @apiSuccess {String} url MAL Title URL
-   * @apiSuccess {String} title Full title
-   * @apiSuccess {String} synonyms Variants
-   * @apiSuccess {Number} episodes Number of episodes
-   * @apiSuccess {String} premiered Premiered Season and Year
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "url": "https://myanimelist.net/anime/37430/Tensei_shitara_Slime_Datta_Ken",
-   *       "title": "Tensei shitara Slime Datta Ken",
-   *       "synonyms": "TenSura",
-   *       "episodes": 24,
-   *       "premiered": "Fall 2018",
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError (Error 5xx) ServiceUnavailable There is no login token provided, or the login token provided is invalid
-   *
-   * @apiErrorExample ServiceUnavailable
-   *     HTTP/1.1 503 Forbidden
-   *     {
-   *       "status": 503,
-   *       "message": "Issues in connecting to MAL Servers"
-   *     }
-   */
-  /**
    * @OA\Get(
    *   tags={"MAL"},
    *   path="/api/mal/{title_id}",
@@ -96,16 +62,8 @@ class MalController extends Controller {
    *     @OA\JsonContent(ref="#/components/schemas/MALEntry"),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(
-   *     response=500,
-   *     description="Scaper Configuration Error",
-   *     @OA\JsonContent(ref="#/components/schemas/MalScraperConfigErrorResponse"),
-   *   ),
-   *   @OA\Response(
-   *     response=503,
-   *     description="MAL Server Error",
-   *     @OA\JsonContent(ref="#/components/schemas/MalServerErrorResponse"),
-   *   ),
+   *   @OA\Response(response=500, ref="#/components/responses/MalConfigErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/MalServerErrorResponse"),
    * )
    */
   private function getAnime($id = 37430): JsonResponse {
@@ -154,28 +112,8 @@ class MalController extends Controller {
    *     @OA\JsonContent(ref="#/components/schemas/MALSearch"),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(
-   *     response=500,
-   *     description="Scaper Configuration Error",
-   *     @OA\JsonContent(
-   *       ref="#/components/schemas/MalScraperConfigErrorResponse",
-   *       examples={
-   *         @OA\Examples(
-   *           example="ScaperConfigNotFound",
-   *           ref="#/components/examples/ScaperConfigNotFound",
-   *         ),
-   *         @OA\Examples(
-   *           example="ScraperDisabled",
-   *           ref="#/components/examples/ScraperDisabled",
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(
-   *     response=503,
-   *     description="MAL Server Error",
-   *     @OA\JsonContent(ref="#/components/schemas/MalServerErrorResponse"),
-   *   ),
+   *   @OA\Response(response=500, ref="#/components/responses/MalConfigErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/MalServerErrorResponse"),
    * )
    */
   private function searchAnime($query): JsonResponse {
@@ -204,35 +142,39 @@ class MalController extends Controller {
 }
 
 /**
- * @OA\Schema(
- *   schema="MalScraperConfigErrorResponse",
- *   title="500 Scraper Configuration Error Responses",
- *   @OA\Property(property="status", type="string"),
- *   @OA\Property(property="message", type="string"),
+ * @OA\Response(
+ *   response="MalConfigErrorResponse",
+ *   description="MAL Scraper Configuration Error Responses",
+ *   @OA\JsonContent(
+ *     examples={
+ *       @OA\Examples(
+ *         summary="Scaper Configuration Not Found",
+ *         example="ScaperConfigNotFound",
+ *         value={"status": 500, "message": "Web Scraper configuration not found"},
+ *       ),
+ *       @OA\Examples(
+ *         summary="Scraper Disabled",
+ *         example="ScraperDisabled",
+ *         value={"status": 500, "message": "Web Scraper is disabled"},
+ *       ),
+ *     },
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
  * )
- *
- * @OA\Examples(
- *   summary="Scaper Configuration Not Found",
- *   example="ScaperConfigNotFound",
- *   value={"status": 500, "message": "Web Scraper configuration not found"},
- * ),
- *
- * @OA\Examples(
- *   summary="Scraper Disabled",
- *   example="ScraperDisabled",
- *   value={"status": 500, "message": "Web Scraper is disabled"},
- * ),
  */
 class MalScraperConfigErrorResponse {
 }
 
 /**
- * @OA\Schema(
- *   schema="MalServerErrorResponse",
- *   title="503 MAL Server Error",
- *   example={"status": "503", "message": "Issues in connecting to MAL Servers"},
- *   @OA\Property(property="status", type="integer", format="int32"),
- *   @OA\Property(property="message", type="string"),
+ * @OA\Response(
+ *   response="MalServerErrorResponse",
+ *   description="MAL Server Error",
+ *   @OA\JsonContent(
+ *     example={"status": 503, "message": "Issues in connecting to MAL Servers"},
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
  * )
  */
 class MalServerErrorResponse {

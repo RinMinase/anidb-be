@@ -1160,24 +1160,10 @@
                         "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
-                        "description": "Scaper Configuration Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MalScraperConfigErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/MalConfigErrorResponse"
                     },
                     "503": {
-                        "description": "MAL Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MalServerErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/MalServerErrorResponse"
                     }
                 },
                 "security": [
@@ -1221,32 +1207,10 @@
                         "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
-                        "description": "Scaper Configuration Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MalScraperConfigErrorResponse"
-                                },
-                                "examples": {
-                                    "ScaperConfigNotFound": {
-                                        "$ref": "#/components/examples/ScaperConfigNotFound"
-                                    },
-                                    "ScraperDisabled": {
-                                        "$ref": "#/components/examples/ScraperDisabled"
-                                    }
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/MalConfigErrorResponse"
                     },
                     "503": {
-                        "description": "MAL Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/MalServerErrorResponse"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/MalServerErrorResponse"
                     }
                 },
                 "security": [
@@ -1368,35 +1332,6 @@
                         "total": 5,
                         "has_next": true
                     }
-                }
-            },
-            "MalScraperConfigErrorResponse": {
-                "title": "500 Scraper Configuration Error Responses",
-                "properties": {
-                    "status": {
-                        "type": "string"
-                    },
-                    "message": {
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "MalServerErrorResponse": {
-                "title": "503 MAL Server Error",
-                "properties": {
-                    "status": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "message": {
-                        "type": "string"
-                    }
-                },
-                "type": "object",
-                "example": {
-                    "status": "503",
-                    "message": "Issues in connecting to MAL Servers"
                 }
             },
             "Bucket": {
@@ -1732,21 +1667,63 @@
                         }
                     }
                 }
-            }
-        },
-        "examples": {
-            "ScaperConfigNotFound": {
-                "summary": "Scaper Configuration Not Found",
-                "value": {
-                    "status": 500,
-                    "message": "Web Scraper configuration not found"
+            },
+            "MalConfigErrorResponse": {
+                "description": "MAL Scraper Configuration Error Responses",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "examples": {
+                            "ScaperConfigNotFound": {
+                                "summary": "Scaper Configuration Not Found",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Web Scraper configuration not found"
+                                }
+                            },
+                            "ScraperDisabled": {
+                                "summary": "Scraper Disabled",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Web Scraper is disabled"
+                                }
+                            }
+                        }
+                    }
                 }
             },
-            "ScraperDisabled": {
-                "summary": "Scraper Disabled",
-                "value": {
-                    "status": 500,
-                    "message": "Web Scraper is disabled"
+            "MalServerErrorResponse": {
+                "description": "MAL Server Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 503,
+                            "message": "Issues in connecting to MAL Servers"
+                        }
+                    }
                 }
             }
         },
