@@ -178,7 +178,7 @@ class CodecController extends Controller {
    */
   public function editAudio(Request $request, $id): JsonResponse {
     try {
-      $this->codecRepository->addAudio($request->except(['_method']), $id);
+      $this->codecRepository->editAudio($request->except(['_method']), $id);
 
       return response()->json([
         'status' => 200,
