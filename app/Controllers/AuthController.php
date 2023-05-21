@@ -51,7 +51,7 @@ class AuthController extends Controller {
    *           "token": "alphanumeric token"
    *         }
    *       },
-   *       @OA\Property(property="status", type="number"),
+   *       @OA\Property(property="status", type="integer", format="int32"),
    *       @OA\Property(property="message", type="string"),
    *       @OA\Property(
    *         property="data",
@@ -125,7 +125,7 @@ class AuthController extends Controller {
    *           "token": "alphanumeric token"
    *         }
    *       },
-   *       @OA\Property(property="status", type="number"),
+   *       @OA\Property(property="status", type="integer", format="int32"),
    *       @OA\Property(property="message", type="string"),
    *       @OA\Property(
    *         property="data",
@@ -159,7 +159,7 @@ class AuthController extends Controller {
    *           },
    *         ),
    *       },
-   *       @OA\Property(property="status", type="number"),
+   *       @OA\Property(property="status", type="integer", format="int32"),
    *       @OA\Property(property="message", type="string"),
    *       @OA\Property(property="data", type="object"),
    *     )
