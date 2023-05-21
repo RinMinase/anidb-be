@@ -162,6 +162,20 @@ class CatalogController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
+   *   @OA\Parameter(
+   *     name="year",
+   *     in="query",
+   *     required=true,
+   *     example="2020",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="season",
+   *     in="query",
+   *     required=true,
+   *     example="Winter",
+   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
+   *   ),
    *
    *   @OA\Response(
    *     response=200,
