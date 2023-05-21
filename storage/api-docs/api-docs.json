@@ -882,6 +882,50 @@
                     }
                 ]
             }
+        },
+        "/api/qualities": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Qualities",
+                "operationId": "3d28e8a72e59e561df48780d83c44b6d",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Quality"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1095,6 +1139,29 @@
                     "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
                     "title": "Sample Title",
                     "priority": "High"
+                }
+            },
+            "Quality": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "quality": {
+                        "type": "string",
+                        "enum": [
+                            "4K 2160",
+                            "FHD 1080p",
+                            "HD 720p",
+                            "HQ 480p",
+                            "LQ 360p"
+                        ]
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "quality": "4K 2160p"
                 }
             }
         },

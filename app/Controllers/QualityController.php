@@ -14,30 +14,29 @@ class QualityController extends Controller {
     $this->qualityRepository = $qualityRepository;
   }
 
-
   /**
-   * @api {get} /api/qualities Retrieve all quality
-   * @apiName QualityRetrieve
-   * @apiGroup Qualities
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Object[]} data Quality Array
-   * @apiSuccess {Number} data.id Quality ID
-   * @apiSuccess {String} data.quality Quality description
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": [
-   *         {
-   *           "id": 1,
-   *           "quality": "4K 2160p"
-   *         }, { ... }
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Dropdowns"},
+   *   path="/api/qualities",
+   *   summary="Get All Qualities",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Quality"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
