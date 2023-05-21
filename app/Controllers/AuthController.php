@@ -60,16 +60,8 @@ class AuthController extends Controller {
    *       ),
    *     )
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
-   *   @OA\Response(
-   *     response=500,
-   *     description="Failed",
-   *     @OA\JsonContent(ref="#/components/schemas/Failed"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function register(RegisterRequest $request): JsonResponse {
@@ -199,16 +191,8 @@ class AuthController extends Controller {
    *   path="/api/auth/logout",
    *   summary="User Logout",
    *   security={{"token":{}}},
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function logout(): JsonResponse {
@@ -238,11 +222,7 @@ class AuthController extends Controller {
    *       @OA\Property(property="email", type="string"),
    *     )
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function getUser(): JsonResponse {

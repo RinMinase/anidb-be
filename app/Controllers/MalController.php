@@ -95,11 +95,7 @@ class MalController extends Controller {
    *     description="Success",
    *     @OA\JsonContent(ref="#/components/schemas/MALEntry"),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(
    *     response=500,
    *     description="Scaper Configuration Error",
@@ -157,11 +153,7 @@ class MalController extends Controller {
    *     description="Success",
    *     @OA\JsonContent(ref="#/components/schemas/MALSearch"),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(
    *     response=500,
    *     description="Scaper Configuration Error",

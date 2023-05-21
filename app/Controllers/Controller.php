@@ -27,36 +27,43 @@ class Controller extends BaseController {
 }
 
 /**
- * @OA\Schema(
- *   schema="Success",
- *   title="Default Success Response",
- *   example={"status": "200", "message": "Success"},
- *   @OA\Property(property="status", type="string"),
- *   @OA\Property(property="message", type="string"),
+ * @OA\Response(
+ *   response="Success",
+ *   description="Success",
+ *   @OA\JsonContent(
+ *     example={"status": 200, "message": "Success"},
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
  * )
  */
 class SuccessResponse {
 }
 
+
 /**
- * @OA\Schema(
- *   schema="Unauthorized",
- *   title="401 Forbidden Error Response",
- *   example={"status": "401", "message": "Unauthorized"},
- *   @OA\Property(property="status", type="string"),
- *   @OA\Property(property="message", type="string"),
+ * @OA\Response(
+ *   response="Unauthorized",
+ *   description="Unauthorized",
+ *   @OA\JsonContent(
+ *     example={"status": 401, "message": "Unauthorized"},
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
  * )
  */
 class UnauthorizedResponse {
 }
 
 /**
- * @OA\Schema(
- *   schema="Failed",
- *   title="500 Internal Server Error Response",
- *   example={"status": "500", "message": "Failed"},
- *   @OA\Property(property="status", type="string"),
- *   @OA\Property(property="message", type="string"),
+ * @OA\Response(
+ *   response="Failed",
+ *   description="Failed",
+ *   @OA\JsonContent(
+ *     example={"status": 500, "message": "Failed"},
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
  * )
  */
 class FailedResponse {

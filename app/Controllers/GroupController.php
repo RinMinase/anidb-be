@@ -35,11 +35,7 @@ class GroupController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function index(): JsonResponse {
@@ -61,11 +57,7 @@ class GroupController extends Controller {
    *       @OA\Property(property="data", type="array", @OA\Items(type="string")),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function getNames(): JsonResponse {
@@ -89,22 +81,8 @@ class GroupController extends Controller {
    *     @OA\Schema(type="string"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Group"),
-   *       ),
-   *     ),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function add(Request $request): JsonResponse {
@@ -146,16 +124,8 @@ class GroupController extends Controller {
    *     @OA\Schema(type="string"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
@@ -193,16 +163,8 @@ class GroupController extends Controller {
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function delete($uuid): JsonResponse {

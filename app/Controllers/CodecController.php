@@ -42,11 +42,7 @@ class CodecController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function index(): JsonResponse {
@@ -72,11 +68,7 @@ class CodecController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function getAudio(): JsonResponse {
@@ -106,16 +98,8 @@ class CodecController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function addAudio(Request $request): JsonResponse {
@@ -163,16 +147,8 @@ class CodecController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function editAudio(Request $request, $id): JsonResponse {
@@ -207,16 +183,8 @@ class CodecController extends Controller {
    *     @OA\Schema(type="integer", format="int64"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function deleteAudio($id): JsonResponse {
@@ -252,11 +220,7 @@ class CodecController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function getVideo(): JsonResponse {
@@ -286,16 +250,8 @@ class CodecController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function addVideo(Request $request): JsonResponse {
@@ -343,16 +299,8 @@ class CodecController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function editVideo(Request $request, $id): JsonResponse {
@@ -387,16 +335,8 @@ class CodecController extends Controller {
    *     @OA\Schema(type="integer", format="int64"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function deleteVideo($id): JsonResponse {

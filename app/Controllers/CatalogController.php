@@ -34,11 +34,7 @@ class CatalogController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function index(): JsonResponse {
@@ -79,11 +75,7 @@ class CatalogController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function get($uuid) {
@@ -119,16 +111,8 @@ class CatalogController extends Controller {
    *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function add(Request $request): JsonResponse {
@@ -177,16 +161,8 @@ class CatalogController extends Controller {
    *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function edit(Request $request, $id): JsonResponse {
@@ -221,16 +197,8 @@ class CatalogController extends Controller {
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Success"),
-   *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function delete($uuid): JsonResponse {

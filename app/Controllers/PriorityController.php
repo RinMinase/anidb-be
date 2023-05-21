@@ -31,11 +31,7 @@ class PriorityController extends Controller {
    *       ),
    *     ),
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Unauthorized",
-   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    * )
    */
   public function index(): JsonResponse {
