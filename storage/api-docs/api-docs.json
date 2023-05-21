@@ -50,7 +50,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "number"
+                                            "type": "integer",
+                                            "format": "int32"
                                         },
                                         "message": {
                                             "type": "string"
@@ -135,7 +136,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "number"
+                                            "type": "integer",
+                                            "format": "int32"
                                         },
                                         "message": {
                                             "type": "string"
@@ -168,7 +170,8 @@
                                 "schema": {
                                     "properties": {
                                         "status": {
-                                            "type": "number"
+                                            "type": "integer",
+                                            "format": "int32"
                                         },
                                         "message": {
                                             "type": "string"
@@ -1396,6 +1399,151 @@
                 ]
             }
         },
+        "/api/mal/{title_id}": {
+            "get": {
+                "tags": [
+                    "MAL"
+                ],
+                "summary": "Retrieve Title Information",
+                "operationId": "8288a9cc2f6563d6af24bc85953c1ebe",
+                "parameters": [
+                    {
+                        "name": "title_id",
+                        "in": "path",
+                        "description": "Title ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "39535"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MALEntry"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Scaper Configuration Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MalScraperConfigErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "MAL Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/mal/{query_string}": {
+            "get": {
+                "tags": [
+                    "MAL"
+                ],
+                "summary": "Query Titles",
+                "operationId": "8134f5865e7f2a3f41bf64cd7a2ad3fd",
+                "parameters": [
+                    {
+                        "name": "query_string",
+                        "in": "path",
+                        "description": "Title Search String",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "tensei"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MALSearch"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Scaper Configuration Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MalScraperConfigErrorResponse"
+                                },
+                                "examples": {
+                                    "ScaperConfigNotFound": {
+                                        "$ref": "#/components/examples/ScaperConfigNotFound"
+                                    },
+                                    "ScraperDisabled": {
+                                        "$ref": "#/components/examples/ScraperDisabled"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "MAL Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MalServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/priorities": {
             "get": {
                 "tags": [
@@ -1572,6 +1720,35 @@
                     }
                 }
             },
+            "MalScraperConfigErrorResponse": {
+                "title": "500 Scraper Configuration Error Responses",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "MalServerErrorResponse": {
+                "title": "503 MAL Server Error",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "status": "503",
+                    "message": "Issues in connecting to MAL Servers"
+                }
+            },
             "Bucket": {
                 "properties": {
                     "id": {
@@ -1717,6 +1894,55 @@
                     "created_at": "2020-01-01 00:00:00"
                 }
             },
+            "MALEntry": {
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "synonyms": {
+                        "type": "string"
+                    },
+                    "episodes": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "premiered": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "url": "https://example.com/",
+                    "title": "Sample Title",
+                    "synonyms": "Synonyms",
+                    "episodes": 100,
+                    "premiered": "Winter 2020"
+                }
+            },
+            "MALSearch": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "12345",
+                        "title": "Sample Title"
+                    }
+                ]
+            },
             "Partial": {
                 "properties": {
                     "id": {
@@ -1784,6 +2010,22 @@
                 "example": {
                     "id": 1,
                     "quality": "4K 2160p"
+                }
+            }
+        },
+        "examples": {
+            "ScaperConfigNotFound": {
+                "summary": "Scaper Configuration Not Found",
+                "value": {
+                    "status": 500,
+                    "message": "Web Scraper configuration not found"
+                }
+            },
+            "ScraperDisabled": {
+                "summary": "Scraper Disabled",
+                "value": {
+                    "status": 500,
+                    "message": "Web Scraper is disabled"
                 }
             }
         },

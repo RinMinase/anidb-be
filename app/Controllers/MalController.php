@@ -74,6 +74,44 @@ class MalController extends Controller {
    *       "message": "Issues in connecting to MAL Servers"
    *     }
    */
+  /**
+   * @OA\Get(
+   *   tags={"MAL"},
+   *   path="/api/mal/{title_id}",
+   *   summary="Retrieve Title Information",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="title_id",
+   *     description="Title ID",
+   *     in="path",
+   *     required=true,
+   *     example="39535",
+   *     @OA\Schema(type="integer", format="int64"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/MALEntry"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   *   @OA\Response(
+   *     response=500,
+   *     description="Scaper Configuration Error",
+   *     @OA\JsonContent(ref="#/components/schemas/MalScraperConfigErrorResponse"),
+   *   ),
+   *   @OA\Response(
+   *     response=503,
+   *     description="MAL Server Error",
+   *     @OA\JsonContent(ref="#/components/schemas/MalServerErrorResponse"),
+   *   ),
+   * )
+   */
   private function getAnime($id = 37430): JsonResponse {
     try {
       $response = Http::get($this->scrapeURI . '/anime/' . $id);
@@ -99,39 +137,54 @@ class MalController extends Controller {
   }
 
   /**
-   * @api {get} /api/mal/:query Query Titles
-   * @apiName QueryTitles
-   * @apiGroup MAL
+   * @OA\Get(
+   *   tags={"MAL"},
+   *   path="/api/mal/{query_string}",
+   *   summary="Query Titles",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} Authorization Token received from logging-in
-   * @apiParam {String} query Query string to match
+   *   @OA\Parameter(
+   *     name="query_string",
+   *     description="Title Search String",
+   *     in="path",
+   *     required=true,
+   *         example="tensei",
+   *     @OA\Schema(type="string"),
+   *   ),
    *
-   * @apiSuccess {Object[]} data MAL Title ID
-   * @apiSuccess {String} data.id MAL title id
-   * @apiSuccess {String} data.title Full title
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "37430",
-   *         "title": "Tensei shitara Slime Datta Ken",
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/MALSearch"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   *   @OA\Response(
+   *     response=500,
+   *     description="Scaper Configuration Error",
+   *     @OA\JsonContent(
+   *       ref="#/components/schemas/MalScraperConfigErrorResponse",
+   *       examples={
+   *         @OA\Examples(
+   *           example="ScaperConfigNotFound",
+   *           ref="#/components/examples/ScaperConfigNotFound",
+   *         ),
+   *         @OA\Examples(
+   *           example="ScraperDisabled",
+   *           ref="#/components/examples/ScraperDisabled",
+   *         ),
    *       },
-   *       {
-   *         "id": "8475",
-   *         "title": "Asura",
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError (Error 5xx) ServiceUnavailable There is no login token provided, or the login token provided is invalid
-   *
-   * @apiErrorExample ServiceUnavailable
-   *     HTTP/1.1 503 Forbidden
-   *     {
-   *       "status": 503,
-   *       "message": "Issues in connecting to MAL Servers"
-   *     }
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=503,
+   *     description="MAL Server Error",
+   *     @OA\JsonContent(ref="#/components/schemas/MalServerErrorResponse"),
+   *   ),
+   * )
    */
   private function searchAnime($query): JsonResponse {
     try {
@@ -156,4 +209,39 @@ class MalController extends Controller {
       ], 503);
     }
   }
+}
+
+/**
+ * @OA\Schema(
+ *   schema="MalScraperConfigErrorResponse",
+ *   title="500 Scraper Configuration Error Responses",
+ *   @OA\Property(property="status", type="string"),
+ *   @OA\Property(property="message", type="string"),
+ * )
+ *
+ * @OA\Examples(
+ *   summary="Scaper Configuration Not Found",
+ *   example="ScaperConfigNotFound",
+ *   value={"status": 500, "message": "Web Scraper configuration not found"},
+ * ),
+ *
+ * @OA\Examples(
+ *   summary="Scraper Disabled",
+ *   example="ScraperDisabled",
+ *   value={"status": 500, "message": "Web Scraper is disabled"},
+ * ),
+ */
+class MalScraperConfigErrorResponse {
+}
+
+/**
+ * @OA\Schema(
+ *   schema="MalServerErrorResponse",
+ *   title="503 MAL Server Error",
+ *   example={"status": "503", "message": "Issues in connecting to MAL Servers"},
+ *   @OA\Property(property="status", type="integer", format="int32"),
+ *   @OA\Property(property="message", type="string"),
+ * )
+ */
+class MalServerErrorResponse {
 }

@@ -4,6 +4,19 @@ namespace App\Models;
 
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * @OA\Schema(
+ *   example={{
+ *     "id": "12345",
+ *     "title": "Sample Title",
+ *   }},
+ *   type="array",
+ *   @OA\Items(
+ *     @OA\Property(property="id", type="string"),
+ *     @OA\Property(property="title", type="string"),
+ *   ),
+ * )
+ */
 class MALSearch {
 
   private $results;
