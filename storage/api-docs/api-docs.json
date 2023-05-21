@@ -521,6 +521,31 @@
                             "format": "uuid"
                         },
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": "2020"
+                    },
+                    {
+                        "name": "season",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Winter",
+                                "Spring",
+                                "Summer",
+                                "Fall"
+                            ]
+                        },
+                        "example": "Winter"
                     }
                 ],
                 "responses": {
@@ -602,7 +627,7 @@
         "/api/codecs": {
             "get": {
                 "tags": [
-                    "Dropdowns"
+                    "Codec"
                 ],
                 "summary": "Get All Codecs",
                 "operationId": "e0c231e244a324da7fa9837fe561cc2c",
@@ -657,7 +682,7 @@
         "/api/codecs/audio": {
             "get": {
                 "tags": [
-                    "Dropdowns"
+                    "Codec"
                 ],
                 "summary": "Get All Audio Codecs",
                 "operationId": "0a525c027792c43d27bfb8afa6a455fd",
@@ -676,6 +701,174 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Codec"
+                ],
+                "summary": "Add an Audio Codec",
+                "operationId": "abf83d64014d56f89132113c8c1c0417",
+                "parameters": [
+                    {
+                        "name": "codec",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample Codec"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/codecs/audio/{audio_codec_id}": {
+            "put": {
+                "tags": [
+                    "Codec"
+                ],
+                "summary": "Edit an Audio Codec",
+                "operationId": "62b34b01fcc30f147780312aa23c4504",
+                "parameters": [
+                    {
+                        "name": "audio_codec_id",
+                        "in": "path",
+                        "description": "Audio Codec ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "codec",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample Codec"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Codec"
+                ],
+                "summary": "Delete an Audio Codec",
+                "operationId": "2bdf95a30a93dcf0e0e7eea8b6cef18f",
+                "parameters": [
+                    {
+                        "name": "audio_codec_id",
+                        "in": "path",
+                        "description": "Audio Codec ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Success"
                                 }
                             }
                         }
@@ -901,6 +1094,15 @@
                             "format": "uuid"
                         },
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample Group Name"
                     }
                 ],
                 "responses": {

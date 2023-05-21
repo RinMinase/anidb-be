@@ -18,7 +18,7 @@ class CodecController extends Controller {
 
   /**
    * @OA\Get(
-   *   tags={"Dropdowns"},
+   *   tags={"Codec"},
    *   path="/api/codecs",
    *   summary="Get All Codecs",
    *   security={{"token":{}}},
@@ -57,7 +57,7 @@ class CodecController extends Controller {
 
   /**
    * @OA\Get(
-   *   tags={"Dropdowns"},
+   *   tags={"Codec"},
    *   path="/api/codecs/audio",
    *   summary="Get All Audio Codecs",
    *   security={{"token":{}}},
@@ -85,6 +85,39 @@ class CodecController extends Controller {
     ]);
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Codec"},
+   *   path="/api/codecs/audio",
+   *   summary="Add an Audio Codec",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="codec",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Codec",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="order",
+   *     in="query",
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function addAudio(Request $request): JsonResponse {
     try {
       $this->codecRepository->addAudio($request->all());
@@ -101,6 +134,48 @@ class CodecController extends Controller {
     }
   }
 
+
+  /**
+   * @OA\Put(
+   *   tags={"Codec"},
+   *   path="/api/codecs/audio/{audio_codec_id}",
+   *   summary="Edit an Audio Codec",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="audio_codec_id",
+   *     description="Audio Codec ID",
+   *     in="path",
+   *     required=true,
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int64"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="codec",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Codec",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="order",
+   *     in="query",
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function editAudio(Request $request, $id): JsonResponse {
     try {
       $this->codecRepository->addAudio($request->except(['_method']), $id);
@@ -117,6 +192,34 @@ class CodecController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Codec"},
+   *   path="/api/codecs/audio/{audio_codec_id}",
+   *   summary="Delete an Audio Codec",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="audio_codec_id",
+   *     description="Audio Codec ID",
+   *     in="path",
+   *     required=true,
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int64"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function deleteAudio($id): JsonResponse {
     try {
       $this->codecRepository->deleteAudio($id);
