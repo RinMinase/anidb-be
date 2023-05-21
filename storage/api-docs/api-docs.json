@@ -599,6 +599,149 @@
                 ]
             }
         },
+        "/api/codecs": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Codecs",
+                "operationId": "e0c231e244a324da7fa9837fe561cc2c",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "audio": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/CodecAudio"
+                                                    }
+                                                },
+                                                "video": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/CodecVideo"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/codecs/audio": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Audio Codecs",
+                "operationId": "0a525c027792c43d27bfb8afa6a455fd",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CodecAudio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/codecs/video": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Video Codecs",
+                "operationId": "4dd26c319592446b65eba6cc3d097957",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CodecVideo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/groups": {
             "get": {
                 "tags": [
@@ -883,6 +1026,50 @@
                 ]
             }
         },
+        "/api/priorities": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Priorities",
+                "operationId": "4ab155e8676f5515a4048f4653a12c74",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Priority"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unauthorized"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/qualities": {
             "get": {
                 "tags": [
@@ -1067,6 +1254,50 @@
                     "season": "Winter"
                 }
             },
+            "CodecAudio": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "codec": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "codec": "AAC 2.0",
+                    "order": null
+                }
+            },
+            "CodecVideo": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "codec": {
+                        "type": "string"
+                    },
+                    "order": {
+                        "type": "integer",
+                        "format": "int32",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "codec": "x264 8bit",
+                    "order": null
+                }
+            },
             "Group": {
                 "properties": {
                     "uuid": {
@@ -1138,6 +1369,27 @@
                 "example": {
                     "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
                     "title": "Sample Title",
+                    "priority": "High"
+                }
+            },
+            "Priority": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "High",
+                            "Normal",
+                            "Low"
+                        ]
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
                     "priority": "High"
                 }
             },

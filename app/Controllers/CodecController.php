@@ -16,39 +16,38 @@ class CodecController extends Controller {
     $this->codecRepository = $codecRepository;
   }
 
-
   /**
-   * @api {get} /api/codecs Retrieve all codecs
-   * @apiName CodecRetrieve
-   * @apiGroup Codecs
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Object[]} data.audio Audio Codec Array
-   * @apiSuccess {Number} data.audio.id Audio Codec ID
-   * @apiSuccess {String} data.audio.codec Audio Codec description
-   * @apiSuccess {Object[]} data.video Video Codec Array
-   * @apiSuccess {Number} data.video.id Video Codec ID
-   * @apiSuccess {String} data.video.codec Video Codec description
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "audio": [
-   *         {
-   *           "id": 1,
-   *           "codec": "AAC 2.0"
-   *         }, { ... }
-   *       ]
-   *       "video": [
-   *         {
-   *           "id": 1,
-   *           "codec": "x264 8bit"
-   *         }, { ... }
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Dropdowns"},
+   *   path="/api/codecs",
+   *   summary="Get All Codecs",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="object",
+   *         @OA\Property(
+   *           property="audio",
+   *           type="array",
+   *           @OA\Items(ref="#/components/schemas/CodecAudio"),
+   *         ),
+   *         @OA\Property(
+   *           property="video",
+   *           type="array",
+   *           @OA\Items(ref="#/components/schemas/CodecVideo"),
+   *         ),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
@@ -56,6 +55,30 @@ class CodecController extends Controller {
     ]);
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"Dropdowns"},
+   *   path="/api/codecs/audio",
+   *   summary="Get All Audio Codecs",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/CodecAudio"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function getAudio(): JsonResponse {
     return response()->json([
       'data' => $this->codecRepository->getAudio(),
@@ -110,6 +133,30 @@ class CodecController extends Controller {
     }
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"Dropdowns"},
+   *   path="/api/codecs/video",
+   *   summary="Get All Video Codecs",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/CodecVideo"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function getVideo(): JsonResponse {
     return response()->json([
       'data' => $this->codecRepository->getVideo(),
