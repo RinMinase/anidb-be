@@ -138,6 +138,13 @@ class GroupController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
+   *   @OA\Parameter(
+   *     name="name",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Group Name",
+   *     @OA\Schema(type="string"),
+   *   ),
    *
    *   @OA\Response(
    *     response=200,
