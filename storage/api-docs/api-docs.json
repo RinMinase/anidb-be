@@ -1293,6 +1293,181 @@
                     }
                 ]
             }
+        },
+        "/api/changelog/{limit}": {
+            "get": {
+                "tags": [
+                    "Release"
+                ],
+                "summary": "Retrieve Frontend Changlog",
+                "operationId": "475af39d70c052b37fc90b56105f6010",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Changelog Count Limit",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 20
+                        },
+                        "example": "20"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "changes_{{date}}": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "string"
+                                                },
+                                                "dep": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                },
+                                                "fix": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                },
+                                                "new": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                },
+                                                "improve": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ReleaseConfigErrorResponse"
+                    }
+                },
+                "deprecated": true,
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/changelog-be/{limit}": {
+            "get": {
+                "tags": [
+                    "Release"
+                ],
+                "summary": "Retrieve Backend Changlog",
+                "operationId": "6df00955bfd80e3904bcc4eb39048e64",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Changelog Count Limit",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 20
+                        },
+                        "example": "20"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "changes_{{date}}": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "string"
+                                                },
+                                                "dep": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                },
+                                                "fix": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                },
+                                                "new": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                },
+                                                "improve": {
+                                                    "$ref": "#/components/schemas/ChangelogItem"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ReleaseConfigErrorResponse"
+                    }
+                },
+                "deprecated": true,
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/issues/{limit}": {
+            "get": {
+                "tags": [
+                    "Release"
+                ],
+                "summary": "Retrieve GitHub Issues",
+                "operationId": "734a8bb4c61c33ecc0cfa7a9fd26d6ab",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Issue Count Limit",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 100
+                        },
+                        "example": "100"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ReleaseConfigErrorResponse"
+                    }
+                },
+                "deprecated": true,
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1333,6 +1508,45 @@
                         "has_next": true
                     }
                 }
+            },
+            "ChangelogItem": {
+                "description": "Changelog Item",
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "date": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string",
+                            "format": "email"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "message": {
+                            "type": "string"
+                        },
+                        "module": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "date": "Jan 01, 2020 00:00",
+                        "email": "sample@mail.com",
+                        "name": "Owner",
+                        "message": "updated sub-dependencies",
+                        "module": "module-name",
+                        "url": "{{ GitHub commit URL }}"
+                    }
+                ]
             },
             "Bucket": {
                 "properties": {
@@ -1722,6 +1936,41 @@
                         "example": {
                             "status": 503,
                             "message": "Issues in connecting to MAL Servers"
+                        }
+                    }
+                }
+            },
+            "ReleaseConfigErrorResponse": {
+                "description": "Release URL Configuration Error Responses",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "examples": {
+                            "ReleaseUrlConfigNotFound": {
+                                "summary": "Release URL Not Found",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Release URL configuration not found"
+                                }
+                            },
+                            "ReleaseScraperDisabled": {
+                                "summary": "Release Scraper Disabled",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Release URL / Web Scraper is disabled"
+                                }
+                            }
                         }
                     }
                 }

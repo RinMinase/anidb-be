@@ -19,42 +19,39 @@ class ReleaseController extends Controller {
   }
 
   /**
-   * @api {get} /api/changelog/:limit? Front-end Changelog
-   * @apiName ChangelogFE
-   * @apiGroup Release
+   * @OA\Get(
+   *   tags={"Release"},
+   *   path="/api/changelog/{limit}",
+   *   summary="Retrieve Frontend Changlog",
+   *   security={{"token":{}}},
+   *   deprecated=true,
    *
-   * @apiHeader {String} Authorization Token received from logging-in
-   * @apiParam {String} limit Page Limit (Optional)
+   *   @OA\Parameter(
+   *     name="limit",
+   *     description="Changelog Count Limit",
+   *     in="query",
+   *     example="20",
+   *     @OA\Schema(type="integer", format="int64", default=20),
+   *   ),
    *
-   * @apiSuccess {Array} dep Dependencies type of changes
-   * @apiSuccess {Array} fix Fix type of changes
-   * @apiSuccess {Array} new New type of changes
-   * @apiSuccess {Array} improve Improvement type of changes
-   * @apiSuccess {String} title Date of changelist
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       "changes_{{date}}": {
-   *         dep: [
-   *           {
-   *             date: "Jan 01, 2020 00:00"
-   *             email: "sample@mail.com"
-   *             name: "Owner"
-   *             message: "updated sub-dependencies"
-   *             module: ""
-   *             url: "{{ GitHub commit URL }}"
-   *           }
-   *         ],
-   *         fix: [],
-   *         new: [],
-   *         improve: [],
-   *         title: "Jan 01, 2020",
-   *       },
-   *       "changes_{{date}}": { ... },
-   *     ]
-   *
-   * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="changes_{{date}}",
+   *         type="object",
+   *         @OA\Property(property="title", type="string"),
+   *         @OA\Property(property="dep", ref="#/components/schemas/ChangelogItem"),
+   *         @OA\Property(property="fix", ref="#/components/schemas/ChangelogItem"),
+   *         @OA\Property(property="new", ref="#/components/schemas/ChangelogItem"),
+   *         @OA\Property(property="improve", ref="#/components/schemas/ChangelogItem"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/ReleaseConfigErrorResponse"),
+   * )
    */
   public function getLogs($limit = 20): JsonResponse {
     if ($this->isScraperEnabled()) {
@@ -72,42 +69,39 @@ class ReleaseController extends Controller {
   }
 
   /**
-   * @api {get} /api/changelog-be/:limit? Back-end Changelog
-   * @apiName ChangelogBE
-   * @apiGroup Release
+   * @OA\Get(
+   *   tags={"Release"},
+   *   path="/api/changelog-be/{limit}",
+   *   summary="Retrieve Backend Changlog",
+   *   security={{"token":{}}},
+   *   deprecated=true,
    *
-   * @apiHeader {String} Authorization Token received from logging-in
-   * @apiParam {String} limit Page Limit (Optional)
+   *   @OA\Parameter(
+   *     name="limit",
+   *     description="Changelog Count Limit",
+   *     in="query",
+   *     example="20",
+   *     @OA\Schema(type="integer", format="int64", default=20),
+   *   ),
    *
-   * @apiSuccess {Array} dep Dependencies type of changes
-   * @apiSuccess {Array} fix Fix type of changes
-   * @apiSuccess {Array} new New type of changes
-   * @apiSuccess {Array} improve Improvement type of changes
-   * @apiSuccess {String} title Date of changelist
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       "changes_{{date}}": {
-   *         dep: [
-   *           {
-   *             date: "Jan 01, 2020 00:00"
-   *             email: "sample@mail.com"
-   *             name: "Owner"
-   *             message: "updated sub-dependencies"
-   *             module: ""
-   *             url: "{{ GitHub commit URL }}"
-   *           }
-   *         ],
-   *         fix: [],
-   *         new: [],
-   *         improve: [],
-   *         title: "Jan 01, 2020",
-   *       },
-   *       "changes_{{date}}": { ... },
-   *     ]
-   *
-   * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="changes_{{date}}",
+   *         type="object",
+   *         @OA\Property(property="title", type="string"),
+   *         @OA\Property(property="dep", ref="#/components/schemas/ChangelogItem"),
+   *         @OA\Property(property="fix", ref="#/components/schemas/ChangelogItem"),
+   *         @OA\Property(property="new", ref="#/components/schemas/ChangelogItem"),
+   *         @OA\Property(property="improve", ref="#/components/schemas/ChangelogItem"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/ReleaseConfigErrorResponse"),
+   * )
    */
   public function getLogsBE($limit = 20): JsonResponse {
     if ($this->isScraperEnabled()) {
@@ -125,40 +119,55 @@ class ReleaseController extends Controller {
   }
 
   /**
-   * @api {get} /api/issues/:limit? Issues List
-   * @apiName Issues
-   * @apiGroup Release
+   * @OA\Get(
+   *   tags={"Release"},
+   *   path="/api/issues/{limit}",
+   *   summary="Retrieve GitHub Issues",
+   *   security={{"token":{}}},
+   *   deprecated=true,
    *
-   * @apiHeader {String} Authorization Token received from logging-in
-   * @apiParam {String} limit Page Limit (Optional)
+   *   @OA\Parameter(
+   *     name="limit",
+   *     description="Issue Count Limit",
+   *     in="query",
+   *     example="100",
+   *     @OA\Schema(type="integer", format="int64", default=100),
+   *   ),
    *
-   * @apiSuccess {String} date Date of posted issue
-   * @apiSuccess {Array} labels Issue labels
-   * @apiSuccess {Number} number Issue number
-   * @apiSuccess {String} title Issue title
-   * @apiSuccess {String} url GitHub issue URL
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         date: "Jan 01, 2020",
-   *         labels: [
-   *           {
-   *             class: "type-enhancement"
-   *             name: "ENHANCEMENT"
-   *           }, {
-   *             class: "type-priority-high"
-   *             name: "HIGH"
-   *           },
-   *         ],
-   *         number: 100,
-   *         title: "This is a sample issue title",
-   *         url: {{ GitHub issue URL }},
-   *       }, { ... },
-   *     }
-   *
-   * @apiError Unauthorized There is no api-key provided, or the api-key provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\Schema(
+   *       example={{
+   *         "date": "Jan 01, 2020",
+   *         "number": 100,
+   *         "title": "This is a sample issue title",
+   *         "url": "{{ GitHub issue URL }}",
+   *         "labels": {{
+   *           "class": "type-enhancement",
+   *           "name": "ENHANCEMENT",
+   *         }},
+   *       }},
+   *       type="array",
+   *       @OA\Items(
+   *         @OA\Property(property="date", type="string"),
+   *         @OA\Property(property="number", type="interger", format="int32"),
+   *         @OA\Property(property="title", type="string"),
+   *         @OA\Property(property="url", type="string", format="uri"),
+   *         @OA\Property(
+   *           property="labels",
+   *           type="array",
+   *           @OA\Items(
+   *             @OA\Property(property="class", type="string"),
+   *             @OA\Property(property="name", type="string"),
+   *           ),
+   *         ),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/ReleaseConfigErrorResponse"),
+   * )
    */
   public function getIssues($limit = 100): JsonResponse {
     if ($this->isScraperEnabled()) {
@@ -176,6 +185,28 @@ class ReleaseController extends Controller {
     }
   }
 
+  /**
+   * @OA\Response(
+   *   response="ReleaseConfigErrorResponse",
+   *   description="Release URL Configuration Error Responses",
+   *   @OA\JsonContent(
+   *     examples={
+   *       @OA\Examples(
+   *         summary="Release URL Not Found",
+   *         example="ReleaseUrlConfigNotFound",
+   *         value={"status": 500, "message": "Release URL configuration not found"},
+   *       ),
+   *       @OA\Examples(
+   *         summary="Release Scraper Disabled",
+   *         example="ReleaseScraperDisabled",
+   *         value={"status": 500, "message": "Release URL / Web Scraper is disabled"},
+   *       ),
+   *     },
+   *     @OA\Property(property="status", type="integer", format="int32"),
+   *     @OA\Property(property="message", type="string"),
+   *   ),
+   * )
+   */
   private function isScraperEnabled() {
     if (!env('DISABLE_SCRAPER')) {
       if (env('RELEASE_BASE_URI')) {
@@ -194,6 +225,29 @@ class ReleaseController extends Controller {
     }
   }
 
+  /**
+   * @OA\Schema(
+   *   schema="ChangelogItem",
+   *   description="Changelog Item",
+   *   example={{
+   *     "date": "Jan 01, 2020 00:00",
+   *     "email": "sample@mail.com",
+   *     "name": "Owner",
+   *     "message": "updated sub-dependencies",
+   *     "module": "module-name",
+   *     "url": "{{ GitHub commit URL }}",
+   *   }},
+   *   type="array",
+   *   @OA\Items(
+   *     @OA\Property(property="date", type="string"),
+   *     @OA\Property(property="email", type="string", format="email"),
+   *     @OA\Property(property="name", type="string"),
+   *     @OA\Property(property="message", type="string"),
+   *     @OA\Property(property="module", type="string"),
+   *     @OA\Property(property="url", type="string", format="uri"),
+   *   ),
+   * )
+   */
   private function parseChangelog($data) {
     $changelog = json_decode($data);
     $data = [];
