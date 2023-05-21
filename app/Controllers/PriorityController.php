@@ -14,30 +14,29 @@ class PriorityController extends Controller {
     $this->priorityRepository = $priorityRepository;
   }
 
-
   /**
-   * @api {get} /api/qualities Retrieve all priorities
-   * @apiName PriorityRetrieve
-   * @apiGroup Priorities
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Object[]} data Priority Array
-   * @apiSuccess {Number} data.id Priority ID
-   * @apiSuccess {String} data.priority Priority description
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": [
-   *         {
-   *           "id": 1,
-   *           "priority": "High"
-   *         }, { ... }
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Dropdowns"},
+   *   path="/api/priorities",
+   *   summary="Get All Priorities",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Priority"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
