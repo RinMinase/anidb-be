@@ -134,7 +134,6 @@ class CodecController extends Controller {
     }
   }
 
-
   /**
    * @OA\Put(
    *   tags={"Codec"},
@@ -238,7 +237,7 @@ class CodecController extends Controller {
 
   /**
    * @OA\Get(
-   *   tags={"Dropdowns"},
+   *   tags={"Codec"},
    *   path="/api/codecs/video",
    *   summary="Get All Video Codecs",
    *   security={{"token":{}}},
@@ -266,6 +265,39 @@ class CodecController extends Controller {
     ]);
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Codec"},
+   *   path="/api/codecs/video",
+   *   summary="Add a Video Codec",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="codec",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Codec",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="order",
+   *     in="query",
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function addVideo(Request $request): JsonResponse {
     try {
       $this->codecRepository->addVideo($request->all());
@@ -282,6 +314,47 @@ class CodecController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Codec"},
+   *   path="/api/codecs/video/{video_codec_id}",
+   *   summary="Edit a Video Codec",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="video_codec_id",
+   *     description="Video Codec ID",
+   *     in="path",
+   *     required=true,
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int64"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="codec",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Codec",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="order",
+   *     in="query",
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function editVideo(Request $request, $id): JsonResponse {
     try {
       $this->codecRepository->editVideo($request->except(['_method']), $id);
@@ -298,6 +371,34 @@ class CodecController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Codec"},
+   *   path="/api/codecs/video/{video_codec_id}",
+   *   summary="Delete an Video Codec",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="video_codec_id",
+   *     description="Video Codec ID",
+   *     in="path",
+   *     required=true,
+   *     example="1",
+   *     @OA\Schema(type="integer", format="int64"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/Success"),
+   *   ),
+   *   @OA\Response(
+   *     response=401,
+   *     description="Unauthorized",
+   *     @OA\JsonContent(ref="#/components/schemas/Unauthorized"),
+   *   ),
+   * )
+   */
   public function deleteVideo($id): JsonResponse {
     try {
       $this->codecRepository->deleteVideo($id);
