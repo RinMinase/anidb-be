@@ -50,6 +50,7 @@ class RssItem extends Model {
    */
   protected $hidden = [
     'id',
+    'id_rss',
     'updated_at',
   ];
 
