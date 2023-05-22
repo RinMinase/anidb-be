@@ -63,11 +63,7 @@ class CatalogController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Partial"),
-   *       ),
+   *       @OA\Property(property="data", ref="#/components/schemas/PartialCollection"),
    *       @OA\Property(
    *         property="stats",
    *         type="object",

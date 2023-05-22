@@ -413,10 +413,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Partial"
-                                            }
+                                            "$ref": "#/components/schemas/PartialCollection"
                                         },
                                         "stats": {
                                             "$ref": "#/components/schemas/Catalog"
@@ -2234,31 +2231,6 @@
                     }
                 ]
             },
-            "Partial": {
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "priority": {
-                        "type": "string",
-                        "enum": [
-                            "High",
-                            "Normal",
-                            "Low"
-                        ]
-                    }
-                },
-                "type": "object",
-                "example": {
-                    "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                    "title": "Sample Title",
-                    "priority": "High"
-                }
-            },
             "Priority": {
                 "properties": {
                     "id": {
@@ -2692,6 +2664,36 @@
                     },
                     "image": "{{ image url }}"
                 }
+            },
+            "PartialCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "priority": {
+                            "type": "string",
+                            "enum": [
+                                "High",
+                                "Normal",
+                                "Low"
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                        "title": "Sample Title",
+                        "priority": "High"
+                    }
+                ]
             },
             "RssCollection": {
                 "type": "array",
