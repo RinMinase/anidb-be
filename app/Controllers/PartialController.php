@@ -20,32 +20,6 @@ class PartialController extends Controller {
     $this->partialRepository = $partialRepository;
   }
 
-
-  /**
-   * @api {get} /api/partials/:uuid Retrieve Partials in Catalog
-   * @apiName RetrievePartials
-   * @apiGroup Partial
-   *
-   * @apiHeader {String} token User login token
-   * @apiParam {String} uuid Catalog UUID.
-   *
-   * @apiSuccess {Object[]} data Partials data in Catalog
-   * @apiSuccess {UUID} data.uuid Partial ID
-   * @apiSuccess {String} data.title Partial title
-   * @apiSuccess {Number} data.id_priority Partial priority
-   * @apiSuccess {UUID} data.id_catalogs Partial catalog
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "uuid": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *       "title": "Title",
-   *       "id_priority": 2,
-   *       "id_catalogs": "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   */
   public function index($uuid) {
     try {
       return response()->json([
@@ -59,6 +33,39 @@ class PartialController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Catalog"},
+   *   path="/api/partials",
+   *   summary="Add a Partial Entry",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="title",
+   *     in="query",
+   *     required=true,
+   *     example="Partial Title",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="id_catalogs",
+   *     in="query",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="id_priority",
+   *     in="query",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function add(AddRequest $request): JsonResponse {
     try {
       $this->partialRepository->add($request->all());
@@ -113,6 +120,46 @@ class PartialController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Catalog"},
+   *   path="/api/partials/{partial_id}",
+   *   summary="Edit a Partial Entry",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="partial_id",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="title",
+   *     in="query",
+   *     required=true,
+   *     example="Partial Title",
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="id_catalogs",
+   *     in="query",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="id_priority",
+   *     in="query",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function edit(EditRequest $request, $uuid): JsonResponse {
     try {
       $body = $request->only('title', 'id_catalogs', 'id_priority');
@@ -173,6 +220,25 @@ class PartialController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Catalog"},
+   *   path="/api/partials/{partial_id}",
+   *   summary="Delete a Partial Entry",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="partial_id",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function delete($uuid): JsonResponse {
     try {
       $this->partialRepository->delete($uuid);
