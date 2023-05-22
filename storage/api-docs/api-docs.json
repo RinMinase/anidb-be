@@ -318,7 +318,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/components/schemas/Catalog"
+                                                "$ref": "#/components/schemas/CatalogCollection"
                                             }
                                         }
                                     },
@@ -2061,10 +2061,6 @@
             },
             "Catalog": {
                 "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
                     "year": {
                         "type": "integer",
                         "format": "int32"
@@ -2081,7 +2077,6 @@
                 },
                 "type": "object",
                 "example": {
-                    "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
                     "year": 2020,
                     "season": "Winter"
                 }
@@ -2280,6 +2275,38 @@
                     "is_bookmarked": true,
                     "created_at": "2023-05-21 21:05:57"
                 }
+            },
+            "CatalogCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "year": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "season": {
+                            "type": "string",
+                            "enum": [
+                                "Winter",
+                                "Spring",
+                                "Summer",
+                                "Fall"
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                        "year": 2020,
+                        "season": "Winter"
+                    }
+                ]
             },
             "EntryCollection": {
                 "type": "array",
