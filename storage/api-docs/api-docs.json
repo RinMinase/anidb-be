@@ -1608,6 +1608,69 @@
                         "token": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Add an RSS Feed",
+                "operationId": "e9d606650d5e381c31b3aa515bf4a85c",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample RSS Feed"
+                    },
+                    {
+                        "name": "update_speed_mins",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 60
+                        },
+                        "example": 60
+                    },
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "example": "https://example.com/"
+                    },
+                    {
+                        "name": "max_items",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 250
+                        },
+                        "example": 250
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/rss/{rss_feed_id}": {
@@ -1643,6 +1706,249 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Edit an RSS Feed",
+                "operationId": "ca713cf5233cc5e54c78247af00859bf",
+                "parameters": [
+                    {
+                        "name": "rss_feed_id",
+                        "in": "path",
+                        "description": "RSS Feed ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample RSS Feed"
+                    },
+                    {
+                        "name": "update_speed_mins",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 60
+                        },
+                        "example": 60
+                    },
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "example": "https://example.com/"
+                    },
+                    {
+                        "name": "max_items",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 250
+                        },
+                        "example": 250
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Delete an RSS Feed",
+                "operationId": "2a4eb38d444a4fdf8bec12f90cb03c5e",
+                "parameters": [
+                    {
+                        "name": "rss_feed_id",
+                        "in": "path",
+                        "description": "RSS Feed ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/rss/read/{rss_item_id}": {
+            "post": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Mark an RSS Item as Read",
+                "operationId": "6ae4f92766bc325f7eaf411ecc75ed19",
+                "parameters": [
+                    {
+                        "name": "rss_item_id",
+                        "in": "path",
+                        "description": "RSS Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Mark an RSS Item as Unread",
+                "operationId": "4caaad8d8fcfd8ef9bbd17476af2ede9",
+                "parameters": [
+                    {
+                        "name": "rss_item_id",
+                        "in": "path",
+                        "description": "RSS Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/rss/bookmark/{rss_item_id}": {
+            "post": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Bookmark an RSS Item",
+                "operationId": "480ded85953cf2efadf979e294ae3b90",
+                "parameters": [
+                    {
+                        "name": "rss_item_id",
+                        "in": "path",
+                        "description": "RSS Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Delete an RSS Item from Bookmarks",
+                "operationId": "50bddabe4dbab5765f57d5fd716aa917",
+                "parameters": [
+                    {
+                        "name": "rss_item_id",
+                        "in": "path",
+                        "description": "RSS Item ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"

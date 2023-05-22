@@ -86,6 +86,46 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"RSS"},
+   *   path="/api/rss",
+   *   summary="Add an RSS Feed",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="title",
+   *     in="query",
+   *     required=true,
+   *     example="Sample RSS Feed",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="update_speed_mins",
+   *     in="query",
+   *     required=true,
+   *     example=60,
+   *     @OA\Schema(type="integer", format="int32", default=60),
+   *   ),
+   *   @OA\Parameter(
+   *     name="url",
+   *     in="query",
+   *     required=true,
+   *     example="https://example.com/",
+   *     @OA\Schema(type="string", format="uri"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="max_items",
+   *     in="query",
+   *     required=true,
+   *     example=250,
+   *     @OA\Schema(type="integer", format="int32", default=250),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function add(Request $request): JsonResponse {
     try {
       $this->rssRepository->add($request->all());
@@ -102,6 +142,54 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"RSS"},
+   *   path="/api/rss/{rss_feed_id}",
+   *   summary="Edit an RSS Feed",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_feed_id",
+   *     description="RSS Feed ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="title",
+   *     in="query",
+   *     required=true,
+   *     example="Sample RSS Feed",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="update_speed_mins",
+   *     in="query",
+   *     required=true,
+   *     example=60,
+   *     @OA\Schema(type="integer", format="int32", default=60),
+   *   ),
+   *   @OA\Parameter(
+   *     name="url",
+   *     in="query",
+   *     required=true,
+   *     example="https://example.com/",
+   *     @OA\Schema(type="string", format="uri"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="max_items",
+   *     in="query",
+   *     required=true,
+   *     example=250,
+   *     @OA\Schema(type="integer", format="int32", default=250),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function edit(Request $request, $uuid): JsonResponse {
     try {
       $this->rssRepository->edit($request->except(['_method']), $uuid);
@@ -118,6 +206,26 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"RSS"},
+   *   path="/api/rss/{rss_feed_id}",
+   *   summary="Delete an RSS Feed",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_feed_id",
+   *     description="RSS Feed ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function delete($uuid): JsonResponse {
     try {
       $this->rssRepository->delete($uuid);
@@ -134,6 +242,26 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"RSS"},
+   *   path="/api/rss/read/{rss_item_id}",
+   *   summary="Mark an RSS Item as Read",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_item_id",
+   *     description="RSS Item ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function read($uuid): JsonResponse {
     try {
       $this->rssRepository->read($uuid);
@@ -150,6 +278,26 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"RSS"},
+   *   path="/api/rss/read/{rss_item_id}",
+   *   summary="Mark an RSS Item as Unread",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_item_id",
+   *     description="RSS Item ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function unread($uuid): JsonResponse {
     try {
       $this->rssRepository->unread($uuid);
@@ -166,6 +314,26 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"RSS"},
+   *   path="/api/rss/bookmark/{rss_item_id}",
+   *   summary="Bookmark an RSS Item",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_item_id",
+   *     description="RSS Item ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function bookmark($uuid): JsonResponse {
     try {
       $this->rssRepository->bookmark($uuid);
@@ -182,6 +350,26 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"RSS"},
+   *   path="/api/rss/bookmark/{rss_item_id}",
+   *   summary="Delete an RSS Item from Bookmarks",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_item_id",
+   *     description="RSS Item ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function removeBookmark($uuid): JsonResponse {
     try {
       $this->rssRepository->removeBookmark($uuid);
