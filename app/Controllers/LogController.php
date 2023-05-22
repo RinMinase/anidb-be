@@ -25,11 +25,7 @@ class LogController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Log"),
-   *       ),
+   *       @OA\Property(property="data", ref="#/components/schemas/LogCollection"),
    *       @OA\Property(
    *         property="meta",
    *         type="object",
