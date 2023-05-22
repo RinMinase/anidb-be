@@ -2,7 +2,7 @@
     "name": "rin-anidb/anidb-be",
     "description": "Rin Minase's AniDB API Service utilizing Laravel deployed to Heroku",
     "type": "project",
-    "license": "MIT",
+    "license": "ISC",
     "keywords": [
         "laravel",
         "docker",
