@@ -102,7 +102,7 @@ class MalController extends Controller {
    *     description="Title Search String",
    *     in="path",
    *     required=true,
-   *         example="tensei",
+   *     example="tensei",
    *     @OA\Schema(type="string"),
    *   ),
    *
