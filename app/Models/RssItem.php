@@ -4,6 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *   example={
+ *     "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+ *     "title": "Item 4",
+ *     "link": "{{ rss item link }}",
+ *     "guid": "{{ rss item guid link }}",
+ *     "date": "2022-01-04 00:01:00",
+ *     "is_read": false,
+ *     "is_bookmarked": true,
+ *     "created_at": "2023-05-21 21:05:57"
+ *   },
+ *   @OA\Property(property="uuid", type="string", format="uuid"),
+ *   @OA\Property(property="title", type="string"),
+ *   @OA\Property(property="link", type="string", format="uri"),
+ *   @OA\Property(property="guid", type="string", format="uri"),
+ *   @OA\Property(property="date", type="string"),
+ *   @OA\Property(property="is_read", type="boolean"),
+ *   @OA\Property(property="is_bookmarked", type="boolean"),
+ *   @OA\Property(property="created_at", type="string"),
+ * )
+ */
 class RssItem extends Model {
 
   /**

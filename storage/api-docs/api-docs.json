@@ -1580,6 +1580,80 @@
                     }
                 ]
             }
+        },
+        "/api/rss": {
+            "get": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Get All RSS Feeds",
+                "operationId": "409ec7ededc0e4f76c6f26f499bbac09",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RssCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/rss/{rss_feed_id}": {
+            "get": {
+                "tags": [
+                    "RSS"
+                ],
+                "summary": "Get RSS Items in RSS Feed",
+                "operationId": "0a1371b5c289911e9055a4cf4ff56cba",
+                "parameters": [
+                    {
+                        "name": "rss_feed_id",
+                        "in": "path",
+                        "description": "RSS Feed ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RssItem"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1921,6 +1995,48 @@
                 "example": {
                     "id": 1,
                     "quality": "4K 2160p"
+                }
+            },
+            "RssItem": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "guid": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "is_read": {
+                        "type": "boolean"
+                    },
+                    "is_bookmarked": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                    "title": "Item 4",
+                    "link": "{{ rss item link }}",
+                    "guid": "{{ rss item guid link }}",
+                    "date": "2022-01-04 00:01:00",
+                    "is_read": false,
+                    "is_bookmarked": true,
+                    "created_at": "2023-05-21 21:05:57"
                 }
             },
             "EntryCollection": {
@@ -2270,6 +2386,55 @@
                     },
                     "image": "{{ image url }}"
                 }
+            },
+            "RssCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "uuid": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "last_updated_at": {
+                            "type": "string"
+                        },
+                        "update_speed_mins": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "max_items": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "unread": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                        "title": "Sample RSS Feed",
+                        "last_updated_at": "2023-05-21 21:23:57",
+                        "update_speed_mins": 120,
+                        "url": "{{ rss url }}",
+                        "max_items": 250,
+                        "unread": 3,
+                        "created_at": "2023-05-21 21:05:57"
+                    }
+                ]
             }
         },
         "responses": {

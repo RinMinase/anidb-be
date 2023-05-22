@@ -17,6 +17,20 @@ class RssController extends Controller {
     $this->rssRepository = $rssRepository;
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"RSS"},
+   *   path="/api/rss",
+   *   summary="Get All RSS Feeds",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/RssCollection"),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function index(): JsonResponse {
     try {
       $data = $this->rssRepository->getAll();
@@ -31,6 +45,33 @@ class RssController extends Controller {
     }
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"RSS"},
+   *   path="/api/rss/{rss_feed_id}",
+   *   summary="Get RSS Items in RSS Feed",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="rss_feed_id",
+   *     description="RSS Feed ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       type="array",
+   *       @OA\Items(ref="#/components/schemas/RssItem"),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function get($uuid): JsonResponse {
     try {
       // update rss feed, clear garbage, get item list, return list
