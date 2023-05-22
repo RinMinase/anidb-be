@@ -137,23 +137,8 @@ use Carbon\CarbonInterval;
  *   @OA\Property(property="id_codec_audio", type="integer", format="int32"),
  *   @OA\Property(property="codecAudio", type="string"),
  *
- *   @OA\Property(
- *     property="offquels",
- *     type="array",
- *     @OA\Items(
- *       @OA\Property(property="id", type="string", format="uuid"),
- *       @OA\Property(property="title", type="string"),
- *     ),
- *   ),
- *   @OA\Property(
- *     property="rewatches",
- *     type="array",
- *     @OA\Items(
- *       @OA\Property(property="id", type="string", format="uuid"),
- *       @OA\Property(property="dateIso", type="string", format="date-time"),
- *       @OA\Property(property="date", type="string"),
- *     ),
- *   ),
+ *   @OA\Property(property="offquels", ref="#/components/schemas/EntryOffquelCollection"),
+ *   @OA\Property(property="rewatches", ref="#/components/schemas/EntryRewatchCollection"),
  *
  *   @OA\Property(property="ratingAverage", type="number"),
  *   @OA\Property(

@@ -2383,6 +2383,27 @@
                     }
                 ]
             },
+            "EntryOffquelCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "89e3be00-9d4f-4c4f-a99f-c12cbfba04ab",
+                        "title": "Offquel Title"
+                    }
+                ]
+            },
             "Entry": {
                 "properties": {
                     "id": {
@@ -2530,38 +2551,10 @@
                         "type": "string"
                     },
                     "offquels": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
-                                "title": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
+                        "$ref": "#/components/schemas/EntryOffquelCollection"
                     },
                     "rewatches": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "string",
-                                    "format": "uuid"
-                                },
-                                "dateIso": {
-                                    "type": "string",
-                                    "format": "date-time"
-                                },
-                                "date": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
+                        "$ref": "#/components/schemas/EntryRewatchCollection"
                     },
                     "ratingAverage": {
                         "type": "number"
@@ -2655,6 +2648,32 @@
                     },
                     "image": "{{ image url }}"
                 }
+            },
+            "EntryRewatchCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "dateIso": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "date": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "af846c35-a51e-4534-9559-c75114e61d84",
+                        "dateIso": "2011-03-01T00:00:00.000000Z",
+                        "date": "March 01, 2011"
+                    }
+                ]
             },
             "LogCollection": {
                 "type": "array",
