@@ -903,6 +903,118 @@
                 ]
             }
         },
+        "/api/entries": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get All Entries",
+                "operationId": "0715d85a4978cb676a1adae8ea40927c",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/EntryCollection"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Pagination"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/{entry_id}": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get an Entry",
+                "operationId": "5df08dbe6c90dd06c1ab84ff0d0de6f7",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Entry"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Delete an Entry",
+                "operationId": "6cad2cf23ed1d8387c847ab4cfc624e2",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/groups": {
             "get": {
                 "tags": [
@@ -1809,6 +1921,354 @@
                 "example": {
                     "id": 1,
                     "quality": "4K 2160p"
+                }
+            },
+            "EntryCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "quality": {
+                            "type": "string",
+                            "enum": [
+                                "4K 2160",
+                                "FHD 1080p",
+                                "HD 720p",
+                                "HQ 480p",
+                                "LQ 360p"
+                            ]
+                        },
+                        "title": {
+                            "type": "string"
+                        },
+                        "dateFinished": {
+                            "type": "string"
+                        },
+                        "rewatched": {
+                            "type": "boolean"
+                        },
+                        "filesize": {
+                            "type": "string"
+                        },
+                        "episodes": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "ovas": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "specials": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "encoder": {
+                            "type": "string"
+                        },
+                        "release": {
+                            "type": "string"
+                        },
+                        "remarks": {
+                            "type": "string"
+                        },
+                        "rating": {
+                            "type": "number"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                        "quality": "4K 2160p",
+                        "title": "Sample Title",
+                        "dateFinished": "Mar 01, 2011",
+                        "rewatched": false,
+                        "filesize": "10.25 GB",
+                        "episodes": 25,
+                        "ovas": 1,
+                        "specials": 1,
+                        "encoder": "encoder—encoder2",
+                        "release": "Spring 2017",
+                        "remarks": "Some remarks",
+                        "rating": 7.5
+                    }
+                ]
+            },
+            "Entry": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "quality": {
+                        "type": "string",
+                        "enum": [
+                            "4K 2160",
+                            "FHD 1080p",
+                            "HD 720p",
+                            "HQ 480p",
+                            "LQ 360p"
+                        ]
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "dateInitFinishedRaw": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "dateInitFinished": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "dateLastFinished": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "durationRaw": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "filesizeRaw": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "filesize": {
+                        "type": "string"
+                    },
+                    "episodes": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "ovas": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "specials": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "seasonNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "seasonFirstTitle": {
+                        "type": "string"
+                    },
+                    "prequelTitle": {
+                        "type": "string"
+                    },
+                    "prequel": {
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            "title": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "sequelTitle": {
+                        "type": "string"
+                    },
+                    "sequel": {
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            "title": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "encoder": {
+                        "type": "string"
+                    },
+                    "encoderVideo": {
+                        "type": "string"
+                    },
+                    "encoderAudio": {
+                        "type": "string"
+                    },
+                    "encoderSubs": {
+                        "type": "string"
+                    },
+                    "releaseSeason": {
+                        "type": "string",
+                        "enum": [
+                            "Winter",
+                            "Spring",
+                            "Summer",
+                            "Fall"
+                        ]
+                    },
+                    "releaseYear": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "release": {
+                        "type": "string"
+                    },
+                    "variants": {
+                        "type": "string"
+                    },
+                    "remarks": {
+                        "type": "string"
+                    },
+                    "codecHDR": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "id_codec_video": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "codecVideo": {
+                        "type": "string"
+                    },
+                    "id_codec_audio": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "codecAudio": {
+                        "type": "string"
+                    },
+                    "offquels": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "title": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "rewatches": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "dateIso": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "date": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "ratingAverage": {
+                        "type": "number"
+                    },
+                    "rating": {
+                        "properties": {
+                            "audio": {
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "enjoyment": {
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "graphics": {
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "plot": {
+                                "type": "integer",
+                                "format": "int32"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "uri"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                    "quality": "4K 2160p",
+                    "title": "Sample Title",
+                    "dateInitFinishedRaw": "2001-01-01T00:00:00.000000Z",
+                    "dateInitFinished": "Jan 01, 2001",
+                    "dateLastFinished": "Mar 01, 2011",
+                    "durationRaw": 10000,
+                    "duration": "2 hours 46 minutes 40 seconds",
+                    "filesizeRaw": 21331439861,
+                    "filesize": "19.87 GB",
+                    "episodes": 25,
+                    "ovas": 1,
+                    "specials": 1,
+                    "seasonNumber": 1,
+                    "seasonFirstTitle": "Sample Title",
+                    "prequelTitle": "Prequel Title",
+                    "prequel": {
+                        "id": "9b712dbe-ff81-41d4-b027-ee87cea4da99",
+                        "title": "Prequel Title"
+                    },
+                    "sequelTitle": "Sequel Title",
+                    "sequel": {
+                        "id": "08d0f87f-6432-47bc-b6bd-c856abbad90f",
+                        "title": "Sequel Title"
+                    },
+                    "encoder": "encoder-encoder2-encoder3",
+                    "encoderVideo": "encoder",
+                    "encoderAudio": "encoder2",
+                    "encoderSubs": "encoder3",
+                    "releaseSeason": "Winter",
+                    "releaseYear": 2000,
+                    "release": "Winter 2000",
+                    "variants": "Variant title",
+                    "remarks": "Some remarks",
+                    "codecHDR": 1,
+                    "id_codec_video": 1,
+                    "codecVideo": "x264 8bit",
+                    "id_codec_audio": 4,
+                    "codecAudio": "FLAC 7.1",
+                    "offquels": [
+                        {
+                            "id": "89e3be00-9d4f-4c4f-a99f-c12cbfba04ab",
+                            "title": "Offquel Title"
+                        }
+                    ],
+                    "rewatches": [
+                        {
+                            "id": "af846c35-a51e-4534-9559-c75114e61d84",
+                            "dateIso": "2011-03-01T00:00:00.000000Z",
+                            "date": "March 01, 2011"
+                        }
+                    ],
+                    "ratingAverage": 4.5,
+                    "rating": {
+                        "audio": 6,
+                        "enjoyment": 5,
+                        "graphics": 4,
+                        "plot": 3
+                    },
+                    "image": "{{ image url }}"
                 }
             }
         },

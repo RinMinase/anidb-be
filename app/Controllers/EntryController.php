@@ -21,146 +21,54 @@ class EntryController extends Controller {
     $this->entryRepository = $entryRepository;
   }
 
-
   /**
-   * @api {get} /api/entries Retrieve Entry
-   * @apiName RetrieveEntry
-   * @apiGroup Entry
-   *
-   * @apiHeader {String} token User login token
-   * @apiParam {String} [needle] Search keyword / query
-   * @apiParam {String} [haystack=title] Column used for the searching the needle
-   * @apiParam {String} [column] Page Limit
-   * @apiParam {String} [order] Page Limit
-   * @apiParam {String} [limit] Page Limit
-   * @apiParam {String} [page] Page number
-   *
-   * @apiSuccess {Object[]} data Entry data
-   * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {Date} data.dateFinished Date fisished or date last rewatched
-   * @apiSuccess {String} data.encoder Title encoder
-   * @apiSuccess {Number} data.episodes Number of episodes
-   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
-   * @apiSuccess {Number} data.ovas Number of OVAs
-   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
-   * @apiSuccess {String} data.release Season and year in which the title was released
-   * @apiSuccess {String} data.remarks Any remarks for the title
-   * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
-   * @apiSuccess {Number} data.specials Number of specials
-   * @apiSuccess {String} data.title Entry title
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "dateFinished": "Mar 01, 2011",
-   *         "encoder": "encoder—encoder2",
-   *         "episodes": 25,
-   *         "filesize": "10.25 GB",
-   *         "ovas": 1,
-   *         "quality": "FHD 1080p",
-   *         "rating": 7.5,
-   *         "release": "Spring 2017",
-   *         "remarks": "some remarks",
-   *         "specials": 1,
-   *         "title": "Title"
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Entry"},
+   *   path="/api/entries",
+   *   summary="Get All Entries",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
+   *       @OA\Property(
+   *         property="meta",
+   *         type="object",
+   *         ref="#/components/schemas/Pagination",
+   *       ),
+   *     )
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function index(Request $request): JsonResponse {
     return response()->json($this->entryRepository->getAll($request));
   }
 
-
   /**
-   * @api {get} /api/entries/:id Retrieve Specific Entry
-   * @apiName RetrieveSpecificEntry
-   * @apiGroup Entry
+   * @OA\Get(
+   *   tags={"Entry"},
+   *   path="/api/entries/{entry_id}",
+   *   summary="Get an Entry",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {UUID} id Entry UUID.
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
    *
-   * @apiSuccess {Object} data Entry data
-   * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {Date} data.dateInitFinished Intial date finished
-   * @apiSuccess {Date} data.dateLastFinished Last rewatch date
-   * @apiSuccess {String} data.duration Duration in xx hours xx minutes xx seconds
-   * @apiSuccess {String} data.encoder Combined encoder value
-   * @apiSuccess {String} data.encoderAudio Audio encoder
-   * @apiSuccess {String} data.encoderSubs Subs encoder
-   * @apiSuccess {String} data.encoderVideo Video encoder
-   * @apiSuccess {Number} data.episodes Number of episodes
-   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
-   * @apiSuccess {Object[]} offquels List of offquel titles
-   * @apiSuccess {String} data.offquels.id Offquel title id
-   * @apiSuccess {String} data.offquels.title Offquel title name
-   * @apiSuccess {Number} data.ovas Number of OVAs
-   * @apiSuccess {Object} data.prequel Prequel item
-   * @apiSuccess {String} data.prequel.id Prequel title id
-   * @apiSuccess {String} data.prequel.title Prequel title name
-   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {Number} data.id_quality Video quality ID
-   * @apiSuccess {Object[]} rewatches List of rewatch dates
-   * @apiSuccess {String} rewatches.uuid Rewatch id
-   * @apiSuccess {String} rewatches.dateIso Unformatted rewatch date
-   * @apiSuccess {String} rewatches.date Pre-formatted rewatch date
-   * @apiSuccess {Number} data.seasonNumber nth season from first title in series
-   * @apiSuccess {String} data.seasonFirstTitle 1st season title in series
-   * @apiSuccess {Object} data.sequel Sequel item
-   * @apiSuccess {String} data.sequel.id Sequel title id
-   * @apiSuccess {String} data.sequel.title Sequel title name
-   * @apiSuccess {Number} data.specials Number of specials
-   * @apiSuccess {String} data.title Entry title
-   * @apiSuccess {String} data.variants Comma separated title variants
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *       "dateInitFinished": "Jan 01, 2001",
-   *       "dateLastFinished": "Mar 01, 2011",
-   *       "duration": 12 hours 34 minutes 56 seconds,
-   *       "encoder": "encVideo—encAudio—encSubs",
-   *       "encoderAudio": "encAudio",
-   *       "encoderSubs": "encVideo",
-   *       "encoderVideo": "encSubs",
-   *       "episodes": 25,
-   *       "filesize": "10.25 GB",
-   *       "offquels" [
-   *         {
-   *           "id": 3,
-   *           "title": "Offquel Title",
-   *         }, {...}
-   *       ]
-   *       "ovas": 1,
-   *       "prequel": "Prequel Title",
-   *       "quality": "FHD 1080p",
-   *       "id_quality": 2,
-   *       "rewatches": [
-   *          {
-   *            id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-   *            dateIso: "2011-03-01T00:00:00.000000Z",
-   *            date: "March 01, 2011",
-   *          },
-   *          {
-   *            id: "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-   *            dateIso: "2011-02-01T00:00:00.000000Z",
-   *            date: "February 10, 2011",
-   *          },
-   *       ]
-   *       "seasonNumber": 2,
-   *       "seasonFirstTitle": "First Title",
-   *       "sequel": "Sequel Title",
-   *       "specials": 1,
-   *       "title": "Title",
-   *       "variants": "ShortTitle"
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(ref="#/components/schemas/Entry"),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function get($id): JsonResponse {
     try {
@@ -279,26 +187,25 @@ class EntryController extends Controller {
     }
   }
 
-
   /**
-   * @api {delete} /api/entries/:uuid Delete Entry
-   * @apiName DeleteEntry
-   * @apiGroup Entry
+   * @OA\Delete(
+   *   tags={"Entry"},
+   *   path="/api/entries/{entry_id}",
+   *   summary="Delete an Entry",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {UUID} uuid Entry ID
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
    *
-   * @apiSuccess Success Default success message
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError Invalid The provided ID is invalid, or the item does not exist
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "401",
-   *       "message": "Entry ID does not existt"
-   *     }
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function delete($id): JsonResponse {
     try {
