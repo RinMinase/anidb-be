@@ -37,12 +37,72 @@
       box-shadow: none;
       background: none;
 
-      margin-top: -60px;
-      margin-bottom: 12px;
-      padding-bottom: 30px;
+      margin: -85px 0 12px auto;
 
-      border-bottom: 1px solid #bbb;
+      position: relative;
+      height: 67px;
+      max-width: 250px;
     }
+
+    .swagger-ui .scheme-container .schemes {
+      position: absolute;
+      right: 0;
+      width: auto;
+    }
+
+    .information-container.wrapper {
+      padding-bottom: 12px;
+      border-bottom: 1px solid #bbb;
+      margin-bottom: 12px;
+    }
+
+    /* UNUSED SECTION IN API */
+    .swagger-ui .response-col_links {
+      display: none;
+    }
+
+    /* NORMAL API */
+
+    .swagger-ui .execute-wrapper {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .swagger-ui .btn.execute {
+      margin-bottom: 20px;
+    }
+
+    .swagger-ui table thead tr td, .swagger-ui table thead tr th {
+      font-size: 14px;
+    }
+
+    .swagger-ui .response-col_status {
+      font-size: 16px;
+    }
+
+    .swagger-ui table tbody tr td.response-col_status:first-of-type {
+      min-width: 4em;
+      padding-top: 26px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .swagger-ui table.parameters .parameters-col_description p {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .swagger-ui .response-col_description .response-col_description__inner p {
+      margin-bottom: 0;
+    }
+
+    .parameters-container .opblock-description-wrapper p {
+      font-size: 18px;
+      padding-top: 8px;
+      padding-bottom: 3px;
+    }
+
+    /* DEPRECATED API */
 
     .swagger-ui .opblock.opblock-deprecated {
       opacity: 1;
@@ -52,6 +112,24 @@
 
     .swagger-ui .opblock.opblock-deprecated .opblock-summary-method {
       background: #ccc;
+    }
+
+    /* MODAL */
+
+    .swagger-ui .dialog-ux .modal-ux-content {
+      text-align: center;
+    }
+
+    .swagger-ui .dialog-ux .modal-ux-content .auth-container .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .swagger-ui .dialog-ux .modal-ux-content .auth-container label {
+      margin-bottom: 0;
+      font-size: 14px;
     }
   </style>
 </head>
