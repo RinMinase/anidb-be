@@ -1049,6 +1049,95 @@
                 ]
             }
         },
+        "/api/entries/last": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get Latest Entries",
+                "operationId": "88b2d137e04516a70107ca8d65a51395",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/EntryCollection"
+                                        },
+                                        "stats": {
+                                            "properties": {
+                                                "dateLastEntry": {
+                                                    "type": "string"
+                                                },
+                                                "daysLastEntry": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "dateOldestEntry": {
+                                                    "type": "string"
+                                                },
+                                                "daysOldestEntry": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "totalEps": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "totalTitles": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "titlesPerWeek": {
+                                                    "type": "number"
+                                                },
+                                                "coursPerWeek": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "epsPerWeek": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "epsPerDay": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "example": {
+                                                "dateLastEntry": "Apr 01, 2015",
+                                                "daysLastEntry": 2974,
+                                                "dateOldestEntry": "Jan 01, 2011",
+                                                "daysOldestEntry": 4525,
+                                                "totalEps": 0,
+                                                "totalTitles": 7,
+                                                "totalCours": 0,
+                                                "titlesPerWeek": 0.01,
+                                                "coursPerWeek": 0,
+                                                "epsPerWeek": 0,
+                                                "epsPerDay": 0
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/groups": {
             "get": {
                 "tags": [
