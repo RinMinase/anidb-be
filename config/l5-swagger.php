@@ -1,7 +1,6 @@
 <?php
 
-$is_prod = env('APP_ENV', 'prod') != 'local';
-$swagger_api_middleware = $is_prod ? ['auth'] : [];
+$is_prod = env('APP_PLATFORM', 'prod') != 'local';
 
 return [
   'default' => 'default',
@@ -11,7 +10,7 @@ return [
         'title' => 'AniDB API Documentation',
       ],
 
-      'routes' => [
+      'routes' => ($is_prod) ? [] : [
         /*
           * Route for accessing api documentation interface
         */
@@ -64,7 +63,7 @@ return [
         * Middleware allows to prevent unexpected access to API documentation
       */
       'middleware' => [
-        'api' => $swagger_api_middleware,
+        'api' => [],
         'asset' => [],
         'docs' => [],
         'oauth2_callback' => [],

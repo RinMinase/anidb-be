@@ -9,6 +9,25 @@ Route::middleware('web')
     Route::view('/', 'index')->name('home');
   });
 
+Route::middleware('web')
+  ->group(function () {
+    Route::get('/docs', function () {
+      $is_prod = env('APP_PLATFORM', 'prod') != 'local';
+      $apidocJsonFile = URL::to('/') . '/docs/api-docs.json';
+      $useAbsolutePath = config('l5-swagger.documentations.default.paths.use_absolute_path', true);
+
+      if (!$is_prod) {
+        return view('docs', [
+          'documentation' => 'default',
+          'urlToDocs' => $apidocJsonFile,
+          'useAbsolutePath' => $useAbsolutePath,
+        ]);
+      } else {
+        return redirect('/');
+      }
+    });
+  });
+
 Route::prefix('api')
   ->middleware('api')
   ->namespace('App\Controllers')
