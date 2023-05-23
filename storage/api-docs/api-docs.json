@@ -1613,6 +1613,64 @@
                 ]
             }
         },
+        "/api/partials/multi": {
+            "post": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Multi Add a Partial Entry",
+                "operationId": "d067f9d3090ebcf7d761fcae4cea9c25",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "low[0]=Title Low 1&normal[0]=Title Normal 1&normal[1]=Title Normal 2&high[0]=Title High 1"
+                    },
+                    {
+                        "name": "season",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Winter",
+                                "Spring",
+                                "Summer",
+                                "Fall"
+                            ]
+                        },
+                        "example": "Winter"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 2021
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/partials/{partial_id}": {
             "put": {
                 "tags": [
@@ -1692,6 +1750,75 @@
                             "format": "uuid"
                         },
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/partials/multi/{catalog_id}": {
+            "put": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Multi Add a Partial Entry",
+                "operationId": "dca1b91b96fbc5a07172cc580a3acc81",
+                "parameters": [
+                    {
+                        "name": "catalog_id",
+                        "in": "path",
+                        "description": "Catalog ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "data",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "low[0]=Title Low 1&normal[0]=Title Normal 1&normal[1]=Title Normal 2&high[0]=Title High 1"
+                    },
+                    {
+                        "name": "season",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Winter",
+                                "Spring",
+                                "Summer",
+                                "Fall"
+                            ]
+                        },
+                        "example": "Winter"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 2021
                     }
                 ],
                 "responses": {
