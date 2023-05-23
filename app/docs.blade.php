@@ -36,6 +36,22 @@
       padding: 0;
       box-shadow: none;
       background: none;
+
+      margin-top: -60px;
+      margin-bottom: 12px;
+      padding-bottom: 30px;
+
+      border-bottom: 1px solid #bbb;
+    }
+
+    .swagger-ui .opblock.opblock-deprecated {
+      opacity: 1;
+      background: #eee;
+      border-color: #bbb;
+    }
+
+    .swagger-ui .opblock.opblock-deprecated .opblock-summary-method {
+      background: #ccc;
     }
   </style>
 </head>
