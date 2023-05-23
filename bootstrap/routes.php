@@ -83,6 +83,7 @@ Route::prefix('api')
 
         Route::prefix('partials')
           ->group(function () {
+
             // ======= Unused =======
             Route::get('{uuid}', 'PartialController@index');
             // ======================
@@ -97,9 +98,9 @@ Route::prefix('api')
 
         Route::prefix('buckets')
           ->group(function () {
-            Route::get('', 'BucketController@index');
 
             // ======= Unused =======
+            Route::get('', 'BucketController@index');
             Route::post('', 'BucketController@add');
             Route::put('{id?}', 'BucketController@edit');
             Route::delete('{id}', 'BucketController@delete');
