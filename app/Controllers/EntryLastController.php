@@ -5,7 +5,6 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
-use App\Resources\Entry\EntryCollection;
 
 class EntryLastController extends Controller {
 
