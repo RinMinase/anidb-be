@@ -15,28 +15,25 @@ class BucketSimController extends Controller {
     $this->bucketSimRepository = $bucketSimRepository;
   }
 
-
   /**
-   * @api {get} /api/bucket-sims Retrieve All Bucket Sims
-   * @apiName RetrieveAllBucketSim
-   * @apiGroup BucketSim
-   *
-   * @apiHeader {String} token User login token
-   *
-   * @apiSuccess {Object[]} data Bucket Simulation list
-   * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {String} data.description Bucket Sim description
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "uuid": 9ef81943-78f0-4d1c-a831-a59fb5af339c,
-   *         "description": "Some bucket sim",
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"BucketSim"},
+   *   path="/api/bucket-sims",
+   *   summary="Get All Bucket Sims",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/BucketSimInfo"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
