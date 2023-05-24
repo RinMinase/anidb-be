@@ -63,15 +63,10 @@ class SequenceController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="object",
-   *         ref="#/components/schemas/Sequence",
-   *       ),
-   *     ),
+   *     @OA\JsonContent(ref="#/components/schemas/Sequence"),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    * )
    */
   public function get($id): JsonResponse {

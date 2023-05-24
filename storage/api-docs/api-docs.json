@@ -2705,18 +2705,16 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/Sequence"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Sequence"
                                 }
                             }
                         }
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -3749,6 +3747,29 @@
                         "example": {
                             "status": 401,
                             "message": "Unauthorized"
+                        }
+                    }
+                }
+            },
+            "NotFound": {
+                "description": "Not Found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 404,
+                            "message": "Not Found"
                         }
                     }
                 }

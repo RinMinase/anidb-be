@@ -55,6 +55,21 @@ class SuccessResponse {
 class UnauthorizedResponse {
 }
 
+
+/**
+ * @OA\Response(
+ *   response="NotFound",
+ *   description="Not Found",
+ *   @OA\JsonContent(
+ *     example={"status": 404, "message": "Not Found"},
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
+ * )
+ */
+class NotFoundResponse {
+}
+
 /**
  * @OA\Response(
  *   response="Failed",
