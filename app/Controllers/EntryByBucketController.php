@@ -63,15 +63,6 @@ class EntryByBucketController extends Controller {
    * )
    */
   public function get($id): JsonResponse {
-    try {
-      return response()->json([
-        'data' => $this->entryRepository->getByBucket($id),
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Bucket ID does not exist',
-      ], 401);
-    }
+    return response()->json($this->entryRepository->getByBucket($id));
   }
 }
