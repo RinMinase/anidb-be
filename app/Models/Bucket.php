@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  *     "size": 2000339066880,
  *   },
  *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="from", type="string", minimum=1, maximum=1),
- *   @OA\Property(property="to", type="string", minimum=1, maximum=1),
+ *   @OA\Property(property="from", type="string", minLength=1, maxLength=1),
+ *   @OA\Property(property="to", type="string", minLength=1, maxLength=1),
  *   @OA\Property(property="size", type="integer", format="int64"),
  * )
  */
@@ -68,8 +68,8 @@ class Bucket extends Model {
  *   type="array",
  *   @OA\Items(
  *     @OA\Property(property="id", type="integer", format="int32"),
- *     @OA\Property(property="from", type="string", minimum=1, maximum=1),
- *     @OA\Property(property="to", type="string", minimum=1, maximum=1),
+ *     @OA\Property(property="from", type="string", minLength=1, maxLength=1),
+ *     @OA\Property(property="to", type="string", minLength=1, maxLength=1),
  *     @OA\Property(property="free", type="string"),
  *     @OA\Property(property="freeTB", type="string"),
  *     @OA\Property(property="used", type="string"),
