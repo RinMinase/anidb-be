@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\SequenceRepository;
+use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class SequenceController extends Controller {
 
@@ -73,10 +75,7 @@ class SequenceController extends Controller {
     try {
       return response()->json($this->sequenceRepository->get($id));
     } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 404,
-        'message' => 'The provided ID is invalid, or the item does not exist',
-      ], 404);
+      return ErrorResponse::notFound();
     }
   }
 
@@ -117,15 +116,9 @@ class SequenceController extends Controller {
     try {
       $this->sequenceRepository->add($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
+      return DefaultResponse::success();
     } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
+      return ErrorResponse::failed();
     }
   }
 
@@ -177,15 +170,9 @@ class SequenceController extends Controller {
         $id
       );
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
+      return DefaultResponse::success();
     } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
+      return ErrorResponse::failed();
     }
   }
 
@@ -213,15 +200,9 @@ class SequenceController extends Controller {
     try {
       $this->sequenceRepository->delete($id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
+      return DefaultResponse::success();
     } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Catalog ID does not exist',
-      ], 401);
+      return ErrorResponse::notFound();
     }
   }
 
