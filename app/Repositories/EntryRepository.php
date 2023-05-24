@@ -369,7 +369,7 @@ class EntryRepository {
   }
 
   public function getBySequence($id) {
-    $sequence = Sequence::where('id', $id)->first();
+    $sequence = Sequence::where('id', $id)->firstOrFail();
     $is_seq_future = Carbon::parse($sequence->date_to)->greaterThan(Carbon::now());
 
     if ($is_seq_future) {
