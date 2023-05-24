@@ -38,10 +38,15 @@
       background: none;
 
       margin: -85px 0 12px auto;
+      margin-right: calc((100vw - 1460px) / 2);
 
       position: relative;
       height: 67px;
       max-width: 250px;
+
+      @media screen and (max-width: 1460px) {
+        margin-right: 0;
+      }
     }
 
     .swagger-ui .scheme-container .schemes {
