@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
  *     version="1.0",
  *     title="AniDB API Documentation"
  * ),
+ *
  * @OA\SecurityScheme(
  *   securityScheme="token",
  *   description="Login with email and password to get the authentication token",
@@ -21,6 +22,23 @@ use Illuminate\Routing\Controller as BaseController;
  *   bearerFormat="JWT",
  *   scheme="bearer",
  * ),
+ *
+ * // For Ordering Purposes
+ * @OA\Tag(name="User")
+ * @OA\Tag(name="Bucket")
+ * @OA\Tag(name="BucketSim")
+ * @OA\Tag(name="Catalog")
+ * @OA\Tag(name="Codec")
+ * @OA\Tag(name="Dropdowns")
+ * @OA\Tag(name="Entry")
+ * @OA\Tag(name="Entry Specific")
+ * @OA\Tag(name="Group")
+ * @OA\Tag(name="Logs")
+ * @OA\Tag(name="MAL")
+ * @OA\Tag(name="Management")
+ * @OA\Tag(name="RSS")
+ * @OA\Tag(name="Sequence")
+ * @OA\Tag(name="Release")
  */
 class Controller extends BaseController {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
