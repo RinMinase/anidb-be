@@ -1081,6 +1081,124 @@
                 ]
             }
         },
+        "/api/entries/by-name": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All By Name Stats with Entries",
+                "operationId": "8f046116e5766b4bd83b6a4d0e61b8b5",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "letter": {
+                                                        "type": "string",
+                                                        "maxLength": 1,
+                                                        "minLength": 1
+                                                    },
+                                                    "titles": {
+                                                        "type": "integer",
+                                                        "format": "int32"
+                                                    },
+                                                    "filesize": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "letter": "#",
+                                                    "titles": 12,
+                                                    "filesize": "10.25 GB"
+                                                },
+                                                {
+                                                    "letter": "A",
+                                                    "titles": 34,
+                                                    "filesize": "12.23 GB"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/by-name/{letter}": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All Entries by Name",
+                "operationId": "de18c30e0c4fc7089839af4eb540c693",
+                "parameters": [
+                    {
+                        "name": "letter",
+                        "in": "path",
+                        "description": "A-Z / a-z for alphabet titles or 0 (number) for numeric titles",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 1,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0]$"
+                        },
+                        "example": "A"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/EntryCollection"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries": {
             "get": {
                 "tags": [
@@ -3053,13 +3171,13 @@
                     },
                     "from": {
                         "type": "string",
-                        "maximum": 1,
-                        "minimum": 1
+                        "maxLength": 1,
+                        "minLength": 1
                     },
                     "to": {
                         "type": "string",
-                        "maximum": 1,
-                        "minimum": 1
+                        "maxLength": 1,
+                        "minLength": 1
                     },
                     "size": {
                         "type": "integer",
@@ -3084,13 +3202,13 @@
                         },
                         "from": {
                             "type": "string",
-                            "maximum": 1,
-                            "minimum": 1
+                            "maxLength": 1,
+                            "minLength": 1
                         },
                         "to": {
                             "type": "string",
-                            "maximum": 1,
-                            "minimum": 1
+                            "maxLength": 1,
+                            "minLength": 1
                         },
                         "free": {
                             "type": "string"

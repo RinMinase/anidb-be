@@ -15,34 +15,39 @@ class EntryByNameController extends Controller {
     $this->entryRepository = $entryRepository;
   }
 
-
   /**
-   * @api {get} /api/entries/by-name Retrieve By Name Stats
-   * @apiName RetrieveByNameStats
-   * @apiGroup Entry
-   *
-   * @apiHeader {String} token User login token
-   *
-   * @apiSuccess {Object[]} data By name data
-   * @apiSuccess {String} data.letter Letter of each alphabet
-   * @apiSuccess {Number} data.titles Count of titles on this letter
-   * @apiSuccess {Number} data.filesize Count of filesize on this letter
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "letter": "#",
-   *         "titles": 12,
-   *         "filesize": "10.25 GB",
-   *       }, {
-   *         "letter": "A",
-   *         "titles": 34,
-   *         "filesize": "12.23 GB",
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Entry Specific"},
+   *   path="/api/entries/by-name",
+   *   summary="Get All By Name Stats with Entries",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         example={{
+   *           "letter": "#",
+   *           "titles": 12,
+   *           "filesize": "10.25 GB",
+   *         }, {
+   *           "letter": "A",
+   *           "titles": 34,
+   *           "filesize": "12.23 GB",
+   *         }},
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(
+   *           @OA\Property(property="letter", type="string", minLength=1, maxLength=1),
+   *           @OA\Property(property="titles", type="integer", format="int32"),
+   *           @OA\Property(property="filesize", type="string"),
+   *         ),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
@@ -50,50 +55,32 @@ class EntryByNameController extends Controller {
     ]);
   }
 
-
   /**
-   * @api {get} /api/entries/by-name/:letter Retrieve By Letter
-   * @apiName RetrieveByLetter
-   * @apiGroup Entry
+   * @OA\Get(
+   *   tags={"Entry Specific"},
+   *   path="/api/entries/by-name/{letter}",
+   *   summary="Get All Entries by Name",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {String} letter Letter of the alphabet
+   *   @OA\Parameter(
+   *     name="letter",
+   *     description="A-Z / a-z for alphabet titles or 0 (number) for numeric titles",
+   *     in="path",
+   *     required=true,
+   *     example="A",
+   *     @OA\Schema(type="string", pattern="^[a-zA-Z0]$", minLength=1, maxLength=1),
+   *   ),
    *
-   * @apiSuccess {Object[]} data Entry data
-   * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {Date} data.dateFinished Date fisished or date last rewatched
-   * @apiSuccess {String} data.encoder Title encoder
-   * @apiSuccess {Number} data.episodes Number of episodes
-   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
-   * @apiSuccess {Number} data.ovas Number of OVAs
-   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {Number} data.rating Averaged rating of Audio, Enjoyment, Graphics and Plot
-   * @apiSuccess {String} data.release Season and year in which the title was released
-   * @apiSuccess {String} data.remarks Any remarks for the title
-   * @apiSuccess {Boolean} data.rewatched Flag to check if date stated is alread rewatched date
-   * @apiSuccess {Number} data.specials Number of specials
-   * @apiSuccess {String} data.title Entry title
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *         "dateFinished": "Mar 01, 2011",
-   *         "encoder": "encoder—encoder2",
-   *         "episodes": 25,
-   *         "filesize": "10.25 GB",
-   *         "ovas": 1,
-   *         "quality": "FHD 1080p",
-   *         "rating": 7.5,
-   *         "release": "Spring 2017",
-   *         "remarks": "some remarks",
-   *         "specials": 1,
-   *         "title": "Title"
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
    */
   public function get($letter): JsonResponse {
     return response()->json([
