@@ -21,7 +21,7 @@ class CatalogController extends Controller {
    * @OA\Get(
    *   tags={"Catalog"},
    *   path="/api/catalogs",
-   *   summary="Get All Catalog",
+   *   summary="Get All Catalogs",
    *   security={{"token":{}}},
    *   @OA\Response(
    *     response=200,
