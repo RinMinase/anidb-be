@@ -1316,6 +1316,168 @@
                 ]
             }
         },
+        "/api/entries/by-year": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All By Year Stats with Entries",
+                "operationId": "20351d9ca7a3566467cd77394c527536",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "year": {
+                                                        "description": "null value on uncategorized entries",
+                                                        "type": "integer",
+                                                        "format": "int32",
+                                                        "nullable": true
+                                                    },
+                                                    "seasons": {
+                                                        "description": "null value on uncategorized entries",
+                                                        "properties": {
+                                                            "Winter": {
+                                                                "type": "integer",
+                                                                "format": "int32"
+                                                            },
+                                                            "Spring": {
+                                                                "type": "integer",
+                                                                "format": "int32"
+                                                            },
+                                                            "Summer": {
+                                                                "type": "integer",
+                                                                "format": "int32"
+                                                            },
+                                                            "Fall": {
+                                                                "type": "integer",
+                                                                "format": "int32"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    },
+                                                    "count": {
+                                                        "description": "null value whenever seasons is present",
+                                                        "type": "integer",
+                                                        "format": "int32",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "year": null,
+                                                    "seasons": null,
+                                                    "count": 2
+                                                },
+                                                {
+                                                    "year": 2010,
+                                                    "seasons": {
+                                                        "Winter": 1,
+                                                        "Spring": 1,
+                                                        "Summer": 2,
+                                                        "Fall": 2
+                                                    },
+                                                    "count": null
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/by-year/{year}": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All By Year Stats with Entries",
+                "operationId": "7c42b40d7225902c1ddf34f301639c06",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "path",
+                        "description": "If year is not valid or null is passed, it fetches for uncategorized entries",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "maximum": 2999,
+                            "minimum": 1970
+                        },
+                        "example": 2000
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "Winter": {
+                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                },
+                                                "Spring": {
+                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                },
+                                                "Summer": {
+                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                },
+                                                "Fall": {
+                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                },
+                                                "Uncategorized": {
+                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries": {
             "get": {
                 "tags": [
