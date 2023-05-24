@@ -67,12 +67,10 @@ class EntryByBucketTest extends BaseTestCase {
 
       $response->assertStatus(200)
         ->assertJsonStructure([
-          'data' => [
-            'data' => [[]],
-            'stats' => [
-              'from',
-              'to',
-            ],
+          'data' => [[]],
+          'stats' => [
+            'from',
+            'to',
           ],
         ]);
     }
