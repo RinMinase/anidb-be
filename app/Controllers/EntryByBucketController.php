@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\EntryRepository;
 
