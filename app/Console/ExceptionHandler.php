@@ -6,6 +6,7 @@ use Exception;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -63,8 +64,15 @@ class ExceptionHandler extends Handler {
       ], 401);
     }
 
-    $is_development = strcasecmp(env('APP_ENV'), 'local') == 0;
-    if ($e instanceof Exception && !$is_development) {
+    if ($e instanceof ModelNotFoundException) {
+      return response()->json([
+        'status' => 404,
+        'message' => 'The provided ID is invalid, or the item does not exist',
+      ], 404);
+    }
+
+    $is_prod = env('APP_PLATFORM') != 'local';
+    if ($e instanceof Exception && !$is_prod) {
       return response()->json([
         'status' => 500,
         'message' => 'Failed',
