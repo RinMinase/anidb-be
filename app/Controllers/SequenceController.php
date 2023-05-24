@@ -19,33 +19,24 @@ class SequenceController extends Controller {
   }
 
   /**
-   * @api {get} /api/sequences Retrieve all Sequences
-   * @apiName SequenceRetrieve
-   * @apiGroup Sequence
-   *
-   * @apiHeader {String} Authorization Token received from logging-in
-   *
-   * @apiSuccess {Object[]} data Sequence Data
-   * @apiSuccess {Number} data.id ID of the sequence entry
-   * @apiSuccess {String} data.title Descriptive title of the sequence
-   * @apiSuccess {String} data.date_from Start date of the sequence
-   * @apiSuccess {Number} data.date_to End date of the sequence
-   * @apiSuccess {DateTime} data.created_at Creation date of the sequence entry
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": [
-   *         {
-   *           id: 1
-   *           title: "Summer List",
-   *           date_from: "2020-01-01",
-   *           date_to: "2020-02-01",
-   *         }
-   *       ]
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Sequence"},
+   *   path="/api/sequences",
+   *   summary="Get All Sequences",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="array",
+   *         @OA\Items(ref="#/components/schemas/Sequence"),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
@@ -53,34 +44,35 @@ class SequenceController extends Controller {
     ]);
   }
 
-
   /**
-   * @api {get} /api/sequences/:id Retrieve all Sequences
-   * @apiName SequenceRetrieve
-   * @apiGroup Sequence
+   * @OA\Get(
+   *   tags={"Sequence"},
+   *   path="/api/sequences/{sequence_id}",
+   *   summary="Get Sequence",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} Authorization Token received from logging-in
-   * @apiParam {Number} id Sequence ID
+   *   @OA\Parameter(
+   *     name="sequence_id",
+   *     description="Sequence ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
    *
-   * @apiSuccess {Object} data Sequence Data
-   * @apiSuccess {Number} data.id ID of the sequence entry
-   * @apiSuccess {String} data.title Descriptive title of the sequence
-   * @apiSuccess {String} data.date_from Start date of the sequence
-   * @apiSuccess {Number} data.date_to End date of the sequence
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "data": {
-   *         id: 1
-   *         title: "Summer List",
-   *         date_from: "2020-01-01",
-   *         date_to: "2020-02-01",
-   *         created_at: "2020-01-01 00:00:00",
-   *       }
-   *     }
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(
+   *         property="data",
+   *         type="object",
+   *         ref="#/components/schemas/Sequence",
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function get($id): JsonResponse {
     try {
@@ -93,6 +85,39 @@ class SequenceController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Sequence"},
+   *   path="/api/sequences",
+   *   summary="Add a Sequence",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="title",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Sequence List",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="date_from",
+   *     in="query",
+   *     required=true,
+   *     example="2020-01-01",
+   *     @OA\Schema(type="string", format="date"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="date_to",
+   *     in="query",
+   *     required=true,
+   *     example="2020-02-01",
+   *     @OA\Schema(type="string", format="date"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function add(Request $request): JsonResponse {
     try {
       $this->sequenceRepository->add($request->all());
@@ -109,6 +134,47 @@ class SequenceController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Sequence"},
+   *   path="/api/sequences/{sequence_id}",
+   *   summary="Edit a Sequence",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="sequence_id",
+   *     description="Sequence ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="title",
+   *     in="query",
+   *     required=true,
+   *     example="Sample Sequence List",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="date_from",
+   *     in="query",
+   *     required=true,
+   *     example="2020-01-01",
+   *     @OA\Schema(type="string", format="date"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="date_to",
+   *     in="query",
+   *     required=true,
+   *     example="2020-02-01",
+   *     @OA\Schema(type="string", format="date"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function edit(Request $request, $id): JsonResponse {
     try {
       $this->sequenceRepository->edit(
@@ -128,6 +194,26 @@ class SequenceController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Sequence"},
+   *   path="/api/sequences/{sequence_id}",
+   *   summary="Delete a Sequence",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="sequence_id",
+   *     description="Sequence ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function delete($id): JsonResponse {
     try {
       $this->sequenceRepository->delete($id);

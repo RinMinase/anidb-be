@@ -343,7 +343,7 @@
                 "tags": [
                     "Catalog"
                 ],
-                "summary": "Get All Catalog",
+                "summary": "Get All Catalogs",
                 "operationId": "bf7d3c3af4d71538d00b0df849f3d908",
                 "responses": {
                     "200": {
@@ -2590,6 +2590,236 @@
                     }
                 ]
             }
+        },
+        "/api/sequences": {
+            "get": {
+                "tags": [
+                    "Sequence"
+                ],
+                "summary": "Get All Sequences",
+                "operationId": "175ffa645f1dc70cff7f0776d7d48feb",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sequence"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Sequence"
+                ],
+                "summary": "Add a Sequence",
+                "operationId": "059667e465008cdbc254b5ba6c6758ce",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample Sequence List"
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2020-01-01"
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2020-02-01"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/sequences/{sequence_id}": {
+            "get": {
+                "tags": [
+                    "Sequence"
+                ],
+                "summary": "Get Sequence",
+                "operationId": "426cad1ceef354765e38378abedca188",
+                "parameters": [
+                    {
+                        "name": "sequence_id",
+                        "in": "path",
+                        "description": "Sequence ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Sequence"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Sequence"
+                ],
+                "summary": "Edit a Sequence",
+                "operationId": "9d0fdc4523d208d64ebde04a182ebf52",
+                "parameters": [
+                    {
+                        "name": "sequence_id",
+                        "in": "path",
+                        "description": "Sequence ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample Sequence List"
+                    },
+                    {
+                        "name": "date_from",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2020-01-01"
+                    },
+                    {
+                        "name": "date_to",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2020-02-01"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Sequence"
+                ],
+                "summary": "Delete a Sequence",
+                "operationId": "cc91fd203e8f989b84aaa887e4aacf91",
+                "parameters": [
+                    {
+                        "name": "sequence_id",
+                        "in": "path",
+                        "description": "Sequence ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -2926,6 +3156,37 @@
                     "is_read": false,
                     "is_bookmarked": true,
                     "created_at": "2023-05-21 21:05:57"
+                }
+            },
+            "Sequence": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "date_from": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "date_to": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "title": "Summer List",
+                    "date_from": "2020-01-01",
+                    "date_to": "2020-02-01",
+                    "created_at": "2020-01-01 00:00:00"
                 }
             },
             "CatalogCollection": {
