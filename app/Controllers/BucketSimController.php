@@ -121,9 +121,7 @@ class BucketSimController extends Controller {
    * )
    */
   public function get($uuid): JsonResponse {
-    return response()->json([
-      'data' => $this->bucketSimRepository->get($uuid),
-    ]);
+    return response()->json($this->bucketSimRepository->get($uuid));
   }
 
   public function add(Request $request): JsonResponse {
