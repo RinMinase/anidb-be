@@ -4,21 +4,39 @@ namespace App\Resources;
 
 class ErrorResponse {
 
+  /**
+   * @OA\Response(
+   *   response="Unauthorized",
+   *   description="Unauthorized",
+   *   @OA\JsonContent(
+   *     example={"status": 401, "message": "Unauthorized"},
+   *     @OA\Property(property="status", type="integer", format="int32"),
+   *     @OA\Property(property="message", type="string"),
+   *   ),
+   * )
+   */
+  public static function unauthorized($message = null) {
+    return response()->json([
+      'status' => 401,
+      'message' => $message ?? 'Unauthorized',
+    ], 401);
+  }
+
+  /**
+   * @OA\Response(
+   *   response="NotFound",
+   *   description="Not Found",
+   *   @OA\JsonContent(
+   *     example={
+   *       "status": 404,
+   *       "message": "The provided ID is invalid, or the item does not exist",
+   *     },
+   *     @OA\Property(property="status", type="integer", format="int32"),
+   *     @OA\Property(property="message", type="string"),
+   *   ),
+   * )
+   */
   public static function notFound($message = null) {
-    /**
-     * @OA\Response(
-     *   response="NotFound",
-     *   description="Not Found",
-     *   @OA\JsonContent(
-     *     example={
-     *       "status": 404,
-     *       "message": "The provided ID is invalid, or the item does not exist",
-     *     },
-     *     @OA\Property(property="status", type="integer", format="int32"),
-     *     @OA\Property(property="message", type="string"),
-     *   ),
-     * )
-     */
     return response()->json([
       'status' => 404,
       'message' => $message ?? 'The provided ID is invalid, or the item does not exist',

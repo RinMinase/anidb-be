@@ -27,20 +27,6 @@ class Controller extends BaseController {
 }
 
 /**
- * @OA\Response(
- *   response="Unauthorized",
- *   description="Unauthorized",
- *   @OA\JsonContent(
- *     example={"status": 401, "message": "Unauthorized"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class UnauthorizedResponse {
-}
-
-/**
  * @OA\Schema(
  *   schema="Pagination",
  *   title="Pagination Meta",
