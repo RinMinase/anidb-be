@@ -74,8 +74,6 @@ class EntryBySequenceController extends Controller {
    * )
    */
   public function index($id): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->getBySequence($id),
-    ]);
+    return response()->json($this->entryRepository->getBySequence($id));
   }
 }
