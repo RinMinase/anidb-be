@@ -27,6 +27,7 @@ class EntryByBucketController extends Controller {
    *     @OA\JsonContent(ref="#/components/schemas/BucketStatsWithEntry"),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(): JsonResponse {
@@ -60,6 +61,8 @@ class EntryByBucketController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function get($id): JsonResponse {
