@@ -28,21 +28,6 @@ class Controller extends BaseController {
 
 /**
  * @OA\Response(
- *   response="Success",
- *   description="Success",
- *   @OA\JsonContent(
- *     example={"status": 200, "message": "Success"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class SuccessResponse {
-}
-
-
-/**
- * @OA\Response(
  *   response="Unauthorized",
  *   description="Unauthorized",
  *   @OA\JsonContent(
@@ -53,35 +38,6 @@ class SuccessResponse {
  * )
  */
 class UnauthorizedResponse {
-}
-
-
-/**
- * @OA\Response(
- *   response="NotFound",
- *   description="Not Found",
- *   @OA\JsonContent(
- *     example={"status": 404, "message": "Not Found"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class NotFoundResponse {
-}
-
-/**
- * @OA\Response(
- *   response="Failed",
- *   description="Failed",
- *   @OA\JsonContent(
- *     example={"status": 500, "message": "Failed"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class FailedResponse {
 }
 
 /**
