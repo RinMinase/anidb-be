@@ -68,12 +68,15 @@
 
     /* NORMAL API */
 
-    .swagger-ui .execute-wrapper {
+    .swagger-ui .execute-wrapper,
+    .swagger-ui .opblock-body .btn-group {
       padding-top: 0;
       padding-bottom: 0;
     }
 
-    .swagger-ui .btn.execute {
+    .swagger-ui .execute-wrapper .btn.execute,
+    .swagger-ui .opblock-body .btn-group .btn.execute,
+    .swagger-ui .opblock-body .btn-group .btn.btn-clear {
       margin-bottom: 20px;
     }
 
