@@ -72,11 +72,7 @@ class SequenceController extends Controller {
    * )
    */
   public function get($id): JsonResponse {
-    try {
-      return response()->json($this->sequenceRepository->get($id));
-    } catch (ModelNotFoundException) {
-      return ErrorResponse::notFound();
-    }
+    return response()->json($this->sequenceRepository->get($id));
   }
 
   /**
@@ -113,13 +109,9 @@ class SequenceController extends Controller {
    * )
    */
   public function add(Request $request): JsonResponse {
-    try {
-      $this->sequenceRepository->add($request->all());
+    $this->sequenceRepository->add($request->all());
 
-      return DefaultResponse::success();
-    } catch (Exception) {
-      return ErrorResponse::failed();
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -164,16 +156,12 @@ class SequenceController extends Controller {
    * )
    */
   public function edit(Request $request, $id): JsonResponse {
-    try {
-      $this->sequenceRepository->edit(
-        $request->except(['_method']),
-        $id
-      );
+    $this->sequenceRepository->edit(
+      $request->except(['_method']),
+      $id
+    );
 
-      return DefaultResponse::success();
-    } catch (Exception) {
-      return ErrorResponse::failed();
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -197,13 +185,9 @@ class SequenceController extends Controller {
    * )
    */
   public function delete($id): JsonResponse {
-    try {
-      $this->sequenceRepository->delete($id);
+    $this->sequenceRepository->delete($id);
 
-      return DefaultResponse::success();
-    } catch (ModelNotFoundException) {
-      return ErrorResponse::notFound();
-    }
+    return DefaultResponse::success();
   }
 
   public function import(Request $request) {
