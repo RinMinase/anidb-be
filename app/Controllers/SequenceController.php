@@ -83,9 +83,14 @@ class SequenceController extends Controller {
    * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
    */
   public function get($id): JsonResponse {
-    return response()->json([
-      'data' => $this->sequenceRepository->get($id),
-    ]);
+    try {
+      return response()->json($this->sequenceRepository->get($id));
+    } catch (ModelNotFoundException) {
+      return response()->json([
+        'status' => 404,
+        'message' => 'The provided ID is invalid, or the item does not exist',
+      ], 404);
+    }
   }
 
   public function add(Request $request): JsonResponse {

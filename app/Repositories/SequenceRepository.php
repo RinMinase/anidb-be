@@ -13,7 +13,7 @@ class SequenceRepository {
   }
 
   public function get($id) {
-    return Sequence::where('id', $id)->first();
+    return Sequence::where('id', $id)->firstOrFail();
   }
 
   public function add(array $values) {
