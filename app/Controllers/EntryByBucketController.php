@@ -15,54 +15,19 @@ class EntryByBucketController extends Controller {
     $this->entryRepository = $entryRepository;
   }
 
-
   /**
-   * @api {get} /api/entries/by-bucket Retrieve By Buckets
-   * @apiName RetrieveByBuckets
-   * @apiGroup Entry
-   *
-   * @apiHeader {String} token User login token
-   *
-   * @apiSuccess {Object[]} data Buckets with entries data
-   * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {String} data.from Filesize in nearest byte unit
-   * @apiSuccess {String} data.free Filesize in nearest byte unit
-   * @apiSuccess {String} data.freeTB Filesize in nearest byte unit
-   * @apiSuccess {String} data.used Filesize in nearest byte unit
-   * @apiSuccess {Number} data.percent Filesize in nearest byte unit
-   * @apiSuccess {String} data.total Filesize in nearest byte unit
-   * @apiSuccess {Number} data.rawTotal Filesize in nearest byte unit
-   * @apiSuccess {Number} data.titles Filesize in nearest byte unit
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     [
-   *       {
-   *         "id": null,
-   *         "from": null,
-   *         "to": null,
-   *         "free": "1.11 TB",
-   *         "freeTB": "1.11 TB",
-   *         "used": "123.12 GB",
-   *         "percent": 10,
-   *         "total": "1.23 TB",
-   *         "rawTotal": 1000169533440,
-   *         "titles": 1
-   *       }, {
-   *         "id": 1,
-   *         "from": "a",
-   *         "to": "d",
-   *         "free": "1.11 TB",
-   *         "freeTB": null,
-   *         "used": "123.12 GB",
-   *         "percent": 10,
-   *         "total": "1.23 TB",
-   *         "rawTotal": 1000169533440,
-   *         "titles": 1
-   *       }, { ... }
-   *     ]
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   * @OA\Get(
+   *   tags={"Entry Specific"},
+   *   path="/api/entries/by-bucket",
+   *   summary="Get All Bucket Stats with Entries",
+   *   security={{"token":{}}},
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(ref="#/components/schemas/BucketStatsWithEntry"),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function index(): JsonResponse {
     return response()->json([
@@ -70,48 +35,32 @@ class EntryByBucketController extends Controller {
     ]);
   }
 
-
   /**
-   * @api {get} /api/entries/by-bucket/:id Retrieve By Buckets with Entries
-   * @apiName RetrieveByBucketsWithEntries
-   * @apiGroup Entry
+   * @OA\Get(
+   *   tags={"Entry Specific"},
+   *   path="/api/entries/by-bucket/{bucket_id}",
+   *   summary="Get All Entries by Bucket",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
-   * @apiParam {Number} id Bucket ID
+   *   @OA\Parameter(
+   *     name="bucket_id",
+   *     description="Bucket ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
    *
-   * @apiSuccess {Object[]} data Entry data
-   * @apiSuccess {UUID} data.id Entry ID
-   * @apiSuccess {String} data.filesize Filesize in nearest byte unit
-   * @apiSuccess {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} data.quality Video quality
-   * @apiSuccess {String} data.title Entry title
-   *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       data: [
-   *         {
-   *           "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-   *           "filesize": "10.25 GB",
-   *           "quality": "FHD 1080p",
-   *           "title": "Title",
-   *         }, { ... }
-   *       ],
-   *       stats: {
-   *         from: "a",
-   *         to: "d",
-   *       }
-   *     }
-   *
-   *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
-   * @apiError Invalid The provided ID is invalid, or the item does not exist
-   *
-   * @apiErrorExample Invalid
-   *     HTTP/1.1 401 Forbidden
-   *     {
-   *       "status": "401",
-   *       "message": "Bucket ID does not exist"
-   *     }
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
+   *       @OA\Property(property="stats", ref="#/components/schemas/Bucket"),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function get($id): JsonResponse {
     try {

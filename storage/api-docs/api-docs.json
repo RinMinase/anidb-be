@@ -937,6 +937,85 @@
                 ]
             }
         },
+        "/api/entries/by-bucket": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All Bucket Stats with Entries",
+                "operationId": "29d94894dc0919924c95e0aee2b6078d",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BucketStatsWithEntry"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/by-bucket/{bucket_id}": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All Entries by Bucket",
+                "operationId": "8e8b9edf1f4c6cfd779547c6171f46bd",
+                "parameters": [
+                    {
+                        "name": "bucket_id",
+                        "in": "path",
+                        "description": "Bucket ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/EntryCollection"
+                                        },
+                                        "stats": {
+                                            "$ref": "#/components/schemas/Bucket"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries": {
             "get": {
                 "tags": [
@@ -2777,6 +2856,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -2905,10 +2987,14 @@
                         "format": "int32"
                     },
                     "from": {
-                        "type": "string"
+                        "type": "string",
+                        "maximum": 1,
+                        "minimum": 1
                     },
                     "to": {
-                        "type": "string"
+                        "type": "string",
+                        "maximum": 1,
+                        "minimum": 1
                     },
                     "size": {
                         "type": "integer",
@@ -2922,6 +3008,66 @@
                     "to": "d",
                     "size": 2000339066880
                 }
+            },
+            "BucketStatsWithEntry": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "from": {
+                            "type": "string",
+                            "maximum": 1,
+                            "minimum": 1
+                        },
+                        "to": {
+                            "type": "string",
+                            "maximum": 1,
+                            "minimum": 1
+                        },
+                        "free": {
+                            "type": "string"
+                        },
+                        "freeTB": {
+                            "type": "string"
+                        },
+                        "used": {
+                            "type": "string"
+                        },
+                        "percent": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "total": {
+                            "type": "string"
+                        },
+                        "rawTotal": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "titles": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": 1,
+                        "from": "a",
+                        "to": "d",
+                        "free": "1.11 TB",
+                        "freeTB": "1.11 TB",
+                        "used": "123.12 GB",
+                        "percent": 10,
+                        "total": "1.23 TB",
+                        "rawTotal": 1000169533440,
+                        "titles": 1
+                    }
+                ]
             },
             "BucketSimInfo": {
                 "properties": {
@@ -3705,98 +3851,6 @@
             }
         },
         "responses": {
-            "Success": {
-                "description": "Success",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 200,
-                            "message": "Success"
-                        }
-                    }
-                }
-            },
-            "Unauthorized": {
-                "description": "Unauthorized",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 401,
-                            "message": "Unauthorized"
-                        }
-                    }
-                }
-            },
-            "NotFound": {
-                "description": "Not Found",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 404,
-                            "message": "Not Found"
-                        }
-                    }
-                }
-            },
-            "Failed": {
-                "description": "Failed",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 500,
-                            "message": "Failed"
-                        }
-                    }
-                }
-            },
             "MalConfigErrorResponse": {
                 "description": "MAL Scraper Configuration Error Responses",
                 "content": {
@@ -3889,6 +3943,98 @@
                         }
                     }
                 }
+            },
+            "Success": {
+                "description": "Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 200,
+                            "message": "Success"
+                        }
+                    }
+                }
+            },
+            "Unauthorized": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "message": "Unauthorized"
+                        }
+                    }
+                }
+            },
+            "NotFound": {
+                "description": "Not Found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 404,
+                            "message": "The provided ID is invalid, or the item does not exist"
+                        }
+                    }
+                }
+            },
+            "Failed": {
+                "description": "Failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 500,
+                            "message": "Failed"
+                        }
+                    }
+                }
             }
         },
         "securitySchemes": {
@@ -3901,5 +4047,52 @@
                 "scheme": "bearer"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "User"
+        },
+        {
+            "name": "Bucket"
+        },
+        {
+            "name": "BucketSim"
+        },
+        {
+            "name": "Catalog"
+        },
+        {
+            "name": "Codec"
+        },
+        {
+            "name": "Dropdowns"
+        },
+        {
+            "name": "Entry"
+        },
+        {
+            "name": "Entry Specific"
+        },
+        {
+            "name": "Group"
+        },
+        {
+            "name": "Logs"
+        },
+        {
+            "name": "MAL"
+        },
+        {
+            "name": "Management"
+        },
+        {
+            "name": "RSS"
+        },
+        {
+            "name": "Sequence"
+        },
+        {
+            "name": "Release"
+        }
+    ]
 }

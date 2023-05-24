@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  *     "size": 2000339066880,
  *   },
  *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="from", type="string"),
- *   @OA\Property(property="to", type="string"),
+ *   @OA\Property(property="from", type="string", minimum=1, maximum=1),
+ *   @OA\Property(property="to", type="string", minimum=1, maximum=1),
  *   @OA\Property(property="size", type="integer", format="int64"),
  * )
  */
@@ -49,4 +49,36 @@ class Bucket extends Model {
   protected $casts = [
     'created_at' => 'datetime:Y-m-d H:m:s',
   ];
+}
+
+/**
+ * @OA\Schema(
+ *   example={{
+ *     "id": 1,
+ *     "from": "a",
+ *     "to": "d",
+ *     "free": "1.11 TB",
+ *     "freeTB": "1.11 TB",
+ *     "used": "123.12 GB",
+ *     "percent": 10,
+ *     "total": "1.23 TB",
+ *     "rawTotal": 1000169533440,
+ *     "titles": 1,
+ *   }},
+ *   type="array",
+ *   @OA\Items(
+ *     @OA\Property(property="id", type="integer", format="int32"),
+ *     @OA\Property(property="from", type="string", minimum=1, maximum=1),
+ *     @OA\Property(property="to", type="string", minimum=1, maximum=1),
+ *     @OA\Property(property="free", type="string"),
+ *     @OA\Property(property="freeTB", type="string"),
+ *     @OA\Property(property="used", type="string"),
+ *     @OA\Property(property="percent", type="integer", format="int32"),
+ *     @OA\Property(property="total", type="string"),
+ *     @OA\Property(property="rawTotal", type="integer", format="int64"),
+ *     @OA\Property(property="titles", type="integer", format="int32"),
+ *   ),
+ * )
+ */
+class BucketStatsWithEntry {
 }
