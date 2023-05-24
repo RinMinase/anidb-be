@@ -338,6 +338,62 @@
                 ]
             }
         },
+        "/api/bucket-sims/{bucket_info_id}": {
+            "get": {
+                "tags": [
+                    "BucketSim"
+                ],
+                "summary": "Get All Entries by Bucket",
+                "operationId": "1624f5c9a3f7e14b9434aac5b060a7be",
+                "parameters": [
+                    {
+                        "name": "bucket_info_id",
+                        "in": "path",
+                        "description": "Bucket Info ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BucketStatsWithEntry"
+                                        },
+                                        "stats": {
+                                            "$ref": "#/components/schemas/BucketSimInfo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/catalogs": {
             "get": {
                 "tags": [
