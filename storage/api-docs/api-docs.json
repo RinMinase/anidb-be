@@ -1199,6 +1199,123 @@
                 ]
             }
         },
+        "/api/entries/by-sequence/{sequence_id}": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All Sequence Stats with Entries",
+                "operationId": "8d556f1312cc8d71d52ba56f1666e769",
+                "parameters": [
+                    {
+                        "name": "sequence_id",
+                        "in": "path",
+                        "description": "Sequence ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/EntryCollection"
+                                        },
+                                        "stats": {
+                                            "properties": {
+                                                "titles_per_day": {
+                                                    "type": "number"
+                                                },
+                                                "eps_per_day": {
+                                                    "type": "number"
+                                                },
+                                                "quality_2160": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "quality_1080": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "quality_720": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "quality_480": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "quality_360": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "total_titles": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "total_eps": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "total_size": {
+                                                    "type": "string"
+                                                },
+                                                "total_days": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "start_date": {
+                                                    "type": "string"
+                                                },
+                                                "end_date": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "example": {
+                                                "titles_per_day": 0,
+                                                "eps_per_day": 0,
+                                                "quality_2160": 0,
+                                                "quality_1080": 0,
+                                                "quality_720": 0,
+                                                "quality_480": 0,
+                                                "quality_360": 0,
+                                                "total_titles": 0,
+                                                "total_eps": 0,
+                                                "total_size": "0 GB",
+                                                "total_days": 0,
+                                                "start_date": "Jan 01, 2000",
+                                                "end_date": "Feb 01, 2000"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries": {
             "get": {
                 "tags": [
