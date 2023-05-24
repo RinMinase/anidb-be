@@ -15,7 +15,7 @@ return new class extends Migration {
       $table->id();
 
       $table->integer('id_sim_info')->unsigned()->nullable();
-      $table->foreign('id_sim_info')->references('id')->on('bucket_sim_infos');
+      $table->foreign('id_sim_info')->references('id')->on('bucket_sim_infos')->onDelete('cascade');
 
       $table->char('from', 1);
       $table->char('to', 1);
