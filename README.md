@@ -23,7 +23,6 @@ This is done by setting these specific ENV flags to true, to disable them.
 ```
 DISABLE_DB       - Disables Database
 DISABLE_SCRAPTER - Disables WebScraper
-DISABLE_MAILGUN  - Disables Mailgun
 ```
 
 1. Database (PostgreSQL)
@@ -44,15 +43,7 @@ DISABLE_MAILGUN  - Disables Mailgun
 2. Web Scraper
     - Set `RELEASE_BASE_URI` to the API of the repository it fetches its list (e.g `api.github.com/repos/<UserName>/<Repository>`)
 
-3. Mailgun
-    - Fire up your browser and login your [Mailgun Account](https://app.mailgun.com). If you have no account yet, [create one](https://signup.mailgun.com/new/signup).
-    - After you signup, you will be given an API key and its domain. If not, you can navigate to `Settings > Security & Users > API security`. Domain is in a form of `postmaster@<domain>.mailgun.org`
-    - View your Private API Key and copy them over to `MAILGUN_API_KEY` of your env file
-    - Navigate to `Sending > Domain Settings > SMTP Credentials`
-    - Copy the domain under `Login`. (e.g `postmaster@<domain>.mailgun.org`) to `MAILGUN_DOMAIN` of your env file
-    - Place any email you want to send your temporary verification code to in `MAILGUN_TEST_USER` with the format `{user name} <{email address}>`
-
-4. Cloudinary
+3. Cloudinary
     - Fire up your browser and login your [Cloudinary Account](https://cloudinary.com/users/login). If you have no account yet, you can [create one](https://cloudinary.com/users/register/free) for free.
     - After logging in, navigate to the [Cloudinary Console](https://cloudinary.com/console) to retrieve your Cloudinary URL
     - Copy the value of `API Environment variable` to `CLOUDINARY_URL` of your ENV file
@@ -207,7 +198,6 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 * <img width=20 height=20 src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic-480x411.png"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png"> [Swagger](https://swagger.io/) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
-* <img width=20 height=20 src="https://app.mailgun.com/assets/pilot/images/favicon.png"> [Mailgun](https://www.mailgun.com) - Email Service
 * <img width=20 height=20 src="https://phpunit.de/favicon-32x32.png"> [PHPUnit](https://phpunit.de/) - Unit Testing
 * <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net) - HTTP Requests Architecture
 
