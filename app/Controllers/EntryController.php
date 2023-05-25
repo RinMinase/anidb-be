@@ -260,6 +260,50 @@ class EntryController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Entry"},
+   *   path="/api/entries/ratings/{entry_id}",
+   *   summary="Edit Entry Ratings",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="audio",
+   *     in="query",
+   *     example=10,
+   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   ),
+   *   @OA\Parameter(
+   *     name="enjoyment",
+   *     in="query",
+   *     example=10,
+   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   ),
+   *   @OA\Parameter(
+   *     name="graphics",
+   *     in="query",
+   *     example=10,
+   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   ),
+   *   @OA\Parameter(
+   *     name="plot",
+   *     in="query",
+   *     example=10,
+   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function ratings(Request $request, $uuid): JsonResponse {
     try {
       $this->entryRepository->ratings($request, $uuid);
@@ -276,6 +320,32 @@ class EntryController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Entry"},
+   *   path="/api/entries/rewatch/{entry_id}",
+   *   summary="Add an Entry Rewatch",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="date_rewatched",
+   *     in="query",
+   *     example="2022-01-23",
+   *     @OA\Schema(type="string", format="date"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function rewatchAdd(Request $request, $uuid): JsonResponse {
     try {
       $this->entryRepository->rewatchAdd($request, $uuid);
@@ -292,6 +362,26 @@ class EntryController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Entry"},
+   *   path="/api/entries/rewatch/{entry_rewatch_id}",
+   *   summary="Delete an Entry Rewatch",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_rewatch_id",
+   *     description="Entry Rewatch ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function rewatchDelete($uuid): JsonResponse {
     try {
       $this->entryRepository->rewatchDelete($uuid);

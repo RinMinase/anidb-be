@@ -1590,6 +1590,164 @@
                 ]
             }
         },
+        "/api/entries/ratings/{entry_id}": {
+            "put": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Edit Entry Ratings",
+                "operationId": "286c4d5a496f73fa9817bbb97ead8a19",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "audio",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "maximum": 10,
+                            "minimum": 1
+                        },
+                        "example": 10
+                    },
+                    {
+                        "name": "enjoyment",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "maximum": 10,
+                            "minimum": 1
+                        },
+                        "example": 10
+                    },
+                    {
+                        "name": "graphics",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "maximum": 10,
+                            "minimum": 1
+                        },
+                        "example": 10
+                    },
+                    {
+                        "name": "plot",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "maximum": 10,
+                            "minimum": 1
+                        },
+                        "example": 10
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/rewatch/{entry_id}": {
+            "post": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Add an Entry Rewatch",
+                "operationId": "c4b1798ec2ae547d5b6570aedc2cde36",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "date_rewatched",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "example": "2022-01-23"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/rewatch/{entry_rewatch_id}": {
+            "delete": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Delete an Entry Rewatch",
+                "operationId": "9f866752b70b1d54db52f6f95a3d0097",
+                "parameters": [
+                    {
+                        "name": "entry_rewatch_id",
+                        "in": "path",
+                        "description": "Entry Rewatch ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/titles": {
             "get": {
                 "tags": [
