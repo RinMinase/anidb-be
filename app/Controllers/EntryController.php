@@ -244,6 +244,39 @@ class EntryController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Entry"},
+   *   path="/api/entries/img-upload/{entry_id}",
+   *   summary="Upload an Image to Entry",
+   *   description="POST request with '_method' in parameters, because PHP can't populate files in PUT/PATCH requests :: Ref. https://stackoverflow.com/a/65009135",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\RequestBody(
+   *     required=true,
+   *     @OA\MediaType(
+   *       mediaType="multipart/form-data",
+   *       @OA\Schema(
+   *         type="object",
+   *         @OA\Property(property="_method", type="string", example="PUT"),
+   *         @OA\Property(property="image", type="string", format="binary"),
+   *       ),
+   *     ),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function imageUpload(Request $request, $uuid): JsonResponse {
     try {
       $this->entryRepository->upload($request, $uuid);

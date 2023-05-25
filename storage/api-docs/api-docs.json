@@ -1590,6 +1590,62 @@
                 ]
             }
         },
+        "/api/entries/img-upload/{entry_id}": {
+            "post": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Upload an Image to Entry",
+                "description": "POST request with '_method' in parameters, because PHP can't populate files in PUT/PATCH requests :: Ref. https://stackoverflow.com/a/65009135",
+                "operationId": "9077ab76c57646b63c4d9b6d4f4950a5",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "_method": {
+                                        "type": "string",
+                                        "example": "PUT"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/ratings/{entry_id}": {
             "put": {
                 "tags": [
