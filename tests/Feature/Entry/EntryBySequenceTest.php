@@ -12,23 +12,21 @@ class EntryBySequenceTest extends BaseTestCase {
 
     $response->assertStatus(200)
       ->assertJsonStructure([
-        'data' => [
-          'data',
-          'stats' => [
-            'titles_per_day',
-            'eps_per_day',
-            'quality_2160',
-            'quality_1080',
-            'quality_720',
-            'quality_480',
-            'quality_360',
-            'total_titles',
-            'total_eps',
-            'total_size',
-            'total_days',
-            'start_date',
-            'end_date',
-          ],
+        'data',
+        'stats' => [
+          'titles_per_day',
+          'eps_per_day',
+          'quality_2160',
+          'quality_1080',
+          'quality_720',
+          'quality_480',
+          'quality_360',
+          'total_titles',
+          'total_eps',
+          'total_size',
+          'total_days',
+          'start_date',
+          'end_date',
         ],
       ]);
   }
