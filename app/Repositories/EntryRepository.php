@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Fuse\Fuse;
+use Cloudinary;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
@@ -470,17 +471,16 @@ class EntryRepository {
 
     if (!empty($entry->image)) {
       $image_id = pathinfo($entry->image);
-      cloudinary()->destroy('entries/' . $image_id['filename']);
+      Cloudinary::destroy('entries/' . $image_id['filename']);
     }
 
-    $imageURL = cloudinary()
-      ->upload(
-        $request->file('image')->getRealPath(),
-        [
-          'quality' => '90',
-          'folder' => 'entries',
-        ],
-      )->getSecurePath();
+    $image = $request->file('image')->getRealPath();
+    $imageSettings = [
+      'quality' => '90',
+      'folder' => 'entries',
+    ];
+
+    $imageURL = Cloudinary::upload($image, $imageSettings)->getSecurePath();
 
     $entry->image = $imageURL;
     $entry->save();
