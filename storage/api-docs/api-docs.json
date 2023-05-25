@@ -1590,10 +1590,77 @@
                 ]
             }
         },
-        "/api/entries/last": {
+        "/api/entries/titles": {
             "get": {
                 "tags": [
                     "Entry"
+                ],
+                "summary": "Search Entry titles - For First Season Title, Prequel and Sequel",
+                "operationId": "3f43b8fa0b3da95705bcd9ffce241635",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Entry ID, search should not include this entry",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "needle",
+                        "in": "query",
+                        "description": "Search query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "title"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "data": [
+                                        "title 1",
+                                        "title 2",
+                                        "title 3"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/last": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
                 ],
                 "summary": "Get Latest Entries",
                 "operationId": "88b2d137e04516a70107ca8d65a51395",

@@ -308,6 +308,47 @@ class EntryController extends Controller {
     }
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"Entry"},
+   *   path="/api/entries/titles",
+   *   summary="Search Entry titles - For First Season Title, Prequel and Sequel",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="id",
+   *     description="Entry ID, search should not include this entry",
+   *     in="query",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *    @OA\Parameter(
+   *     name="needle",
+   *     description="Search query",
+   *     in="query",
+   *     required=true,
+   *     example="title",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       example={
+   *         "data": {
+   *           "title 1",
+   *           "title 2",
+   *           "title 3",
+   *         },
+   *       },
+   *       @OA\Property(property="data", type="array", @OA\Items(type="string")),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function getTitles(Request $request): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getTitles(
