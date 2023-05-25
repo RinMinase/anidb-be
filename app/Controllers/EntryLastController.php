@@ -16,7 +16,7 @@ class EntryLastController extends Controller {
 
   /**
    * @OA\Get(
-   *   tags={"Entry"},
+   *   tags={"Entry Specific"},
    *   path="/api/entries/last",
    *   summary="Get Latest Entries",
    *   security={{"token":{}}},
