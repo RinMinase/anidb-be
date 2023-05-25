@@ -15,12 +15,12 @@ class MalController extends Controller {
   protected $scrapeURI;
 
   public function __construct() {
-    $this->scrapeURI = env('SCRAPER_BASE_URI', null);
+    $this->scrapeURI = config('app.scraper.base_uri');
   }
 
   public function index($params): JsonResponse {
-    if (!env('DISABLE_SCRAPER')) {
-      if (env('SCRAPER_BASE_URI')) {
+    if (!config('app.scraper.disabled')) {
+      if (config('app.scraper.base_uri')) {
         if (is_numeric($params)) {
           return $this->getAnime($params);
         } else {

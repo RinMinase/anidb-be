@@ -57,7 +57,7 @@ class LogRepository {
 
     // Keeps the latest 200 entries in logs
     $last_id = Log::latest()->pluck('id')->first();
-    Log::where('id', '<=', $last_id - env('LOGS_TO_KEEP', 200))
+    Log::where('id', '<=', $last_id - config('app.logs_to_keep'))
       ->delete();
   }
 }

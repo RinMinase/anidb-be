@@ -13,8 +13,8 @@ class ReleaseController extends Controller {
 
   public function __construct() {
     if ($this->isScraperEnabled()) {
-      $this->feReleaseURI = env('RELEASE_BASE_URI') . '/';
-      $this->beReleaseURI = env('RELEASE_BASE_URI') . '-be/';
+      $this->feReleaseURI = config('app.scraper.release_base_uri') . '/';
+      $this->beReleaseURI = config('app.scraper.release_base_uri') . '-be/';
     }
   }
 
@@ -208,8 +208,8 @@ class ReleaseController extends Controller {
    * )
    */
   private function isScraperEnabled() {
-    if (!env('DISABLE_SCRAPER')) {
-      if (env('RELEASE_BASE_URI')) {
+    if (!config('app.scraper.disabled')) {
+      if (config('app.scraper.release_base_uri')) {
         return true;
       } else {
         return response()->json([

@@ -12,7 +12,7 @@ Route::middleware('web')
 Route::middleware('web')
   ->group(function () {
     Route::get('/docs', function () {
-      $is_prod = env('APP_PLATFORM', 'prod') != 'local';
+      $is_prod = config('app.platform') != 'local';
       $apidocJsonFile = URL::to('/') . '/docs/api-docs.json';
       $useAbsolutePath = config('l5-swagger.documentations.default.paths.use_absolute_path', true);
 

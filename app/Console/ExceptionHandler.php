@@ -71,7 +71,7 @@ class ExceptionHandler extends Handler {
       ], 404);
     }
 
-    $is_prod = env('APP_PLATFORM') != 'local';
+    $is_prod = config('app.platform') != 'local';
     if ($e instanceof Exception && !$is_prod) {
       return response()->json([
         'status' => 500,
