@@ -126,80 +126,73 @@ class EntryController extends Controller {
     }
   }
 
-
   /**
-   * @api {post} /api/entry Create Entry
-   * @apiName CreateEntry
-   * @apiGroup Entry
+   * @OA\Post(
+   *   tags={"Entry"},
+   *   path="/api/entries",
+   *   summary="Add an Entry",
+   *   security={{"token":{}}},
    *
-   * @apiHeader {String} token User login token
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_title"),
    *
-   * @apiBody {String} title Entry title
-   * @apiBody {Number} [dateFinished] Date Finished in Unix formatting
-   * @apiBody {Number} [duration] Duration in seconds
-   * @apiBody {Number} [episodes] Number of episodes
-   * @apiBody {Number} [filesize] Filesize in bytes
-   * @apiBody {String} [firstSeasonTitle] Title of the first season in a series
-   * @apiBody {Boolean} [inhdd=true] Flag if title is located in HDD
-   * @apiBody {String} [offquel] Comma-separated offquel titles
-   * @apiBody {Number} [ovas] Number of OVAs
-   * @apiBody {String} [prequel] Title of prequel
-   * @apiBody {String='4K 2160p','FHD 1080p','HD 720p','HQ 480p','LQ 360p'} [quality='FHD 1080p'] Video quality
-   * @apiBody {Object} [rating] Rating of Audio, Enjoyment, Graphics and Plot
-   * @apiBody {Number} [rating.audio] Rating of Audio quality
-   * @apiBody {Number} [rating.enjoyment] Rating of Enjoyment
-   * @apiBody {Number} [rating.graphics] Rating of Graphics quality
-   * @apiBody {Number} [rating.plot] Rating of Plot depth
-   * @apiBody {String='Winter','Spring','Summer','Fall'} [releaseSeason] Season in which the title was released
-   * @apiBody {String} [releaseYear] Year in which the title was released converted to String
-   * @apiBody {String} [remarks] Any comments or remarks
-   * @apiBody {String} [rewatch] Comma-separated string for rewatches in Unix formatted dates
-   * @apiBody {Number} [rewatchLast] Last rewatched date in Unix formatting
-   * @apiBody {Number} [seasonNumber] Current season number of title
-   * @apiBody {String} [sequel] Sequel title
-   * @apiBody {Number} [specials] Number of special episodes
-   * @apiBody {String} [variants] Comma-separated title variants
-   * @apiBody {Number=0,1,2} [watchStatus=1] 0 = Unwatched, 1 = Watched, 2 = Downloaded
+   *   @OA\Parameter(name="date_finished", in="query", @OA\Schema(type="string", format="date")),
+   *   @OA\Parameter(name="duration", in="query", @OA\Schema(type="integer", format="int64")),
+   *   @OA\Parameter(name="filesize", in="query", @OA\Schema(type="integer", format="int64")),
    *
-   * @apiSuccess {Object} data Created Entry data
+   *   @OA\Parameter(name="episodes", in="query", @OA\Schema(type="integer", format="int32")),
+   *   @OA\Parameter(name="ovas", in="query", @OA\Schema(type="integer", format="int32")),
+   *   @OA\Parameter(name="specials", in="query", @OA\Schema(type="integer", format="int32")),
    *
-   * @apiSuccessExample Success Response
-   *     HTTP/1.1 200 OK
-   *     {
-   *       "_id": {
-   *         "$oid": 1234abcd5678efgh
-   *       },
-   *       "dateFinished": 1546185600,
-   *       "duration": 12345,
-   *       "encoder": "encoder",
-   *       "episodes": 25,
-   *       "filesize": 123456789,
-   *       "firstSeasonTitle": "First Season Title",
-   *       "inhdd": true,
-   *       "offquel": "Offquel1, Offquel2, Offquel3",
-   *       "ovas": 1,
-   *       "prequel": "Prequel Title",
-   *       "quality": "FHD 1080p",
-   *       "rating": {
-   *           "audio": 5,
-   *           "enjoyment": 7,
-   *           "graphics": 4,
-   *           "plot": 7
-   *       },
-   *       "releaseSeason": "Spring",
-   *       "releaseYear": "2017",
-   *       "remarks": "",
-   *       "rewatch": "1553270400, 1553260400",
-   *       "rewatchLast": 1553270400,
-   *       "seasonNumber": 2,
-   *       "sequel": "Sequel Title",
-   *       "specials": 1,
-   *       "title": "Title",
-   *       "variants": "Variant1, Variant2",
-   *       "watchStatus": 0
-   *     }
+   *   @OA\Parameter(
+   *     name="season_number",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32")
+   *   ),
+   *   @OA\Parameter(
+   *     name="season_first_title_id",
+   *     in="query",
+   *     @OA\Schema(type="string", format="uuid")
+   *   ),
+   *   @OA\Parameter(name="prequel_id", in="query", @OA\Schema(type="string", format="uuid")),
+   *   @OA\Parameter(name="sequel_id", in="query", @OA\Schema(type="string", format="uuid")),
    *
-   * @apiError Unauthorized There is no login token provided, or the login token provided is invalid
+   *   @OA\Parameter(name="encoder_video", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(name="encoder_audio", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(name="encoder_subs", in="query", @OA\Schema(type="string")),
+   *
+   *   @OA\Parameter(
+   *     name="release_year",
+   *     in="query",
+   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="release_season",
+   *     in="query",
+   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"})
+   *   ),
+   *
+   *   @OA\Parameter(name="variants", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(name="remarks", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(
+   *     name="id_codec_audio",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32")
+   *   ),
+   *   @OA\Parameter(
+   *     name="id_codec_video",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32")
+   *   ),
+   *   @OA\Parameter(
+   *     name="codec_hdr",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32", minimum=0, maximum=1)
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
    */
   public function add(AddRequest $request): JsonResponse {
     try {
@@ -214,6 +207,83 @@ class EntryController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Entry"},
+   *   path="/api/entries/{entry_id}",
+   *   summary="Edit an Entry",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_title"),
+   *
+   *   @OA\Parameter(name="date_finished", in="query", @OA\Schema(type="string", format="date")),
+   *   @OA\Parameter(name="duration", in="query", @OA\Schema(type="integer", format="int64")),
+   *   @OA\Parameter(name="filesize", in="query", @OA\Schema(type="integer", format="int64")),
+   *
+   *   @OA\Parameter(name="episodes", in="query", @OA\Schema(type="integer", format="int32")),
+   *   @OA\Parameter(name="ovas", in="query", @OA\Schema(type="integer", format="int32")),
+   *   @OA\Parameter(name="specials", in="query", @OA\Schema(type="integer", format="int32")),
+   *
+   *   @OA\Parameter(
+   *     name="season_number",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32")
+   *   ),
+   *   @OA\Parameter(
+   *     name="season_first_title_id",
+   *     in="query",
+   *     @OA\Schema(type="string", format="uuid")
+   *   ),
+   *   @OA\Parameter(name="prequel_id", in="query", @OA\Schema(type="string", format="uuid")),
+   *   @OA\Parameter(name="sequel_id", in="query", @OA\Schema(type="string", format="uuid")),
+   *
+   *   @OA\Parameter(name="encoder_video", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(name="encoder_audio", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(name="encoder_subs", in="query", @OA\Schema(type="string")),
+   *
+   *   @OA\Parameter(
+   *     name="release_year",
+   *     in="query",
+   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="release_season",
+   *     in="query",
+   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"})
+   *   ),
+   *
+   *   @OA\Parameter(name="variants", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(name="remarks", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(
+   *     name="id_codec_audio",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32")
+   *   ),
+   *   @OA\Parameter(
+   *     name="id_codec_video",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32")
+   *   ),
+   *   @OA\Parameter(
+   *     name="codec_hdr",
+   *     in="query",
+   *     @OA\Schema(type="integer", format="int32", minimum=0, maximum=1)
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   * )
+   */
   public function edit(EditRequest $request, $uuid): JsonResponse {
     try {
       $this->entryRepository->edit($request, $uuid);

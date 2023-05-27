@@ -8,6 +8,20 @@ use Illuminate\Contracts\Validation\Validator;
 
 class EditRequest extends FormRequest {
 
+  /**
+   * @OA\Parameter(
+   *   parameter="entry_edit_id_quality",
+   *   name="id_quality",
+   *   in="query",
+   *   @OA\Schema(type="integer", format="int32"),
+   * ),
+   * @OA\Parameter(
+   *   parameter="entry_edit_title",
+   *   name="title",
+   *   in="query",
+   *   @OA\Schema(type="string", minLength=1, maxLength=256),
+   * ),
+   */
   public function rules() {
     return [
       'id_quality' => 'integer|exists:qualities,id',
