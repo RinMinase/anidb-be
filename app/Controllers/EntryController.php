@@ -27,6 +27,49 @@ class EntryController extends Controller {
    *   path="/api/entries",
    *   summary="Get All Entries",
    *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="needle",
+   *     description="Search - Item to search for in haystack (column)",
+   *     in="query",
+   *     example="item name",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="haystack",
+   *     description="Search - Column to search for",
+   *     in="query",
+   *     example="title",
+   *     @OA\Schema(type="string", default="title"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="column",
+   *     description="Order - Column to order",
+   *     in="query",
+   *     example="id_quality",
+   *     @OA\Schema(type="string", default="id_quality"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="order",
+   *     description="Order - Order the column by",
+   *     in="query",
+   *     @OA\Schema(type="string", default="asc", enum={"asc", "desc"}),
+   *   ),
+   *   @OA\Parameter(
+   *     name="page",
+   *     description="Pagination - Page to query",
+   *     in="query",
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32", default=1, minimum=1),
+   *   ),
+   *   @OA\Parameter(
+   *     name="limit",
+   *     description="Pagination - Page item limit",
+   *     in="query",
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32", default=30, minimum=1),
+   *   ),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="OK",

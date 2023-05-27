@@ -1485,6 +1485,74 @@
                 ],
                 "summary": "Get All Entries",
                 "operationId": "0715d85a4978cb676a1adae8ea40927c",
+                "parameters": [
+                    {
+                        "name": "needle",
+                        "in": "query",
+                        "description": "Search - Item to search for in haystack (column)",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "item name"
+                    },
+                    {
+                        "name": "haystack",
+                        "in": "query",
+                        "description": "Search - Column to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": "title"
+                        },
+                        "example": "title"
+                    },
+                    {
+                        "name": "column",
+                        "in": "query",
+                        "description": "Order - Column to order",
+                        "schema": {
+                            "type": "string",
+                            "default": "id_quality"
+                        },
+                        "example": "id_quality"
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order - Order the column by",
+                        "schema": {
+                            "type": "string",
+                            "default": "asc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Pagination - Page to query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1,
+                            "minimum": 1
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Pagination - Page item limit",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 30,
+                            "minimum": 1
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
