@@ -20,19 +20,6 @@ class PartialController extends Controller {
     $this->partialRepository = $partialRepository;
   }
 
-  public function index($uuid) {
-    try {
-      return response()->json([
-        'data' => $this->partialRepository->get($uuid),
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'The provided ID is invalid, or the item does not exist',
-      ], 401);
-    }
-  }
-
   /**
    * @OA\Post(
    *   tags={"Catalog"},
@@ -330,4 +317,12 @@ class PartialController extends Controller {
       ], 401);
     }
   }
+
+  /* Temporarily removed as API are unused */
+
+  // public function index($uuid) {
+  //   return response()->json([
+  //     'data' => $this->partialRepository->get($uuid),
+  //   ]);
+  // }
 }
