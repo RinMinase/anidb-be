@@ -52,7 +52,6 @@ class EntryBySequenceController extends Controller {
    *           "end_date": "Feb 01, 2000"
    *         },
    *         property="stats",
-   *         type="object",
    *         @OA\Property(property="titles_per_day", type="number"),
    *         @OA\Property(property="eps_per_day", type="number"),
    *         @OA\Property(property="quality_2160", type="integer", format="int32"),
@@ -70,6 +69,7 @@ class EntryBySequenceController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
