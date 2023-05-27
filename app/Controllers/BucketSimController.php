@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\BucketSimRepository;
 
+use App\Resources\DefaultResponse;
+
 class BucketSimController extends Controller {
 
   private BucketSimRepository $bucketSimRepository;
@@ -105,19 +107,9 @@ class BucketSimController extends Controller {
    * )
    */
   public function add(Request $request): JsonResponse {
-    try {
-      $this->bucketSimRepository->add($request->all());
+    $this->bucketSimRepository->add($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -159,19 +151,9 @@ class BucketSimController extends Controller {
    * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
-    try {
-      $this->bucketSimRepository->edit($request->all(), $uuid);
+    $this->bucketSimRepository->edit($request->all(), $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -197,19 +179,9 @@ class BucketSimController extends Controller {
    * )
    */
   public function delete($uuid): JsonResponse {
-    try {
-      $this->bucketSimRepository->delete($uuid);
+    $this->bucketSimRepository->delete($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -235,18 +207,8 @@ class BucketSimController extends Controller {
    * )
    */
   public function saveBucket($uuid): JsonResponse {
-    try {
-      $this->bucketSimRepository->save_bucket($uuid);
+    $this->bucketSimRepository->save_bucket($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Bucket Sim ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 }
