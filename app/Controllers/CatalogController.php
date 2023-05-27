@@ -4,10 +4,11 @@ namespace App\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CatalogRepository;
 use App\Resources\Catalog\CatalogCollection;
+
+use App\Resources\DefaultResponse;
 
 class CatalogController extends Controller {
 
@@ -74,14 +75,7 @@ class CatalogController extends Controller {
    * )
    */
   public function get($uuid) {
-    try {
-      return response()->json($this->catalogRepository->get($uuid));
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'The provided ID is invalid, or the item does not exist',
-      ], 401);
-    }
+    return response()->json($this->catalogRepository->get($uuid));
   }
 
   /**
@@ -112,19 +106,9 @@ class CatalogController extends Controller {
    * )
    */
   public function add(Request $request): JsonResponse {
-    try {
-      $this->catalogRepository->add($request->all());
+    $this->catalogRepository->add($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -164,19 +148,9 @@ class CatalogController extends Controller {
    * )
    */
   public function edit(Request $request, $id): JsonResponse {
-    try {
-      $this->catalogRepository->edit($request->except(['_method']), $id);
+    $this->catalogRepository->edit($request->except(['_method']), $id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Catalog ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -202,18 +176,8 @@ class CatalogController extends Controller {
    * )
    */
   public function delete($uuid): JsonResponse {
-    try {
-      $this->catalogRepository->delete($uuid);
+    $this->catalogRepository->delete($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Catalog ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 }
