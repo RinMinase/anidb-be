@@ -59,7 +59,6 @@ class Controller extends BaseController {
  *   },
  *   @OA\Property(
  *     property="meta",
- *     type="object",
  *     @OA\Property(property="page", type="integer", format="int32", minimum=1),
  *     @OA\Property(property="limit", type="integer", format="int32", minimum=1),
  *     @OA\Property(property="total", type="integer", format="int32", minimum=1),
