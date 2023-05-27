@@ -26,11 +26,7 @@ class LogController extends Controller {
    *     description="OK",
    *     @OA\JsonContent(
    *       @OA\Property(property="data", ref="#/components/schemas/LogCollection"),
-   *       @OA\Property(
-   *         property="meta",
-   *         type="object",
-   *         ref="#/components/schemas/Pagination",
-   *       ),
+   *       @OA\Property(property="meta", ref="#/components/schemas/Pagination"),
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
