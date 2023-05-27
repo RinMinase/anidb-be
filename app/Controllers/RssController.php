@@ -188,6 +188,7 @@ class RssController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
