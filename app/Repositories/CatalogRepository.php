@@ -47,7 +47,9 @@ class CatalogRepository {
   }
 
   public function edit(array $values, $id) {
-    return Catalog::where('uuid', $id)->update($values);
+    return Catalog::where('uuid', $id)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function delete($id) {
