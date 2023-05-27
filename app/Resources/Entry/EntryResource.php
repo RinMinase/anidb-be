@@ -76,7 +76,6 @@ use Carbon\CarbonInterval;
  *     },
  *     "image": "{{ image url }}",
  *    },
- *   type="object",
  *   @OA\Property(property="id", type="string", format="uuid"),
  *   @OA\Property(
  *     property="quality",
@@ -102,7 +101,6 @@ use Carbon\CarbonInterval;
  *   @OA\Property(property="prequelTitle", type="string"),
  *   @OA\Property(
  *     property="prequel",
- *     type="object",
  *     @OA\Property(property="id", type="string", format="uuid"),
  *     @OA\Property(property="title", type="string"),
  *   ),
@@ -110,7 +108,6 @@ use Carbon\CarbonInterval;
  *   @OA\Property(property="sequelTitle", type="string"),
  *   @OA\Property(
  *     property="sequel",
- *     type="object",
  *     @OA\Property(property="id", type="string", format="uuid"),
  *     @OA\Property(property="title", type="string"),
  *   ),
@@ -143,7 +140,6 @@ use Carbon\CarbonInterval;
  *   @OA\Property(property="ratingAverage", type="number"),
  *   @OA\Property(
  *     property="rating",
- *     type="object",
  *     @OA\Property(property="audio", type="integer", format="int32"),
  *     @OA\Property(property="enjoyment", type="integer", format="int32"),
  *     @OA\Property(property="graphics", type="integer", format="int32"),
