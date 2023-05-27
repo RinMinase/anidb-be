@@ -46,7 +46,9 @@ class RssRepository {
   }
 
   public function edit(array $values, $uuid) {
-    return Rss::where('uuid', $uuid)->update($values);
+    return Rss::where('uuid', $uuid)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function delete($uuid) {
