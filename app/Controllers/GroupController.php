@@ -2,13 +2,12 @@
 
 namespace App\Controllers;
 
-use Exception;
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\GroupRepository;
+
+use App\Resources\DefaultResponse;
 
 class GroupController extends Controller {
 
@@ -89,19 +88,9 @@ class GroupController extends Controller {
    * )
    */
   public function add(Request $request): JsonResponse {
-    try {
-      $this->groupRepository->add($request->all());
+    $this->groupRepository->add($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -134,22 +123,12 @@ class GroupController extends Controller {
    * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
-    try {
-      $this->groupRepository->edit(
-        $request->except(['_method']),
-        $uuid
-      );
+    $this->groupRepository->edit(
+      $request->except(['_method']),
+      $uuid
+    );
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -175,19 +154,9 @@ class GroupController extends Controller {
    * )
    */
   public function delete($uuid): JsonResponse {
-    try {
-      $this->groupRepository->delete($uuid);
+    $this->groupRepository->delete($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Group ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -234,24 +203,16 @@ class GroupController extends Controller {
    * )
    */
   public function import(Request $request) {
-    try {
-      $file = json_decode($request->file('file')->get());
-      $count = $this->groupRepository->import($file);
+    $file = json_decode($request->file('file')->get());
+    $count = $this->groupRepository->import($file);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-        'data' => [
-          'acceptedImports' => $count,
-          'totalJsonEntries' => count($file),
-        ],
-      ]);
-    } catch (Exception $e) {
-      throw $e;
-      return response()->json([
-        'status' => 401,
-        'message' => 'Failed to import JSON file',
-      ]);
-    }
+    return response()->json([
+      'status' => 200,
+      'message' => 'Success',
+      'data' => [
+        'acceptedImports' => $count,
+        'totalJsonEntries' => count($file),
+      ],
+    ]);
   }
 }
