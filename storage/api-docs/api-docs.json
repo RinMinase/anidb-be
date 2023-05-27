@@ -163,7 +163,23 @@
                                             "type": "string"
                                         },
                                         "data": {
-                                            "type": "object"
+                                            "description": "Validation Errors",
+                                            "properties": {
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
                                         }
                                     },
                                     "type": "object"
@@ -175,14 +191,10 @@
                                             "status": 401,
                                             "data": {
                                                 "email": [
-                                                    [
-                                                        "The email field is required."
-                                                    ]
+                                                    "The email field is required."
                                                 ],
                                                 "password": [
-                                                    [
-                                                        "The password field is required."
-                                                    ]
+                                                    "The password field is required."
                                                 ]
                                             }
                                         }
