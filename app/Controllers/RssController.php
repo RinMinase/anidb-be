@@ -4,10 +4,11 @@ namespace App\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\RssRepository;
 use App\Resources\Rss\RssCollection;
+
+use App\Resources\DefaultResponse;
 
 class RssController extends Controller {
 
@@ -33,17 +34,10 @@ class RssController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    try {
-      $data = $this->rssRepository->getAll();
-      $data = RssCollection::collection($data);
+    $data = $this->rssRepository->getAll();
+    $data = RssCollection::collection($data);
 
-      return response()->json($data);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return response()->json($data);
   }
 
   /**
@@ -76,17 +70,10 @@ class RssController extends Controller {
    * )
    */
   public function get($uuid): JsonResponse {
-    try {
-      // update rss feed, clear garbage, get item list, return list
-      $data = $this->rssRepository->get($uuid);
+    // update rss feed, clear garbage, get item list, return list
+    $data = $this->rssRepository->get($uuid);
 
-      return response()->json($data);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return response()->json($data);
   }
 
   /**
@@ -131,19 +118,9 @@ class RssController extends Controller {
    * )
    */
   public function add(Request $request): JsonResponse {
-    try {
-      $this->rssRepository->add($request->all());
+    $this->rssRepository->add($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -197,19 +174,9 @@ class RssController extends Controller {
    * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
-    try {
-      $this->rssRepository->edit($request->except(['_method']), $uuid);
+    $this->rssRepository->edit($request->except(['_method']), $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'RSS ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -235,19 +202,9 @@ class RssController extends Controller {
    * )
    */
   public function delete($uuid): JsonResponse {
-    try {
-      $this->rssRepository->delete($uuid);
+    $this->rssRepository->delete($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'RSS ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -273,19 +230,9 @@ class RssController extends Controller {
    * )
    */
   public function read($uuid): JsonResponse {
-    try {
-      $this->rssRepository->read($uuid);
+    $this->rssRepository->read($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'RSS Item ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -311,19 +258,9 @@ class RssController extends Controller {
    * )
    */
   public function unread($uuid): JsonResponse {
-    try {
-      $this->rssRepository->unread($uuid);
+    $this->rssRepository->unread($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'RSS Item ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -349,19 +286,9 @@ class RssController extends Controller {
    * )
    */
   public function bookmark($uuid): JsonResponse {
-    try {
-      $this->rssRepository->bookmark($uuid);
+    $this->rssRepository->bookmark($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'RSS Item ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -387,18 +314,8 @@ class RssController extends Controller {
    * )
    */
   public function removeBookmark($uuid): JsonResponse {
-    try {
-      $this->rssRepository->removeBookmark($uuid);
+    $this->rssRepository->removeBookmark($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'RSS Item ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 }
