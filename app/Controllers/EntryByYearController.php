@@ -51,7 +51,6 @@ class EntryByYearController extends Controller {
    *           ),
    *           @OA\Property(
    *             property="seasons",
-   *             type="object",
    *             nullable=true,
    *             description="null value on uncategorized entries",
    *             @OA\Property(property="Winter", type="integer", format="int32"),
@@ -101,7 +100,6 @@ class EntryByYearController extends Controller {
    *     @OA\JsonContent(
    *       @OA\Property(
    *         property="data",
-   *         type="object",
    *         @OA\Property(property="Winter", ref="#/components/schemas/EntryCollection"),
    *         @OA\Property(property="Spring", ref="#/components/schemas/EntryCollection"),
    *         @OA\Property(property="Summer", ref="#/components/schemas/EntryCollection"),
