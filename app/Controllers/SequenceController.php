@@ -38,6 +38,7 @@ class SequenceController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(): JsonResponse {
@@ -69,6 +70,7 @@ class SequenceController extends Controller {
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function get($id): JsonResponse {
@@ -106,6 +108,7 @@ class SequenceController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function add(Request $request): JsonResponse {
@@ -154,6 +157,7 @@ class SequenceController extends Controller {
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function edit(Request $request, $id): JsonResponse {
@@ -183,6 +187,8 @@ class SequenceController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function delete($id): JsonResponse {
