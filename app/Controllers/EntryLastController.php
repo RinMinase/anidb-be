@@ -40,7 +40,6 @@ class EntryLastController extends Controller {
    *           "epsPerDay": 0,
    *         },
    *         property="stats",
-   *         type="object",
    *         @OA\Property(property="dateLastEntry", type="string"),
    *         @OA\Property(property="daysLastEntry", type="integer", format="int32"),
    *         @OA\Property(property="dateOldestEntry", type="string"),
@@ -55,6 +54,7 @@ class EntryLastController extends Controller {
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(): JsonResponse {
