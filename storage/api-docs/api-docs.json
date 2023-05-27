@@ -336,6 +336,51 @@
                         "token": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "BucketSim"
+                ],
+                "summary": "Add a Bucket Sim",
+                "operationId": "2502afb5c77b7fb43dbea30b7a2ff198",
+                "parameters": [
+                    {
+                        "name": "buckets",
+                        "in": "query",
+                        "description": "Bucket JSON String",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Bucket Sim Description",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample 2 buckets"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/bucket-sims/{bucket_info_id}": {
@@ -343,7 +388,7 @@
                 "tags": [
                     "BucketSim"
                 ],
-                "summary": "Get All Entries by Bucket",
+                "summary": "Get All Entries by Bucket Sim",
                 "operationId": "1624f5c9a3f7e14b9434aac5b060a7be",
                 "parameters": [
                     {
@@ -376,6 +421,145 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/bucket-sims/{bucket_sim_id}": {
+            "put": {
+                "tags": [
+                    "BucketSim"
+                ],
+                "summary": "Edit a Bucket Sim",
+                "operationId": "7a8089277d2c7a4a4de97c1a1cec4309",
+                "parameters": [
+                    {
+                        "name": "bucket_sim_id",
+                        "in": "path",
+                        "description": "Bucket Sim Info ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+                    },
+                    {
+                        "name": "buckets",
+                        "in": "query",
+                        "description": "Bucket JSON String",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Bucket Sim Description",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Sample 2 buckets"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "BucketSim"
+                ],
+                "summary": "Save Bucket Sim as Current Bucket",
+                "operationId": "77ef287393c85411520770dff08ecf1a",
+                "parameters": [
+                    {
+                        "name": "bucket_sim_id",
+                        "in": "path",
+                        "description": "Bucket Sim Info ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "BucketSim"
+                ],
+                "summary": "Delete a Bucket Sim",
+                "operationId": "ee76cd295522acf929a76a863c0f4403",
+                "parameters": [
+                    {
+                        "name": "bucket_sim_id",
+                        "in": "path",
+                        "description": "Bucket Sim Info ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
@@ -575,6 +759,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -786,6 +973,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -949,6 +1139,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -2000,6 +2193,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -2168,6 +2364,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -2552,6 +2751,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -3126,6 +3328,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -3227,6 +3432,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [
@@ -3687,6 +3895,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     }
                 },
                 "security": [

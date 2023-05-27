@@ -45,7 +45,7 @@ class BucketSimController extends Controller {
    * @OA\Get(
    *   tags={"BucketSim"},
    *   path="/api/bucket-sims/{bucket_info_id}",
-   *   summary="Get All Entries by Bucket",
+   *   summary="Get All Entries by Bucket Sim",
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(
@@ -74,6 +74,35 @@ class BucketSimController extends Controller {
     return response()->json($this->bucketSimRepository->get($uuid));
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"BucketSim"},
+   *   path="/api/bucket-sims",
+   *   summary="Add a Bucket Sim",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="buckets",
+   *     description="Bucket JSON String",
+   *     in="query",
+   *     required=true,
+   *     example="[{""from"":""a"",""to"":""i"",""size"":2000339066880},{""from"":""j"",""to"":""z"",""size"":2000339066880}]",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="description",
+   *     description="Bucket Sim Description",
+   *     in="query",
+   *     required=true,
+   *     example="Sample 2 buckets",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function add(Request $request): JsonResponse {
     try {
       $this->bucketSimRepository->add($request->all());
@@ -90,6 +119,44 @@ class BucketSimController extends Controller {
     }
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"BucketSim"},
+   *   path="/api/bucket-sims/{bucket_sim_id}",
+   *   summary="Edit a Bucket Sim",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="bucket_sim_id",
+   *     description="Bucket Sim Info ID",
+   *     in="path",
+   *     required=true,
+   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="buckets",
+   *     description="Bucket JSON String",
+   *     in="query",
+   *     required=true,
+   *     example="[{""from"":""a"",""to"":""i"",""size"":2000339066880},{""from"":""j"",""to"":""z"",""size"":2000339066880}]",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="description",
+   *     description="Bucket Sim Description",
+   *     in="query",
+   *     required=true,
+   *     example="Sample 2 buckets",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function edit(Request $request, $uuid): JsonResponse {
     try {
       $this->bucketSimRepository->edit($request->all(), $uuid);
@@ -106,6 +173,28 @@ class BucketSimController extends Controller {
     }
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"BucketSim"},
+   *   path="/api/bucket-sims/{bucket_sim_id}",
+   *   summary="Delete a Bucket Sim",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="bucket_sim_id",
+   *     description="Bucket Sim Info ID",
+   *     in="path",
+   *     required=true,
+   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function delete($uuid): JsonResponse {
     try {
       $this->bucketSimRepository->delete($uuid);
@@ -122,6 +211,28 @@ class BucketSimController extends Controller {
     }
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"BucketSim"},
+   *   path="/api/bucket-sims/{bucket_sim_id}",
+   *   summary="Save Bucket Sim as Current Bucket",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="bucket_sim_id",
+   *     description="Bucket Sim Info ID",
+   *     in="path",
+   *     required=true,
+   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function saveBucket($uuid): JsonResponse {
     try {
       $this->bucketSimRepository->save_bucket($uuid);
