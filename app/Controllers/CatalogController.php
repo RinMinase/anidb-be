@@ -35,6 +35,7 @@ class CatalogController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(): JsonResponse {
@@ -64,14 +65,12 @@ class CatalogController extends Controller {
    *     description="Success",
    *     @OA\JsonContent(
    *       @OA\Property(property="data", ref="#/components/schemas/PartialCollection"),
-   *       @OA\Property(
-   *         property="stats",
-   *         type="object",
-   *         ref="#/components/schemas/Catalog",
-   *       ),
+   *       @OA\Property(property="stats", ref="#/components/schemas/Catalog"),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function get($uuid) {
@@ -109,6 +108,7 @@ class CatalogController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function add(Request $request): JsonResponse {
@@ -160,6 +160,7 @@ class CatalogController extends Controller {
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function edit(Request $request, $id): JsonResponse {
@@ -196,6 +197,8 @@ class CatalogController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function delete($uuid): JsonResponse {
