@@ -68,3 +68,16 @@ class Controller extends BaseController {
  */
 class PaginationMeta {
 }
+
+/**
+ * @OA\Schema(
+ *   schema="YearSchema",
+ *   title="Year Schema",
+ *   type="integer",
+ *   format="int32",
+ *   minimum=1970,
+ *   maximum=2999,
+ * ),
+ */
+class YearSchema {
+}
