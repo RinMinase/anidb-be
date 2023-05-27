@@ -84,6 +84,18 @@
       font-size: 14px;
     }
 
+    .swagger-ui table tbody tr td.parameters-col_name:first-of-type {
+      padding-right: 12px;
+    }
+
+    .swagger-ui table.parameters .parameters-col_description div p {
+      margin-bottom: 8px;
+    }
+
+    .swagger-ui table.parameters .parameters-col_description div:not(:first-of-type) p {
+      font-size: 14px;
+    }
+
     .swagger-ui .response-col_status {
       font-size: 16px;
     }
