@@ -149,6 +149,7 @@ class CodecController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    * )
    */
   public function editAudio(Request $request, $id): JsonResponse {
@@ -301,6 +302,7 @@ class CodecController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    * )
    */
   public function editVideo(Request $request, $id): JsonResponse {
