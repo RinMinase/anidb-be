@@ -227,7 +227,7 @@ class EntryTest extends BaseTestCase {
     $response = $this->withoutMiddleware()
       ->get('/api/entries/' . $this->entry_uuid);
 
-    $response->assertStatus(401)
+    $response->assertStatus(404)
       ->assertJson(['message' => 'The provided ID is invalid, or the item does not exist']);
   }
 
