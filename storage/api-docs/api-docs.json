@@ -6030,7 +6030,7 @@
                 }
             },
             "ReleaseConfigErrorResponse": {
-                "description": "Release URL Configuration Error Responses",
+                "description": "Failed Request or Release URL Configuration Error Responses",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -6058,6 +6058,13 @@
                                 "value": {
                                     "status": 500,
                                     "message": "Release URL / Web Scraper is disabled"
+                                }
+                            },
+                            "FailedRequest": {
+                                "summary": "Failed Request",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Failed"
                                 }
                             }
                         }

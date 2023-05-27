@@ -3,8 +3,11 @@
 namespace App\Controllers;
 
 use DateTime;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
+
+use App\Resources\ErrorResponse;
 
 class ReleaseController extends Controller {
 
@@ -40,7 +43,6 @@ class ReleaseController extends Controller {
    *     @OA\JsonContent(
    *       @OA\Property(
    *         property="changes_{{date}}",
-   *         type="object",
    *         @OA\Property(property="title", type="string"),
    *         @OA\Property(property="dep", ref="#/components/schemas/ChangelogItem"),
    *         @OA\Property(property="fix", ref="#/components/schemas/ChangelogItem"),
@@ -90,7 +92,6 @@ class ReleaseController extends Controller {
    *     @OA\JsonContent(
    *       @OA\Property(
    *         property="changes_{{date}}",
-   *         type="object",
    *         @OA\Property(property="title", type="string"),
    *         @OA\Property(property="dep", ref="#/components/schemas/ChangelogItem"),
    *         @OA\Property(property="fix", ref="#/components/schemas/ChangelogItem"),
@@ -188,7 +189,7 @@ class ReleaseController extends Controller {
   /**
    * @OA\Response(
    *   response="ReleaseConfigErrorResponse",
-   *   description="Release URL Configuration Error Responses",
+   *   description="Failed Request or Release URL Configuration Error Responses",
    *   @OA\JsonContent(
    *     examples={
    *       @OA\Examples(
@@ -201,6 +202,11 @@ class ReleaseController extends Controller {
    *         example="ReleaseScraperDisabled",
    *         value={"status": 500, "message": "Release URL / Web Scraper is disabled"},
    *       ),
+   *       @OA\Examples(
+   *         summary="Failed Request",
+   *         example="FailedRequest",
+   *         value={"status": 500, "message": "Failed"},
+   *       ),
    *     },
    *     @OA\Property(property="status", type="integer", format="int32"),
    *     @OA\Property(property="message", type="string"),
@@ -212,16 +218,10 @@ class ReleaseController extends Controller {
       if (config('app.scraper.release_base_uri')) {
         return true;
       } else {
-        return response()->json([
-          'status' => 500,
-          'message' => 'Release URL configuration not found',
-        ], 500);
+        return ErrorResponse::failed('Release URL configuration not found');
       }
     } else {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Release URL / Web Scraper is disabled',
-      ], 500);
+      ErrorResponse::failed('Release URL / Web Scraper is disabled');
     }
   }
 
