@@ -2,16 +2,16 @@
 
 namespace App\Controllers;
 
-use Exception;
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\EntryRepository;
+
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
+
 use App\Resources\Entry\EntryResource;
+use App\Resources\DefaultResponse;
 
 class EntryController extends Controller {
 
@@ -113,16 +113,9 @@ class EntryController extends Controller {
    * )
    */
   public function get($id): JsonResponse {
-    try {
-      return response()->json([
-        'data' => new EntryResource($this->entryRepository->get($id)),
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'The provided ID is invalid, or the item does not exist',
-      ], 401);
-    }
+    return response()->json([
+      'data' => new EntryResource($this->entryRepository->get($id)),
+    ]);
   }
 
   /**
@@ -195,16 +188,9 @@ class EntryController extends Controller {
    * )
    */
   public function add(AddRequest $request): JsonResponse {
-    try {
-      $this->entryRepository->add($request);
+    $this->entryRepository->add($request);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception $e) {
-      throw $e;
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -287,19 +273,9 @@ class EntryController extends Controller {
    * )
    */
   public function edit(EditRequest $request, $uuid): JsonResponse {
-    try {
-      $this->entryRepository->edit($request, $uuid);
+    $this->entryRepository->edit($request, $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -325,19 +301,9 @@ class EntryController extends Controller {
    * )
    */
   public function delete($id): JsonResponse {
-    try {
-      $this->entryRepository->delete($id);
+    $this->entryRepository->delete($id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Entry ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -384,24 +350,17 @@ class EntryController extends Controller {
    * )
    */
   public function import(Request $request): JsonResponse {
-    try {
-      $file = json_decode($request->file('file')->get());
-      $count = $this->entryRepository->import($file);
+    $file = json_decode($request->file('file')->get());
+    $count = $this->entryRepository->import($file);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-        'data' => [
-          'acceptedImports' => $count,
-          'totalJsonEntries' => count($file),
-        ],
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Failed to import JSON file',
-      ], 401);
-    }
+    return response()->json([
+      'status' => 200,
+      'message' => 'Success',
+      'data' => [
+        'acceptedImports' => $count,
+        'totalJsonEntries' => count($file),
+      ],
+    ]);
   }
 
   /**
@@ -440,19 +399,9 @@ class EntryController extends Controller {
    * )
    */
   public function imageUpload(Request $request, $uuid): JsonResponse {
-    try {
-      $this->entryRepository->upload($request, $uuid);
+    $this->entryRepository->upload($request, $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Entry ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -502,19 +451,9 @@ class EntryController extends Controller {
    * )
    */
   public function ratings(Request $request, $uuid): JsonResponse {
-    try {
-      $this->entryRepository->ratings($request, $uuid);
+    $this->entryRepository->ratings($request, $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Entry ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -546,19 +485,9 @@ class EntryController extends Controller {
    * )
    */
   public function rewatchAdd(Request $request, $uuid): JsonResponse {
-    try {
-      $this->entryRepository->rewatchAdd($request, $uuid);
+    $this->entryRepository->rewatchAdd($request, $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Entry ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -584,19 +513,9 @@ class EntryController extends Controller {
    * )
    */
   public function rewatchDelete($uuid): JsonResponse {
-    try {
-      $this->entryRepository->rewatchDelete($uuid);
+    $this->entryRepository->rewatchDelete($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Entry ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
