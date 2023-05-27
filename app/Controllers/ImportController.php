@@ -53,28 +53,23 @@ class ImportController extends Controller {
    *       @OA\Property(property="message", type="integer", format="int32"),
    *       @OA\Property(
    *         property="data",
-   *         type="object",
    *         @OA\Property(
    *           property="entries",
-   *           type="object",
    *           @OA\Property(property="accepted", type="integer", format="int32"),
    *           @OA\Property(property="total", type="integer", format="int32"),
    *         ),
    *         @OA\Property(
    *           property="buckets",
-   *           type="object",
    *           @OA\Property(property="accepted", type="integer", format="int32"),
    *           @OA\Property(property="total", type="integer", format="int32"),
    *         ),
    *         @OA\Property(
    *           property="sequences",
-   *           type="object",
    *           @OA\Property(property="accepted", type="integer", format="int32"),
    *           @OA\Property(property="total", type="integer", format="int32"),
    *         ),
    *         @OA\Property(
    *           property="groups",
-   *           type="object",
    *           @OA\Property(property="accepted", type="integer", format="int32"),
    *           @OA\Property(property="total", type="integer", format="int32"),
    *         ),

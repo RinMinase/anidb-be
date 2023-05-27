@@ -2836,7 +2836,7 @@
                                         },
                                         "data": {
                                             "properties": {
-                                                "entry": {
+                                                "entries": {
                                                     "properties": {
                                                         "accepted": {
                                                             "type": "integer",
@@ -2898,7 +2898,7 @@
                                     "status": 200,
                                     "message": "Success",
                                     "data": {
-                                        "entry": {
+                                        "entries": {
                                             "accepted": 0,
                                             "total": 0
                                         },
