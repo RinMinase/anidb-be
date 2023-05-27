@@ -21,7 +21,9 @@ class SequenceRepository {
   }
 
   public function edit(array $values, $id) {
-    return Sequence::where('id', $id)->update($values);
+    return Sequence::where('id', $id)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function delete($id) {
