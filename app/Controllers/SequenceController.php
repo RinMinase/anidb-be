@@ -2,15 +2,12 @@
 
 namespace App\Controllers;
 
-use Exception;
-
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\SequenceRepository;
+
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
 
 class SequenceController extends Controller {
 
@@ -241,22 +238,15 @@ class SequenceController extends Controller {
    * )
    */
   public function import(Request $request) {
-    try {
-      $count = $this->sequenceRepository->import($request->all());
+    $count = $this->sequenceRepository->import($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-        'data' => [
-          'acceptedImports' => $count,
-          'totalJsonEntries' => count($request->all()),
-        ],
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Failed to import JSON file',
-      ]);
-    }
+    return response()->json([
+      'status' => 200,
+      'message' => 'Success',
+      'data' => [
+        'acceptedImports' => $count,
+        'totalJsonEntries' => count($request->all()),
+      ],
+    ]);
   }
 }
