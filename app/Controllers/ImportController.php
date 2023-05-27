@@ -43,7 +43,7 @@ class ImportController extends Controller {
    *         "status": 200,
    *         "message": "Success",
    *         "data": {
-   *           "entry": {"accepted": 0, "total": 0},
+   *           "entries": {"accepted": 0, "total": 0},
    *           "buckets": {"accepted": 0, "total": 0},
    *           "sequences": {"accepted": 0, "total": 0},
    *           "groups": {"accepted": 0, "total": 0},
@@ -55,7 +55,7 @@ class ImportController extends Controller {
    *         property="data",
    *         type="object",
    *         @OA\Property(
-   *           property="entry",
+   *           property="entries",
    *           type="object",
    *           @OA\Property(property="accepted", type="integer", format="int32"),
    *           @OA\Property(property="total", type="integer", format="int32"),
@@ -114,7 +114,7 @@ class ImportController extends Controller {
         'status' => 200,
         'message' => 'Success',
         'data' => [
-          'entry' => [
+          'entries' => [
             'accepted' => $import_count['entry'],
             'total' => $entry_count,
           ],
