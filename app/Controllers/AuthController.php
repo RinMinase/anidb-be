@@ -123,7 +123,6 @@ class AuthController extends Controller {
    *       @OA\Property(property="message", type="string"),
    *       @OA\Property(
    *         property="data",
-   *         type="object",
    *         @OA\Property(property="token", type="string"),
    *       ),
    *     )
@@ -139,8 +138,8 @@ class AuthController extends Controller {
    *           value={
    *             "status": 401,
    *             "data": {
-   *               "email": {{"The email field is required."}},
-   *               "password": {{"The password field is required."}},
+   *               "email": {"The email field is required."},
+   *               "password": {"The password field is required."},
    *             },
    *           },
    *         ),
@@ -155,7 +154,13 @@ class AuthController extends Controller {
    *       },
    *       @OA\Property(property="status", type="integer", format="int32"),
    *       @OA\Property(property="message", type="string"),
-   *       @OA\Property(property="data", type="object"),
+   *       @OA\Property(
+   *         property="data",
+   *         description="Validation Errors",
+   *         nullable=true,
+   *         @OA\Property(property="email", type="array", @OA\Items(type="string")),
+   *         @OA\Property(property="password", type="array", @OA\Items(type="string")),
+   *       ),
    *     )
    *   ),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
