@@ -3783,11 +3783,48 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "accepted": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "status": 200,
+                                    "message": "Success",
+                                    "data": {
+                                        "accepted": 0,
+                                        "total": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
-                    },
-                    "200": {
-                        "$ref": "#/components/responses/Success"
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
@@ -3970,7 +4007,44 @@
                 ],
                 "responses": {
                     "200": {
-                        "$ref": "#/components/responses/Success"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "accepted": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "status": 200,
+                                    "message": "Success",
+                                    "data": {
+                                        "accepted": 0,
+                                        "total": 0
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"

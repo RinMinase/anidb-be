@@ -6,11 +6,14 @@ use TypeError;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\PartialRepository;
+
 use App\Requests\Partial\AddRequest;
 use App\Requests\Partial\EditRequest;
+
+use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class PartialController extends Controller {
 
@@ -55,19 +58,9 @@ class PartialController extends Controller {
    * )
    */
   public function add(AddRequest $request): JsonResponse {
-    try {
-      $this->partialRepository->add($request->all());
+    $this->partialRepository->add($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Catalog ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -99,8 +92,28 @@ class PartialController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       example={
+   *         "status": 200,
+   *         "message": "Success",
+   *         "data": {
+   *           "accepted": 0,
+   *           "total": 0,
+   *         },
+   *       },
+   *       @OA\Property(property="status", type="integer", format="int32"),
+   *       @OA\Property(property="message", type="string"),
+   *       @OA\Property(
+   *         property="data",
+   *         @OA\Property(property="accepted", type="integer", format="int32"),
+   *         @OA\Property(property="total", type="integer", format="int32"),
+   *       ),
+   *     ),
+   *   ),
    *   @OA\Response(response=400, ref="#/components/responses/BadRequest"),
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
@@ -130,16 +143,8 @@ class PartialController extends Controller {
           'total' => $total_count,
         ],
       ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Catalog ID does not exist',
-      ], 401);
     } catch (TypeError) {
-      return response()->json([
-        'status' => 400,
-        'message' => 'Error in parsing request body',
-      ], 401);
+      return ErrorResponse::badRequest();
     }
   }
 
@@ -191,20 +196,9 @@ class PartialController extends Controller {
       $body = $request->only('title', 'id_catalogs', 'id_priority');
       $this->partialRepository->edit($body, $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Catalog ID does not exist',
-      ], 401);
+      return DefaultResponse::success();
     } catch (TypeError) {
-      return response()->json([
-        'status' => 400,
-        'message' => 'Error in parsing request body',
-      ], 401);
+      return ErrorResponse::badRequest();
     }
   }
 
@@ -245,7 +239,27 @@ class PartialController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       example={
+   *         "status": 200,
+   *         "message": "Success",
+   *         "data": {
+   *           "accepted": 0,
+   *           "total": 0,
+   *         },
+   *       },
+   *       @OA\Property(property="status", type="integer", format="int32"),
+   *       @OA\Property(property="message", type="string"),
+   *       @OA\Property(
+   *         property="data",
+   *         @OA\Property(property="accepted", type="integer", format="int32"),
+   *         @OA\Property(property="total", type="integer", format="int32"),
+   *       ),
+   *     ),
+   *   ),
    *   @OA\Response(response=400, ref="#/components/responses/BadRequest"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
@@ -277,16 +291,8 @@ class PartialController extends Controller {
           'total' => $total_count,
         ],
       ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'A Partial ID in the array does not exist',
-      ], 401);
     } catch (TypeError) {
-      return response()->json([
-        'status' => 400,
-        'message' => 'Error in parsing request body',
-      ], 401);
+      return ErrorResponse::badRequest();
     }
   }
 
@@ -312,19 +318,9 @@ class PartialController extends Controller {
    * )
    */
   public function delete($uuid): JsonResponse {
-    try {
-      $this->partialRepository->delete($uuid);
+    $this->partialRepository->delete($uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Partial ID does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /* Temporarily removed as API are unused */
