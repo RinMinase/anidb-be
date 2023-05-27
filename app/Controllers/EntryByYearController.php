@@ -92,7 +92,7 @@ class EntryByYearController extends Controller {
    *     description="If year is not valid or null is passed, it fetches for uncategorized entries",
    *     in="path",
    *     example=2000,
-   *     @OA\Schema(type="integer", format="int32", minimum=1970, maximum=2999),
+   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
    *   ),
    *
    *   @OA\Response(
