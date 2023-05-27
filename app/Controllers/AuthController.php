@@ -10,6 +10,9 @@ use App\Requests\Auth\RegisterRequest;
 
 use App\Models\User;
 
+use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
+
 class AuthController extends Controller {
 
   /**
@@ -55,7 +58,6 @@ class AuthController extends Controller {
    *       @OA\Property(property="message", type="string"),
    *       @OA\Property(
    *         property="data",
-   *         type="object",
    *         @OA\Property(property="token", type="string"),
    *       ),
    *     )
@@ -127,7 +129,7 @@ class AuthController extends Controller {
    *     )
    *   ),
    *   @OA\Response(
-   *     response=400,
+   *     response=401,
    *     description="Invalid Form or Invalid Credentials",
    *     @OA\JsonContent(
    *       examples={
@@ -135,7 +137,7 @@ class AuthController extends Controller {
    *           summary="Invalid Form",
    *           example="InvalidForm",
    *           value={
-   *             "status": 400,
+   *             "status": 401,
    *             "data": {
    *               "email": {{"The email field is required."}},
    *               "password": {{"The password field is required."}},
@@ -146,7 +148,7 @@ class AuthController extends Controller {
    *           summary="Invalid Credentials",
    *           example="InvalidCredentials",
    *           value={
-   *             "status": 400,
+   *             "status": 401,
    *             "message": "username or password is invalid",
    *           },
    *         ),
@@ -162,10 +164,7 @@ class AuthController extends Controller {
     $credentials = $request->only('email', 'password');
 
     if (!Auth::attempt($credentials)) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Credentials does not match',
-      ], 401);
+      return ErrorResponse::unauthorized('Credentials does not match');
     }
 
     $token = auth()
@@ -198,10 +197,7 @@ class AuthController extends Controller {
   public function logout(): JsonResponse {
     Auth::user()->tokens()->delete();
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
-    ], 200);
+    return DefaultResponse::success();
   }
 
   /**

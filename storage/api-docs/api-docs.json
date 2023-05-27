@@ -149,7 +149,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "401": {
                         "description": "Invalid Form or Invalid Credentials",
                         "content": {
                             "application/json": {
@@ -172,7 +172,7 @@
                                     "InvalidForm": {
                                         "summary": "Invalid Form",
                                         "value": {
-                                            "status": 400,
+                                            "status": 401,
                                             "data": {
                                                 "email": [
                                                     [
@@ -190,7 +190,7 @@
                                     "InvalidCredentials": {
                                         "summary": "Invalid Credentials",
                                         "value": {
-                                            "status": 400,
+                                            "status": 401,
                                             "message": "username or password is invalid"
                                         }
                                     }
