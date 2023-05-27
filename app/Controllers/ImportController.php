@@ -17,6 +17,74 @@ class ImportController extends Controller {
     $this->importRepository = $importRepository;
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Import"},
+   *   path="/api/import",
+   *   summary="Import a JSON file to seed data for all tables",
+   *   security={{"token":{}}},
+   *
+   *   @OA\RequestBody(
+   *     required=true,
+   *     @OA\MediaType(
+   *       mediaType="multipart/form-data",
+   *       @OA\Schema(
+   *         type="object",
+   *         @OA\Property(property="file", type="string", format="binary"),
+   *       ),
+   *     ),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       example={
+   *         "status": 200,
+   *         "message": "Success",
+   *         "data": {
+   *           "entry": {"accepted": 0, "total": 0},
+   *           "buckets": {"accepted": 0, "total": 0},
+   *           "sequences": {"accepted": 0, "total": 0},
+   *           "groups": {"accepted": 0, "total": 0},
+   *         },
+   *       },
+   *       @OA\Property(property="status", type="integer", format="int32"),
+   *       @OA\Property(property="message", type="integer", format="int32"),
+   *       @OA\Property(
+   *         property="data",
+   *         type="object",
+   *         @OA\Property(
+   *           property="entry",
+   *           type="object",
+   *           @OA\Property(property="accepted", type="integer", format="int32"),
+   *           @OA\Property(property="total", type="integer", format="int32"),
+   *         ),
+   *         @OA\Property(
+   *           property="buckets",
+   *           type="object",
+   *           @OA\Property(property="accepted", type="integer", format="int32"),
+   *           @OA\Property(property="total", type="integer", format="int32"),
+   *         ),
+   *         @OA\Property(
+   *           property="sequences",
+   *           type="object",
+   *           @OA\Property(property="accepted", type="integer", format="int32"),
+   *           @OA\Property(property="total", type="integer", format="int32"),
+   *         ),
+   *         @OA\Property(
+   *           property="groups",
+   *           type="object",
+   *           @OA\Property(property="accepted", type="integer", format="int32"),
+   *           @OA\Property(property="total", type="integer", format="int32"),
+   *         ),
+   *       ),
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function index(Request $request): JsonResponse {
     try {
       $file = json_decode($request->file('file')->get());

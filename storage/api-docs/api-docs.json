@@ -2796,6 +2796,143 @@
                 ]
             }
         },
+        "/api/import": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Import a JSON file to seed data for all tables",
+                "operationId": "1b207f753c71f9141c62e2468fb0c199",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "entry": {
+                                                    "properties": {
+                                                        "accepted": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "buckets": {
+                                                    "properties": {
+                                                        "accepted": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "sequences": {
+                                                    "properties": {
+                                                        "accepted": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "groups": {
+                                                    "properties": {
+                                                        "accepted": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "format": "int32"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "status": 200,
+                                    "message": "Success",
+                                    "data": {
+                                        "entry": {
+                                            "accepted": 0,
+                                            "total": 0
+                                        },
+                                        "buckets": {
+                                            "accepted": 0,
+                                            "total": 0
+                                        },
+                                        "sequences": {
+                                            "accepted": 0,
+                                            "total": 0
+                                        },
+                                        "groups": {
+                                            "accepted": 0,
+                                            "total": 0
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/logs": {
             "get": {
                 "tags": [
@@ -5526,6 +5663,9 @@
         },
         {
             "name": "Group"
+        },
+        {
+            "name": "Import"
         },
         {
             "name": "Logs"

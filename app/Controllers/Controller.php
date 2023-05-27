@@ -33,6 +33,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Entry")
  * @OA\Tag(name="Entry Specific")
  * @OA\Tag(name="Group")
+ * @OA\Tag(name="Import")
  * @OA\Tag(name="Logs")
  * @OA\Tag(name="MAL")
  * @OA\Tag(name="Management")
