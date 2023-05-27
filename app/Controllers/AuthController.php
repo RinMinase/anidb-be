@@ -158,6 +158,7 @@ class AuthController extends Controller {
    *       @OA\Property(property="data", type="object"),
    *     )
    *   ),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function login(LoginRequest $request): JsonResponse {
@@ -192,6 +193,7 @@ class AuthController extends Controller {
    *   security={{"token":{}}},
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function logout(): JsonResponse {
@@ -219,6 +221,7 @@ class AuthController extends Controller {
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function getUser(): JsonResponse {
