@@ -3,12 +3,15 @@
 namespace App\Controllers;
 
 use Exception;
+
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 
 use App\Models\MALEntry;
 use App\Models\MALSearch;
+
+use App\Resources\ErrorResponse;
 
 class MalController extends Controller {
 
@@ -27,16 +30,10 @@ class MalController extends Controller {
           return $this->searchAnime($params);
         }
       } else {
-        return response()->json([
-          'status' => 500,
-          'message' => 'Web Scraper configuration not found',
-        ], 500);
+        return ErrorResponse::failed('Web Scraper configuration not found');
       }
     } else {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Web Scraper is disabled',
-      ], 500);
+      return ErrorResponse::failed('Web Scraper is disabled');
     }
   }
 
@@ -72,10 +69,7 @@ class MalController extends Controller {
 
       if ($response->status() >= 500) {
         // Temporary response, will be changed to backup scraper
-        return response()->json([
-          'status' => 503,
-          'message' => 'Issues in connecting to MAL Servers',
-        ], 503);
+        return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
       }
 
       $data = $response->body();
@@ -83,10 +77,7 @@ class MalController extends Controller {
 
       return response()->json($data);
     } catch (Exception) {
-      return response()->json([
-        'status' => 503,
-        'message' => 'Issues in connecting to MAL Servers',
-      ], 503);
+      return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
     }
   }
 
@@ -122,10 +113,7 @@ class MalController extends Controller {
 
       if ($response->status() >= 500) {
         // Temporary response, will be changed to backup scraper
-        return response()->json([
-          'status' => 503,
-          'message' => 'Issues in connecting to MAL Servers',
-        ], 503);
+        return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
       }
 
       $data = $response->body();
@@ -133,10 +121,7 @@ class MalController extends Controller {
 
       return response()->json($data);
     } catch (Exception) {
-      return response()->json([
-        'status' => 503,
-        'message' => 'Issues in connecting to MAL Servers',
-      ], 503);
+      return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
     }
   }
 }
