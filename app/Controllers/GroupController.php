@@ -36,6 +36,7 @@ class GroupController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(): JsonResponse {
@@ -58,6 +59,7 @@ class GroupController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function getNames(): JsonResponse {
@@ -83,6 +85,7 @@ class GroupController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function add(Request $request): JsonResponse {
@@ -127,6 +130,7 @@ class GroupController extends Controller {
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function edit(Request $request, $uuid): JsonResponse {
@@ -166,6 +170,8 @@ class GroupController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function delete($uuid): JsonResponse {
