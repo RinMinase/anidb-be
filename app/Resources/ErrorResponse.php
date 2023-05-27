@@ -6,6 +6,24 @@ class ErrorResponse {
 
   /**
    * @OA\Response(
+   *   response="BadRequest",
+   *   description="Bad Request",
+   *   @OA\JsonContent(
+   *     example={"status": 400, "message": "There was a problem in parsing your request"},
+   *     @OA\Property(property="status", type="integer", format="int32"),
+   *     @OA\Property(property="message", type="string"),
+   *   ),
+   * )
+   */
+  public static function badRequest($message = null) {
+    return response()->json([
+      'status' => 400,
+      'message' => $message ?? 'There was a problem in parsing your request',
+    ], 400);
+  }
+
+  /**
+   * @OA\Response(
    *   response="Unauthorized",
    *   description="Unauthorized",
    *   @OA\JsonContent(

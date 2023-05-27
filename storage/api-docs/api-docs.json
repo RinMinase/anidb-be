@@ -5953,6 +5953,29 @@
                     }
                 }
             },
+            "BadRequest": {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 400,
+                            "message": "There was a problem in parsing your request"
+                        }
+                    }
+                }
+            },
             "Unauthorized": {
                 "description": "Unauthorized",
                 "content": {
