@@ -2238,6 +2238,85 @@
                 ]
             }
         },
+        "/api/entries/import": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Import a JSON file to seed data for entries table",
+                "operationId": "e785b0fe96f59915e0a14d08a85e7e57",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "acceptedImports": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "totalJsonEntries": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "status": 200,
+                                    "message": "Success",
+                                    "data": {
+                                        "acceptedImports": 0,
+                                        "totalJsonEntries": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/img-upload/{entry_id}": {
             "post": {
                 "tags": [
