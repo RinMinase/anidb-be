@@ -72,7 +72,7 @@ class ExceptionHandler extends Handler {
     }
 
     $is_prod = config('app.platform') != 'local';
-    if ($e instanceof Exception && !$is_prod) {
+    if ($e instanceof Exception && $is_prod) {
       return response()->json([
         'status' => 500,
         'message' => 'Failed',
