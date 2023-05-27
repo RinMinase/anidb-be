@@ -178,10 +178,12 @@ class EntryRepository {
       ->orderBy('title', 'asc')
       ->orderBy('id');
 
-    if ($letter[0] === "0") {
+    if (ctype_alpha($letter)) {
+      $data = $data->where('title', 'ilike', $letter[0] . '%');
+    } elseif ($letter[0] === "0") {
       $data = $data->whereRaw('title ~ \'^[0-9]\'');
     } else {
-      $data = $data->where('title', 'ilike', $letter[0] . '%');
+      throw new ModelNotFoundException;
     }
 
     return $data->get();
