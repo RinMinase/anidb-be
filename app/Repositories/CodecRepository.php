@@ -25,7 +25,9 @@ class CodecRepository {
   }
 
   public function editAudio(array $values, $id) {
-    return CodecAudio::where('id', $id)->update($values);
+    return CodecAudio::where('id', $id)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function deleteAudio($id) {
@@ -45,7 +47,9 @@ class CodecRepository {
   }
 
   public function editVideo(array $values, $id) {
-    return CodecVideo::where('id', $id)->update($values);
+    return CodecVideo::where('id', $id)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function deleteVideo($id) {
