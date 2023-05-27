@@ -91,11 +91,7 @@ class EntryRepository {
         $rewatches->orderBy('date_rewatched', 'desc');
       })
       ->with('rating')
-      ->first();
-
-    if (!$entry) {
-      throw new ModelNotFoundException;
-    }
+      ->firstOrFail();
 
     return $entry;
   }
@@ -444,7 +440,7 @@ class EntryRepository {
   }
 
   public function edit(FormRequest $values, $uuid) {
-    $entry = Entry::where('uuid', $uuid)->first();
+    $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
     $entry->update($values->except([
       '_method',
