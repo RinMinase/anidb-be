@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Repositories\CodecRepository;
+
 use App\Resources\DefaultResponse;
 
 class CodecController extends Controller {
@@ -106,19 +106,9 @@ class CodecController extends Controller {
    * )
    */
   public function addAudio(Request $request): JsonResponse {
-    try {
-      $this->codecRepository->addAudio($request->all());
+    $this->codecRepository->addAudio($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -157,19 +147,9 @@ class CodecController extends Controller {
    * )
    */
   public function editAudio(Request $request, $id): JsonResponse {
-    try {
-      $this->codecRepository->editAudio($request->except(['_method']), $id);
+    $this->codecRepository->editAudio($request->except(['_method']), $id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -195,19 +175,9 @@ class CodecController extends Controller {
    * )
    */
   public function deleteAudio($id): JsonResponse {
-    try {
-      $this->codecRepository->deleteAudio($id);
+    $this->codecRepository->deleteAudio($id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Codec does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -264,19 +234,9 @@ class CodecController extends Controller {
    * )
    */
   public function addVideo(Request $request): JsonResponse {
-    try {
-      $this->codecRepository->addVideo($request->all());
+    $this->codecRepository->addVideo($request->all());
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -315,19 +275,9 @@ class CodecController extends Controller {
    * )
    */
   public function editVideo(Request $request, $id): JsonResponse {
-    try {
-      $this->codecRepository->editVideo($request->except(['_method']), $id);
+    $this->codecRepository->editVideo($request->except(['_method']), $id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (Exception) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    return DefaultResponse::success();
   }
 
   /**
@@ -353,18 +303,8 @@ class CodecController extends Controller {
    * )
    */
   public function deleteVideo($id): JsonResponse {
-    try {
-      $this->codecRepository->deleteVideo($id);
+    $this->codecRepository->deleteVideo($id);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
-      ]);
-    } catch (ModelNotFoundException) {
-      return response()->json([
-        'status' => 401,
-        'message' => 'Codec does not exist',
-      ], 401);
-    }
+    return DefaultResponse::success();
   }
 }
