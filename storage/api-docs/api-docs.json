@@ -6260,6 +6260,29 @@
                         }
                     }
                 }
+            },
+            "Unavailable": {
+                "description": "Unavailable",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 503,
+                            "message": "Service unavailable"
+                        }
+                    }
+                }
             }
         },
         "parameters": {

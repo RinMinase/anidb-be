@@ -78,4 +78,22 @@ class ErrorResponse {
       'message' => $message ?? 'An unknown error has occured',
     ], 500);
   }
+
+  /**
+   * @OA\Response(
+   *   response="Unavailable",
+   *   description="Unavailable",
+   *   @OA\JsonContent(
+   *     example={"status": 503, "message": "Service unavailable"},
+   *     @OA\Property(property="status", type="integer", format="int32"),
+   *     @OA\Property(property="message", type="string"),
+   *   ),
+   * )
+   */
+  public static function unavailable($message = null) {
+    return response()->json([
+      'status' => 503,
+      'message' => $message ?? 'Service unavailable',
+    ], 503);
+  }
 }
