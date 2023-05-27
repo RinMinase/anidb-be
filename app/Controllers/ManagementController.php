@@ -70,7 +70,7 @@ class ManagementController extends Controller {
    *
    *       @OA\Property(
    *         property="data",
-   *         type="object",
+   *
    *         @OA\Property(
    *           property="entries",
    *           type="integer",
@@ -93,7 +93,7 @@ class ManagementController extends Controller {
    *
    *       @OA\Property(
    *         property="stats",
-   *         type="object",
+   *
    *         @OA\Property(
    *           property="watchSeconds",
    *           type="integer",
@@ -160,11 +160,9 @@ class ManagementController extends Controller {
    *
    *       @OA\Property(
    *         property="graph",
-   *         type="object",
    *
    *         @OA\Property(
    *           property="quality",
-   *           type="object",
    *           description="Titles watched per quality",
    *           @OA\Property(property="quality_2160", type="integer", format="int32"),
    *           @OA\Property(property="quality_1080", type="integer", format="int32"),
@@ -174,7 +172,6 @@ class ManagementController extends Controller {
    *         ),
    *         @OA\Property(
    *           property="months",
-   *           type="object",
    *           description="Titles watched per month",
    *           @OA\Property(property="jan", type="integer", format="int32"),
    *           @OA\Property(property="feb", type="integer", format="int32"),
