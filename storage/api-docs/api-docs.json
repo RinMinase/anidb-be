@@ -4601,6 +4601,85 @@
                     }
                 ]
             }
+        },
+        "/api/sequences/import": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Import a JSON file to seed data for sequences table",
+                "operationId": "6294a111c8eeb0bce46f45ef2698d9ba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "acceptedImports": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "totalJsonEntries": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "status": 200,
+                                    "message": "Success",
+                                    "data": {
+                                        "acceptedImports": 0,
+                                        "totalJsonEntries": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
         }
     },
     "components": {
