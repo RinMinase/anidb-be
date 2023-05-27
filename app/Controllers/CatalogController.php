@@ -97,7 +97,7 @@ class CatalogController extends Controller {
    *     in="query",
    *     required=true,
    *     example="2020",
-   *     @OA\Schema(type="integer", format="int32"),
+   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
    *   ),
    *   @OA\Parameter(
    *     name="season",
@@ -147,7 +147,7 @@ class CatalogController extends Controller {
    *     in="query",
    *     required=true,
    *     example="2020",
-   *     @OA\Schema(type="integer", format="int32"),
+   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
    *   ),
    *   @OA\Parameter(
    *     name="season",

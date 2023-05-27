@@ -442,8 +442,7 @@
                         "in": "query",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int32"
+                            "$ref": "#/components/schemas/YearSchema"
                         },
                         "example": "2020"
                     },
@@ -550,8 +549,7 @@
                         "in": "query",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int32"
+                            "$ref": "#/components/schemas/YearSchema"
                         },
                         "example": "2020"
                     },
@@ -1423,10 +1421,7 @@
                         "in": "path",
                         "description": "If year is not valid or null is passed, it fetches for uncategorized entries",
                         "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "maximum": 2999,
-                            "minimum": 1970
+                            "$ref": "#/components/schemas/YearSchema"
                         },
                         "example": 2000
                     }
