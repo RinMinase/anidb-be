@@ -22,7 +22,7 @@ This is done by setting these specific ENV flags to true, to disable them.
 
 ```
 DISABLE_DB       - Disables Database
-DISABLE_SCRAPTER - Disables WebScraper
+DISABLE_SCRAPER  - Disables WebScraper
 ```
 
 1. Database (PostgreSQL)
