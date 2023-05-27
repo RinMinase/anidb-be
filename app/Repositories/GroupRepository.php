@@ -25,7 +25,9 @@ class GroupRepository {
   }
 
   public function edit(array $values, $uuid) {
-    return Group::where('uuid', $uuid)->update($values);
+    return Group::where('uuid', $uuid)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function delete($uuid) {
