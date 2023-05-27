@@ -119,10 +119,10 @@ Route::prefix('api')
           ->group(function () {
 
             // ======= Unused =======
-            Route::get('', 'BucketController@index');
-            Route::post('', 'BucketController@add');
-            Route::put('{id?}', 'BucketController@edit');
-            Route::delete('{id}', 'BucketController@delete');
+            // Route::get('', 'BucketController@index');
+            // Route::post('', 'BucketController@add');
+            // Route::put('{id?}', 'BucketController@edit');
+            // Route::delete('{id}', 'BucketController@delete');
             // ======================
 
             Route::post('import', 'BucketController@import');
