@@ -13,7 +13,8 @@ class BucketRepository {
   }
 
   public function get($id) {
-    return Bucket::where('id', $id)->firstOrFail();
+    return Bucket::where('id', $id)
+      ->firstOrFail();
   }
 
   public function add(array $values) {
@@ -21,7 +22,9 @@ class BucketRepository {
   }
 
   public function edit(array $values, $id) {
-    return Bucket::where('id', $id)->update($values);
+    return Bucket::where('id', $id)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function delete($id) {
