@@ -75,14 +75,11 @@ class EntryController extends Controller {
    *     description="OK",
    *     @OA\JsonContent(
    *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
-   *       @OA\Property(
-   *         property="meta",
-   *         type="object",
-   *         ref="#/components/schemas/Pagination",
-   *       ),
+   *       @OA\Property(property="meta", ref="#/components/schemas/Pagination"),
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(Request $request): JsonResponse {
@@ -111,6 +108,8 @@ class EntryController extends Controller {
    *     @OA\JsonContent(ref="#/components/schemas/Entry"),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function get($id): JsonResponse {
@@ -192,6 +191,7 @@ class EntryController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function add(AddRequest $request): JsonResponse {
@@ -283,6 +283,7 @@ class EntryController extends Controller {
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function edit(EditRequest $request, $uuid): JsonResponse {
@@ -319,6 +320,8 @@ class EntryController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function delete($id): JsonResponse {
@@ -432,6 +435,8 @@ class EntryController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function imageUpload(Request $request, $uuid): JsonResponse {
@@ -493,6 +498,7 @@ class EntryController extends Controller {
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function ratings(Request $request, $uuid): JsonResponse {
@@ -535,6 +541,8 @@ class EntryController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function rewatchAdd(Request $request, $uuid): JsonResponse {
@@ -571,6 +579,8 @@ class EntryController extends Controller {
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function rewatchDelete($uuid): JsonResponse {
@@ -628,6 +638,7 @@ class EntryController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function getTitles(Request $request): JsonResponse {
