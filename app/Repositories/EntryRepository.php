@@ -419,19 +419,43 @@ class EntryRepository {
     ];
   }
 
-  public function add(FormRequest $values) {
+  public function add(array $values) {
     $values['uuid'] = Str::uuid()->toString();
     $values['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
     $values['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
-    $id = Entry::insertGetId($values->except([
-      'season_number',
-      'season_first_title_id',
-      'prequel_id',
-      'sequel_id',
-      'prequel_title',
-      'sequel_title',
-    ]));
+    $entryInsertColumns = [
+      'uuid',
+      'created_at',
+      'updated_at',
+      'id_quality',
+      'title',
+      'date_finished',
+      'duration',
+      'filesize',
+      'episodes',
+      'ovas',
+      'specials',
+      'encoder_video',
+      'encoder_audio',
+      'encoder_subs',
+      'release_year',
+      'release_season',
+      'variants',
+      'remarks',
+      'id_codec_audio',
+      'id_codec_video',
+      'id_codec_video',
+      'codec_hdr',
+    ];
+
+    $entryInsertValues = array_filter(
+      $values,
+      fn ($key) => in_array($key, $entryInsertColumns),
+      ARRAY_FILTER_USE_KEY,
+    );
+
+    $id = Entry::insertGetId($entryInsertValues);
 
     $this->update_season($values, $id);
     $this->update_prequel_sequel($values, $id);
@@ -439,16 +463,38 @@ class EntryRepository {
     LogRepository::generateLogs('entry', $values['uuid'], null, 'add');
   }
 
-  public function edit(FormRequest $values, $uuid) {
+  public function edit(array $values, $uuid) {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
-    $entry->update($values->except([
-      '_method',
-      'season_number',
-      'season_first_title_id',
-      'prequel_id',
-      'sequel_id',
-    ]));
+    $entryUpdateColumns = [
+      'id_quality',
+      'title',
+      'date_finished',
+      'duration',
+      'filesize',
+      'episodes',
+      'ovas',
+      'specials',
+      'encoder_video',
+      'encoder_audio',
+      'encoder_subs',
+      'release_year',
+      'release_season',
+      'variants',
+      'remarks',
+      'id_codec_audio',
+      'id_codec_video',
+      'id_codec_video',
+      'codec_hdr',
+    ];
+
+    $entryUpdateValues = array_filter(
+      $values,
+      fn ($key) => in_array($key, $entryUpdateColumns),
+      ARRAY_FILTER_USE_KEY,
+    );
+
+    $entry->update($entryUpdateValues);
 
     $this->update_season($values, $entry->id);
     $this->update_prequel_sequel($values, $entry->id);
@@ -564,29 +610,31 @@ class EntryRepository {
   }
 
   private function update_prequel_sequel($values, $inserted_id) {
-    if (!empty($values['prequel_title'])) {
-      $entry = Entry::where('title', $values['prequel_title'])
-        ->first();
+    if (!empty($values['prequel_id'])) {
+      $prequel = Entry::where('uuid', $values['prequel_id'])->first();
 
-      Entry::where('id', $inserted_id)
-        ->update(['prequel_id' => $entry->id ?? null]);
+      if ($prequel) {
+        Entry::where('id', $inserted_id)
+          ->update(['prequel_id' => $prequel->id]);
 
-      if (empty($entry->sequel_id)) {
-        $entry->sequel_id = $inserted_id;
-        $entry->save();
+        if (empty($prequel->sequel_id)) {
+          $prequel->sequel_id = $inserted_id;
+          $prequel->save();
+        }
       }
     }
 
-    if (!empty($values['sequel_title'])) {
-      $entry = Entry::where('title', $values['sequel_title'])
-        ->first();
+    if (!empty($values['sequel_id'])) {
+      $sequel = Entry::where('uuid', $values['sequel_id'])->first();
 
-      Entry::where('id', $inserted_id)
-        ->update(['sequel_id' => $entry->id ?? null]);
+      if ($sequel) {
+        Entry::where('id', $inserted_id)
+          ->update(['sequel_id' => $sequel->id ?? null]);
 
-      if (empty($entry->prequel_id)) {
-        $entry->prequel_id = $inserted_id;
-        $entry->save();
+        if (empty($sequel->prequel_id)) {
+          $sequel->prequel_id = $inserted_id;
+          $sequel->save();
+        }
       }
     }
   }
