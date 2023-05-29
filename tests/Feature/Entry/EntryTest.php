@@ -373,6 +373,31 @@ class EntryTest extends BaseTestCase {
     $this->setup_clear();
   }
 
+  public function test_add_entry_with_invalid_keys_should_not_fail_request() {
+    $this->setup_clear();
+
+    $expected = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-1',
+      'an_invalid_key' => 'some value',
+    ];
+
+    $response = $this->withoutMiddleware()
+      ->post('/api/entries/', $expected);
+
+    $actual = Entry::where('title', $expected['title'])->first();
+
+    $response->assertStatus(200)
+      ->assertJson(['message' => 'Success']);
+
+    $this->assertModelExists($actual);
+
+    $this->assertEquals($expected['id_quality'], $actual->quality->id);
+    $this->assertEquals($expected['title'], $actual->title);
+
+    $this->setup_clear();
+  }
+
   public function test_add_entry_no_auth() {
     $response = $this->post('/api/entries/');
 
