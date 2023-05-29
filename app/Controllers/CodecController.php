@@ -106,7 +106,7 @@ class CodecController extends Controller {
    * )
    */
   public function addAudio(Request $request): JsonResponse {
-    $this->codecRepository->addAudio($request->all());
+    $this->codecRepository->addAudio($request->only('codec', 'order'));
 
     return DefaultResponse::success();
   }
@@ -147,7 +147,7 @@ class CodecController extends Controller {
    * )
    */
   public function editAudio(Request $request, $id): JsonResponse {
-    $this->codecRepository->editAudio($request->except(['_method']), $id);
+    $this->codecRepository->editAudio($request->only('codec', 'order'), $id);
 
     return DefaultResponse::success();
   }
@@ -234,7 +234,7 @@ class CodecController extends Controller {
    * )
    */
   public function addVideo(Request $request): JsonResponse {
-    $this->codecRepository->addVideo($request->all());
+    $this->codecRepository->addVideo($request->only('codec', 'order'));
 
     return DefaultResponse::success();
   }
@@ -275,7 +275,7 @@ class CodecController extends Controller {
    * )
    */
   public function editVideo(Request $request, $id): JsonResponse {
-    $this->codecRepository->editVideo($request->except(['_method']), $id);
+    $this->codecRepository->editVideo($request->only('codec', 'order'), $id);
 
     return DefaultResponse::success();
   }
