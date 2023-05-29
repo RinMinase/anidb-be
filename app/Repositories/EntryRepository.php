@@ -21,13 +21,18 @@ use App\Resources\Entry\EntryCollection;
 
 class EntryRepository {
 
-  public function getAll(Request $request) {
-    $needle = $request->query('needle', '');
-    $haystack = $request->query('haystack', 'title');
-    $column = $request->query('column', 'id_quality');
-    $order = $request->query('order', 'asc');
-    $limit = $request->query('limit', 30);
-    $page = $request->query('page', 1);
+  public function getAll(array $values) {
+    // Search Parameters
+    $needle = $values['needle'] ?? '';
+    $haystack = $values['haystack'] ?? 'title';
+
+    // Ordering Parameters
+    $column = $values['column'] ?? 'id_quality';
+    $order = $values['order'] ?? 'asc';
+
+    // Pagination Parameters
+    $limit = $values['limit'] ?? 30;
+    $page = $values['page'] ?? 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
     if (empty($needle)) {

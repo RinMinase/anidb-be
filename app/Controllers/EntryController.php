@@ -83,7 +83,11 @@ class EntryController extends Controller {
    * )
    */
   public function index(Request $request): JsonResponse {
-    return response()->json($this->entryRepository->getAll($request));
+    return response()->json(
+      $this->entryRepository->getAll(
+        $request->only('needle', 'haystack', 'column', 'order', 'limit', 'page')
+      )
+    );
   }
 
   /**
@@ -161,7 +165,7 @@ class EntryController extends Controller {
    *   @OA\Parameter(
    *     name="release_season",
    *     in="query",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"})
+   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
    *   ),
    *
    *   @OA\Parameter(name="variants", in="query", @OA\Schema(type="string")),
@@ -169,17 +173,17 @@ class EntryController extends Controller {
    *   @OA\Parameter(
    *     name="id_codec_audio",
    *     in="query",
-   *     @OA\Schema(type="integer", format="int32")
+   *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *   @OA\Parameter(
    *     name="id_codec_video",
    *     in="query",
-   *     @OA\Schema(type="integer", format="int32")
+   *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *   @OA\Parameter(
    *     name="codec_hdr",
    *     in="query",
-   *     @OA\Schema(type="integer", format="int32", minimum=0, maximum=1)
+   *     @OA\Schema(type="boolean"),
    *   ),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
@@ -188,7 +192,33 @@ class EntryController extends Controller {
    * )
    */
   public function add(AddRequest $request): JsonResponse {
-    $this->entryRepository->add($request);
+    $this->entryRepository->add(
+      $request->only(
+        'id_quality',
+        'title',
+        'date_finished',
+        'duration',
+        'filesize',
+        'episodes',
+        'ovas',
+        'specials',
+        'season_number',
+        'season_first_title',
+        'prequel_id',
+        'sequel_id',
+        'encoder_video',
+        'encoder_audio',
+        'encoder_subs',
+        'release_year',
+        'release_season',
+        'variants',
+        'remarks',
+        'id_codec_audio',
+        'id_codec_video',
+        'id_codec_video',
+        'codec_hdr',
+      )
+    );
 
     return DefaultResponse::success();
   }
@@ -273,7 +303,34 @@ class EntryController extends Controller {
    * )
    */
   public function edit(EditRequest $request, $uuid): JsonResponse {
-    $this->entryRepository->edit($request, $uuid);
+    $this->entryRepository->edit(
+      $request->only(
+        'id_quality',
+        'title',
+        'date_finished',
+        'duration',
+        'filesize',
+        'episodes',
+        'ovas',
+        'specials',
+        'season_number',
+        'season_first_title',
+        'prequel_id',
+        'sequel_id',
+        'encoder_video',
+        'encoder_audio',
+        'encoder_subs',
+        'release_year',
+        'release_season',
+        'variants',
+        'remarks',
+        'id_codec_audio',
+        'id_codec_video',
+        'id_codec_video',
+        'codec_hdr',
+      ),
+      $uuid,
+    );
 
     return DefaultResponse::success();
   }
