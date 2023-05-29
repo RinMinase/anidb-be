@@ -15,7 +15,7 @@ return new class extends Migration {
       $table->id();
 
       $table->string('codec', 16);
-      $table->smallInteger('order')->nullable();
+      $table->integer('order')->nullable();
 
       $table->timestamps();
     });
