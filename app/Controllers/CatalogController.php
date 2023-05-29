@@ -106,7 +106,7 @@ class CatalogController extends Controller {
    * )
    */
   public function add(Request $request): JsonResponse {
-    $this->catalogRepository->add($request->all());
+    $this->catalogRepository->add($request->only('year', 'season'));
 
     return DefaultResponse::success();
   }
@@ -148,7 +148,7 @@ class CatalogController extends Controller {
    * )
    */
   public function edit(Request $request, $id): JsonResponse {
-    $this->catalogRepository->edit($request->except(['_method']), $id);
+    $this->catalogRepository->edit($request->only('year', 'season'), $id);
 
     return DefaultResponse::success();
   }
