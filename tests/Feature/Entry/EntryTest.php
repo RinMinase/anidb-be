@@ -499,19 +499,19 @@ class EntryTest extends BaseTestCase {
       'title' => 'test data --- test-data-part-3',
     ];
 
+    Entry::insert($expected1);
+    Entry::insert($expected2);
+    Entry::insert($expected3);
+
     // First data -> Second data
     $expected_connections1 = [
-      'sequel_title' => 'test data --- test-data-part-2',
+      'sequel_id' => $expected2['uuid'],
     ];
 
     // Third data <- Second Data
     $expected_connections3 = [
-      'prequel_title' => 'test data --- test-data-part-2',
+      'prequel_id' => $expected2['uuid'],
     ];
-
-    Entry::insert($expected1);
-    Entry::insert($expected2);
-    Entry::insert($expected3);
 
     $response = $this->withoutMiddleware()
       ->put('/api/entries/' . $expected1['uuid'], $expected_connections1);
