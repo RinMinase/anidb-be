@@ -40,7 +40,7 @@ return new class extends Migration {
       $table->string('encoder_audio', 128)->nullable();
       $table->string('encoder_subs', 128)->nullable();
 
-      $table->tinyInteger('codec_hdr')->nullable();
+      $table->boolean('codec_hdr')->nullable();
       $table->integer('id_codec_video')->nullable();
       $table->foreign('id_codec_video')->references('id')->on('codec_videos');
       $table->integer('id_codec_audio')->nullable();
