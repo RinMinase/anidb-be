@@ -326,13 +326,6 @@ class EntryTest extends BaseTestCase {
       'codec_hdr' => 0,
     ];
 
-    $expected2 = [
-      'id_quality' => 3,
-      'title' => 'test data --- test-data-part-2',
-      'prequel_title' => 'test data --- test-data-part-1',
-      'sequel_title' => 'test data --- test-data-part-3',
-    ];
-
     $expected3 = [
       'id_quality' => 3,
       'title' => 'test data --- test-data-part-3',
@@ -344,6 +337,16 @@ class EntryTest extends BaseTestCase {
     // Part 3 is inputted prior to check sequel auto-connection
     $response2 = $this->withoutMiddleware()
       ->post('/api/entries/', $expected3);
+
+    $id1 = Entry::where('title', 'test data --- test-data-part-1')->first()->uuid;
+    $id3 = Entry::where('title', 'test data --- test-data-part-3')->first()->uuid;
+
+    $expected2 = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-2',
+      'prequel_id' => $id1,
+      'sequel_id' => $id3,
+    ];
 
     $response2 = $this->withoutMiddleware()
       ->post('/api/entries/', $expected2);
