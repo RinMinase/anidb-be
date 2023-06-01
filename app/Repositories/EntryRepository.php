@@ -519,7 +519,7 @@ class EntryRepository {
     return $repo->import($values);
   }
 
-  public function upload(Request $request, $uuid) {
+  public function upload($image, $uuid) {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
     if (!empty($entry->image)) {
@@ -527,7 +527,6 @@ class EntryRepository {
       Cloudinary::destroy('entries/' . $image_id['filename']);
     }
 
-    $image = $request->file('image')->getRealPath();
     $imageSettings = [
       'quality' => '90',
       'folder' => 'entries',

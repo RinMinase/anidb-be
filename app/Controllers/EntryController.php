@@ -9,6 +9,7 @@ use App\Repositories\EntryRepository;
 
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
+use App\Requests\Entry\ImageUploadRequest;
 
 use App\Resources\Entry\EntryResource;
 use App\Resources\DefaultResponse;
@@ -455,8 +456,8 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function imageUpload(Request $request, $uuid): JsonResponse {
-    $this->entryRepository->upload($request, $uuid);
+  public function imageUpload(ImageUploadRequest $request, $uuid): JsonResponse {
+    $this->entryRepository->upload($request->file('image')->getRealPath(), $uuid);
 
     return DefaultResponse::success();
   }
