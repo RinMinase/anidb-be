@@ -11,6 +11,7 @@ use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
 use App\Requests\Entry\ImageUploadRequest;
 use App\Requests\Entry\RatingsRequest;
+use App\Requests\Entry\SearchRequest;
 
 use App\Resources\Entry\EntryResource;
 use App\Resources\DefaultResponse;
@@ -30,47 +31,12 @@ class EntryController extends Controller {
    *   summary="Get All Entries",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="needle",
-   *     description="Search - Item to search for in haystack (column)",
-   *     in="query",
-   *     example="item name",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="haystack",
-   *     description="Search - Column to search for",
-   *     in="query",
-   *     example="title",
-   *     @OA\Schema(type="string", default="title"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="column",
-   *     description="Order - Column to order",
-   *     in="query",
-   *     example="id_quality",
-   *     @OA\Schema(type="string", default="id_quality"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="order",
-   *     description="Order - Order the column by",
-   *     in="query",
-   *     @OA\Schema(type="string", default="asc", enum={"asc", "desc"}),
-   *   ),
-   *   @OA\Parameter(
-   *     name="page",
-   *     description="Pagination - Page to query",
-   *     in="query",
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32", default=1, minimum=1),
-   *   ),
-   *   @OA\Parameter(
-   *     name="limit",
-   *     description="Pagination - Page item limit",
-   *     in="query",
-   *     example=30,
-   *     @OA\Schema(type="integer", format="int32", default=30, minimum=1),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_needle"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_haystack"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_column"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_order"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_page"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_limit"),
    *
    *   @OA\Response(
    *     response=200,
@@ -84,7 +50,7 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(Request $request): JsonResponse {
+  public function index(SearchRequest $request): JsonResponse {
     return response()->json(
       $this->entryRepository->getAll(
         $request->only('needle', 'haystack', 'column', 'order', 'limit', 'page')

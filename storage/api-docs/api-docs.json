@@ -1841,70 +1841,22 @@
                 "operationId": "0715d85a4978cb676a1adae8ea40927c",
                 "parameters": [
                     {
-                        "name": "needle",
-                        "in": "query",
-                        "description": "Search - Item to search for in haystack (column)",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "item name"
+                        "$ref": "#/components/parameters/entry_search_needle"
                     },
                     {
-                        "name": "haystack",
-                        "in": "query",
-                        "description": "Search - Column to search for",
-                        "schema": {
-                            "type": "string",
-                            "default": "title"
-                        },
-                        "example": "title"
+                        "$ref": "#/components/parameters/entry_search_haystack"
                     },
                     {
-                        "name": "column",
-                        "in": "query",
-                        "description": "Order - Column to order",
-                        "schema": {
-                            "type": "string",
-                            "default": "id_quality"
-                        },
-                        "example": "id_quality"
+                        "$ref": "#/components/parameters/entry_search_column"
                     },
                     {
-                        "name": "order",
-                        "in": "query",
-                        "description": "Order - Order the column by",
-                        "schema": {
-                            "type": "string",
-                            "default": "asc",
-                            "enum": [
-                                "asc",
-                                "desc"
-                            ]
-                        }
+                        "$ref": "#/components/parameters/entry_search_order"
                     },
                     {
-                        "name": "page",
-                        "in": "query",
-                        "description": "Pagination - Page to query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 1,
-                            "minimum": 1
-                        },
-                        "example": 1
+                        "$ref": "#/components/parameters/entry_search_page"
                     },
                     {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Pagination - Page item limit",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 30,
-                            "minimum": 1
-                        },
-                        "example": 30
+                        "$ref": "#/components/parameters/entry_search_limit"
                     }
                 ],
                 "responses": {
@@ -6336,6 +6288,73 @@
                     "minimum": 1
                 },
                 "example": 10
+            },
+            "entry_search_needle": {
+                "name": "needle",
+                "in": "query",
+                "description": "Search - Item to search for in haystack (column)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "item name"
+            },
+            "entry_search_haystack": {
+                "name": "haystack",
+                "in": "query",
+                "description": "Search - Column to search for",
+                "schema": {
+                    "type": "string",
+                    "default": "title"
+                },
+                "example": "title"
+            },
+            "entry_search_column": {
+                "name": "column",
+                "in": "query",
+                "description": "Order - Column to order",
+                "schema": {
+                    "type": "string",
+                    "default": "id_quality"
+                },
+                "example": "id_quality"
+            },
+            "entry_search_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column",
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "entry_search_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "entry_search_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 30,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 30
             }
         },
         "securitySchemes": {
