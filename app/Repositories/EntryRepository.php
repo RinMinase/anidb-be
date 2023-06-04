@@ -538,15 +538,10 @@ class EntryRepository {
     $entry->save();
   }
 
-  public function ratings(Request $request, $uuid) {
+  public function ratings(array $values, $uuid) {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
-    $entry->rating()->updateOrCreate(
-      ['id_entries' => $entry->id],
-      $request->only(
-        ['audio', 'enjoyment', 'graphics', 'plot'],
-      )
-    );
+    $entry->rating()->updateOrCreate(['id_entries' => $entry->id], $values);
   }
 
   public function rewatchAdd(Request $request, $uuid) {

@@ -10,6 +10,7 @@ use App\Repositories\EntryRepository;
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
 use App\Requests\Entry\ImageUploadRequest;
+use App\Requests\Entry\RatingsRequest;
 
 use App\Resources\Entry\EntryResource;
 use App\Resources\DefaultResponse;
@@ -477,30 +478,10 @@ class EntryController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="audio",
-   *     in="query",
-   *     example=10,
-   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
-   *   ),
-   *   @OA\Parameter(
-   *     name="enjoyment",
-   *     in="query",
-   *     example=10,
-   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
-   *   ),
-   *   @OA\Parameter(
-   *     name="graphics",
-   *     in="query",
-   *     example=10,
-   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
-   *   ),
-   *   @OA\Parameter(
-   *     name="plot",
-   *     in="query",
-   *     example=10,
-   *     @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_enjoyment"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_graphics"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_plot"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -508,8 +489,11 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function ratings(Request $request, $uuid): JsonResponse {
-    $this->entryRepository->ratings($request, $uuid);
+  public function ratings(RatingsRequest $request, $uuid): JsonResponse {
+    $this->entryRepository->ratings(
+      $request->only('audio', 'enjoyment', 'graphics', 'plot'),
+      $uuid,
+    );
 
     return DefaultResponse::success();
   }
