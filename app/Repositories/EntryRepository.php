@@ -31,38 +31,38 @@ class EntryRepository {
     $order = $values['order'] ?? 'asc';
 
     // Pagination Parameters
-    $limit = $values['limit'] ?? 30;
-    $page = $values['page'] ?? 1;
+    $limit = $values['limit'] ? intval($values['limit']) : 30;
+    $page = $values['page'] ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
-    if (empty($needle)) {
-      $total = Entry::count();
-      $total_pages = ceil($total / $limit);
-      $has_next = intval($page) < $total_pages;
-    }
+    $total = Entry::count();
+    $total_pages = ceil($total / $limit);
+    $has_next = intval($page) < $total_pages;
 
     $data = Entry::select()
       ->with('rating');
 
+    $fuzzy_ids = [];
     if ($haystack === 'title' && !empty($needle)) {
       $names = Entry::select('uuid', 'title')->get()->toArray();
 
       $fuse = new Fuse($names, ['keys' => ['title']]);
       $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
 
-      $fuzzy_ids = [];
       foreach ($fuzzy_names as $fuzzy_name) {
         $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
       }
 
-      $case_string = 'CASE ';
-      foreach ($fuzzy_ids as $key => $fuzzy_id) {
-        $data = $data->orWhere('uuid', $fuzzy_id);
-        $case_string .= 'WHEN uuid=\'' . $fuzzy_id . '\' THEN ' . $key + 1 . ' ';
-      }
-      $case_string .= 'END';
+      if (count($fuzzy_ids)) {
+        $case_string = 'CASE ';
+        foreach ($fuzzy_ids as $key => $fuzzy_id) {
+          $data = $data->orWhere('uuid', $fuzzy_id);
+          $case_string .= 'WHEN uuid=\'' . $fuzzy_id . '\' THEN ' . $key + 1 . ' ';
+        }
+        $case_string .= 'END';
 
-      $data = $data->orderByRaw($case_string);
+        $data = $data->orderByRaw($case_string);
+      }
     } else {
       $data = $data->where($haystack, 'ilike', '%' . $needle . '%')
         ->orderBy($column, $order)
@@ -73,18 +73,21 @@ class EntryRepository {
     $data = $data->skip($skip)
       ->paginate($limit);
 
+    if ($haystack === 'title' && !empty($needle) && !count($fuzzy_ids)) {
+      $data = [];
+    }
+
     $return_value = [
       'data' => EntryCollection::collection($data),
     ];
 
-    if (empty($needle)) {
-      $return_value['meta'] = [
-        'page' => $page,
-        'limit' => $limit,
-        'total' => $total_pages,
-        'has_next' => $has_next,
-      ];
-    }
+    $return_value['meta'] = [
+      'page' => $page,
+      'limit' => $limit,
+      'results' => count($data),
+      'total_pages' => count($data) ? $total_pages : 0,
+      'has_next' => $has_next,
+    ];
 
     return $return_value;
   }

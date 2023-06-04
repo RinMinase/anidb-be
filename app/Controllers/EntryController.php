@@ -68,7 +68,7 @@ class EntryController extends Controller {
    *     name="limit",
    *     description="Pagination - Page item limit",
    *     in="query",
-   *     example=1,
+   *     example=30,
    *     @OA\Schema(type="integer", format="int32", default=30, minimum=1),
    *   ),
    *
