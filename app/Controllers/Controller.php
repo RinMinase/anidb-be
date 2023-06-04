@@ -53,7 +53,8 @@ class Controller extends BaseController {
  *     "meta": {
  *       "page": 1,
  *       "limit": 30,
- *       "total": 5,
+ *       "results": 30,
+ *       "total_pages": 5,
  *       "has_next": true,
  *     }
  *   },
@@ -61,7 +62,8 @@ class Controller extends BaseController {
  *     property="meta",
  *     @OA\Property(property="page", type="integer", format="int32", minimum=1),
  *     @OA\Property(property="limit", type="integer", format="int32", minimum=1),
- *     @OA\Property(property="total", type="integer", format="int32", minimum=1),
+ *     @OA\Property(property="results", type="integer", format="int32", minimum=0),
+ *     @OA\Property(property="total_pages", type="integer", format="int32", minimum=0),
  *     @OA\Property(property="has_next", type="boolean"),
  *   ),
  * )

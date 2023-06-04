@@ -1904,7 +1904,7 @@
                             "default": 30,
                             "minimum": 1
                         },
-                        "example": 1
+                        "example": 30
                     }
                 ],
                 "responses": {
@@ -5072,10 +5072,15 @@
                                 "format": "int32",
                                 "minimum": 1
                             },
-                            "total": {
+                            "results": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1
+                                "minimum": 0
+                            },
+                            "total_pages": {
+                                "type": "integer",
+                                "format": "int32",
+                                "minimum": 0
                             },
                             "has_next": {
                                 "type": "boolean"
@@ -5089,7 +5094,8 @@
                     "meta": {
                         "page": 1,
                         "limit": 30,
-                        "total": 5,
+                        "results": 30,
+                        "total_pages": 5,
                         "has_next": true
                     }
                 }
@@ -6313,7 +6319,10 @@
                 "name": "graphics",
                 "in": "query",
                 "schema": {
-                    "type": "string"
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 10,
+                    "minimum": 1
                 },
                 "example": 10
             },
