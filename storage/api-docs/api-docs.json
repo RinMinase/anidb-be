@@ -2583,48 +2583,16 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "name": "audio",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "maximum": 10,
-                            "minimum": 1
-                        },
-                        "example": 10
+                        "$ref": "#/components/parameters/entry_ratings_audio"
                     },
                     {
-                        "name": "enjoyment",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "maximum": 10,
-                            "minimum": 1
-                        },
-                        "example": 10
+                        "$ref": "#/components/parameters/entry_ratings_enjoyment"
                     },
                     {
-                        "name": "graphics",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "maximum": 10,
-                            "minimum": 1
-                        },
-                        "example": 10
+                        "$ref": "#/components/parameters/entry_ratings_graphics"
                     },
                     {
-                        "name": "plot",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "maximum": 10,
-                            "minimum": 1
-                        },
-                        "example": 10
+                        "$ref": "#/components/parameters/entry_ratings_plot"
                     }
                 ],
                 "responses": {
@@ -6318,6 +6286,47 @@
                     "maxLength": 256,
                     "minLength": 1
                 }
+            },
+            "entry_ratings_audio": {
+                "name": "audio",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 10,
+                    "minimum": 1
+                },
+                "example": 10
+            },
+            "entry_ratings_enjoyment": {
+                "name": "enjoyment",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 10,
+                    "minimum": 1
+                },
+                "example": 10
+            },
+            "entry_ratings_graphics": {
+                "name": "graphics",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                },
+                "example": 10
+            },
+            "entry_ratings_plot": {
+                "name": "plot",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 10,
+                    "minimum": 1
+                },
+                "example": 10
             }
         },
         "securitySchemes": {
