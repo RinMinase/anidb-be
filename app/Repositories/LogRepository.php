@@ -11,19 +11,24 @@ use App\Resources\Log\LogCollection;
 class LogRepository {
 
   public function getAll($params) {
+    // Ordering Parameters
     $column = $params['column'] ?? 'created_at';
     $order = $params['order'] ?? 'desc';
-    $limit = $params['limit'] ?? 30;
-    $page = $params['page'] ?? 1;
+
+    // Pagination Parameters
+    $limit = isset($params['limit']) ? intval($params['limit']) : 30;
+    $page = isset($params['page']) ? intval($params['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
-    $total = Log::count();
-    $total_pages = ceil($total / $limit);
-    $has_next = intval($page) < $total_pages;
 
     $logs = Log::orderBy($column, $order)
-      ->orderBy('id', 'asc')
-      ->skip($skip)
+      ->orderBy('id', 'asc');
+
+    $total = $logs->count();
+    $total_pages = ceil($total / $limit);
+    $has_next = $page < $total_pages;
+
+    $logs = $logs->skip($skip)
       ->paginate($limit);
 
     return [
@@ -31,7 +36,8 @@ class LogRepository {
       'meta' => [
         'page' => $page,
         'limit' => intval($limit),
-        'total_data' => $total,
+        'results' => count($logs),
+        'total_results' => $total,
         'total_pages' => $total_pages,
         'has_next' => $has_next,
       ],
