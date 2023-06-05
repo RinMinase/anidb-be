@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 
 Route::middleware('web')
@@ -21,6 +23,10 @@ Route::middleware('web')
           'urlToDocs' => $apidocJsonFile,
           'useAbsolutePath' => $useAbsolutePath,
         ]);
+      });
+    } else {
+      Route::get('/docs', function () {
+        throw new NotFoundHttpException();
       });
     }
   });
