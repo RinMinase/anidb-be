@@ -2,12 +2,10 @@
 
 namespace App\Controllers;
 
-use Exception;
-
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 use App\Repositories\BucketRepository;
+use App\Requests\Bucket\ImportRequest;
 
 class BucketController extends Controller {
 
@@ -87,15 +85,18 @@ class BucketController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function import(Request $request) {
-    $count = $this->bucketRepository->import($request->all());
+  public function import(ImportRequest $request) {
+    $path = $request->file('file')->getRealPath();
+    $file = json_decode(file_get_contents($path), true);
+
+    $count = $this->bucketRepository->import($file);
 
     return response()->json([
       'status' => 200,
       'message' => 'Success',
       'data' => [
         'acceptedImports' => $count,
-        'totalJsonEntries' => count($request->all()),
+        'totalJsonEntries' => count($file),
       ],
     ]);
   }
