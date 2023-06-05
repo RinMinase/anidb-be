@@ -71,13 +71,13 @@ class ExceptionHandler extends Handler {
       ], 404);
     }
 
-    $is_prod = config('app.platform') != 'local';
-    if ($e instanceof Exception && $is_prod) {
-      return response()->json([
-        'status' => 500,
-        'message' => 'Failed',
-      ], 500);
-    }
+    // $is_prod = config('app.platform') != 'local';
+    // if ($e instanceof Exception && $is_prod) {
+    //   return response()->json([
+    //     'status' => 500,
+    //     'message' => 'Failed',
+    //   ], 500);
+    // }
 
     return parent::render($request, $e);
   }
