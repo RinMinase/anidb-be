@@ -7,11 +7,11 @@ Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]
 Route::middleware('web')
   ->group(function () {
 
-    Route::view('/', 'index')->name('home');
+    $isProd = config('app.platform') != 'local';
 
-    $is_prod = config('app.platform') != 'local';
+    Route::view('/', 'index', ['isProd' => $isProd])->name('home');
 
-    if (!$is_prod) {
+    if (!$isProd) {
       Route::get('/docs', function () {
         $apidocJsonFile = URL::to('/') . '/docs/api-docs.json';
         $useAbsolutePath = config('l5-swagger.documentations.default.paths.use_absolute_path', true);

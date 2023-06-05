@@ -37,6 +37,9 @@
         font-weight: bold;
         cursor: pointer;
       }
+      .nav .item.source {
+        margin-left: auto;
+      }
       .nav .item:hover {
         background-color: #eee;
         border-radius: 8px;
@@ -71,8 +74,12 @@
 
   <body>
     <div class="nav">
-      <p class="item"><a href="/docs">Docs</a></p>
-      <p class="item">
+      @if($isProd == false)
+        <p class="item">
+          <a href="/docs">Docs</a>
+        </p>
+      @endif
+      <p class="item source">
         <a
           href="https://github.com/RinMinase/anidb-be"
           target="_blank"
