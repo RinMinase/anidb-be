@@ -20,7 +20,6 @@ class LogRepository {
     $page = isset($params['page']) ? intval($params['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
-
     $logs = Log::orderBy($column, $order)
       ->orderBy('id', 'asc');
 
