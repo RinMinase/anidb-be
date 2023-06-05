@@ -106,7 +106,9 @@ class EntryTest extends BaseTestCase {
         'meta' => [
           'page',
           'limit',
-          'total',
+          'results',
+          'total_results',
+          'total_pages',
           'has_next',
         ],
       ]);
@@ -215,7 +217,9 @@ class EntryTest extends BaseTestCase {
         'meta' => [
           'page',
           'limit',
-          'total',
+          'results',
+          'total_results',
+          'total_pages',
           'has_next',
         ],
       ]);
