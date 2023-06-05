@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -34,10 +33,6 @@ class EntryRepository {
     $limit = $values['limit'] ? intval($values['limit']) : 30;
     $page = $values['page'] ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
-
-    $total = Entry::count();
-    $total_pages = ceil($total / $limit);
-    $has_next = intval($page) < $total_pages;
 
     $data = Entry::select()
       ->with('rating');
@@ -70,6 +65,10 @@ class EntryRepository {
         ->orderBy('id');
     }
 
+    $total = $data->count();
+    $total_pages = ceil($total / $limit);
+    $has_next = intval($page) < $total_pages;
+
     $data = $data->skip($skip)
       ->paginate($limit);
 
@@ -85,7 +84,8 @@ class EntryRepository {
       'page' => $page,
       'limit' => $limit,
       'results' => count($data),
-      'total_pages' => count($data) ? $total_pages : 0,
+      'total_results' => $total,
+      'total_pages' => $total_pages,
       'has_next' => $has_next,
     ];
 
