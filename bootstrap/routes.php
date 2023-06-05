@@ -6,11 +6,9 @@ Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]
 
 Route::middleware('web')
   ->group(function () {
-    Route::view('/', 'index')->name('home');
-  });
 
-Route::middleware('web')
-  ->group(function () {
+    Route::view('/', 'index')->name('home');
+
     Route::get('/docs', function () {
       $is_prod = config('app.platform') != 'local';
       $apidocJsonFile = URL::to('/') . '/docs/api-docs.json';
