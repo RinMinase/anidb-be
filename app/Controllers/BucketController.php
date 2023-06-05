@@ -86,9 +86,7 @@ class BucketController extends Controller {
    * )
    */
   public function import(ImportRequest $request) {
-    $path = $request->file('file')->getRealPath();
-    $file = json_decode(file_get_contents($path), true);
-
+    $file = json_decode($request->file('file')->get());
     $count = $this->bucketRepository->import($file);
 
     return response()->json([

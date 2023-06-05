@@ -39,9 +39,9 @@ class BucketRepository {
     foreach ($file as $item) {
       if (!empty($item)) {
         $data = [
-          'from' => $item['from'],
-          'to' => $item['to'],
-          'size' => $item['size'],
+          'from' => $item->from,
+          'to' => $item->to,
+          'size' => $item->size,
 
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
