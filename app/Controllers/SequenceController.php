@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Repositories\SequenceRepository;
 
+use App\Requests\Sequence\ImportRequest;
+
 use App\Resources\DefaultResponse;
 
 class SequenceController extends Controller {
@@ -237,15 +239,16 @@ class SequenceController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function import(Request $request) {
-    $count = $this->sequenceRepository->import($request->all());
+  public function import(ImportRequest $request): JsonResponse {
+    $file = json_decode($request->file('file')->get());
+    $count = $this->sequenceRepository->import($file);
 
     return response()->json([
       'status' => 200,
       'message' => 'Success',
       'data' => [
         'acceptedImports' => $count,
-        'totalJsonEntries' => count($request->all()),
+        'totalJsonEntries' => count($file),
       ],
     ]);
   }
