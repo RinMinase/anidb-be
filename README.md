@@ -129,8 +129,7 @@ From the project folder, run:
     composer docs
     ```
 
-
-4. Fire up your browser and go to `localhost/docs-v2` to open Swagger UI.
+4. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
 ### Running the Unit Tests
 1. Make sure `Docker` is running, then open your terminal.
