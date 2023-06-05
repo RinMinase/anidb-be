@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Repositories\GroupRepository;
 
+use App\Requests\Group\ImportRequest;
+
 use App\Resources\DefaultResponse;
 
 class GroupController extends Controller {
@@ -202,7 +204,7 @@ class GroupController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function import(Request $request) {
+  public function import(ImportRequest $request) {
     $file = json_decode($request->file('file')->get());
     $count = $this->groupRepository->import($file);
 
