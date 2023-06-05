@@ -30,8 +30,8 @@ class EntryRepository {
     $order = $values['order'] ?? 'asc';
 
     // Pagination Parameters
-    $limit = $values['limit'] ? intval($values['limit']) : 30;
-    $page = $values['page'] ? intval($values['page']) : 1;
+    $limit = isset($values['limit']) ? intval($values['limit']) : 30;
+    $page = isset($values['page']) ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
     $data = Entry::select()
