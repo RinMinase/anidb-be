@@ -21,6 +21,12 @@ class LogController extends Controller {
    *   path="/api/logs",
    *   summary="Get All Logs",
    *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/log_search_column"),
+   *   @OA\Parameter(ref="#/components/parameters/log_search_order"),
+   *   @OA\Parameter(ref="#/components/parameters/log_search_page"),
+   *   @OA\Parameter(ref="#/components/parameters/log_search_limit"),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="OK",

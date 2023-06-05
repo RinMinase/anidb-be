@@ -3247,6 +3247,20 @@
                 ],
                 "summary": "Get All Logs",
                 "operationId": "6897ba59c8c4db4a9466e5df41a9c4e0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/log_search_column"
+                    },
+                    {
+                        "$ref": "#/components/parameters/log_search_order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/log_search_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/log_search_limit"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6350,6 +6364,54 @@
                 "example": 1
             },
             "entry_search_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 30,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 30
+            },
+            "log_search_column": {
+                "name": "column",
+                "in": "query",
+                "description": "Order - Column to order",
+                "schema": {
+                    "type": "string",
+                    "default": "created_at"
+                },
+                "example": "created_at"
+            },
+            "log_search_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column",
+                "schema": {
+                    "type": "string",
+                    "default": "desc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "log_search_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "log_search_limit": {
                 "name": "limit",
                 "in": "query",
                 "description": "Pagination - Page item limit",
