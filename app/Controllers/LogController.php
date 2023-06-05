@@ -40,7 +40,9 @@ class LogController extends Controller {
    * )
    */
   public function index(SearchRequest $request): JsonResponse {
-    $logs = $this->logRepository->getAll($request->all());
+    $logs = $this->logRepository->getAll(
+      $request->only('column', 'order', 'limit', 'page')
+    );
 
     return response()->json($logs);
   }
