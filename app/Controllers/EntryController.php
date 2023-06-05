@@ -10,6 +10,7 @@ use App\Repositories\EntryRepository;
 use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\EditRequest;
 use App\Requests\Entry\ImageUploadRequest;
+use App\Requests\Entry\ImportRequest;
 use App\Requests\Entry\RatingsRequest;
 use App\Requests\Entry\SearchRequest;
 
@@ -374,7 +375,7 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function import(Request $request): JsonResponse {
+  public function import(ImportRequest $request): JsonResponse {
     $file = json_decode($request->file('file')->get());
     $count = $this->entryRepository->import($file);
 
