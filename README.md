@@ -21,7 +21,6 @@ _Add info here_
 This is done by setting these specific ENV flags to true, to disable them.
 
 ```
-DISABLE_DB       - Disables Database
 DISABLE_SCRAPER  - Disables WebScraper
 ```
 
@@ -31,7 +30,7 @@ DISABLE_SCRAPER  - Disables WebScraper
         ```
         DB_CONNECTION=pgsql       <the database configuration being used by Laravel>
         DATABASE_URL=             <this is populated whenever an online database is being used>
-        DB_HOST=anidb-pgsql       <docker container name of the database>
+        DB_HOST=anidb-pgsql       <docker **container name** of the database>
         DB_PORT=5432              <port used by the database>
         DB_DATABASE=anidb         <database name>
         DB_USERNAME=postgres      <database username>
