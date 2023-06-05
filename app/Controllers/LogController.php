@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\LogRepository;
+use App\Requests\Log\SearchRequest;
 
 class LogController extends Controller {
 
@@ -39,7 +39,7 @@ class LogController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(Request $request): JsonResponse {
+  public function index(SearchRequest $request): JsonResponse {
     $logs = $this->logRepository->getAll($request->all());
 
     return response()->json($logs);
