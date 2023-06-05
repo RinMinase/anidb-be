@@ -67,7 +67,7 @@ class EntryRepository {
 
     $total = $data->count();
     $total_pages = ceil($total / $limit);
-    $has_next = intval($page) < $total_pages;
+    $has_next = $page < $total_pages;
 
     $data = $data->skip($skip)
       ->paginate($limit);
