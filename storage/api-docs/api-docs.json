@@ -1899,168 +1899,76 @@
                 "operationId": "d47d75be256bcd56c54bd706cad34538",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/entry_add_id_quality"
+                        "$ref": "#/components/parameters/entry_add_edit_id_quality"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_add_title"
+                        "$ref": "#/components/parameters/entry_add_edit_title"
                     },
                     {
-                        "name": "date_finished",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_date_finished"
                     },
                     {
-                        "name": "duration",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_duration"
                     },
                     {
-                        "name": "filesize",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_filesize"
                     },
                     {
-                        "name": "episodes",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_episodes"
                     },
                     {
-                        "name": "ovas",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_ovas"
                     },
                     {
-                        "name": "specials",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_specials"
                     },
                     {
-                        "name": "season_number",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_season_number"
                     },
                     {
-                        "name": "season_first_title_id",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_season_first_title_id"
                     },
                     {
-                        "name": "prequel_id",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_prequel_id"
                     },
                     {
-                        "name": "sequel_id",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_sequel_id"
                     },
                     {
-                        "name": "encoder_video",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_video"
                     },
                     {
-                        "name": "encoder_audio",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "name": "encoder_subs",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "name": "release_year",
-                        "in": "query",
-                        "schema": {
-                            "$ref": "#/components/schemas/YearSchema"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "name": "release_season",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "Winter",
-                                "Spring",
-                                "Summer",
-                                "Fall"
-                            ]
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "name": "variants",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_release_year"
                     },
                     {
-                        "name": "remarks",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_release_season"
                     },
                     {
-                        "name": "id_codec_audio",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_variants"
                     },
                     {
-                        "name": "id_codec_video",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_remarks"
                     },
                     {
-                        "name": "codec_hdr",
-                        "in": "query",
-                        "schema": {
-                            "type": "boolean"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_audio"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_video"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_codec_hdr"
                     }
                 ],
                 "responses": {
@@ -2147,171 +2055,82 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_id_quality"
+                        "$ref": "#/components/parameters/entry_add_edit_id_quality"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_title"
+                        "$ref": "#/components/parameters/entry_add_edit_title"
                     },
                     {
-                        "name": "date_finished",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_id_quality"
                     },
                     {
-                        "name": "duration",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_title"
                     },
                     {
-                        "name": "filesize",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_date_finished"
                     },
                     {
-                        "name": "episodes",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_duration"
                     },
                     {
-                        "name": "ovas",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_filesize"
                     },
                     {
-                        "name": "specials",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_episodes"
                     },
                     {
-                        "name": "season_number",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_ovas"
                     },
                     {
-                        "name": "season_first_title_id",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_specials"
                     },
                     {
-                        "name": "prequel_id",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_season_number"
                     },
                     {
-                        "name": "sequel_id",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_season_first_title_id"
                     },
                     {
-                        "name": "encoder_video",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_prequel_id"
                     },
                     {
-                        "name": "encoder_audio",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_sequel_id"
                     },
                     {
-                        "name": "encoder_subs",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_video"
                     },
                     {
-                        "name": "release_year",
-                        "in": "query",
-                        "schema": {
-                            "$ref": "#/components/schemas/YearSchema"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "name": "release_season",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "Winter",
-                                "Spring",
-                                "Summer",
-                                "Fall"
-                            ]
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "name": "variants",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "name": "remarks",
-                        "in": "query",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "name": "id_codec_audio",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_release_year"
                     },
                     {
-                        "name": "id_codec_video",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_release_season"
                     },
                     {
-                        "name": "codec_hdr",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "maximum": 1,
-                            "minimum": 0
-                        }
+                        "$ref": "#/components/parameters/entry_add_edit_variants"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_remarks"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_audio"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_video"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_codec_hdr"
                     }
                 ],
                 "responses": {
@@ -6104,7 +5923,7 @@
             }
         },
         "parameters": {
-            "entry_add_id_quality": {
+            "entry_add_edit_id_quality": {
                 "name": "id_quality",
                 "in": "query",
                 "required": true,
@@ -6113,7 +5932,7 @@
                     "format": "int32"
                 }
             },
-            "entry_add_title": {
+            "entry_add_edit_title": {
                 "name": "title",
                 "in": "query",
                 "required": true,
@@ -6121,6 +5940,164 @@
                     "type": "string",
                     "maxLength": 256,
                     "minLength": 1
+                }
+            },
+            "entry_add_edit_date_finished": {
+                "name": "date_finished",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "entry_add_edit_duration": {
+                "name": "duration",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "entry_add_edit_filesize": {
+                "name": "filesize",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            },
+            "entry_add_edit_episodes": {
+                "name": "episodes",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "entry_add_edit_ovas": {
+                "name": "ovas",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "entry_add_edit_specials": {
+                "name": "specials",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "entry_add_edit_season_number": {
+                "name": "season_number",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "entry_add_edit_season_first_title_id": {
+                "name": "season_first_title_id",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            },
+            "entry_add_edit_prequel_id": {
+                "name": "prequel_id",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            },
+            "entry_add_edit_sequel_id": {
+                "name": "sequel_id",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                }
+            },
+            "entry_add_edit_encoder_video": {
+                "name": "encoder_video",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_add_edit_encoder_audio": {
+                "name": "encoder_audio",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_add_edit_encoder_subs": {
+                "name": "encoder_subs",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_add_edit_release_year": {
+                "name": "release_year",
+                "in": "query",
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                }
+            },
+            "entry_add_edit_release_season": {
+                "name": "release_season",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "Winter",
+                        "Spring",
+                        "Summer",
+                        "Fall"
+                    ]
+                }
+            },
+            "entry_add_edit_variants": {
+                "name": "variants",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_add_edit_remarks": {
+                "name": "remarks",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_add_edit_id_codec_audio": {
+                "name": "id_codec_audio",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "entry_add_edit_id_codec_video": {
+                "name": "id_codec_video",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "entry_add_edit_codec_hdr": {
+                "name": "codec_hdr",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
                 }
             },
             "entry_add_rewatch_date_rewatched": {
