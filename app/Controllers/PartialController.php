@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use TypeError;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\PartialRepository;
