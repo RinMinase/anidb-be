@@ -26,7 +26,7 @@ class CatalogRepository {
   public function get($uuid) {
     $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
 
-    $partials = Partial::where('id_catalogs', $catalog->id)
+    $partials = Partial::where('id_catalog', $catalog->id)
       ->orderBy('title')
       ->orderBy('created_at', 'asc')
       ->get();

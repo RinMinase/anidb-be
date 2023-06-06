@@ -13,17 +13,17 @@ class PartialRepository {
   public function get($uuid) {
     return Partial::select('title', 'id_priority')
       ->addSelect('partials.uuid as uuid')
-      ->addSelect('catalogs.uuid as id_catalogs')
-      ->leftJoin('catalogs', 'catalogs.id', '=', 'partials.id_catalogs')
+      ->addSelect('catalogs.uuid as id_catalog')
+      ->leftJoin('catalogs', 'catalogs.id', '=', 'partials.id_catalog')
       ->where('partials.uuid', $uuid)
       ->firstOrFail();
   }
 
   public function add(array $values) {
-    $catalog = Catalog::where('uuid', $values['id_catalogs'])->firstOrFail();
+    $catalog = Catalog::where('uuid', $values['id_catalog'])->firstOrFail();
 
     $values['uuid'] = Str::uuid()->toString();
-    $values['id_catalogs'] = $catalog->id;
+    $values['id_catalog'] = $catalog->id;
 
     return Partial::create($values);
   }
@@ -39,8 +39,8 @@ class PartialRepository {
   }
 
   public function edit(array $values, $uuid) {
-    $catalog = Catalog::where('uuid', $values['id_catalogs'])->firstOrFail();
-    $values['id_catalogs'] = $catalog->id;
+    $catalog = Catalog::where('uuid', $values['id_catalog'])->firstOrFail();
+    $values['id_catalog'] = $catalog->id;
 
     return Partial::where('uuid', $uuid)->update($values);
   }
@@ -52,7 +52,7 @@ class PartialRepository {
     $catalog->season = $values['season'];
     $catalog->save();
 
-    Partial::where('id_catalogs', $catalog->id)->delete();
+    Partial::where('id_catalog', $catalog->id)->delete();
 
     return $this->add_partial_data($values, $catalog);
   }
@@ -72,7 +72,7 @@ class PartialRepository {
       foreach ($values['data']['low'] as $item) {
         $data = [
           'uuid' => Str::uuid()->toString(),
-          'id_catalogs' => $catalog->id,
+          'id_catalog' => $catalog->id,
           'id_priority' => $priority->id,
           'title' => $item,
         ];
@@ -88,7 +88,7 @@ class PartialRepository {
       foreach ($values['data']['normal'] as $item) {
         $data = [
           'uuid' => Str::uuid()->toString(),
-          'id_catalogs' => $catalog->id,
+          'id_catalog' => $catalog->id,
           'id_priority' => $priority->id,
           'title' => $item,
         ];
@@ -104,7 +104,7 @@ class PartialRepository {
       foreach ($values['data']['high'] as $item) {
         $data = [
           'uuid' => Str::uuid()->toString(),
-          'id_catalogs' => $catalog->id,
+          'id_catalog' => $catalog->id,
           'id_priority' => $priority->id,
           'title' => $item,
         ];
