@@ -3,10 +3,9 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 use App\Repositories\GroupRepository;
-
+use App\Requests\Group\AddEditRequest;
 use App\Requests\Group\ImportRequest;
 
 use App\Resources\DefaultResponse;
@@ -76,21 +75,15 @@ class GroupController extends Controller {
    *   summary="Add a Group",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="name",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Group Name",
-   *     @OA\Schema(type="string"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/group_add_edit_name"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(Request $request): JsonResponse {
-    $this->groupRepository->add($request->all());
+  public function add(AddEditRequest $request): JsonResponse {
+    $this->groupRepository->add($request->only('name'));
 
     return DefaultResponse::success();
   }
@@ -110,13 +103,7 @@ class GroupController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="name",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Group Name",
-   *     @OA\Schema(type="string"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/group_add_edit_name"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -124,11 +111,8 @@ class GroupController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(Request $request, $uuid): JsonResponse {
-    $this->groupRepository->edit(
-      $request->except(['_method']),
-      $uuid
-    );
+  public function edit(AddEditRequest $request, $uuid): JsonResponse {
+    $this->groupRepository->edit($request->only('name'), $uuid);
 
     return DefaultResponse::success();
   }
