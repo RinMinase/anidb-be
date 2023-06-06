@@ -547,13 +547,13 @@ class EntryRepository {
     $entry->rating()->updateOrCreate(['id_entries' => $entry->id], $values);
   }
 
-  public function rewatchAdd(Request $request, $uuid) {
+  public function rewatchAdd(array $values, $uuid) {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
     EntryRewatch::insert([
       'uuid' => Str::uuid()->toString(),
       'id_entries' => $entry->id,
-      'date_rewatched' => $request->get('date_rewatched'),
+      'date_rewatched' => $values['date_rewatched'],
     ]);
   }
 
@@ -563,7 +563,7 @@ class EntryRepository {
       ->delete();
   }
 
-  public function getTitles(?string $id, ?string $needle) {
+  public function getTitles(string $id, ?string $needle) {
     if (!empty($needle)) {
       $names = Entry::select('title')
         ->where('uuid', '!=', $id)

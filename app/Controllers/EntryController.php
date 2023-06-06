@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 use App\Repositories\EntryRepository;
 
 use App\Requests\Entry\AddRequest;
+use App\Requests\Entry\AddRewatchRequest;
 use App\Requests\Entry\EditRequest;
 use App\Requests\Entry\ImageUploadRequest;
 use App\Requests\Entry\ImportRequest;
 use App\Requests\Entry\RatingsRequest;
 use App\Requests\Entry\SearchRequest;
+use App\Requests\Entry\SearchTitlesRequest;
 
 use App\Resources\Entry\EntryResource;
 use App\Resources\DefaultResponse;
@@ -480,12 +482,7 @@ class EntryController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="date_rewatched",
-   *     in="query",
-   *     example="2022-01-23",
-   *     @OA\Schema(type="string", format="date"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_rewatch_date_rewatched"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -493,8 +490,8 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function rewatchAdd(Request $request, $uuid): JsonResponse {
-    $this->entryRepository->rewatchAdd($request, $uuid);
+  public function rewatchAdd(AddRewatchRequest $request, $uuid): JsonResponse {
+    $this->entryRepository->rewatchAdd($request->only('date_rewatched'), $uuid);
 
     return DefaultResponse::success();
   }
@@ -534,22 +531,8 @@ class EntryController extends Controller {
    *   summary="Search Entry titles - For First Season Title, Prequel and Sequel",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="id",
-   *     description="Entry ID, search should not include this entry",
-   *     in="query",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *    @OA\Parameter(
-   *     name="needle",
-   *     description="Search query",
-   *     in="query",
-   *     required=true,
-   *     example="title",
-   *     @OA\Schema(type="string"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_needle"),
    *
    *   @OA\Response(
    *     response=200,
@@ -569,11 +552,11 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function getTitles(Request $request): JsonResponse {
+  public function getTitles(SearchTitlesRequest $request): JsonResponse {
     return response()->json([
       'data' => $this->entryRepository->getTitles(
         $request->get('id'),
-        $request->get('needle'),
+        $request->get('needle') ?? '',
       ),
     ]);
   }
