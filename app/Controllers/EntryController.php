@@ -6,9 +6,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
 
-use App\Requests\Entry\AddRequest;
+use App\Requests\Entry\AddEditRequest;
 use App\Requests\Entry\AddRewatchRequest;
-use App\Requests\Entry\EditRequest;
 use App\Requests\Entry\ImageUploadRequest;
 use App\Requests\Entry\ImportRequest;
 use App\Requests\Entry\RatingsRequest;
@@ -99,69 +98,45 @@ class EntryController extends Controller {
    *   summary="Add an Entry",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_title"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
    *
-   *   @OA\Parameter(name="date_finished", in="query", @OA\Schema(type="string", format="date")),
-   *   @OA\Parameter(name="duration", in="query", @OA\Schema(type="integer", format="int64")),
-   *   @OA\Parameter(name="filesize", in="query", @OA\Schema(type="integer", format="int64")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_date_finished"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_duration"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_filesize"),
    *
-   *   @OA\Parameter(name="episodes", in="query", @OA\Schema(type="integer", format="int32")),
-   *   @OA\Parameter(name="ovas", in="query", @OA\Schema(type="integer", format="int32")),
-   *   @OA\Parameter(name="specials", in="query", @OA\Schema(type="integer", format="int32")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_episodes"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_ovas"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_specials"),
    *
-   *   @OA\Parameter(
-   *     name="season_number",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32")
-   *   ),
-   *   @OA\Parameter(
-   *     name="season_first_title_id",
-   *     in="query",
-   *     @OA\Schema(type="string", format="uuid")
-   *   ),
-   *   @OA\Parameter(name="prequel_id", in="query", @OA\Schema(type="string", format="uuid")),
-   *   @OA\Parameter(name="sequel_id", in="query", @OA\Schema(type="string", format="uuid")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_number"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_first_title_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_prequel_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_sequel_id"),
    *
-   *   @OA\Parameter(name="encoder_video", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(name="encoder_audio", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(name="encoder_subs", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
    *
-   *   @OA\Parameter(
-   *     name="release_year",
-   *     in="query",
-   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="release_season",
-   *     in="query",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
    *
-   *   @OA\Parameter(name="variants", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(name="remarks", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(
-   *     name="id_codec_audio",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="id_codec_video",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="codec_hdr",
-   *     in="query",
-   *     @OA\Schema(type="boolean"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_year"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_season"),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_variants"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_remarks"),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(AddRequest $request): JsonResponse {
+  public function add(AddEditRequest $request): JsonResponse {
     $this->entryRepository->add(
       $request->only(
         'id_quality',
@@ -209,62 +184,41 @@ class EntryController extends Controller {
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
    *
-   *   @OA\Parameter(name="date_finished", in="query", @OA\Schema(type="string", format="date")),
-   *   @OA\Parameter(name="duration", in="query", @OA\Schema(type="integer", format="int64")),
-   *   @OA\Parameter(name="filesize", in="query", @OA\Schema(type="integer", format="int64")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
    *
-   *   @OA\Parameter(name="episodes", in="query", @OA\Schema(type="integer", format="int32")),
-   *   @OA\Parameter(name="ovas", in="query", @OA\Schema(type="integer", format="int32")),
-   *   @OA\Parameter(name="specials", in="query", @OA\Schema(type="integer", format="int32")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_date_finished"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_duration"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_filesize"),
    *
-   *   @OA\Parameter(
-   *     name="season_number",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32")
-   *   ),
-   *   @OA\Parameter(
-   *     name="season_first_title_id",
-   *     in="query",
-   *     @OA\Schema(type="string", format="uuid")
-   *   ),
-   *   @OA\Parameter(name="prequel_id", in="query", @OA\Schema(type="string", format="uuid")),
-   *   @OA\Parameter(name="sequel_id", in="query", @OA\Schema(type="string", format="uuid")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_episodes"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_ovas"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_specials"),
    *
-   *   @OA\Parameter(name="encoder_video", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(name="encoder_audio", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(name="encoder_subs", in="query", @OA\Schema(type="string")),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_number"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_first_title_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_prequel_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_sequel_id"),
    *
-   *   @OA\Parameter(
-   *     name="release_year",
-   *     in="query",
-   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="release_season",
-   *     in="query",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"})
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
    *
-   *   @OA\Parameter(name="variants", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(name="remarks", in="query", @OA\Schema(type="string")),
-   *   @OA\Parameter(
-   *     name="id_codec_audio",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32")
-   *   ),
-   *   @OA\Parameter(
-   *     name="id_codec_video",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32")
-   *   ),
-   *   @OA\Parameter(
-   *     name="codec_hdr",
-   *     in="query",
-   *     @OA\Schema(type="integer", format="int32", minimum=0, maximum=1)
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_year"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_season"),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_variants"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_remarks"),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -272,7 +226,7 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(EditRequest $request, $uuid): JsonResponse {
+  public function edit(AddEditRequest $request, $uuid): JsonResponse {
     $this->entryRepository->edit(
       $request->only(
         'id_quality',
