@@ -2588,13 +2588,7 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "name": "date_rewatched",
-                        "in": "query",
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "example": "2022-01-23"
+                        "$ref": "#/components/parameters/entry_add_rewatch_date_rewatched"
                     }
                 ],
                 "responses": {
@@ -2668,25 +2662,10 @@
                 "operationId": "3f43b8fa0b3da95705bcd9ffce241635",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "query",
-                        "description": "Entry ID, search should not include this entry",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                        "$ref": "#/components/parameters/entry_search_titles_id"
                     },
                     {
-                        "name": "needle",
-                        "in": "query",
-                        "description": "Search query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "title"
+                        "$ref": "#/components/parameters/entry_search_titles_needle"
                     }
                 ],
                 "responses": {
@@ -6248,6 +6227,16 @@
                     "minLength": 1
                 }
             },
+            "entry_add_rewatch_date_rewatched": {
+                "name": "date_rewatched",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "example": "2022-01-23"
+            },
             "entry_edit_id_quality": {
                 "name": "id_quality",
                 "in": "query",
@@ -6375,6 +6364,26 @@
                     "minimum": 1
                 },
                 "example": 30
+            },
+            "entry_search_titles_id": {
+                "name": "id",
+                "in": "query",
+                "description": "Entry ID, search should not include this entry",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+            },
+            "entry_search_titles_needle": {
+                "name": "needle",
+                "in": "query",
+                "description": "Search query; When blank is passed, get 10 alphanumerically arranged titles",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "title"
             },
             "log_search_column": {
                 "name": "column",
