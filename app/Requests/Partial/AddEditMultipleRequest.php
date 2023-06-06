@@ -41,7 +41,7 @@ class AddEditMultipleRequest extends FormRequest {
     return [
       'data' => 'required|string',
       'season' => [new Enum(SeasonsEnum::class)],
-      'year' => 'required|integer|min:1900|max:2999',
+      'year' => year_validation(true),
     ];
   }
 
