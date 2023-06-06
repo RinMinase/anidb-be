@@ -157,16 +157,12 @@ class PartialController extends Controller {
    * )
    */
   public function edit(AddEditRequest $request, $uuid): JsonResponse {
-    try {
-      $this->partialRepository->edit(
-        $request->only('title', 'id_catalog', 'id_priority'),
-        $uuid,
-      );
+    $this->partialRepository->edit(
+      $request->only('title', 'id_catalog', 'id_priority'),
+      $uuid,
+    );
 
-      return DefaultResponse::success();
-    } catch (TypeError) {
-      return ErrorResponse::badRequest();
-    }
+    return DefaultResponse::success();
   }
 
   /**
