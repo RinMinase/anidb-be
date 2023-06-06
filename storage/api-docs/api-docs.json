@@ -2847,13 +2847,7 @@
                 "operationId": "d5e58c0df5e02a3de23c70700551aa64",
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Group Name"
+                        "$ref": "#/components/parameters/group_add_edit_name"
                     }
                 ],
                 "responses": {
@@ -2934,13 +2928,7 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "name": "name",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Group Name"
+                        "$ref": "#/components/parameters/group_add_edit_name"
                     }
                 ],
                 "responses": {
@@ -3613,34 +3601,13 @@
                 "operationId": "e600f83f93bd02554d7ece261d8d9a54",
                 "parameters": [
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": "Partial Title"
+                        "$ref": "#/components/parameters/partial_add_edit_id_catalog"
                     },
                     {
-                        "name": "id_catalogs",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                        "$ref": "#/components/parameters/partial_add_edit_id_priority"
                     },
                     {
-                        "name": "id_priority",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
+                        "$ref": "#/components/parameters/partial_add_edit_title"
                     }
                 ],
                 "responses": {
@@ -3781,34 +3748,13 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": "Partial Title"
+                        "$ref": "#/components/parameters/partial_add_edit_id_catalog"
                     },
                     {
-                        "name": "id_catalogs",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                        "$ref": "#/components/parameters/partial_add_edit_id_priority"
                     },
                     {
-                        "name": "id_priority",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
+                        "$ref": "#/components/parameters/partial_add_edit_title"
                     }
                 ],
                 "responses": {
@@ -6385,6 +6331,17 @@
                 },
                 "example": "title"
             },
+            "group_add_edit_name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                },
+                "example": "Sample Group Name"
+            },
             "log_search_column": {
                 "name": "column",
                 "in": "query",
@@ -6432,6 +6389,37 @@
                     "minimum": 1
                 },
                 "example": 30
+            },
+            "partial_add_edit_id_catalog": {
+                "name": "id_catalog",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+            },
+            "partial_add_edit_id_priority": {
+                "name": "id_priority",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 1
+            },
+            "partial_add_edit_title": {
+                "name": "title",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "minLength": 1
+                },
+                "example": "Partial Title"
             }
         },
         "securitySchemes": {
