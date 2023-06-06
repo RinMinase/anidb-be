@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\PartialRepository;
-
+use App\Requests\Partial\AddEditMultipleRequest;
 use App\Requests\Partial\AddEditRequest;
 
 use App\Resources\DefaultResponse;
@@ -53,27 +53,9 @@ class PartialController extends Controller {
    *   summary="Multi Add a Partial Entry",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="data",
-   *     in="query",
-   *     required=true,
-   *     example="low[0]=Title Low 1&normal[0]=Title Normal 1&normal[1]=Title Normal 2&high[0]=Title High 1",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="season",
-   *     in="query",
-   *     required=true,
-   *     example="Winter",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   *   ),
-   *   @OA\Parameter(
-   *     name="year",
-   *     in="query",
-   *     required=true,
-   *     example=2021,
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_data"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_season"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_year"),
    *
    *   @OA\Response(
    *     response=200,
@@ -101,7 +83,7 @@ class PartialController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add_multiple(Request $request): JsonResponse {
+  public function add_multiple(AddEditMultipleRequest $request): JsonResponse {
     try {
       $data = [];
       parse_str($request->get('data'), $data);
@@ -180,27 +162,9 @@ class PartialController extends Controller {
    *     description="Catalog ID",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="data",
-   *     in="query",
-   *     required=true,
-   *     example="low[0]=Title Low 1&normal[0]=Title Normal 1&normal[1]=Title Normal 2&high[0]=Title High 1",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="season",
-   *     in="query",
-   *     required=true,
-   *     example="Winter",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   *   ),
-   *   @OA\Parameter(
-   *     name="year",
-   *     in="query",
-   *     required=true,
-   *     example=2021,
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_data"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_season"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_year"),
    *
    *   @OA\Response(
    *     response=200,
@@ -229,7 +193,7 @@ class PartialController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit_multiple(Request $request, $uuid): JsonResponse {
+  public function edit_multiple(AddEditMultipleRequest $request, $uuid): JsonResponse {
     try {
       $data = [];
       parse_str($request->get('data'), $data);
