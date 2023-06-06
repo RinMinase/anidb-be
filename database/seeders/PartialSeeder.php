@@ -18,22 +18,22 @@ class PartialSeeder extends Seeder {
       [
         'uuid' => Str::uuid()->toString(),
         'title' => 'partial 1',
-        'id_catalogs' => 1,
+        'id_catalog' => 1,
         'id_priority' => 1,
       ], [
         'uuid' => Str::uuid()->toString(),
         'title' => 'partial 4',
-        'id_catalogs' => 1,
+        'id_catalog' => 1,
         'id_priority' => 2,
       ], [
         'uuid' => Str::uuid()->toString(),
         'title' => 'partial 2',
-        'id_catalogs' => 2,
+        'id_catalog' => 2,
         'id_priority' => 2,
       ], [
         'uuid' => Str::uuid()->toString(),
         'title' => 'partial 3',
-        'id_catalogs' => 3,
+        'id_catalog' => 3,
         'id_priority' => 3,
       ],
     ];

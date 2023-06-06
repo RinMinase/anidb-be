@@ -14,7 +14,7 @@ class Partial extends Model {
   protected $fillable = [
     'uuid',
     'title',
-    'id_catalogs',
+    'id_catalog',
     'id_priority',
   ];
 
