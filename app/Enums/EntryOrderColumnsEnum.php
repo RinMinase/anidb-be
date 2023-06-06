@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum EntryOrderColumns: string {
+enum EntryOrderColumnsEnum: string {
   case QUALITY = 'id_quality';
   case TITLE = 'title';
   case DATE_FINISHED = 'date_finished';

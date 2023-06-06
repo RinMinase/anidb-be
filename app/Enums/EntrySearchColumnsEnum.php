@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum EntrySearchColumns: string {
+enum EntrySearchColumnsEnum: string {
   case QUALITY = 'quality';
   case TITLE = 'title';
   case DATE_FINISHED = 'date';

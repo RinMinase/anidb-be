@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum LogOrderColumns: string {
+enum LogOrderColumnsEnum: string {
   case TABLE_CHANGED = 'table_changed';
   case DESCRIPTION = 'description';
   case ACTION = 'action';

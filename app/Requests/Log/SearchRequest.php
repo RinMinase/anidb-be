@@ -7,7 +7,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules\Enum;
 
-use App\Enums\LogOrderColumns;
+use App\Enums\LogOrderColumnsEnum;
 
 class SearchRequest extends FormRequest {
 
@@ -46,7 +46,7 @@ class SearchRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'column' => [new Enum(LogOrderColumns::class)],
+      'column' => [new Enum(LogOrderColumnsEnum::class)],
       'order' => 'in:asc,desc,ASC,DESC',
       'page' => 'integer|min:1',
       'limit' => 'integer|min:1|max:9999',

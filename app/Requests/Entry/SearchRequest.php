@@ -7,8 +7,8 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules\Enum;
 
-use App\Enums\EntryOrderColumns;
-use App\Enums\EntrySearchColumns;
+use App\Enums\EntryOrderColumnsEnum;
+use App\Enums\EntrySearchColumnsEnum;
 
 class SearchRequest extends FormRequest {
 
@@ -64,8 +64,8 @@ class SearchRequest extends FormRequest {
   public function rules() {
     return [
       'needle' => 'string',
-      'haystack' => [new Enum(EntrySearchColumns::class)],
-      'column' => [new Enum(EntryOrderColumns::class)],
+      'haystack' => [new Enum(EntrySearchColumnsEnum::class)],
+      'column' => [new Enum(EntryOrderColumnsEnum::class)],
       'order' => 'in:asc,desc,ASC,DESC',
       'page' => 'integer|min:1',
       'limit' => 'integer|min:1|max:9999',

@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Seasons: string {
+enum SeasonsEnum: string {
   case WINTER = 'Winter';
   case SPRING = 'Spring';
   case SUMMER = 'Summer';

@@ -7,7 +7,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules\Enum;
 
-use App\Enums\Seasons;
+use App\Enums\SeasonsEnum;
 
 class AddEditMultipleRequest extends FormRequest {
 
@@ -40,7 +40,7 @@ class AddEditMultipleRequest extends FormRequest {
   public function rules() {
     return [
       'data' => 'required|string',
-      'season' => [new Enum(Seasons::class)],
+      'season' => [new Enum(SeasonsEnum::class)],
       'year' => 'required|integer|min:1900|max:2999',
     ];
   }
