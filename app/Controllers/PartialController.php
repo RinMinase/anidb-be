@@ -9,8 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\PartialRepository;
 
-use App\Requests\Partial\AddRequest;
-use App\Requests\Partial\EditRequest;
+use App\Requests\Partial\AddEditRequest;
 
 use App\Resources\DefaultResponse;
 use App\Resources\ErrorResponse;
@@ -30,35 +29,19 @@ class PartialController extends Controller {
    *   summary="Add a Partial Entry",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="title",
-   *     in="query",
-   *     required=true,
-   *     example="Partial Title",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="id_catalogs",
-   *     in="query",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="id_priority",
-   *     in="query",
-   *     required=true,
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_id_catalog"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_id_priority"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_title"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(AddRequest $request): JsonResponse {
-    $this->partialRepository->add($request->all());
+  public function add(AddEditRequest $request): JsonResponse {
+    $this->partialRepository->add(
+      $request->only('id_catalog', 'id_priority', 'title')
+    );
 
     return DefaultResponse::success();
   }
@@ -162,27 +145,9 @@ class PartialController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="title",
-   *     in="query",
-   *     required=true,
-   *     example="Partial Title",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="id_catalogs",
-   *     in="query",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="id_priority",
-   *     in="query",
-   *     required=true,
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_id_catalog"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_id_priority"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_title"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=400, ref="#/components/responses/BadRequest"),
@@ -191,10 +156,12 @@ class PartialController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(EditRequest $request, $uuid): JsonResponse {
+  public function edit(AddEditRequest $request, $uuid): JsonResponse {
     try {
-      $body = $request->only('title', 'id_catalogs', 'id_priority');
-      $this->partialRepository->edit($body, $uuid);
+      $this->partialRepository->edit(
+        $request->only('title', 'id_catalog', 'id_priority'),
+        $uuid,
+      );
 
       return DefaultResponse::success();
     } catch (TypeError) {
