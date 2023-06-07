@@ -43,10 +43,10 @@
                         "$ref": "#/components/responses/AnilistRateLimitErrorResponse"
                     },
                     "500": {
-                        "$ref": "#/components/responses/AnilistConfigErrorResponse"
+                        "$ref": "#/components/responses/AnilistOtherErrorResponse"
                     },
                     "503": {
-                        "$ref": "#/components/responses/AnilistServerErrorResponse"
+                        "$ref": "#/components/responses/AnilistConnectionErrorResponse"
                     }
                 },
                 "security": [
@@ -93,10 +93,10 @@
                         "$ref": "#/components/responses/AnilistRateLimitErrorResponse"
                     },
                     "500": {
-                        "$ref": "#/components/responses/AnilistConfigErrorResponse"
+                        "$ref": "#/components/responses/AnilistOtherErrorResponse"
                     },
                     "503": {
-                        "$ref": "#/components/responses/AnilistServerErrorResponse"
+                        "$ref": "#/components/responses/AnilistConnectionErrorResponse"
                     }
                 },
                 "security": [
@@ -5669,8 +5669,8 @@
             }
         },
         "responses": {
-            "AnilistConfigErrorResponse": {
-                "description": "Anilist Scraper Configuration Error Responses",
+            "AnilistOtherErrorResponse": {
+                "description": "Other Error Responses",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -5686,66 +5686,12 @@
                             "type": "object"
                         },
                         "examples": {
-                            "ScaperConfigNotFound": {
-                                "summary": "Scaper Configuration Not Found",
-                                "value": {
-                                    "status": 500,
-                                    "message": "Anilist Scraper configuration not found"
-                                }
+                            "AnilistConfigErrorExample": {
+                                "$ref": "#/components/examples/AnilistConfigErrorExample"
                             },
-                            "ParsingError": {
-                                "summary": "Parsing error",
-                                "value": {
-                                    "status": 500,
-                                    "message": "Issues in parsing AniList response"
-                                }
+                            "AnilistParsingErrorExample": {
+                                "$ref": "#/components/examples/AnilistParsingErrorExample"
                             }
-                        }
-                    }
-                }
-            },
-            "AnilistRateLimitErrorResponse": {
-                "description": "AniList Rate Limit Error",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 429,
-                            "message": "AniList rate limit was reached. Please retry in ## seconds."
-                        }
-                    }
-                }
-            },
-            "AnilistServerErrorResponse": {
-                "description": "AniList Server Error",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 503,
-                            "message": "Issues in connecting to MAL Servers"
                         }
                     }
                 }
@@ -5846,6 +5792,52 @@
                                     "message": "Failed"
                                 }
                             }
+                        }
+                    }
+                }
+            },
+            "AnilistConnectionErrorResponse": {
+                "description": "Connection Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 503,
+                            "message": "Issues in connecting to AniList servers"
+                        }
+                    }
+                }
+            },
+            "AnilistRateLimitErrorResponse": {
+                "description": "Rate Limit Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 429,
+                            "message": "AniList rate limit was reached. Please retry in ## seconds."
                         }
                     }
                 }
@@ -6563,6 +6555,22 @@
                     "format": "date"
                 },
                 "example": "2020-01-01"
+            }
+        },
+        "examples": {
+            "AnilistConfigErrorExample": {
+                "summary": "Configuration Error",
+                "value": {
+                    "status": 500,
+                    "message": "Anilist scraper configuration not found."
+                }
+            },
+            "AnilistParsingErrorExample": {
+                "summary": "Parsing Error",
+                "value": {
+                    "status": 500,
+                    "message": "Issues in parsing AniList response."
+                }
             }
         },
         "securitySchemes": {
