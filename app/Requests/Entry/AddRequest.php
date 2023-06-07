@@ -25,9 +25,9 @@ class AddRequest extends FormRequest {
    * ),
    */
   public function rules() {
-    return array_merge((new EditRequest())->rules(), [
-      'id_quality' => 'required|integer|exists:qualities,id',
-      'title' => 'required|string|max:256',
+    return array_merge_recursive((new EditRequest())->rules(), [
+      'id_quality' => ['required'],
+      'title' => ['required'],
     ]);
   }
 

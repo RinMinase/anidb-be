@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\SeasonsEnum;
+use App\Requests\YearRule;
 
 class EditRequest extends FormRequest {
 
@@ -154,35 +155,35 @@ class EditRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'id_quality' => 'integer|exists:qualities,id',
-      'title' => 'string|max:256',
+      'id_quality' => ['integer', 'exists:qualities,id'],
+      'title' => ['string', 'max:256'],
 
-      'date_finished' => 'string|date|before_or_equal:today',
-      'duration' => 'integer|min:0|max:' . db_int_max('medium'),
-      'filesize' => 'integer|min:0|max:' . db_int_max('bigint'),
+      'date_finished' => ['string', 'date', 'before_or_equal:today'],
+      'duration' => ['integer', 'min:0', 'max:' . db_int_max('medium')],
+      'filesize' => ['integer', 'min:0', 'max:' . db_int_max('bigint')],
 
-      'episodes' => 'integer|min:0|max:' . db_int_max('small'),
-      'ovas' => 'integer|min:0|max:' . db_int_max('small'),
-      'specials' => 'integer|min:0|max:' . db_int_max('small'),
+      'episodes' => ['integer', 'min:0', 'max:' . db_int_max('small')],
+      'ovas' => ['integer', 'min:0', 'max:' . db_int_max('small')],
+      'specials' => ['integer', 'min:0', 'max:' . db_int_max('small')],
 
-      'season_number' => 'integer|min:0|max:' . db_int_max('tiny'),
-      'season_first_title_id' => 'uuid|exists:entries,uuid',
-      'prequel_id' => 'uuid|exists:entries,uuid',
-      'sequel_id' => 'uuid|exists:entries,uuid',
+      'season_number' => ['integer', 'min:0', 'max:' . db_int_max('tiny')],
+      'season_first_title_id' => ['uuid', 'exists:entries,uuid'],
+      'prequel_id' => ['uuid', 'exists:entries,uuid'],
+      'sequel_id' => ['uuid', 'exists:entries,uuid'],
 
-      'encoder_video' => 'string|max:128',
-      'encoder_audio' => 'string|max:128',
-      'encoder_subs' => 'string|max:128',
+      'encoder_video' => ['string', 'max:128'],
+      'encoder_audio' => ['string', 'max:128'],
+      'encoder_subs' => ['string', 'max:128'],
 
-      'release_year' => year_validation(),
+      'release_year' => [new YearRule],
       'release_season' => [new Enum(SeasonsEnum::class)],
 
-      'variants' => 'string|max:256',
-      'remarks' => 'string|max:256',
+      'variants' => ['string', 'max:256'],
+      'remarks' => ['string', 'max:256'],
 
-      'id_codec_audio' => 'integer|exists:codec_audios,id',
-      'id_codec_video' => 'integer|exists:codec_videos,id',
-      'codec_hdr' => 'boolean',
+      'id_codec_audio' => ['integer', 'exists:codec_audios,id'],
+      'id_codec_video' => ['integer', 'exists:codec_videos,id'],
+      'codec_hdr' => ['boolean'],
     ];
   }
 
