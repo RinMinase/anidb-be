@@ -3757,11 +3757,11 @@
                 "parameters": [
                     {
                         "name": "limit",
-                        "in": "query",
+                        "in": "path",
                         "description": "Changelog Count Limit",
                         "schema": {
                             "type": "integer",
-                            "format": "int64",
+                            "format": "int32",
                             "default": 20
                         },
                         "example": "20"
@@ -3825,11 +3825,11 @@
                 "parameters": [
                     {
                         "name": "limit",
-                        "in": "query",
+                        "in": "path",
                         "description": "Changelog Count Limit",
                         "schema": {
                             "type": "integer",
-                            "format": "int64",
+                            "format": "int32",
                             "default": 20
                         },
                         "example": "20"
@@ -3893,7 +3893,7 @@
                 "parameters": [
                     {
                         "name": "limit",
-                        "in": "query",
+                        "in": "path",
                         "description": "Issue Count Limit",
                         "schema": {
                             "type": "integer",

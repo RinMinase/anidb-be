@@ -32,9 +32,9 @@ class ReleaseController extends Controller {
    *   @OA\Parameter(
    *     name="limit",
    *     description="Changelog Count Limit",
-   *     in="query",
+   *     in="path",
    *     example="20",
-   *     @OA\Schema(type="integer", format="int64", default=20),
+   *     @OA\Schema(type="integer", format="int32", default=20),
    *   ),
    *
    *   @OA\Response(
@@ -59,7 +59,7 @@ class ReleaseController extends Controller {
     if ($this->isScraperEnabled()) {
       $data = Http::get($this->feReleaseURI . 'commits', [
         'query' => [
-          'per_page' => $limit,
+          'per_page' => intval($limit) || 20,
         ],
       ])->body();
 
@@ -81,9 +81,9 @@ class ReleaseController extends Controller {
    *   @OA\Parameter(
    *     name="limit",
    *     description="Changelog Count Limit",
-   *     in="query",
+   *     in="path",
    *     example="20",
-   *     @OA\Schema(type="integer", format="int64", default=20),
+   *     @OA\Schema(type="integer", format="int32", default=20),
    *   ),
    *
    *   @OA\Response(
@@ -108,7 +108,7 @@ class ReleaseController extends Controller {
     if ($this->isScraperEnabled()) {
       $data = Http::get($this->beReleaseURI . 'commits', [
         'query' => [
-          'per_page' => $limit,
+          'per_page' => intval($limit) || 20,
         ],
       ])->body();
 
@@ -130,7 +130,7 @@ class ReleaseController extends Controller {
    *   @OA\Parameter(
    *     name="limit",
    *     description="Issue Count Limit",
-   *     in="query",
+   *     in="path",
    *     example="100",
    *     @OA\Schema(type="integer", format="int64", default=100),
    *   ),
@@ -174,7 +174,7 @@ class ReleaseController extends Controller {
     if ($this->isScraperEnabled()) {
       $data = Http::get($this->beReleaseURI . 'issues', [
         'query' => [
-          'per_page' => $limit,
+          'per_page' => intval($limit) || 100,
           'page' => 1,
         ],
       ])->body();
