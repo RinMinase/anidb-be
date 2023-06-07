@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\CatalogRepository;
+
 use App\Resources\Catalog\CatalogCollection;
 
 use App\Resources\DefaultResponse;
