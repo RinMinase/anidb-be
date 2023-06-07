@@ -193,6 +193,12 @@ Route::prefix('api')
             Route::delete('bookmark/{uuid}', 'RssController@removeBookmark');
           });
 
+        Route::prefix('anilist')
+          ->group(function () {
+            Route::get('title/{integer}', 'AnilistController@get');
+            Route::get('search', 'AnilistController@search');
+          });
+
         // ===== Deprecated =====
         Route::prefix('mal')
           ->group(function () {
