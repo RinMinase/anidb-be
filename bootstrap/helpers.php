@@ -63,21 +63,3 @@ if (!function_exists('db_int_max')) {
     if ($type == "bigint" && !$signed) return 18446744073709551615;
   }
 }
-
-if (!function_exists('year_validation')) {
-  function year_validation(bool $required = false): string {
-    if ($required) return 'required|integer|min:1900|max:2999';
-
-    return 'integer|min:1900|max:2999';
-  }
-}
-
-if (!function_exists('is_json_error_response')) {
-  function is_json_error_response(mixed $data): bool {
-    if (gettype($data) === "object") {
-      return get_class($data) === "Illuminate\Http\JsonResponse";
-    }
-
-    return false;
-  }
-}
