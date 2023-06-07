@@ -71,3 +71,13 @@ if (!function_exists('year_validation')) {
     return 'integer|min:1900|max:2999';
   }
 }
+
+if (!function_exists('is_json_error_response')) {
+  function is_json_error_response(mixed $data): bool {
+    if (gettype($data) === "object") {
+      return get_class($data) === "Illuminate\Http\JsonResponse";
+    }
+
+    return false;
+  }
+}
