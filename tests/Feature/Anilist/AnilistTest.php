@@ -13,7 +13,7 @@ class AnilistTest extends BaseTestCase {
       ->get('/api/anilist/search?query=' . $search_keyword);
 
     $response->assertStatus(200)
-      ->assertJsonCount(15, 'data')
+      ->assertJsonCount(10, 'data')
       ->assertJsonStructure([
         'data' => [[
           'id',
