@@ -14,6 +14,7 @@ class Rss extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'uuid',
     'title',
     'last_updated_at',
     'update_speed_mins',
