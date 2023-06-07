@@ -35,7 +35,7 @@ class AddEditRequest extends FormRequest {
         'required',
         'string',
         function ($attribute, $value, $fail) {
-          if (is_json($value)) {
+          if (!is_json($value)) {
             $fail($attribute . ' is not a valid JSON string');
           }
         },

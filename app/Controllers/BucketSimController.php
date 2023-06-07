@@ -94,7 +94,7 @@ class BucketSimController extends Controller {
    * )
    */
   public function add(AddEditRequest $request): JsonResponse {
-    $this->bucketSimRepository->add($request->all());
+    $this->bucketSimRepository->add($request->only('description', 'buckets'));
 
     return DefaultResponse::success();
   }
@@ -124,7 +124,10 @@ class BucketSimController extends Controller {
    * )
    */
   public function edit(AddEditRequest $request, $uuid): JsonResponse {
-    $this->bucketSimRepository->edit($request->all(), $uuid);
+    $this->bucketSimRepository->edit(
+      $request->only('description', 'buckets'),
+      $uuid,
+    );
 
     return DefaultResponse::success();
   }
