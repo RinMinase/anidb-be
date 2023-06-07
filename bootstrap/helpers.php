@@ -44,22 +44,3 @@ if (!function_exists('is_json')) {
     return json_last_error() === JSON_ERROR_NONE;
   }
 }
-
-if (!function_exists('db_int_max')) {
-  function db_int_max(string $type, bool $signed = true) {
-    if ($type == "tiny" && $signed) return 255;
-    if ($type == "tiny" && !$signed) return 127;
-
-    if ($type == "small" && $signed) return 32767;
-    if ($type == "small" && !$signed) return 65535;
-
-    if ($type == "medium" && $signed) return 8388607;
-    if ($type == "medium" && !$signed) return 16777215;
-
-    if ($type == "normal" && $signed) return 2147483647;
-    if ($type == "normal" && !$signed) return 4294967295;
-
-    if ($type == "bigint" && $signed) return 9223372036854775807;
-    if ($type == "bigint" && !$signed) return 18446744073709551615;
-  }
-}
