@@ -178,12 +178,6 @@ Route::prefix('api')
               });
           });
 
-        Route::prefix('mal')
-          ->group(function () {
-            Route::get('title/{integer}', 'MalController@get');
-            Route::get('search/{string}', 'MalController@search');
-          });
-
         Route::prefix('rss')
           ->group(function () {
             Route::get('', 'RssController@index');
@@ -200,6 +194,12 @@ Route::prefix('api')
           });
 
         // ===== Deprecated =====
+        Route::prefix('mal')
+          ->group(function () {
+            Route::get('title/{integer}', 'MalController@get');
+            Route::get('search/{string}', 'MalController@search');
+          });
+
         Route::get('changelog/{params?}', 'ReleaseController@getLogs');
         Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
         Route::get('issues/{params?}', 'ReleaseController@getIssues');

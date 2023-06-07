@@ -3057,6 +3057,7 @@
                         "$ref": "#/components/responses/MalServerErrorResponse"
                     }
                 },
+                "deprecated": true,
                 "security": [
                     {
                         "token": []
@@ -3104,6 +3105,7 @@
                         "$ref": "#/components/responses/MalServerErrorResponse"
                     }
                 },
+                "deprecated": true,
                 "security": [
                     {
                         "token": []

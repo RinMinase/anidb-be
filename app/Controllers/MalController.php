@@ -27,6 +27,7 @@ class MalController extends Controller {
    *   path="/api/mal/title/{title_id}",
    *   summary="Retrieve Title Information",
    *   security={{"token":{}}},
+   *   deprecated=true,
    *
    *   @OA\Parameter(
    *     name="title_id",
@@ -80,6 +81,7 @@ class MalController extends Controller {
    *   path="/api/mal/search/{query_string}",
    *   summary="Query Titles",
    *   security={{"token":{}}},
+   *   deprecated=true,
    *
    *   @OA\Parameter(
    *     name="query_string",
