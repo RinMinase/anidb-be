@@ -552,10 +552,10 @@
                 "operationId": "2502afb5c77b7fb43dbea30b7a2ff198",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/bucket_sim_add_edit_description"
+                        "$ref": "#/components/parameters/bucket_sim_add_description"
                     },
                     {
-                        "$ref": "#/components/parameters/bucket_sim_add_edit_buckets"
+                        "$ref": "#/components/parameters/bucket_sim_add_buckets"
                     }
                 ],
                 "responses": {
@@ -652,10 +652,10 @@
                         "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
                     },
                     {
-                        "$ref": "#/components/parameters/bucket_sim_add_edit_description"
+                        "$ref": "#/components/parameters/bucket_sim_edit_description"
                     },
                     {
-                        "$ref": "#/components/parameters/bucket_sim_add_edit_buckets"
+                        "$ref": "#/components/parameters/bucket_sim_edit_buckets"
                     }
                 ],
                 "responses": {
@@ -5976,7 +5976,7 @@
             }
         },
         "parameters": {
-            "bucket_sim_add_edit_description": {
+            "bucket_sim_add_description": {
                 "name": "description",
                 "in": "query",
                 "description": "Bucket Sim Description",
@@ -5988,11 +5988,31 @@
                 },
                 "example": "Sample 2 buckets"
             },
-            "bucket_sim_add_edit_buckets": {
+            "bucket_sim_add_buckets": {
                 "name": "buckets",
                 "in": "query",
                 "description": "Bucket JSON String",
                 "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
+            },
+            "bucket_sim_edit_description": {
+                "name": "description",
+                "in": "query",
+                "description": "Bucket Sim Description",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "minLength": 1
+                },
+                "example": "Sample 2 buckets"
+            },
+            "bucket_sim_edit_buckets": {
+                "name": "buckets",
+                "in": "query",
+                "description": "Bucket JSON String",
                 "schema": {
                     "type": "string"
                 },
