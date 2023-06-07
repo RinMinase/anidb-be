@@ -2,12 +2,13 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\RssRepository;
-use App\Resources\Rss\RssCollection;
 
+use App\Requests\Rss\AddEditRequest;
+
+use App\Resources\Rss\RssCollection;
 use App\Resources\DefaultResponse;
 
 class RssController extends Controller {
@@ -83,42 +84,20 @@ class RssController extends Controller {
    *   summary="Add an RSS Feed",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="title",
-   *     in="query",
-   *     required=true,
-   *     example="Sample RSS Feed",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="update_speed_mins",
-   *     in="query",
-   *     required=true,
-   *     example=60,
-   *     @OA\Schema(type="integer", format="int32", default=60),
-   *   ),
-   *   @OA\Parameter(
-   *     name="url",
-   *     in="query",
-   *     required=true,
-   *     example="https://example.com/",
-   *     @OA\Schema(type="string", format="uri"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="max_items",
-   *     in="query",
-   *     required=true,
-   *     example=250,
-   *     @OA\Schema(type="integer", format="int32", default=250),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_update_speed_mins"),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_url"),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_max_items"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(Request $request): JsonResponse {
-    $this->rssRepository->add($request->all());
+  public function add(AddEditRequest $request): JsonResponse {
+    $this->rssRepository->add(
+      $request->only('title', 'update_speed_mins', 'url', 'max_items'),
+    );
 
     return DefaultResponse::success();
   }
@@ -138,34 +117,10 @@ class RssController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="title",
-   *     in="query",
-   *     required=true,
-   *     example="Sample RSS Feed",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="update_speed_mins",
-   *     in="query",
-   *     required=true,
-   *     example=60,
-   *     @OA\Schema(type="integer", format="int32", default=60),
-   *   ),
-   *   @OA\Parameter(
-   *     name="url",
-   *     in="query",
-   *     required=true,
-   *     example="https://example.com/",
-   *     @OA\Schema(type="string", format="uri"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="max_items",
-   *     in="query",
-   *     required=true,
-   *     example=250,
-   *     @OA\Schema(type="integer", format="int32", default=250),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_update_speed_mins"),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_url"),
+   *   @OA\Parameter(ref="#/components/parameters/rss_add_edit_max_items"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -173,8 +128,11 @@ class RssController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(Request $request, $uuid): JsonResponse {
-    $this->rssRepository->edit($request->except(['_method']), $uuid);
+  public function edit(AddEditRequest $request, $uuid): JsonResponse {
+    $this->rssRepository->edit(
+      $request->only('title', 'update_speed_mins', 'url', 'max_items'),
+      $uuid,
+    );
 
     return DefaultResponse::success();
   }
