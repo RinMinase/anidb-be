@@ -128,7 +128,7 @@ class SequenceController extends Controller {
   public function edit(AddEditRequest $request, $id): JsonResponse {
     $this->sequenceRepository->edit(
       $request->only('title', 'date_from', 'date_to'),
-      $id
+      $id,
     );
 
     return DefaultResponse::success();
