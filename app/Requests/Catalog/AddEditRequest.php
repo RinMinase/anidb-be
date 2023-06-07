@@ -31,8 +31,8 @@ class AddEditRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'season' => [new Enum(SeasonsEnum::class)],
-      'year' => year_validation(true),
+      'season' => ['required', new Enum(SeasonsEnum::class)],
+      'year' => ['required', new YearRule],
     ];
   }
 

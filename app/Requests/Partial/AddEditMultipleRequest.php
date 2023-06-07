@@ -40,8 +40,8 @@ class AddEditMultipleRequest extends FormRequest {
   public function rules() {
     return [
       'data' => 'required|string',
-      'season' => [new Enum(SeasonsEnum::class)],
-      'year' => year_validation(true),
+      'season' => ['required', new Enum(SeasonsEnum::class)],
+      'year' => ['required', new YearRule],
     ];
   }
 
