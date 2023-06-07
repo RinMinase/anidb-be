@@ -9,6 +9,8 @@ use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\SeasonsEnum;
 
+use App\Rules\YearRule;
+
 class AddEditMultipleRequest extends FormRequest {
 
   /**
@@ -39,7 +41,7 @@ class AddEditMultipleRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'data' => 'required|string',
+      'data' => ['required', 'string'],
       'season' => ['required', new Enum(SeasonsEnum::class)],
       'year' => ['required', new YearRule],
     ];
