@@ -4433,33 +4433,13 @@
                 "operationId": "059667e465008cdbc254b5ba6c6758ce",
                 "parameters": [
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Sequence List"
+                        "$ref": "#/components/parameters/sequence_add_edit_title"
                     },
                     {
-                        "name": "date_from",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "example": "2020-01-01"
+                        "$ref": "#/components/parameters/sequence_add_edit_date_from"
                     },
                     {
-                        "name": "date_to",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "example": "2020-02-01"
+                        "$ref": "#/components/parameters/sequence_add_edit_date_to"
                     }
                 ],
                 "responses": {
@@ -4546,33 +4526,13 @@
                         "example": 1
                     },
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Sequence List"
+                        "$ref": "#/components/parameters/sequence_add_edit_title"
                     },
                     {
-                        "name": "date_from",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "example": "2020-01-01"
+                        "$ref": "#/components/parameters/sequence_add_edit_date_from"
                     },
                     {
-                        "name": "date_to",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        },
-                        "example": "2020-02-01"
+                        "$ref": "#/components/parameters/sequence_add_edit_date_to"
                     }
                 ],
                 "responses": {
@@ -6380,6 +6340,35 @@
                     "minLength": 1
                 },
                 "example": "Partial Title"
+            },
+            "sequence_add_edit_title": {
+                "name": "title",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "Sample Sequence List"
+            },
+            "sequence_add_edit_date_from": {
+                "name": "date_from",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "example": "2020-01-01"
+            },
+            "sequence_add_edit_date_to": {
+                "name": "date_to",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "example": "2020-01-01"
             }
         },
         "securitySchemes": {
