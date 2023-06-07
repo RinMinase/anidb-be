@@ -3997,45 +3997,16 @@
                 "operationId": "e9d606650d5e381c31b3aa515bf4a85c",
                 "parameters": [
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample RSS Feed"
+                        "$ref": "#/components/parameters/rss_add_edit_title"
                     },
                     {
-                        "name": "update_speed_mins",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 60
-                        },
-                        "example": 60
+                        "$ref": "#/components/parameters/rss_add_edit_update_speed_mins"
                     },
                     {
-                        "name": "url",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uri"
-                        },
-                        "example": "https://example.com/"
+                        "$ref": "#/components/parameters/rss_add_edit_url"
                     },
                     {
-                        "name": "max_items",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 250
-                        },
-                        "example": 250
+                        "$ref": "#/components/parameters/rss_add_edit_max_items"
                     }
                 ],
                 "responses": {
@@ -4125,45 +4096,16 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "name": "title",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample RSS Feed"
+                        "$ref": "#/components/parameters/rss_add_edit_title"
                     },
                     {
-                        "name": "update_speed_mins",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 60
-                        },
-                        "example": 60
+                        "$ref": "#/components/parameters/rss_add_edit_update_speed_mins"
                     },
                     {
-                        "name": "url",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uri"
-                        },
-                        "example": "https://example.com/"
+                        "$ref": "#/components/parameters/rss_add_edit_url"
                     },
                     {
-                        "name": "max_items",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32",
-                            "default": 250
-                        },
-                        "example": 250
+                        "$ref": "#/components/parameters/rss_add_edit_max_items"
                     }
                 ],
                 "responses": {
@@ -6340,6 +6282,47 @@
                     "minLength": 1
                 },
                 "example": "Partial Title"
+            },
+            "rss_add_edit_title": {
+                "name": "title",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                },
+                "example": "Sample RSS Feed"
+            },
+            "rss_add_edit_update_speed_mins": {
+                "name": "update_speed_mins",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 60
+                },
+                "example": 60
+            },
+            "rss_add_edit_url": {
+                "name": "url",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "example": "https://example.com/"
+            },
+            "rss_add_edit_max_items": {
+                "name": "max_items",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 250
+                },
+                "example": 250
             },
             "sequence_add_edit_title": {
                 "name": "title",
