@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Repositories\AnilistRepository;
 use App\Resources\Anilist\AnilistCollection;
 use App\Resources\Anilist\AnilistResource;
-use App\Resources\ErrorResponse;
 
 class AnilistController extends Controller {
 
@@ -46,10 +45,6 @@ class AnilistController extends Controller {
    * )
    */
   public function get($id = 101280): JsonResponse {
-    if (!config('app.anilist_base_uri')) {
-      return ErrorResponse::failed('Anilist Scraper configuration not found');
-    }
-
     $data = $this->anilistRepository->get($id);
 
     if (is_json_error_response($data)) {
@@ -91,10 +86,6 @@ class AnilistController extends Controller {
    * )
    */
   public function search(Request $request): JsonResponse {
-    if (!config('app.scraper.base_uri')) {
-      return ErrorResponse::failed('Web Scraper configuration not found');
-    }
-
     $data = $this->anilistRepository->search($request->only('query'));
     $data = collect($data['Page']['media']);
 

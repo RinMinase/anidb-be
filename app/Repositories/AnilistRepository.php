@@ -2,11 +2,12 @@
 
 namespace App\Repositories;
 
-use Exception;
-
 use Illuminate\Support\Facades\Http;
 
-use App\Resources\ErrorResponse;
+use App\Exceptions\Anilist\AnilistConfigException;
+use App\Exceptions\Anilist\AnilistConnectionException;
+use App\Exceptions\Anilist\AnilistParsingException;
+use App\Exceptions\Anilist\AnilistRateLimitException;
 
 class AnilistRepository {
 
@@ -14,6 +15,10 @@ class AnilistRepository {
 
   public function __construct() {
     $this->anilistURI = 'https://' . config('app.anilist_base_uri');
+
+    if (!config('app.anilist_base_uri')) {
+      throw new AnilistConfigException();
+    }
   }
 
   public function get($id = 101280) {
@@ -68,25 +73,19 @@ class AnilistRepository {
       ]);
 
     if ($response->status() >= 429) {
-      $retry = $response->header('Retry-After');
+      $retry = $response->header('Retry-After') ?? 'unknown';
 
-      return ErrorResponse::unavailable(
-        'AniList rate limit was reached. Please retry in ' . $retry . ' seconds.'
-      );
+      throw new AnilistRateLimitException($retry);
     }
 
     if ($response->status() >= 500) {
-      return ErrorResponse::unavailable('Issues in connecting to AniList Servers');
+      throw new AnilistConnectionException();
     }
 
     $body = json_decode($response->body(), true);
 
-    // var_dump(isset($body['errors']));
-    // die;
-
     if (isset($body['errors'])) {
-      throw new Exception;
-      return ErrorResponse::unavailable('Issues in parsing AniList response');
+      throw new AnilistParsingException();
     }
 
     return $body['data'];
