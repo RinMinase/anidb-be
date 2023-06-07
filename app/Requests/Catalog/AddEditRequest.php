@@ -9,6 +9,8 @@ use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\SeasonsEnum;
 
+use App\Rules\YearRule;
+
 class AddEditRequest extends FormRequest {
 
   /**
