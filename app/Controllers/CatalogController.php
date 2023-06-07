@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\CatalogRepository;
 
-use App\Resources\Catalog\CatalogCollection;
+use App\Requests\Catalog\AddEditRequest;
 
+use App\Resources\Catalog\CatalogCollection;
 use App\Resources\DefaultResponse;
 
 class CatalogController extends Controller {
@@ -86,28 +86,16 @@ class CatalogController extends Controller {
    *   summary="Add a Catalog",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="year",
-   *     in="query",
-   *     required=true,
-   *     example="2020",
-   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="season",
-   *     in="query",
-   *     required=true,
-   *     example="Winter",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/catalog_add_edit_season"),
+   *   @OA\Parameter(ref="#/components/parameters/catalog_add_edit_year"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(Request $request): JsonResponse {
-    $this->catalogRepository->add($request->only('year', 'season'));
+  public function add(AddEditRequest $request): JsonResponse {
+    $this->catalogRepository->add($request->only('season', 'year'));
 
     return DefaultResponse::success();
   }
@@ -127,20 +115,8 @@ class CatalogController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(
-   *     name="year",
-   *     in="query",
-   *     required=true,
-   *     example="2020",
-   *     @OA\Schema(ref="#/components/schemas/YearSchema"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="season",
-   *     in="query",
-   *     required=true,
-   *     example="Winter",
-   *     @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/catalog_add_edit_season"),
+   *   @OA\Parameter(ref="#/components/parameters/catalog_add_edit_year"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -148,8 +124,8 @@ class CatalogController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(Request $request, $id): JsonResponse {
-    $this->catalogRepository->edit($request->only('year', 'season'), $id);
+  public function edit(AddEditRequest $request, $id): JsonResponse {
+    $this->catalogRepository->edit($request->only('season', 'year'), $id);
 
     return DefaultResponse::success();
   }
