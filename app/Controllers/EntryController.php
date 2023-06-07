@@ -6,8 +6,9 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
 
-use App\Requests\Entry\AddEditRequest;
+use App\Requests\Entry\AddRequest;
 use App\Requests\Entry\AddRewatchRequest;
+use App\Requests\Entry\EditRequest;
 use App\Requests\Entry\ImageUploadRequest;
 use App\Requests\Entry\ImportRequest;
 use App\Requests\Entry\RatingsRequest;
@@ -98,45 +99,45 @@ class EntryController extends Controller {
    *   summary="Add an Entry",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_title"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_date_finished"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_duration"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_filesize"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_date_finished"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_duration"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_filesize"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_episodes"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_ovas"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_specials"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_episodes"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_ovas"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_specials"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_number"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_first_title_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_prequel_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_sequel_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_season_number"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_season_first_title_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_prequel_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_sequel_id"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_subs"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_subs"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_year"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_season"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_release_year"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_release_season"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_variants"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_remarks"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_variants"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_remarks"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_codec_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_codec_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_codec_hdr"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(AddEditRequest $request): JsonResponse {
+  public function add(AddRequest $request): JsonResponse {
     $this->entryRepository->add(
       $request->only(
         'id_quality',
@@ -184,41 +185,38 @@ class EntryController extends Controller {
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_title"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_date_finished"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_duration"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_filesize"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_date_finished"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_duration"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_filesize"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_episodes"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_ovas"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_specials"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_episodes"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_ovas"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_specials"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_season_number"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_season_first_title_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_prequel_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_sequel_id"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_number"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_first_title_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_prequel_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_sequel_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_subs"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_encoder_subs"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_release_year"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_release_season"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_year"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_season"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_variants"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_remarks"),
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_variants"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_remarks"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_codec_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_id_codec_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_edit_codec_hdr"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -226,7 +224,7 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(AddEditRequest $request, $uuid): JsonResponse {
+  public function edit(EditRequest $request, $uuid): JsonResponse {
     $this->entryRepository->edit(
       $request->only(
         'id_quality',
