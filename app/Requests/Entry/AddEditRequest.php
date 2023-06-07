@@ -8,7 +8,12 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\SeasonsEnum;
-use App\Requests\YearRule;
+
+use App\Rules\SignedBigIntRule;
+use App\Rules\SignedMediumIntRule;
+use App\Rules\SignedSmallIntRule;
+use App\Rules\SignedTinyIntRule;
+use App\Rules\YearRule;
 
 class AddEditRequest extends FormRequest {
 
@@ -161,14 +166,14 @@ class AddEditRequest extends FormRequest {
       'title' => ['required', 'string', 'max:256'],
 
       'date_finished' => ['string', 'date', 'before_or_equal:today'],
-      'duration' => ['integer', 'min:0', 'max:' . db_int_max('medium')],
-      'filesize' => ['integer', 'min:0', 'max:' . db_int_max('bigint')],
+      'duration' => ['integer', 'min:0', new SignedMediumIntRule],
+      'filesize' => ['integer', 'min:0', new SignedBigIntRule],
 
-      'episodes' => ['integer', 'min:0', 'max:' . db_int_max('small')],
-      'ovas' => ['integer', 'min:0', 'max:' . db_int_max('small')],
-      'specials' => ['integer', 'min:0', 'max:' . db_int_max('small')],
+      'episodes' => ['integer', 'min:0', new SignedSmallIntRule],
+      'ovas' => ['integer', 'min:0', new SignedSmallIntRule],
+      'specials' => ['integer', 'min:0', new SignedSmallIntRule],
 
-      'season_number' => ['integer', 'min:0', 'max:' . db_int_max('tiny')],
+      'season_number' => ['integer', 'min:0', new SignedTinyIntRule],
       'season_first_title_id' => ['uuid', 'exists:entries,uuid'],
       'prequel_id' => ['uuid', 'exists:entries,uuid'],
       'sequel_id' => ['uuid', 'exists:entries,uuid'],
