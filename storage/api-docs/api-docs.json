@@ -731,28 +731,10 @@
                 "operationId": "8d851d66dad56921006fe15cca087444",
                 "parameters": [
                     {
-                        "name": "year",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/YearSchema"
-                        },
-                        "example": "2020"
+                        "$ref": "#/components/parameters/catalog_add_edit_season"
                     },
                     {
-                        "name": "season",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "Winter",
-                                "Spring",
-                                "Summer",
-                                "Fall"
-                            ]
-                        },
-                        "example": "Winter"
+                        "$ref": "#/components/parameters/catalog_add_edit_year"
                     }
                 ],
                 "responses": {
@@ -847,28 +829,10 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "name": "year",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/YearSchema"
-                        },
-                        "example": "2020"
+                        "$ref": "#/components/parameters/catalog_add_edit_season"
                     },
                     {
-                        "name": "season",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "Winter",
-                                "Spring",
-                                "Summer",
-                                "Fall"
-                            ]
-                        },
-                        "example": "Winter"
+                        "$ref": "#/components/parameters/catalog_add_edit_year"
                     }
                 ],
                 "responses": {
@@ -5825,6 +5789,30 @@
             }
         },
         "parameters": {
+            "catalog_add_edit_season": {
+                "name": "season",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "Winter",
+                        "Spring",
+                        "Summer",
+                        "Fall"
+                    ]
+                },
+                "example": "Winter"
+            },
+            "catalog_add_edit_year": {
+                "name": "year",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
+            },
             "entry_add_edit_id_quality": {
                 "name": "id_quality",
                 "in": "query",
