@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use Exception;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 use App\Repositories\ImportRepository;
+
+use App\Requests\Import\ImportRequest;
 
 class ImportController extends Controller {
 
@@ -80,7 +80,7 @@ class ImportController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(Request $request): JsonResponse {
+  public function index(ImportRequest $request): JsonResponse {
     $file = json_decode($request->file('file')->get());
     $import_count = $this->importRepository->import($file);
 
