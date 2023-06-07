@@ -21,26 +21,10 @@ class MalController extends Controller {
     $this->scrapeURI = config('app.scraper.base_uri');
   }
 
-  public function index($params): JsonResponse {
-    if (!config('app.scraper.disabled')) {
-      if (config('app.scraper.base_uri')) {
-        if (is_numeric($params)) {
-          return $this->getAnime($params);
-        } else {
-          return $this->searchAnime($params);
-        }
-      } else {
-        return ErrorResponse::failed('Web Scraper configuration not found');
-      }
-    } else {
-      return ErrorResponse::failed('Web Scraper is disabled');
-    }
-  }
-
   /**
    * @OA\Get(
    *   tags={"MAL"},
-   *   path="/api/mal/{title_id}",
+   *   path="/api/mal/title/{title_id}",
    *   summary="Retrieve Title Information",
    *   security={{"token":{}}},
    *
@@ -63,8 +47,17 @@ class MalController extends Controller {
    *   @OA\Response(response=503, ref="#/components/responses/MalServerErrorResponse"),
    * )
    */
-  private function getAnime($id = 37430): JsonResponse {
+  public function get($id = 37430): JsonResponse {
     try {
+
+      if (config('app.scraper.disabled')) {
+        return ErrorResponse::failed('Web Scraper is disabled');
+      }
+
+      if (!config('app.scraper.base_uri')) {
+        return ErrorResponse::failed('Web Scraper configuration not found');
+      }
+
       $response = Http::get($this->scrapeURI . '/anime/' . $id);
 
       if ($response->status() >= 500) {
@@ -84,7 +77,7 @@ class MalController extends Controller {
   /**
    * @OA\Get(
    *   tags={"MAL"},
-   *   path="/api/mal/{query_string}",
+   *   path="/api/mal/search/{query_string}",
    *   summary="Query Titles",
    *   security={{"token":{}}},
    *
@@ -107,8 +100,17 @@ class MalController extends Controller {
    *   @OA\Response(response=503, ref="#/components/responses/MalServerErrorResponse"),
    * )
    */
-  private function searchAnime($query): JsonResponse {
+  public function search($query): JsonResponse {
     try {
+
+      if (config('app.scraper.disabled')) {
+        return ErrorResponse::failed('Web Scraper is disabled');
+      }
+
+      if (!config('app.scraper.base_uri')) {
+        return ErrorResponse::failed('Web Scraper configuration not found');
+      }
+
       $response = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query));
 
       if ($response->status() >= 500) {

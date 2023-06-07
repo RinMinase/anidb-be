@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+Route::pattern('integer', '[0-9]+');
+Route::pattern('string', '[a-z]+');
 
 Route::middleware('web')
   ->group(function () {
@@ -50,7 +52,6 @@ Route::prefix('api')
 
     Route::middleware('auth:sanctum')
       ->group(function () {
-        Route::get('mal/{params?}', 'MalController@index');
 
         Route::get('management', 'ManagementController@index');
         Route::get('logs', 'LogController@index');
@@ -175,6 +176,12 @@ Route::prefix('api')
                 Route::put('{id}', 'CodecController@editVideo');
                 Route::delete('{id}', 'CodecController@deleteVideo');
               });
+          });
+
+        Route::prefix('mal')
+          ->group(function () {
+            Route::get('title/{integer}', 'MalController@get');
+            Route::get('search/{string}', 'MalController@search');
           });
 
         Route::prefix('rss')
