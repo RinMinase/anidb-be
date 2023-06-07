@@ -43,7 +43,16 @@ class AddEditRequest extends FormRequest {
   public function rules() {
     return [
       'title' => 'required|string|max:64',
-      'update_speed_mins' => 'integer|min:15|max:' . db_int_max('small'),
+      'update_speed_mins' => [
+        'integer',
+        'min:15',
+        'max:' . db_int_max('small'),
+        function ($attribute, $value, $fail) {
+          if ($value % 15 !== 0) {
+            $fail($attribute . ' must be divisible by 15');
+          }
+        },
+      ],
       'url' => 'required|string|url|max:512',
       'max_items' => 'integer|max:' . db_int_max('small'),
     ];
