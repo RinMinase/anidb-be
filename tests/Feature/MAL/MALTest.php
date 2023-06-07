@@ -10,7 +10,7 @@ class MALTest extends BaseTestCase {
     $search_keyword = "tensei";
 
     $response = $this->withoutMiddleware()
-      ->get('/api/mal/' . $search_keyword);
+      ->get('/api/mal/search/' . $search_keyword);
 
     $response->assertStatus(200)
       ->assertJsonCount(5)
@@ -18,10 +18,10 @@ class MALTest extends BaseTestCase {
   }
 
   public function test_mal_get_info() {
-    $search_keyword = "39535";
+    $id = "39535";
 
     $response = $this->withoutMiddleware()
-      ->get('/api/mal/' . $search_keyword);
+      ->get('/api/mal/title/' . $id);
 
     $response->assertStatus(200)
       ->assertJsonStructure([
