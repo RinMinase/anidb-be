@@ -5,6 +5,9 @@ namespace App\Requests\Catalog;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rules\Enum;
+
+use App\Enums\SeasonsEnum;
 
 class AddEditRequest extends FormRequest {
 
