@@ -4,10 +4,10 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\Http;
 
-use App\Exceptions\Anilist\AnilistConfigException;
-use App\Exceptions\Anilist\AnilistConnectionException;
-use App\Exceptions\Anilist\AnilistParsingException;
-use App\Exceptions\Anilist\AnilistRateLimitException;
+use App\Exceptions\Anilist\ConfigException;
+use App\Exceptions\Anilist\ConnectionException;
+use App\Exceptions\Anilist\ParsingException;
+use App\Exceptions\Anilist\RateLimitException;
 
 class AnilistRepository {
 
@@ -17,7 +17,7 @@ class AnilistRepository {
     $this->anilistURI = 'https://' . config('app.anilist_base_uri');
 
     if (!config('app.anilist_base_uri')) {
-      throw new AnilistConfigException();
+      throw new ConfigException();
     }
   }
 
@@ -75,17 +75,17 @@ class AnilistRepository {
     if ($response->status() >= 429) {
       $retry = $response->header('Retry-After') ?? 'unknown';
 
-      throw new AnilistRateLimitException($retry);
+      throw new RateLimitException($retry);
     }
 
     if ($response->status() >= 500) {
-      throw new AnilistConnectionException();
+      throw new ConnectionException();
     }
 
     $body = json_decode($response->body(), true);
 
     if (isset($body['errors'])) {
-      throw new AnilistParsingException();
+      throw new ParsingException();
     }
 
     return $body['data'];

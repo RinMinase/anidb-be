@@ -40,8 +40,8 @@ class AnilistController extends Controller {
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=429, ref="#/components/responses/AnilistRateLimitErrorResponse"),
-   *   @OA\Response(response=500, ref="#/components/responses/AnilistConfigErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/AnilistServerErrorResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/AnilistOtherErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/AnilistConnectionErrorResponse"),
    * )
    */
   public function get($id = 101280): JsonResponse {
@@ -81,8 +81,8 @@ class AnilistController extends Controller {
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=429, ref="#/components/responses/AnilistRateLimitErrorResponse"),
-   *   @OA\Response(response=500, ref="#/components/responses/AnilistConfigErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/AnilistServerErrorResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/AnilistOtherErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/AnilistConnectionErrorResponse"),
    * )
    */
   public function search(Request $request): JsonResponse {
@@ -97,19 +97,17 @@ class AnilistController extends Controller {
 
 /**
  * @OA\Response(
- *   response="AnilistConfigErrorResponse",
- *   description="Anilist Scraper Configuration Error Responses",
+ *   response="AnilistOtherErrorResponse",
+ *   description="Other Error Responses",
  *   @OA\JsonContent(
  *     examples={
  *       @OA\Examples(
- *         summary="Scaper Configuration Not Found",
- *         example="ScaperConfigNotFound",
- *         value={"status": 500, "message": "Anilist Scraper configuration not found"},
+ *         example="AnilistConfigErrorExample",
+ *         ref="#/components/examples/AnilistConfigErrorExample",
  *       ),
  *       @OA\Examples(
- *         summary="Parsing error",
- *         example="ParsingError",
- *         value={"status": 500, "message": "Issues in parsing AniList response"},
+ *         example="AnilistParsingErrorExample",
+ *         ref="#/components/examples/AnilistParsingErrorExample",
  *       ),
  *     },
  *     @OA\Property(property="status", type="integer", format="int32"),
@@ -117,33 +115,5 @@ class AnilistController extends Controller {
  *   ),
  * )
  */
-class AnilistScraperConfigErrorResponse {
-}
-
-/**
- * @OA\Response(
- *   response="AnilistRateLimitErrorResponse",
- *   description="AniList Rate Limit Error",
- *   @OA\JsonContent(
- *     example={"status": 429, "message": "AniList rate limit was reached. Please retry in ## seconds."},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class AnilistRateLimitErrorResponse {
-}
-
-/**
- * @OA\Response(
- *   response="AnilistServerErrorResponse",
- *   description="AniList Server Error",
- *   @OA\JsonContent(
- *     example={"status": 503, "message": "Issues in connecting to MAL Servers"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class AnilistServerErrorResponse {
+class AnilistOtherErrorResponse {
 }
