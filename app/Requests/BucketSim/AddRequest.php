@@ -6,11 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class AddEditRequest extends FormRequest {
+class AddRequest extends FormRequest {
 
   /**
    * @OA\Parameter(
-   *   parameter="bucket_sim_add_edit_description",
+   *   parameter="bucket_sim_add_description",
    *   name="description",
    *   description="Bucket Sim Description",
    *   in="query",
@@ -19,7 +19,7 @@ class AddEditRequest extends FormRequest {
    *   @OA\Schema(type="string", minLength=1, maxLength=256),
    * ),
    * @OA\Parameter(
-   *   parameter="bucket_sim_add_edit_buckets",
+   *   parameter="bucket_sim_add_buckets",
    *   name="buckets",
    *   description="Bucket JSON String",
    *   in="query",
@@ -29,18 +29,10 @@ class AddEditRequest extends FormRequest {
    * ),
    */
   public function rules() {
-    return [
-      'description' => 'required|string|max:256',
-      'buckets' => [
-        'required',
-        'string',
-        function ($attribute, $value, $fail) {
-          if (!is_json($value)) {
-            $fail($attribute . ' is not a valid JSON string');
-          }
-        },
-      ],
-    ];
+    return array_merge_recursive((new EditRequest())->rules(), [
+      'description' => ['required'],
+      'buckets' => ['required'],
+    ]);
   }
 
   public function failedValidation(Validator $validator) {

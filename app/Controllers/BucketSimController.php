@@ -6,7 +6,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\BucketSimRepository;
 
-use App\Requests\BucketSim\AddEditRequest;
+use App\Requests\BucketSim\AddRequest;
+use App\Requests\BucketSim\EditRequest;
 
 use App\Resources\DefaultResponse;
 
@@ -85,15 +86,15 @@ class BucketSimController extends Controller {
    *   summary="Add a Bucket Sim",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_edit_description"),
-   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_edit_buckets"),
+   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_description"),
+   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_buckets"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(AddEditRequest $request): JsonResponse {
+  public function add(AddRequest $request): JsonResponse {
     $this->bucketSimRepository->add($request->only('description', 'buckets'));
 
     return DefaultResponse::success();
@@ -114,8 +115,8 @@ class BucketSimController extends Controller {
    *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_edit_description"),
-   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_edit_buckets"),
+   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_edit_description"),
+   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_edit_buckets"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -123,7 +124,7 @@ class BucketSimController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(AddEditRequest $request, $uuid): JsonResponse {
+  public function edit(EditRequest $request, $uuid): JsonResponse {
     $this->bucketSimRepository->edit(
       $request->only('description', 'buckets'),
       $uuid,
