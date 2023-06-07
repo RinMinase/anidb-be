@@ -520,11 +520,15 @@ class EntryTest extends BaseTestCase {
 
     // First data -> Second data
     $expected_connections1 = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-1',
       'sequel_id' => $expected2['uuid'],
     ];
 
     // Third data <- Second Data
     $expected_connections3 = [
+      'id_quality' => 3,
+      'title' => 'test data --- test-data-part-3',
       'prequel_id' => $expected2['uuid'],
     ];
 
