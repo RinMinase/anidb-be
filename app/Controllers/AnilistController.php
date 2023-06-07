@@ -47,10 +47,6 @@ class AnilistController extends Controller {
   public function get($id = 101280): JsonResponse {
     $data = $this->anilistRepository->get($id);
 
-    if (is_json_error_response($data)) {
-      return $data;
-    }
-
     $data = $data['Media'];
 
     return response()->json([
