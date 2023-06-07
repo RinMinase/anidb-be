@@ -3016,13 +3016,13 @@
                 ]
             }
         },
-        "/api/mal/{title_id}": {
+        "/api/mal/title/{title_id}": {
             "get": {
                 "tags": [
                     "MAL"
                 ],
                 "summary": "Retrieve Title Information",
-                "operationId": "8288a9cc2f6563d6af24bc85953c1ebe",
+                "operationId": "ebeafb793f77c028f8e52de98dd4dcac",
                 "parameters": [
                     {
                         "name": "title_id",
@@ -3064,13 +3064,13 @@
                 ]
             }
         },
-        "/api/mal/{query_string}": {
+        "/api/mal/search/{query_string}": {
             "get": {
                 "tags": [
                     "MAL"
                 ],
                 "summary": "Query Titles",
-                "operationId": "8134f5865e7f2a3f41bf64cd7a2ad3fd",
+                "operationId": "52d71e70844cc8d0869d67aab79162b5",
                 "parameters": [
                     {
                         "name": "query_string",
