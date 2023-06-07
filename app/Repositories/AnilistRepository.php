@@ -47,7 +47,7 @@ class AnilistRepository {
   public function search(array $values) {
     $query = '
       query ($id: Int, $search: String) {
-        Page (page: 1, perPage: 15) {
+        Page (page: 1, perPage: 10) {
           media (id: $id, search: $search, sort: FAVOURITES_DESC) {
             id
             title {
