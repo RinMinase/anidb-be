@@ -6,6 +6,10 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
+use App\Rules\DivisibleBy15Rule;
+use App\Rules\PositiveIntegerRule;
+use App\Rules\SignedSmallIntRule;
+
 class AddEditRequest extends FormRequest {
 
   /**
@@ -46,15 +50,12 @@ class AddEditRequest extends FormRequest {
       'update_speed_mins' => [
         'integer',
         'min:15',
-        'max:' . db_int_max('small'),
-        function ($attribute, $value, $fail) {
-          if ($value % 15 !== 0) {
-            $fail($attribute . ' must be divisible by 15');
-          }
-        },
+        new SignedSmallIntRule,
+        new DivisibleBy15Rule,
+        new PositiveIntegerRule,
       ],
-      'url' => 'required|string|url|max:512',
-      'max_items' => 'integer|max:' . db_int_max('small'),
+      'url' => ['required', 'string', 'url', 'max:512'],
+      'max_items' => ['integer', 'min:0', new SignedSmallIntRule],
     ];
   }
 
