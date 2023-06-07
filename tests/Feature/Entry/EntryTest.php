@@ -131,6 +131,17 @@ class EntryTest extends BaseTestCase {
           'page' => 2,
           'limit' => 30,
         ],
+      ])
+      ->assertJsonStructure([
+        'data' => [[]],
+        'meta' => [
+          'page',
+          'limit',
+          'results',
+          'total_results',
+          'total_pages',
+          'has_next',
+        ],
       ]);
 
     $this->setup_clear();
