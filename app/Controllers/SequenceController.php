@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 use App\Repositories\SequenceRepository;
 
+use App\Requests\Sequence\AddEditRequest;
 use App\Requests\Sequence\ImportRequest;
 
 use App\Resources\DefaultResponse;
@@ -83,35 +83,19 @@ class SequenceController extends Controller {
    *   summary="Add a Sequence",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="title",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Sequence List",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="date_from",
-   *     in="query",
-   *     required=true,
-   *     example="2020-01-01",
-   *     @OA\Schema(type="string", format="date"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="date_to",
-   *     in="query",
-   *     required=true,
-   *     example="2020-02-01",
-   *     @OA\Schema(type="string", format="date"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_date_from"),
+   *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_date_to"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function add(Request $request): JsonResponse {
-    $this->sequenceRepository->add($request->all());
+  public function add(AddEditRequest $request): JsonResponse {
+    $this->sequenceRepository->add(
+      $request->only('title', 'date_from', 'date_to'),
+    );
 
     return DefaultResponse::success();
   }
@@ -131,27 +115,9 @@ class SequenceController extends Controller {
    *     example=1,
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
-   *   @OA\Parameter(
-   *     name="title",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Sequence List",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="date_from",
-   *     in="query",
-   *     required=true,
-   *     example="2020-01-01",
-   *     @OA\Schema(type="string", format="date"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="date_to",
-   *     in="query",
-   *     required=true,
-   *     example="2020-02-01",
-   *     @OA\Schema(type="string", format="date"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_title"),
+   *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_date_from"),
+   *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_date_to"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -159,9 +125,9 @@ class SequenceController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(Request $request, $id): JsonResponse {
+  public function edit(AddEditRequest $request, $id): JsonResponse {
     $this->sequenceRepository->edit(
-      $request->except(['_method']),
+      $request->only('title', 'date_from', 'date_to'),
       $id
     );
 
