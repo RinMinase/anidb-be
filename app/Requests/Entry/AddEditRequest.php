@@ -10,144 +10,146 @@ use Illuminate\Validation\Rules\Enum;
 use App\Enums\SeasonsEnum;
 use App\Requests\YearRule;
 
-class EditRequest extends FormRequest {
+class AddEditRequest extends FormRequest {
 
   /**
    * @OA\Parameter(
-   *   parameter="entry_edit_id_quality",
+   *   parameter="entry_add_edit_id_quality",
    *   name="id_quality",
    *   in="query",
+   *   required=true,
    *   @OA\Schema(type="integer", format="int32"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_title",
+   *   parameter="entry_add_edit_title",
    *   name="title",
    *   in="query",
+   *   required=true,
    *   @OA\Schema(type="string", minLength=1, maxLength=256),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_date_finished",
+   *   parameter="entry_add_edit_date_finished",
    *   name="date_finished",
    *   in="query",
    *   @OA\Schema(type="string", format="date"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_duration",
+   *   parameter="entry_add_edit_duration",
    *   name="duration",
    *   in="query",
    *   @OA\Schema(type="integer", format="int64"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_filesize",
+   *   parameter="entry_add_edit_filesize",
    *   name="filesize",
    *   in="query",
    *   @OA\Schema(type="integer", format="int64"),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_episodes",
+   *   parameter="entry_add_edit_episodes",
    *   name="episodes",
    *   in="query",
    *   @OA\Schema(type="integer", format="int32"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_ovas",
+   *   parameter="entry_add_edit_ovas",
    *   name="ovas",
    *   in="query",
    *   @OA\Schema(type="integer", format="int32"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_specials",
+   *   parameter="entry_add_edit_specials",
    *   name="specials",
    *   in="query",
    *   @OA\Schema(type="integer", format="int32"),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_season_number",
+   *   parameter="entry_add_edit_season_number",
    *   name="season_number",
    *   in="query",
    *   @OA\Schema(type="integer", format="int32")
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_season_first_title_id",
+   *   parameter="entry_add_edit_season_first_title_id",
    *   name="season_first_title_id",
    *   in="query",
    *   @OA\Schema(type="string", format="uuid")
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_prequel_id",
+   *   parameter="entry_add_edit_prequel_id",
    *   name="prequel_id",
    *   in="query",
    *   @OA\Schema(type="string", format="uuid"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_sequel_id",
+   *   parameter="entry_add_edit_sequel_id",
    *   name="sequel_id",
    *   in="query",
    *   @OA\Schema(type="string", format="uuid"),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_encoder_video",
+   *   parameter="entry_add_edit_encoder_video",
    *   name="encoder_video",
    *   in="query",
    *   @OA\Schema(type="string"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_encoder_audio",
+   *   parameter="entry_add_edit_encoder_audio",
    *   name="encoder_audio",
    *   in="query",
    *   @OA\Schema(type="string"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_encoder_subs",
+   *   parameter="entry_add_edit_encoder_subs",
    *   name="encoder_subs",
    *   in="query",
    *   @OA\Schema(type="string"),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_release_year",
+   *   parameter="entry_add_edit_release_year",
    *   name="release_year",
    *   in="query",
    *   @OA\Schema(ref="#/components/schemas/YearSchema"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_release_season",
+   *   parameter="entry_add_edit_release_season",
    *   name="release_season",
    *   in="query",
    *   @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_variants",
+   *   parameter="entry_add_edit_variants",
    *   name="variants",
    *   in="query",
    *   @OA\Schema(type="string"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_remarks",
+   *   parameter="entry_add_edit_remarks",
    *   name="remarks",
    *   in="query",
    *   @OA\Schema(type="string"),
    * ),
    *
    * @OA\Parameter(
-   *   parameter="entry_edit_id_codec_audio",
+   *   parameter="entry_add_edit_id_codec_audio",
    *   name="id_codec_audio",
    *   in="query",
    *   @OA\Schema(type="integer", format="int32"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_id_codec_video",
+   *   parameter="entry_add_edit_id_codec_video",
    *   name="id_codec_video",
    *   in="query",
    *   @OA\Schema(type="integer", format="int32"),
    * ),
    * @OA\Parameter(
-   *   parameter="entry_edit_codec_hdr",
+   *   parameter="entry_add_edit_codec_hdr",
    *   name="codec_hdr",
    *   in="query",
    *   @OA\Schema(type="boolean"),
@@ -155,8 +157,8 @@ class EditRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'id_quality' => ['integer', 'exists:qualities,id'],
-      'title' => ['string', 'max:256'],
+      'id_quality' => ['required', 'integer', 'exists:qualities,id'],
+      'title' => ['required', 'string', 'max:256'],
 
       'date_finished' => ['string', 'date', 'before_or_equal:today'],
       'duration' => ['integer', 'min:0', 'max:' . db_int_max('medium')],
