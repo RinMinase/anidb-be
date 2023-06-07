@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-use App\Requests\JsonRule;
+use App\Rules\JsonRule;
 
 class AddEditRequest extends FormRequest {
 
