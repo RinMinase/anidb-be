@@ -5,6 +5,107 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/anilist/title/{title_id}": {
+            "get": {
+                "tags": [
+                    "AniList"
+                ],
+                "summary": "Retrieve Title Information",
+                "operationId": "ac98a39abbb393d92e41c05548534604",
+                "parameters": [
+                    {
+                        "name": "title_id",
+                        "in": "path",
+                        "description": "Title ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": "101280"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnilistResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/AnilistRateLimitErrorResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/AnilistConfigErrorResponse"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/AnilistServerErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/anilist/search": {
+            "get": {
+                "tags": [
+                    "AniList"
+                ],
+                "summary": "Query Titles",
+                "operationId": "8fae86d950524ec3e429914cae74dbe5",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Title Search String",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "tensei"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AnilistCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "429": {
+                        "$ref": "#/components/responses/AnilistRateLimitErrorResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/AnilistConfigErrorResponse"
+                    },
+                    "503": {
+                        "$ref": "#/components/responses/AnilistServerErrorResponse"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -5005,6 +5106,51 @@
                     "created_at": "2020-01-01 00:00:00"
                 }
             },
+            "AnilistCollection": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "title": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "example": [
+                    {
+                        "id": "12345",
+                        "title": "Sample Title"
+                    }
+                ]
+            },
+            "AnilistResource": {
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "episodes": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "premiered": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "url": "https://example.com/",
+                    "title": "Sample Title",
+                    "episodes": 100,
+                    "premiered": "Winter 2020"
+                }
+            },
             "CatalogCollection": {
                 "type": "array",
                 "items": {
@@ -5523,6 +5669,87 @@
             }
         },
         "responses": {
+            "AnilistConfigErrorResponse": {
+                "description": "Anilist Scraper Configuration Error Responses",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "examples": {
+                            "ScaperConfigNotFound": {
+                                "summary": "Scaper Configuration Not Found",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Anilist Scraper configuration not found"
+                                }
+                            },
+                            "ParsingError": {
+                                "summary": "Parsing error",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Issues in parsing AniList response"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "AnilistRateLimitErrorResponse": {
+                "description": "AniList Rate Limit Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 429,
+                            "message": "AniList rate limit was reached. Please retry in ## seconds."
+                        }
+                    }
+                }
+            },
+            "AnilistServerErrorResponse": {
+                "description": "AniList Server Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 503,
+                            "message": "Issues in connecting to MAL Servers"
+                        }
+                    }
+                }
+            },
             "MalConfigErrorResponse": {
                 "description": "MAL Scraper Configuration Error Responses",
                 "content": {
@@ -6352,6 +6579,9 @@
     "tags": [
         {
             "name": "User"
+        },
+        {
+            "name": "AniList"
         },
         {
             "name": "Bucket"
