@@ -552,10 +552,10 @@
                 "operationId": "2502afb5c77b7fb43dbea30b7a2ff198",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/bucket_sim_add_description"
+                        "$ref": "#/components/parameters/bucket_sim_add_edit_description"
                     },
                     {
-                        "$ref": "#/components/parameters/bucket_sim_add_buckets"
+                        "$ref": "#/components/parameters/bucket_sim_add_edit_buckets"
                     }
                 ],
                 "responses": {
@@ -652,10 +652,10 @@
                         "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
                     },
                     {
-                        "$ref": "#/components/parameters/bucket_sim_edit_description"
+                        "$ref": "#/components/parameters/bucket_sim_add_edit_description"
                     },
                     {
-                        "$ref": "#/components/parameters/bucket_sim_edit_buckets"
+                        "$ref": "#/components/parameters/bucket_sim_add_edit_buckets"
                     }
                 ],
                 "responses": {
@@ -1936,76 +1936,76 @@
                 "operationId": "d47d75be256bcd56c54bd706cad34538",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/entry_add_id_quality"
+                        "$ref": "#/components/parameters/entry_add_edit_id_quality"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_add_title"
+                        "$ref": "#/components/parameters/entry_add_edit_title"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_date_finished"
+                        "$ref": "#/components/parameters/entry_add_edit_date_finished"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_duration"
+                        "$ref": "#/components/parameters/entry_add_edit_duration"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_filesize"
+                        "$ref": "#/components/parameters/entry_add_edit_filesize"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_episodes"
+                        "$ref": "#/components/parameters/entry_add_edit_episodes"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_ovas"
+                        "$ref": "#/components/parameters/entry_add_edit_ovas"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_specials"
+                        "$ref": "#/components/parameters/entry_add_edit_specials"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_season_number"
+                        "$ref": "#/components/parameters/entry_add_edit_season_number"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_season_first_title_id"
+                        "$ref": "#/components/parameters/entry_add_edit_season_first_title_id"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_prequel_id"
+                        "$ref": "#/components/parameters/entry_add_edit_prequel_id"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_sequel_id"
+                        "$ref": "#/components/parameters/entry_add_edit_sequel_id"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_video"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_video"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_audio"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_subs"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_audio"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_subs"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_release_year"
+                        "$ref": "#/components/parameters/entry_add_edit_release_year"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_release_season"
+                        "$ref": "#/components/parameters/entry_add_edit_release_season"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_variants"
+                        "$ref": "#/components/parameters/entry_add_edit_variants"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_remarks"
+                        "$ref": "#/components/parameters/entry_add_edit_remarks"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_id_codec_audio"
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_audio"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_id_codec_video"
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_video"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_codec_hdr"
+                        "$ref": "#/components/parameters/entry_add_edit_codec_hdr"
                     }
                 ],
                 "responses": {
@@ -2092,76 +2092,76 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_id_quality"
+                        "$ref": "#/components/parameters/entry_add_edit_id_quality"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_title"
+                        "$ref": "#/components/parameters/entry_add_edit_title"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_date_finished"
+                        "$ref": "#/components/parameters/entry_add_edit_date_finished"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_duration"
+                        "$ref": "#/components/parameters/entry_add_edit_duration"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_filesize"
+                        "$ref": "#/components/parameters/entry_add_edit_filesize"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_episodes"
+                        "$ref": "#/components/parameters/entry_add_edit_episodes"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_ovas"
+                        "$ref": "#/components/parameters/entry_add_edit_ovas"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_specials"
+                        "$ref": "#/components/parameters/entry_add_edit_specials"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_season_number"
+                        "$ref": "#/components/parameters/entry_add_edit_season_number"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_season_first_title_id"
+                        "$ref": "#/components/parameters/entry_add_edit_season_first_title_id"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_prequel_id"
+                        "$ref": "#/components/parameters/entry_add_edit_prequel_id"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_sequel_id"
+                        "$ref": "#/components/parameters/entry_add_edit_sequel_id"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_video"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_video"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_audio"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_subs"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_audio"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_encoder_subs"
+                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_release_year"
+                        "$ref": "#/components/parameters/entry_add_edit_release_year"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_release_season"
+                        "$ref": "#/components/parameters/entry_add_edit_release_season"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_variants"
+                        "$ref": "#/components/parameters/entry_add_edit_variants"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_remarks"
+                        "$ref": "#/components/parameters/entry_add_edit_remarks"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_id_codec_audio"
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_audio"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_id_codec_video"
+                        "$ref": "#/components/parameters/entry_add_edit_id_codec_video"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_edit_codec_hdr"
+                        "$ref": "#/components/parameters/entry_add_edit_codec_hdr"
                     }
                 ],
                 "responses": {
@@ -5976,7 +5976,7 @@
             }
         },
         "parameters": {
-            "bucket_sim_add_description": {
+            "bucket_sim_add_edit_description": {
                 "name": "description",
                 "in": "query",
                 "description": "Bucket Sim Description",
@@ -5988,31 +5988,11 @@
                 },
                 "example": "Sample 2 buckets"
             },
-            "bucket_sim_add_buckets": {
+            "bucket_sim_add_edit_buckets": {
                 "name": "buckets",
                 "in": "query",
                 "description": "Bucket JSON String",
                 "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
-            },
-            "bucket_sim_edit_description": {
-                "name": "description",
-                "in": "query",
-                "description": "Bucket Sim Description",
-                "schema": {
-                    "type": "string",
-                    "maxLength": 256,
-                    "minLength": 1
-                },
-                "example": "Sample 2 buckets"
-            },
-            "bucket_sim_edit_buckets": {
-                "name": "buckets",
-                "in": "query",
-                "description": "Bucket JSON String",
                 "schema": {
                     "type": "string"
                 },
@@ -6042,7 +6022,7 @@
                 },
                 "example": "2020"
             },
-            "entry_add_id_quality": {
+            "entry_add_edit_id_quality": {
                 "name": "id_quality",
                 "in": "query",
                 "required": true,
@@ -6051,7 +6031,7 @@
                     "format": "int32"
                 }
             },
-            "entry_add_title": {
+            "entry_add_edit_title": {
                 "name": "title",
                 "in": "query",
                 "required": true,
@@ -6061,34 +6041,7 @@
                     "minLength": 1
                 }
             },
-            "entry_add_rewatch_date_rewatched": {
-                "name": "date_rewatched",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string",
-                    "format": "date"
-                },
-                "example": "2022-01-23"
-            },
-            "entry_edit_id_quality": {
-                "name": "id_quality",
-                "in": "query",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32"
-                }
-            },
-            "entry_edit_title": {
-                "name": "title",
-                "in": "query",
-                "schema": {
-                    "type": "string",
-                    "maxLength": 256,
-                    "minLength": 1
-                }
-            },
-            "entry_edit_date_finished": {
+            "entry_add_edit_date_finished": {
                 "name": "date_finished",
                 "in": "query",
                 "schema": {
@@ -6096,7 +6049,7 @@
                     "format": "date"
                 }
             },
-            "entry_edit_duration": {
+            "entry_add_edit_duration": {
                 "name": "duration",
                 "in": "query",
                 "schema": {
@@ -6104,7 +6057,7 @@
                     "format": "int64"
                 }
             },
-            "entry_edit_filesize": {
+            "entry_add_edit_filesize": {
                 "name": "filesize",
                 "in": "query",
                 "schema": {
@@ -6112,7 +6065,7 @@
                     "format": "int64"
                 }
             },
-            "entry_edit_episodes": {
+            "entry_add_edit_episodes": {
                 "name": "episodes",
                 "in": "query",
                 "schema": {
@@ -6120,7 +6073,7 @@
                     "format": "int32"
                 }
             },
-            "entry_edit_ovas": {
+            "entry_add_edit_ovas": {
                 "name": "ovas",
                 "in": "query",
                 "schema": {
@@ -6128,7 +6081,7 @@
                     "format": "int32"
                 }
             },
-            "entry_edit_specials": {
+            "entry_add_edit_specials": {
                 "name": "specials",
                 "in": "query",
                 "schema": {
@@ -6136,7 +6089,7 @@
                     "format": "int32"
                 }
             },
-            "entry_edit_season_number": {
+            "entry_add_edit_season_number": {
                 "name": "season_number",
                 "in": "query",
                 "schema": {
@@ -6144,7 +6097,7 @@
                     "format": "int32"
                 }
             },
-            "entry_edit_season_first_title_id": {
+            "entry_add_edit_season_first_title_id": {
                 "name": "season_first_title_id",
                 "in": "query",
                 "schema": {
@@ -6152,7 +6105,7 @@
                     "format": "uuid"
                 }
             },
-            "entry_edit_prequel_id": {
+            "entry_add_edit_prequel_id": {
                 "name": "prequel_id",
                 "in": "query",
                 "schema": {
@@ -6160,7 +6113,7 @@
                     "format": "uuid"
                 }
             },
-            "entry_edit_sequel_id": {
+            "entry_add_edit_sequel_id": {
                 "name": "sequel_id",
                 "in": "query",
                 "schema": {
@@ -6168,35 +6121,35 @@
                     "format": "uuid"
                 }
             },
-            "entry_edit_encoder_video": {
+            "entry_add_edit_encoder_video": {
                 "name": "encoder_video",
                 "in": "query",
                 "schema": {
                     "type": "string"
                 }
             },
-            "entry_edit_encoder_audio": {
+            "entry_add_edit_encoder_audio": {
                 "name": "encoder_audio",
                 "in": "query",
                 "schema": {
                     "type": "string"
                 }
             },
-            "entry_edit_encoder_subs": {
+            "entry_add_edit_encoder_subs": {
                 "name": "encoder_subs",
                 "in": "query",
                 "schema": {
                     "type": "string"
                 }
             },
-            "entry_edit_release_year": {
+            "entry_add_edit_release_year": {
                 "name": "release_year",
                 "in": "query",
                 "schema": {
                     "$ref": "#/components/schemas/YearSchema"
                 }
             },
-            "entry_edit_release_season": {
+            "entry_add_edit_release_season": {
                 "name": "release_season",
                 "in": "query",
                 "schema": {
@@ -6209,21 +6162,21 @@
                     ]
                 }
             },
-            "entry_edit_variants": {
+            "entry_add_edit_variants": {
                 "name": "variants",
                 "in": "query",
                 "schema": {
                     "type": "string"
                 }
             },
-            "entry_edit_remarks": {
+            "entry_add_edit_remarks": {
                 "name": "remarks",
                 "in": "query",
                 "schema": {
                     "type": "string"
                 }
             },
-            "entry_edit_id_codec_audio": {
+            "entry_add_edit_id_codec_audio": {
                 "name": "id_codec_audio",
                 "in": "query",
                 "schema": {
@@ -6231,7 +6184,7 @@
                     "format": "int32"
                 }
             },
-            "entry_edit_id_codec_video": {
+            "entry_add_edit_id_codec_video": {
                 "name": "id_codec_video",
                 "in": "query",
                 "schema": {
@@ -6239,12 +6192,22 @@
                     "format": "int32"
                 }
             },
-            "entry_edit_codec_hdr": {
+            "entry_add_edit_codec_hdr": {
                 "name": "codec_hdr",
                 "in": "query",
                 "schema": {
                     "type": "boolean"
                 }
+            },
+            "entry_add_rewatch_date_rewatched": {
+                "name": "date_rewatched",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "example": "2022-01-23"
             },
             "entry_ratings_audio": {
                 "name": "audio",
