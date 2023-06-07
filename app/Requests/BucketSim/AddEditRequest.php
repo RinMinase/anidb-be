@@ -16,7 +16,7 @@ class AddEditRequest extends FormRequest {
    *   in="query",
    *   required=true,
    *   example="Sample 2 buckets",
-   *   @OA\Schema(type="string"),
+   *   @OA\Schema(type="string", minLength=1, maxLength=256),
    * ),
    * @OA\Parameter(
    *   parameter="bucket_sim_add_edit_buckets",
