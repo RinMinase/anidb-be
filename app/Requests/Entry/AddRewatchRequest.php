@@ -20,7 +20,7 @@ class AddRewatchRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'date_rewatched' => 'required|date|before_or_equal:today',
+      'date_rewatched' => ['required', 'date', 'before_or_equal:today'],
     ];
   }
 

@@ -10,7 +10,12 @@ class ImageUploadRequest extends FormRequest {
 
   public function rules() {
     return [
-      'image' => 'required|image|mimes:jpeg,jpg,png|max:4096',
+      'image' => [
+        'required',
+        'image',
+        'mimes:jpeg,jpg,png',
+        'max:4096',
+      ],
     ];
   }
 

@@ -29,8 +29,8 @@ class SearchTitlesRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'id' => 'required|uuid|exists:entries,uuid',
-      'needle' => 'string',
+      'id' => ['required', 'uuid', 'exists:entries,uuid'],
+      'needle' => ['string'],
     ];
   }
 

@@ -40,10 +40,10 @@ class RatingsRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'audio' => 'integer|min:0|max:10',
-      'enjoyment' => 'integer|min:0|max:10',
-      'graphics' => 'integer|min:0|max:10',
-      'plot' => 'integer|min:0|max:10',
+      'audio' => ['integer', 'min:0', 'max:10'],
+      'enjoyment' => ['integer', 'min:0', 'max:10'],
+      'graphics' => ['integer', 'min:0', 'max:10'],
+      'plot' => ['integer', 'min:0', 'max:10'],
     ];
   }
 

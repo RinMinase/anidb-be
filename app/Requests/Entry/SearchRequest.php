@@ -63,12 +63,12 @@ class SearchRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'needle' => 'string',
+      'needle' => ['string'],
       'haystack' => [new Enum(EntrySearchColumnsEnum::class)],
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
-      'order' => 'in:asc,desc,ASC,DESC',
-      'page' => 'integer|min:1',
-      'limit' => 'integer|min:1|max:9999',
+      'order' => ['in:asc,desc,ASC,DESC'],
+      'page' => ['integer', 'min:1'],
+      'limit' => ['integer', 'min:1', 'max:9999'],
     ];
   }
 
