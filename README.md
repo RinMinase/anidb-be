@@ -58,7 +58,6 @@ DISABLE_SCRAPER  - Disables WebScraper
     ```
     git clone https://github.com/RinMinase/anidb-be.git
     cd anidb-be
-    composer install
     ```
 
 3. Run the necessary docker containers
@@ -72,10 +71,13 @@ DISABLE_SCRAPER  - Disables WebScraper
 
     ```
     cp .env.example .env
+    composer install
     php artisan key:generate
     ```
 
-5. Modify the ENV with the necessary configuration values, run the migrations
+5. Modify the ENV with the necessary configuration values
+
+6. Clear the Laravel config cache, then run the database migrations
     ```
     php artisan config:clear
     php artisan migrate:fresh --seed
@@ -160,14 +162,9 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 ### Project Structure
     .
     ├── app/                     # Application source code
-    │   ├── Console/             # Important interfaces of the project
-    │   ├── Controllers/         # API request receivers
-    │   ├── Middleware/          # API middleware
-    │   ├── Models/              # Database models
-    │   ├── Providers/           # Project service providers
-    │   ├── Repositories/        # Database queries
-    │   ├── Requests/            # API request validators
-    │   └── index.blade.php      # Landing page template
+    │   ├── docs.blade.php       # Swagger page template
+    │   ├── index.blade.php      # Landing page template
+    │   └── ...                  # Other application-related files
     ├── bootstrap/               # Project initializers
     │   ├── app.php              # Framework bootstrapper
     │   ├── helpers.php          # Helper functions
@@ -183,7 +180,6 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     ├── public/                  # Project entry point
     ├── tests/                   # Project test files
     ├── .czrc                    # Commitizen configuration file
-    ├── .env.example             # Environmental variables template
     ├── docker-compose.yml       # Main docker file
     ├── phpunit.xml              # Unit test configuration file
     ├── Procfile                 # Heroku process file
