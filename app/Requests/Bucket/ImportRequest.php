@@ -10,7 +10,7 @@ class ImportRequest extends FormRequest {
 
   public function rules() {
     return [
-      'file' => 'required|file|mimetypes:application/json',
+      'file' => ['required', 'file', 'mimetypes:application/json'],
     ];
   }
 
