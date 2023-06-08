@@ -36,9 +36,9 @@ class AddEditRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'id_catalog' => 'required|uuid|exists:catalogs,uuid',
-      'id_priority' => 'required|integer|exists:priorities,id',
-      'title' => 'required|string|max:256',
+      'id_catalog' => ['required', 'uuid', 'exists:catalogs,uuid'],
+      'id_priority' => ['required', 'integer', 'exists:priorities,id'],
+      'title' => ['required', 'string', 'max:256'],
     ];
   }
 
