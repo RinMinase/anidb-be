@@ -5,10 +5,10 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
+
 use App\Requests\Auth\LoginRequest;
 use App\Requests\Auth\RegisterRequest;
-
-use App\Models\User;
 
 use App\Resources\DefaultResponse;
 use App\Resources\ErrorResponse;
