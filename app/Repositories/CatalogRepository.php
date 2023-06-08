@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Catalog;
 use App\Models\Partial;
 
+use App\Resources\Catalog\CatalogResource;
 use App\Resources\Partial\PartialCollection;
 
 class CatalogRepository {
@@ -33,10 +34,7 @@ class CatalogRepository {
 
     return [
       'data' => PartialCollection::collection($partials),
-      'stats' => [
-        'year' => $catalog->year,
-        'season' => $catalog->season,
-      ],
+      'stats' => new CatalogResource($catalog),
     ];
   }
 

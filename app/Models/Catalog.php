@@ -4,17 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @OA\Schema(
- *   example={"year": 2020, "season": "Winter"},
- *   @OA\Property(property="year", type="integer", format="int32"),
- *   @OA\Property(
- *     property="season",
- *     type="string",
- *     enum={"Winter", "Spring", "Summer", "Fall"}
- *   ),
- * )
- */
 class Catalog extends Model {
 
   /**

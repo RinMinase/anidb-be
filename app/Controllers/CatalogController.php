@@ -8,7 +8,7 @@ use App\Repositories\CatalogRepository;
 
 use App\Requests\Catalog\AddEditRequest;
 
-use App\Resources\Catalog\CatalogCollection;
+use App\Resources\Catalog\CatalogResource;
 use App\Resources\DefaultResponse;
 
 class CatalogController extends Controller {
@@ -29,11 +29,16 @@ class CatalogController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/CatalogCollection"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/CatalogResource"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -41,8 +46,8 @@ class CatalogController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
-      'data' => CatalogCollection::collection($this->catalogRepository->getAll()),
+    return DefaultResponse::success(null, [
+      'data' => CatalogResource::collection($this->catalogRepository->getAll()),
     ]);
   }
 
@@ -66,8 +71,13 @@ class CatalogController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/PartialCollection"),
-   *       @OA\Property(property="stats", ref="#/components/schemas/Catalog"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/PartialCollection"),
+   *           @OA\Property(property="stats", ref="#/components/schemas/CatalogResource"),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -76,7 +86,7 @@ class CatalogController extends Controller {
    * )
    */
   public function get($uuid) {
-    return response()->json($this->catalogRepository->get($uuid));
+    return DefaultResponse::success(null, $this->catalogRepository->get($uuid));
   }
 
   /**
