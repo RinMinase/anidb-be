@@ -47,9 +47,9 @@ class SearchRequest extends FormRequest {
   public function rules() {
     return [
       'column' => [new Enum(LogOrderColumnsEnum::class)],
-      'order' => 'in:asc,desc,ASC,DESC',
-      'page' => 'integer|min:1',
-      'limit' => 'integer|min:1|max:9999',
+      'order' => ['in:asc,desc,ASC,DESC'],
+      'page' => ['integer', 'min:1'],
+      'limit' => ['integer', 'min:1', 'max:9999'],
     ];
   }
 
