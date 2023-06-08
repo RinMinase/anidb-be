@@ -36,9 +36,9 @@ class AddEditRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'title' => 'required|string|max:256',
-      'date_from' => 'required|date',
-      'date_to' => 'required|date|after_or_equal:date_from',
+      'title' => ['required', 'string', 'max:256'],
+      'date_from' => ['required', 'date'],
+      'date_to' => ['required', 'date', 'after_or_equal:date_from'],
     ];
   }
 
