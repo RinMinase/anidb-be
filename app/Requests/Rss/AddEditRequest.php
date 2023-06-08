@@ -46,7 +46,7 @@ class AddEditRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'title' => 'required|string|max:64',
+      'title' => ['required', 'string', 'max:64'],
       'update_speed_mins' => [
         'integer',
         'min:15',
