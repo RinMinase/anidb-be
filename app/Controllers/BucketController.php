@@ -5,7 +5,10 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\BucketRepository;
+
 use App\Requests\Bucket\ImportRequest;
+
+use App\Resources\DefaultResponse;
 
 class BucketController extends Controller {
 
@@ -13,33 +16,6 @@ class BucketController extends Controller {
 
   public function __construct(BucketRepository $bucketRepository) {
     $this->bucketRepository = $bucketRepository;
-  }
-
-  /**
-   * @OA\Get(
-   *   tags={"Bucket"},
-   *   path="/api/buckets",
-   *   summary="Get All Buckets",
-   *   security={{"token":{}}},
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Bucket"),
-   *       ),
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
-  public function index(): JsonResponse {
-    return response()->json([
-      'data' => $this->bucketRepository->getAll(),
-    ]);
   }
 
   /**
@@ -64,34 +40,37 @@ class BucketController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "acceptedImports": 0,
-   *           "totalJsonEntries": 0,
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(
+   *               property="acceptedImports",
+   *               type="integer",
+   *               format="int32",
+   *               example=10,
+   *             ),
+   *             @OA\Property(
+   *               property="totalJsonEntries",
+   *               type="integer",
+   *               format="int32",
+   *               example=20,
+   *             ),
+   *           ),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="integer", format="int32"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="acceptedImports", type="integer", format="int32"),
-   *         @OA\Property(property="totalJsonEntries", type="integer", format="int32"),
-   *       ),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function import(ImportRequest $request) {
+  public function import(ImportRequest $request): JsonResponse {
     $file = json_decode($request->file('file')->get());
     $count = $this->bucketRepository->import($file);
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
         'totalJsonEntries' => count($file),
@@ -100,6 +79,12 @@ class BucketController extends Controller {
   }
 
   /* Temporarily removed as API are unused */
+
+  // public function index(): JsonResponse {
+  //   return DefaultResponse::success(null, [
+  //     'data' => $this->bucketRepository->getAll(),
+  //   ]);
+  // }
 
   // public function get($id): JsonResponse {
   //   return response()->json([
