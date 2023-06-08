@@ -47,19 +47,12 @@ class AuthController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "token": "alphanumeric token"
-   *         }
-   *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="string"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="token", type="string"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/UserToken"),
+   *         ),
+   *       }
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -112,19 +105,12 @@ class AuthController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "token": "alphanumeric token"
-   *         }
-   *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="string"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="token", type="string"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/UserToken"),
+   *         ),
+   *       }
    *     )
    *   ),
    *   @OA\Response(
@@ -152,8 +138,6 @@ class AuthController extends Controller {
    *           },
    *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="string"),
    *       @OA\Property(
    *         property="data",
    *         description="Validation Errors",
@@ -181,13 +165,11 @@ class AuthController extends Controller {
     // token format "<id>|<alphanumeric>"
     $token = explode('|', $token)[1];
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'token' => $token,
-      ],
-    ], 200);
+      ]
+    ]);
   }
 
   /**
@@ -217,12 +199,12 @@ class AuthController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       example={
-   *         "id": 1,
-   *         "email": "test@mail.com",
-   *       },
-   *       @OA\Property(property="id", type="number"),
-   *       @OA\Property(property="email", type="string"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/UserDetails"),
+   *         ),
+   *       }
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -230,6 +212,8 @@ class AuthController extends Controller {
    * )
    */
   public function getUser(): JsonResponse {
-    return response()->json(auth()->user());
+    return DefaultResponse::success(null, [
+      'data' => auth()->user(),
+    ]);
   }
 }

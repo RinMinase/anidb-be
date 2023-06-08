@@ -5,6 +5,22 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @OA\Schema(
+ *   schema="UserToken",
+ *   @OA\Property(property="token", type="string", example="alphanumeric token"),
+ * ),
+ * @OA\Schema(
+ *   schema="UserDetails",
+ *   @OA\Property(property="id", type="integer", format="int32", example=1),
+ *   @OA\Property(
+ *     property="email",
+ *     type="string",
+ *     format="email",
+ *     example="test@mail.com",
+ *   ),
+ * ),
+ */
 class User extends Authenticatable {
   use HasApiTokens;
 
