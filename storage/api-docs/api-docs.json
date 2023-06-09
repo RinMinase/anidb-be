@@ -355,46 +355,6 @@
                 ]
             }
         },
-        "/api/buckets": {
-            "get": {
-                "tags": [
-                    "Bucket"
-                ],
-                "summary": "Get All Buckets",
-                "operationId": "79ee2ec8f2dff7429a502d499c7ed000",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/Bucket"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
         "/api/buckets/import": {
             "post": {
                 "tags": [
@@ -424,38 +384,31 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "format": "int32"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "message": {
-                                            "type": "integer",
-                                            "format": "int32"
-                                        },
-                                        "data": {
+                                        {
                                             "properties": {
-                                                "acceptedImports": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "totalJsonEntries": {
-                                                    "type": "integer",
-                                                    "format": "int32"
+                                                "data": {
+                                                    "properties": {
+                                                        "acceptedImports": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 10
+                                                        },
+                                                        "totalJsonEntries": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 20
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "status": 200,
-                                    "message": "Success",
-                                    "data": {
-                                        "acceptedImports": 0,
-                                        "totalJsonEntries": 0
-                                    }
+                                    ]
                                 }
                             }
                         }
@@ -739,15 +692,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/CatalogCollection"
-                                            }
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/CatalogResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -823,15 +783,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/PartialCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "stats": {
-                                            "$ref": "#/components/schemas/Catalog"
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PartialCollection"
+                                                },
+                                                "stats": {
+                                                    "$ref": "#/components/schemas/CatalogResource"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -4720,30 +4687,28 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "from": {
                         "type": "string",
                         "maxLength": 1,
-                        "minLength": 1
+                        "minLength": 1,
+                        "example": "a"
                     },
                     "to": {
                         "type": "string",
                         "maxLength": 1,
-                        "minLength": 1
+                        "minLength": 1,
+                        "example": "d"
                     },
                     "size": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "example": 2000339066880
                     }
                 },
-                "type": "object",
-                "example": {
-                    "id": 1,
-                    "from": "a",
-                    "to": "d",
-                    "size": 2000339066880
-                }
+                "type": "object"
             },
             "BucketStatsWithEntry": {
                 "type": "array",
@@ -4819,28 +4784,6 @@
                 "example": {
                     "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
                     "description": "Sample Buckets"
-                }
-            },
-            "Catalog": {
-                "properties": {
-                    "year": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "season": {
-                        "type": "string",
-                        "enum": [
-                            "Winter",
-                            "Spring",
-                            "Summer",
-                            "Fall"
-                        ]
-                    }
-                },
-                "type": "object",
-                "example": {
-                    "year": 2020,
-                    "season": "Winter"
                 }
             },
             "CodecAudio": {
@@ -5138,37 +5081,30 @@
                     "premiered": "Winter 2020"
                 }
             },
-            "CatalogCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "year": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "season": {
-                            "type": "string",
-                            "enum": [
-                                "Winter",
-                                "Spring",
-                                "Summer",
-                                "Fall"
-                            ]
-                        }
+            "CatalogResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                        "year": 2020,
-                        "season": "Winter"
+                    "year": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2020
+                    },
+                    "season": {
+                        "type": "string",
+                        "enum": [
+                            "Winter",
+                            "Spring",
+                            "Summer",
+                            "Fall"
+                        ],
+                        "example": "Winter"
                     }
-                ]
+                },
+                "type": "object"
             },
             "DefaultSuccess": {
                 "properties": {
