@@ -6,18 +6,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
- *   example={{
- *     "id": "12345",
- *     "title": "Sample Title",
- *   }},
- *   type="array",
- *   @OA\Items(
- *     @OA\Property(property="id", type="string"),
- *     @OA\Property(property="title", type="string"),
- *   ),
+ *   @OA\Property(property="id", type="string", example="12345"),
+ *   @OA\Property(property="title", type="string", example="Sample Title"),
  * )
  */
-class AnilistCollection extends JsonResource {
+class AnilistSearchResource extends JsonResource {
 
   public function toArray($request) {
     return [

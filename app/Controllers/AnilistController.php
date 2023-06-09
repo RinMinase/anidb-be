@@ -6,8 +6,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use App\Repositories\AnilistRepository;
-use App\Resources\Anilist\AnilistCollection;
-use App\Resources\Anilist\AnilistResource;
+
+use App\Resources\Anilist\AnilistSearchResource;
+use App\Resources\Anilist\AnilistTitleResource;
+use App\Resources\DefaultResponse;
 
 class AnilistController extends Controller {
 
@@ -36,7 +38,17 @@ class AnilistController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/AnilistResource"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             ref="#/components/schemas/AnilistTitleResource",
+   *           ),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=429, ref="#/components/responses/AnilistRateLimitErrorResponse"),
@@ -49,8 +61,8 @@ class AnilistController extends Controller {
 
     $data = $data['Media'];
 
-    return response()->json([
-      'data' => new AnilistResource($data),
+    return DefaultResponse::success(null, [
+      'data' => new AnilistTitleResource($data),
     ]);
   }
 
@@ -73,7 +85,18 @@ class AnilistController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/AnilistCollection"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/AnilistSearchResource"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=429, ref="#/components/responses/AnilistRateLimitErrorResponse"),
@@ -85,8 +108,8 @@ class AnilistController extends Controller {
     $data = $this->anilistRepository->search($request->only('query'));
     $data = collect($data['Page']['media']);
 
-    return response()->json([
-      'data' => AnilistCollection::collection($data),
+    return DefaultResponse::success(null, [
+      'data' => AnilistSearchResource::collection($data),
     ]);
   }
 }

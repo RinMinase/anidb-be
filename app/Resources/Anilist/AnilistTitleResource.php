@@ -6,19 +6,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
- *   example={
- *     "url": "https://example.com/",
- *     "title": "Sample Title",
- *     "episodes": 100,
- *     "premiered": "Winter 2020",
- *   },
- *   @OA\Property(property="url", type="string", format="uri"),
- *   @OA\Property(property="title", type="string"),
- *   @OA\Property(property="episodes", type="integer", format="int32"),
- *   @OA\Property(property="premiered", type="string"),
+ *   @OA\Property(
+ *     property="url",
+ *     type="string",
+ *     format="uri",
+ *     example="https://example.com/",
+ *   ),
+ *   @OA\Property(property="title", type="string", example="Sample Title"),
+ *   @OA\Property(property="episodes", type="integer", format="int32", example=100),
+ *   @OA\Property(property="premiered", type="string", example="Winter 2020"),
  * )
  */
-class AnilistResource extends JsonResource {
+class AnilistTitleResource extends JsonResource {
 
   public function toArray($request) {
 
