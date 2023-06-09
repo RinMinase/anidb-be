@@ -82,6 +82,7 @@ class PaginationMeta {
  *   format="int32",
  *   minimum=1970,
  *   maximum=2999,
+ *   example=2020,
  * ),
  */
 class YearSchema {

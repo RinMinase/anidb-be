@@ -4690,7 +4690,8 @@
                 "type": "integer",
                 "format": "int32",
                 "maximum": 2999,
-                "minimum": 1970
+                "minimum": 1970,
+                "example": 2020
             },
             "ChangelogItem": {
                 "description": "Changelog Item",
