@@ -27,19 +27,24 @@ class CodecController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(
-   *           property="audio",
-   *           type="array",
-   *           @OA\Items(ref="#/components/schemas/CodecAudio"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(
+   *               property="audio",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/CodecAudio"),
+   *             ),
+   *             @OA\Property(
+   *               property="video",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/CodecVideo"),
+   *             ),
+   *           ),
    *         ),
-   *         @OA\Property(
-   *           property="video",
-   *           type="array",
-   *           @OA\Items(ref="#/components/schemas/CodecVideo"),
-   *         ),
-   *       ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -47,7 +52,7 @@ class CodecController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->codecRepository->getAll(),
     ]);
   }
@@ -62,11 +67,16 @@ class CodecController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/CodecAudio"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/CodecAudio"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -74,7 +84,7 @@ class CodecController extends Controller {
    * )
    */
   public function getAudio(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->codecRepository->getAudio(),
     ]);
   }
@@ -190,11 +200,16 @@ class CodecController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/CodecVideo"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/CodecVideo"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -202,7 +217,7 @@ class CodecController extends Controller {
    * )
    */
   public function getVideo(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->codecRepository->getVideo(),
     ]);
   }
