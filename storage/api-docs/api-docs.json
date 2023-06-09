@@ -4838,45 +4838,40 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "codec": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "AAC 2.0"
                     },
                     "order": {
                         "type": "integer",
                         "format": "int32",
+                        "example": null,
                         "nullable": true
                     }
                 },
-                "type": "object",
-                "example": {
-                    "id": 1,
-                    "codec": "AAC 2.0",
-                    "order": null
-                }
+                "type": "object"
             },
             "CodecVideo": {
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "example": 1
                     },
                     "codec": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "x264 8bit"
                     },
                     "order": {
                         "type": "integer",
                         "format": "int32",
+                        "example": null,
                         "nullable": true
                     }
                 },
-                "type": "object",
-                "example": {
-                    "id": 1,
-                    "codec": "x264 8bit",
-                    "order": null
-                }
+                "type": "object"
             },
             "Group": {
                 "properties": {

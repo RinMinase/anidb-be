@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @OA\Schema(
- *   example={
- *     "id": 1,
- *     "codec": "x264 8bit",
- *     "order": null,
- *   },
- *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="codec", type="string"),
- *   @OA\Property(property="order", type="integer", format="int32", nullable=true),
+ *   @OA\Property(property="id", type="integer", example=1),
+ *   @OA\Property(property="codec", type="string", example="x264 8bit"),
+ *   @OA\Property(
+ *     property="order",
+ *     type="integer",
+ *     format="int32",
+ *     nullable=true,
+ *     example=null,
+ *   ),
  * )
  */
 class CodecVideo extends Model {

@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @OA\Schema(
- *   example={
- *     "id": 1,
- *     "codec": "AAC 2.0",
- *     "order": null,
- *   },
- *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="codec", type="string"),
- *   @OA\Property(property="order", type="integer", format="int32", nullable=true),
+ *   @OA\Property(property="id", type="integer", format="int32", example=1),
+ *   @OA\Property(property="codec", type="string", example="AAC 2.0"),
+ *   @OA\Property(
+ *     property="order",
+ *     type="integer",
+ *     format="int32",
+ *     nullable=true,
+ *     example=null,
+ *   ),
  * )
  */
 class CodecAudio extends Model {
