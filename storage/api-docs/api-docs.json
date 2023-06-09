@@ -31,7 +31,19 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AnilistResource"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/AnilistTitleResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -81,7 +93,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AnilistCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AnilistSearchResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -5036,50 +5063,41 @@
                 },
                 "type": "object"
             },
-            "AnilistCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string"
-                        },
-                        "title": {
-                            "type": "string"
-                        }
+            "AnilistSearchResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "12345"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "12345",
-                        "title": "Sample Title"
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Title"
                     }
-                ]
+                },
+                "type": "object"
             },
-            "AnilistResource": {
+            "AnilistTitleResource": {
                 "properties": {
                     "url": {
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "example": "https://example.com/"
                     },
                     "title": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Sample Title"
                     },
                     "episodes": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 100
                     },
                     "premiered": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Winter 2020"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "url": "https://example.com/",
-                    "title": "Sample Title",
-                    "episodes": 100,
-                    "premiered": "Winter 2020"
-                }
+                "type": "object"
             },
             "CatalogResource": {
                 "properties": {
