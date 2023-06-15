@@ -27,8 +27,8 @@
         "symfony/dom-crawler": "^6.3"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.22",
-        "nunomaduro/collision": "^7.5",
+        "fakerphp/faker": "^1.23",
+        "nunomaduro/collision": "^7.6",
         "phpunit/phpunit": "^10.2",
         "spatie/laravel-ignition": "^2.1"
     },
