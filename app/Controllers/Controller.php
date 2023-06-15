@@ -26,7 +26,6 @@ use Illuminate\Routing\Controller as BaseController;
  * // For Ordering Purposes
  * @OA\Tag(name="User")
  * @OA\Tag(name="AniList")
- * @OA\Tag(name="Bucket")
  * @OA\Tag(name="BucketSim")
  * @OA\Tag(name="Catalog")
  * @OA\Tag(name="Codec")
