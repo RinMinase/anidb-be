@@ -6577,9 +6577,6 @@
             "name": "Logs"
         },
         {
-            "name": "MAL"
-        },
-        {
             "name": "Management"
         },
         {
@@ -6587,6 +6584,9 @@
         },
         {
             "name": "Sequence"
+        },
+        {
+            "name": "MAL"
         },
         {
             "name": "Release"

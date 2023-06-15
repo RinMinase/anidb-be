@@ -36,10 +36,12 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Group")
  * @OA\Tag(name="Import")
  * @OA\Tag(name="Logs")
- * @OA\Tag(name="MAL")
  * @OA\Tag(name="Management")
  * @OA\Tag(name="RSS")
  * @OA\Tag(name="Sequence")
+ *
+ * // Deprecated Tags
+ * @OA\Tag(name="MAL")
  * @OA\Tag(name="Release")
  */
 class Controller extends BaseController {
