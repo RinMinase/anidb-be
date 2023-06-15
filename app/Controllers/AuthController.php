@@ -71,13 +71,11 @@ class AuthController extends Controller {
     // token format "<id>|<alphanumeric>"
     $token = explode('|', $token)[1];
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'token' => $token,
-      ],
-    ], 200);
+      ]
+    ]);
   }
 
   /**
