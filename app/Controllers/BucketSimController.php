@@ -20,7 +20,7 @@ class BucketSimController extends Controller {
 
   /**
    * @OA\Get(
-   *   tags={"BucketSim"},
+   *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims",
    *   summary="Get All Bucket Sims",
    *   security={{"token":{}}},
@@ -47,7 +47,7 @@ class BucketSimController extends Controller {
 
   /**
    * @OA\Get(
-   *   tags={"BucketSim"},
+   *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_info_id}",
    *   summary="Get All Entries by Bucket Sim",
    *   security={{"token":{}}},
@@ -80,7 +80,7 @@ class BucketSimController extends Controller {
 
   /**
    * @OA\Post(
-   *   tags={"BucketSim"},
+   *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims",
    *   summary="Add a Bucket Sim",
    *   security={{"token":{}}},
@@ -101,7 +101,7 @@ class BucketSimController extends Controller {
 
   /**
    * @OA\Put(
-   *   tags={"BucketSim"},
+   *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_sim_id}",
    *   summary="Edit a Bucket Sim",
    *   security={{"token":{}}},
@@ -134,7 +134,7 @@ class BucketSimController extends Controller {
 
   /**
    * @OA\Delete(
-   *   tags={"BucketSim"},
+   *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_sim_id}",
    *   summary="Delete a Bucket Sim",
    *   security={{"token":{}}},
@@ -162,7 +162,7 @@ class BucketSimController extends Controller {
 
   /**
    * @OA\Post(
-   *   tags={"BucketSim"},
+   *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_sim_id}",
    *   summary="Save Bucket Sim as Current Bucket",
    *   security={{"token":{}}},

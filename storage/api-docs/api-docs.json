@@ -457,7 +457,7 @@
         "/api/bucket-sims": {
             "get": {
                 "tags": [
-                    "BucketSim"
+                    "Bucket Simulation"
                 ],
                 "summary": "Get All Bucket Sims",
                 "operationId": "edc0b7bf5b63f4d27beef62d51ebb9e0",
@@ -495,7 +495,7 @@
             },
             "post": {
                 "tags": [
-                    "BucketSim"
+                    "Bucket Simulation"
                 ],
                 "summary": "Add a Bucket Sim",
                 "operationId": "2502afb5c77b7fb43dbea30b7a2ff198",
@@ -528,7 +528,7 @@
         "/api/bucket-sims/{bucket_info_id}": {
             "get": {
                 "tags": [
-                    "BucketSim"
+                    "Bucket Simulation"
                 ],
                 "summary": "Get All Entries by Bucket Sim",
                 "operationId": "1624f5c9a3f7e14b9434aac5b060a7be",
@@ -584,7 +584,7 @@
         "/api/bucket-sims/{bucket_sim_id}": {
             "put": {
                 "tags": [
-                    "BucketSim"
+                    "Bucket Simulation"
                 ],
                 "summary": "Edit a Bucket Sim",
                 "operationId": "7a8089277d2c7a4a4de97c1a1cec4309",
@@ -629,7 +629,7 @@
             },
             "post": {
                 "tags": [
-                    "BucketSim"
+                    "Bucket Simulation"
                 ],
                 "summary": "Save Bucket Sim as Current Bucket",
                 "operationId": "77ef287393c85411520770dff08ecf1a",
@@ -668,7 +668,7 @@
             },
             "delete": {
                 "tags": [
-                    "BucketSim"
+                    "Bucket Simulation"
                 ],
                 "summary": "Delete a Bucket Sim",
                 "operationId": "ee76cd295522acf929a76a863c0f4403",
@@ -6547,7 +6547,7 @@
             "name": "AniList"
         },
         {
-            "name": "BucketSim"
+            "name": "Bucket Simulation"
         },
         {
             "name": "Catalog"
