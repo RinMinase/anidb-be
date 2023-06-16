@@ -254,58 +254,7 @@
                         }
                     },
                     "401": {
-                        "description": "Invalid Form or Invalid Credentials",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "description": "Validation Errors",
-                                            "properties": {
-                                                "email": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                },
-                                                "password": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object",
-                                            "nullable": true
-                                        }
-                                    },
-                                    "type": "object"
-                                },
-                                "examples": {
-                                    "InvalidForm": {
-                                        "summary": "Invalid Form",
-                                        "value": {
-                                            "status": 401,
-                                            "data": {
-                                                "email": [
-                                                    "The email field is required."
-                                                ],
-                                                "password": [
-                                                    "The password field is required."
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    "InvalidCredentials": {
-                                        "summary": "Invalid Credentials",
-                                        "value": {
-                                            "status": 401,
-                                            "message": "username or password is invalid"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/AuthInvalidCredentialsResponse"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -5810,6 +5759,29 @@
                         "example": {
                             "status": 429,
                             "message": "AniList rate limit was reached. Please retry in ## seconds."
+                        }
+                    }
+                }
+            },
+            "AuthInvalidCredentialsResponse": {
+                "description": "Invalid Credentials Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "message": "Credentials does not match."
                         }
                     }
                 }
