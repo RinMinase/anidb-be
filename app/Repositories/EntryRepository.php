@@ -14,8 +14,11 @@ use App\Models\EntryRewatch;
 use App\Models\Bucket;
 use App\Models\Sequence;
 
-use App\Resources\Entry\EntryBySeqDataCollection;
-use App\Resources\Entry\EntryCollection;
+use App\Resources\Entry\EntryByNameResource;
+use App\Resources\Entry\EntryBySequenceResource;
+use App\Resources\Entry\EntryBySequenceStatsResource;
+use App\Resources\Entry\EntryLastStatsResource;
+use App\Resources\Entry\EntrySummaryResource;
 
 class EntryRepository {
 
@@ -76,7 +79,7 @@ class EntryRepository {
     }
 
     $return_value = [
-      'data' => EntryCollection::collection($data),
+      'data' => EntrySummaryResource::collection($data),
     ];
 
     $return_value['meta'] = [
@@ -127,8 +130,8 @@ class EntryRepository {
     $data = $data->limit(20)->get();
 
     return [
-      'data' => EntryCollection::collection($data),
-      'stats' => $this->calculate_last_stats($data),
+      'data' => EntrySummaryResource::collection($data),
+      'stats' => new EntryLastStatsResource($this->calculate_last_stats($data)),
     ];
   }
 
@@ -172,7 +175,7 @@ class EntryRepository {
       }
     }
 
-    return $letters;
+    return EntryByNameResource::collection($letters);
   }
 
   public function getByLetter($letter) {
@@ -267,11 +270,11 @@ class EntryRepository {
     }
 
     $data = [
-      'Winter' => EntryCollection::collection(entriesBySeason('Winter', $year)),
-      'Spring' => EntryCollection::collection(entriesBySeason('Spring', $year)),
-      'Summer' => EntryCollection::collection(entriesBySeason('Summer', $year)),
-      'Fall' => EntryCollection::collection(entriesBySeason('Fall', $year)),
-      'Uncategorized' => EntryCollection::collection(entriesBySeason(null, $year)),
+      'Winter' => entriesBySeason('Winter', $year),
+      'Spring' => entriesBySeason('Spring', $year),
+      'Summer' => entriesBySeason('Summer', $year),
+      'Fall' => entriesBySeason('Fall', $year),
+      'Uncategorized' => entriesBySeason(null, $year),
     ];
 
     return $data;
@@ -370,7 +373,7 @@ class EntryRepository {
     $data = $data->orderBy('title', 'asc')->get();
 
     return [
-      'data' => EntryCollection::collection($data),
+      'data' => EntrySummaryResource::collection($data),
       'stats' => $bucket,
     ];
   }
@@ -418,8 +421,10 @@ class EntryRepository {
       ->get();
 
     return [
-      'data' => EntryBySeqDataCollection::collection($data),
-      'stats' => $this->calculate_sequence_stats($data, $sequence, $date_to),
+      'data' => EntryBySequenceResource::collection($data),
+      'stats' => new EntryBySequenceStatsResource(
+        $this->calculate_sequence_stats($data, $sequence, $date_to)
+      ),
     ];
   }
 
