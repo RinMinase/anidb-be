@@ -76,7 +76,8 @@ class EntryByBucketController extends Controller {
    *         @OA\Schema(
    *           @OA\Property(
    *             property="data",
-   *             ref="#/components/schemas/EntryCollection",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
    *           ),
    *           @OA\Property(property="stats", ref="#/components/schemas/Bucket"),
    *         ),
