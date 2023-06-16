@@ -6,6 +6,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
 
+use App\Resources\DefaultResponse;
+
 class EntryBySequenceController extends Controller {
 
   private EntryRepository $entryRepository;
@@ -34,38 +36,20 @@ class EntryBySequenceController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
-   *       @OA\Property(
-   *         example={
-   *           "titles_per_day": 0,
-   *           "eps_per_day": 0,
-   *           "quality_2160": 0,
-   *           "quality_1080": 0,
-   *           "quality_720": 0,
-   *           "quality_480": 0,
-   *           "quality_360": 0,
-   *           "total_titles": 0,
-   *           "total_eps": 0,
-   *           "total_size": "0 GB",
-   *           "total_days": 0,
-   *           "start_date": "Jan 01, 2000",
-   *           "end_date": "Feb 01, 2000"
-   *         },
-   *         property="stats",
-   *         @OA\Property(property="titles_per_day", type="number"),
-   *         @OA\Property(property="eps_per_day", type="number"),
-   *         @OA\Property(property="quality_2160", type="integer", format="int32"),
-   *         @OA\Property(property="quality_1080", type="integer", format="int32"),
-   *         @OA\Property(property="quality_720", type="integer", format="int32"),
-   *         @OA\Property(property="quality_480", type="integer", format="int32"),
-   *         @OA\Property(property="quality_360", type="integer", format="int32"),
-   *         @OA\Property(property="total_titles", type="integer", format="int32"),
-   *         @OA\Property(property="total_eps", type="integer", format="int32"),
-   *         @OA\Property(property="total_size", type="string"),
-   *         @OA\Property(property="total_days", type="integer", format="int32"),
-   *         @OA\Property(property="start_date", type="string"),
-   *         @OA\Property(property="end_date", type="string"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntryBySequenceResource"),
+   *           ),
+   *           @OA\Property(
+   *             property="stats",
+   *             ref="#/components/schemas/EntryBySequenceStatsResource",
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -74,6 +58,11 @@ class EntryBySequenceController extends Controller {
    * )
    */
   public function index($id): JsonResponse {
-    return response()->json($this->entryRepository->getBySequence($id));
+    $data = $this->entryRepository->getBySequence($id);
+
+    return DefaultResponse::success(null, [
+      'data' => $data['data'],
+      'stats' => $data['stats'],
+    ]);
   }
 }
