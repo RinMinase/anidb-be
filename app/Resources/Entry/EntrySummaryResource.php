@@ -7,44 +7,32 @@ use Carbon\Carbon;
 
 /**
  * @OA\Schema(
- *   example={{
- *     "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
- *     "quality": "4K 2160p",
- *     "title": "Sample Title",
- *     "dateFinished": "Mar 01, 2011",
- *     "rewatched": false,
- *     "filesize": "10.25 GB",
- *     "episodes": 25,
- *     "ovas": 1,
- *     "specials": 1,
- *     "encoder": "encoder—encoder2",
- *     "release": "Spring 2017",
- *     "remarks": "Some remarks",
- *     "rating": 7.5,
- *   }},
- *   type="array",
- *   @OA\Items(
- *     @OA\Property(property="id", type="string", format="uuid"),
- *     @OA\Property(
- *       property="quality",
- *       type="string",
- *       enum={"4K 2160", "FHD 1080p", "HD 720p", "HQ 480p", "LQ 360p"}
- *     ),
- *     @OA\Property(property="title", type="string"),
- *     @OA\Property(property="dateFinished", type="string"),
- *     @OA\Property(property="rewatched", type="boolean"),
- *     @OA\Property(property="filesize", type="string"),
- *     @OA\Property(property="episodes", type="integer", format="int32"),
- *     @OA\Property(property="ovas", type="integer", format="int32"),
- *     @OA\Property(property="specials", type="integer", format="int32"),
- *     @OA\Property(property="encoder", type="string"),
- *     @OA\Property(property="release", type="string"),
- *     @OA\Property(property="remarks", type="string"),
- *     @OA\Property(property="rating", type="number"),
+ *   @OA\Property(
+ *     property="id",
+ *     type="string",
+ *     format="uuid",
+ *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
  *   ),
+ *   @OA\Property(
+ *     property="quality",
+ *     type="string",
+ *     enum={"4K 2160", "FHD 1080p", "HD 720p", "HQ 480p", "LQ 360p"},
+ *     example="4K 2160p",
+ *   ),
+ *   @OA\Property(property="title", type="string", example="Sample Title"),
+ *   @OA\Property(property="dateFinished", type="string", example="Mar 01, 2011"),
+ *   @OA\Property(property="rewatched", type="boolean", example=false),
+ *   @OA\Property(property="filesize", type="string", example="10.25 GB"),
+ *   @OA\Property(property="episodes", type="integer", format="int32", example=25),
+ *   @OA\Property(property="ovas", type="integer", format="int32", example=1),
+ *   @OA\Property(property="specials", type="integer", format="int32", example=1),
+ *   @OA\Property(property="encoder", type="string", example="encoder—encoder2"),
+ *   @OA\Property(property="release", type="string", example="Spring 2017"),
+ *   @OA\Property(property="remarks", type="string", example="Some remarks"),
+ *   @OA\Property(property="rating", type="number", example=7.5),
  * ),
  */
-class EntryCollection extends JsonResource {
+class EntrySummaryResource extends JsonResource {
 
   public function toArray($request) {
 
