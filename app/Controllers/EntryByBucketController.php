@@ -6,6 +6,9 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
 
+use App\Resources\Bucket\BucketStatsWithEntryResource;
+use App\Resources\DefaultResponse;
+
 class EntryByBucketController extends Controller {
 
   private EntryRepository $entryRepository;
@@ -23,15 +26,28 @@ class EntryByBucketController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/BucketStatsWithEntry"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/BucketStatsWithEntryResource"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->getBuckets(),
+    $buckets = $this->entryRepository->getBuckets();
+
+    return DefaultResponse::success(null, [
+      'data' => BucketStatsWithEntryResource::collection($buckets),
     ]);
   }
 
@@ -55,8 +71,16 @@ class EntryByBucketController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
-   *       @OA\Property(property="stats", ref="#/components/schemas/Bucket"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             ref="#/components/schemas/EntryCollection",
+   *           ),
+   *           @OA\Property(property="stats", ref="#/components/schemas/Bucket"),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -65,6 +89,11 @@ class EntryByBucketController extends Controller {
    * )
    */
   public function get($id): JsonResponse {
-    return response()->json($this->entryRepository->getByBucket($id));
+    $data = $this->entryRepository->getByBucket($id);
+
+    return DefaultResponse::success(null, [
+      'data' => $data['data'],
+      'stats' => $data['stats'],
+    ]);
   }
 }

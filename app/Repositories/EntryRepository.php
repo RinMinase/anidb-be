@@ -371,10 +371,7 @@ class EntryRepository {
 
     return [
       'data' => EntryCollection::collection($data),
-      'stats' => [
-        'from' => $bucket->from,
-        'to' => $bucket->to,
-      ],
+      'stats' => $bucket,
     ];
   }
 
