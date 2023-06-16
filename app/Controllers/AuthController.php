@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\Auth\InvalidCredentialsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -111,40 +112,7 @@ class AuthController extends Controller {
    *       }
    *     )
    *   ),
-   *   @OA\Response(
-   *     response=401,
-   *     description="Invalid Form or Invalid Credentials",
-   *     @OA\JsonContent(
-   *       examples={
-   *         @OA\Examples(
-   *           summary="Invalid Form",
-   *           example="InvalidForm",
-   *           value={
-   *             "status": 401,
-   *             "data": {
-   *               "email": {"The email field is required."},
-   *               "password": {"The password field is required."},
-   *             },
-   *           },
-   *         ),
-   *         @OA\Examples(
-   *           summary="Invalid Credentials",
-   *           example="InvalidCredentials",
-   *           value={
-   *             "status": 401,
-   *             "message": "username or password is invalid",
-   *           },
-   *         ),
-   *       },
-   *       @OA\Property(
-   *         property="data",
-   *         description="Validation Errors",
-   *         nullable=true,
-   *         @OA\Property(property="email", type="array", @OA\Items(type="string")),
-   *         @OA\Property(property="password", type="array", @OA\Items(type="string")),
-   *       ),
-   *     )
-   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/AuthInvalidCredentialsResponse"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
@@ -152,7 +120,7 @@ class AuthController extends Controller {
     $credentials = $request->only('email', 'password');
 
     if (!Auth::attempt($credentials)) {
-      return ErrorResponse::unauthorized('Credentials does not match');
+      throw new InvalidCredentialsException();
     }
 
     $token = auth()
