@@ -39,7 +39,7 @@ class LoginTest extends BaseTestCase {
     ]);
 
     $response->assertStatus(401)
-      ->assertJson(['message' => 'Credentials does not match']);
+      ->assertJson(['message' => 'Credentials does not match.']);
   }
 
   public function test_user_login_with_invalid_email() {

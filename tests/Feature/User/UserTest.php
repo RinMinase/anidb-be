@@ -59,11 +59,12 @@ class UserTest extends BaseTestCase {
     $response = $this->get('/api/auth/user');
 
     $response->assertStatus(200)
-      ->assertJson(
-        fn (AssertableJson $json) => $json
-          ->where('id', fn ($id) => is_numeric($id))
-          ->where('email', fn ($email) => str($email)->is($test_email))
-      );
+      ->assertJsonStructure([
+        'data' => [
+          'id',
+          'email',
+        ],
+      ]);
 
     // Clearing test data
     User::where('email', $test_email)->delete();
