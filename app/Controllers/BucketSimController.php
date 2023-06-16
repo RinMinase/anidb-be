@@ -8,6 +8,7 @@ use App\Repositories\BucketSimRepository;
 
 use App\Requests\BucketSim\AddEditRequest;
 
+use App\Resources\Bucket\BucketStatsWithEntryResource;
 use App\Resources\DefaultResponse;
 
 class BucketSimController extends Controller {
@@ -28,11 +29,16 @@ class BucketSimController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/BucketSimInfo"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/BucketSimInfo"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -40,7 +46,7 @@ class BucketSimController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->bucketSimRepository->getAll(),
     ]);
   }
@@ -65,8 +71,17 @@ class BucketSimController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/BucketStatsWithEntry"),
-   *       @OA\Property(property="stats", ref="#/components/schemas/BucketSimInfo"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/BucketStatsWithEntryResource"),
+   *           ),
+   *           @OA\Property(property="stats", ref="#/components/schemas/BucketSimInfo"),
+   *         ),
+   *       }
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -75,7 +90,12 @@ class BucketSimController extends Controller {
    * )
    */
   public function get($uuid): JsonResponse {
-    return response()->json($this->bucketSimRepository->get($uuid));
+    $data = $this->bucketSimRepository->get($uuid);
+
+    return DefaultResponse::success(null, [
+      'data' => BucketStatsWithEntryResource::collection($data['data']),
+      'stats' => $data['stats'],
+    ]);
   }
 
   /**
