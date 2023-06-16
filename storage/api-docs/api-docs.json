@@ -1411,7 +1411,10 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntrySummaryResource"
+                                                    }
                                                 },
                                                 "stats": {
                                                     "$ref": "#/components/schemas/Bucket"
@@ -1454,41 +1457,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "letter": {
-                                                        "type": "string",
-                                                        "maxLength": 1,
-                                                        "minLength": 1
-                                                    },
-                                                    "titles": {
-                                                        "type": "integer",
-                                                        "format": "int32"
-                                                    },
-                                                    "filesize": {
-                                                        "type": "string"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntryByNameResource"
                                                     }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "example": [
-                                                {
-                                                    "letter": "#",
-                                                    "titles": 12,
-                                                    "filesize": "10.25 GB"
-                                                },
-                                                {
-                                                    "letter": "A",
-                                                    "titles": 34,
-                                                    "filesize": "12.23 GB"
                                                 }
-                                            ]
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -1535,12 +1519,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/EntryCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntrySummaryResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -1588,79 +1582,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/EntryCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "stats": {
+                                        {
                                             "properties": {
-                                                "titles_per_day": {
-                                                    "type": "number"
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntryBySequenceResource"
+                                                    }
                                                 },
-                                                "eps_per_day": {
-                                                    "type": "number"
-                                                },
-                                                "quality_2160": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "quality_1080": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "quality_720": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "quality_480": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "quality_360": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "total_titles": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "total_eps": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "total_size": {
-                                                    "type": "string"
-                                                },
-                                                "total_days": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "start_date": {
-                                                    "type": "string"
-                                                },
-                                                "end_date": {
-                                                    "type": "string"
+                                                "stats": {
+                                                    "$ref": "#/components/schemas/EntryBySequenceStatsResource"
                                                 }
                                             },
-                                            "type": "object",
-                                            "example": {
-                                                "titles_per_day": 0,
-                                                "eps_per_day": 0,
-                                                "quality_2160": 0,
-                                                "quality_1080": 0,
-                                                "quality_720": 0,
-                                                "quality_480": 0,
-                                                "quality_360": 0,
-                                                "total_titles": 0,
-                                                "total_eps": 0,
-                                                "total_size": "0 GB",
-                                                "total_days": 0,
-                                                "start_date": "Jan 01, 2000",
-                                                "end_date": "Feb 01, 2000"
-                                            }
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -1695,69 +1635,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "year": {
-                                                        "description": "null value on uncategorized entries",
-                                                        "type": "integer",
-                                                        "format": "int32",
-                                                        "nullable": true
-                                                    },
-                                                    "seasons": {
-                                                        "description": "null value on uncategorized entries",
-                                                        "properties": {
-                                                            "Winter": {
-                                                                "type": "integer",
-                                                                "format": "int32"
-                                                            },
-                                                            "Spring": {
-                                                                "type": "integer",
-                                                                "format": "int32"
-                                                            },
-                                                            "Summer": {
-                                                                "type": "integer",
-                                                                "format": "int32"
-                                                            },
-                                                            "Fall": {
-                                                                "type": "integer",
-                                                                "format": "int32"
-                                                            }
-                                                        },
-                                                        "type": "object",
-                                                        "nullable": true
-                                                    },
-                                                    "count": {
-                                                        "description": "null value whenever seasons is present",
-                                                        "type": "integer",
-                                                        "format": "int32",
-                                                        "nullable": true
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntryByYearSummaryResource"
                                                     }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "example": [
-                                                {
-                                                    "year": null,
-                                                    "seasons": null,
-                                                    "count": 2
-                                                },
-                                                {
-                                                    "year": 2010,
-                                                    "seasons": {
-                                                        "Winter": 1,
-                                                        "Spring": 1,
-                                                        "Summer": 2,
-                                                        "Fall": 2
-                                                    },
-                                                    "count": null
                                                 }
-                                            ]
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -1800,29 +1693,19 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
                                             "properties": {
-                                                "Winter": {
-                                                    "$ref": "#/components/schemas/EntryCollection"
-                                                },
-                                                "Spring": {
-                                                    "$ref": "#/components/schemas/EntryCollection"
-                                                },
-                                                "Summer": {
-                                                    "$ref": "#/components/schemas/EntryCollection"
-                                                },
-                                                "Fall": {
-                                                    "$ref": "#/components/schemas/EntryCollection"
-                                                },
-                                                "Uncategorized": {
-                                                    "$ref": "#/components/schemas/EntryCollection"
+                                                "data": {
+                                                    "$ref": "#/components/schemas/EntryByYearResource"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -1874,15 +1757,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/EntryCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "meta": {
+                                        {
                                             "$ref": "#/components/schemas/Pagination"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntrySummaryResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -2024,7 +1917,19 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Entry"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/EntryResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -2496,21 +2401,26 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "title 1",
+                                                        "title 2",
+                                                        "title 3"
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "data": [
-                                        "title 1",
-                                        "title 2",
-                                        "title 3"
                                     ]
                                 }
                             }
@@ -2543,67 +2453,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/EntryCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "stats": {
+                                        {
                                             "properties": {
-                                                "dateLastEntry": {
-                                                    "type": "string"
+                                                "data": {
+                                                    "$ref": "#/components/schemas/EntrySummaryResource"
                                                 },
-                                                "daysLastEntry": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "dateOldestEntry": {
-                                                    "type": "string"
-                                                },
-                                                "daysOldestEntry": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "totalEps": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "totalTitles": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "titlesPerWeek": {
-                                                    "type": "number"
-                                                },
-                                                "coursPerWeek": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "epsPerWeek": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "epsPerDay": {
-                                                    "type": "integer",
-                                                    "format": "int32"
+                                                "stats": {
+                                                    "$ref": "#/components/schemas/EntryLastStatsResource"
                                                 }
                                             },
-                                            "type": "object",
-                                            "example": {
-                                                "dateLastEntry": "Apr 01, 2015",
-                                                "daysLastEntry": 2974,
-                                                "dateOldestEntry": "Jan 01, 2011",
-                                                "daysOldestEntry": 4525,
-                                                "totalEps": 0,
-                                                "totalTitles": 7,
-                                                "totalCours": 0,
-                                                "titlesPerWeek": 0.01,
-                                                "coursPerWeek": 0,
-                                                "epsPerWeek": 0,
-                                                "epsPerDay": 0
-                                            }
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -4632,46 +4497,42 @@
                             "page": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1
+                                "minimum": 1,
+                                "example": 1
                             },
                             "limit": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1
+                                "minimum": 1,
+                                "example": 30
                             },
                             "results": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 0
+                                "minimum": 0,
+                                "example": 30
                             },
                             "total_results": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 0
+                                "minimum": 0,
+                                "example": 130
                             },
                             "total_pages": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1
+                                "minimum": 1,
+                                "example": 5
                             },
                             "has_next": {
-                                "type": "boolean"
+                                "type": "boolean",
+                                "example": true
                             }
                         },
                         "type": "object"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "meta": {
-                        "page": 1,
-                        "limit": 30,
-                        "results": 30,
-                        "total_results": 130,
-                        "total_pages": 5,
-                        "has_next": true
-                    }
-                }
+                "type": "object"
             },
             "YearSchema": {
                 "title": "Year Schema",
@@ -5136,107 +4997,32 @@
                 },
                 "type": "object"
             },
-            "EntryCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "quality": {
-                            "type": "string",
-                            "enum": [
-                                "4K 2160",
-                                "FHD 1080p",
-                                "HD 720p",
-                                "HQ 480p",
-                                "LQ 360p"
-                            ]
-                        },
-                        "title": {
-                            "type": "string"
-                        },
-                        "dateFinished": {
-                            "type": "string"
-                        },
-                        "rewatched": {
-                            "type": "boolean"
-                        },
-                        "filesize": {
-                            "type": "string"
-                        },
-                        "episodes": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "ovas": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "specials": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "encoder": {
-                            "type": "string"
-                        },
-                        "release": {
-                            "type": "string"
-                        },
-                        "remarks": {
-                            "type": "string"
-                        },
-                        "rating": {
-                            "type": "number"
-                        }
+            "EntryByNameResource": {
+                "properties": {
+                    "letter": {
+                        "type": "string",
+                        "maxLength": 1,
+                        "minLength": 1,
+                        "example": "A"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                        "quality": "4K 2160p",
-                        "title": "Sample Title",
-                        "dateFinished": "Mar 01, 2011",
-                        "rewatched": false,
-                        "filesize": "10.25 GB",
-                        "episodes": 25,
-                        "ovas": 1,
-                        "specials": 1,
-                        "encoder": "encoder—encoder2",
-                        "release": "Spring 2017",
-                        "remarks": "Some remarks",
-                        "rating": 7.5
-                    }
-                ]
-            },
-            "EntryOffquelCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "title": {
-                            "type": "string"
-                        }
+                    "titles": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 12
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "89e3be00-9d4f-4c4f-a99f-c12cbfba04ab",
-                        "title": "Offquel Title"
+                    "filesize": {
+                        "type": "string",
+                        "example": "12.23 GB"
                     }
-                ]
+                },
+                "type": "object"
             },
-            "Entry": {
+            "EntryBySequenceResource": {
                 "properties": {
                     "id": {
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     "quality": {
                         "type": "string",
@@ -5246,97 +5032,388 @@
                             "HD 720p",
                             "HQ 480p",
                             "LQ 360p"
-                        ]
+                        ],
+                        "example": "4K 2160p"
                     },
                     "title": {
-                        "type": "string"
-                    },
-                    "dateInitFinishedRaw": {
                         "type": "string",
-                        "format": "date-time"
+                        "example": "Sample Title"
                     },
-                    "dateInitFinished": {
+                    "dateFinished": {
                         "type": "string",
-                        "format": "date-time"
+                        "example": "Mar 01, 2011"
                     },
-                    "dateLastFinished": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "durationRaw": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "duration": {
-                        "type": "string"
-                    },
-                    "filesizeRaw": {
-                        "type": "integer",
-                        "format": "int64"
+                    "rewatched": {
+                        "type": "boolean",
+                        "example": false
                     },
                     "filesize": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "10.25 GB"
                     },
                     "episodes": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 25
                     },
                     "ovas": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "specials": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "EntryBySequenceStatsResource": {
+                "properties": {
+                    "titles_per_day": {
+                        "type": "number",
+                        "example": 1.23
+                    },
+                    "eps_per_day": {
+                        "type": "number",
+                        "example": 2.34
+                    },
+                    "quality_2160": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "quality_1080": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2
+                    },
+                    "quality_720": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 3
+                    },
+                    "quality_480": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 4
+                    },
+                    "quality_360": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 5
+                    },
+                    "total_titles": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 12
+                    },
+                    "total_eps": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 123
+                    },
+                    "total_size": {
+                        "type": "string",
+                        "example": "12.34 GB"
+                    },
+                    "total_days": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 123
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "example": "Jan 01, 2000"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "example": "Feb 01, 2000"
+                    }
+                },
+                "type": "object"
+            },
+            "EntryByYearResource": {
+                "properties": {
+                    "Winter": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntrySummaryResource"
+                        }
+                    },
+                    "Spring": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntrySummaryResource"
+                        }
+                    },
+                    "Summer": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntrySummaryResource"
+                        }
+                    },
+                    "Fall": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntrySummaryResource"
+                        }
+                    },
+                    "Uncategorized": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntrySummaryResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "EntryByYearSummaryResource": {
+                "properties": {
+                    "year": {
+                        "description": "null value on uncategorized entries",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": "2020",
+                        "nullable": true
+                    },
+                    "count": {
+                        "description": "null value whenever seasons is present; total count of 'null' year",
+                        "type": "integer",
+                        "format": "int32",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "seasons": {
+                        "description": "null value on uncategorized entries",
+                        "properties": {
+                            "Winter": {
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 1
+                            },
+                            "Spring": {
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 2
+                            },
+                            "Summer": {
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 3
+                            },
+                            "Fall": {
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 4
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "EntryLastStatsResource": {
+                "properties": {
+                    "dateLastEntry": {
+                        "type": "string",
+                        "example": "Apr 01, 2015"
+                    },
+                    "daysLastEntry": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2974
+                    },
+                    "dateOldestEntry": {
+                        "type": "string",
+                        "example": "Jan 01, 2011"
+                    },
+                    "daysOldestEntry": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 4525
+                    },
+                    "totalEps": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    },
+                    "totalTitles": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 7
+                    },
+                    "totalCours": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    },
+                    "titlesPerWeek": {
+                        "type": "number",
+                        "example": 0.01
+                    },
+                    "coursPerWeek": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    },
+                    "epsPerWeek": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    },
+                    "epsPerDay": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "EntryOffquelResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "89e3be00-9d4f-4c4f-a99f-c12cbfba04ab"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Offquel Title"
+                    }
+                },
+                "type": "object"
+            },
+            "EntryResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "quality": {
+                        "type": "string",
+                        "enum": [
+                            "4K 2160",
+                            "FHD 1080p",
+                            "HD 720p",
+                            "HQ 480p",
+                            "LQ 360p"
+                        ],
+                        "example": "4K 2160p"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Title"
+                    },
+                    "dateInitFinishedRaw": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2001-01-01T00:00:00.000000Z"
+                    },
+                    "dateInitFinished": {
+                        "type": "string",
+                        "example": "Jan 01, 2001"
+                    },
+                    "dateLastFinished": {
+                        "type": "string",
+                        "example": "Mar 01, 2011"
+                    },
+                    "durationRaw": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10000
+                    },
+                    "duration": {
+                        "type": "string",
+                        "example": "2 hours 46 minutes 40 seconds"
+                    },
+                    "filesizeRaw": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 21331439861
+                    },
+                    "filesize": {
+                        "type": "string",
+                        "example": "19.87 GB"
+                    },
+                    "episodes": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 25
+                    },
+                    "ovas": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "specials": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
                     },
                     "seasonNumber": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "seasonFirstTitle": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Sample Title"
                     },
                     "prequelTitle": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Prequel Title"
                     },
                     "prequel": {
                         "properties": {
                             "id": {
                                 "type": "string",
-                                "format": "uuid"
+                                "format": "uuid",
+                                "example": "9b712dbe-ff81-41d4-b027-ee87cea4da99"
                             },
                             "title": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "Prequel Title"
                             }
                         },
                         "type": "object"
                     },
                     "sequelTitle": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Sequel Title"
                     },
                     "sequel": {
                         "properties": {
                             "id": {
                                 "type": "string",
-                                "format": "uuid"
+                                "format": "uuid",
+                                "example": "08d0f87f-6432-47bc-b6bd-c856abbad90f"
                             },
                             "title": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "Sequel Title"
                             }
                         },
                         "type": "object"
                     },
                     "encoder": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "encoder-encoder2-encoder3"
                     },
                     "encoderVideo": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "encoder"
                     },
                     "encoderAudio": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "encoder2"
                     },
                     "encoderSubs": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "encoder3"
                     },
                     "releaseSeason": {
                         "type": "string",
@@ -5345,163 +5422,184 @@
                             "Spring",
                             "Summer",
                             "Fall"
-                        ]
+                        ],
+                        "example": "Winter"
                     },
                     "releaseYear": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 2000
                     },
                     "release": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Winter 2000"
                     },
                     "variants": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Variant title"
                     },
                     "remarks": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Some remarks"
                     },
                     "codecHDR": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "id_codec_video": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "codecVideo": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "x264 8bit"
                     },
                     "id_codec_audio": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 4
                     },
                     "codecAudio": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "FLAC 7.1"
                     },
                     "offquels": {
-                        "$ref": "#/components/schemas/EntryOffquelCollection"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntryOffquelResource"
+                        }
                     },
                     "rewatches": {
-                        "$ref": "#/components/schemas/EntryRewatchCollection"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EntryRewatchResource"
+                        }
                     },
                     "ratingAverage": {
-                        "type": "number"
+                        "type": "number",
+                        "example": 4.5
                     },
                     "rating": {
                         "properties": {
                             "audio": {
                                 "type": "integer",
-                                "format": "int32"
+                                "format": "int32",
+                                "example": 6
                             },
                             "enjoyment": {
                                 "type": "integer",
-                                "format": "int32"
+                                "format": "int32",
+                                "example": 5
                             },
                             "graphics": {
                                 "type": "integer",
-                                "format": "int32"
+                                "format": "int32",
+                                "example": 4
                             },
                             "plot": {
                                 "type": "integer",
-                                "format": "int32"
+                                "format": "int32",
+                                "example": 3
                             }
                         },
                         "type": "object"
                     },
                     "image": {
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "example": "{{ image url }}"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                    "quality": "4K 2160p",
-                    "title": "Sample Title",
-                    "dateInitFinishedRaw": "2001-01-01T00:00:00.000000Z",
-                    "dateInitFinished": "Jan 01, 2001",
-                    "dateLastFinished": "Mar 01, 2011",
-                    "durationRaw": 10000,
-                    "duration": "2 hours 46 minutes 40 seconds",
-                    "filesizeRaw": 21331439861,
-                    "filesize": "19.87 GB",
-                    "episodes": 25,
-                    "ovas": 1,
-                    "specials": 1,
-                    "seasonNumber": 1,
-                    "seasonFirstTitle": "Sample Title",
-                    "prequelTitle": "Prequel Title",
-                    "prequel": {
-                        "id": "9b712dbe-ff81-41d4-b027-ee87cea4da99",
-                        "title": "Prequel Title"
-                    },
-                    "sequelTitle": "Sequel Title",
-                    "sequel": {
-                        "id": "08d0f87f-6432-47bc-b6bd-c856abbad90f",
-                        "title": "Sequel Title"
-                    },
-                    "encoder": "encoder-encoder2-encoder3",
-                    "encoderVideo": "encoder",
-                    "encoderAudio": "encoder2",
-                    "encoderSubs": "encoder3",
-                    "releaseSeason": "Winter",
-                    "releaseYear": 2000,
-                    "release": "Winter 2000",
-                    "variants": "Variant title",
-                    "remarks": "Some remarks",
-                    "codecHDR": 1,
-                    "id_codec_video": 1,
-                    "codecVideo": "x264 8bit",
-                    "id_codec_audio": 4,
-                    "codecAudio": "FLAC 7.1",
-                    "offquels": [
-                        {
-                            "id": "89e3be00-9d4f-4c4f-a99f-c12cbfba04ab",
-                            "title": "Offquel Title"
-                        }
-                    ],
-                    "rewatches": [
-                        {
-                            "id": "af846c35-a51e-4534-9559-c75114e61d84",
-                            "dateIso": "2011-03-01T00:00:00.000000Z",
-                            "date": "March 01, 2011"
-                        }
-                    ],
-                    "ratingAverage": 4.5,
-                    "rating": {
-                        "audio": 6,
-                        "enjoyment": 5,
-                        "graphics": 4,
-                        "plot": 3
-                    },
-                    "image": "{{ image url }}"
-                }
+                "type": "object"
             },
-            "EntryRewatchCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "dateIso": {
-                            "type": "string",
-                            "format": "date-time"
-                        },
-                        "date": {
-                            "type": "string"
-                        }
+            "EntryRewatchResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "af846c35-a51e-4534-9559-c75114e61d84"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "af846c35-a51e-4534-9559-c75114e61d84",
-                        "dateIso": "2011-03-01T00:00:00.000000Z",
-                        "date": "March 01, 2011"
+                    "dateIso": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2011-03-01T00:00:00.000000Z"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "March 01, 2011"
                     }
-                ]
+                },
+                "type": "object"
+            },
+            "EntrySummaryResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "quality": {
+                        "type": "string",
+                        "enum": [
+                            "4K 2160",
+                            "FHD 1080p",
+                            "HD 720p",
+                            "HQ 480p",
+                            "LQ 360p"
+                        ],
+                        "example": "4K 2160p"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Title"
+                    },
+                    "dateFinished": {
+                        "type": "string",
+                        "example": "Mar 01, 2011"
+                    },
+                    "rewatched": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "filesize": {
+                        "type": "string",
+                        "example": "10.25 GB"
+                    },
+                    "episodes": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 25
+                    },
+                    "ovas": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "specials": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "encoder": {
+                        "type": "string",
+                        "example": "encoder—encoder2"
+                    },
+                    "release": {
+                        "type": "string",
+                        "example": "Spring 2017"
+                    },
+                    "remarks": {
+                        "type": "string",
+                        "example": "Some remarks"
+                    },
+                    "rating": {
+                        "type": "number",
+                        "example": 7.5
+                    }
+                },
+                "type": "object"
             },
             "LogCollection": {
                 "type": "array",
@@ -6129,7 +6227,8 @@
                 "in": "query",
                 "schema": {
                     "$ref": "#/components/schemas/YearSchema"
-                }
+                },
+                "example": ""
             },
             "entry_add_edit_release_season": {
                 "name": "release_season",
