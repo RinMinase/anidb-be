@@ -20,7 +20,7 @@ class DefaultResponse {
    *   @OA\Property(property="message", type="string", example="Success"),
    * )
    */
-  public static function success(string $message = null, array $data = null) {
+  public static function success(string $message = null, array $data = []) {
     $defaultResponse = [
       'status' => 200,
       'message' => $message ?? 'Success',
