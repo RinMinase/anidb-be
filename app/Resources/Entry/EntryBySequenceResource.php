@@ -5,7 +5,7 @@ namespace App\Resources\Entry;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
-class EntryBySeqDataCollection extends JsonResource {
+class EntryBySequenceResource extends JsonResource {
 
   public function toArray($request) {
 
