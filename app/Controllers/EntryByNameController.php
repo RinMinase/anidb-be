@@ -5,7 +5,9 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
-use App\Resources\Entry\EntryCollection;
+
+use App\Resources\DefaultResponse;
+use App\Resources\Entry\EntrySummaryResource;
 
 class EntryByNameController extends Controller {
 
@@ -25,24 +27,16 @@ class EntryByNameController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         example={{
-   *           "letter": "#",
-   *           "titles": 12,
-   *           "filesize": "10.25 GB",
-   *         }, {
-   *           "letter": "A",
-   *           "titles": 34,
-   *           "filesize": "12.23 GB",
-   *         }},
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(
-   *           @OA\Property(property="letter", type="string", minLength=1, maxLength=1),
-   *           @OA\Property(property="titles", type="integer", format="int32"),
-   *           @OA\Property(property="filesize", type="string"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntryByNameResource"),
+   *           ),
    *         ),
-   *       ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -50,7 +44,7 @@ class EntryByNameController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->entryRepository->getByName(),
     ]);
   }
@@ -75,7 +69,16 @@ class EntryByNameController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -84,8 +87,8 @@ class EntryByNameController extends Controller {
    * )
    */
   public function get($letter): JsonResponse {
-    return response()->json([
-      'data' => EntryCollection::collection($this->entryRepository->getByLetter($letter)),
+    return DefaultResponse::success(null, [
+      'data' => EntrySummaryResource::collection($this->entryRepository->getByLetter($letter)),
     ]);
   }
 }
