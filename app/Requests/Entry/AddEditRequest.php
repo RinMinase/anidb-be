@@ -119,6 +119,7 @@ class AddEditRequest extends FormRequest {
    *   parameter="entry_add_edit_release_year",
    *   name="release_year",
    *   in="query",
+   *   example="",
    *   @OA\Schema(ref="#/components/schemas/YearSchema"),
    * ),
    * @OA\Parameter(
