@@ -43,8 +43,17 @@ class EntryController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/EntryCollection"),
-   *       @OA\Property(property="meta", ref="#/components/schemas/Pagination"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(ref="#/components/schemas/Pagination"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
+   *           ),
+   *         ),
+   *       },
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -52,11 +61,14 @@ class EntryController extends Controller {
    * )
    */
   public function index(SearchRequest $request): JsonResponse {
-    return response()->json(
-      $this->entryRepository->getAll(
-        $request->only('needle', 'haystack', 'column', 'order', 'limit', 'page')
-      )
+    $data = $this->entryRepository->getAll(
+      $request->only('needle', 'haystack', 'column', 'order', 'limit', 'page')
     );
+
+    return DefaultResponse::success(null, [
+      'data' => $data['data'],
+      'meta' => $data['meta'],
+    ]);
   }
 
   /**
@@ -78,7 +90,14 @@ class EntryController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="OK",
-   *     @OA\JsonContent(ref="#/components/schemas/Entry"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/EntryResource"),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
@@ -86,7 +105,7 @@ class EntryController extends Controller {
    * )
    */
   public function get($id): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => new EntryResource($this->entryRepository->get($id)),
     ]);
   }
@@ -488,14 +507,21 @@ class EntryController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       example={
-   *         "data": {
-   *           "title 1",
-   *           "title 2",
-   *           "title 3",
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             example={
+   *               "title 1",
+   *               "title 2",
+   *               "title 3",
+   *             },
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(type="string"),
+   *           ),
+   *         ),
    *       },
-   *       @OA\Property(property="data", type="array", @OA\Items(type="string")),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -503,7 +529,7 @@ class EntryController extends Controller {
    * )
    */
   public function getTitles(SearchTitlesRequest $request): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->entryRepository->getTitles(
         $request->get('id'),
         $request->get('needle') ?? '',
