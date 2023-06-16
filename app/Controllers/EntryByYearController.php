@@ -6,6 +6,10 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
 
+use App\Resources\DefaultResponse;
+use App\Resources\Entry\EntryByYearResource;
+use App\Resources\Entry\EntryByYearSummaryResource;
+
 class EntryByYearController extends Controller {
 
   private EntryRepository $entryRepository;
@@ -24,49 +28,16 @@ class EntryByYearController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         example={{
-   *           "year": null,
-   *           "seasons": null,
-   *           "count": 2
-   *         }, {
-   *           "year": 2010,
-   *           "seasons": {
-   *             "Winter": 1,
-   *             "Spring": 1,
-   *             "Summer": 2,
-   *             "Fall": 2,
-   *           },
-   *           "count": null
-   *         }},
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
    *           @OA\Property(
-   *             property="year",
-   *             type="integer",
-   *             format="int32",
-   *             nullable=true,
-   *             description="null value on uncategorized entries",
-   *           ),
-   *           @OA\Property(
-   *             property="seasons",
-   *             nullable=true,
-   *             description="null value on uncategorized entries",
-   *             @OA\Property(property="Winter", type="integer", format="int32"),
-   *             @OA\Property(property="Spring", type="integer", format="int32"),
-   *             @OA\Property(property="Summer", type="integer", format="int32"),
-   *             @OA\Property(property="Fall", type="integer", format="int32"),
-   *           ),
-   *           @OA\Property(
-   *             property="count",
-   *             type="integer",
-   *             format="int32",
-   *             nullable=true,
-   *             description="null value whenever seasons is present",
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntryByYearSummaryResource"),
    *           ),
    *         ),
-   *       ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -74,8 +45,8 @@ class EntryByYearController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->getByYear(),
+    return DefaultResponse::success(null, [
+      'data' => EntryByYearSummaryResource::collection($this->entryRepository->getByYear()),
     ]);
   }
 
@@ -98,17 +69,15 @@ class EntryByYearController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="Winter", ref="#/components/schemas/EntryCollection"),
-   *         @OA\Property(property="Spring", ref="#/components/schemas/EntryCollection"),
-   *         @OA\Property(property="Summer", ref="#/components/schemas/EntryCollection"),
-   *         @OA\Property(property="Fall", ref="#/components/schemas/EntryCollection"),
-   *         @OA\Property(
-   *           property="Uncategorized",
-   *           ref="#/components/schemas/EntryCollection",
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             ref="#/components/schemas/EntryByYearResource",
+   *           ),
    *         ),
-   *       ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -116,8 +85,8 @@ class EntryByYearController extends Controller {
    * )
    */
   public function get($year): JsonResponse {
-    return response()->json([
-      'data' => $this->entryRepository->getBySeason($year),
+    return DefaultResponse::success(null, [
+      'data' => new EntryByYearResource($this->entryRepository->getBySeason($year)),
     ]);
   }
 }
