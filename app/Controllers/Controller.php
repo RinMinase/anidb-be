@@ -51,24 +51,44 @@ class Controller extends BaseController {
  * @OA\Schema(
  *   schema="Pagination",
  *   title="Pagination Meta",
- *   example={
- *     "meta": {
- *       "page": 1,
- *       "limit": 30,
- *       "results": 30,
- *       "total_results": 130,
- *       "total_pages": 5,
- *       "has_next": true,
- *     }
- *   },
  *   @OA\Property(
  *     property="meta",
- *     @OA\Property(property="page", type="integer", format="int32", minimum=1),
- *     @OA\Property(property="limit", type="integer", format="int32", minimum=1),
- *     @OA\Property(property="results", type="integer", format="int32", minimum=0),
- *     @OA\Property(property="total_results", type="integer", format="int32", minimum=0),
- *     @OA\Property(property="total_pages", type="integer", format="int32", minimum=1),
- *     @OA\Property(property="has_next", type="boolean"),
+ *     @OA\Property(
+ *       property="page",
+ *       type="integer",
+ *       format="int32",
+ *       minimum=1,
+ *       example=1,
+ *     ),
+ *     @OA\Property(
+ *       property="limit",
+ *       type="integer",
+ *       format="int32",
+ *       minimum=1,
+ *       example=30,
+ *     ),
+ *     @OA\Property(
+ *       property="results",
+ *       type="integer",
+ *       format="int32",
+ *       minimum=0,
+ *       example=30,
+ *     ),
+ *     @OA\Property(
+ *       property="total_results",
+ *       type="integer",
+ *       format="int32",
+ *       minimum=0,
+ *       example=130,
+ *     ),
+ *     @OA\Property(
+ *       property="total_pages",
+ *       type="integer",
+ *       format="int32",
+ *       minimum=1,
+ *       example=5,
+ *     ),
+ *     @OA\Property(property="has_next", type="boolean", example=true),
  *   ),
  * )
  */
