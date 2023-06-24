@@ -2921,15 +2921,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/LogCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "meta": {
+                                        {
                                             "$ref": "#/components/schemas/Pagination"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/LogResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
-                                    },
-                                    "type": "object"
+                                    ]
                                 }
                             }
                         }
@@ -5601,43 +5611,36 @@
                 },
                 "type": "object"
             },
-            "LogCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "table_changed": {
-                            "type": "string"
-                        },
-                        "id_changed": {
-                            "type": "string"
-                        },
-                        "description": {
-                            "type": "string"
-                        },
-                        "action": {
-                            "type": "string"
-                        },
-                        "created_at": {
-                            "type": "string",
-                            "format": "date-time"
-                        }
+            "LogResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "9ef81943-78f0-4d1c-a831-a59fb5af339c",
-                        "table_changed": "marathon",
-                        "id_changed": 1,
-                        "description": "title changed from 'old' to 'new'",
-                        "action": "add",
-                        "created_at": "2020-01-01 00:00:00"
+                    "table_changed": {
+                        "type": "string",
+                        "example": "marathon"
+                    },
+                    "id_changed": {
+                        "type": "string",
+                        "example": 1
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "title changed from 'old' to 'new'"
+                    },
+                    "action": {
+                        "type": "string",
+                        "example": "add"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
                     }
-                ]
+                },
+                "type": "object"
             },
             "PartialCollection": {
                 "type": "array",
