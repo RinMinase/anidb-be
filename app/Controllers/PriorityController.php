@@ -6,6 +6,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\PriorityRepository;
 
+use App\Resources\DefaultResponse;
+
 class PriorityController extends Controller {
 
   private PriorityRepository $priorityRepository;
@@ -24,11 +26,16 @@ class PriorityController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Priority"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/Priority"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -36,7 +43,7 @@ class PriorityController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->priorityRepository->getAll(),
     ]);
   }
