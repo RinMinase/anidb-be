@@ -56,6 +56,9 @@ class LogController extends Controller {
       $request->only('column', 'order', 'limit', 'page')
     );
 
-    return DefaultResponse::success(null, $logs);
+    return DefaultResponse::success(null, [
+      'data' => $logs['data'],
+      'meta' => $logs['meta'],
+    ]);
   }
 }
