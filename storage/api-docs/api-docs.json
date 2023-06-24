@@ -1009,22 +1009,10 @@
                 "operationId": "abf83d64014d56f89132113c8c1c0417",
                 "parameters": [
                     {
-                        "name": "codec",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Codec"
+                        "$ref": "#/components/parameters/codec_add_edit_codec"
                     },
                     {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": "1"
+                        "$ref": "#/components/parameters/codec_add_edit_order"
                     }
                 ],
                 "responses": {
@@ -1065,22 +1053,10 @@
                         "example": "1"
                     },
                     {
-                        "name": "codec",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Codec"
+                        "$ref": "#/components/parameters/codec_add_edit_codec"
                     },
                     {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": "1"
+                        "$ref": "#/components/parameters/codec_add_edit_order"
                     }
                 ],
                 "responses": {
@@ -1197,22 +1173,10 @@
                 "operationId": "8c456ec5babdf24cee4a7128fe096ab8",
                 "parameters": [
                     {
-                        "name": "codec",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Codec"
+                        "$ref": "#/components/parameters/codec_add_edit_codec"
                     },
                     {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": "1"
+                        "$ref": "#/components/parameters/codec_add_edit_order"
                     }
                 ],
                 "responses": {
@@ -1253,22 +1217,10 @@
                         "example": "1"
                     },
                     {
-                        "name": "codec",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Sample Codec"
+                        "$ref": "#/components/parameters/codec_add_edit_codec"
                     },
                     {
-                        "name": "order",
-                        "in": "query",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": "1"
+                        "$ref": "#/components/parameters/codec_add_edit_order"
                     }
                 ],
                 "responses": {
@@ -6104,6 +6056,26 @@
                     "$ref": "#/components/schemas/YearSchema"
                 },
                 "example": "2020"
+            },
+            "codec_add_edit_codec": {
+                "name": "codec",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 16,
+                    "minLength": 1
+                },
+                "example": "Sample Codec"
+            },
+            "codec_add_edit_order": {
+                "name": "order",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": "1"
             },
             "entry_add_edit_id_quality": {
                 "name": "id_quality",
