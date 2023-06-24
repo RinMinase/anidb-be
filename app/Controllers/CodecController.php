@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\CodecRepository;
+
+use App\Requests\Codec\AddEditRequest;
 
 use App\Resources\DefaultResponse;
 
@@ -96,26 +97,15 @@ class CodecController extends Controller {
    *   summary="Add an Audio Codec",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="codec",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Codec",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="order",
-   *     in="query",
-   *     example="1",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_codec"),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_order"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function addAudio(Request $request): JsonResponse {
+  public function addAudio(AddEditRequest $request): JsonResponse {
     $this->codecRepository->addAudio($request->only('codec', 'order'));
 
     return DefaultResponse::success();
@@ -136,19 +126,8 @@ class CodecController extends Controller {
    *     example="1",
    *     @OA\Schema(type="integer", format="int64"),
    *   ),
-   *   @OA\Parameter(
-   *     name="codec",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Codec",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="order",
-   *     in="query",
-   *     example="1",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_codec"),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_order"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -156,7 +135,7 @@ class CodecController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function editAudio(Request $request, $id): JsonResponse {
+  public function editAudio(AddEditRequest $request, $id): JsonResponse {
     $this->codecRepository->editAudio($request->only('codec', 'order'), $id);
 
     return DefaultResponse::success();
@@ -229,26 +208,15 @@ class CodecController extends Controller {
    *   summary="Add a Video Codec",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(
-   *     name="codec",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Codec",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="order",
-   *     in="query",
-   *     example="1",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_codec"),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_order"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function addVideo(Request $request): JsonResponse {
+  public function addVideo(AddEditRequest $request): JsonResponse {
     $this->codecRepository->addVideo($request->only('codec', 'order'));
 
     return DefaultResponse::success();
@@ -269,19 +237,8 @@ class CodecController extends Controller {
    *     example="1",
    *     @OA\Schema(type="integer", format="int64"),
    *   ),
-   *   @OA\Parameter(
-   *     name="codec",
-   *     in="query",
-   *     required=true,
-   *     example="Sample Codec",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="order",
-   *     in="query",
-   *     example="1",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_codec"),
+   *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_order"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -289,7 +246,7 @@ class CodecController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function editVideo(Request $request, $id): JsonResponse {
+  public function editVideo(AddEditRequest $request, $id): JsonResponse {
     $this->codecRepository->editVideo($request->only('codec', 'order'), $id);
 
     return DefaultResponse::success();
