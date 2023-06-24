@@ -6,7 +6,8 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\Models\Log;
-use App\Resources\Log\LogCollection;
+
+use App\Resources\Log\LogResource;
 
 class LogRepository {
 
@@ -31,7 +32,7 @@ class LogRepository {
       ->paginate($limit);
 
     return [
-      'data' => LogCollection::collection($logs),
+      'data' => LogResource::collection($logs),
       'meta' => [
         'page' => $page,
         'limit' => intval($limit),
