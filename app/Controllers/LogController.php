@@ -5,7 +5,10 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\LogRepository;
+
 use App\Requests\Log\SearchRequest;
+
+use App\Resources\DefaultResponse;
 
 class LogController extends Controller {
 
@@ -31,8 +34,17 @@ class LogController extends Controller {
    *     response=200,
    *     description="OK",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", ref="#/components/schemas/LogCollection"),
-   *       @OA\Property(property="meta", ref="#/components/schemas/Pagination"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(ref="#/components/schemas/Pagination"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/LogResource"),
+   *           ),
+   *         ),
+   *       }
    *     )
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -44,6 +56,6 @@ class LogController extends Controller {
       $request->only('column', 'order', 'limit', 'page')
     );
 
-    return response()->json($logs);
+    return DefaultResponse::success(null, $logs);
   }
 }
