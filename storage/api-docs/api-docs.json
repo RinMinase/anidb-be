@@ -738,13 +738,13 @@
                 ]
             }
         },
-        "/api/catalogs/{catalog_id}": {
+        "/api/catalogs/{catalog_id}/partials": {
             "get": {
                 "tags": [
                     "Catalog"
                 ],
                 "summary": "Get Partials in Catalog",
-                "operationId": "4b0774dc654f92416d46f3d7a10d20b4",
+                "operationId": "a58d0da8833ca39372572b4328219323",
                 "parameters": [
                     {
                         "name": "catalog_id",
@@ -802,7 +802,9 @@
                         "token": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/catalogs/{catalog_id}": {
             "put": {
                 "tags": [
                     "Catalog"
