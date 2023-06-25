@@ -74,7 +74,11 @@ class CatalogController extends Controller {
    *       allOf={
    *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
    *         @OA\Schema(
-   *           @OA\Property(property="data", ref="#/components/schemas/PartialCollection"),
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/PartialResource"),
+   *           ),
    *           @OA\Property(property="stats", ref="#/components/schemas/CatalogResource"),
    *         ),
    *       },
@@ -86,7 +90,12 @@ class CatalogController extends Controller {
    * )
    */
   public function get($uuid) {
-    return DefaultResponse::success(null, $this->catalogRepository->get($uuid));
+    $data = $this->catalogRepository->get($uuid);
+
+    return DefaultResponse::success(null, [
+      'data' => $data['data'],
+      'stats' => $data['stats'],
+    ]);
   }
 
   /**

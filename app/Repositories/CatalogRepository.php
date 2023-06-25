@@ -8,7 +8,7 @@ use App\Models\Catalog;
 use App\Models\Partial;
 
 use App\Resources\Catalog\CatalogResource;
-use App\Resources\Partial\PartialCollection;
+use App\Resources\Partial\PartialResource;
 
 class CatalogRepository {
 
@@ -33,7 +33,7 @@ class CatalogRepository {
       ->get();
 
     return [
-      'data' => PartialCollection::collection($partials),
+      'data' => PartialResource::collection($partials),
       'stats' => new CatalogResource($catalog),
     ];
   }
