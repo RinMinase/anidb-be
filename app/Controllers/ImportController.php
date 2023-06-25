@@ -9,6 +9,8 @@ use App\Repositories\ImportRepository;
 
 use App\Requests\Import\ImportRequest;
 
+use App\Resources\DefaultResponse;
+
 class ImportController extends Controller {
 
   private ImportRepository $importRepository;
@@ -18,6 +20,12 @@ class ImportController extends Controller {
   }
 
   /**
+   * @OA\Schema(
+   *   schema="ImportDataCount",
+   *   title="Import Accepted & Total Schema",
+   *   @OA\Property(property="accepted", type="integer", format="int32", example=0),
+   *   @OA\Property(property="total", type="integer", format="int32", example=0),
+   * ),
    * @OA\Post(
    *   tags={"Import"},
    *   path="/api/import",
@@ -39,41 +47,18 @@ class ImportController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "entries": {"accepted": 0, "total": 0},
-   *           "buckets": {"accepted": 0, "total": 0},
-   *           "sequences": {"accepted": 0, "total": 0},
-   *           "groups": {"accepted": 0, "total": 0},
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(property="entries", ref="#/components/schemas/ImportDataCount"),
+   *             @OA\Property(property="buckets", ref="#/components/schemas/ImportDataCount"),
+   *             @OA\Property(property="sequences", ref="#/components/schemas/ImportDataCount"),
+   *             @OA\Property(property="groups", ref="#/components/schemas/ImportDataCount"),
+   *           ),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="integer", format="int32"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(
-   *           property="entries",
-   *           @OA\Property(property="accepted", type="integer", format="int32"),
-   *           @OA\Property(property="total", type="integer", format="int32"),
-   *         ),
-   *         @OA\Property(
-   *           property="buckets",
-   *           @OA\Property(property="accepted", type="integer", format="int32"),
-   *           @OA\Property(property="total", type="integer", format="int32"),
-   *         ),
-   *         @OA\Property(
-   *           property="sequences",
-   *           @OA\Property(property="accepted", type="integer", format="int32"),
-   *           @OA\Property(property="total", type="integer", format="int32"),
-   *         ),
-   *         @OA\Property(
-   *           property="groups",
-   *           @OA\Property(property="accepted", type="integer", format="int32"),
-   *           @OA\Property(property="total", type="integer", format="int32"),
-   *         ),
-   *       ),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -104,9 +89,7 @@ class ImportController extends Controller {
       $group_count = count($file->group);
     }
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'entries' => [
           'accepted' => $import_count['entry'],
@@ -124,7 +107,7 @@ class ImportController extends Controller {
           'accepted' => $import_count['group'],
           'total' => $group_count,
         ],
-      ]
+      ],
     ]);
   }
 }
