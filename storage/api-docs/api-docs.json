@@ -2820,7 +2820,7 @@
                     "MAL"
                 ],
                 "summary": "Retrieve Title Information",
-                "operationId": "ebeafb793f77c028f8e52de98dd4dcac",
+                "operationId": "c130dc737947802d9501246a399df8e3",
                 "parameters": [
                     {
                         "name": "title_id",
@@ -2861,10 +2861,10 @@
                         "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
-                        "$ref": "#/components/responses/MalOtherErrorResponse"
+                        "$ref": "#/components/responses/MALOtherErrorResponse"
                     },
                     "503": {
-                        "$ref": "#/components/responses/MalConnectionResponse"
+                        "$ref": "#/components/responses/MALConnectionResponse"
                     }
                 },
                 "deprecated": true,
@@ -2881,7 +2881,7 @@
                     "MAL"
                 ],
                 "summary": "Query Titles",
-                "operationId": "52d71e70844cc8d0869d67aab79162b5",
+                "operationId": "b9a6edf0c8dbced6e8c46a9c6a9d84ca",
                 "parameters": [
                     {
                         "name": "query_string",
@@ -2924,10 +2924,10 @@
                         "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
-                        "$ref": "#/components/responses/MalOtherErrorResponse"
+                        "$ref": "#/components/responses/MALOtherErrorResponse"
                     },
                     "503": {
-                        "$ref": "#/components/responses/MalConnectionResponse"
+                        "$ref": "#/components/responses/MALConnectionResponse"
                     }
                 },
                 "deprecated": true,
@@ -5667,7 +5667,7 @@
                     }
                 }
             },
-            "MalOtherErrorResponse": {
+            "MALOtherErrorResponse": {
                 "description": "Other Error Responses",
                 "content": {
                     "application/json": {
@@ -5684,11 +5684,11 @@
                             "type": "object"
                         },
                         "examples": {
-                            "MalConfigErrorExample": {
-                                "$ref": "#/components/examples/MalConfigErrorExample"
+                            "MALConfigErrorExample": {
+                                "$ref": "#/components/examples/MALConfigErrorExample"
                             },
-                            "MalConfigDisabledErrorExample": {
-                                "$ref": "#/components/examples/MalConfigDisabledErrorExample"
+                            "MALConfigDisabledErrorExample": {
+                                "$ref": "#/components/examples/MALConfigDisabledErrorExample"
                             }
                         }
                     }
@@ -5805,7 +5805,7 @@
                     }
                 }
             },
-            "MalConnectionResponse": {
+            "MALConnectionResponse": {
                 "description": "MAL Connection Error",
                 "content": {
                     "application/json": {
@@ -6585,14 +6585,14 @@
                     "message": "Issues in parsing AniList response."
                 }
             },
-            "MalConfigDisabledErrorExample": {
+            "MALConfigDisabledErrorExample": {
                 "summary": "MAL Config Disabled Error",
                 "value": {
                     "status": 500,
                     "message": "Web Scraper is disabled"
                 }
             },
-            "MalConfigErrorExample": {
+            "MALConfigErrorExample": {
                 "summary": "MAL Config Error",
                 "value": {
                     "status": 500,
