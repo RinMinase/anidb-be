@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\GroupRepository;
+
 use App\Requests\Group\AddEditRequest;
 use App\Requests\Group\ImportRequest;
 
@@ -167,21 +168,26 @@ class GroupController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "acceptedImports": 0,
-   *           "totalJsonEntries": 0,
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(
+   *               property="acceptedImports",
+   *               type="integer",
+   *               format="int32",
+   *               example=0,
+   *             ),
+   *             @OA\Property(
+   *               property="totalJsonEntries",
+   *               type="integer",
+   *               format="int32",
+   *               example=0,
+   *             ),
+   *           ),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="integer", format="int32"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="acceptedImports", type="integer", format="int32"),
-   *         @OA\Property(property="totalJsonEntries", type="integer", format="int32"),
-   *       ),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -192,9 +198,7 @@ class GroupController extends Controller {
     $file = json_decode($request->file('file')->get());
     $count = $this->groupRepository->import($file);
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
         'totalJsonEntries' => count($file),
