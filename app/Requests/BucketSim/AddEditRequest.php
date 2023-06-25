@@ -2,9 +2,9 @@
 
 namespace App\Requests\BucketSim;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
 
 use App\Rules\JsonRule;
 
