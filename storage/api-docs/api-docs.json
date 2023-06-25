@@ -2085,38 +2085,19 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "format": "int32"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "message": {
-                                            "type": "integer",
-                                            "format": "int32"
-                                        },
-                                        "data": {
+                                        {
                                             "properties": {
-                                                "acceptedImports": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "totalJsonEntries": {
-                                                    "type": "integer",
-                                                    "format": "int32"
+                                                "data": {
+                                                    "$ref": "#/components/schemas/DefaultImportSchema"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "status": 200,
-                                    "message": "Success",
-                                    "data": {
-                                        "acceptedImports": 0,
-                                        "totalJsonEntries": 0
-                                    }
+                                    ]
                                 }
                             }
                         }
@@ -2669,19 +2650,7 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "properties": {
-                                                        "acceptedImports": {
-                                                            "type": "integer",
-                                                            "format": "int32",
-                                                            "example": 0
-                                                        },
-                                                        "totalJsonEntries": {
-                                                            "type": "integer",
-                                                            "format": "int32",
-                                                            "example": 0
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                    "$ref": "#/components/schemas/DefaultImportSchema"
                                                 }
                                             },
                                             "type": "object"
@@ -3107,43 +3076,37 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "format": "int32"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
+                                        {
                                             "properties": {
-                                                "accepted": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "format": "int32"
+                                                "data": {
+                                                    "properties": {
+                                                        "accepted": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "status": 200,
-                                    "message": "Success",
-                                    "data": {
-                                        "accepted": 0,
-                                        "total": 0
-                                    }
+                                    ]
                                 }
                             }
                         }
                     },
                     "400": {
-                        "$ref": "#/components/responses/BadRequest"
+                        "$ref": "#/components/responses/PartialParsingResponse"
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
@@ -3284,43 +3247,37 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "format": "int32"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
+                                        {
                                             "properties": {
-                                                "accepted": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "total": {
-                                                    "type": "integer",
-                                                    "format": "int32"
+                                                "data": {
+                                                    "properties": {
+                                                        "accepted": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "total": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "status": 200,
-                                    "message": "Success",
-                                    "data": {
-                                        "accepted": 0,
-                                        "total": 0
-                                    }
+                                    ]
                                 }
                             }
                         }
                     },
                     "400": {
-                        "$ref": "#/components/responses/BadRequest"
+                        "$ref": "#/components/responses/PartialParsingResponse"
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
@@ -4321,6 +4278,22 @@
                 "maximum": 2999,
                 "minimum": 1970,
                 "example": 2020
+            },
+            "DefaultImportSchema": {
+                "title": "Default Import Schema",
+                "properties": {
+                    "acceptedImports": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    },
+                    "totalJsonEntries": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    }
+                },
+                "type": "object"
             },
             "ManagementSchema": {
                 "properties": {
@@ -5873,6 +5846,29 @@
                         "example": {
                             "status": 401,
                             "message": "Credentials does not match."
+                        }
+                    }
+                }
+            },
+            "PartialParsingResponse": {
+                "description": "Partial Parsing Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 400,
+                            "message": "There was a problem in parsing your request"
                         }
                     }
                 }
