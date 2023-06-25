@@ -325,21 +325,12 @@ class EntryController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "acceptedImports": 0,
-   *           "totalJsonEntries": 0,
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/DefaultImportSchema"),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="integer", format="int32"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="acceptedImports", type="integer", format="int32"),
-   *         @OA\Property(property="totalJsonEntries", type="integer", format="int32"),
-   *       ),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -350,9 +341,7 @@ class EntryController extends Controller {
     $file = json_decode($request->file('file')->get());
     $count = $this->entryRepository->import($file);
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
         'totalJsonEntries' => count($file),
