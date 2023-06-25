@@ -2705,65 +2705,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "format": "int32"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "message": {
-                                            "type": "integer",
-                                            "format": "int32"
-                                        },
-                                        "data": {
+                                        {
                                             "properties": {
-                                                "entries": {
+                                                "data": {
                                                     "properties": {
-                                                        "accepted": {
-                                                            "type": "integer",
-                                                            "format": "int32"
+                                                        "entries": {
+                                                            "$ref": "#/components/schemas/ImportDataCount"
                                                         },
-                                                        "total": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "buckets": {
-                                                    "properties": {
-                                                        "accepted": {
-                                                            "type": "integer",
-                                                            "format": "int32"
+                                                        "buckets": {
+                                                            "$ref": "#/components/schemas/ImportDataCount"
                                                         },
-                                                        "total": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "sequences": {
-                                                    "properties": {
-                                                        "accepted": {
-                                                            "type": "integer",
-                                                            "format": "int32"
+                                                        "sequences": {
+                                                            "$ref": "#/components/schemas/ImportDataCount"
                                                         },
-                                                        "total": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "groups": {
-                                                    "properties": {
-                                                        "accepted": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "total": {
-                                                            "type": "integer",
-                                                            "format": "int32"
+                                                        "groups": {
+                                                            "$ref": "#/components/schemas/ImportDataCount"
                                                         }
                                                     },
                                                     "type": "object"
@@ -2771,30 +2731,7 @@
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "status": 200,
-                                    "message": "Success",
-                                    "data": {
-                                        "entries": {
-                                            "accepted": 0,
-                                            "total": 0
-                                        },
-                                        "buckets": {
-                                            "accepted": 0,
-                                            "total": 0
-                                        },
-                                        "sequences": {
-                                            "accepted": 0,
-                                            "total": 0
-                                        },
-                                        "groups": {
-                                            "accepted": 0,
-                                            "total": 0
-                                        }
-                                    }
+                                    ]
                                 }
                             }
                         }
@@ -4344,6 +4281,22 @@
                         "example": 0
                     },
                     "totalJsonEntries": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "ImportDataCount": {
+                "title": "Import Accepted & Total Schema",
+                "properties": {
+                    "accepted": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 0
+                    },
+                    "total": {
                         "type": "integer",
                         "format": "int32",
                         "example": 0
