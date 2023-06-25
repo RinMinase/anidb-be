@@ -3016,211 +3016,19 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "entries": {
-                                                    "description": "Total Entries",
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "buckets": {
-                                                    "description": "Total Buckets",
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "partials": {
-                                                    "description": "Total Partials",
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                }
-                                            },
-                                            "type": "object"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "stats": {
+                                        {
                                             "properties": {
-                                                "watchSeconds": {
-                                                    "description": "Watch time in seconds",
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                },
-                                                "watch": {
-                                                    "description": "Watch time in days",
-                                                    "type": "string"
-                                                },
-                                                "watchSubtext": {
-                                                    "description": "Watch time subtext",
-                                                    "type": "string"
-                                                },
-                                                "rewatchSeconds": {
-                                                    "description": "Watch with Rewatch time in seconds",
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                },
-                                                "rewatch": {
-                                                    "description": "Watch with Rewatch time in days",
-                                                    "type": "string"
-                                                },
-                                                "rewatchSubtext": {
-                                                    "description": "Watch with Rewatch time subtext",
-                                                    "type": "string"
-                                                },
-                                                "bucketSize": {
-                                                    "description": "Total Buckets size",
-                                                    "type": "string"
-                                                },
-                                                "entrySize": {
-                                                    "description": "Total Entries size",
-                                                    "type": "string"
-                                                },
-                                                "episodes": {
-                                                    "description": "Total episode count",
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                },
-                                                "titles": {
-                                                    "description": "Total title count",
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                },
-                                                "seasons": {
-                                                    "description": "Total season count",
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "graph": {
-                                            "properties": {
-                                                "quality": {
-                                                    "description": "Titles watched per quality",
-                                                    "properties": {
-                                                        "quality_2160": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "quality_1080": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "quality_720": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "quality_480": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "quality_360": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                },
-                                                "months": {
-                                                    "description": "Titles watched per month",
-                                                    "properties": {
-                                                        "jan": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "feb": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "mar": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "apr": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "may": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "jun": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "jul": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "aug": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "sep": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "oct": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "nov": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        },
-                                                        "dec": {
-                                                            "type": "integer",
-                                                            "format": "int32"
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "data": {
+                                                    "$ref": "#/components/schemas/ManagementSchema"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "data": {
-                                        "entries": 0,
-                                        "buckets": 0,
-                                        "partials": 0
-                                    },
-                                    "stats": {
-                                        "watchSeconds": 0,
-                                        "watch": "10 days",
-                                        "watchSubtext": "10 hours, 10 minutes, 10 seconds",
-                                        "rewatchSeconds": 0,
-                                        "rewatch": "10 days",
-                                        "rewatchSubtext": "10 hours, 10 minutes, 10 seconds",
-                                        "bucketSize": "0 TB",
-                                        "entrySize": "0 TB",
-                                        "episodes": 0,
-                                        "titles": 0,
-                                        "seasons": 0
-                                    },
-                                    "graph": {
-                                        "quality": {
-                                            "quality_2160": 0,
-                                            "quality_1080": 0,
-                                            "quality_720": 0,
-                                            "quality_480": 0,
-                                            "quality_360": 0
-                                        },
-                                        "months": {
-                                            "jan": 0,
-                                            "feb": 0,
-                                            "mar": 0,
-                                            "apr": 0,
-                                            "may": 0,
-                                            "jun": 0,
-                                            "jul": 0,
-                                            "aug": 0,
-                                            "sep": 0,
-                                            "oct": 0,
-                                            "nov": 0,
-                                            "dec": 0
-                                        }
-                                    }
+                                    ]
                                 }
                             }
                         }
@@ -4513,6 +4321,201 @@
                 "maximum": 2999,
                 "minimum": 1970,
                 "example": 2020
+            },
+            "ManagementSchema": {
+                "properties": {
+                    "count": {
+                        "properties": {
+                            "entries": {
+                                "description": "Total Entries",
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 0
+                            },
+                            "buckets": {
+                                "description": "Total Buckets",
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 0
+                            },
+                            "partials": {
+                                "description": "Total Partials",
+                                "type": "integer",
+                                "format": "int32",
+                                "example": 0
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "stats": {
+                        "properties": {
+                            "watchSeconds": {
+                                "description": "Watch time in seconds",
+                                "type": "integer",
+                                "format": "int64",
+                                "example": 0
+                            },
+                            "watch": {
+                                "description": "Watch time in days",
+                                "type": "string",
+                                "example": "10 days"
+                            },
+                            "watchSubtext": {
+                                "description": "Watch time subtext",
+                                "type": "string",
+                                "example": "10 hours, 10 minutes, 10 seconds"
+                            },
+                            "rewatchSeconds": {
+                                "description": "Watch with Rewatch time in seconds",
+                                "type": "integer",
+                                "format": "int64",
+                                "example": 0
+                            },
+                            "rewatch": {
+                                "description": "Watch with Rewatch time in days",
+                                "type": "string",
+                                "example": "10 days"
+                            },
+                            "rewatchSubtext": {
+                                "description": "Watch with Rewatch time subtext",
+                                "type": "string",
+                                "example": "10 hours, 10 minutes, 10 seconds"
+                            },
+                            "bucketSize": {
+                                "description": "Total Buckets size",
+                                "type": "string",
+                                "example": "0 TB"
+                            },
+                            "entrySize": {
+                                "description": "Total Entries size",
+                                "type": "string",
+                                "example": "0 TB"
+                            },
+                            "episodes": {
+                                "description": "Total episode count",
+                                "type": "integer",
+                                "format": "int64",
+                                "example": 0
+                            },
+                            "titles": {
+                                "description": "Total title count",
+                                "type": "integer",
+                                "format": "int64",
+                                "example": 0
+                            },
+                            "seasons": {
+                                "description": "Total season count",
+                                "type": "integer",
+                                "format": "int64",
+                                "example": 0
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "graph": {
+                        "properties": {
+                            "quality": {
+                                "description": "Titles watched per quality",
+                                "properties": {
+                                    "quality_2160": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "quality_1080": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "quality_720": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "quality_480": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "quality_360": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "months": {
+                                "description": "Titles watched per month",
+                                "properties": {
+                                    "jan": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "feb": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "mar": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "apr": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "may": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "jun": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "jul": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "aug": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "sep": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "oct": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "nov": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    },
+                                    "dec": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
             },
             "ChangelogItem": {
                 "description": "Changelog Item",
