@@ -43,21 +43,7 @@ class BucketController extends Controller {
    *       allOf={
    *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
    *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             @OA\Property(
-   *               property="acceptedImports",
-   *               type="integer",
-   *               format="int32",
-   *               example=10,
-   *             ),
-   *             @OA\Property(
-   *               property="totalJsonEntries",
-   *               type="integer",
-   *               format="int32",
-   *               example=20,
-   *             ),
-   *           ),
+   *           @OA\Property(property="data", ref="#/components/schemas/DefaultImportSchema"),
    *         ),
    *       },
    *     ),

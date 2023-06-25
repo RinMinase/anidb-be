@@ -367,19 +367,7 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "properties": {
-                                                        "acceptedImports": {
-                                                            "type": "integer",
-                                                            "format": "int32",
-                                                            "example": 10
-                                                        },
-                                                        "totalJsonEntries": {
-                                                            "type": "integer",
-                                                            "format": "int32",
-                                                            "example": 20
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                    "$ref": "#/components/schemas/DefaultImportSchema"
                                                 }
                                             },
                                             "type": "object"
