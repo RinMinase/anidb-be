@@ -6,15 +6,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @OA\Schema(
- *   example={{
- *     "id": "12345",
- *     "title": "Sample Title",
- *   }},
- *   type="array",
- *   @OA\Items(
- *     @OA\Property(property="id", type="string"),
- *     @OA\Property(property="title", type="string"),
- *   ),
+ *   @OA\Property(property="id", type="string", example="12345"),
+ *   @OA\Property(property="title", type="string", example="Sample Title"),
  * )
  */
 class MALSearch {

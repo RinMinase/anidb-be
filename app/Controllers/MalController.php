@@ -11,7 +11,11 @@ use Symfony\Component\DomCrawler\Crawler;
 use App\Models\MALEntry;
 use App\Models\MALSearch;
 
-use App\Resources\ErrorResponse;
+use App\Exceptions\Mal\ConfigDisabledException;
+use App\Exceptions\Mal\ConfigException;
+use App\Exceptions\Mal\ConnectionException;
+
+use App\Resources\DefaultResponse;
 
 class MalController extends Controller {
 
@@ -41,37 +45,41 @@ class MalController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/MALEntry"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/MALEntry"),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/MalConfigErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/MalServerErrorResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/MalOtherErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/MalConnectionResponse"),
    * )
    */
   public function get($id = 37430): JsonResponse {
     try {
 
-      if (config('app.scraper.disabled')) {
-        return ErrorResponse::failed('Web Scraper is disabled');
-      }
-
-      if (!config('app.scraper.base_uri')) {
-        return ErrorResponse::failed('Web Scraper configuration not found');
-      }
+      if (config('app.scraper.disabled')) throw new ConfigDisabledException();
+      if (!config('app.scraper.base_uri')) throw new ConfigException();
 
       $response = Http::get($this->scrapeURI . '/anime/' . $id);
 
       if ($response->status() >= 500) {
         // Temporary response, will be changed to backup scraper
-        return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
+        throw new ConnectionException();
       }
 
       $data = $response->body();
       $data = MALEntry::parse(new Crawler($data))->get();
 
-      return response()->json($data);
+      return DefaultResponse::success(null, [
+        'data' => $data,
+      ]);
     } catch (Exception) {
-      return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
+      throw new ConnectionException();
     }
   }
 
@@ -95,56 +103,62 @@ class MalController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/MALSearch"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/MALSearch"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/MalConfigErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/MalServerErrorResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/MalOtherErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/MalConnectionResponse"),
    * )
    */
   public function search($query): JsonResponse {
     try {
 
-      if (config('app.scraper.disabled')) {
-        return ErrorResponse::failed('Web Scraper is disabled');
-      }
-
-      if (!config('app.scraper.base_uri')) {
-        return ErrorResponse::failed('Web Scraper configuration not found');
-      }
+      if (config('app.scraper.disabled')) throw new ConfigDisabledException();
+      if (!config('app.scraper.base_uri')) throw new ConfigException();
 
       $response = Http::get($this->scrapeURI . '/anime.php?q=' . urldecode($query));
 
       if ($response->status() >= 500) {
         // Temporary response, will be changed to backup scraper
-        return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
+        throw new ConnectionException();
       }
 
       $data = $response->body();
       $data = MALSearch::parse(new Crawler($data))->get();
 
-      return response()->json($data);
+      return DefaultResponse::success(null, [
+        'data' => $data,
+      ]);
     } catch (Exception) {
-      return ErrorResponse::unavailable('Issues in connecting to MAL Servers');
+      throw new ConnectionException();
     }
   }
 }
 
 /**
  * @OA\Response(
- *   response="MalConfigErrorResponse",
- *   description="MAL Scraper Configuration Error Responses",
+ *   response="MalOtherErrorResponse",
+ *   description="Other Error Responses",
  *   @OA\JsonContent(
  *     examples={
  *       @OA\Examples(
- *         summary="Scaper Configuration Not Found",
- *         example="ScaperConfigNotFound",
- *         value={"status": 500, "message": "Web Scraper configuration not found"},
+ *         example="MalConfigErrorExample",
+ *         ref="#/components/examples/MalConfigErrorExample",
  *       ),
  *       @OA\Examples(
- *         summary="Scraper Disabled",
- *         example="ScraperDisabled",
- *         value={"status": 500, "message": "Web Scraper is disabled"},
+ *         example="MalConfigDisabledErrorExample",
+ *         ref="#/components/examples/MalConfigDisabledErrorExample",
  *       ),
  *     },
  *     @OA\Property(property="status", type="integer", format="int32"),
@@ -153,18 +167,4 @@ class MalController extends Controller {
  * )
  */
 class MalScraperConfigErrorResponse {
-}
-
-/**
- * @OA\Response(
- *   response="MalServerErrorResponse",
- *   description="MAL Server Error",
- *   @OA\JsonContent(
- *     example={"status": 503, "message": "Issues in connecting to MAL Servers"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
-class MalServerErrorResponse {
 }
