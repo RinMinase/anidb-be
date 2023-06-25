@@ -13,7 +13,6 @@ return new class extends Migration {
   public function up() {
     Schema::create('logs', function (Blueprint $table) {
       $table->id();
-      $table->uuid('uuid');
 
       $table->string('table_changed', 32)->nullable();
       $table->string('id_changed', 64)->nullable();
@@ -23,7 +22,7 @@ return new class extends Migration {
       // for now: add, delete, edit is preferred
       $table->string('action', 32)->nullable();
 
-      $table->timestamps();
+      $table->timestamp('created_at');
     });
   }
 

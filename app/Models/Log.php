@@ -6,17 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model {
 
+  // disables updated_at timestamp
+  public $timestamps = ["created_at"];
+  const UPDATED_AT = null;
+
   /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
   protected $fillable = [
-    'uuid',
     'table_changed',
     'id_changed',
     'description',
     'action',
+    'created_at',
   ];
 
   /**
@@ -26,7 +30,6 @@ class Log extends Model {
    */
   protected $hidden = [
     'id',
-    'updated_at',
   ];
 
   /**

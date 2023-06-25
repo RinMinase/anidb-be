@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\Models\Log;
@@ -51,8 +50,6 @@ class LogRepository {
     $action = null,
   ) {
     $data = [
-      'uuid' => Str::uuid()->toString(),
-      'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
       'table_changed' => $table_changed,
       'id_changed' => $id_changed,
       'desc' => $desc,
