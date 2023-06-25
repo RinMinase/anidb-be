@@ -54,7 +54,7 @@ class CatalogController extends Controller {
   /**
    * @OA\Get(
    *   tags={"Catalog"},
-   *   path="/api/catalogs/{catalog_id}",
+   *   path="/api/catalogs/{catalog_id}/partials",
    *   summary="Get Partials in Catalog",
    *   security={{"token":{}}},
    *
