@@ -87,7 +87,7 @@ class ManagementRepository {
       ->forHumans();
 
     return [
-      'data' => [
+      'count' => [
         'entries' => count($entries),
         'buckets' => count($buckets),
         'partials' => $partials,
