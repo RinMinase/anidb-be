@@ -12,7 +12,8 @@ use App\Requests\Partial\AddEditMultipleRequest;
 use App\Requests\Partial\AddEditRequest;
 
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
+
+use App\Exceptions\Partial\ParsingException;
 
 class PartialController extends Controller {
 
@@ -61,24 +62,19 @@ class PartialController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "accepted": 0,
-   *           "total": 0,
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(property="accepted", type="integer", format="int32", example=0),
+   *             @OA\Property(property="total", type="integer", format="int32", example=0),
+   *           ),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="string"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="accepted", type="integer", format="int32"),
-   *         @OA\Property(property="total", type="integer", format="int32"),
-   *       ),
    *     ),
    *   ),
-   *   @OA\Response(response=400, ref="#/components/responses/BadRequest"),
+   *   @OA\Response(response=400, ref="#/components/responses/PartialParsingResponse"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
@@ -100,16 +96,14 @@ class PartialController extends Controller {
         'year' => $request->get('year'),
       ]);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
+      return DefaultResponse::success(null, [
         'data' => [
           'accepted' => $count,
           'total' => $total_count,
         ],
       ]);
     } catch (TypeError) {
-      return ErrorResponse::badRequest();
+      throw new ParsingException();
     }
   }
 
@@ -170,24 +164,19 @@ class PartialController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "accepted": 0,
-   *           "total": 0,
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(property="accepted", type="integer", format="int32", example=0),
+   *             @OA\Property(property="total", type="integer", format="int32", example=0),
+   *           ),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="string"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="accepted", type="integer", format="int32"),
-   *         @OA\Property(property="total", type="integer", format="int32"),
-   *       ),
    *     ),
    *   ),
-   *   @OA\Response(response=400, ref="#/components/responses/BadRequest"),
+   *   @OA\Response(response=400, ref="#/components/responses/PartialParsingResponse"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
@@ -210,16 +199,14 @@ class PartialController extends Controller {
         'year' => $request->get('year'),
       ], $uuid);
 
-      return response()->json([
-        'status' => 200,
-        'message' => 'Success',
+      return DefaultResponse::success(null, [
         'data' => [
           'accepted' => $count,
           'total' => $total_count,
         ],
       ]);
     } catch (TypeError) {
-      return ErrorResponse::badRequest();
+      throw new ParsingException();
     }
   }
 
