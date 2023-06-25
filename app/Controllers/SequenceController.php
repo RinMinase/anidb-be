@@ -29,11 +29,16 @@ class SequenceController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Sequence"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/Sequence"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -41,7 +46,7 @@ class SequenceController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->sequenceRepository->getAll(),
     ]);
   }
@@ -65,7 +70,14 @@ class SequenceController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/Sequence"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/Sequence"),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
@@ -73,7 +85,9 @@ class SequenceController extends Controller {
    * )
    */
   public function get($id): JsonResponse {
-    return response()->json($this->sequenceRepository->get($id));
+    return DefaultResponse::success(null, [
+      'data' => $this->sequenceRepository->get($id),
+    ]);
   }
 
   /**
@@ -184,21 +198,12 @@ class SequenceController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       example={
-   *         "status": 200,
-   *         "message": "Success",
-   *         "data": {
-   *           "acceptedImports": 0,
-   *           "totalJsonEntries": 0,
-   *         },
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/DefaultImportSchema"),
+   *         ),
    *       },
-   *       @OA\Property(property="status", type="integer", format="int32"),
-   *       @OA\Property(property="message", type="integer", format="int32"),
-   *       @OA\Property(
-   *         property="data",
-   *         @OA\Property(property="acceptedImports", type="integer", format="int32"),
-   *         @OA\Property(property="totalJsonEntries", type="integer", format="int32"),
-   *       ),
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -209,9 +214,7 @@ class SequenceController extends Controller {
     $file = json_decode($request->file('file')->get());
     $count = $this->sequenceRepository->import($file);
 
-    return response()->json([
-      'status' => 200,
-      'message' => 'Success',
+    return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
         'totalJsonEntries' => count($file),

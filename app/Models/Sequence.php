@@ -6,18 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @OA\Schema(
- *   example={
- *     "id": 1,
- *     "title": "Summer List",
- *     "date_from": "2020-01-01",
- *     "date_to": "2020-02-01",
- *     "created_at": "2020-01-01 00:00:00",
- *   },
- *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="title", type="string"),
- *   @OA\Property(property="date_from", type="string", format="date"),
- *   @OA\Property(property="date_to", type="string", format="date"),
- *   @OA\Property(property="created_at", type="string", format="date-time"),
+ *   @OA\Property(property="id", type="integer", format="int32", example=1),
+ *   @OA\Property(property="title", type="string", example="Summer List"),
+ *   @OA\Property(property="date_from", type="string", format="date", example="2020-01-01"),
+ *   @OA\Property(property="date_to", type="string", format="date", example="2020-02-01"),
  * )
  */
 class Sequence extends Model {
