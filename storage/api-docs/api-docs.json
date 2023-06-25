@@ -2662,38 +2662,31 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "format": "int32"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
                                         },
-                                        "message": {
-                                            "type": "integer",
-                                            "format": "int32"
-                                        },
-                                        "data": {
+                                        {
                                             "properties": {
-                                                "acceptedImports": {
-                                                    "type": "integer",
-                                                    "format": "int32"
-                                                },
-                                                "totalJsonEntries": {
-                                                    "type": "integer",
-                                                    "format": "int32"
+                                                "data": {
+                                                    "properties": {
+                                                        "acceptedImports": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "totalJsonEntries": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "status": 200,
-                                    "message": "Success",
-                                    "data": {
-                                        "acceptedImports": 0,
-                                        "totalJsonEntries": 0
-                                    }
+                                    ]
                                 }
                             }
                         }
