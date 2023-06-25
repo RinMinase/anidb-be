@@ -2,12 +2,15 @@
 
 namespace App\Requests\Entry;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 use App\Enums\SeasonsEnum;
+
+use App\Models\Entry;
 
 use App\Rules\SignedBigIntRule;
 use App\Rules\SignedMediumIntRule;
@@ -162,9 +165,20 @@ class AddEditRequest extends FormRequest {
    * ),
    */
   public function rules() {
+    if ($this->route('uuid')) {
+      $id = Entry::where('uuid', $this->route('uuid'))
+        ->first()
+        ->id ?? null;
+    }
+
     return [
       'id_quality' => ['required', 'integer', 'exists:qualities,id'],
-      'title' => ['required', 'string', 'max:256'],
+      'title' => [
+        'required',
+        'string',
+        'max:256',
+        Rule::unique('entries')->ignore($id ?? null)
+      ],
 
       'date_finished' => ['string', 'date', 'before_or_equal:today'],
       'duration' => ['integer', 'min:0', new SignedMediumIntRule],
