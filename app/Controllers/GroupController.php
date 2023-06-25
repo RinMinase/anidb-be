@@ -29,11 +29,16 @@ class GroupController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(
-   *         property="data",
-   *         type="array",
-   *         @OA\Items(ref="#/components/schemas/Group"),
-   *       ),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/Group"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -41,7 +46,7 @@ class GroupController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->groupRepository->getAll(),
     ]);
   }
@@ -56,7 +61,12 @@ class GroupController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       @OA\Property(property="data", type="array", @OA\Items(type="string")),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", type="array", @OA\Items(type="string")),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -64,7 +74,7 @@ class GroupController extends Controller {
    * )
    */
   public function getNames(): JsonResponse {
-    return response()->json([
+    return DefaultResponse::success(null, [
       'data' => $this->groupRepository->getNames(),
     ]);
   }
