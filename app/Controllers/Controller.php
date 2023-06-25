@@ -108,3 +108,25 @@ class PaginationMeta {
  */
 class YearSchema {
 }
+
+
+/**
+ * @OA\Schema(
+ *   schema="DefaultImportSchema",
+ *   title="Default Import Schema",
+ *   @OA\Property(
+ *     property="acceptedImports",
+ *     type="integer",
+ *     format="int32",
+ *     example=0,
+ *   ),
+ *   @OA\Property(
+ *     property="totalJsonEntries",
+ *     type="integer",
+ *     format="int32",
+ *     example=0,
+ *   ),
+ * ),
+ */
+class DefaultImportSchema {
+}
