@@ -124,13 +124,13 @@ class EntrySeeder extends Seeder {
     ];
 
     $testData = collect($testData)
-      ->map(function (int $item) {
+      ->map(function (array $item) {
         return array_merge($item, [
-          'id' => Str::uuid()->toString(),
+          'uuid' => Str::uuid()->toString(),
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
-      });
+      })->toArray();
 
     $testDataOffquel = [
       [
