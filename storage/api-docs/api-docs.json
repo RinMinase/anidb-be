@@ -3566,7 +3566,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/RssCollection"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/RssResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -3648,10 +3663,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/RssItem"
-                                    }
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/RssItem"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -5591,54 +5618,47 @@
                 },
                 "type": "object"
             },
-            "RssCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "uuid": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "title": {
-                            "type": "string"
-                        },
-                        "last_updated_at": {
-                            "type": "string"
-                        },
-                        "update_speed_mins": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "url": {
-                            "type": "string",
-                            "format": "uri"
-                        },
-                        "max_items": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "unread": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "created_at": {
-                            "type": "string"
-                        }
+            "RssResource": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                        "title": "Sample RSS Feed",
-                        "last_updated_at": "2023-05-21 21:23:57",
-                        "update_speed_mins": 120,
-                        "url": "{{ rss url }}",
-                        "max_items": 250,
-                        "unread": 3,
-                        "created_at": "2023-05-21 21:05:57"
+                    "title": {
+                        "type": "string",
+                        "example": "Sample RSS Feed"
+                    },
+                    "last_updated_at": {
+                        "type": "string",
+                        "example": "2023-05-21 21:23:57"
+                    },
+                    "update_speed_mins": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 120
+                    },
+                    "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "{{ rss url }}"
+                    },
+                    "max_items": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 250
+                    },
+                    "unread": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 3
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2023-05-21 21:05:57"
                     }
-                ]
+                },
+                "type": "object"
             }
         },
         "responses": {
