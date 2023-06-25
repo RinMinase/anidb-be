@@ -22,7 +22,7 @@ class AnilistRepository {
   }
 
   public function get($id = 101280) {
-    $query = '
+    $query = <<<'JSON'
       query ($id: Int) {
         Media (id: $id, type: ANIME) {
           id
@@ -35,7 +35,7 @@ class AnilistRepository {
           }
         }
       }
-    ';
+    JSON;
 
     $variables = [
       "id" => $id,
@@ -45,7 +45,7 @@ class AnilistRepository {
   }
 
   public function search(array $values) {
-    $query = '
+    $query = <<<'JSON'
       query ($id: Int, $search: String) {
         Page (page: 1, perPage: 10) {
           media (id: $id, search: $search, sort: FAVOURITES_DESC) {
@@ -56,7 +56,7 @@ class AnilistRepository {
           }
         }
       }
-    ';
+    JSON;
 
     $variables = [
       "search" => $values['query'],
