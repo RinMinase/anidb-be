@@ -8,8 +8,8 @@ use App\Repositories\RssRepository;
 
 use App\Requests\Rss\AddEditRequest;
 
-use App\Resources\Rss\RssCollection;
 use App\Resources\DefaultResponse;
+use App\Resources\Rss\RssResource;
 
 class RssController extends Controller {
 
@@ -28,7 +28,18 @@ class RssController extends Controller {
    *   @OA\Response(
    *     response=200,
    *     description="Success",
-   *     @OA\JsonContent(ref="#/components/schemas/RssCollection"),
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/RssResource"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
@@ -36,9 +47,10 @@ class RssController extends Controller {
    */
   public function index(): JsonResponse {
     $data = $this->rssRepository->getAll();
-    $data = RssCollection::collection($data);
 
-    return response()->json($data);
+    return DefaultResponse::success(null, [
+      'data' => RssResource::collection($data),
+    ]);
   }
 
   /**
@@ -61,8 +73,16 @@ class RssController extends Controller {
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
-   *       type="array",
-   *       @OA\Items(ref="#/components/schemas/RssItem"),
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/RssItem"),
+   *           ),
+   *         ),
+   *       },
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -74,7 +94,9 @@ class RssController extends Controller {
     // update rss feed, clear garbage, get item list, return list
     $data = $this->rssRepository->get($uuid);
 
-    return response()->json($data);
+    return DefaultResponse::success(null, [
+      'data' => $data
+    ]);
   }
 
   /**
