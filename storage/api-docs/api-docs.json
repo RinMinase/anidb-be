@@ -783,7 +783,10 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/PartialCollection"
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PartialResource"
+                                                    }
                                                 },
                                                 "stats": {
                                                     "$ref": "#/components/schemas/CatalogResource"
@@ -5608,35 +5611,28 @@
                 },
                 "type": "object"
             },
-            "PartialCollection": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "title": {
-                            "type": "string"
-                        },
-                        "priority": {
-                            "type": "string",
-                            "enum": [
-                                "High",
-                                "Normal",
-                                "Low"
-                            ]
-                        }
+            "PartialResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                        "title": "Sample Title",
-                        "priority": "High"
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Title"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "High",
+                            "Normal",
+                            "Low"
+                        ],
+                        "example": "High"
                     }
-                ]
+                },
+                "type": "object"
             },
             "RssCollection": {
                 "type": "array",
