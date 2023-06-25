@@ -16,7 +16,6 @@ class EntrySeeder extends Seeder {
   public function run() {
     $testData = [
       [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 1,
         'title' => "title 1",
         'date_finished' => Carbon::parse('2001-01-01')->format('Y-m-d'),
@@ -31,10 +30,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => 1,
         'id_codec_audio' => 4,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 2,
         'title' => "title 2",
         'date_finished' => Carbon::parse('2011-01-01')->format('Y-m-d'),
@@ -49,10 +45,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => 4,
         'id_codec_audio' => 10,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 3,
         'title' => "title 1 offquel",
         'date_finished' => Carbon::parse('2011-01-01')->format('Y-m-d'),
@@ -67,10 +60,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => 2,
         'id_codec_audio' => 9,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 2,
         'title' => "another title 3",
         'date_finished' => Carbon::parse('2015-01-01')->format('Y-m-d'),
@@ -85,10 +75,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => 3,
         'id_codec_audio' => 6,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 2,
         'title' => "another title 4",
         'date_finished' => Carbon::parse('2014-05-01')->format('Y-m-d'),
@@ -103,10 +90,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => 4,
         'id_codec_audio' => 12,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 2,
         'title' => "Another title 5",
         'date_finished' => Carbon::parse('2015-04-01')->format('Y-m-d'),
@@ -121,10 +105,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => 4,
         'id_codec_audio' => 7,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ], [
-        'uuid' => Str::uuid()->toString(),
         'id_quality' => 2,
         'title' => "2title 6",
         'date_finished' => Carbon::parse('2015-04-01')->format('Y-m-d'),
@@ -139,10 +120,17 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => 4,
         'id_codec_audio' => 11,
-        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
       ],
     ];
+
+    $testData = collect($testData)
+      ->map(function (int $item) {
+        return array_merge($item, [
+          'id' => Str::uuid()->toString(),
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+      });
 
     $testDataOffquel = [
       [
