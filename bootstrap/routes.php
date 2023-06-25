@@ -202,8 +202,8 @@ Route::prefix('api')
         // ===== Deprecated =====
         Route::prefix('mal')
           ->group(function () {
-            Route::get('title/{integer}', 'MalController@get');
-            Route::get('search/{string}', 'MalController@search');
+            Route::get('title/{integer}', 'MALController@get');
+            Route::get('search/{string}', 'MALController@search');
           });
 
         Route::get('changelog/{params?}', 'ReleaseController@getLogs');

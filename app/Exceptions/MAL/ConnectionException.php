@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Exceptions\Mal;
+namespace App\Exceptions\MAL;
 
 use Exception;
 
 /**
  * @OA\Response(
- *   response="MalConnectionResponse",
+ *   response="MALConnectionResponse",
  *   description="MAL Connection Error",
  *   @OA\JsonContent(
  *     example={"status": 503, "message": "Issues in connecting to MAL Servers"},

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Exceptions\Mal;
+namespace App\Exceptions\MAL;
 
 use Exception;
 
 /**
  * @OA\Examples(
- *   example="MalConfigErrorExample",
+ *   example="MALConfigErrorExample",
  *   summary="MAL Config Error",
  *   value={"status": 500, "message": "Web Scraper configuration not found"},
  * ),

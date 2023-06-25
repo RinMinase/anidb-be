@@ -11,13 +11,13 @@ use Symfony\Component\DomCrawler\Crawler;
 use App\Models\MALEntry;
 use App\Models\MALSearch;
 
-use App\Exceptions\Mal\ConfigDisabledException;
-use App\Exceptions\Mal\ConfigException;
-use App\Exceptions\Mal\ConnectionException;
+use App\Exceptions\MAL\ConfigDisabledException;
+use App\Exceptions\MAL\ConfigException;
+use App\Exceptions\MAL\ConnectionException;
 
 use App\Resources\DefaultResponse;
 
-class MalController extends Controller {
+class MALController extends Controller {
 
   protected $scrapeURI;
 
@@ -55,8 +55,8 @@ class MalController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/MalOtherErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/MalConnectionResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/MALOtherErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/MALConnectionResponse"),
    * )
    */
   public function get($id = 37430): JsonResponse {
@@ -117,8 +117,8 @@ class MalController extends Controller {
    *     ),
    *   ),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/MalOtherErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/MalConnectionResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/MALOtherErrorResponse"),
+   *   @OA\Response(response=503, ref="#/components/responses/MALConnectionResponse"),
    * )
    */
   public function search($query): JsonResponse {
@@ -148,17 +148,17 @@ class MalController extends Controller {
 
 /**
  * @OA\Response(
- *   response="MalOtherErrorResponse",
+ *   response="MALOtherErrorResponse",
  *   description="Other Error Responses",
  *   @OA\JsonContent(
  *     examples={
  *       @OA\Examples(
- *         example="MalConfigErrorExample",
- *         ref="#/components/examples/MalConfigErrorExample",
+ *         example="MALConfigErrorExample",
+ *         ref="#/components/examples/MALConfigErrorExample",
  *       ),
  *       @OA\Examples(
- *         example="MalConfigDisabledErrorExample",
- *         ref="#/components/examples/MalConfigDisabledErrorExample",
+ *         example="MALConfigDisabledErrorExample",
+ *         ref="#/components/examples/MALConfigDisabledErrorExample",
  *       ),
  *     },
  *     @OA\Property(property="status", type="integer", format="int32"),
@@ -166,5 +166,5 @@ class MalController extends Controller {
  *   ),
  * )
  */
-class MalScraperConfigErrorResponse {
+class MALScraperConfigErrorResponse {
 }
