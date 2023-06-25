@@ -13,8 +13,13 @@ class MALTest extends BaseTestCase {
       ->get('/api/mal/search/' . $search_keyword);
 
     $response->assertStatus(200)
-      ->assertJsonCount(5)
-      ->assertJsonStructure([['id', 'title']]);
+      ->assertJsonCount(5, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'id',
+          'title',
+        ]]
+      ]);
   }
 
   public function test_mal_get_info() {
@@ -25,11 +30,13 @@ class MALTest extends BaseTestCase {
 
     $response->assertStatus(200)
       ->assertJsonStructure([
-        'url',
-        'title',
-        'synonyms',
-        'episodes',
-        'premiered',
+        'data' => [
+          'url',
+          'title',
+          'synonyms',
+          'episodes',
+          'premiered',
+        ]
       ]);
   }
 }
