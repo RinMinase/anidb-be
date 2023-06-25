@@ -39,10 +39,7 @@ DISABLE_SCRAPER  - Disables WebScraper
 
         **Notes :** DB_HOST **should** use docker container name of db, by default this is 'anidb-pgsql', but yours could be different. You can check this by running `docker ps` then check the container name of the `postgres` container.
 
-2. Web Scraper
-    - Set `RELEASE_BASE_URI` to the API of the repository it fetches its list (e.g `api.github.com/repos/<UserName>/<Repository>`)
-
-3. Cloudinary
+2. Cloudinary
     - Fire up your browser and login your [Cloudinary Account](https://cloudinary.com/users/login). If you have no account yet, you can [create one](https://cloudinary.com/users/register/free) for free.
     - After logging in, navigate to the [Cloudinary Console](https://cloudinary.com/console) to retrieve your Cloudinary URL
     - Copy the value of `API Environment variable` to `CLOUDINARY_URL` of your ENV file
@@ -50,8 +47,6 @@ DISABLE_SCRAPER  - Disables WebScraper
 
 ### Running the project
 1. [Download](https://www.docker.com/products/docker-desktop) and install `Docker for Windows`.
-
-    **Note:** If you're not running Windows 10, use `Docker Toolbox` instead, [download](https://docs.docker.com/toolbox/toolbox_install_windows/#step-2-install-docker-toolbox) and install it. Also make sure that you are also running [vitualization](https://docs.docker.com/toolbox/toolbox_install_windows/#step-1-check-your-version).
 
 2. Clone the project, then install the dependencies
 
@@ -64,7 +59,7 @@ DISABLE_SCRAPER  - Disables WebScraper
 
     ```
     docker-compose up -d
-    docker-compose php sh
+    docker-compose exec php sh
     ```
 
 4. Inside the docker image, copy the env file, install the necessary dependencies and generate the API Key
@@ -75,7 +70,7 @@ DISABLE_SCRAPER  - Disables WebScraper
     php artisan key:generate
     ```
 
-5. Modify the ENV with the necessary configuration values
+5. Modify the ENV file with the **necessary configuration values**
 
 6. Clear the Laravel config cache, then run the database migrations
     ```
@@ -85,62 +80,34 @@ DISABLE_SCRAPER  - Disables WebScraper
 
 6. Fire up your browser and go to `localhost`.
 
-    **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
-
 **Note:**
 If you need to access the container run, `docker-compose exec php bash`
 
-**Note:**
-In case you need to remove the images
-From the project folder, run:
-1. `docker-compose down`
-2. `docker images`
-3. Look for the IDs of `anidb`, `anidb-nginx`, `php-fpm-alpine` and `nginx`
-4. Run `docker rmi <Image ID> <Image ID>...`
-
 ### Re-running the project
-1. Make sure `Docker` is running, then open your terminal.
+1. Navigate to the project foler root then run `docker-compose up -d`
 
-    **Note:** If you are running `Docker Toolbox`, then open the docker terminal.
-
-2. Navigate to the project foler then run `docker-compose up -d`
-
-3. Run the migrations when necessary, then install the dependencies also when necessary
+2. Run the migrations when necessary, then install the dependencies also when necessary
     ```
     php artisan migrate
     composer install
     ```
 
-4. Fire up your browser and go to `localhost`.
-
-    **Note:** If you are using `Docker Toolbox` instead of `Docker`, go to `192.168.99.100` instead.
+3. Fire up your browser and go to `localhost`.
 
 ### Running the Swagger Generator / API Documentation Generator
-1. Make sure `Docker` is running, then open your terminal.
+1. Navigate to the project foler root then run `docker-compose up -d`
 
-    **Note:** If you are running `Docker Toolbox`, then open the docker terminal.
-
-2. Navigate to the project foler then run `docker-compose up -d`
-
-3. Run the command below:
-    ```
-    php artisan l5-swagger:generate
-    ```
-    or
+2. Run the command below:
     ```
     composer docs
     ```
 
-4. Fire up your browser and go to `localhost/docs` to open Swagger UI.
+3. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
 ### Running the Unit Tests
-1. Make sure `Docker` is running, then open your terminal.
+1. Navigate to the project foler root then run `docker-compose up -d`
 
-    **Note:** If you are running `Docker Toolbox`, then open the docker terminal.
-
-2. Navigate to the project foler then run `docker-compose up -d`
-
-3. Run the command below:
+2. Run the command below:
     ```
     php artisan test
     ```
@@ -156,7 +123,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 | Shortcut          | Long version            |
 | ----------------- | ----------------------- |
 | `pa` or `artisan` | `php artisan`           |
-| `la`              | `ls -la`                |
+| `docs`            | `composer docs`         |
 | `dump` or `da`    | `composer dumpautoload` |
 
 ### Project Structure
