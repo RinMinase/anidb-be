@@ -2903,7 +2903,19 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MALEntry"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/MALEntry"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -2912,10 +2924,10 @@
                         "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
-                        "$ref": "#/components/responses/MalConfigErrorResponse"
+                        "$ref": "#/components/responses/MalOtherErrorResponse"
                     },
                     "503": {
-                        "$ref": "#/components/responses/MalServerErrorResponse"
+                        "$ref": "#/components/responses/MalConnectionResponse"
                     }
                 },
                 "deprecated": true,
@@ -2951,7 +2963,22 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MALSearch"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/MALSearch"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -2960,10 +2987,10 @@
                         "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
-                        "$ref": "#/components/responses/MalConfigErrorResponse"
+                        "$ref": "#/components/responses/MalOtherErrorResponse"
                     },
                     "503": {
-                        "$ref": "#/components/responses/MalServerErrorResponse"
+                        "$ref": "#/components/responses/MalConnectionResponse"
                     }
                 },
                 "deprecated": true,
@@ -4660,50 +4687,41 @@
                 "properties": {
                     "url": {
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "example": "https://example.com/"
                     },
                     "title": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Sample Title"
                     },
                     "synonyms": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Synonyms"
                     },
                     "episodes": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 100
                     },
                     "premiered": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Winter 2020"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "url": "https://example.com/",
-                    "title": "Sample Title",
-                    "synonyms": "Synonyms",
-                    "episodes": 100,
-                    "premiered": "Winter 2020"
-                }
+                "type": "object"
             },
             "MALSearch": {
-                "type": "array",
-                "items": {
-                    "properties": {
-                        "id": {
-                            "type": "string"
-                        },
-                        "title": {
-                            "type": "string"
-                        }
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "12345"
                     },
-                    "type": "object"
-                },
-                "example": [
-                    {
-                        "id": "12345",
-                        "title": "Sample Title"
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Title"
                     }
-                ]
+                },
+                "type": "object"
             },
             "Priority": {
                 "properties": {
@@ -5696,8 +5714,8 @@
                     }
                 }
             },
-            "MalConfigErrorResponse": {
-                "description": "MAL Scraper Configuration Error Responses",
+            "MalOtherErrorResponse": {
+                "description": "Other Error Responses",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -5713,43 +5731,12 @@
                             "type": "object"
                         },
                         "examples": {
-                            "ScaperConfigNotFound": {
-                                "summary": "Scaper Configuration Not Found",
-                                "value": {
-                                    "status": 500,
-                                    "message": "Web Scraper configuration not found"
-                                }
+                            "MalConfigErrorExample": {
+                                "$ref": "#/components/examples/MalConfigErrorExample"
                             },
-                            "ScraperDisabled": {
-                                "summary": "Scraper Disabled",
-                                "value": {
-                                    "status": 500,
-                                    "message": "Web Scraper is disabled"
-                                }
+                            "MalConfigDisabledErrorExample": {
+                                "$ref": "#/components/examples/MalConfigDisabledErrorExample"
                             }
-                        }
-                    }
-                }
-            },
-            "MalServerErrorResponse": {
-                "description": "MAL Server Error",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 503,
-                            "message": "Issues in connecting to MAL Servers"
                         }
                     }
                 }
@@ -5861,6 +5848,29 @@
                         "example": {
                             "status": 401,
                             "message": "Credentials does not match."
+                        }
+                    }
+                }
+            },
+            "MalConnectionResponse": {
+                "description": "MAL Connection Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 503,
+                            "message": "Issues in connecting to MAL Servers"
                         }
                     }
                 }
@@ -6620,6 +6630,20 @@
                 "value": {
                     "status": 500,
                     "message": "Issues in parsing AniList response."
+                }
+            },
+            "MalConfigDisabledErrorExample": {
+                "summary": "MAL Config Disabled Error",
+                "value": {
+                    "status": 500,
+                    "message": "Web Scraper is disabled"
+                }
+            },
+            "MalConfigErrorExample": {
+                "summary": "MAL Config Error",
+                "value": {
+                    "status": 500,
+                    "message": "Web Scraper configuration not found"
                 }
             }
         },
