@@ -15,7 +15,17 @@ class AnilistSearchResource extends JsonResource {
   public function toArray($request) {
     return [
       'id' => $this->resource['id'],
-      'title' => $this->resource['title']['romaji'],
+      'title' => $this->parseTitle(),
     ];
+  }
+
+  private function parseTitle() {
+    $title = '';
+
+    if (isset($this->resource['title']) && !empty($this->resource['title']['romaji'])) {
+      $title = $this->resource['title']['romaji'];
+    }
+
+    return $title;
   }
 }
