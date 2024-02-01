@@ -2984,6 +2984,53 @@
                 ]
             }
         },
+        "/api/pc-setup": {
+            "get": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Get All PC Setups",
+                "operationId": "ec256fae171714a9128f063771a221ca",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PCSetup"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/partials": {
             "post": {
                 "tags": [
@@ -4674,6 +4721,301 @@
                     "title": {
                         "type": "string",
                         "example": "Sample Title"
+                    }
+                },
+                "type": "object"
+            },
+            "PCSetup": {
+                "properties": {
+                    "label": {
+                        "type": "string"
+                    },
+                    "is_current": {
+                        "type": "boolean",
+                        "default": false,
+                        "example": false
+                    },
+                    "is_future": {
+                        "type": "boolean",
+                        "default": false,
+                        "example": false
+                    },
+                    "is_server": {
+                        "type": "boolean",
+                        "default": false,
+                        "example": false
+                    },
+                    "cpu": {
+                        "type": "string"
+                    },
+                    "cpu_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "cpu_sub": {
+                        "type": "string"
+                    },
+                    "cpu_sub2": {
+                        "type": "string"
+                    },
+                    "ram": {
+                        "type": "string"
+                    },
+                    "ram_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "ram_sub": {
+                        "type": "string"
+                    },
+                    "gpu": {
+                        "type": "string"
+                    },
+                    "gpu_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "gpu_sub": {
+                        "type": "string"
+                    },
+                    "motherboard": {
+                        "type": "string"
+                    },
+                    "motherboard_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "psu": {
+                        "type": "string"
+                    },
+                    "psu_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "cooler": {
+                        "type": "string"
+                    },
+                    "cooler_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "cooler_acc": {
+                        "type": "string"
+                    },
+                    "cooler_acc_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "ssd_1": {
+                        "type": "string"
+                    },
+                    "ssd_1_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "ssd_2": {
+                        "type": "string"
+                    },
+                    "ssd_2_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "ssd_3": {
+                        "type": "string"
+                    },
+                    "ssd_3_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "ssd_4": {
+                        "type": "string"
+                    },
+                    "ssd_4_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "hdd_1": {
+                        "type": "string"
+                    },
+                    "hdd_1_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "hdd_2": {
+                        "type": "string"
+                    },
+                    "hdd_2_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "hdd_3": {
+                        "type": "string"
+                    },
+                    "hdd_3_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "hdd_4": {
+                        "type": "string"
+                    },
+                    "hdd_4_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "case": {
+                        "type": "string"
+                    },
+                    "case_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "case_fans_1": {
+                        "type": "string"
+                    },
+                    "case_fans_1_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "case_fans_2": {
+                        "type": "string"
+                    },
+                    "case_fans_2_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "case_fans_3": {
+                        "type": "string"
+                    },
+                    "case_fans_3_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "case_fans_4": {
+                        "type": "string"
+                    },
+                    "case_fans_4_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "monitor": {
+                        "type": "string"
+                    },
+                    "monitor_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "monitor_sub": {
+                        "type": "string"
+                    },
+                    "monitor_acc_1": {
+                        "type": "string"
+                    },
+                    "monitor_acc_1_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "monitor_acc_2": {
+                        "type": "string"
+                    },
+                    "monitor_acc_2_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "keyboard": {
+                        "type": "string"
+                    },
+                    "keyboard_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "keyboard_sub": {
+                        "type": "string"
+                    },
+                    "keyboard_sub2": {
+                        "type": "string"
+                    },
+                    "keyboard_acc_1": {
+                        "type": "string"
+                    },
+                    "keyboard_acc_1_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "keyboard_acc_2": {
+                        "type": "string"
+                    },
+                    "keyboard_acc_2_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "mouse": {
+                        "type": "string"
+                    },
+                    "mouse_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "speakers": {
+                        "type": "string"
+                    },
+                    "speakers_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "wifi": {
+                        "type": "string"
+                    },
+                    "wifi_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "headset_1": {
+                        "type": "string"
+                    },
+                    "headset_1_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "headset_2": {
+                        "type": "string"
+                    },
+                    "headset_2_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "mic": {
+                        "type": "string"
+                    },
+                    "mic_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "mic_acc": {
+                        "type": "string"
+                    },
+                    "mic_acc_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "audio_interface": {
+                        "type": "string"
+                    },
+                    "audio_interface_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "equalizer": {
+                        "type": "string"
+                    },
+                    "equalizer_price": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "amplifier": {
+                        "type": "string"
+                    },
+                    "amplifier_price": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -6655,6 +6997,9 @@
         },
         {
             "name": "Sequence"
+        },
+        {
+            "name": "PC Setup"
         },
         {
             "name": "MAL"
