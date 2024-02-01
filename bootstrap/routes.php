@@ -200,6 +200,20 @@ Route::prefix('api')
             Route::get('search', 'AnilistController@search');
           });
 
+        Route::prefix('pc-setup')
+          ->group(function () {
+            Route::get('', 'PCSetupController@index');
+            Route::get('{id}', 'PCSetupController@get');
+            Route::post('', 'PCSetupController@add');
+            Route::put('{id}', 'PCSetupController@edit');
+            Route::delete('{id}', 'PCSetupController@delete');
+
+            Route::post('duplicate/{id}', 'PCSetupController@duplicate');
+            Route::put('current/{id}', 'PCSetupController@markCurrent');
+            Route::put('future/{id}', 'PCSetupController@markFuture');
+            Route::put('server/{id}', 'PCSetupController@markServer');
+          });
+
         // ===== Deprecated =====
         Route::prefix('mal')
           ->group(function () {

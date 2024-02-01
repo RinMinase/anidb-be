@@ -38,6 +38,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Management")
  * @OA\Tag(name="RSS")
  * @OA\Tag(name="Sequence")
+ * @OA\Tag(name="PC Setup")
  *
  * // Deprecated Tags
  * @OA\Tag(name="MAL")
