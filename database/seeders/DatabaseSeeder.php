@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder {
       RssSeeder::class,         // test data
       RssItemsSeeder::class,    // test data
       SequenceSeeder::class,    // test data
+      PCSetupSeeder::class,     // test data
     ]);
   }
 }
