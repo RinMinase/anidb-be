@@ -200,7 +200,7 @@ Route::prefix('api')
             Route::get('search', 'AnilistController@search');
           });
 
-        Route::prefix('pc-setup')
+        Route::prefix('pc-setups')
           ->group(function () {
             Route::get('', 'PCSetupController@index');
             Route::get('{id}', 'PCSetupController@get');

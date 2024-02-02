@@ -19,7 +19,7 @@ class PCSetupController extends Controller {
   /**
    * @OA\Get(
    *   tags={"PC Setup"},
-   *   path="/api/pc-setup",
+   *   path="/api/pc-setups",
    *   summary="Get All PC Setups",
    *   security={{"token":{}}},
    *   @OA\Response(
