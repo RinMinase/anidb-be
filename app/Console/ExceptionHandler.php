@@ -4,11 +4,14 @@ namespace App\Console;
 
 use Exception;
 use Throwable;
+
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use App\Exceptions\CustomException;
 
 class ExceptionHandler extends Handler {
   /**
@@ -72,7 +75,9 @@ class ExceptionHandler extends Handler {
     }
 
     $is_prod = config('app.platform') != 'local';
-    if ($e instanceof Exception && $is_prod) {
+    $has_no_custom_exception = !$e instanceof CustomException;
+
+    if ($has_no_custom_exception && $e instanceof Exception && $is_prod) {
       return response()->json([
         'status' => 500,
         'message' => 'Failed',

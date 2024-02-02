@@ -2,7 +2,7 @@
 
 namespace App\Exceptions\Anilist;
 
-use Exception;
+use App\Exceptions\CustomException;
 
 /**
  * @OA\Response(
@@ -18,7 +18,7 @@ use Exception;
  *   ),
  * )
  */
-class RateLimitException extends Exception {
+class RateLimitException extends CustomException {
 
   protected $retrySeconds = 0;
 

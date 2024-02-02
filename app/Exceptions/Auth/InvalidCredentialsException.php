@@ -2,7 +2,7 @@
 
 namespace App\Exceptions\Auth;
 
-use Exception;
+use App\Exceptions\CustomException;
 
 /**
  * @OA\Response(
@@ -15,7 +15,7 @@ use Exception;
  *   ),
  * )
  */
-class InvalidCredentialsException extends Exception {
+class InvalidCredentialsException extends CustomException {
 
   public function render() {
     return response()->json([

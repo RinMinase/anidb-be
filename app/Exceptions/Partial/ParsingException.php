@@ -2,7 +2,7 @@
 
 namespace App\Exceptions\Partial;
 
-use Exception;
+use App\Exceptions\CustomException;
 
 /**
  * @OA\Response(
@@ -15,7 +15,7 @@ use Exception;
  *   ),
  * )
  */
-class ParsingException extends Exception {
+class ParsingException extends CustomException {
 
   public function render() {
     return response()->json([

@@ -2,7 +2,7 @@
 
 namespace App\Exceptions\Anilist;
 
-use Exception;
+use App\Exceptions\CustomException;
 
 /**
  * @OA\Examples(
@@ -11,7 +11,7 @@ use Exception;
  *   value={"status": 500, "message": "Issues in parsing AniList response."},
  * ),
  */
-class ParsingException extends Exception {
+class ParsingException extends CustomException {
 
   public function render() {
     return response()->json([

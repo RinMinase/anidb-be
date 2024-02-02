@@ -2,7 +2,7 @@
 
 namespace App\Exceptions\MAL;
 
-use Exception;
+use App\Exceptions\CustomException;
 
 /**
  * @OA\Examples(
@@ -11,7 +11,7 @@ use Exception;
  *   value={"status": 500, "message": "Web Scraper configuration not found"},
  * ),
  */
-class ConfigException extends Exception {
+class ConfigException extends CustomException {
 
   public function render() {
     return response()->json([
