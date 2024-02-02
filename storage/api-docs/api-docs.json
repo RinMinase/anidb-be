@@ -3029,6 +3029,570 @@
                         "token": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Add a PC Setup",
+                "operationId": "1b838e4d298bffcc803529a8498e0664",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_label"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_is_current"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_is_future"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_is_server"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ram"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_psu"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_psu_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier_price"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/pc-setups/{pc_setup_id}": {
+            "put": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Edit a PC Setup",
+                "operationId": "b10c3c2642f1f6690e19b711c21c973a",
+                "parameters": [
+                    {
+                        "name": "pc_setup_id",
+                        "in": "path",
+                        "description": "PC Setup ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_label"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_is_current"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_is_future"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_is_server"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ram"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_psu"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_psu_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer_price"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier_price"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/pc-setups/import": {
@@ -6838,6 +7402,752 @@
                     "minimum": 1
                 },
                 "example": 30
+            },
+            "pc_setup_add_edit_label": {
+                "name": "label",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                },
+                "example": "Sample Label"
+            },
+            "pc_setup_add_edit_is_current": {
+                "name": "is_current",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                },
+                "example": false
+            },
+            "pc_setup_add_edit_is_future": {
+                "name": "is_future",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                },
+                "example": false
+            },
+            "pc_setup_add_edit_is_server": {
+                "name": "is_server",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                },
+                "example": false
+            },
+            "pc_setup_add_edit_cpu": {
+                "name": "cpu",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample CPU"
+            },
+            "pc_setup_add_edit_cpu_price": {
+                "name": "cpu_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_cpu_sub": {
+                "name": "cpu_sub",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample CPU Subtext"
+            },
+            "pc_setup_add_edit_cpu_sub2": {
+                "name": "cpu_sub2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample CPU Subtext"
+            },
+            "pc_setup_add_edit_ram": {
+                "name": "ram",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample RAM"
+            },
+            "pc_setup_add_edit_ram_price": {
+                "name": "ram_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_ram_sub": {
+                "name": "ram_sub",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample RAM Subtext"
+            },
+            "pc_setup_add_edit_gpu": {
+                "name": "gpu",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample GPU"
+            },
+            "pc_setup_add_edit_gpu_price": {
+                "name": "gpu_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_gpu_sub": {
+                "name": "gpu_sub",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample GPU Subtext"
+            },
+            "pc_setup_add_edit_motherboard": {
+                "name": "motherboard",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Motherboard"
+            },
+            "pc_setup_add_edit_motherboard_price": {
+                "name": "motherboard_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_psu": {
+                "name": "psu",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample PSU"
+            },
+            "pc_setup_add_edit_psu_price": {
+                "name": "psu_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_cooler": {
+                "name": "cooler",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Cooler"
+            },
+            "pc_setup_add_edit_cooler_price": {
+                "name": "cooler_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_cooler_acc": {
+                "name": "cooler_acc",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Cooler Accessory"
+            },
+            "pc_setup_add_edit_cooler_acc_price": {
+                "name": "cooler_acc_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_ssd_1": {
+                "name": "ssd_1",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample SSD"
+            },
+            "pc_setup_add_edit_ssd_1_price": {
+                "name": "ssd_1_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_ssd_2": {
+                "name": "ssd_2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample SSD"
+            },
+            "pc_setup_add_edit_ssd_2_price": {
+                "name": "ssd_2_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_ssd_3": {
+                "name": "ssd_3",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample SSD"
+            },
+            "pc_setup_add_edit_ssd_3_price": {
+                "name": "ssd_3_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_ssd_4": {
+                "name": "ssd_4",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample SSD"
+            },
+            "pc_setup_add_edit_ssd_4_price": {
+                "name": "ssd_4_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_hdd_1": {
+                "name": "hdd_1",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample HDD"
+            },
+            "pc_setup_add_edit_hdd_1_price": {
+                "name": "hdd_1_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_hdd_2": {
+                "name": "hdd_2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample HDD"
+            },
+            "pc_setup_add_edit_hdd_2_price": {
+                "name": "hdd_2_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_hdd_3": {
+                "name": "hdd_3",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample HDD"
+            },
+            "pc_setup_add_edit_hdd_3_price": {
+                "name": "hdd_3_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_hdd_4": {
+                "name": "hdd_4",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample HDD"
+            },
+            "pc_setup_add_edit_hdd_4_price": {
+                "name": "hdd_4_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_case": {
+                "name": "case",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Case"
+            },
+            "pc_setup_add_edit_case_price": {
+                "name": "case_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_case_fans_1": {
+                "name": "case_fans_1",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Case Fans"
+            },
+            "pc_setup_add_edit_case_fans_1_price": {
+                "name": "case_fans_1_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_case_fans_2": {
+                "name": "case_fans_2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Case Fans"
+            },
+            "pc_setup_add_edit_case_fans_2_price": {
+                "name": "case_fans_2_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_case_fans_3": {
+                "name": "case_fans_3",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Case Fans"
+            },
+            "pc_setup_add_edit_case_fans_3_price": {
+                "name": "case_fans_3_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_case_fans_4": {
+                "name": "case_fans_4",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Case Fans"
+            },
+            "pc_setup_add_edit_case_fans_4_price": {
+                "name": "case_fans_4_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_monitor": {
+                "name": "monitor",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Monitor"
+            },
+            "pc_setup_add_edit_monitor_price": {
+                "name": "monitor_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_monitor_sub": {
+                "name": "monitor_sub",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Monitor Subtext"
+            },
+            "pc_setup_add_edit_monitor_acc_1": {
+                "name": "monitor_acc_1",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Monitor Accessory"
+            },
+            "pc_setup_add_edit_monitor_acc_1_price": {
+                "name": "monitor_acc_1_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_monitor_acc_2": {
+                "name": "monitor_acc_2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Monitor Accessory"
+            },
+            "pc_setup_add_edit_monitor_acc_2_price": {
+                "name": "monitor_acc_2_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_keyboard": {
+                "name": "keyboard",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Keyboard"
+            },
+            "pc_setup_add_edit_keyboard_price": {
+                "name": "keyboard_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_keyboard_sub": {
+                "name": "keyboard_sub",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Keyboard Subtext"
+            },
+            "pc_setup_add_edit_keyboard_sub2": {
+                "name": "keyboard_sub2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Keyboard Subtext"
+            },
+            "pc_setup_add_edit_keyboard_acc_1": {
+                "name": "keyboard_acc_1",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Keyboard Accessory 1"
+            },
+            "pc_setup_add_edit_keyboard_acc_1_price": {
+                "name": "keyboard_acc_1_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_keyboard_acc_2": {
+                "name": "keyboard_acc_2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Keyboard Accessory 2"
+            },
+            "pc_setup_add_edit_keyboard_acc_2_price": {
+                "name": "keyboard_acc_2_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_mouse": {
+                "name": "mouse",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Mouse"
+            },
+            "pc_setup_add_edit_mouse_price": {
+                "name": "mouse_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_speakers": {
+                "name": "speakers",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Speakers"
+            },
+            "pc_setup_add_edit_speakers_price": {
+                "name": "speakers_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_wifi": {
+                "name": "wifi",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample WiFi Card"
+            },
+            "pc_setup_add_edit_wifi_price": {
+                "name": "wifi_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_headset_1": {
+                "name": "headset_1",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Headset 1"
+            },
+            "pc_setup_add_edit_headset_1_price": {
+                "name": "headset_1_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_headset_2": {
+                "name": "headset_2",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Headset 2"
+            },
+            "pc_setup_add_edit_headset_2_price": {
+                "name": "headset_2_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_mic": {
+                "name": "mic",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Microphone"
+            },
+            "pc_setup_add_edit_mic_price": {
+                "name": "mic_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_mic_acc": {
+                "name": "mic_acc",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Microphone Accessory"
+            },
+            "pc_setup_add_edit_mic_acc_price": {
+                "name": "mic_acc_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_audio_interface": {
+                "name": "audio_interface",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Audio Interface"
+            },
+            "pc_setup_add_edit_audio_interface_price": {
+                "name": "audio_interface_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_equalizer": {
+                "name": "equalizer",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Equalizer"
+            },
+            "pc_setup_add_edit_equalizer_price": {
+                "name": "equalizer_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
+            },
+            "pc_setup_add_edit_amplifier": {
+                "name": "amplifier",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "example": "Sample Amplifier"
+            },
+            "pc_setup_add_edit_amplifier_price": {
+                "name": "amplifier_price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 100
             },
             "partial_add_edit_multiple_data": {
                 "name": "data",
