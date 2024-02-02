@@ -207,6 +207,7 @@ Route::prefix('api')
             Route::post('', 'PCSetupController@add');
             Route::put('{id}', 'PCSetupController@edit');
             Route::delete('{id}', 'PCSetupController@delete');
+            Route::post('import', 'PCSetupController@import');
 
             Route::post('duplicate/{id}', 'PCSetupController@duplicate');
             Route::put('current/{id}', 'PCSetupController@markCurrent');

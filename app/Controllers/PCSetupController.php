@@ -88,7 +88,7 @@ class PCSetupController extends Controller {
    */
   public function import(ImportRequest $request) {
     $file = json_decode($request->file('file')->get());
-    $count = $this->groupRepository->import($file);
+    $count = $this->pcSetupRepository->import($file);
 
     return DefaultResponse::success(null, [
       'data' => [
