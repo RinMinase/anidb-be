@@ -3306,6 +3306,64 @@
             }
         },
         "/api/pc-setups/{pc_setup_id}": {
+            "get": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Get a PC Setup",
+                "operationId": "432b67ac031009c692515efa89887e6d",
+                "parameters": [
+                    {
+                        "name": "pc_setup_id",
+                        "in": "path",
+                        "description": "PC Setup ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PCSetup"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "PC Setup"
@@ -5640,6 +5698,18 @@
                     },
                     "amplifier_price": {
                         "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2023-05-21 21:05:57"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2023-05-21 21:05:57"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "example": "2023-05-21 21:05:57"
                     }
                 },
                 "type": "object"
