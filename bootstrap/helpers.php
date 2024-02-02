@@ -44,3 +44,9 @@ if (!function_exists('is_json')) {
     return json_last_error() === JSON_ERROR_NONE;
   }
 }
+
+if (!function_exists('to_boolean')) {
+  function to_boolean($value) {
+    return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+  }
+}
