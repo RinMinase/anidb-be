@@ -52,6 +52,46 @@ class PCSetupController extends Controller {
       'data' => $setups,
     ]);
   }
+
+  /**
+   * @OA\Get(
+   *   tags={"PC Setup"},
+   *   path="/api/pc-setups/{pc_setup_id}",
+   *   summary="Get a PC Setup",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="pc_setup_id",
+   *     description="PC Setup ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/PCSetup"),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function get($id): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->pcSetupRepository->get($id),
+    ]);
+  }
+
   /**
    * @OA\Post(
    *   tags={"PC Setup"},

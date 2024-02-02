@@ -111,7 +111,11 @@ use Illuminate\Database\Eloquent\Model;
  *   @OA\Property(property="equalizer_price", type="integer", format="int64"),
  *
  *   @OA\Property(property="amplifier", type="string"),
- *   @OA\Property(property="amplifier_price", type="string")
+ *   @OA\Property(property="amplifier_price", type="string"),
+ *
+ *   @OA\Property(property="created_at", type="string", example="2023-05-21 21:05:57"),
+ *   @OA\Property(property="updated_at", type="string", example="2023-05-21 21:05:57"),
+ *   @OA\Property(property="deleted_at", type="string", example="2023-05-21 21:05:57"),
  * )
  */
 class PCSetup extends Model {
