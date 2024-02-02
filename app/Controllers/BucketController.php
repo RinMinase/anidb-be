@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\BucketRepository;
 
-use App\Requests\Bucket\ImportRequest;
+use App\Requests\ImportRequest;
 
 use App\Resources\DefaultResponse;
 

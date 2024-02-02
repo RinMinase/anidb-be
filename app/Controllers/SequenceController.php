@@ -6,8 +6,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\SequenceRepository;
 
+use App\Requests\ImportRequest;
 use App\Requests\Sequence\AddEditRequest;
-use App\Requests\Sequence\ImportRequest;
 
 use App\Resources\DefaultResponse;
 

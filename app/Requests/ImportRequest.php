@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Requests\Import;
+namespace App\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

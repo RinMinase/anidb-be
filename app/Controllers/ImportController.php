@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\ImportRepository;
 
-use App\Requests\Import\ImportRequest;
+use App\Requests\ImportRequest;
 
 use App\Resources\DefaultResponse;
 

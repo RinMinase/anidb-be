@@ -6,10 +6,10 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
 
+use App\Requests\ImportRequest;
 use App\Requests\Entry\AddEditRequest;
 use App\Requests\Entry\AddRewatchRequest;
 use App\Requests\Entry\ImageUploadRequest;
-use App\Requests\Entry\ImportRequest;
 use App\Requests\Entry\RatingsRequest;
 use App\Requests\Entry\SearchRequest;
 use App\Requests\Entry\SearchTitlesRequest;

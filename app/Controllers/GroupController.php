@@ -6,8 +6,8 @@ use Illuminate\Http\JsonResponse;
 
 use App\Repositories\GroupRepository;
 
+use App\Requests\ImportRequest;
 use App\Requests\Group\AddEditRequest;
-use App\Requests\Group\ImportRequest;
 
 use App\Resources\DefaultResponse;
 
