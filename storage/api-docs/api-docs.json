@@ -2984,13 +2984,13 @@
                 ]
             }
         },
-        "/api/pc-setup": {
+        "/api/pc-setups": {
             "get": {
                 "tags": [
                     "PC Setup"
                 ],
                 "summary": "Get All PC Setups",
-                "operationId": "ec256fae171714a9128f063771a221ca",
+                "operationId": "e65a91cdac743998a01b9f26569de359",
                 "responses": {
                     "200": {
                         "description": "Success",
