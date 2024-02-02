@@ -38,7 +38,7 @@ class Rss extends Model {
    * @var array<string, string>
    */
   protected $casts = [
-    'created_at' => 'datetime:Y-m-d H:m:s',
+    'created_at' => 'datetime:Y-m-d H:i:s',
   ];
 
   public function items() {
