@@ -154,6 +154,20 @@ class PCSetupRepository {
     return count($import);
   }
 
+  public function duplicate(int $id) {
+    $new_pc_setup = PCSetup::where('id', $id)
+      ->firstOrFail()
+      ->replicate();
+
+    $new_pc_setup->label = $new_pc_setup->label . ' (copy)';
+    $new_pc_setup->is_current = false;
+    $new_pc_setup->is_future = false;
+
+    $new_pc_setup->save();
+
+    return $new_pc_setup->id;
+  }
+
   public function toggleCurrent($id) {
     $pc_setup = PCSetup::where('id', $id)->firstOrFail();
     $is_current = $pc_setup->is_current;

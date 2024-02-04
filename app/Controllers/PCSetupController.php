@@ -523,6 +523,52 @@ class PCSetupController extends Controller {
   }
 
   /**
+   * @OA\Post(
+   *   tags={"PC Setup"},
+   *   path="/api/pc-setups/duplicate/{pc_setup_id}",
+   *   summary="Duplicate a PC Setup and return ID of duplicate",
+   *   security={{"token":{}}},
+   *
+   *
+   *   @OA\Parameter(
+   *     name="pc_setup_id",
+   *     description="PC Setup ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(property="newID", type="integer", format="int32", example=1),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function duplicate($id): JsonResponse {
+    $new_pc_setup_id = $this->pcSetupRepository->duplicate($id);
+
+    return DefaultResponse::success(null, [
+      'data' => [
+        'newID' => $new_pc_setup_id,
+      ],
+    ]);
+  }
+
+  /**
    * @OA\Put(
    *   tags={"PC Setup"},
    *   path="/api/pc-setups/current/{pc_setup_id}",
