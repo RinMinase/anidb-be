@@ -3713,6 +3713,120 @@
                 ]
             }
         },
+        "/api/pc-setups/current/{pc_setup_id}": {
+            "put": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Toggle a PC Setup as current",
+                "operationId": "0fbdb8bbb35d4df006730dd105d36012",
+                "parameters": [
+                    {
+                        "name": "pc_setup_id",
+                        "in": "path",
+                        "description": "PC Setup ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/pc-setups/future/{pc_setup_id}": {
+            "put": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Toggle a PC Setup as future",
+                "operationId": "40fcd854d64aa30a3c5f09351ca169fc",
+                "parameters": [
+                    {
+                        "name": "pc_setup_id",
+                        "in": "path",
+                        "description": "PC Setup ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/pc-setups/server/{pc_setup_id}": {
+            "put": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Toggle a PC Setup as a server setup",
+                "operationId": "26877fdb8abfa3d355da6481f2047468",
+                "parameters": [
+                    {
+                        "name": "pc_setup_id",
+                        "in": "path",
+                        "description": "PC Setup ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/partials": {
             "post": {
                 "tags": [
