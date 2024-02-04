@@ -153,4 +153,37 @@ class PCSetupRepository {
 
     return count($import);
   }
+
+  public function toggleCurrent($id) {
+    $pc_setup = PCSetup::where('id', $id)->firstOrFail();
+    $is_current = $pc_setup->is_current;
+    $is_server = $pc_setup->is_server;
+
+    $pc_setup->is_current = !$is_current;
+
+    if (!$is_current) {
+      $pc_setup->is_future = false;
+
+      PCSetup::where('is_server', $is_server)
+        ->where('id', '!=', $id)
+        ->update(['is_current' => false]);
+    }
+
+    $pc_setup->save();
+  }
+
+  public function toggleFuture($id) {
+    $pc_setup = PCSetup::where('id', $id)->firstOrFail();
+
+    $pc_setup->is_current = false;
+    $pc_setup->is_future = !$pc_setup->is_future;
+    $pc_setup->save();
+  }
+
+  public function toggleServer($id) {
+    $pc_setup = PCSetup::where('id', $id)->firstOrFail();
+
+    $pc_setup->is_server = !$pc_setup->is_server;
+    $pc_setup->save();
+  }
 }

@@ -210,9 +210,9 @@ Route::prefix('api')
             Route::post('import', 'PCSetupController@import');
 
             Route::post('duplicate/{id}', 'PCSetupController@duplicate');
-            Route::put('current/{id}', 'PCSetupController@markCurrent');
-            Route::put('future/{id}', 'PCSetupController@markFuture');
-            Route::put('server/{id}', 'PCSetupController@markServer');
+            Route::put('current/{id}', 'PCSetupController@toggleCurrent');
+            Route::put('future/{id}', 'PCSetupController@toggleFuture');
+            Route::put('server/{id}', 'PCSetupController@toggleServer');
           });
 
         // ===== Deprecated =====

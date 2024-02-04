@@ -383,7 +383,7 @@ class PCSetupController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(AddEditRequest $request, $uuid): JsonResponse {
+  public function edit(AddEditRequest $request, $id): JsonResponse {
     $this->pcSetupRepository->edit(
       $request->only(
         'label',
@@ -470,7 +470,7 @@ class PCSetupController extends Controller {
         'amplifier',
         'amplifier_price',
       ),
-      $uuid,
+      $id,
     );
 
     return DefaultResponse::success();
@@ -520,5 +520,89 @@ class PCSetupController extends Controller {
         'totalJsonEntries' => count($file),
       ],
     ]);
+  }
+
+  /**
+   * @OA\Put(
+   *   tags={"PC Setup"},
+   *   path="/api/pc-setups/current/{pc_setup_id}",
+   *   summary="Toggle a PC Setup as current",
+   *   security={{"token":{}}},
+   *
+   *
+   *   @OA\Parameter(
+   *     name="pc_setup_id",
+   *     description="PC Setup ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function toggleCurrent($id): JsonResponse {
+    $this->pcSetupRepository->toggleCurrent($id);
+
+    return DefaultResponse::success();
+  }
+
+  /**
+   * @OA\Put(
+   *   tags={"PC Setup"},
+   *   path="/api/pc-setups/future/{pc_setup_id}",
+   *   summary="Toggle a PC Setup as future",
+   *   security={{"token":{}}},
+   *
+   *
+   *   @OA\Parameter(
+   *     name="pc_setup_id",
+   *     description="PC Setup ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function toggleFuture($id): JsonResponse {
+    $this->pcSetupRepository->toggleFuture($id);
+
+    return DefaultResponse::success();
+  }
+
+  /**
+   * @OA\Put(
+   *   tags={"PC Setup"},
+   *   path="/api/pc-setups/server/{pc_setup_id}",
+   *   summary="Toggle a PC Setup as a server setup",
+   *   security={{"token":{}}},
+   *
+   *
+   *   @OA\Parameter(
+   *     name="pc_setup_id",
+   *     description="PC Setup ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function toggleServer($id): JsonResponse {
+    $this->pcSetupRepository->toggleServer($id);
+
+    return DefaultResponse::success();
   }
 }
