@@ -714,7 +714,9 @@ class EntryRepository {
   private function calculate_sequence_stats($data, $sequence, $date_to) {
     $start_date = Carbon::parse($sequence->date_from);
     $end_date = Carbon::parse($date_to);
-    $total_days = $end_date->diffInDays($start_date);
+
+    // total_days is inclusive of the whole $end_date therefore + 1
+    $total_days = $end_date->diffInDays($start_date) + 1;
 
     $total_size = 0;
     $total_eps = 0;
