@@ -7576,7 +7576,6 @@
                 "name": "id",
                 "in": "query",
                 "description": "Entry ID, search should not include this entry",
-                "required": true,
                 "schema": {
                     "type": "string",
                     "format": "uuid"
