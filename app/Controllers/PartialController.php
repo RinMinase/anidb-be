@@ -24,6 +24,47 @@ class PartialController extends Controller {
   }
 
   /**
+   * @OA\Get(
+   *   tags={"Catalog"},
+   *   path="/api/partials/{partial_id}",
+   *   summary="Get Partial Entry",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="partial_id",
+   *     description="Partial ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             ref="#/components/schemas/PartialResource",
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function index($uuid) {
+    return DefaultResponse::success(null, [
+      'data' => $this->partialRepository->get($uuid),
+    ]);
+  }
+
+  /**
    * @OA\Post(
    *   tags={"Catalog"},
    *   path="/api/partials",
@@ -236,12 +277,4 @@ class PartialController extends Controller {
 
     return DefaultResponse::success();
   }
-
-  /* Temporarily removed as API are unused */
-
-  // public function index($uuid) {
-  //   return response()->json([
-  //     'data' => $this->partialRepository->get($uuid),
-  //   ]);
-  // }
 }
