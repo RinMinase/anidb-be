@@ -3891,6 +3891,151 @@
                 ]
             }
         },
+        "/api/partials/{partial_id}": {
+            "get": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Get Partial Entry",
+                "operationId": "6d2c3bca6572cba3ab310fb3ee420ea1",
+                "parameters": [
+                    {
+                        "name": "partial_id",
+                        "in": "path",
+                        "description": "Partial ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PartialResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Edit a Partial Entry",
+                "operationId": "8e4850308b9796fc159f781c36dff0b7",
+                "parameters": [
+                    {
+                        "name": "partial_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_add_edit_id_catalog"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_add_edit_id_priority"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_add_edit_title"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Delete a Partial Entry",
+                "operationId": "bd9213fd4b866e6458f188b34ee1904d",
+                "parameters": [
+                    {
+                        "name": "partial_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/partials": {
             "post": {
                 "tags": [
@@ -3985,96 +4130,6 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
-        "/api/partials/{partial_id}": {
-            "put": {
-                "tags": [
-                    "Catalog"
-                ],
-                "summary": "Edit a Partial Entry",
-                "operationId": "8e4850308b9796fc159f781c36dff0b7",
-                "parameters": [
-                    {
-                        "name": "partial_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                    },
-                    {
-                        "$ref": "#/components/parameters/partial_add_edit_id_catalog"
-                    },
-                    {
-                        "$ref": "#/components/parameters/partial_add_edit_id_priority"
-                    },
-                    {
-                        "$ref": "#/components/parameters/partial_add_edit_title"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "400": {
-                        "$ref": "#/components/responses/BadRequest"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Catalog"
-                ],
-                "summary": "Delete a Partial Entry",
-                "operationId": "bd9213fd4b866e6458f188b34ee1904d",
-                "parameters": [
-                    {
-                        "name": "partial_id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
