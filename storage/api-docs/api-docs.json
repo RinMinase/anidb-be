@@ -2166,6 +2166,45 @@
                         "token": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Delete an Image of an Entry",
+                "operationId": "ddbf6fd29f20629288837aed75219c3d",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/entries/ratings/{entry_id}": {
