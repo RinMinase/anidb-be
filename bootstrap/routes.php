@@ -69,6 +69,7 @@ Route::prefix('api')
             Route::post('import', 'EntryController@import');
 
             Route::put('img-upload/{uuid}', 'EntryController@imageUpload');
+            Route::delete('img-upload/{uuid}', 'EntryController@imageDelete');
             Route::put('ratings/{uuid}', 'EntryController@ratings');
             Route::get('titles', 'EntryController@getTitles');
 

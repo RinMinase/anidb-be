@@ -542,6 +542,18 @@ class EntryRepository {
     $entry->save();
   }
 
+  public function deleteImage($uuid) {
+    $entry = Entry::where('uuid', $uuid)->firstOrFail();
+
+    if (!empty($entry->image)) {
+      $image_id = pathinfo($entry->image);
+      Cloudinary::destroy('entries/' . $image_id['filename']);
+
+      $entry->image = null;
+      $entry->save();
+    }
+  }
+
   public function ratings(array $values, $uuid) {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 

@@ -391,6 +391,34 @@ class EntryController extends Controller {
   }
 
   /**
+   * @OA\Delete(
+   *   tags={"Entry"},
+   *   path="/api/entries/img-upload/{entry_id}",
+   *   summary="Delete an Image of an Entry",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function imageDelete($uuid): JsonResponse {
+    $this->entryRepository->deleteImage($uuid);
+
+    return DefaultResponse::success();
+  }
+
+  /**
    * @OA\Put(
    *   tags={"Entry"},
    *   path="/api/entries/ratings/{entry_id}",
