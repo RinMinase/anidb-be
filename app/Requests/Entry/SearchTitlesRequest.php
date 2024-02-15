@@ -14,7 +14,6 @@ class SearchTitlesRequest extends FormRequest {
    *   name="id",
    *   description="Entry ID, search should not include this entry",
    *   in="query",
-   *   required=true,
    *   example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
    *   @OA\Schema(type="string", format="uuid"),
    * ),
@@ -29,7 +28,7 @@ class SearchTitlesRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'id' => ['required', 'uuid', 'exists:entries,uuid'],
+      'id' => ['uuid', 'exists:entries,uuid'],
       'needle' => ['string'],
     ];
   }
