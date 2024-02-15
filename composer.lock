@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04f46c20f389846bf1c62c64dffd3394",
+    "content-hash": "e33b2d67b058ec542855922791b70317",
     "packages": [
         {
             "name": "brick/math",
@@ -2181,16 +2181,16 @@
         },
         {
             "name": "loilo/fuse",
-            "version": "6.6.5",
+            "version": "7.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loilo/Fuse.git",
-                "reference": "f75260d8e48e4781bd557ccecb5d4c1c7caa18a6"
+                "reference": "3304788d2f30d677faea700e0e466006f1d70015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loilo/Fuse/zipball/f75260d8e48e4781bd557ccecb5d4c1c7caa18a6",
-                "reference": "f75260d8e48e4781bd557ccecb5d4c1c7caa18a6",
+                "url": "https://api.github.com/repos/loilo/Fuse/zipball/3304788d2f30d677faea700e0e466006f1d70015",
+                "reference": "3304788d2f30d677faea700e0e466006f1d70015",
                 "shasum": ""
             },
             "require": {
@@ -2238,9 +2238,9 @@
             "description": "Fuzzy search for PHP based on Bitap algorithm",
             "support": {
                 "issues": "https://github.com/loilo/Fuse/issues",
-                "source": "https://github.com/loilo/Fuse/tree/v6.6.5"
+                "source": "https://github.com/loilo/Fuse/tree/v7.0.1"
             },
-            "time": "2023-06-27T06:40:01+00:00"
+            "time": "2023-11-27T17:21:41+00:00"
         },
         {
             "name": "masterminds/html5",

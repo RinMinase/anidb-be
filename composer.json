@@ -23,7 +23,7 @@
         "darkaonline/l5-swagger": "^8.5",
         "laravel/framework": "^10.43",
         "laravel/sanctum": "^3.3",
-        "loilo/fuse": "^6.6",
+        "loilo/fuse": "^7.0",
         "symfony/dom-crawler": "^6.3"
     },
     "require-dev": {
