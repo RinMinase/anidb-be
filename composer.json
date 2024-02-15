@@ -21,7 +21,7 @@
         "php": "^7.3|^8.0",
         "cloudinary-labs/cloudinary-laravel": "^2.0",
         "darkaonline/l5-swagger": "^8.5",
-        "laravel/framework": "^10.43",
+        "laravel/framework": "^10.44",
         "laravel/sanctum": "^3.3",
         "loilo/fuse": "^7.0",
         "symfony/dom-crawler": "^6.3"
