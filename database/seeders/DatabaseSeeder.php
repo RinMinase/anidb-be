@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder {
       RssItemsSeeder::class,    // test data
       SequenceSeeder::class,    // test data
       PCSetupSeeder::class,     // test data
+
+      // Four leaf seeds
+      FourleafGasSeeder::class, // apr 2023 - feb 2024 data
     ]);
   }
 }
