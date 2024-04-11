@@ -17,6 +17,30 @@ class GasController extends Controller {
     $this->gasRepository = $gasRepository;
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas",
+   *   summary="Fourleaf API - Get Gas Overview",
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             ref="#/components/schemas/Gas",
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function getOverview(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->gasRepository->getOverview(),

@@ -5218,6 +5218,45 @@
                     }
                 ]
             }
+        },
+        "/api/fourleaf/gas": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Gas Overview",
+                "operationId": "9fea2e14ab3e05b90d51b253ac9bc5a9",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Gas"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -5540,6 +5579,47 @@
                         "url": "{{ GitHub commit URL }}"
                     }
                 ]
+            },
+            "Gas": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20"
+                    },
+                    "from_bars": {
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 9,
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "to_bars": {
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 9,
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1000
+                    },
+                    "price_per_liter": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 12.23
+                    },
+                    "liters_filled": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 12.23
+                    }
+                },
+                "type": "object"
             },
             "Bucket": {
                 "properties": {
@@ -8711,6 +8791,9 @@
         },
         {
             "name": "PC Setup"
+        },
+        {
+            "name": "Fourleaf - Gas"
         },
         {
             "name": "MAL"
