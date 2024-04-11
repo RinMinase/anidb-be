@@ -35,6 +35,25 @@ Route::middleware('web')
 
 Route::prefix('api')
   ->middleware('api')
+  ->namespace('App\Fourleaf_Controllers')
+  ->group(function () {
+    Route::prefix('gas')
+      ->group(function () {
+        Route::get('overview', 'GasController@getOverview');
+        Route::get('graph', 'GasController@getGraphDetails');
+
+        Route::post('fuel', 'GasController@addFuel');
+        Route::put('fuel', 'GasController@editFuel');
+        Route::delete('fuel', 'GasController@deleteFuel');
+
+        Route::post('maintenance', 'GasController@addMaintenance');
+        Route::put('maintenance', 'GasController@editMaintenance');
+        Route::delete('maintenance', 'GasController@deleteMaintenance');
+      });
+  });
+
+Route::prefix('api')
+  ->middleware('api')
   ->namespace('App\Controllers')
   ->group(function () {
 
