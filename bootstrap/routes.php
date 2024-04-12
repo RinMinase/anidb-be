@@ -35,7 +35,7 @@ Route::middleware('web')
 
 Route::prefix('api')
   ->middleware('api')
-  ->namespace('App\Fourleaf_Controllers')
+  ->namespace('App\Fourleaf\Controllers')
   ->group(function () {
 
     Route::prefix('fourleaf')
