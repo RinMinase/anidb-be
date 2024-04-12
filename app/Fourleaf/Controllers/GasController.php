@@ -41,15 +41,19 @@ class GasController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function getOverview(): JsonResponse {
+  public function get(string $avgEfficiencyType, string $efficiencyGraphType): JsonResponse {
+    /**
+     * Average Efficiency Types:
+     * - "all" (default) - all data points are averaged
+     * - "last5" - last 5 data points are averaged
+     * - "last10" - last 10 data points are averaged
+     *
+     * Efficiency Graph Types:
+     * - "last20data" (default) - last 20 data points
+     * - "last12mos" - last 12 months (per month efficiency, averaged)
+     */
     return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getOverview(),
-    ]);
-  }
-
-  public function getGraphDetails(): JsonResponse {
-    return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getGraphDetails(),
+      'data' => $this->gasRepository->get(),
     ]);
   }
 
