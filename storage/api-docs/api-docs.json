@@ -5621,6 +5621,158 @@
                 },
                 "type": "object"
             },
+            "GasGetResource": {
+                "properties": {
+                    "stats": {
+                        "properties": {
+                            "averageEfficiency": {
+                                "type": "number",
+                                "format": "float",
+                                "minimum": 0,
+                                "example": 12.23
+                            },
+                            "lastEfficiency": {
+                                "type": "number",
+                                "format": "float",
+                                "minimum": 0,
+                                "example": 12.23
+                            },
+                            "mileage": {
+                                "type": "integer",
+                                "format": "int32",
+                                "minimum": 0,
+                                "example": 1000
+                            },
+                            "age": {
+                                "type": "string",
+                                "example": "1 year, 2 months"
+                            },
+                            "kmPerMonth": {
+                                "type": "number",
+                                "format": "float",
+                                "minimum": 0,
+                                "example": 12.23
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "graph": {
+                        "properties": {
+                            "efficiency": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "<date>": {
+                                            "type": "string",
+                                            "example": "<value>"
+                                        },
+                                        "2020-10-20": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 12.23
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "gas": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "<date>": {
+                                            "type": "string",
+                                            "example": "<value>"
+                                        },
+                                        "2020-10-20": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 12.23
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "maintenance": {
+                        "properties": {
+                            "km": {
+                                "properties": {
+                                    "engineOil": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "tires": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "transmissionFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "brakeFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "radiatorFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "sparkPlugs": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "powerSteeringFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "year": {
+                                "properties": {
+                                    "engineOil": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "transmissionFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "brakeFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "battery": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "radiatorFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "acCoolant": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "powerSteeringFluid": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    },
+                                    "tires": {
+                                        "type": "string",
+                                        "example": "normal"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
             "Bucket": {
                 "properties": {
                     "id": {
