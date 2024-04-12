@@ -8,8 +8,7 @@
   </title>
   <link rel="stylesheet" type="text/css" href="{{ l5_swagger_asset($documentation, 'swagger-ui.css') }}" />
   <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-32x32.png') }}" sizes="32x32" />
-  <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-16x16.png') }}"
-    sizes="16x16" />
+  <link rel="icon" type="image/png" href="{{ l5_swagger_asset($documentation, 'favicon-16x16.png') }}" sizes="16x16" />
   <style>
     html {
       box-sizing: border-box;
@@ -38,7 +37,8 @@
       background: none;
 
       margin: -85px 0 12px auto;
-      margin-right: calc((100vw - 1460px) / 2);
+      /* margin-right: calc((100vw - 1460px) / 2); */
+      margin-right: 0;
 
       position: relative;
       height: 67px;
@@ -80,7 +80,8 @@
       margin-bottom: 20px;
     }
 
-    .swagger-ui table thead tr td, .swagger-ui table thead tr th {
+    .swagger-ui table thead tr td,
+    .swagger-ui table thead tr th {
       font-size: 14px;
     }
 
@@ -164,9 +165,18 @@
       const ui = SwaggerUIBundle({
         dom_id: '#swagger-ui',
         url: "{!! $urlToDocs !!}",
-        operationsSorter: {!! isset($operationsSorter) ? '"' . $operationsSorter . '"' : 'null' !!},
-        configUrl: {!! isset($configUrl) ? '"' . $configUrl . '"' : 'null' !!},
-        validatorUrl: {!! isset($validatorUrl) ? '"' . $validatorUrl . '"' : 'null' !!},
+        operationsSorter: {
+          !!isset($operationsSorter) ? '"'.$operationsSorter.
+          '"' : 'null'!!
+        },
+        configUrl: {
+          !!isset($configUrl) ? '"'.$configUrl.
+          '"' : 'null'!!
+        },
+        validatorUrl: {
+          !!isset($validatorUrl) ? '"'.$validatorUrl.
+          '"' : 'null'!!
+        },
         oauth2RedirectUrl: "{{ route('l5-swagger.' . $documentation . '.oauth2_callback', [], $useAbsolutePath) }}",
 
         requestInterceptor: function(request) {
@@ -186,7 +196,9 @@
         layout: "StandaloneLayout",
         docExpansion: "{!! config('l5-swagger.defaults.ui.display.doc_expansion', 'none') !!}",
         deepLinking: true,
-        filter: {!! config('l5-swagger.defaults.ui.display.filter') ? 'true' : 'false' !!},
+        filter: {
+          !!config('l5-swagger.defaults.ui.display.filter') ? 'true' : 'false'!!
+        },
         persistAuthorization: "{!! config('l5-swagger.defaults.ui.authorization.persist_authorization') ? 'true' : 'false' !!}",
         defaultModelsExpandDepth: -1,
         displayRequestDuration: true,
@@ -194,11 +206,10 @@
 
       window.ui = ui
 
-      @if (in_array('oauth2', array_column(config('l5-swagger.defaults.securityDefinitions.securitySchemes'), 'type')))
-        ui.initOAuth({
-          usePkceWithAuthorizationCodeGrant:
-            "{!! (bool) config('l5-swagger.defaults.ui.authorization.oauth2.use_pkce_with_authorization_code_grant') !!}"
-        })
+      @if(in_array('oauth2', array_column(config('l5-swagger.defaults.securityDefinitions.securitySchemes'), 'type')))
+      ui.initOAuth({
+        usePkceWithAuthorizationCodeGrant: "{!! (bool) config('l5-swagger.defaults.ui.authorization.oauth2.use_pkce_with_authorization_code_grant') !!}"
+      })
       @endif
     }
   </script>
