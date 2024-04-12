@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -43,8 +44,7 @@ Route::prefix('api')
 
         Route::prefix('gas')
           ->group(function () {
-            Route::get('overview', 'GasController@getOverview');
-            Route::get('graph', 'GasController@getGraphDetails');
+            Route::get('', 'GasController@get');
 
             Route::post('fuel', 'GasController@addFuel');
             Route::put('fuel', 'GasController@editFuel');
