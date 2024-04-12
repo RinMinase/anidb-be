@@ -5239,7 +5239,7 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/Gas"
+                                                    "$ref": "#/components/schemas/GetGasResource"
                                                 }
                                             },
                                             "type": "object"
@@ -5621,7 +5621,7 @@
                 },
                 "type": "object"
             },
-            "GasGetResource": {
+            "GetGasResource": {
                 "properties": {
                     "stats": {
                         "properties": {
@@ -5659,38 +5659,32 @@
                     "graph": {
                         "properties": {
                             "efficiency": {
-                                "type": "array",
-                                "items": {
-                                    "properties": {
-                                        "<date>": {
-                                            "type": "string",
-                                            "example": "<value>"
-                                        },
-                                        "2020-10-20": {
-                                            "type": "number",
-                                            "format": "float",
-                                            "example": 12.23
-                                        }
+                                "properties": {
+                                    "<date>": {
+                                        "type": "string",
+                                        "example": "<value>"
                                     },
-                                    "type": "object"
-                                }
+                                    "2020-10-20": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.23
+                                    }
+                                },
+                                "type": "object"
                             },
                             "gas": {
-                                "type": "array",
-                                "items": {
-                                    "properties": {
-                                        "<date>": {
-                                            "type": "string",
-                                            "example": "<value>"
-                                        },
-                                        "2020-10-20": {
-                                            "type": "number",
-                                            "format": "float",
-                                            "example": 12.23
-                                        }
+                                "properties": {
+                                    "<date>": {
+                                        "type": "string",
+                                        "example": "<value>"
                                     },
-                                    "type": "object"
-                                }
+                                    "2020-10-20": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 12.23
+                                    }
+                                },
+                                "type": "object"
                             }
                         },
                         "type": "object"

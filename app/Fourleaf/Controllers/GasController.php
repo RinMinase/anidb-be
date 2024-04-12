@@ -31,7 +31,7 @@ class GasController extends Controller {
    *         @OA\Schema(
    *           @OA\Property(
    *             property="data",
-   *             ref="#/components/schemas/Gas",
+   *             ref="#/components/schemas/GetGasResource",
    *           ),
    *         ),
    *       },
