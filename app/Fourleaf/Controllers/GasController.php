@@ -6,9 +6,11 @@ use Illuminate\Http\JsonResponse;
 
 use App\Controllers\Controller;
 
+use App\Resources\DefaultResponse;
+
 use App\Fourleaf\Repositories\GasRepository;
 
-use App\Resources\DefaultResponse;
+use App\Fourleaf\Requests\GetGasRequest;
 
 class GasController extends Controller {
   private GasRepository $gasRepository;
@@ -37,11 +39,10 @@ class GasController extends Controller {
    *       },
    *     ),
    *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function get(string $avgEfficiencyType, string $efficiencyGraphType): JsonResponse {
+  public function get(GetGasRequest $request): JsonResponse {
     /**
      * Average Efficiency Types:
      * - "all" (default) - all data points are averaged
@@ -53,7 +54,40 @@ class GasController extends Controller {
      * - "last12mos" - last 12 months (per month efficiency, averaged)
      */
     return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->get(),
+      'data' => $this->gasRepository->get(
+        $request->get('avgEfficiencyType'),
+        $request->get('efficiencyGraphType'),
+      ),
+    ]);
+  }
+
+  /**
+   * @OA\Get(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/fuel",
+   *   summary="Fourleaf API - Get Fuel List",
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/Gas"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function getFuel(): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->gasRepository->getFuel(),
     ]);
   }
 
