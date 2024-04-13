@@ -46,10 +46,12 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', 'GasController@get');
 
+            Route::get('fuel', 'GasController@getFuel');
             Route::post('fuel', 'GasController@addFuel');
             Route::put('fuel', 'GasController@editFuel');
             Route::delete('fuel', 'GasController@deleteFuel');
 
+            Route::get('maintenance', 'GasController@getMaintenance');
             Route::post('maintenance', 'GasController@addMaintenance');
             Route::put('maintenance', 'GasController@editMaintenance');
             Route::delete('maintenance', 'GasController@deleteMaintenance');
