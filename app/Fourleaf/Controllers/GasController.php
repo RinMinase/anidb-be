@@ -10,6 +10,8 @@ use App\Resources\DefaultResponse;
 
 use App\Fourleaf\Repositories\GasRepository;
 
+use App\Fourleaf\Requests\AddEditFuelRequest;
+use App\Fourleaf\Requests\AddEditMaintenanceRequest;
 use App\Fourleaf\Requests\GetGasRequest;
 
 class GasController extends Controller {
@@ -91,14 +93,33 @@ class GasController extends Controller {
     ]);
   }
 
-  public function addFuel($request): JsonResponse {
-    $this->gasRepository->addFuel($request);
+  public function addFuel(AddEditFuelRequest $request): JsonResponse {
+    $this->gasRepository->addFuel(
+      $request->only(
+        'date',
+        'from_bars',
+        'to_bars',
+        'odometer',
+        'price_per_liter',
+        'liters_filled',
+      )
+    );
 
     return DefaultResponse::success();
   }
 
-  public function editFuel($request, $id): JsonResponse {
-    $this->gasRepository->editFuel($request, $id);
+  public function editFuel(AddEditFuelRequest $request, $id): JsonResponse {
+    $this->gasRepository->editFuel(
+      $request->only(
+        'date',
+        'from_bars',
+        'to_bars',
+        'odometer',
+        'price_per_liter',
+        'liters_filled',
+      ),
+      $id
+    );
 
     return DefaultResponse::success();
   }
@@ -139,14 +160,17 @@ class GasController extends Controller {
     ]);
   }
 
-  public function addMaintenance($request): JsonResponse {
-    $this->gasRepository->addMaintenance($request);
+  public function addMaintenance(AddEditMaintenanceRequest $request): JsonResponse {
+    $this->gasRepository->addMaintenance($request->only('date', 'part', 'odometer'));
 
     return DefaultResponse::success();
   }
 
-  public function editMaintenance($request, $id): JsonResponse {
-    $this->gasRepository->editMaintenance($request, $id);
+  public function editMaintenance(AddEditMaintenanceRequest $request, $id): JsonResponse {
+    $this->gasRepository->editMaintenance(
+      $request->only('date', 'part', 'odometer'),
+      $id,
+    );
 
     return DefaultResponse::success();
   }
