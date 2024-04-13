@@ -5249,8 +5249,83 @@
                             }
                         }
                     },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
+        "/api/fourleaf/gas/fuel": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Fuel List",
+                "operationId": "8394dd9d4b13fb27220ccd44def301b1",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Gas"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
+        "/api/fourleaf/gas/maintenance": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Maintenance List",
+                "operationId": "32bacd83765c019de86ea28faf5cf303",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Maintenance"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -5617,6 +5692,25 @@
                         "format": "float",
                         "minimum": 0,
                         "example": 12.23
+                    }
+                },
+                "type": "object"
+            },
+            "Maintenance": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20"
+                    },
+                    "part": {
+                        "type": "string",
+                        "example": "Engine Oil Change"
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1000
                     }
                 },
                 "type": "object"
