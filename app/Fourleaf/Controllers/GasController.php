@@ -109,6 +109,36 @@ class GasController extends Controller {
     return DefaultResponse::success();
   }
 
+  /**
+   * @OA\Get(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/maintenance",
+   *   summary="Fourleaf API - Get Maintenance List",
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/Maintenance"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function getMaintenance(): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->gasRepository->getMaintenance(),
+    ]);
+  }
+
   public function addMaintenance($request): JsonResponse {
     $this->gasRepository->addMaintenance($request);
 
