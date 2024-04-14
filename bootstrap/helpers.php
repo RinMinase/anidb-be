@@ -50,3 +50,10 @@ if (!function_exists('to_boolean')) {
     return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
   }
 }
+
+if (!function_exists('vdd')) {
+  function vdd(mixed ...$value) {
+    var_dump(...$value);
+    die;
+  }
+}
