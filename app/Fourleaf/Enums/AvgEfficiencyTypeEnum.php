@@ -3,6 +3,7 @@
 namespace App\Fourleaf\Enums;
 
 enum AvgEfficiencyTypeEnum: string {
-  case LAST20DATA = 'last20data';
-  case LAST20MOS = 'last20mos';
+  case ALL = 'all';
+  case LAST5 = 'last5';
+  case LAST10 = 'last10';
 }

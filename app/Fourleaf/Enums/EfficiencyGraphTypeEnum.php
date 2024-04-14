@@ -3,7 +3,6 @@
 namespace App\Fourleaf\Enums;
 
 enum EfficiencyGraphTypeEnum: string {
-  case ALL = 'all';
-  case LAST5 = 'last5';
-  case LAST10 = 'last10';
+  case LAST20DATA = 'last20data';
+  case LAST12MOS = 'last12mos';
 }
