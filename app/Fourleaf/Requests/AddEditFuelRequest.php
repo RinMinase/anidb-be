@@ -6,6 +6,51 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+/**
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_add_edit_fuel_date",
+ *   name="date",
+ *   in="query",
+ *   required=true,
+ *   example="2020-10-20",
+ *   @OA\Schema(type="string"),
+ * ),
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_add_edit_fuel_from_bars",
+ *   name="from_bars",
+ *   in="query",
+ *   required=true,
+ *   @OA\Schema(type="integer", format="int32", minimum=0, maximum=9),
+ * ),
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_add_edit_fuel_to_bars",
+ *   name="to_bars",
+ *   in="query",
+ *   required=true,
+ *   @OA\Schema(type="integer", format="int32", minimum=0, maximum=9),
+ * ),
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_add_edit_fuel_odometer",
+ *   name="odometer",
+ *   in="query",
+ *   required=true,
+ *   @OA\Schema(type="integer", format="int32", minimum=0),
+ * ),
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_add_edit_fuel_price_per_liter",
+ *   name="price_per_liter",
+ *   in="query",
+ *   required=true,
+ *   @OA\Schema(type="float", minimum=0),
+ * ),
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_add_edit_fuel_liters_filled",
+ *   name="liters_filled",
+ *   in="query",
+ *   required=true,
+ *   @OA\Schema(type="float", minimum=0),
+ * ),
+ */
 class AddEditFuelRequest extends FormRequest {
   public function rules() {
     return [

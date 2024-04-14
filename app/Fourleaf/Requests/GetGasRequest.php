@@ -10,11 +10,25 @@ use Illuminate\Validation\Rules\Enum;
 use App\Fourleaf\Enums\AvgEfficiencyTypeEnum;
 use App\Fourleaf\Enums\EfficiencyGraphTypeEnum;
 
+/**
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_get_gas_avg_efficiency_type",
+ *   name="avg_efficiency_type",
+ *   in="query",
+ *   @OA\Schema(type="string", default="all", enum={"all","last5", "last10"}),
+ * ),
+ * @OA\Parameter(
+ *   parameter="fourleaf_gas_get_gas_efficiency_graph_type",
+ *   name="efficiency_graph_type",
+ *   in="query",
+ *   @OA\Schema(type="string", default="last20data", enum={"last20data","last12mos"}),
+ * ),
+ */
 class GetGasRequest extends FormRequest {
   public function rules() {
     return [
-      'avgEfficiencyType' => [new Enum(AvgEfficiencyTypeEnum::class)],
-      'efficiencyGraphType' => [new Enum(EfficiencyGraphTypeEnum::class)],
+      'avg_efficiency_type' => [new Enum(AvgEfficiencyTypeEnum::class)],
+      'efficiency_graph_type' => [new Enum(EfficiencyGraphTypeEnum::class)],
     ];
   }
 

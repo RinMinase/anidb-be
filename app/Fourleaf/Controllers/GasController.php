@@ -26,6 +26,10 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas",
    *   summary="Fourleaf API - Get Gas Overview",
+   *
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",

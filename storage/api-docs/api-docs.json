@@ -5226,6 +5226,14 @@
                 ],
                 "summary": "Fourleaf API - Get Gas Overview",
                 "operationId": "d679f648d13aefed74254182e134b2d0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -7621,6 +7629,90 @@
             }
         },
         "parameters": {
+            "fourleaf_gas_add_edit_fuel_date": {
+                "name": "date",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "2020-10-20"
+            },
+            "fourleaf_gas_add_edit_fuel_from_bars": {
+                "name": "from_bars",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 9,
+                    "minimum": 0
+                }
+            },
+            "fourleaf_gas_add_edit_fuel_to_bars": {
+                "name": "to_bars",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 9,
+                    "minimum": 0
+                }
+            },
+            "fourleaf_gas_add_edit_fuel_odometer": {
+                "name": "odometer",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
+            "fourleaf_gas_add_edit_fuel_price_per_liter": {
+                "name": "price_per_liter",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "float",
+                    "minimum": 0
+                }
+            },
+            "fourleaf_gas_add_edit_fuel_liters_filled": {
+                "name": "liters_filled",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "float",
+                    "minimum": 0
+                }
+            },
+            "fourleaf_gas_get_gas_avg_efficiency_type": {
+                "name": "avg_efficiency_type",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "all",
+                    "enum": [
+                        "all",
+                        "last5",
+                        "last10"
+                    ]
+                }
+            },
+            "fourleaf_gas_get_gas_efficiency_graph_type": {
+                "name": "efficiency_graph_type",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "last20data",
+                    "enum": [
+                        "last20data",
+                        "last12mos"
+                    ]
+                }
+            },
             "bucket_sim_add_edit_description": {
                 "name": "description",
                 "in": "query",
