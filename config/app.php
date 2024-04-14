@@ -250,4 +250,6 @@ return [
   'logs_to_keep' => env('LOGS_TO_KEEP', 200),
 
   'anilist_base_uri' => env('ANILIST_BASE_URI', 'graphql.anilist.co'),
+
+  'vehicle_start_date' => env('VEHICLE_START_DATE', '2023-01-01')
 ];
