@@ -58,11 +58,11 @@ class GetGasResource extends JsonResource {
   public function toArray($request) {
     return [
       'stats' => [
-        'averageEfficiency' => $this->stats->averageEfficiency,
-        'lastEfficiency' => $this->stats->lastEfficiency,
+        'averageEfficiency' => $this->stats->average_efficiency,
+        'lastEfficiency' => $this->stats->last_efficiency,
         'mileage' => $this->stats->mileage,
         'age' => $this->stats->age,
-        'kmPerMonth' => $this->stats->kmPerMonth,
+        'kmPerMonth' => $this->stats->km_per_month,
       ],
       'graph' => [
         'efficiency' => $this->graph->efficiency,
@@ -70,23 +70,23 @@ class GetGasResource extends JsonResource {
       ],
       'maintenance' => [
         'km' => [
-          'engineOil' => $this->maintenance->km->engineOil,
+          'engineOil' => $this->maintenance->km->engine_oil,
           'tires' => $this->maintenance->km->tires,
-          'transmissionFluid' => $this->maintenance->km->transmissionFluid,
-          'brakeFluid' => $this->maintenance->km->brakeFluid,
-          'radiatorFluid' => $this->maintenance->km->radiatorFluid,
-          'sparkPlugs' => $this->maintenance->km->sparkPlugs,
-          'powerSteeringFluid' => $this->maintenance->km->powerSteeringFluid,
+          'transmissionFluid' => $this->maintenance->km->transmission_fluid,
+          'brakeFluid' => $this->maintenance->km->brake_fluid,
+          'radiatorFluid' => $this->maintenance->km->radiator_fluid,
+          'sparkPlugs' => $this->maintenance->km->spark_plugs,
+          'powerSteeringFluid' => $this->maintenance->km->power_steering_fluid,
         ],
         'year' => [
-          'engineOil' => $this->maintenance->year->engineOil,
-          'transmissionFluid' => $this->maintenance->year->transmissionFluid,
-          'brakeFluid' => $this->maintenance->year->brakeFluid,
-          'battery' => $this->maintenance->year->battery,
-          'radiatorFluid' => $this->maintenance->year->radiatorFluid,
-          'acCoolant' => $this->maintenance->year->acCoolant,
-          'powerSteeringFluid' => $this->maintenance->year->powerSteeringFluid,
-          'tires' => $this->maintenance->year->tires,
+          'engineOil' => $this->maintenance->km->engine_oil,
+          'transmissionFluid' => $this->maintenance->km->transmission_fluid,
+          'brakeFluid' => $this->maintenance->km->brake_fluid,
+          'battery' => $this->maintenance->km->battery,
+          'radiatorFluid' => $this->maintenance->km->radiator_fluid,
+          'acCoolant' => $this->maintenance->km->ac_coolant,
+          'powerSteeringFluid' => $this->maintenance->km->power_steering_fluid,
+          'tires' => $this->maintenance->km->tires,
         ],
       ],
     ];
