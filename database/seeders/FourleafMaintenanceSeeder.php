@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 use App\Fourleaf\Models\Maintenance;
@@ -16,11 +17,11 @@ class FourleafMaintenanceSeeder extends Seeder {
     $testData = [
       [
         'date' => '2023-06-01',
-        'part' => 'PMS Labor',
+        'description' => 'PMS Labor',
         'odometer' => 1400,
       ], [
         'date' => '2023-01-01',
-        'part' => 'PMS Labor',
+        'description' => 'PMS Labor',
         'odometer' => 6600,
       ]
     ];
@@ -28,5 +29,17 @@ class FourleafMaintenanceSeeder extends Seeder {
     foreach ($testData as $item) {
       Maintenance::create($item);
     }
+
+    $testDataParts = [
+      [
+        'id_fourleaf_maintenance' => 1,
+        'part' => 'engine_oil',
+      ], [
+        'id_fourleaf_maintenance' => 2,
+        'part' => 'engine_oil',
+      ],
+    ];
+
+    DB::table('fourleaf_maintenance_parts')->insert($testDataParts);
   }
 }

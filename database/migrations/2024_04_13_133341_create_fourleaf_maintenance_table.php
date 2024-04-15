@@ -13,7 +13,7 @@ return new class extends Migration {
       $table->id();
 
       $table->date('date');
-      $table->string('part');
+      $table->string('description');
       $table->mediumInteger('odometer');
     });
   }
