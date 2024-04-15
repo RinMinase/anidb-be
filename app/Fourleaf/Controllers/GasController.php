@@ -14,6 +14,9 @@ use App\Fourleaf\Requests\AddEditFuelRequest;
 use App\Fourleaf\Requests\AddEditMaintenanceRequest;
 use App\Fourleaf\Requests\GetGasRequest;
 
+use App\Fourleaf\Resources\GetGasResource;
+use App\Fourleaf\Resources\MaintenanceResource;
+
 class GasController extends Controller {
   private GasRepository $gasRepository;
 
@@ -59,11 +62,13 @@ class GasController extends Controller {
      * - "last20data" (default) - last 20 data points
      * - "last12mos" - last 12 months (per month efficiency, averaged)
      */
+    $data = $this->gasRepository->get(
+      $request->get('avgEfficiencyType'),
+      $request->get('efficiencyGraphType'),
+    );
+
     return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->get(
-        $request->get('avgEfficiencyType'),
-        $request->get('efficiencyGraphType'),
-      ),
+      'data' => new GetGasResource($data),
     ]);
   }
 
@@ -149,7 +154,7 @@ class GasController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/Maintenance"),
+   *             @OA\Items(ref="#/components/schemas/MaintenanceResource"),
    *           ),
    *         ),
    *       },
@@ -160,7 +165,9 @@ class GasController extends Controller {
    */
   public function getMaintenance(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getMaintenance(),
+      'data' => MaintenanceResource::collection(
+        $this->gasRepository->getMaintenance()
+      ),
     ]);
   }
 

@@ -11,7 +11,7 @@ use Carbon\Carbon;
  *   @OA\Property(property="date", type="string", example="2020-10-20"),
  *   @OA\Property(property="description", type="string", example="Engine Oil Change"),
  *   @OA\Property(
- *     property="part",
+ *     property="parts",
  *     type="array",
  *     example="engine_oil",
  *     @OA\Items(
@@ -40,7 +40,7 @@ class MaintenanceResource extends JsonResource {
     return [
       'date' => Carbon::parse($this->date)->format('M d, Y'),
       'description' => $this->description,
-      'part' => $this->parts,
+      'parts' => $this->parts->pluck('part'),
       'odometer' => $this->odometer,
     ];
   }

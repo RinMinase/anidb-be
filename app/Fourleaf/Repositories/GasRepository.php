@@ -123,7 +123,7 @@ class GasRepository {
   }
 
   public function getMaintenance() {
-    return Maintenance::all();
+    return Maintenance::select()->with('parts')->get();
   }
 
   public function addMaintenance(array $values) {
