@@ -4,13 +4,6 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="date", type="string", example="2020-10-20"),
- *   @OA\Property(property="part", type="string", example="Engine Oil Change"),
- *   @OA\Property(property="odometer", type="integer", format="int32", minimum=0, example=1000),
- * )
- */
 class Maintenance extends Model {
 
   protected $table = 'fourleaf_maintenance';
@@ -23,7 +16,7 @@ class Maintenance extends Model {
    */
   protected $fillable = [
     'date',
-    'part',
+    'description',
     'odometer',
   ];
 
@@ -40,4 +33,8 @@ class Maintenance extends Model {
    * @var array<string, string>
    */
   protected $casts = [];
+
+  public function parts() {
+    return $this->hasMany(MaintenancePart::class, 'id_fourleaf_maintenance');
+  }
 }
