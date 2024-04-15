@@ -186,7 +186,7 @@ class EntryRepository {
 
     if (ctype_alpha($letter)) {
       $data = $data->where('title', 'ilike', $letter[0] . '%');
-    } elseif ($letter[0] === "0") {
+    } else if ($letter[0] === "0") {
       $data = $data->whereRaw('title ~ \'^[0-9]\'');
     } else {
       throw new ModelNotFoundException;
