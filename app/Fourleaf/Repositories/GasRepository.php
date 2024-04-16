@@ -8,6 +8,10 @@ use App\Fourleaf\Models\Gas;
 use App\Fourleaf\Models\Maintenance;
 
 class GasRepository {
+  /**
+   * Overview Function
+   */
+
   public function get($avg_efficiency_type, $efficiency_graph_type) {
     $avg_efficiency_type = $avg_efficiency_type ?? 'all';
     $efficiency_graph_type = $efficiency_graph_type ?? 'last20data';
@@ -20,32 +24,22 @@ class GasRepository {
 
     $km_per_month = round($this->calculateKMperMonth($mileage));
 
-    $graph_efficiency_data = [];
-    $graph_gas_data = [];
-
-
     $maintenance = $this->calculateMaintenanceStatus($mileage);
+    $avg_efficiency_list = $this->calculateEfficiencyList($avg_efficiency_type);
+    $last_efficiency = $avg_efficiency_list[array_key_last($avg_efficiency_list)];
 
-    /**
-     * expected response
-     *
-     * data: {
-     *    stats: {
-     *      averageEfficiency: 0.0,
-     *      lastEfficiency: 0.0,
-     *    },
-     *    graph: {
-     *      efficiency: {
-     *        "2024-01-01": 12.34,
-     *        "2024-01-02": 12.34,
-     *      },
-     *      gas: {
-     *        "2024-01-01": 50.12,
-     *        "2024-01-02": 60.34,
-     *      },
-     *    },
-     * }
-     */
+    $avg_efficiency_list_values = array_values($avg_efficiency_list);
+    $avg_efficiency = array_sum($avg_efficiency_list_values) / count($avg_efficiency_list_values);
+    $avg_efficiency = round($avg_efficiency, 3);
+
+    $graph_efficiency_data = $this->calculateEfficiencyList($efficiency_graph_type);
+
+    if ($efficiency_graph_type === 'last12mos') {
+      // post process group by month
+      $graph_efficiency_data = $this->postProcessEfficiencyListByMonth($graph_efficiency_data);
+    }
+
+    $graph_gas_data = $this->calculateGasList();
 
     /**
      * check kms by last odo
@@ -55,41 +49,10 @@ class GasRepository {
      * - also check if existing maintenance log is created for part
      */
 
-    /**
-     * Average Efficiency Types: $avgEfficiencyType
-     * - "all" (default) - all data points are averaged
-     * - "last5" - last 5 data points are averaged
-     * - "last10" - last 10 data points are averaged
-     *
-     * Efficiency Graph Types: $efficiencyGraphType
-     * - "last20data" (default) - last 20 data points
-     * - "last12mos" - last 12 months (per month efficiency, averaged)
-     */
-
-    // $data = Gas::select()->get()->toArray();
-    // $data_count = count($data);
-
-    // $total_efficiency = 0;
-    // $average_efficiency = 0;
-
-    // if ($avg_efficiency_type === 'last10') {
-    // } else if ($avg_efficiency_type === 'last5') {
-    // } else {
-    //   foreach ($data as $item) {
-    //     $total_efficiency += $item[''];
-    //   }
-    // }
-
-    // if ($efficiency_graph_type === 'last12mos') {
-    // } else {
-    // }
-
-
-
     return [
       'stats' => [
-        'average_efficiency' => 0.0,
-        'last_efficiency' => 0.0,
+        'average_efficiency' => $avg_efficiency,
+        'last_efficiency' => $last_efficiency,
         'mileage' => $mileage,
         'age' => $age,
         'km_per_month' => $km_per_month,
@@ -101,6 +64,10 @@ class GasRepository {
       'maintenance' => $maintenance,
     ];
   }
+
+  /**
+   * Gas Functions
+   */
 
   public function getFuel() {
     return Gas::all();
@@ -122,6 +89,10 @@ class GasRepository {
       ->delete();
   }
 
+  /**
+   * Maintenance Functions
+   */
+
   public function getMaintenance() {
     return Maintenance::select()->with('parts')->get();
   }
@@ -141,6 +112,10 @@ class GasRepository {
       ->firstOrFail()
       ->delete();
   }
+
+  /**
+   * Calculation Functions
+   */
 
   private function calculateAge(): string {
     $vehicle_start_age = Carbon::parse(config('app.vehicle_start_date'));
@@ -273,12 +248,147 @@ class GasRepository {
 
         if (($target_distance >= 99.5 && $target_distance <= 100) || $target_distance <= 3) {
           $maintenance[$type][$key] = 'limit';
-        } elseif ($target_distance > 95 && $target_distance < 99.5) {
+        } else if ($target_distance > 95 && $target_distance < 99.5) {
           $maintenance[$type][$key] = 'nearing';
         }
       }
     }
 
     return $maintenance;
+  }
+
+  private function calculateEfficiencyList(string $avg_efficiency_type): array {
+    $data = [];
+
+    if ($avg_efficiency_type === 'last20data') {
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+        ->orderBy('id', 'desc')
+        ->limit(21)
+        ->get()
+        ->toArray();
+
+      $data = array_reverse($data);
+    } else if ($avg_efficiency_type === 'last10') {
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+        ->orderBy('id', 'desc')
+        ->limit(11)
+        ->get()
+        ->toArray();
+
+      $data = array_reverse($data);
+    } else if ($avg_efficiency_type === 'last5') {
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+        ->orderBy('id', 'desc')
+        ->limit(6)
+        ->get()
+        ->toArray();
+
+      $data = array_reverse($data);
+    } else if ($avg_efficiency_type === 'last12mos') {
+      $end_date = Carbon::now()
+        ->subMonths(11)
+        ->startOfMonth()
+        ->format('Y-m-d');
+
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+        ->where('date', '>=', $end_date)
+        ->orderBy('id', 'asc')
+        ->get()
+        ->toArray();
+    } else {
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+        ->get()
+        ->toArray();
+    }
+
+    $tank_table = [3, 6, 9, 11, 14, 17, 20, 23, 26, 28];
+    $efficiency_list = [];
+
+    foreach ($data as $index => $value) {
+      if ($index === 0) {
+        continue;
+      }
+
+      $past_liters = $tank_table[$data[$index - 1]['to_bars']];
+      $curr_liters = $tank_table[$value['from_bars']];
+      $past_odo = $data[$index - 1]['odometer'];
+      $curr_odo = $value['odometer'];
+
+      $date = Carbon::parse($value['date'])->format('Y-m-d');
+
+      $efficiency_single = ($curr_odo - $past_odo) / ($past_liters - $curr_liters);
+      $efficiency_single = round($efficiency_single, 3);
+
+      $efficiency_list[$date] = $efficiency_single;
+    }
+
+    return $efficiency_list;
+  }
+
+  private function postProcessEfficiencyListByMonth(array $efficiency_list): array {
+    $months = [
+      'jan' => [],
+      'feb' => [],
+      'mar' => [],
+      'apr' => [],
+      'may' => [],
+      'jun' => [],
+      'jul' => [],
+      'aug' => [],
+      'sep' => [],
+      'oct' => [],
+      'nov' => [],
+      'dec' => [],
+    ];
+
+    $efficiency_months = [
+      'jan' => 0.0,
+      'feb' => 0.0,
+      'mar' => 0.0,
+      'apr' => 0.0,
+      'may' => 0.0,
+      'jun' => 0.0,
+      'jul' => 0.0,
+      'aug' => 0.0,
+      'sep' => 0.0,
+      'oct' => 0.0,
+      'nov' => 0.0,
+      'dec' => 0.0,
+    ];
+
+    // Categorize list per month
+    foreach ($efficiency_list as $date => $efficiency) {
+      $item_month = Carbon::parse($date)->shortMonthName;
+      $item_month = strtolower($item_month);
+
+      array_push($months[$item_month], $efficiency);
+    }
+
+    // Calculate avg efficiency per month
+    foreach ($months as $month => $values) {
+      if (!count($values)) {
+        continue;
+      }
+
+      $average = array_sum($values) / count($values);
+      $efficiency_months[$month] = round($average, 3);
+    }
+
+    return $efficiency_months;
+  }
+
+  private function calculateGasList(): array {
+    $gas_list = [];
+
+    $data = Gas::select('date', 'price_per_liter')
+      ->whereNotNull('price_per_liter')
+      ->limit(20)
+      ->get();
+
+    foreach ($data as $item) {
+      $gas_list[$item->date] = (float) $item->price_per_liter;
+    }
+
+    return $gas_list;
   }
 }
