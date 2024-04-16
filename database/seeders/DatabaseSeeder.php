@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder {
       PCSetupSeeder::class,     // test data
 
       // Four leaf seeds
-      FourleafGasSeeder::class, // apr 2023 - feb 2024 data
-      FourleafMaintenanceSeeder::class, // apr 2023 - feb 2024 data
+      FourleafGasSeeder::class,
+      FourleafMaintenanceSeeder::class,
     ]);
   }
 }
