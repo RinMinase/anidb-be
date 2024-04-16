@@ -5879,7 +5879,7 @@
                         "type": "string",
                         "example": "Engine Oil Change"
                     },
-                    "part": {
+                    "parts": {
                         "type": "array",
                         "items": {
                             "type": "string",
