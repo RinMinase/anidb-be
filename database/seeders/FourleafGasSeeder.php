@@ -15,6 +15,13 @@ class FourleafGasSeeder extends Seeder {
   public function run() {
     $testData = [
       [
+        'date' => '2023-04-29',
+        'from_bars' => 8,
+        'to_bars' => 8,
+        'odometer' => 165,
+        'price_per_liter' => null,
+        'liters_filled' => null,
+      ], [
         'date' => '2023-05-03',
         'from_bars' => 4,
         'to_bars' => 8,
@@ -225,6 +232,13 @@ class FourleafGasSeeder extends Seeder {
         'price_per_liter' => 66.06,
         'liters_filled' => 5.229,
       ], [
+        'date' => '2023-11-11',
+        'from_bars' => 4,
+        'to_bars' => 8,
+        'odometer' => 4561,
+        'price_per_liter' => 66.06,
+        'liters_filled' => 5.229,
+      ], [
         'date' => '2023-11-24',
         'from_bars' => 4,
         'to_bars' => 8,
@@ -332,7 +346,7 @@ class FourleafGasSeeder extends Seeder {
       ], [
         'date' => '2024-02-24',
         'from_bars' => 2,
-        'to_bars' => 4,
+        'to_bars' => 5,
         'odometer' => 7077,
         'price_per_liter' => 67.9,
         'liters_filled' => 8,
@@ -359,14 +373,7 @@ class FourleafGasSeeder extends Seeder {
         'liters_filled' => 6.573,
       ], [
         'date' => '2024-03-24',
-        'from_bars' => 7,
-        'to_bars' => 8,
-        'odometer' => 7901,
-        'price_per_liter' => 63.75,
-        'liters_filled' => 15.86,
-      ], [
-        'date' => '2024-03-24',
-        'from_bars' => 7,
+        'from_bars' => 3,
         'to_bars' => 8,
         'odometer' => 7901,
         'price_per_liter' => 63.75,
@@ -392,6 +399,13 @@ class FourleafGasSeeder extends Seeder {
         'odometer' => 8266,
         'price_per_liter' => 66.38,
         'liters_filled' => 7.532,
+      ], [
+        'date' => '2024-04-11',
+        'from_bars' => 2,
+        'to_bars' => 9,
+        'odometer' => 8343,
+        'price_per_liter' => 66.35,
+        'liters_filled' => 20.545,
       ]
     ];
 
