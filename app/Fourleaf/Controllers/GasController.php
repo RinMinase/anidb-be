@@ -63,8 +63,8 @@ class GasController extends Controller {
      * - "last12mos" - last 12 months (per month efficiency, averaged)
      */
     $data = $this->gasRepository->get(
-      $request->get('avgEfficiencyType'),
-      $request->get('efficiencyGraphType'),
+      $request->get('avg_efficiency_type'),
+      $request->get('efficiency_graph_type'),
     );
 
     return DefaultResponse::success(null, [
