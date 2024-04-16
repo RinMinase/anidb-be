@@ -102,6 +102,23 @@ class GasController extends Controller {
     ]);
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/fuel",
+   *   summary="Fourleaf API - Add a Fuel data",
+   *
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function addFuel(AddEditFuelRequest $request): JsonResponse {
     $this->gasRepository->addFuel(
       $request->only(
@@ -117,6 +134,33 @@ class GasController extends Controller {
     return DefaultResponse::success();
   }
 
+  /**
+   * @OA\Put(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/fuel/{gas_id}",
+   *   summary="Fourleaf API - Edit a Fuel data",
+   *
+   *   @OA\Parameter(
+   *     name="gas_id",
+   *     description="Gas ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function editFuel(AddEditFuelRequest $request, $id): JsonResponse {
     $this->gasRepository->editFuel(
       $request->only(
@@ -133,6 +177,26 @@ class GasController extends Controller {
     return DefaultResponse::success();
   }
 
+  /**
+   * @OA\Delete(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/fuel/{gas_id}",
+   *   summary="Fourleaf API - Delete a Fuel data",
+   *
+   *   @OA\Parameter(
+   *     name="gas_id",
+   *     description="Gas ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function deleteFuel($id): JsonResponse {
     $this->gasRepository->deleteFuel($id);
 

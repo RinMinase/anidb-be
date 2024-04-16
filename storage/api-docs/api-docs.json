@@ -5300,6 +5300,123 @@
                         "$ref": "#/components/responses/Failed"
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Add a Fuel data",
+                "operationId": "e25d12c1276da6fc5c57101568728425",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
+        "/api/fourleaf/gas/fuel/{gas_id}": {
+            "put": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Edit a Fuel data",
+                "operationId": "0b36eaf9f498957199fb70d625e42dc3",
+                "parameters": [
+                    {
+                        "name": "gas_id",
+                        "in": "path",
+                        "description": "Gas ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Delete a Fuel data",
+                "operationId": "bcac675bc404d5af0b0ba7f2d80a9640",
+                "parameters": [
+                    {
+                        "name": "gas_id",
+                        "in": "path",
+                        "description": "Gas ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
             }
         },
         "/api/fourleaf/gas/maintenance": {
