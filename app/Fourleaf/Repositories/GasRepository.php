@@ -6,6 +6,8 @@ use Carbon\Carbon;
 
 use App\Fourleaf\Models\Gas;
 use App\Fourleaf\Models\Maintenance;
+use App\Fourleaf\Models\MaintenancePart;
+use Illuminate\Support\Facades\DB;
 
 class GasRepository {
   /**
@@ -220,6 +222,20 @@ class GasRepository {
         'tires' => 5,
       ],
     ];
+
+    // $current_maintenance = MaintenancePart::select('part')
+    //   ->addselect(DB::raw('max(odometer)'))
+    //   ->leftJoin('fourleaf_maintenance', function ($join) {
+    //     $join->on(
+    //       'fourleaf_maintenance_parts.id_fourleaf_maintenance',
+    //       '=',
+    //       'fourleaf_maintenance.id',
+    //     );
+    //   })
+    //   ->groupBy('part')
+    //   ->orderBy('part', 'asc')
+    //   ->get()
+    //   ->toArray();
 
     foreach (array_keys($maintenance) as $type) {
       foreach (array_keys($maintenance[$type]) as $key) {
