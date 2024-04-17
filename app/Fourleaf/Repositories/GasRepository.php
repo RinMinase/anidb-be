@@ -122,7 +122,7 @@ class GasRepository {
     $vehicle_start_age = Carbon::parse(config('app.vehicle_start_date'));
     $date_now = Carbon::now();
 
-    $age_difference = $date_now->diff($vehicle_start_age);
+    $age_difference = $vehicle_start_age->diff($date_now);
     $age = '';
 
     if ($age_difference->y) {
@@ -164,7 +164,7 @@ class GasRepository {
     $vehicle_start_age = Carbon::parse(config('app.vehicle_start_date'));
     $date_now = Carbon::now();
 
-    return $date_now->floatDiffInYears($vehicle_start_age);
+    return $vehicle_start_age->floatDiffInYears($date_now);
   }
 
   private function calculateKMperMonth(int $mileage): float {
