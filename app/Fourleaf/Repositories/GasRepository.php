@@ -24,8 +24,7 @@ class GasRepository {
       ->first()
       ->odometer;
 
-    $km_per_month = round($this->calculateKMperMonth($mileage));
-
+    $km_per_month = $this->calculateKMperMonth($mileage);
     $maintenance = $this->calculateMaintenanceStatus($mileage);
     $avg_efficiency_list = $this->calculateEfficiencyList($avg_efficiency_type);
     $last_efficiency = $avg_efficiency_list[array_key_last($avg_efficiency_list)];
@@ -171,9 +170,9 @@ class GasRepository {
   private function calculateKMperMonth(int $mileage): float {
     $vehicle_start_age = Carbon::parse(config('app.vehicle_start_date'));
     $date_now = Carbon::now();
-    $months = $date_now->floatDiffInMonths($vehicle_start_age);
+    $months = $vehicle_start_age->floatDiffInMonths($date_now);
 
-    return $mileage / $months;
+    return round($mileage / $months, 2);
   }
 
   private function calculateMaintenanceStatus(int $mileage) {
