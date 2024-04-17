@@ -280,25 +280,25 @@ class GasRepository {
         ->orderBy('id', 'desc')
         ->limit(21)
         ->get()
+        ->reverse()
+        ->values()
         ->toArray();
-
-      $data = array_reverse($data);
     } else if ($avg_efficiency_type === 'last10') {
       $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
         ->orderBy('id', 'desc')
         ->limit(11)
         ->get()
+        ->reverse()
+        ->values()
         ->toArray();
-
-      $data = array_reverse($data);
     } else if ($avg_efficiency_type === 'last5') {
       $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
         ->orderBy('id', 'desc')
         ->limit(6)
         ->get()
+        ->reverse()
+        ->values()
         ->toArray();
-
-      $data = array_reverse($data);
     } else if ($avg_efficiency_type === 'last12mos') {
       $end_date = Carbon::now()
         ->subMonths(11)
@@ -400,7 +400,8 @@ class GasRepository {
       ->orderBy('id', 'desc')
       ->limit(20)
       ->get()
-      ->reverse();
+      ->reverse()
+      ->values();
 
     foreach ($data as $item) {
       $gas_list[$item->date] = (float) $item->price_per_liter;
