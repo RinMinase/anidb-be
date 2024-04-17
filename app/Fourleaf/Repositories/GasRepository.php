@@ -397,8 +397,10 @@ class GasRepository {
 
     $data = Gas::select('date', 'price_per_liter')
       ->whereNotNull('price_per_liter')
+      ->orderBy('id', 'desc')
       ->limit(20)
-      ->get();
+      ->get()
+      ->reverse();
 
     foreach ($data as $item) {
       $gas_list[$item->date] = (float) $item->price_per_liter;
