@@ -7822,24 +7822,25 @@
                 "schema": {
                     "type": "integer",
                     "format": "int32",
+                    "maximum": 100000,
                     "minimum": 0
                 }
             },
             "fourleaf_gas_add_edit_fuel_price_per_liter": {
                 "name": "price_per_liter",
                 "in": "query",
-                "required": true,
                 "schema": {
-                    "type": "float",
+                    "type": "number",
+                    "maximum": 150,
                     "minimum": 0
                 }
             },
             "fourleaf_gas_add_edit_fuel_liters_filled": {
                 "name": "liters_filled",
                 "in": "query",
-                "required": true,
                 "schema": {
-                    "type": "float",
+                    "type": "number",
+                    "maximum": 40,
                     "minimum": 0
                 }
             },
