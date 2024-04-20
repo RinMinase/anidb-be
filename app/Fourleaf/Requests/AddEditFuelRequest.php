@@ -34,35 +34,34 @@ use Illuminate\Http\Exceptions\HttpResponseException;
  *   name="odometer",
  *   in="query",
  *   required=true,
- *   @OA\Schema(type="integer", format="int32", minimum=0),
+ *   @OA\Schema(type="integer", format="int32", minimum=0, maximum=100000),
  * ),
  * @OA\Parameter(
  *   parameter="fourleaf_gas_add_edit_fuel_price_per_liter",
  *   name="price_per_liter",
  *   in="query",
- *   required=true,
- *   @OA\Schema(type="float", minimum=0),
+ *   @OA\Schema(type="number", minimum=0, maximum=150),
  * ),
  * @OA\Parameter(
  *   parameter="fourleaf_gas_add_edit_fuel_liters_filled",
  *   name="liters_filled",
  *   in="query",
- *   required=true,
- *   @OA\Schema(type="float", minimum=0),
+ *   @OA\Schema(type="number", minimum=0, maximum=40),
  * ),
  */
 class AddEditFuelRequest extends FormRequest {
   public function rules() {
+    $today = date("Y-m-d", strtotime("+8 hours"));
+    $date_validation = 'before_or_equal:' . $today;
+
     return [
-      'date' => ['required', 'string', 'date', 'before_or_equal:today'],
+      'date' => ['required', 'string', 'date', $date_validation],
       'from_bars' => ['required', 'integer', 'min:0', 'max:9'],
       'to_bars' => ['required', 'integer', 'min:0', 'max:9'],
+      'odometer' => ['required', 'integer', 'min:0', 'max:100000'],
 
-      // should not be lower than max value of db column
-      'odometer' => ['required', 'integer', 'min:0'],
-
-      'price_per_liter' => ['float', 'min:0'],
-      'liters_filled' => ['float', 'min:0'],
+      'price_per_liter' => ['numeric', 'min:0', 'max:150'],
+      'liters_filled' => ['numeric', 'min:0', 'max:40'],
     ];
   }
 
