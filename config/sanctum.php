@@ -17,6 +17,7 @@ return [
     '%s%s%s%s',
     'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
     env('APP_URL') ? ',' . parse_url(env('APP_URL'), PHP_URL_HOST) : '',
+    env('APP_URL_FOURLEAF') ? ',' . parse_url(env('APP_URL'), PHP_URL_HOST) : '',
     env('APP_URL_PROXY') ? ',' . parse_url(env('APP_URL_PROXY'), PHP_URL_HOST) : '',
     env('APP_URL_DEV') ? ',' . parse_url(env('APP_URL_DEV'), PHP_URL_HOST) : ''
   ))),
