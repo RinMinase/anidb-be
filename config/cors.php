@@ -21,8 +21,11 @@ return [
 
   'allowed_origins' => [
     env('APP_URL'),
-    env('APP_URL_FOURLEAF'),
     env('APP_URL_PROXY'),
+
+    env('APP_URL_FOURLEAF'),
+    env('APP_URL_FOURLEAF_PROXY'),
+
     env('APP_URL_DEV'),
   ],
 
