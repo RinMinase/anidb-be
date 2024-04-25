@@ -26,6 +26,7 @@ class GasRepository {
 
     $km_per_month = $this->calculateKMperMonth($mileage);
     $maintenance = $this->calculateMaintenanceStatus($mileage);
+    $last_maintenance = $this->fetchLastMaintenanceDates();
     $avg_efficiency_list = $this->calculateEfficiencyList($avg_efficiency_type);
     $last_efficiency = $avg_efficiency_list[array_key_last($avg_efficiency_list)];
 
@@ -63,6 +64,7 @@ class GasRepository {
         'gas' => $graph_gas_data,
       ],
       'maintenance' => $maintenance,
+      'last_maintenance' => $last_maintenance,
     ];
   }
 
@@ -221,20 +223,6 @@ class GasRepository {
         'tires' => 5,
       ],
     ];
-
-    // $current_maintenance = MaintenancePart::select('part')
-    //   ->addselect(DB::raw('max(odometer)'))
-    //   ->leftJoin('fourleaf_maintenance', function ($join) {
-    //     $join->on(
-    //       'fourleaf_maintenance_parts.id_fourleaf_maintenance',
-    //       '=',
-    //       'fourleaf_maintenance.id',
-    //     );
-    //   })
-    //   ->groupBy('part')
-    //   ->orderBy('part', 'asc')
-    //   ->get()
-    //   ->toArray();
 
     foreach (array_keys($maintenance) as $type) {
       foreach (array_keys($maintenance[$type]) as $key) {
@@ -408,5 +396,61 @@ class GasRepository {
     }
 
     return $gas_list;
+  }
+
+  private function fetchLastMaintenanceDates(): array {
+    $last_maintenance = MaintenancePart::select('part')
+      ->addselect(DB::raw('max(odometer) as odometer'))
+      ->addselect(DB::raw('max(date) as date'))
+      ->leftJoin('fourleaf_maintenance', function ($join) {
+        $join->on(
+          'fourleaf_maintenance_parts.id_fourleaf_maintenance',
+          '=',
+          'fourleaf_maintenance.id',
+        );
+      })
+      ->groupBy('part')
+      ->orderBy('part', 'asc')
+      ->get()
+      ->keyBy('part');
+
+    return [
+      'ac_coolant' => [
+        'date' => $last_maintenance->get('ac_coolant') ? $last_maintenance->get('ac_coolant')->date : null,
+        'odometer' => $last_maintenance->get('ac_coolant') ? $last_maintenance->get('ac_coolant')->odometer : null,
+      ],
+      'battery' => [
+        'date' => $last_maintenance->get('battery') ? $last_maintenance->get('battery')->date : null,
+        'odometer' => $last_maintenance->get('battery') ? $last_maintenance->get('battery')->odometer : null,
+      ],
+      'brake_fluid' => [
+        'date' => $last_maintenance->get('brake_fluid') ? $last_maintenance->get('brake_fluid')->date : null,
+        'odometer' => $last_maintenance->get('brake_fluid') ? $last_maintenance->get('brake_fluid')->odometer : null,
+      ],
+      'engine_oil' => [
+        'date' => $last_maintenance->get('engine_oil') ? $last_maintenance->get('engine_oil')->date : null,
+        'odometer' => $last_maintenance->get('engine_oil') ? $last_maintenance->get('engine_oil')->odometer : null,
+      ],
+      'power_steering_fluid' => [
+        'date' => $last_maintenance->get('power_steering_fluid') ? $last_maintenance->get('power_steering_fluid')->date : null,
+        'odometer' => $last_maintenance->get('power_steering_fluid') ? $last_maintenance->get('power_steering_fluid')->odometer : null,
+      ],
+      'radiator_fluid' => [
+        'date' => $last_maintenance->get('radiator_fluid') ? $last_maintenance->get('radiator_fluid')->date : null,
+        'odometer' => $last_maintenance->get('radiator_fluid') ? $last_maintenance->get('radiator_fluid')->odometer : null,
+      ],
+      'spark_plugs' => [
+        'date' => $last_maintenance->get('spark_plugs') ? $last_maintenance->get('spark_plugs')->date : null,
+        'odometer' => $last_maintenance->get('spark_plugs') ? $last_maintenance->get('spark_plugs')->odometer : null,
+      ],
+      'tires' => [
+        'date' => $last_maintenance->get('tires') ? $last_maintenance->get('tires')->date : null,
+        'odometer' => $last_maintenance->get('tires') ? $last_maintenance->get('tires')->odometer : null,
+      ],
+      'transmission_fluid' => [
+        'date' => $last_maintenance->get('transmission_fluid') ? $last_maintenance->get('transmission_fluid')->date : null,
+        'odometer' => $last_maintenance->get('transmission_fluid') ? $last_maintenance->get('transmission_fluid')->odometer : null,
+      ],
+    ];
   }
 }
