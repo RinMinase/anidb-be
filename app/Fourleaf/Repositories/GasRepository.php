@@ -319,7 +319,9 @@ class GasRepository {
 
       $date = Carbon::parse($value['date'])->format('Y-m-d');
 
-      $efficiency_single = ($curr_odo - $past_odo) / ($past_liters - $curr_liters);
+      $default_liters_on_no_bars_changed = 3;
+      $liters_consumed = ($past_liters - $curr_liters) ?: $default_liters_on_no_bars_changed;
+      $efficiency_single = ($curr_odo - $past_odo) / $liters_consumed;
       $efficiency_single = round($efficiency_single, 3);
 
       $efficiency_list[$date] = $efficiency_single;
