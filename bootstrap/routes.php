@@ -52,6 +52,7 @@ Route::prefix('api')
             Route::delete('fuel', 'GasController@deleteFuel');
 
             Route::get('maintenance', 'GasController@getMaintenance');
+            Route::get('maintenance/parts', 'GasController@getMaintenanceParts');
             Route::post('maintenance', 'GasController@addMaintenance');
             Route::put('maintenance', 'GasController@editMaintenance');
             Route::delete('maintenance', 'GasController@deleteMaintenance');

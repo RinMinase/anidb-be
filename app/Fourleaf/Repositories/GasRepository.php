@@ -116,6 +116,21 @@ class GasRepository {
       ->delete();
   }
 
+  public function getMaintenanceParts() {
+    return [
+      'others',
+      'ac_coolant',
+      'battery',
+      'brake_fluid',
+      'engine_oil',
+      'power_steering_fluid',
+      'radiator_fluid',
+      'spark_plugs',
+      'tires',
+      'transmission',
+    ];
+  }
+
   /**
    * Calculation Functions
    */
