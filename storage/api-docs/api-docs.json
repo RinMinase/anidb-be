@@ -5457,6 +5457,46 @@
                     }
                 }
             }
+        },
+        "/api/fourleaf/gas/maintenance/parts": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Maintenance Parts List",
+                "operationId": "81be9c74a129358ca1d32a3d3a925a2f",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "schema": "string",
+                                                        "example": "engine_oil"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
         }
     },
     "components": {
