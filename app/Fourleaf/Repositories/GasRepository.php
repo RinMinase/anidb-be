@@ -296,46 +296,40 @@ class GasRepository {
   private function calculateEfficiencyList(string $avg_efficiency_type): array {
     $data = [];
 
+    $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled');
+
     if ($avg_efficiency_type === 'last20data') {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
-        ->orderBy('id', 'desc')
+      $data = $data->orderBy('id', 'desc')
         ->limit(21)
         ->get()
         ->reverse()
-        ->values()
-        ->toArray();
+        ->values();
     } else if ($avg_efficiency_type === 'last10') {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
-        ->orderBy('id', 'desc')
+      $data = $data->orderBy('id', 'desc')
         ->limit(11)
         ->get()
         ->reverse()
-        ->values()
-        ->toArray();
+        ->values();
     } else if ($avg_efficiency_type === 'last5') {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
-        ->orderBy('id', 'desc')
+      $data = $data->orderBy('id', 'desc')
         ->limit(6)
         ->get()
         ->reverse()
-        ->values()
-        ->toArray();
+        ->values();
     } else if ($avg_efficiency_type === 'last12mos') {
       $end_date = Carbon::now()
         ->subMonths(11)
         ->startOfMonth()
         ->format('Y-m-d');
 
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
-        ->where('date', '>=', $end_date)
+      $data = $data->where('date', '>=', $end_date)
         ->orderBy('id', 'asc')
-        ->get()
-        ->toArray();
+        ->get();
     } else {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
-        ->get()
-        ->toArray();
+      $data = $data->get();
     }
+
+    $data = $data->toArray();
 
     $tank_table = [3, 6, 9, 11, 14, 17, 20, 23, 26, 28];
     $efficiency_list = [];
