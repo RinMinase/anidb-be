@@ -101,7 +101,25 @@ class GasRepository {
   }
 
   public function addMaintenance(array $values) {
-    return Maintenance::create($values);
+    $parts = $values['parts'];
+    unset($values['parts']);
+
+    $maintenance_id = Maintenance::insertGetId($values);
+
+    $maintenance_parts = [];
+    foreach ($parts as $key => $value) {
+      if ($value) {
+        array_push($maintenance_parts, $key);
+      }
+    }
+
+
+    foreach ($maintenance_parts as $part) {
+      MaintenancePart::create([
+        'id_fourleaf_maintenance' => $maintenance_id,
+        'part' => $part,
+      ]);
+    }
   }
 
   public function editMaintenance(array $values, $id) {

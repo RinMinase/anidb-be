@@ -22,6 +22,7 @@ class MaintenancePart extends Model {
    * @var array<int, string>
    */
   protected $fillable = [
+    'id_fourleaf_maintenance',
     'part',
   ];
 

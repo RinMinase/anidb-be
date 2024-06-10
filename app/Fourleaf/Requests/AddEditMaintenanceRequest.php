@@ -10,7 +10,17 @@ class AddEditMaintenanceRequest extends FormRequest {
   public function rules() {
     return [
       'date' => ['required', 'string', 'date', 'before_or_equal:today'],
-      'part' => ['required', 'string'],
+      'description' => ['required', 'string'],
+      'parts.ac_coolant' => ['required', 'boolean'],
+      'parts.battery' => ['required', 'boolean'],
+      'parts.brake_fluid' => ['required', 'boolean'],
+      'parts.engine_oil' => ['required', 'boolean'],
+      'parts.power_steering_fluid' => ['required', 'boolean'],
+      'parts.radiator_fluid' => ['required', 'boolean'],
+      'parts.spark_plugs' => ['required', 'boolean'],
+      'parts.tires' => ['required', 'boolean'],
+      'parts.transmission' => ['required', 'boolean'],
+      'parts.others' => ['required', 'boolean'],
       'odometer' => ['required', 'integer', 'min:0'],
     ];
   }

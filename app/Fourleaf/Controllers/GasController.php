@@ -235,8 +235,8 @@ class GasController extends Controller {
     ]);
   }
 
-  public function addMaintenance(AddEditMaintenanceRequest $request): JsonResponse {
-    $this->gasRepository->addMaintenance($request->only('date', 'part', 'odometer'));
+  public function addMaintenance(AddEditMaintenanceRequest $request) {
+    $this->gasRepository->addMaintenance($request->only('date', 'description', 'odometer', 'parts'));
 
     return DefaultResponse::success();
   }
