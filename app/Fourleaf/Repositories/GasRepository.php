@@ -297,7 +297,7 @@ class GasRepository {
     $data = [];
 
     if ($avg_efficiency_type === 'last20data') {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
         ->orderBy('id', 'desc')
         ->limit(21)
         ->get()
@@ -305,7 +305,7 @@ class GasRepository {
         ->values()
         ->toArray();
     } else if ($avg_efficiency_type === 'last10') {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
         ->orderBy('id', 'desc')
         ->limit(11)
         ->get()
@@ -313,7 +313,7 @@ class GasRepository {
         ->values()
         ->toArray();
     } else if ($avg_efficiency_type === 'last5') {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
         ->orderBy('id', 'desc')
         ->limit(6)
         ->get()
@@ -326,13 +326,13 @@ class GasRepository {
         ->startOfMonth()
         ->format('Y-m-d');
 
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
         ->where('date', '>=', $end_date)
         ->orderBy('id', 'asc')
         ->get()
         ->toArray();
     } else {
-      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer')
+      $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled')
         ->get()
         ->toArray();
     }
@@ -350,10 +350,12 @@ class GasRepository {
       $past_odo = $data[$index - 1]['odometer'];
       $curr_odo = $value['odometer'];
 
+      // if bars are the same for two consequent data points
+      $last_liters_filled = $data[$index]['liters_filled'];
+
       $date = Carbon::parse($value['date'])->format('Y-m-d');
 
-      $default_liters_on_no_bars_changed = 3;
-      $liters_consumed = ($past_liters - $curr_liters) ?: $default_liters_on_no_bars_changed;
+      $liters_consumed = ($past_liters - $curr_liters) ?: $last_liters_filled;
       $efficiency_single = ($curr_odo - $past_odo) / $liters_consumed;
       $efficiency_single = round($efficiency_single, 3);
 
