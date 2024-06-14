@@ -83,7 +83,7 @@ class GasRepository {
   public function editFuel(array $values, $id) {
     return Gas::where('id', $id)
       ->firstOrFail()
-      ->udpate($values);
+      ->update($values);
   }
 
   public function deleteFuel($id) {
@@ -125,7 +125,7 @@ class GasRepository {
   public function editMaintenance(array $values, $id) {
     return Maintenance::where('id', $id)
       ->firstOrFail()
-      ->udpate($values);
+      ->update($values);
   }
 
   public function deleteMaintenance($id) {
