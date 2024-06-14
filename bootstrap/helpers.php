@@ -57,3 +57,35 @@ if (!function_exists('vdd')) {
     die;
   }
 }
+
+if (!function_exists('jdd')) {
+  function jdd(mixed ...$value) {
+    var_dump(json_encode($value, JSON_PRETTY_PRINT));
+    die;
+  }
+}
+
+if (!function_exists('convert_single_dimension_arr_to_camel')) {
+  function convert_single_dimension_arr_to_camel(array $value) {
+    $keys = array_map(function ($i) {
+      $parts = explode('_', $i);
+      return array_shift($parts) . implode('', array_map('ucfirst', $parts));
+    }, array_keys($value));
+
+    return array_combine($keys, $value);
+  };
+}
+
+if (!function_exists('convert_arr_to_camel_case')) {
+  function convert_arr_to_camel_case(array $values) {
+    $keys = array_map(function ($i) use (&$values) {
+      if (is_array($values[$i]))
+        $values[$i] = convert_single_dimension_arr_to_camel($values[$i]);
+
+      $parts = explode('_', $i);
+      return array_shift($parts) . implode('', array_map('ucfirst', $parts));
+    }, array_keys($values));
+
+    return array_combine($keys, $values);
+  };
+}
