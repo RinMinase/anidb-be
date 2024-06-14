@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Resources;
+namespace App\Fourleaf\Resources\Gas;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

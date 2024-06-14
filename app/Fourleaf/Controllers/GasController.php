@@ -10,12 +10,12 @@ use App\Resources\DefaultResponse;
 
 use App\Fourleaf\Repositories\GasRepository;
 
-use App\Fourleaf\Requests\AddEditFuelRequest;
-use App\Fourleaf\Requests\AddEditMaintenanceRequest;
-use App\Fourleaf\Requests\GetGasRequest;
+use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
+use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
+use App\Fourleaf\Requests\Gas\GetRequest;
 
-use App\Fourleaf\Resources\GetGasResource;
-use App\Fourleaf\Resources\MaintenanceResource;
+use App\Fourleaf\Resources\Gas\GetResource;
+use App\Fourleaf\Resources\Gas\MaintenanceResource;
 
 class GasController extends Controller {
   private GasRepository $gasRepository;
@@ -51,7 +51,7 @@ class GasController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function get(GetGasRequest $request): JsonResponse {
+  public function get(GetRequest $request): JsonResponse {
     /**
      * Average Efficiency Types:
      * - "all" (default) - all data points are averaged
@@ -68,7 +68,7 @@ class GasController extends Controller {
     );
 
     return DefaultResponse::success(null, [
-      'data' => new GetGasResource($data),
+      'data' => new GetResource($data),
     ]);
   }
 

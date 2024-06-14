@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Requests;
+namespace App\Fourleaf\Requests\Gas;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,7 +24,7 @@ use App\Fourleaf\Enums\EfficiencyGraphTypeEnum;
  *   @OA\Schema(type="string", default="last20data", enum={"last20data","last12mos"}),
  * ),
  */
-class GetGasRequest extends FormRequest {
+class GetRequest extends FormRequest {
   public function rules() {
     return [
       'avg_efficiency_type' => [new Enum(AvgEfficiencyTypeEnum::class)],

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Resources;
+namespace App\Fourleaf\Resources\Gas;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -117,7 +117,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *   ),
  * )
  */
-class GetGasResource extends JsonResource {
+class GetResource extends JsonResource {
 
   public function toArray($request) {
     return [
