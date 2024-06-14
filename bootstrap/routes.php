@@ -57,6 +57,11 @@ Route::prefix('api')
             Route::put('maintenance', 'GasController@editMaintenance');
             Route::delete('maintenance', 'GasController@deleteMaintenance');
           });
+
+        Route::get('electricity', 'ElectricityController@get');
+        Route::post('electricity', 'ElectricityController@add');
+        Route::put('electricity', 'ElectricityController@edit');
+        Route::delete('electricity', 'ElectricityController@delete');
       });
   });
 
