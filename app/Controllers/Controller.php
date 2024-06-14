@@ -40,6 +40,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Sequence")
  * @OA\Tag(name="PC Setup")
  * @OA\Tag(name="Fourleaf - Gas")
+ * @OA\Tag(name="Fourleaf - Electricity")
  *
  * // Deprecated Tags
  * @OA\Tag(name="MAL")

@@ -5219,6 +5219,143 @@
                 ]
             }
         },
+        "/api/fourleaf/electricity": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Electricity"
+                ],
+                "summary": "Fourleaf API - Get Electricity Overview",
+                "operationId": "59eb029d753bcebf8375e8076173237e",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_electricity_get_year"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_electricity_get_month"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/FourleafElectricityGetResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Fourleaf - Electricity"
+                ],
+                "summary": "Fourleaf API - Add an Electricity data point",
+                "operationId": "107e4b2212ce761762b14106a8c42f54",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_electricity_add_edit_datetime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_electricity_add_edit_reading"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
+        "/api/fourleaf/electricity/{electricity_id}": {
+            "put": {
+                "tags": [
+                    "Fourleaf - Electricity"
+                ],
+                "summary": "Fourleaf API - Edit an Electricity data point",
+                "operationId": "0aaea2a30e895d83780cab76e54af5ca",
+                "parameters": [
+                    {
+                        "name": "electricity_id",
+                        "in": "path",
+                        "description": "Electricity ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_electricity_add_edit_datetime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_electricity_add_edit_reading"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Fourleaf - Electricity"
+                ],
+                "summary": "Fourleaf API - Delete an Electricity data point",
+                "operationId": "4f3ac697b142a745a2ee56985070d963",
+                "parameters": [
+                    {
+                        "name": "electricity_id",
+                        "in": "path",
+                        "description": "Electricity ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
         "/api/fourleaf/gas": {
             "get": {
                 "tags": [
@@ -5820,6 +5957,21 @@
                     }
                 ]
             },
+            "Electricity": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20 13:00"
+                    },
+                    "reading": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1234
+                    }
+                },
+                "type": "object"
+            },
             "Gas": {
                 "properties": {
                     "date": {
@@ -5876,6 +6028,109 @@
                         "format": "int32",
                         "minimum": 0,
                         "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "FourleafElectricityGetResource": {
+                "properties": {
+                    "settings": {
+                        "properties": {
+                            "kwhPrice": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 12.23
+                            },
+                            "monthStartsAt": {
+                                "type": "string",
+                                "example": "monday"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "weekly": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                },
+                                "weekNo": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "actualWeekYearNo": {
+                                    "type": "integer",
+                                    "example": 12
+                                },
+                                "totalKwh": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 12.34
+                                },
+                                "totalKwhValue": {
+                                    "type": "integer",
+                                    "example": 123
+                                },
+                                "avgDailyKwh": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 12.34
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "daily": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                },
+                                "dateNumber": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "day": {
+                                    "type": "string",
+                                    "example": "monday"
+                                },
+                                "date": {
+                                    "type": "string",
+                                    "example": "2023-05-21"
+                                },
+                                "kwPerHour": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 12.34
+                                },
+                                "kwUsedToday": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 12.34
+                                },
+                                "readingValue": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 12.34
+                                },
+                                "readingTime": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 12.34
+                                },
+                                "state": {
+                                    "type": "string",
+                                    "example": "low|normal|high"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
@@ -8062,6 +8317,48 @@
                     "minimum": 0
                 }
             },
+            "fourleaf_electricity_add_edit_datetime": {
+                "name": "datetime",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "2020-10-20 13:00"
+            },
+            "fourleaf_electricity_add_edit_reading": {
+                "name": "reading",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
+            "fourleaf_electricity_get_year": {
+                "name": "year",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 1900
+                },
+                "example": 2020
+            },
+            "fourleaf_electricity_get_month": {
+                "name": "month",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 12,
+                    "minimum": 1
+                },
+                "example": 1
+            },
             "fourleaf_gas_get_gas_avg_efficiency_type": {
                 "name": "avg_efficiency_type",
                 "in": "query",
@@ -9500,6 +9797,9 @@
         },
         {
             "name": "Fourleaf - Gas"
+        },
+        {
+            "name": "Fourleaf - Electricity"
         },
         {
             "name": "MAL"
