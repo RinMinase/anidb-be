@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder {
       PCSetupSeeder::class,     // test data
 
       // Four leaf seeds
+      FourleafSettingsSeeder::class,
       FourleafGasSeeder::class,
       FourleafMaintenanceSeeder::class,
       FourleafElectricitySeeder::class,     // test data
