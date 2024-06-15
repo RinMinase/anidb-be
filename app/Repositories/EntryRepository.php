@@ -728,7 +728,7 @@ class EntryRepository {
     $end_date = Carbon::parse($date_to);
 
     // total_days is inclusive of the whole $end_date therefore + 1
-    $total_days = $end_date->diffInDays($start_date) + 1;
+    $total_days = $start_date->diffInDays($end_date) + 1;
 
     $total_size = 0;
     $total_eps = 0;

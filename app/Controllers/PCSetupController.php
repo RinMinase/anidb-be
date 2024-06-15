@@ -46,7 +46,7 @@ class PCSetupController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    $setups = $this->pcSetupRepository->getAll();
+    $setups = $this->pcSetupRepository->getAll()->toArray();
 
     return DefaultResponse::success(null, [
       'data' => $setups,

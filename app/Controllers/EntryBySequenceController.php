@@ -61,7 +61,7 @@ class EntryBySequenceController extends Controller {
     $data = $this->entryRepository->getBySequence($id);
 
     return DefaultResponse::success(null, [
-      'data' => $data['data'],
+      'data' => $data['data']->resource->toArray(),
       'stats' => $data['stats'],
     ]);
   }
