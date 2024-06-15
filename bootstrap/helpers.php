@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (!function_exists('parse_filesize')) {
   function parse_filesize(?int $size, string $forced_unit = null): string {
     $KB = 1024;
@@ -65,27 +67,16 @@ if (!function_exists('jdd')) {
   }
 }
 
-if (!function_exists('convert_single_dimension_arr_to_camel')) {
-  function convert_single_dimension_arr_to_camel(array $value) {
-    $keys = array_map(function ($i) {
-      $parts = explode('_', $i);
-      return array_shift($parts) . implode('', array_map('ucfirst', $parts));
-    }, array_keys($value));
+if (!function_exists('convert_array_to_camel_case')) {
+  function convert_array_to_camel_case(array $values): array {
+    $array_string = json_encode($values);
+    $converted = preg_replace_callback('/"(\w+)":/', function ($matches) {
+      $key = $matches[1];
+      $converted_key = Str::camel($key);
 
-    return array_combine($keys, $value);
-  };
-}
+      return '"' . $converted_key . '":';
+    }, $array_string);
 
-if (!function_exists('convert_arr_to_camel_case')) {
-  function convert_arr_to_camel_case(array $values) {
-    $keys = array_map(function ($i) use (&$values) {
-      if (is_array($values[$i]))
-        $values[$i] = convert_single_dimension_arr_to_camel($values[$i]);
-
-      $parts = explode('_', $i);
-      return array_shift($parts) . implode('', array_map('ucfirst', $parts));
-    }, array_keys($values));
-
-    return array_combine($keys, $values);
-  };
+    return json_decode($converted, true);
+  }
 }
