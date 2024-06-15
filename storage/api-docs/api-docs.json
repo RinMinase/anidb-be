@@ -5384,7 +5384,7 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/GetGasResource"
+                                                    "$ref": "#/components/schemas/FourleafGasGetResource"
                                                 }
                                             },
                                             "type": "object"
@@ -6148,7 +6148,7 @@
                 },
                 "type": "object"
             },
-            "GetGasResource": {
+            "FourleafGasGetResource": {
                 "properties": {
                     "stats": {
                         "properties": {
@@ -6497,9 +6497,9 @@
                                 "spark_plugs",
                                 "tires",
                                 "transmission"
-                            ]
-                        },
-                        "example": "engine_oil"
+                            ],
+                            "example": "engine_oil"
+                        }
                     },
                     "odometer": {
                         "type": "integer",
@@ -8270,6 +8270,48 @@
             }
         },
         "parameters": {
+            "fourleaf_electricity_add_edit_datetime": {
+                "name": "datetime",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "2020-10-20 13:00"
+            },
+            "fourleaf_electricity_add_edit_reading": {
+                "name": "reading",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
+            "fourleaf_electricity_get_year": {
+                "name": "year",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 1900
+                },
+                "example": 2020
+            },
+            "fourleaf_electricity_get_month": {
+                "name": "month",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 12,
+                    "minimum": 1
+                },
+                "example": 1
+            },
             "fourleaf_gas_add_edit_fuel_date": {
                 "name": "date",
                 "in": "query",
@@ -8329,48 +8371,6 @@
                     "maximum": 40,
                     "minimum": 0
                 }
-            },
-            "fourleaf_electricity_add_edit_datetime": {
-                "name": "datetime",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "2020-10-20 13:00"
-            },
-            "fourleaf_electricity_add_edit_reading": {
-                "name": "reading",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "minimum": 0
-                }
-            },
-            "fourleaf_electricity_get_year": {
-                "name": "year",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "minimum": 1900
-                },
-                "example": 2020
-            },
-            "fourleaf_electricity_get_month": {
-                "name": "month",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "maximum": 12,
-                    "minimum": 1
-                },
-                "example": 1
             },
             "fourleaf_gas_get_gas_avg_efficiency_type": {
                 "name": "avg_efficiency_type",
