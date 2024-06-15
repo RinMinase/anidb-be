@@ -107,9 +107,9 @@ class EntryTest extends BaseTestCase {
           'page',
           'limit',
           'results',
-          'total_results',
-          'total_pages',
-          'has_next',
+          'totalResults',
+          'totalPages',
+          'hasNext',
         ],
       ]);
 
@@ -138,9 +138,9 @@ class EntryTest extends BaseTestCase {
           'page',
           'limit',
           'results',
-          'total_results',
-          'total_pages',
-          'has_next',
+          'totalResults',
+          'totalPages',
+          'hasNext',
         ],
       ]);
 
@@ -158,7 +158,7 @@ class EntryTest extends BaseTestCase {
         'data' => [
           'id',
           'quality',
-          'id_quality',
+          'idQuality',
           'title',
           'dateInitFinishedRaw',
           'dateInitFinished',
@@ -186,9 +186,9 @@ class EntryTest extends BaseTestCase {
           'variants',
           'remarks',
           'codecHDR',
-          'id_codec_video',
+          'idCodecVideo',
           'codecVideo',
-          'id_codec_audio',
+          'idCodecAudio',
           'codecAudio',
           'offquels',
           'rewatches',
@@ -229,9 +229,9 @@ class EntryTest extends BaseTestCase {
           'page',
           'limit',
           'results',
-          'total_results',
-          'total_pages',
-          'has_next',
+          'totalResults',
+          'totalPages',
+          'hasNext',
         ],
       ]);
 
