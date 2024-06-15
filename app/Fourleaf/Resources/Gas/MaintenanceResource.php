@@ -13,9 +13,9 @@ use Carbon\Carbon;
  *   @OA\Property(
  *     property="parts",
  *     type="array",
- *     example="engine_oil",
  *     @OA\Items(
  *       type="string",
+ *       example="engine_oil",
  *       enum={
  *         "others",
  *         "ac_coolant",
@@ -37,11 +37,9 @@ class MaintenanceResource extends JsonResource {
 
   public function toArray($request) {
 
-    return [
+    return array_replace_recursive($this->resource->toArray(), [
       'date' => Carbon::parse($this->date)->format('M d, Y'),
-      'description' => $this->description,
       'parts' => $this->parts->pluck('part'),
-      'odometer' => $this->odometer,
-    ];
+    ]);
   }
 }

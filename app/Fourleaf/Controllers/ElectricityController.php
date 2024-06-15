@@ -56,7 +56,7 @@ class ElectricityController extends Controller {
     );
 
     return DefaultResponse::success(null, [
-      'data' => new GetResource($data),
+      'data' => $data,
     ]);
   }
 

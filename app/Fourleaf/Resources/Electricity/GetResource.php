@@ -45,12 +45,4 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * )
  */
 class GetResource extends JsonResource {
-
-  public function toArray($request) {
-    return [
-      'settings' => convert_arr_to_camel_case($this['settings']),
-      'weekly' => convert_arr_to_camel_case($this['weekly']),
-      'daily' => convert_arr_to_camel_case($this['daily']),
-    ];
-  }
 }

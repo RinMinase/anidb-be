@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @OA\Schema(
+ *   schema="FourleafGasGetResource",
+ *
  *   @OA\Property(
  *     property="stats",
  *     @OA\Property(property="averageEfficiency", type="float", minimum=0, example=12.23),
@@ -118,79 +120,4 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * )
  */
 class GetResource extends JsonResource {
-
-  public function toArray($request) {
-    return [
-      'stats' => [
-        'averageEfficiency' => $this['stats']['average_efficiency'],
-        'lastEfficiency' => $this['stats']['last_efficiency'],
-        'mileage' => $this['stats']['mileage'],
-        'age' => $this['stats']['age'],
-        'kmPerMonth' => $this['stats']['km_per_month'],
-      ],
-      'graph' => [
-        'efficiency' => $this['graph']['efficiency'],
-        'gas' => $this['graph']['gas'],
-      ],
-      'maintenance' => [
-        'km' => [
-          'engineOil' => $this['maintenance']['km']['engine_oil'],
-          'tires' => $this['maintenance']['km']['tires'],
-          'transmissionFluid' => $this['maintenance']['km']['transmission_fluid'],
-          'brakeFluid' => $this['maintenance']['km']['brake_fluid'],
-          'radiatorFluid' => $this['maintenance']['km']['radiator_fluid'],
-          'sparkPlugs' => $this['maintenance']['km']['spark_plugs'],
-          'powerSteeringFluid' => $this['maintenance']['km']['power_steering_fluid'],
-        ],
-        'year' => [
-          'engineOil' => $this['maintenance']['year']['engine_oil'],
-          'transmissionFluid' => $this['maintenance']['year']['transmission_fluid'],
-          'brakeFluid' => $this['maintenance']['year']['brake_fluid'],
-          'battery' => $this['maintenance']['year']['battery'],
-          'radiatorFluid' => $this['maintenance']['year']['radiator_fluid'],
-          'acCoolant' => $this['maintenance']['year']['ac_coolant'],
-          'powerSteeringFluid' => $this['maintenance']['year']['power_steering_fluid'],
-          'tires' => $this['maintenance']['year']['tires'],
-        ],
-      ],
-      'lastMaintenance' => [
-        'acCoolant' => [
-          'date' => $this['last_maintenance']['ac_coolant']['date'],
-          'odometer' => $this['last_maintenance']['ac_coolant']['odometer'],
-        ],
-        'battery' => [
-          'date' => $this['last_maintenance']['battery']['date'],
-          'odometer' => $this['last_maintenance']['battery']['odometer'],
-        ],
-        'brakeFluid' => [
-          'date' => $this['last_maintenance']['brake_fluid']['date'],
-          'odometer' => $this['last_maintenance']['brake_fluid']['odometer'],
-        ],
-        'engineOil' => [
-          'date' => $this['last_maintenance']['engine_oil']['date'],
-          'odometer' => $this['last_maintenance']['engine_oil']['odometer'],
-        ],
-        'powerSteeringFluid' => [
-          'date' => $this['last_maintenance']['power_steering_fluid']['date'],
-          'odometer' => $this['last_maintenance']['power_steering_fluid']['odometer'],
-        ],
-        'radiatorFluid' => [
-          'date' => $this['last_maintenance']['radiator_fluid']['date'],
-          'odometer' => $this['last_maintenance']['radiator_fluid']['odometer'],
-        ],
-        'sparkPlugs' => [
-          'date' => $this['last_maintenance']['spark_plugs']['date'],
-          'odometer' => $this['last_maintenance']['spark_plugs']['odometer'],
-        ],
-        'tires' => [
-          'date' => $this['last_maintenance']['tires']['date'],
-          'odometer' => $this['last_maintenance']['tires']['odometer'],
-        ],
-        'transmissionFluid' => [
-          'date' => $this['last_maintenance']['transmission_fluid']['date'],
-          'odometer' => $this['last_maintenance']['transmission_fluid']['odometer'],
-        ],
-      ]
-    ];
-  }
 }

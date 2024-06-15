@@ -42,7 +42,7 @@ class GasController extends Controller {
    *         @OA\Schema(
    *           @OA\Property(
    *             property="data",
-   *             ref="#/components/schemas/GetGasResource",
+   *             ref="#/components/schemas/FourleafGasGetResource",
    *           ),
    *         ),
    *       },
@@ -68,7 +68,7 @@ class GasController extends Controller {
     );
 
     return DefaultResponse::success(null, [
-      'data' => new GetResource($data),
+      'data' => $data,
     ]);
   }
 
