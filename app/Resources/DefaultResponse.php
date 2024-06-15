@@ -26,6 +26,10 @@ class DefaultResponse {
       'message' => $message ?? 'Success',
     ];
 
+    if ($data) {
+      $data = convert_array_to_camel_case($data);
+    }
+
     $response = array_merge_recursive($defaultResponse, $data);
 
     return response()->json($response);
