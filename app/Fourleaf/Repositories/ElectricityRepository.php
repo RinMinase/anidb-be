@@ -3,6 +3,7 @@
 namespace App\Fourleaf\Repositories;
 
 use App\Fourleaf\Models\Electricity;
+use App\Fourleaf\Models\Settings;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -25,12 +26,18 @@ class ElectricityRepository {
       ->get()
       ->toArray();
 
-    $daily_values = $this->calculateDailyValues($data);
-    $weekly_values = $this->calculateWeeklyValues($data);
+    $kwh_value = (float) Settings::where('key', 'kwh_price')->first()->value;
+    $daily_values = $this->calculateDailyValues($data, $kwh_value);
+    $weekly_values = $this->calculateWeeklyValues($data, $kwh_value);
+
+    $settings = [
+      'kwh_value' => $kwh_value
+    ];
 
     return [
       'daily' => $daily_values,
       'weekly' => $weekly_values,
+      'settings' => $settings,
     ];
   }
 
@@ -53,9 +60,10 @@ class ElectricityRepository {
   /**
    * Calculation Functions
    */
-  private function calculateDailyValues($data): array {
+  private function calculateDailyValues(array $data, float $kwh_value = 1): array {
     $kw_per_hour_values = [];
     $kw_per_day_values = [];
+    $price_per_day_values = [];
     $alarms_per_day_values = [];
 
     foreach ($data as $index => $value) {
@@ -70,6 +78,7 @@ class ElectricityRepository {
 
       array_push($kw_per_hour_values, $kw_per_hour);
       array_push($kw_per_day_values, $kw_per_hour * 24);
+      array_push($price_per_day_values, $kw_per_hour * 24 * $kwh_value);
     }
 
     $avg_kw_per_day = 0;
@@ -91,6 +100,7 @@ class ElectricityRepository {
 
     array_unshift($kw_per_hour_values, 0);
     array_unshift($kw_per_day_values, 0);
+    array_unshift($price_per_day_values, 0);
 
     foreach ($data as $index => $value) {
       $datetime = Carbon::parse($value['datetime']);
@@ -106,6 +116,7 @@ class ElectricityRepository {
         'date' => $date,
         'kw_per_hour' => round($kw_per_hour_values[$index] ?? 0, 2),
         'kw_per_day' => round($kw_per_day_values[$index] ?? 0, 2),
+        'price_per_day' => round($price_per_day_values[$index] ?? 0, 2),
         'reading_value' => $value['reading'],
         'reading_time' => $reading_time
       ]);
@@ -114,7 +125,7 @@ class ElectricityRepository {
     return $daily_values;
   }
 
-  private function calculateWeeklyValues($data): array {
+  private function calculateWeeklyValues(array $data, float $kwh_value = 1): array {
     $data_by_wk = [];
 
     // Temporary Higher-scoped Variables
@@ -124,7 +135,6 @@ class ElectricityRepository {
 
     foreach ($data as $value) {
       $datetime = Carbon::parse($value['datetime'])->locale('en_US');
-      // $curr_day_of_wk = $datetime->dayOfWeek();
       $week_no = $datetime->week();
       $last_datetime = $value['datetime'];
 
@@ -193,6 +203,8 @@ class ElectricityRepository {
       }
 
       $last_kw_reading = $last_reading;
+      $est_total_kwh = $total_wk_reading + $total_est_kwh;
+      $total_price = $est_total_kwh * $kwh_value;
 
       $data_by_wk[$index]['id'] = Str::uuid()->toString();
       $data_by_wk[$index]['days_with_record'] = count($subdata);
@@ -200,7 +212,8 @@ class ElectricityRepository {
       $data_by_wk[$index]['days_in_week'] = $days_in_wk;
       $data_by_wk[$index]['total_recorded_kwh'] = $total_wk_reading;
       $data_by_wk[$index]['total_estimated_kwh'] = $total_est_kwh;
-      $data_by_wk[$index]['est_total_kwh'] = $total_wk_reading + $total_est_kwh;
+      $data_by_wk[$index]['est_total_kwh'] = $est_total_kwh;
+      $data_by_wk[$index]['est_total_price'] = $total_price;
       $data_by_wk[$index]['avg_daily_kwh'] = $avg_kw_per_day;
 
       unset($data_by_wk[$index]['data']);
