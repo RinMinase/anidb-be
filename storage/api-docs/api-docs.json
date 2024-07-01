@@ -5247,7 +5247,146 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/FourleafElectricityGetResource"
+                                                    "properties": {
+                                                        "settings": {
+                                                            "properties": {
+                                                                "kwhValue": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "example": 12.23
+                                                                },
+                                                                "monthStartsAt": {
+                                                                    "type": "string",
+                                                                    "example": "monday"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "weekly": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string",
+                                                                        "format": "uuid",
+                                                                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                                    },
+                                                                    "weekNo": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "actualWeekYearNo": {
+                                                                        "type": "integer",
+                                                                        "example": 12
+                                                                    },
+                                                                    "totalKwh": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "totalKwhValue": {
+                                                                        "type": "integer",
+                                                                        "example": 123
+                                                                    },
+                                                                    "daysWithRecord": {
+                                                                        "type": "integer",
+                                                                        "example": 123
+                                                                    },
+                                                                    "daysWithNoRecord": {
+                                                                        "type": "integer",
+                                                                        "example": 123
+                                                                    },
+                                                                    "daysInWeek": {
+                                                                        "type": "integer",
+                                                                        "example": 123
+                                                                    },
+                                                                    "totalRecordedKwh": {
+                                                                        "type": "integer",
+                                                                        "example": 123
+                                                                    },
+                                                                    "totalEstimatedKwh": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "estTotalKwh": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "estTotalPrice": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "avgDailyKwh": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "daily": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "string",
+                                                                        "format": "uuid",
+                                                                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                                    },
+                                                                    "dateNumber": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "day": {
+                                                                        "type": "string",
+                                                                        "example": "monday"
+                                                                    },
+                                                                    "date": {
+                                                                        "type": "string",
+                                                                        "example": "2023-05-21"
+                                                                    },
+                                                                    "kwPerHour": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "kwPerDay": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "pricePerDay": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    },
+                                                                    "readingValue": {
+                                                                        "type": "integer",
+                                                                        "example": 123
+                                                                    },
+                                                                    "readingTime": {
+                                                                        "type": "string",
+                                                                        "example": "13:00"
+                                                                    },
+                                                                    "state": {
+                                                                        "type": "string",
+                                                                        "example": "low|normal|high"
+                                                                    },
+                                                                    "allDaysAvg": {
+                                                                        "type": "number",
+                                                                        "format": "float",
+                                                                        "example": 12.34
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -6041,109 +6180,6 @@
                     "value": {
                         "type": "string",
                         "example": "some value"
-                    }
-                },
-                "type": "object"
-            },
-            "FourleafElectricityGetResource": {
-                "properties": {
-                    "settings": {
-                        "properties": {
-                            "kwhPrice": {
-                                "type": "number",
-                                "format": "float",
-                                "example": 12.23
-                            },
-                            "monthStartsAt": {
-                                "type": "string",
-                                "example": "monday"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "weekly": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "string",
-                                    "format": "uuid",
-                                    "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                                },
-                                "weekNo": {
-                                    "type": "integer",
-                                    "example": 1
-                                },
-                                "actualWeekYearNo": {
-                                    "type": "integer",
-                                    "example": 12
-                                },
-                                "totalKwh": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 12.34
-                                },
-                                "totalKwhValue": {
-                                    "type": "integer",
-                                    "example": 123
-                                },
-                                "avgDailyKwh": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 12.34
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "daily": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "string",
-                                    "format": "uuid",
-                                    "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                                },
-                                "dateNumber": {
-                                    "type": "integer",
-                                    "example": 1
-                                },
-                                "day": {
-                                    "type": "string",
-                                    "example": "monday"
-                                },
-                                "date": {
-                                    "type": "string",
-                                    "example": "2023-05-21"
-                                },
-                                "kwPerHour": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 12.34
-                                },
-                                "kwUsedToday": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 12.34
-                                },
-                                "readingValue": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 12.34
-                                },
-                                "readingTime": {
-                                    "type": "number",
-                                    "format": "float",
-                                    "example": 12.34
-                                },
-                                "state": {
-                                    "type": "string",
-                                    "example": "low|normal|high"
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 },
                 "type": "object"
