@@ -27,11 +27,13 @@ class ElectricityRepository {
       ->toArray();
 
     $kwh_value = (float) Settings::where('key', 'kwh_price')->first()->value;
-    $daily_values = $this->calculateDailyValues($data, $kwh_value);
-    $weekly_values = $this->calculateWeeklyValues($data, $kwh_value);
+    $daily_values = count($data) ? $this->calculateDailyValues($data, $kwh_value) : [];
+    $weekly_values = count($data) ? $this->calculateWeeklyValues($data, $kwh_value) : [];
+    $month_starts_at = 'test';
 
     $settings = [
-      'kwh_value' => $kwh_value
+      'kwh_value' => $kwh_value,
+      'month_starts_at' => $month_starts_at,
     ];
 
     return [
@@ -118,8 +120,34 @@ class ElectricityRepository {
         'kw_per_day' => round($kw_per_day_values[$index] ?? 0, 2),
         'price_per_day' => round($price_per_day_values[$index] ?? 0, 2),
         'reading_value' => $value['reading'],
-        'reading_time' => $reading_time
+        'reading_time' => $reading_time,
+        'state' => 'test',
       ]);
+    }
+
+    $kwh_total_all_days = 0;
+
+    foreach ($daily_values as $value) {
+      $kwh_total_all_days += $value['kw_per_day'];
+    }
+
+    $kwh_avg_all_days = $kwh_total_all_days / count($daily_values);
+
+
+    foreach ($daily_values as $index => $value) {
+      $state = 'normal';
+      $kw_per_day = $value['kw_per_day'];
+
+      if ($kw_per_day / $kwh_avg_all_days <= 0.75) {
+        $state = 'low';
+      }
+
+      if ($kw_per_day / $kwh_avg_all_days >= 1.25) {
+        $state = 'high';
+      }
+
+      $daily_values[$index]['all_days_avg'] = round($kwh_avg_all_days, 2);
+      $daily_values[$index]['state'] = $state;
     }
 
     return $daily_values;
