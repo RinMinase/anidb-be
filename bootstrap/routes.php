@@ -58,10 +58,13 @@ Route::prefix('api')
             Route::delete('maintenance', 'GasController@deleteMaintenance');
           });
 
-        Route::get('electricity', 'ElectricityController@get');
-        Route::post('electricity', 'ElectricityController@add');
-        Route::put('electricity', 'ElectricityController@edit');
-        Route::delete('electricity', 'ElectricityController@delete');
+        Route::prefix('electricity')
+          ->group(function () {
+            Route::get('', 'ElectricityController@get');
+            Route::post('', 'ElectricityController@add');
+            Route::put('{id}', 'ElectricityController@edit');
+            Route::delete('{id}', 'ElectricityController@delete');
+          });
       });
   });
 
