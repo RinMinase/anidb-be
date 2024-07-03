@@ -57,7 +57,7 @@ class AddEditFuelRequest extends FormRequest {
     return [
       'date' => ['required', 'string', 'date', $date_validation],
       'from_bars' => ['required', 'integer', 'min:0', 'max:9'],
-      'to_bars' => ['required', 'integer', 'min:0', 'max:9'],
+      'to_bars' => ['required', 'integer', 'min:0', 'max:9', 'gte:from_bars'],
       'odometer' => ['required', 'integer', 'min:0', 'max:100000'],
 
       'price_per_liter' => ['numeric', 'min:0', 'max:150'],
