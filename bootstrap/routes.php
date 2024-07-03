@@ -48,14 +48,14 @@ Route::prefix('api')
 
             Route::get('fuel', 'GasController@getFuel');
             Route::post('fuel', 'GasController@addFuel');
-            Route::put('fuel', 'GasController@editFuel');
-            Route::delete('fuel', 'GasController@deleteFuel');
+            Route::put('fuel/{id}', 'GasController@editFuel');
+            Route::delete('fuel/{id}', 'GasController@deleteFuel');
 
             Route::get('maintenance', 'GasController@getMaintenance');
             Route::get('maintenance/parts', 'GasController@getMaintenanceParts');
             Route::post('maintenance', 'GasController@addMaintenance');
-            Route::put('maintenance', 'GasController@editMaintenance');
-            Route::delete('maintenance', 'GasController@deleteMaintenance');
+            Route::put('maintenance/{id}', 'GasController@editMaintenance');
+            Route::delete('maintenance/{id}', 'GasController@deleteMaintenance');
           });
 
         Route::prefix('electricity')
