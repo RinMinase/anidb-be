@@ -12,7 +12,7 @@ class PCSetupRepository {
     return PCSetup::all();
   }
 
-  public function get(int $id) {
+  public function get($id) {
     return PCSetup::where('id', $id)->firstOrFail();
   }
 
@@ -20,11 +20,11 @@ class PCSetupRepository {
     PCSetup::create($values);
   }
 
-  public function edit(array $values, int $id) {
+  public function edit(array $values, $id) {
     PCSetup::where('id', $id)->update($values);
   }
 
-  public function delete(int $id) {
+  public function delete($id) {
     PCSetup::where('id', $id)
       ->firstOrFail()
       ->delete();
