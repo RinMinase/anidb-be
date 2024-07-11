@@ -6,7 +6,7 @@ use Tests\BaseTestCase;
 
 class MALTest extends BaseTestCase {
 
-  public function test_mal_search() {
+  public function test_should_search_by_keyword_successfully() {
     $search_keyword = "tensei";
 
     $response = $this->withoutMiddleware()
@@ -22,7 +22,7 @@ class MALTest extends BaseTestCase {
       ]);
   }
 
-  public function test_mal_get_info() {
+  public function test_should_retreive_information_successfully() {
     $id = "39535";
 
     $response = $this->withoutMiddleware()
