@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Log;
+namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\BaseTestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\PCSetup;
+namespace Tests\Feature;
 
 use Tests\BaseTestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\MAL;
+namespace Tests\Feature;
 
 use Tests\BaseTestCase;
 
