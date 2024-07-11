@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Anilist;
+namespace Tests\Feature;
 
 use Tests\BaseTestCase;
 
 class AnilistTest extends BaseTestCase {
 
-  public function test_anilist_search() {
+  public function test_should_search_by_search_keyword_successfully() {
     $search_keyword = "ten";
 
     $response = $this->withoutMiddleware()
@@ -22,7 +22,7 @@ class AnilistTest extends BaseTestCase {
       ]);
   }
 
-  public function test_anilist_search_no_auth() {
+  public function test_should_not_search_on_no_auth() {
     $search_keyword = "ten";
 
     $response = $this->get('/api/anilist/search?query=' . $search_keyword);
@@ -31,7 +31,7 @@ class AnilistTest extends BaseTestCase {
       ->assertJson(['message' => 'Unauthorized']);
   }
 
-  public function test_anilist_get_title() {
+  public function test_should_retreive_information_successfully() {
     $id = "101280";
 
     $response = $this->withoutMiddleware()
@@ -48,7 +48,7 @@ class AnilistTest extends BaseTestCase {
       ]);
   }
 
-  public function test_anilist_get_title_no_auth() {
+  public function test_should_not_retreive_information_on_no_auth() {
     $id = "101280";
 
     $response = $this->get('/api/anilist/title/' . $id);
