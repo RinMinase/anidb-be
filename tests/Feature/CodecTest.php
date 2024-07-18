@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Carbon\Carbon;
 use Tests\BaseTestCase;
 
 use App\Models\CodecAudio;
@@ -261,7 +260,6 @@ class CodecTest extends BaseTestCase {
   }
 
   public function test_should_not_edit_video_codec_on_form_errors() {
-    $this->setup_config();
     $this->setup_config();
 
     $test_codec = 'testing very long codec';
