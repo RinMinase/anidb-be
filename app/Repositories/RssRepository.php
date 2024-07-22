@@ -52,7 +52,7 @@ class RssRepository {
   }
 
   public function delete($uuid) {
-    return Catalog::where('uuid', $uuid)
+    return Rss::where('uuid', $uuid)
       ->firstOrFail()
       ->delete();
   }
