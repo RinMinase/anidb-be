@@ -80,3 +80,9 @@ if (!function_exists('convert_array_to_camel_case')) {
     return json_decode($converted, true);
   }
 }
+
+if (!function_exists('rand_str')) {
+  function rand_str(int $length = 20): string {
+    return Str::random($length);
+  }
+}
