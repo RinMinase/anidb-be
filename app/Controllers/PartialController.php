@@ -125,6 +125,10 @@ class PartialController extends Controller {
       $data = [];
       parse_str($request->get('data'), $data);
 
+      if (!isset($data['low']) && !isset($data['normal']) && !isset($data['high'])) {
+        throw new ParsingException();
+      }
+
       $total_count = 0;
 
       if (isset($data['low'])) $total_count += count($data['low']);
@@ -227,6 +231,10 @@ class PartialController extends Controller {
     try {
       $data = [];
       parse_str($request->get('data'), $data);
+
+      if (!isset($data['low']) && !isset($data['normal']) && !isset($data['high'])) {
+        throw new ParsingException();
+      }
 
       $total_count = 0;
 
