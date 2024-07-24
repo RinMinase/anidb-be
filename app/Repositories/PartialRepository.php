@@ -11,10 +11,11 @@ use App\Models\Priority;
 class PartialRepository {
 
   public function get($uuid) {
-    return Partial::select('title', 'id_priority')
+    return Partial::select('title', 'id_priority', 'priority')
       ->addSelect('partials.uuid as uuid')
       ->addSelect('catalogs.uuid as id_catalog')
       ->leftJoin('catalogs', 'catalogs.id', '=', 'partials.id_catalog')
+      ->leftJoin('priorities', 'priorities.id', '=', 'id_priority')
       ->where('partials.uuid', $uuid)
       ->firstOrFail();
   }
