@@ -5,13 +5,15 @@ FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
 
 RUN set -xe; \
     apk add --no-cache \
-    bash \
-    libpng-dev \
-    postgresql-dev
+    bash
 
 ###########################################################################
-# PostgreSQL: Requires postgresql-dev
+# PostgreSQL
 ###########################################################################
+
+RUN set -xe; \
+    apk add --no-cache \
+    postgresql-dev
 
 RUN docker-php-ext-install pdo pdo_pgsql
 
