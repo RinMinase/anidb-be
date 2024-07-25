@@ -162,12 +162,12 @@ Route::prefix('api')
         Route::prefix('bucket-sims')
           ->group(function () {
             Route::get('', 'BucketSimController@index');
-            Route::get('{id}', 'BucketSimController@get');
+            Route::get('{uuid}', 'BucketSimController@get');
             Route::post('', 'BucketSimController@add');
-            Route::put('{id}', 'BucketSimController@edit');
-            Route::delete('{id}', 'BucketSimController@delete');
+            Route::put('{uuid}', 'BucketSimController@edit');
+            Route::delete('{uuid}', 'BucketSimController@delete');
 
-            Route::post('{id}', 'BucketSimController@saveBucket');
+            Route::post('{uuid}', 'BucketSimController@saveBucket');
           });
 
         Route::prefix('sequences')
