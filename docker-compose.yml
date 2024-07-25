@@ -45,7 +45,7 @@ services:
 
   db:
     container_name: anidb-pgsql
-    image: postgres:15.7-alpine3.20
+    image: postgres:16.3-alpine3.20
     restart: unless-stopped
     tty: true
     environment:
