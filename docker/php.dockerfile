@@ -1,6 +1,6 @@
 ARG PHP_VERSION
 
-FROM php:${PHP_VERSION}-fpm-alpine3.17
+FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION}
 
 RUN set -xe; \
     apk add --no-cache \
