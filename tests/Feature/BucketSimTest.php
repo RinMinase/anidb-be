@@ -7,6 +7,7 @@ use Tests\BaseTestCase;
 use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
+use Exception;
 
 class BucketSimTest extends BaseTestCase {
 
@@ -15,6 +16,13 @@ class BucketSimTest extends BaseTestCase {
 
   private $bucket_sim_id_1 = 99999;
   private $bucket_sim_id_2 = 99998;
+
+  private $bucket_sim_from_1 = 'a';
+  private $bucket_sim_to_1 = 'm';
+  private $bucket_sim_size_1 = 2_000_339_066_880;
+  private $bucket_sim_from_2 = 'n';
+  private $bucket_sim_to_2 = 'z';
+  private $bucket_sim_size_2 = 2_000_339_066_880;
 
   private function setup_config() {
     // Clearing possible duplicate data
@@ -31,17 +39,17 @@ class BucketSimTest extends BaseTestCase {
     BucketSim::insert([[
       'id' => $this->bucket_sim_id_1,
       'id_sim_info' => $this->bucket_sim_info_id,
-      'from' => 'a',
-      'to' => 'm',
-      'size' => 2_000_339_066_880,
+      'from' => $this->bucket_sim_from_1,
+      'to' => $this->bucket_sim_to_1,
+      'size' => $this->bucket_sim_size_1,
       'created_at' => '2020-01-01 13:00:00',
       'updated_at' => '2020-01-01 13:00:00',
     ], [
       'id' => $this->bucket_sim_id_2,
       'id_sim_info' => $this->bucket_sim_info_id,
-      'from' => 'n',
-      'to' => 'z',
-      'size' => 2_000_339_066_880,
+      'from' => $this->bucket_sim_from_2,
+      'to' => $this->bucket_sim_to_2,
+      'size' => $this->bucket_sim_size_2,
       'created_at' => '2020-01-01 13:00:00',
       'updated_at' => '2020-01-01 13:00:00',
     ]]);
@@ -272,7 +280,7 @@ class BucketSimTest extends BaseTestCase {
     $this->setup_clear();
   }
 
-  public function test_should_not_delete_non_existent_bucket_sim() {
+  public function test_should_not_delete_bucket_sim_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
     $response = $this->withoutMiddleware()->delete('/api/bucket-sims/' . $this->bucket_sim_info_id);
@@ -280,6 +288,14 @@ class BucketSimTest extends BaseTestCase {
     $response->assertStatus(404);
 
     $this->setup_clear();
+  }
+
+  public function test_should_not_delete_non_existent_bucket_sim() {
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()->delete('/api/bucket-sims/' . $invalid_id);
+
+    $response->assertStatus(404);
   }
 
   public function test_should_get_current_entry_stats_of_bucket_sim() {
@@ -318,5 +334,91 @@ class BucketSimTest extends BaseTestCase {
     $response->assertStatus(404);
 
     $this->setup_clear();
+  }
+
+  public function test_should_not_get_current_entry_stats_of_non_existent_bucket_sim() {
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()->get('/api/bucket-sims/' . $invalid_id);
+
+    $response->assertStatus(404);
+  }
+
+  public function test_should_save_bucket_sim_as_bucket() {
+    $this->setup_config();
+
+    // To restore after testing
+    $saved_buckets = Bucket::all()->toArray();
+
+    try {
+      $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $this->bucket_sim_info_uuid);
+
+      $response->assertStatus(200);
+
+      $data = Bucket::select('from', 'to', 'size')->get();
+
+      $actual = $data->toArray();
+
+      $expected = [[
+        'from' => $this->bucket_sim_from_1,
+        'to' => $this->bucket_sim_to_1,
+        'size' => $this->bucket_sim_size_1,
+      ], [
+        'from' => $this->bucket_sim_from_2,
+        'to' => $this->bucket_sim_to_2,
+        'size' => $this->bucket_sim_size_2,
+      ]];
+
+      $this->assertNotNull($actual);
+      $this->assertEquals($expected, $actual);
+
+      $this->setup_clear();
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      // Restore previous buckets on test fail or success
+      Bucket::truncate();
+      Bucket::insert($saved_buckets);
+    }
+  }
+
+  public function test_should_not_save_bucket_sim_as_bucket_when_using_bucket_id_instead_of_uuid() {
+    $this->setup_config();
+
+    // To restore after testing
+    $saved_buckets = Bucket::all()->toArray();
+
+    try {
+      $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $this->bucket_sim_id_1);
+
+      $response->assertStatus(404);
+
+      $this->setup_clear();
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      // Restore previous buckets on test fail or success
+      Bucket::truncate();
+      Bucket::insert($saved_buckets);
+    }
+  }
+
+  public function test_should_not_save_non_existent_bucket_sim_as_bucket() {
+    $invalid_id = -1;
+
+    // To restore after testing
+    $saved_buckets = Bucket::all()->toArray();
+
+    try {
+      $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $invalid_id);
+
+      $response->assertStatus(404);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      // Restore previous buckets on test fail or success
+      Bucket::truncate();
+      Bucket::insert($saved_buckets);
+    }
   }
 }
