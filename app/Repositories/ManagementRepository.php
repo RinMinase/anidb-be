@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use DB;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Bucket;
 use App\Models\Entry;
