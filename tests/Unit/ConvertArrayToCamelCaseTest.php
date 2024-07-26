@@ -8,6 +8,7 @@ class ConvertArrayToCamelCaseTest extends TestCase {
   public function test_should_return_camelcase_from_snakecase_array_successfully() {
     $test_array = [
       'snake_case' => 'value',
+      'snake_1' => 'value',
       'camelCase' => 'value',
       'kebab-case' => 'value',
       'PascalCase' => 'value',
@@ -17,6 +18,7 @@ class ConvertArrayToCamelCaseTest extends TestCase {
 
     $expected = [
       'snakeCase' => 'value', // this should be changed
+      'snake1' => 'value', // this should be changed
       'pascalCase' => 'value', // this should be changed
       'camelCase' => 'value',
       'kebab-case' => 'value',
