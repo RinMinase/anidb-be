@@ -6,6 +6,7 @@ use Tests\BaseTestCase;
 
 use App\Models\Catalog;
 use App\Models\Partial;
+use App\Models\Priority;
 
 class CatalogTest extends BaseTestCase {
 
@@ -18,6 +19,8 @@ class CatalogTest extends BaseTestCase {
   private function setup_config() {
     // Clearing possible duplicate data
     $this->setup_clear();
+
+    $id_priority = Priority::where('priority', 'High')->first()->id;
 
     Catalog::insert([
       'id' => $this->catalog_id,
@@ -33,7 +36,7 @@ class CatalogTest extends BaseTestCase {
       'uuid' => $this->partial_uuid,
       'title' => 'sample test partial title',
       'id_catalog' => $this->catalog_id,
-      'id_priority' => '1',
+      'id_priority' => $id_priority,
       'created_at' => '2020-01-01 13:00:00',
       'updated_at' => '2020-01-01 13:00:00',
     ]);
@@ -374,7 +377,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_title = 'sample testing partial title';
     $test_id_catalog = $this->catalog_uuid;
-    $test_id_priority = 1;
+    $test_id_priority = Priority::where('priority', 'High')->first()->id;
 
     // Clearing possible duplicate data
     Partial::where('title', $test_title)
@@ -452,7 +455,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_title = 'sample testing partial title';
     $test_id_catalog = $this->catalog_uuid;
-    $test_id_priority = 3;
+    $test_id_priority = Priority::where('priority', 'Low')->first()->id;
 
     // Clearing possible duplicate data
     Partial::where('title', $test_title)
@@ -596,19 +599,24 @@ class CatalogTest extends BaseTestCase {
       ->where('year', $test_year)
       ->first();
 
+    $priority = Priority::all();
+    $priority_high_id = $priority->where('priority', 'High')->first()->id;
+    $priority_normal_id = $priority->where('priority', 'Normal')->first()->id;
+    $priority_low_id = $priority->where('priority', 'Low')->first()->id;
+
     $actual = Partial::where('id_catalog', $catalog->id)
       ->get();
 
-    $actual_high = $actual->filter(function ($value) {
-      return ($value['id_priority'] === 1);
+    $actual_high = $actual->filter(function ($value) use ($priority_high_id) {
+      return ($value['id_priority'] === $priority_high_id);
     })->toArray();
 
-    $actual_normal = $actual->filter(function ($value) {
-      return ($value['id_priority'] === 2);
+    $actual_normal = $actual->filter(function ($value) use ($priority_normal_id) {
+      return ($value['id_priority'] === $priority_normal_id);
     })->toArray();
 
-    $actual_low = $actual->filter(function ($value) {
-      return ($value['id_priority'] === 3);
+    $actual_low = $actual->filter(function ($value) use ($priority_low_id) {
+      return ($value['id_priority'] === $priority_low_id);
     })->toArray();
 
     $this->assertNotNull($actual_high);
@@ -725,19 +733,24 @@ class CatalogTest extends BaseTestCase {
     $this->assertEquals($test_season, $catalog->season);
     $this->assertEquals($test_year, $catalog->year);
 
+    $priority = Priority::all();
+    $priority_high_id = $priority->where('priority', 'High')->first()->id;
+    $priority_normal_id = $priority->where('priority', 'Normal')->first()->id;
+    $priority_low_id = $priority->where('priority', 'Low')->first()->id;
+
     $actual = Partial::where('id_catalog', $catalog->id)
       ->get();
 
-    $actual_high = $actual->filter(function ($value) {
-      return ($value['id_priority'] === 1);
+    $actual_high = $actual->filter(function ($value) use ($priority_high_id) {
+      return ($value['id_priority'] === $priority_high_id);
     })->toArray();
 
-    $actual_normal = $actual->filter(function ($value) {
-      return ($value['id_priority'] === 2);
+    $actual_normal = $actual->filter(function ($value) use ($priority_normal_id) {
+      return ($value['id_priority'] === $priority_normal_id);
     })->toArray();
 
-    $actual_low = $actual->filter(function ($value) {
-      return ($value['id_priority'] === 3);
+    $actual_low = $actual->filter(function ($value) use ($priority_low_id) {
+      return ($value['id_priority'] === $priority_low_id);
     })->toArray();
 
     $this->assertNotNull($actual_high);
