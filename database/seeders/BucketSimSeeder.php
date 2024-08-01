@@ -15,103 +15,109 @@ class BucketSimSeeder extends Seeder {
    * @return void
    */
   public function run() {
+    $uuid_1 = Str::uuid()->toString();
+    $uuid_2 = Str::uuid()->toString();
+
     $testInfo = [
       [
-        'uuid' => Str::uuid()->toString(),
+        'uuid' => $uuid_1,
         'description' => '6 Buckets',
       ], [
-        'uuid' => Str::uuid()->toString(),
+        'uuid' => $uuid_2,
         'description' => '10 Buckets',
-      ],
-    ];
-
-    $testSims = [
-      [
-        'id_sim_info' => 1,
-        'from' => 'a',
-        'to' => 'd',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 1,
-        'from' => 'e',
-        'to' => 'h',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 1,
-        'from' => 'i',
-        'to' => 'l',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 1,
-        'from' => 'm',
-        'to' => 'p',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 1,
-        'from' => 'q',
-        'to' => 'u',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 1,
-        'from' => 'v',
-        'to' => 'z',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'a',
-        'to' => 'b',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'c',
-        'to' => 'e',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'f',
-        'to' => 'g',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'h',
-        'to' => 'j',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'k',
-        'to' => 'k',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'l',
-        'to' => 'l',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'm',
-        'to' => 'n',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 'o',
-        'to' => 'r',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 's',
-        'to' => 's',
-        'size' => 2_000_339_066_880,
-      ], [
-        'id_sim_info' => 2,
-        'from' => 't',
-        'to' => 'z',
-        'size' => 2_000_339_066_880,
       ],
     ];
 
     foreach ($testInfo as $item) {
       BucketSimInfo::create($item);
     }
+
+    $id_sim_info_1 = BucketSimInfo::where('uuid', $uuid_1)->first()->id;
+    $id_sim_info_2 = BucketSimInfo::where('uuid', $uuid_2)->first()->id;
+
+    $testSims = [
+      [
+        'id_sim_info' => $id_sim_info_1,
+        'from' => 'a',
+        'to' => 'd',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_1,
+        'from' => 'e',
+        'to' => 'h',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_1,
+        'from' => 'i',
+        'to' => 'l',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_1,
+        'from' => 'm',
+        'to' => 'p',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_1,
+        'from' => 'q',
+        'to' => 'u',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_1,
+        'from' => 'v',
+        'to' => 'z',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'a',
+        'to' => 'b',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'c',
+        'to' => 'e',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'f',
+        'to' => 'g',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'h',
+        'to' => 'j',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'k',
+        'to' => 'k',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'l',
+        'to' => 'l',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'm',
+        'to' => 'n',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 'o',
+        'to' => 'r',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 's',
+        'to' => 's',
+        'size' => 2_000_339_066_880,
+      ], [
+        'id_sim_info' => $id_sim_info_2,
+        'from' => 't',
+        'to' => 'z',
+        'size' => 2_000_339_066_880,
+      ],
+    ];
 
     foreach ($testSims as $item) {
       BucketSim::create($item);
