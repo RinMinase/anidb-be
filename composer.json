@@ -24,7 +24,8 @@
         "laravel/framework": "^11.17",
         "laravel/sanctum": "^4.0",
         "loilo/fuse": "^7.0",
-        "symfony/dom-crawler": "^7.1"
+        "symfony/dom-crawler": "^7.1",
+        "ylsideas/cockroachdb-laravel": "^1.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
