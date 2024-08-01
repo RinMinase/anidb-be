@@ -3,6 +3,8 @@ version: '3'
 volumes:
   db:
     driver: local
+  dbc:
+    driver: local
 
 services:
   php:
@@ -62,8 +64,8 @@ services:
     image: cockroachdb/cockroach:v23.1.24
     restart: unless-stopped
     ports:
-     - "26257:26257"
-     - "8080:8080"
+     - "${DBC_PORT:-26257}:26257"
+     - "${DBC_ADMIN_PORT:-8080}:8080"
     command: start-single-node --insecure
     volumes:
-      - "${PWD}/docker/cockroach-data/crdb:/cockroach/cockroach-data"
+      - dbc:/cockroach/cockroach-data"
