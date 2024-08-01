@@ -56,3 +56,14 @@ services:
       - '${DB_PORT:-5432}:5432'
     volumes:
       - db:/var/lib/postgresql/data
+
+  dbc:
+    container_name: anidb-cockroach
+    image: cockroachdb/cockroach:v23.1.24
+    restart: unless-stopped
+    ports:
+     - "26257:26257"
+     - "8080:8080"
+    command: start-single-node --insecure
+    volumes:
+      - "${PWD}/docker/cockroach-data/crdb:/cockroach/cockroach-data"
