@@ -111,9 +111,13 @@ If you need to access the container run, `docker-compose exec php bash`
     ```
     php artisan test
     ```
-    or if you want to run a specific test
+    or if you want to run a specific test module
     ```
     php artisan test --filter <Class Name of Test File>
+    ```
+    or if you want to run a specific single test
+    ```
+    php artisan test --filter test_function_name tests/Location/of/TestCase.php
     ```
 
 ### Project shorthands / aliases inside the PHP Docker container
