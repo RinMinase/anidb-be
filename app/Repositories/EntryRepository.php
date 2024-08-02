@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Fuse\Fuse;
-use Cloudinary;
+use Cloudinary\Cloudinary;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
