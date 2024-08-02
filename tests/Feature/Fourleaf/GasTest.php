@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Fourleaf;
 
+use Exception;
 use Carbon\Carbon;
 use Tests\BaseTestCase;
 
@@ -128,6 +129,95 @@ class GasTest extends BaseTestCase {
       ]);
 
     $this->setup_clear();
+  }
+
+  public function test_should_validate_calculated_data_from_get_all_data() {
+    // Save existing data
+    $backup_data = Gas::all()->toArray();
+
+    try {
+      Gas::truncate();
+
+      $test_data = [
+        [
+          'date' => '2023-04-29',
+          'from_bars' => 8,
+          'to_bars' => 8,
+          'odometer' => 165,
+          'price_per_liter' => null,
+          'liters_filled' => null,
+        ], [
+          'date' => '2023-05-03',
+          'from_bars' => 4,
+          'to_bars' => 8,
+          'odometer' => 239,
+          'price_per_liter' => 62.85,
+          'liters_filled' => 13.93,
+        ], [
+          'date' => '2023-05-10',
+          'from_bars' => 1,
+          'to_bars' => 8,
+          'odometer' => 386,
+          'price_per_liter' => 60.65,
+          'liters_filled' => 18.928,
+        ], [
+          'date' => '2023-05-19',
+          'from_bars' => 2,
+          'to_bars' => 8,
+          'odometer' => 507,
+          'price_per_liter' => 61,
+          'liters_filled' => 18.739,
+        ],
+      ];
+
+      foreach ($test_data as $item) {
+        Gas::create($item);
+      }
+
+      $avg_efficiency_type = 'all';
+      $efficiency_graph_type = 'last20data';
+
+      $response = $this->withoutMiddleware()
+        ->get(
+          '/api/fourleaf/gas?avg_efficiency_type=' .
+            $avg_efficiency_type .
+            '&efficiency_graph_type=' .
+            $efficiency_graph_type
+        );
+
+      $expected_stats = [
+        'averageEfficiency' => 6.878,
+        'lastEfficiency' => 7.118,
+        'mileage' => 507,
+        'age' => "1 year, 3 months, 14 days",
+        'kmPerMonth' => 32.76,
+      ];
+
+      $expected_graph = [
+        'efficiency' => [
+          '2023-05-03' => 6.167,
+          '2023-05-10' => 7.35,
+          '2023-05-19' => 7.118,
+        ],
+        'gas' => [
+          '2023-05-03' => 62.85,
+          '2023-05-10' => 60.65,
+          '2023-05-19' => 61,
+        ],
+      ];
+
+      $this->assertEquals($expected_stats, $response['data']['stats']);
+      $this->assertEquals($expected_graph, $response['data']['graph']);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      // Restore backup data
+      Gas::truncate();
+
+      foreach ($backup_data as $item) {
+        Gas::create($item);
+      }
+    }
   }
 
   public function test_should_get_all_fuel_data() {
