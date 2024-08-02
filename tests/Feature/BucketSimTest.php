@@ -355,7 +355,9 @@ class BucketSimTest extends BaseTestCase {
 
       $response->assertStatus(200);
 
-      $data = Bucket::select('from', 'to', 'size')->get();
+      $data = Bucket::select('from', 'to', 'size')
+        ->orderBy('from', 'asc')
+        ->get();
 
       $actual = $data->toArray();
 
