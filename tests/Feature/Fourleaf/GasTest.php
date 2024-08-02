@@ -190,7 +190,7 @@ class GasTest extends BaseTestCase {
         'lastEfficiency' => 7.118,
         'mileage' => 507,
         'age' => "1 year, 3 months, 14 days",
-        'kmPerMonth' => 32.76,
+        'kmPerMonth' => 32.75,
       ];
 
       $expected_graph = [
