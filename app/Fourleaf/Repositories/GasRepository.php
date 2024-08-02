@@ -299,19 +299,19 @@ class GasRepository {
     $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled');
 
     if ($avg_efficiency_type === 'last20data') {
-      $data = $data->orderBy('id', 'desc')
+      $data = $data->orderBy('date', 'desc')
         ->limit(21)
         ->get()
         ->reverse()
         ->values();
     } else if ($avg_efficiency_type === 'last10') {
-      $data = $data->orderBy('id', 'desc')
+      $data = $data->orderBy('date', 'desc')
         ->limit(11)
         ->get()
         ->reverse()
         ->values();
     } else if ($avg_efficiency_type === 'last5') {
-      $data = $data->orderBy('id', 'desc')
+      $data = $data->orderBy('date', 'desc')
         ->limit(6)
         ->get()
         ->reverse()
@@ -323,10 +323,10 @@ class GasRepository {
         ->format('Y-m-d');
 
       $data = $data->where('date', '>=', $end_date)
-        ->orderBy('id', 'asc')
+        ->orderBy('date', 'asc')
         ->get();
     } else {
-      $data = $data->get();
+      $data = $data->orderBy('date', 'asc')->get();
     }
 
     $data = $data->toArray();
