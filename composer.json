@@ -21,7 +21,7 @@
         "php": "^7.3|^8.0",
         "cloudinary-labs/cloudinary-laravel": "^2.1",
         "darkaonline/l5-swagger": "^8.6",
-        "laravel/framework": "^11.17",
+        "laravel/framework": "^11.19",
         "laravel/sanctum": "^4.0",
         "loilo/fuse": "^7.0",
         "symfony/dom-crawler": "^7.1",
@@ -29,8 +29,8 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "nunomaduro/collision": "^8.3",
-        "phpunit/phpunit": "^11.2",
+        "nunomaduro/collision": "^8.4",
+        "phpunit/phpunit": "^11.3",
         "spatie/laravel-ignition": "^2.8"
     },
     "autoload": {
