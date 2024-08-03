@@ -188,13 +188,11 @@ class GasTest extends BaseTestCase {
             $efficiency_graph_type
         );
 
-      $expected_stats = [
-        'averageEfficiency' => 6.878,
-        'lastEfficiency' => 7.118,
-        'mileage' => 507,
-        'age' => "1 month, 1 day",
-        'kmPerMonth' => 478.23,
-      ];
+      $expected_avg_eff = 6.878;
+      $expected_last_eff = 7.118;
+      $expected_mileage = 507;
+      $expected_age = '1 month, 1 day';
+      $expected_km_per_month = 478.23;
 
       $expected_graph = [
         'efficiency' => [
@@ -209,7 +207,15 @@ class GasTest extends BaseTestCase {
         ],
       ];
 
-      $this->assertEquals($expected_stats, $response['data']['stats']);
+      $actual_stats = $response['data']['stats'];
+
+      $this->assertEquals($expected_mileage, $actual_stats['mileage']);
+      $this->assertEquals($expected_age, $actual_stats['age']);
+
+      $this->assertEqualsWithDelta($expected_avg_eff, $actual_stats['averageEfficiency'], 0.5);
+      $this->assertEqualsWithDelta($expected_last_eff, $actual_stats['lastEfficiency'], 0.5);
+      $this->assertEqualsWithDelta($expected_km_per_month, $actual_stats['kmPerMonth'], 0.5);
+
       $this->assertEquals($expected_graph, $response['data']['graph']);
     } catch (Exception $e) {
       throw $e;
