@@ -82,7 +82,11 @@ if (!function_exists('convert_array_to_camel_case')) {
 }
 
 if (!function_exists('rand_str')) {
-  function rand_str(int $length = 20): string {
+  function rand_str(int $length = 20, bool $alpha_only = false): string {
+    if ($alpha_only) {
+      return chr(rand(97, 122));
+    }
+
     return Str::random($length);
   }
 }
