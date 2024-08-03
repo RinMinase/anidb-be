@@ -61,7 +61,7 @@ services:
 
   dbc:
     container_name: anidb-cockroach
-    image: cockroachdb/cockroach:v23.1.24
+    image: cockroachdb/cockroach:v24.1.2
     restart: unless-stopped
     ports:
      - "${DBC_PORT:-26257}:26257"
