@@ -136,6 +136,9 @@ class GasTest extends BaseTestCase {
     $backup_data = Gas::all()->toArray();
 
     try {
+      // Mock Carbon::now()
+      Carbon::setTestNow(Carbon::createFromDate(2023, 5, 20));
+
       Gas::truncate();
 
       $test_data = [
@@ -189,8 +192,8 @@ class GasTest extends BaseTestCase {
         'averageEfficiency' => 6.878,
         'lastEfficiency' => 7.118,
         'mileage' => 507,
-        'age' => "1 year, 3 months, 14 days",
-        'kmPerMonth' => 32.75,
+        'age' => "1 month, 1 day",
+        'kmPerMonth' => 478.23,
       ];
 
       $expected_graph = [
