@@ -41,10 +41,11 @@ class EntryByYearSummaryResource extends JsonResource {
       'year' => $this['year'],
       'count' => $this['count'],
       'seasons' => $this['seasons'] ? [
-        'Winter' => $this['seasons']['Winter'] ?? 0,
-        'Spring' => $this['seasons']['Spring'] ?? 0,
-        'Summer' => $this['seasons']['Summer'] ?? 0,
-        'Fall' => $this['seasons']['Fall'] ?? 0,
+        'winter' => $this['seasons']['winter'] ?? 0,
+        'spring' => $this['seasons']['spring'] ?? 0,
+        'summer' => $this['seasons']['summer'] ?? 0,
+        'fall' => $this['seasons']['fall'] ?? 0,
+        'uncategorized' => $this['seasons']['none'] ?? 0,
       ] : null,
     ];
   }

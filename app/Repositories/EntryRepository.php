@@ -227,7 +227,7 @@ class EntryRepository {
           array_push($data, $to_push);
         }
       } else {
-        $season = $entry->release_season ?? "None";
+        $season = $entry->release_season ? strtolower($entry->release_season) : "none";
 
         $to_push = [
           'year' => $entry->release_year,
