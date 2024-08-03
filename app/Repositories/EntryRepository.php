@@ -258,23 +258,40 @@ class EntryRepository {
   public function getBySeason($year) {
     $year = intval($year, 10);
 
-    if ($year < 1970 && $year > 2999) {
+    if ($year < 1970 || $year > 2999) {
       $year = null;
     }
 
-    function entriesBySeason($season, $year) {
-      return Entry::select('uuid', 'title', 'id_quality')
-        ->where('release_year', '=', $year)
-        ->where('release_season', '=', $season)
-        ->get();
-    }
+    $entries_by_year = Entry::select('uuid', 'title', 'id_quality', 'release_season')
+      ->where('release_year', '=', $year)
+      ->get();
+
+    $entries_winter = $entries_by_year->filter(function ($value) {
+      return ($value['release_season'] === 'Winter');
+    });
+
+    $entries_spring = $entries_by_year->filter(function ($value) {
+      return ($value['release_season'] === 'Spring');
+    });
+
+    $entries_summer = $entries_by_year->filter(function ($value) {
+      return ($value['release_season'] === 'Summer');
+    });
+
+    $entries_fall = $entries_by_year->filter(function ($value) {
+      return ($value['release_season'] === 'Fall');
+    });
+
+    $entries_uncategorized = $entries_by_year->filter(function ($value) {
+      return ($value['release_season'] === null);
+    });
 
     $data = [
-      'Winter' => entriesBySeason('Winter', $year),
-      'Spring' => entriesBySeason('Spring', $year),
-      'Summer' => entriesBySeason('Summer', $year),
-      'Fall' => entriesBySeason('Fall', $year),
-      'Uncategorized' => entriesBySeason(null, $year),
+      'Winter' => $entries_winter,
+      'Spring' => $entries_spring,
+      'Summer' => $entries_summer,
+      'Fall' => $entries_fall,
+      'Uncategorized' => $entries_uncategorized,
     ];
 
     return $data;
