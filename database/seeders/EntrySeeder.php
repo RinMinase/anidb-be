@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
@@ -10,6 +9,9 @@ use Carbon\Carbon;
 use App\Models\CodecAudio;
 use App\Models\CodecVideo;
 use App\Models\Entry;
+use App\Models\EntryOffquel;
+use App\Models\EntryRating;
+use App\Models\EntryRewatch;
 use App\Models\Quality;
 
 class EntrySeeder extends Seeder {
@@ -26,6 +28,8 @@ class EntrySeeder extends Seeder {
     $uuid_5 = Str::uuid()->toString();
     $uuid_6 = Str::uuid()->toString();
     $uuid_7 = Str::uuid()->toString();
+    $uuid_8 = Str::uuid()->toString();
+    $uuid_9 = Str::uuid()->toString();
 
     $id_quality_2160 = Quality::where('quality', '4K 2160p')->first()->id;
     $id_quality_1080 = Quality::where('quality', 'FHD 1080p')->first()->id;
@@ -136,6 +140,32 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_11,
+      ], [
+        'uuid' => $uuid_8,
+        'id_quality' => $id_quality_1080,
+        'title' => 'uncategorized title 1',
+        'date_finished' => Carbon::parse('2015-05-01')->format('Y-m-d'),
+        'filesize' => 26_648_304_000,
+        'duration' => 10_000,
+        'season_number' => 1,
+        'release_year' => 2020,
+        'release_season' => null,
+        'codec_hdr' => false,
+        'id_codec_video' => null,
+        'id_codec_audio' => null,
+      ], [
+        'uuid' => $uuid_9,
+        'id_quality' => $id_quality_1080,
+        'title' => 'uncategorized title 2',
+        'date_finished' => Carbon::parse('2016-05-01')->format('Y-m-d'),
+        'filesize' => 26_648_304_000,
+        'duration' => 10_000,
+        'season_number' => 1,
+        'release_year' => null,
+        'release_season' => null,
+        'codec_hdr' => false,
+        'id_codec_video' => null,
+        'id_codec_audio' => null,
       ],
     ];
 
@@ -147,7 +177,7 @@ class EntrySeeder extends Seeder {
         ]);
       })->toArray();
 
-    DB::table('entries')->insert($testData);
+    Entry::insert($testData);
 
     $id_entries_1 = Entry::where('uuid', $uuid_1)->first()->id;
     $id_entries_2 = Entry::where('uuid', $uuid_2)->first()->id;
@@ -233,8 +263,8 @@ class EntrySeeder extends Seeder {
       ],
     ];
 
-    DB::table('entries_offquel')->insert($testDataOffquel);
-    DB::table('entries_rating')->insert($testDataRating);
-    DB::table('entries_rewatch')->insert($testDataRewatch);
+    EntryOffquel::insert($testDataOffquel);
+    EntryRating::insert($testDataRating);
+    EntryRewatch::insert($testDataRewatch);
   }
 }
