@@ -543,13 +543,40 @@ class EntryTest extends BaseTestCase {
   public function test_should_not_add_data_on_form_errors() {
   }
 
-  public function test_should_add_prequel_data_to_existing_entry() {
+  public function test_should_add_data_and_set_existing_entry_as_prequel() {
   }
 
-  public function test_should_add_sequel_data_to_existing_entry() {
+  public function test_should_add_data_and_set_prequel_blank_when_entry_id_is_used_instead_of_uuid() {
   }
 
-  public function test_should_add_offquel_data_to_existing_entry() {
+  public function test_should_add_data_and_set_prequel_blank_when_id_is_non_existent() {
+  }
+
+  public function test_should_add_data_and_set_prequel_blank_when_id_is_invalid() {
+  }
+
+  public function test_should_add_data_and_set_existing_entry_as_sequel() {
+  }
+
+  public function test_should_add_data_and_set_sequel_blank_when_entry_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_add_data_and_set_sequel_blank_when_id_is_non_existent() {
+  }
+
+  public function test_should_add_data_and_set_sequel_blank_when_id_is_invalid() {
+  }
+
+  public function test_should_add_data_and_set_existing_entry_as_offquel() {
+  }
+
+  public function test_should_add_data_and_set_offquel_blank_when_entry_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_add_data_and_set_offquel_blank_when_id_is_non_existent() {
+  }
+
+  public function test_should_add_data_and_set_offquel_blank_when_id_is_invalid() {
   }
 
   /**
@@ -572,13 +599,40 @@ class EntryTest extends BaseTestCase {
   public function test_should_not_edit_data_when_id_is_used_instead_of_uuid() {
   }
 
-  public function test_should_edit_data_as_prequel_to_existing_entry() {
+  public function test_should_edit_data_and_set_existing_entry_as_prequel() {
   }
 
-  public function test_should_edit_data_as_sequel_to_existing_entry() {
+  public function test_should_edit_data_and_set_prequel_blank_when_entry_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_edit_data_and_set_prequel_blank_when_id_is_non_existent() {
+  }
+
+  public function test_should_edit_data_and_set_prequel_blank_when_id_is_invalid() {
+  }
+
+  public function test_should_edit_data_and_set_existing_entry_as_sequel() {
+  }
+
+  public function test_should_edit_data_and_set_sequel_blank_when_entry_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_edit_data_and_set_sequel_blank_when_id_is_non_existent() {
+  }
+
+  public function test_should_edit_data_and_set_sequel_blank_when_id_is_invalid() {
   }
 
   public function test_should_edit_data_as_offquel_to_existing_entry() {
+  }
+
+  public function test_should_edit_data_and_set_offquel_blank_when_entry_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_edit_data_and_set_offquel_blank_when_id_is_non_existent() {
+  }
+
+  public function test_should_edit_data_and_set_offquel_blank_when_id_is_invalid() {
   }
 
   /**
