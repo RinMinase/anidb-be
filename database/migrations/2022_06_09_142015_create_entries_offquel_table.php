@@ -16,11 +16,11 @@ return new class extends Migration {
 
       // parent entry
       $table->integer('id_entries')->unsigned()->nullable();
-      $table->foreign('id_entries')->references('id')->on('entries');
+      $table->foreign('id_entries')->references('id')->on('entries')->onDelete('cascade');
 
       // child / offquel entry
       $table->integer('id_entries_offquel')->unsigned()->nullable();
-      $table->foreign('id_entries_offquel')->references('id')->on('entries');
+      $table->foreign('id_entries_offquel')->references('id')->on('entries')->onDelete('cascade');
 
       $table->softDeletes();
     });

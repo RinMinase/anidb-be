@@ -16,7 +16,7 @@ return new class extends Migration {
       $table->uuid('uuid');
 
       $table->integer('id_entries')->unsigned();
-      $table->foreign('id_entries')->references('id')->on('entries');
+      $table->foreign('id_entries')->references('id')->on('entries')->onDelete('cascade');
 
       $table->date('date_rewatched');
     });
