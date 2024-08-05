@@ -41,6 +41,9 @@ class EntryTest extends BaseTestCase {
   private $entry_1_rating_graphics = 4;
   private $entry_1_rating_plot = 3;
 
+  private $entry_1_rewatch_id = 99999;
+  private $entry_1_rewatch_uuid = 'e16593ad-ed01-4314-b4b1-0120ba734f90';
+
   // Place this outside the try-catch block
   private function setup_backup() {
     // Save current entries and relations
@@ -149,8 +152,9 @@ class EntryTest extends BaseTestCase {
     ];
 
     $test_entry_rewatch = [
+      'id' => $this->entry_1_rewatch_id,
       'id_entries' => $this->entry_id_1,
-      'uuid' => Str::uuid()->toString(),
+      'uuid' => $this->entry_1_rewatch_uuid,
       'date_rewatched' => $date_finished_rewatch,
     ];
 
@@ -1036,9 +1040,85 @@ class EntryTest extends BaseTestCase {
    * Rewatch Endpoint
    */
   public function test_should_add_entry_rewatch() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $params_1 = ['date_rewatched' => '2020-10-20'];
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/rewatch/' . $this->entry_uuid_2, $params_1);
+
+      $response->assertStatus(200);
+
+      $actual = Entry::with('rewatches')
+        ->where('id', $this->entry_id_2)
+        ->first()
+        ->rewatches
+        ->last()
+        ->date_rewatched;
+
+      $this->assertEquals(
+        Carbon::parse($params_1['date_rewatched'])->toString(),
+        Carbon::parse($actual)->toString(),
+      );
+
+      $params_2 = ['date_rewatched' => '2020-11-22'];
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/rewatch/' . $this->entry_uuid_2, $params_2);
+
+      $response->assertStatus(200);
+
+      $actual = Entry::with('rewatches')
+        ->where('id', $this->entry_id_2)
+        ->first()
+        ->rewatches
+        ->pluck('date_rewatched')
+        ->toArray();
+
+      $expected_count = 2;
+      $expected_rewatches = [
+        $params_1['date_rewatched'],
+        $params_2['date_rewatched'],
+      ];
+
+      $this->assertCount($expected_count, $actual);
+      $this->assertEqualsCanonicalizing($expected_rewatches, $actual);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_add_entry_rewatch_on_form_errors() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $params = ['date_rewatched' => '3000-01-01'];
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/rewatch/' . $this->entry_uuid_2, $params);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure(['data' => ['date_rewatched']]);
+
+      $params = ['date_rewatched' => Carbon::now()->addDay()->format('Y-m-d')];
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/rewatch/' . $this->entry_uuid_2, $params);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure(['data' => ['date_rewatched']]);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_add_entry_rewatch_on_non_existent_entry() {
@@ -1056,6 +1136,45 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_delete_entry_rewatch() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $rewatch_entry_init = Entry::with('rewatches')
+        ->where('id', $this->entry_id_1)
+        ->first()
+        ->rewatches
+        ->pluck('date_rewatched')
+        ->toArray();
+
+      $rewatch_init = EntryRewatch::where('uuid', $this->entry_1_rewatch_uuid)
+        ->first()
+        ->toArray();
+
+      $this->assertNotCount(0, $rewatch_entry_init);
+      $this->assertNotNull($rewatch_init);
+
+      $response = $this->withoutMiddleware()->delete('/api/entries/rewatch/' . $this->entry_1_rewatch_uuid);
+
+      $response->assertStatus(200);
+
+      $actual_entry_rewatch = Entry::with('rewatches')
+        ->where('id', $this->entry_id_2)
+        ->first()
+        ->rewatches
+        ->toArray();
+
+      $actual_rewatch = EntryRewatch::where('uuid', $this->entry_1_rewatch_uuid)
+        ->first();
+
+      $this->assertCount(0, $actual_entry_rewatch);
+      $this->assertNull($actual_rewatch);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_not_delete_rewatch_on_non_existent_entry() {
