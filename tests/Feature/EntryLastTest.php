@@ -44,9 +44,6 @@ class EntryLastTest extends BaseTestCase {
 
   // Place this in a try block
   private function setup_config() {
-    EntryRewatch::truncate();
-    EntryRating::truncate();
-    EntryOffquel::truncate();
     Entry::truncate();
 
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
@@ -75,9 +72,6 @@ class EntryLastTest extends BaseTestCase {
   // Place this in a finally block
   private function setup_restore() {
     // Remove test data
-    EntryRewatch::truncate();
-    EntryRating::truncate();
-    EntryOffquel::truncate();
     Entry::truncate();
 
     // Restore saved entries and relations
