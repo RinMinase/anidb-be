@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Entry;
+namespace Tests\Feature;
 
 use Exception;
 use Carbon\Carbon;
