@@ -137,7 +137,7 @@ class GasTest extends BaseTestCase {
 
     try {
       // Mock Carbon::now()
-      Carbon::setTestNow(Carbon::createFromDate(2023, 5, 20));
+      Carbon::setTestNow(Carbon::parse('2023-05-20'));
 
       Gas::truncate();
 
@@ -192,7 +192,7 @@ class GasTest extends BaseTestCase {
       $expected_last_eff = 7.118;
       $expected_mileage = 507;
       $expected_age = '1 month, 1 day';
-      $expected_km_per_month = 490.82;
+      $expected_km_per_month = 491.16;
 
       $expected_graph = [
         'efficiency' => [
@@ -214,7 +214,7 @@ class GasTest extends BaseTestCase {
 
       $this->assertEqualsWithDelta($expected_avg_eff, $actual_stats['averageEfficiency'], 0.5);
       $this->assertEqualsWithDelta($expected_last_eff, $actual_stats['lastEfficiency'], 0.5);
-      $this->assertEqualsWithDelta($expected_km_per_month, $actual_stats['kmPerMonth'], 10);
+      $this->assertEqualsWithDelta($expected_km_per_month, $actual_stats['kmPerMonth'], 0.5);
 
       $this->assertEquals($expected_graph, $response['data']['graph']);
     } catch (Exception $e) {
