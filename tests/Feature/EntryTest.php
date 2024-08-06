@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Exception;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
 use App\Models\Entry;
@@ -788,6 +789,37 @@ class EntryTest extends BaseTestCase {
    * Image Upload Endpoint
    */
   public function test_should_return_a_valid_image_in_getting_single_data() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $response = $this->withoutMiddleware()->get('/api/entries/' . $this->entry_uuid_1);
+
+      $response->assertStatus(200)
+        ->assertJsonStructure([
+          'data' => [
+            'image',
+          ],
+        ]);
+
+      $image_url = $response['data']['image'];
+
+      $this->assertTrue(Str::isUrl($image_url));
+
+      file_get_contents($image_url);
+      $headers = implode("\n", $http_response_header);
+
+      if (preg_match_all("/^content-type\s*:\s*(.*)$/mi", $headers, $matches)) {
+        $content_type = end($matches[1]);
+
+        $this->assertTrue(str_contains($content_type, 'image'));
+      }
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_upload_entry_image() {
@@ -1253,15 +1285,49 @@ class EntryTest extends BaseTestCase {
    * Title Search Endpoint
    */
   public function test_should_return_searched_titles() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $response = $this->withoutMiddleware()->get('/api/entries/titles');
+
+      $response->assertStatus(200)
+        ->assertJsonCount($this->total_entry_count, 'data')
+        ->assertJsonStructure(['data']);
+
+      $needle = 'another solo';
+      $response = $this->withoutMiddleware()->get('/api/entries/titles?needle=' . $needle);
+
+      $response->assertStatus(200)
+        ->assertJsonCount(1, 'data')
+        ->assertJsonStructure(['data']);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_return_searched_titles_excluding_a_single_title() {
-  }
+    $this->setup_backup();
 
-  public function test_should_return_searched_titles_with_custom_needle() {
-  }
+    try {
+      $this->setup_config();
 
-  public function test_should_return_searched_titles_excluding_a_single_title_and_custom_needle() {
+      $excluded_id = $this->entry_uuid_1;
+      $response = $this->withoutMiddleware()->get('/api/entries/titles?id=' . $excluded_id);
+
+      $response->assertStatus(200)
+        ->assertJsonCount($this->total_entry_count - 1, 'data')
+        ->assertJsonStructure(['data']);
+
+      $this->assertNotContains($excluded_id, $response['data']);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_return_searched_titles_when_no_authorization() {
@@ -1271,10 +1337,12 @@ class EntryTest extends BaseTestCase {
       ->assertJson(['message' => 'Unauthorized']);
   }
 
-  public function test_should_not_return_searched_titles_with_form_errors() {
-  }
+  public function test_should_not_return_searched_titles_when_entry_id_is_used_instead_of_uuid() {
+    $excluded_id = $this->entry_id_1;
+    $response = $this->withoutMiddleware()->get('/api/entries/titles?id=' . $excluded_id);
 
-  public function test_should_not_return_searched_titles_with_an_invalid_needle() {
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['id']]);
   }
 
   /**
