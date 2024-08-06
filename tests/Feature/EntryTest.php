@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use Exception;
 use Carbon\Carbon;
+use Cloudinary\Api\Admin\AdminApi;
+use Cloudinary\Api\Upload\UploadApi;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
@@ -12,6 +15,7 @@ use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 use App\Models\Quality;
+use Error;
 
 class EntryTest extends BaseTestCase {
 
@@ -35,6 +39,10 @@ class EntryTest extends BaseTestCase {
   private $entry_uuid_3 = '959d90bd-f1ed-4078-b374-4fd4dfedfbb6';
   private $entry_uuid_4 = '64b3e54c-8280-4275-b5c2-5361065a5bf9';
   private $entry_uuid_5 = 'ddd65078-5d05-48a3-9604-a2ed9f4a679e';
+
+  private $entry_1_image = '__test_data__8fa9b149-0185-41b2-b6c2-7d2ac7512eb4';
+  // cached value throughout the whole test, make single call only to API
+  private static $entry_1_image_url = null;
 
   private $entry_1_rating_audio = 6;
   private $entry_1_rating_enjoyment = 5;
@@ -77,6 +85,18 @@ class EntryTest extends BaseTestCase {
     $date_finished_5 = Carbon::parse('2001-01-05')->format('Y-m-d');
     $date_finished_rewatch = Carbon::parse('2001-02-01')->format('Y-m-d');
 
+    if (self::$entry_1_image_url === null) {
+      echo "\nINFO: API call to Cloudinary:AdminAPI:asset\n";
+
+      $image_url = (new AdminApi())->asset($this->entry_1_image)['url'];
+
+      if (!$image_url) {
+        throw new Error('Image URL was not acquired');
+      }
+
+      self::$entry_1_image_url = $image_url;
+    }
+
     $test_entries = [
       [
         'id' => $this->entry_id_1,
@@ -89,7 +109,7 @@ class EntryTest extends BaseTestCase {
         'sequel_id' => $this->entry_id_4,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
-        'image' => 'https://res.cloudinary.com/rin-minase/image/upload/v1722926844/entries/n2aipkefesx9ddb1wifd.jpg',
+        'image' => self::$entry_1_image_url,
       ], [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
@@ -823,9 +843,78 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_upload_entry_image() {
+    $this->setup_backup();
+
+    $cloudinary_image = null;
+
+    try {
+      $this->setup_config();
+
+      $file = UploadedFile::fake()->image('test_image.jpg')->size(4096);
+
+      $response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $this->entry_uuid_2, [
+        'image' => $file,
+      ]);
+
+      $response->assertStatus(200);
+
+      $actual = Entry::select('image')
+        ->where('uuid', $this->entry_uuid_2)
+        ->first()
+        ->image;
+
+      $this->assertTrue(Str::isUrl($actual));
+      $cloudinary_image = pathinfo($actual)['filename'];
+
+      file_get_contents($actual);
+      $headers = implode("\n", $http_response_header);
+
+      if (preg_match_all("/^content-type\s*:\s*(.*)$/mi", $headers, $matches)) {
+        $content_type = end($matches[1]);
+
+        $this->assertTrue(str_contains($content_type, 'image'));
+      }
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      // Remove Cloudinary image¡
+      if ($cloudinary_image) {
+        (new UploadApi())->destroy('entries/' . $cloudinary_image);
+        echo "\nINFO: API call to Cloudinary:UploadAPI:destroy\n";
+      }
+
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_upload_entry_image_on_invalid_image() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $file = UploadedFile::fake()->image('test_image.jpg')->size(4097);
+
+      $response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $this->entry_uuid_2, [
+        'image' => $file,
+      ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure(['data' => ['image']]);
+
+      $file = UploadedFile::fake()->image('test_image.webp')->size(4096);
+
+      $response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $this->entry_uuid_2, [
+        'image' => $file,
+      ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure(['data' => ['image']]);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_upload_entry_image_on_non_existent_entry() {
@@ -843,6 +932,33 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_delete_entry_image() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $file = UploadedFile::fake()->image('test_image.jpg')->size(1);
+
+      $upload_response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $this->entry_uuid_2, [
+        'image' => $file,
+      ]);
+
+      $upload_response->assertStatus(200);
+
+      $response = $this->withoutMiddleware()->delete('/api/entries/img-upload/' . $this->entry_uuid_2);
+
+      $response->assertStatus(200);
+
+      $actual = Entry::select('image')
+        ->where('uuid', $this->entry_uuid_2)
+        ->first();
+
+      $this->assertNull($actual->image);
+    } catch (Exception $e) {
+      throw $e;
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_delete_image_on_non_existent_entry() {
