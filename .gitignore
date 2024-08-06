@@ -20,6 +20,3 @@ npm-debug.log
 /public/hot
 /public/storage
 /public/deploy-status
-
-# Cockroach Data
-/docker/cockroach-data

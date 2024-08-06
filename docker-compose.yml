@@ -58,14 +58,3 @@ services:
       - '${DB_PORT:-5432}:5432'
     volumes:
       - db:/var/lib/postgresql/data
-
-  dbc:
-    container_name: anidb-cockroach
-    image: cockroachdb/cockroach:v23.2.9
-    restart: unless-stopped
-    ports:
-     - "${DBC_PORT:-26257}:26257"
-     - "${DBC_ADMIN_PORT:-8080}:8080"
-    command: start-single-node --insecure --max-sql-memory=128MiB
-    volumes:
-      - dbc:/cockroach/cockroach-data"

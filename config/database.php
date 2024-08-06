@@ -77,22 +77,6 @@ return [
       'schema' => 'public',
       'sslmode' => 'prefer',
     ],
-
-    'crdb' => [
-      'driver' => 'crdb',
-      'url' => env('DATABASE_URL'),
-      'host' => env('DBC_HOST', '127.0.0.1'),
-      'port' => env('DBC_PORT', '26257'),
-      'database' => env('DBC_DATABASE', 'forge'),
-      'username' => env('DBC_USERNAME', 'forge'),
-      'password' => env('DBC_PASSWORD', ''),
-      'charset' => 'utf8',
-      'prefix' => '',
-      'prefix_indexes' => true,
-      'schema' => 'public',
-      'sslmode' => 'prefer',
-    ]
-
   ],
 
   /*

@@ -24,7 +24,7 @@ This is done by setting these specific ENV flags to true, to disable them.
 DISABLE_SCRAPER  - Disables WebScraper
 ```
 
-1. Database (PostgreSQL or CockroachDB)
+1. Database
 
     Definition of terms:
     - **DB_CONNECTION** - the database configuration being used by Laravel
@@ -33,8 +33,6 @@ DISABLE_SCRAPER  - Disables WebScraper
     - **DB_PORT** - port used by the database
     - **DB_DATABASE** - database username
     - **DB_PASSWORD** - database password
-
-    A. Using PostgreSQL (Preferrable)
 
     These are the configuration options for the database:
 
@@ -49,23 +47,6 @@ DISABLE_SCRAPER  - Disables WebScraper
     ```
 
     **Notes :** DB_HOST **should** use docker container name of db, by default this is 'anidb-pgsql', but yours could be different. You can check this by running `docker ps` then check the container name of the `postgres` container.
-
-    B. Using CockroachDB
-    These are the configuration options for the database:
-
-    ```
-    DB_CONNECTION=crdb
-    DATABASE_URL=
-    DB_HOST=anidb-cockroach
-    DB_PORT=26257
-    DB_DATABASE=defaultdb
-    DB_USERNAME=root
-    DB_PASSWORD=
-    ```
-
-    **Notes :**
-    - DB_HOST **should** use docker container name of db, by default this is 'anidb-cockroach', but yours could be different. You can check this by running `docker ps` then check the container name of the `cockroachdb` container.
-    - DB_PASSWORD defaults to none
 
 2. Cloudinary
     - Fire up your browser and login your [Cloudinary Account](https://cloudinary.com/users/login). If you have no account yet, you can [create one](https://cloudinary.com/users/register/free) for free.
@@ -187,7 +168,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 ## Built with
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 11](https://laravel.com) - Core Framework
 * <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8.3](https://php.net) - Language syntax
-* <img width=20 height=20 src="https://www.cockroachlabs.com/favicon.ico"> [CockroachDB](https://www.cockroachlabs.com) - Database
+* <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
 * <img width=20 height=20 src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic-480x411.png"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png"> [Swagger](https://swagger.io/) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
