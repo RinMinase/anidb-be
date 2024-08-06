@@ -62,6 +62,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => $id_codec_video_1,
         'id_codec_audio' => $id_codec_audio_4,
+        'image' => 'https://res.cloudinary.com/rin-minase/image/upload/v1722926844/entries/n2aipkefesx9ddb1wifd.jpg',
       ], [
         'uuid' => $uuid_2,
         'id_quality' => $id_quality_1080,
@@ -75,6 +76,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_10,
+        'image' => null,
       ], [
         'uuid' => $uuid_3,
         'id_quality' => $id_quality_720,
@@ -88,6 +90,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => $id_codec_video_2,
         'id_codec_audio' => $id_codec_audio_9,
+        'image' => null,
       ], [
         'uuid' => $uuid_4,
         'id_quality' => $id_quality_1080,
@@ -101,6 +104,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => $id_codec_video_3,
         'id_codec_audio' => $id_codec_audio_6,
+        'image' => null,
       ], [
         'uuid' => $uuid_5,
         'id_quality' => $id_quality_1080,
@@ -114,6 +118,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_12,
+        'image' => null,
       ], [
         'uuid' => $uuid_6,
         'id_quality' => $id_quality_1080,
@@ -127,6 +132,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_7,
+        'image' => null,
       ], [
         'uuid' => $uuid_7,
         'id_quality' => $id_quality_1080,
@@ -140,6 +146,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => true,
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_11,
+        'image' => null,
       ], [
         'uuid' => $uuid_8,
         'id_quality' => $id_quality_1080,
@@ -153,6 +160,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => null,
         'id_codec_audio' => null,
+        'image' => null,
       ], [
         'uuid' => $uuid_9,
         'id_quality' => $id_quality_1080,
@@ -166,6 +174,7 @@ class EntrySeeder extends Seeder {
         'codec_hdr' => false,
         'id_codec_video' => null,
         'id_codec_audio' => null,
+        'image' => null,
       ],
     ];
 

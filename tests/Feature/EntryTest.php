@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Exception;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
 use App\Models\Entry;
@@ -89,6 +88,7 @@ class EntryTest extends BaseTestCase {
         'sequel_id' => $this->entry_id_4,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
+        'image' => 'https://res.cloudinary.com/rin-minase/image/upload/v1722926844/entries/n2aipkefesx9ddb1wifd.jpg',
       ], [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
@@ -100,6 +100,7 @@ class EntryTest extends BaseTestCase {
         'sequel_id' => null,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
+        'image' => null,
       ], [
         'id' => $this->entry_id_3,
         'uuid' => $this->entry_uuid_3,
@@ -111,6 +112,7 @@ class EntryTest extends BaseTestCase {
         'sequel_id' => null,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
+        'image' => null,
       ], [
         'id' => $this->entry_id_4,
         'uuid' => $this->entry_uuid_4,
@@ -122,17 +124,19 @@ class EntryTest extends BaseTestCase {
         'sequel_id' => $this->entry_id_5,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
+        'image' => null,
       ], [
         'id' => $this->entry_id_5,
         'uuid' => $this->entry_uuid_5,
         'id_quality' => $id_quality,
-        'date_finished' => $date_finished_3,
+        'date_finished' => $date_finished_5,
         'title' => 'testing series title season 3',
         'season_number' => 3,
         'prequel_id' => $this->entry_id_4,
         'sequel_id' => null,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
+        'image' => null,
       ],
     ];
 
