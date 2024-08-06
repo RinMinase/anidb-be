@@ -20,7 +20,7 @@ class GasRepository {
 
     $age = $this->calculateAge();
     $mileage = Gas::select('odometer')
-      ->orderBy('id', 'desc')
+      ->orderBy('date', 'desc')
       ->first()
       ->odometer;
 
@@ -416,7 +416,7 @@ class GasRepository {
 
     $data = Gas::select('date', 'price_per_liter')
       ->whereNotNull('price_per_liter')
-      ->orderBy('id', 'desc')
+      ->orderBy('date', 'desc')
       ->limit(20)
       ->get()
       ->reverse()
