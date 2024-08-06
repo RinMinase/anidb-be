@@ -8,11 +8,18 @@ use Tests\BaseTestCase;
 
 use App\Models\Entry;
 use App\Models\Bucket;
+use App\Models\EntryOffquel;
+use App\Models\EntryRating;
+use App\Models\EntryRewatch;
 use App\Models\Quality;
 
 class EntryByBucketTest extends BaseTestCase {
 
   private $bucket_backup = null;
+  private $rewatch_backup = null;
+  private $rating_backup = null;
+  private $offquel_backup = null;
+  private $entry_backup = null;
 
   private $bucket_from_1 = 'a';
   private $bucket_from_2 = 'o';
@@ -27,11 +34,29 @@ class EntryByBucketTest extends BaseTestCase {
   private function setup_backup() {
     // Save current bucket list
     $this->bucket_backup = Bucket::all()->toArray();
+
+    // Save current entries and relations
+    $this->rewatch_backup = EntryRewatch::all()
+      ->makeVisible(['id', 'id_entries'])
+      ->toArray();
+
+    $this->rating_backup = EntryRating::all()
+      ->makeVisible(['id', 'id_entries', 'created_at', 'updated_at', 'deleted_at'])
+      ->toArray();
+
+    $this->offquel_backup = EntryOffquel::all()
+      ->makeVisible(['id_entries', 'created_at', 'updated_at', 'deleted_at'])
+      ->toArray();
+
+    $this->entry_backup = Entry::all()
+      ->makeVisible(['id', 'id_quality', 'updated_at', 'deleted_at'])
+      ->toArray();
   }
 
   // Place this in a try block
   private function setup_config() {
     Bucket::truncate();
+    Entry::truncate();
 
     $test_bucket = [
       [
@@ -48,9 +73,6 @@ class EntryByBucketTest extends BaseTestCase {
     foreach ($test_bucket as $item) {
       Bucket::create($item);
     }
-
-    // Clearing possible duplicate data
-    $this->setup_clear();
 
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
 
@@ -77,18 +99,19 @@ class EntryByBucketTest extends BaseTestCase {
     Entry::insert($test_entries);
   }
 
-  private function setup_clear() {
-    Entry::where('uuid', $this->entry_uuid_1)
-      ->orWhere('uuid', $this->entry_uuid_2)
-      ->forceDelete();
-  }
-
   // Place this in a finally block
   private function setup_restore() {
-    $this->setup_clear();
-
     Bucket::truncate();
     Bucket::insert($this->bucket_backup);
+
+    // Remove test data
+    Entry::truncate();
+
+    // Restore saved entries and relations
+    Entry::insert($this->entry_backup);
+    EntryOffquel::insert($this->offquel_backup);
+    EntryRating::insert($this->rating_backup);
+    EntryRewatch::insert($this->rewatch_backup);
   }
 
   public function test_should_get_all_entries_by_bucket() {
