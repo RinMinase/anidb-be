@@ -4,6 +4,7 @@ namespace Tests\Feature\Fourleaf;
 
 use Exception;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Tests\BaseTestCase;
 
 use App\Fourleaf\Models\Gas;
@@ -136,8 +137,9 @@ class GasTest extends BaseTestCase {
     $backup_data = Gas::all()->toArray();
 
     try {
-      // Mock Carbon::now()
+      // Mock date values
       Carbon::setTestNow(Carbon::parse('2023-05-20'));
+      Config::set('app.vehicle_start_date', '2023-04-25');
 
       Gas::truncate();
 
@@ -191,8 +193,8 @@ class GasTest extends BaseTestCase {
       $expected_avg_eff = 6.878;
       $expected_last_eff = 7.118;
       $expected_mileage = 507;
-      $expected_age = '1 month, 1 day';
-      $expected_km_per_month = 491.16;
+      $expected_age = '25 days';
+      $expected_km_per_month = 608.4;
 
       $expected_graph = [
         'efficiency' => [
@@ -220,6 +222,10 @@ class GasTest extends BaseTestCase {
     } catch (Exception $e) {
       throw $e;
     } finally {
+      // Restore mocks
+      Carbon::setTestNow();
+      Config::set('app.vehicle_start_date', env('VEHICLE_START_DATE', '2023-01-01'));
+
       // Restore backup data
       Gas::truncate();
 
