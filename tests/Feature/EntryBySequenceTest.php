@@ -119,7 +119,7 @@ class EntryBySequenceTest extends BaseTestCase {
     $this->setup_clear();
   }
 
-  public function tests_should_not_get_all_entries_with_non_existent_sequence() {
+  public function test_should_not_get_all_entries_with_non_existent_sequence() {
     $invalid_id = -1;
     $response = $this->withoutMiddleware()->get('/api/entries/by-sequence/' . $invalid_id);
 
