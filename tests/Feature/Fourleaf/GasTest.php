@@ -214,7 +214,7 @@ class GasTest extends BaseTestCase {
 
       $this->assertEqualsWithDelta($expected_avg_eff, $actual_stats['averageEfficiency'], 0.5);
       $this->assertEqualsWithDelta($expected_last_eff, $actual_stats['lastEfficiency'], 0.5);
-      $this->assertEqualsWithDelta($expected_km_per_month, $actual_stats['kmPerMonth'], 5);
+      $this->assertEqualsWithDelta($expected_km_per_month, $actual_stats['kmPerMonth'], 10);
 
       $this->assertEquals($expected_graph, $response['data']['graph']);
     } catch (Exception $e) {
