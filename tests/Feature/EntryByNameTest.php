@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use Exception;
-use Tests\BaseTestCase;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use Tests\BaseTestCase;
 
 use App\Models\Entry;
 use App\Models\EntryOffquel;
@@ -185,8 +184,6 @@ class EntryByNameTest extends BaseTestCase {
       $letter = 'p';
       $response = $this->withoutMiddleware()->get('/api/entries/by-name/' . $letter);
       $response->assertStatus(200)->assertJsonCount(2, 'data');
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -273,8 +270,6 @@ class EntryByNameTest extends BaseTestCase {
       $this->assertEquals($expected_g_count * $this->filesize || '', $actual_g['filesize']);
       $this->assertEquals($expected_p_count * $this->filesize || '', $actual_p['filesize']);
       $this->assertEquals($expected_z_count * $this->filesize || '', $actual_z['filesize']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }

@@ -2,16 +2,15 @@
 
 namespace Tests\Feature;
 
-use Tests\BaseTestCase;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use Tests\BaseTestCase;
 
 use App\Models\Entry;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 use App\Models\Quality;
-use Exception;
 
 class EntryLastTest extends BaseTestCase {
 
@@ -134,8 +133,6 @@ class EntryLastTest extends BaseTestCase {
         ->toArray();
 
       $this->assertEquals($expected_ids, $actual_ids);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }

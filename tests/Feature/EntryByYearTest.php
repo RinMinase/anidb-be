@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
@@ -285,8 +284,6 @@ class EntryByYearTest extends BaseTestCase {
         ->assertJsonCount(0, 'data.summer')
         ->assertJsonCount(0, 'data.fall')
         ->assertJsonCount(1, 'data.uncategorized');
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -316,8 +313,6 @@ class EntryByYearTest extends BaseTestCase {
         ->assertJsonCount(0, 'data.summer')
         ->assertJsonCount(0, 'data.fall')
         ->assertJsonCount(0, 'data.uncategorized');
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -394,8 +389,6 @@ class EntryByYearTest extends BaseTestCase {
         ->assertJsonCount(0, 'data.summer')
         ->assertJsonCount(0, 'data.fall')
         ->assertJsonCount(1, 'data.uncategorized');
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -460,8 +453,6 @@ class EntryByYearTest extends BaseTestCase {
       $this->assertEquals($expected_2000, $actual_2000['seasons']);
       $this->assertEquals($expected_2020, $actual_2020['seasons']);
       $this->assertEquals($expected_uncategorized, $actual_uncategorized['count']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }

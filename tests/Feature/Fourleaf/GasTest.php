@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Fourleaf;
 
-use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Tests\BaseTestCase;
@@ -219,8 +218,6 @@ class GasTest extends BaseTestCase {
       $this->assertEqualsWithDelta($expected_km_per_month, $actual_stats['kmPerMonth'], 0.5);
 
       $this->assertEquals($expected_graph, $response['data']['graph']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       // Restore mocks
       Carbon::setTestNow();

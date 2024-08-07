@@ -7,7 +7,6 @@ use Tests\BaseTestCase;
 use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
-use Exception;
 
 class BucketSimTest extends BaseTestCase {
 
@@ -375,8 +374,6 @@ class BucketSimTest extends BaseTestCase {
       $this->assertEquals($expected, $actual);
 
       $this->setup_clear();
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       // Restore previous buckets on test fail or success
       Bucket::truncate();
@@ -396,8 +393,6 @@ class BucketSimTest extends BaseTestCase {
       $response->assertStatus(404);
 
       $this->setup_clear();
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       // Restore previous buckets on test fail or success
       Bucket::truncate();
@@ -415,8 +410,6 @@ class BucketSimTest extends BaseTestCase {
       $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $invalid_id);
 
       $response->assertStatus(404);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       // Restore previous buckets on test fail or success
       Bucket::truncate();

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Exception;
 use Carbon\Carbon;
 use Tests\BaseTestCase;
 
@@ -15,12 +14,14 @@ use App\Models\Quality;
 
 class EntryByBucketTest extends BaseTestCase {
 
+  // Backup related variables
   private $bucket_backup = null;
   private $rewatch_backup = null;
   private $rating_backup = null;
   private $offquel_backup = null;
   private $entry_backup = null;
 
+  // Class variables
   private $bucket_from_1 = 'a';
   private $bucket_from_2 = 'o';
 
@@ -141,8 +142,6 @@ class EntryByBucketTest extends BaseTestCase {
 
       $this->assertNotNull($actual);
       $this->assertCount(1, $actual);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -165,8 +164,6 @@ class EntryByBucketTest extends BaseTestCase {
       $response = $this->withoutMiddleware()->get('/api/entries/by-bucket/' . $invalid_id);
 
       $response->assertStatus(404);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -196,8 +193,6 @@ class EntryByBucketTest extends BaseTestCase {
             'titles',
           ]],
         ]);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
