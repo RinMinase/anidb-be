@@ -6,11 +6,22 @@ use Carbon\Carbon;
 use Tests\BaseTestCase;
 
 use App\Models\Entry;
+use App\Models\EntryOffquel;
+use App\Models\EntryRating;
+use App\Models\EntryRewatch;
 use App\Models\Quality;
 use App\Models\Sequence;
 
 class EntryBySequenceTest extends BaseTestCase {
 
+  // Backup related variables
+  private $sequence_backup = null;
+  private $rewatch_backup = null;
+  private $rating_backup = null;
+  private $offquel_backup = null;
+  private $entry_backup = null;
+
+  // Class variables
   private $sequence_id = 99999;
 
   private $date_from = '1980-01-01';
@@ -24,9 +35,35 @@ class EntryBySequenceTest extends BaseTestCase {
   private $entry_uuid_2 = '251c34f4-e281-4d7e-9ed9-6b7977a665ba';
   private $entry_uuid_3 = '9bea308b-a6a3-4fdd-add8-4c34a1051abc';
 
+  // Place this outside the try-catch block
+  private function setup_backup() {
+    // Save current bucket list
+    $this->sequence_backup = Sequence::all()
+      ->makeVisible(['created_at', 'updated_at'])
+      ->toArray();
+
+    // Save current entries and relations
+    $this->rewatch_backup = EntryRewatch::all()
+      ->makeVisible(['id', 'id_entries'])
+      ->toArray();
+
+    $this->rating_backup = EntryRating::all()
+      ->makeVisible(['id', 'id_entries', 'created_at', 'updated_at', 'deleted_at'])
+      ->toArray();
+
+    $this->offquel_backup = EntryOffquel::all()
+      ->makeVisible(['id_entries', 'created_at', 'updated_at', 'deleted_at'])
+      ->toArray();
+
+    $this->entry_backup = Entry::all()
+      ->makeVisible(['id', 'id_quality', 'updated_at', 'deleted_at'])
+      ->toArray();
+  }
+
+  // Place this in a try block
   private function setup_config() {
-    // Clearing possible duplicate data
-    $this->setup_clear();
+    Sequence::truncate();
+    Entry::truncate();
 
     Sequence::insert([
       'id' => $this->sequence_id,
@@ -38,6 +75,7 @@ class EntryBySequenceTest extends BaseTestCase {
     ]);
 
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
+
     $test_entries = [
       [
         'id' => $this->entry_id_1,
@@ -69,54 +107,67 @@ class EntryBySequenceTest extends BaseTestCase {
     Entry::insert($test_entries);
   }
 
-  private function setup_clear() {
-    Sequence::where('id', $this->sequence_id)->forceDelete();
-    Entry::where('id', $this->entry_id_1)
-      ->orWhere('id', $this->entry_id_2)
-      ->orWhere('id', $this->entry_id_3)
-      ->forceDelete();
+  // Place this in a finally block
+  private function setup_restore() {
+    Sequence::truncate();
+    Sequence::insert($this->sequence_backup);
+
+    // Remove test data
+    Entry::truncate();
+
+    // Restore saved entries and relations
+    Entry::insert($this->entry_backup);
+    EntryOffquel::insert($this->offquel_backup);
+    EntryRating::insert($this->rating_backup);
+    EntryRewatch::insert($this->rewatch_backup);
   }
 
   public function test_should_get_all_entries_by_sequence_with_stats() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->withoutMiddleware()->get('/api/entries/by-sequence/' . $this->sequence_id);
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(200)
-      ->assertJsonStructure([
-        'data',
-        'stats' => [
-          'titlesPerDay',
-          'epsPerDay',
-          'quality2160',
-          'quality1080',
-          'quality720',
-          'quality480',
-          'quality360',
-          'totalTitles',
-          'totalEps',
-          'totalSize',
-          'totalDays',
-          'startDate',
-          'endDate',
-        ],
-      ]);
+      $response = $this->withoutMiddleware()->get('/api/entries/by-sequence/' . $this->sequence_id);
 
-    $expected = 2;
-    $this->assertCount($expected, $response['data']);
-
-    $this->setup_clear();
+      $response->assertStatus(200)
+        ->assertJsonCount(2, 'data')
+        ->assertJsonStructure([
+          'data',
+          'stats' => [
+            'titlesPerDay',
+            'epsPerDay',
+            'quality2160',
+            'quality1080',
+            'quality720',
+            'quality480',
+            'quality360',
+            'totalTitles',
+            'totalEps',
+            'totalSize',
+            'totalDays',
+            'startDate',
+            'endDate',
+          ],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_get_all_entries_by_sequence_when_not_authorized() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->get('/api/entries/by-sequence/' . $this->sequence_id);
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
+      $response = $this->get('/api/entries/by-sequence/' . $this->sequence_id);
 
-    $this->setup_clear();
+      $response->assertStatus(401)
+        ->assertJson(['message' => 'Unauthorized']);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_get_all_entries_with_non_existent_sequence() {
