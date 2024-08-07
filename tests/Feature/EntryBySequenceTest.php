@@ -37,7 +37,7 @@ class EntryBySequenceTest extends BaseTestCase {
 
   // Place this outside the try-catch block
   private function setup_backup() {
-    // Save current bucket list
+    // Save current sequence list
     $this->sequence_backup = Sequence::all()
       ->makeVisible(['created_at', 'updated_at'])
       ->toArray();
