@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Exception;
+use Error;
 use Carbon\Carbon;
 use Cloudinary\Api\Admin\AdminApi;
 use Cloudinary\Api\Upload\UploadApi;
@@ -10,12 +10,13 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
+use App\Models\CodecAudio;
+use App\Models\CodecVideo;
 use App\Models\Entry;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 use App\Models\Quality;
-use Error;
 
 class EntryTest extends BaseTestCase {
 
@@ -239,8 +240,6 @@ class EntryTest extends BaseTestCase {
             'hasNext',
           ]
         ]);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -301,8 +300,6 @@ class EntryTest extends BaseTestCase {
       ];
 
       $this->assertEqualsCanonicalizing($expected_meta, $actual_meta);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -359,8 +356,6 @@ class EntryTest extends BaseTestCase {
 
       $this->assertEqualsCanonicalizing($expected_meta, $actual_meta);
       $this->assertEquals($this->entry_uuid_2, $actual_data['id']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -432,8 +427,6 @@ class EntryTest extends BaseTestCase {
 
       $this->assertEqualsCanonicalizing($expected_meta, $actual_meta);
       $this->assertTrue(in_array($actual_data['id'], $expected_possible_titles));
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -520,8 +513,6 @@ class EntryTest extends BaseTestCase {
         ]);
 
       $this->assertEquals($this->entry_uuid_1, $response['data']['id']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -536,8 +527,6 @@ class EntryTest extends BaseTestCase {
       $response = $this->withoutMiddleware()->get('/api/entries/' . $this->entry_id_1);
 
       $response->assertStatus(404);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -563,45 +552,200 @@ class EntryTest extends BaseTestCase {
    * Add Endpoint
    */
   public function test_should_add_data_successfully() {
+    $this->setup_backup();
+
+    try {
+      Entry::truncate();
+
+      $test_id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
+      $test_title = 'testing newly added title';
+      $test_date_finished = '2000-06-15';
+
+      $test_duration = 100;
+      $test_filesize = 1000;
+
+      $test_episodes = 12;
+      $test_ovas = 34;
+      $test_specials = 56;
+
+      $test_encoder_video = 'video encoder';
+      $test_encoder_audio = 'audio encoder';
+      $test_encoder_subs = 'subs encoder';
+
+      $test_release_year = '2020';
+      $test_release_season = 'Spring';
+
+      $test_variants = 'variant';
+      $test_remarks = 'remarks';
+
+      $test_id_codec_audio = CodecAudio::first()->id;
+      $test_id_codec_video = CodecVideo::first()->id;
+      $test_codec_hdr = true;
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/', [
+          'id_quality' => $test_id_quality,
+          'title' => $test_title,
+          'date_finished' => $test_date_finished,
+          'duration' => $test_duration,
+          'filesize' => $test_filesize,
+          'episodes' => $test_episodes,
+          'ovas' => $test_ovas,
+          'specials' => $test_specials,
+          'encoder_video' => $test_encoder_video,
+          'encoder_audio' => $test_encoder_audio,
+          'encoder_subs' => $test_encoder_subs,
+          'release_year' => $test_release_year,
+          'release_season' => $test_release_season,
+          'variants' => $test_variants,
+          'remarks' => $test_remarks,
+          'id_codec_audio' => $test_id_codec_audio,
+          'id_codec_video' => $test_id_codec_video,
+          'codec_hdr' => $test_codec_hdr,
+        ]);
+
+      $response->assertStatus(200)
+        ->assertJson(['message' => 'Success']);
+
+      $actual = Entry::where('title', $test_title)->first();
+
+      $this->assertModelExists($actual);
+
+      $this->assertEquals($test_id_quality, $actual->quality->id);
+      $this->assertEquals($test_title, $actual->title);
+      $this->assertEquals($test_date_finished, $actual->date_finished);
+      $this->assertEquals($test_duration, $actual->duration);
+
+      $this->assertEquals($test_filesize, $actual->filesize);
+      $this->assertEquals($test_episodes, $actual->episodes);
+      $this->assertEquals($test_ovas, $actual->ovas);
+
+      $this->assertEquals(1, $actual->season_number);
+      $this->assertEquals($test_title, $actual->season_first_title->title);
+
+      $this->assertEquals($test_encoder_video, $actual->encoder_video);
+      $this->assertEquals($test_encoder_audio, $actual->encoder_audio);
+      $this->assertEquals($test_encoder_subs, $actual->encoder_subs);
+
+      $this->assertEquals($test_codec_hdr, $actual->codec_hdr);
+      $this->assertEquals($test_id_codec_audio, $actual->id_codec_audio);
+      $this->assertEquals($test_id_codec_video, $actual->id_codec_video);
+
+      $this->assertEquals($test_variants, $actual->variants);
+      $this->assertEquals($test_remarks, $actual->remarks);
+
+      $this->assertEquals($test_release_season, $actual->release_season);
+      $this->assertEquals($test_release_year, $actual->release_year);
+    } finally {
+      $this->setup_restore();
+    }
   }
+
+  public function test_should_add_data_and_set_existing_entry_as_prequel() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $quality = Quality::where('quality', 'FHD 1080p')->first();
+      $test_id_quality = $quality->id;
+      $test_title = 'testing newly added title';
+      $test_date_finished = '2000-06-15';
+
+      $test_prequel_id = Entry::where('uuid', $this->entry_uuid_2)->first()->uuid;
+      $test_season_number = 2;
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/', [
+          'id_quality' => $test_id_quality,
+          'title' => $test_title,
+          'date_finished' => $test_date_finished,
+          'prequel_id' => $test_prequel_id,
+          'season_number' => $test_season_number,
+          'season_first_title_id' => $test_prequel_id,
+        ]);
+
+      $response->assertStatus(200)
+        ->assertJson(['message' => 'Success']);
+
+      $actual = Entry::where('title', $test_title)->first();
+      $actual_prequel = Entry::where('id', $this->entry_id_2)->first();
+
+      $this->assertModelExists($actual);
+
+      $this->assertEquals($test_id_quality, $actual->quality->id);
+      $this->assertEquals($test_title, $actual->title);
+      $this->assertEquals($test_date_finished, $actual->date_finished);
+
+      $this->assertEquals($test_season_number, $actual->season_number);
+      $this->assertEquals($test_prequel_id, $actual->season_first_title->uuid);
+      $this->assertEquals($test_prequel_id, $actual->prequel->uuid);
+      $this->assertNull($actual->sequel);
+
+      // Check connection of prequel -> added title
+      $this->assertModelExists($actual_prequel);
+      $this->assertEquals($actual->uuid, $actual_prequel->sequel->uuid);
+    } finally {
+      $this->setup_restore();
+    }
+  }
+
+  public function test_should_add_data_and_set_existing_entry_as_sequel() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $quality = Quality::where('quality', 'FHD 1080p')->first();
+      $test_id_quality = $quality->id;
+      $test_title = 'testing newly added title';
+      $test_date_finished = '2000-06-15';
+
+      $test_sequel_id = Entry::where('uuid', $this->entry_uuid_2)->first()->uuid;
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/', [
+          'id_quality' => $test_id_quality,
+          'title' => $test_title,
+          'date_finished' => $test_date_finished,
+          'sequel_id' => $test_sequel_id,
+        ]);
+
+      $response->assertStatus(200)
+        ->assertJson(['message' => 'Success']);
+
+      $actual = Entry::where('title', $test_title)->first();
+      $actual_sequel = Entry::where('id', $this->entry_id_2)->first();
+
+      $this->assertModelExists($actual);
+
+      $this->assertEquals($test_id_quality, $actual->quality->id);
+      $this->assertEquals($test_title, $actual->title);
+      $this->assertEquals($test_date_finished, $actual->date_finished);
+
+      $this->assertEquals(1, $actual->season_number);
+      $this->assertEquals($actual->uuid, $actual->season_first_title->uuid);
+      $this->assertEquals($test_sequel_id, $actual->sequel->uuid);
+      $this->assertNull($actual->prequel);
+
+      // Check connection of added title -> sequel
+      $this->assertModelExists($actual_sequel);
+      $this->assertEquals($actual->uuid, $actual_sequel->prequel->uuid);
+    } finally {
+      $this->setup_restore();
+    }
+  }
+
+  // public function test_should_add_data_and_set_existing_entry_as_offquel() {
+  // }
 
   public function test_should_not_add_data_on_form_errors() {
   }
 
-  public function test_should_add_data_and_set_existing_entry_as_prequel() {
+  public function test_should_not_add_data_when_entry_id_is_used_instead_of_uuid_for_connections() {
   }
 
-  public function test_should_add_data_and_set_prequel_blank_when_entry_id_is_used_instead_of_uuid() {
-  }
-
-  public function test_should_add_data_and_set_prequel_blank_when_id_is_non_existent() {
-  }
-
-  public function test_should_add_data_and_set_prequel_blank_when_id_is_invalid() {
-  }
-
-  public function test_should_add_data_and_set_existing_entry_as_sequel() {
-  }
-
-  public function test_should_add_data_and_set_sequel_blank_when_entry_id_is_used_instead_of_uuid() {
-  }
-
-  public function test_should_add_data_and_set_sequel_blank_when_id_is_non_existent() {
-  }
-
-  public function test_should_add_data_and_set_sequel_blank_when_id_is_invalid() {
-  }
-
-  public function test_should_add_data_and_set_existing_entry_as_offquel() {
-  }
-
-  public function test_should_add_data_and_set_offquel_blank_when_entry_id_is_used_instead_of_uuid() {
-  }
-
-  public function test_should_add_data_and_set_offquel_blank_when_id_is_non_existent() {
-  }
-
-  public function test_should_add_data_and_set_offquel_blank_when_id_is_invalid() {
+  public function test_should_not_add_data_when_any_connection_id_is_non_existent() {
   }
 
   /**
@@ -609,6 +753,18 @@ class EntryTest extends BaseTestCase {
    */
   public function test_should_edit_data_successfully() {
   }
+
+  public function test_should_not_edit_data_when_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_edit_data_and_set_existing_entry_as_prequel() {
+  }
+
+  public function test_should_edit_data_and_set_existing_entry_as_sequel() {
+  }
+
+  // public function test_should_edit_data_as_offquel_to_existing_entry() {
+  // }
 
   public function test_should_not_edit_data_on_form_errors() {
   }
@@ -621,43 +777,10 @@ class EntryTest extends BaseTestCase {
     $response->assertStatus(404);
   }
 
-  public function test_should_not_edit_data_when_id_is_used_instead_of_uuid() {
+  public function test_should_not_edit_data_when_entry_id_is_used_instead_of_uuid_for_connections() {
   }
 
-  public function test_should_edit_data_and_set_existing_entry_as_prequel() {
-  }
-
-  public function test_should_edit_data_and_set_prequel_blank_when_entry_id_is_used_instead_of_uuid() {
-  }
-
-  public function test_should_edit_data_and_set_prequel_blank_when_id_is_non_existent() {
-  }
-
-  public function test_should_edit_data_and_set_prequel_blank_when_id_is_invalid() {
-  }
-
-  public function test_should_edit_data_and_set_existing_entry_as_sequel() {
-  }
-
-  public function test_should_edit_data_and_set_sequel_blank_when_entry_id_is_used_instead_of_uuid() {
-  }
-
-  public function test_should_edit_data_and_set_sequel_blank_when_id_is_non_existent() {
-  }
-
-  public function test_should_edit_data_and_set_sequel_blank_when_id_is_invalid() {
-  }
-
-  public function test_should_edit_data_as_offquel_to_existing_entry() {
-  }
-
-  public function test_should_edit_data_and_set_offquel_blank_when_entry_id_is_used_instead_of_uuid() {
-  }
-
-  public function test_should_edit_data_and_set_offquel_blank_when_id_is_non_existent() {
-  }
-
-  public function test_should_edit_data_and_set_offquel_blank_when_id_is_invalid() {
+  public function test_should_not_edit_data_when_any_connection_id_is_non_existent() {
   }
 
   /**
@@ -678,8 +801,6 @@ class EntryTest extends BaseTestCase {
         ->first();
 
       $this->assertSoftDeleted($actual);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -708,8 +829,6 @@ class EntryTest extends BaseTestCase {
       $prequel_expected = Entry::where('id', $this->entry_id_1)->first();
 
       $this->assertNull($prequel_expected->sequel);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -738,8 +857,6 @@ class EntryTest extends BaseTestCase {
       $sequel_expected = Entry::where('id', $this->entry_id_5)->first();
 
       $this->assertNull($sequel_expected->prequel);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -768,8 +885,6 @@ class EntryTest extends BaseTestCase {
       $offquel_expected = Entry::where('id', $this->entry_id_3)->first();
 
       $this->assertNotNull($offquel_expected);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -790,8 +905,6 @@ class EntryTest extends BaseTestCase {
         ->first();
 
       $this->assertNotSoftDeleted($actual);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -835,8 +948,6 @@ class EntryTest extends BaseTestCase {
 
         $this->assertTrue(str_contains($content_type, 'image'));
       }
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -874,8 +985,6 @@ class EntryTest extends BaseTestCase {
 
         $this->assertTrue(str_contains($content_type, 'image'));
       }
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       // Remove Cloudinary image¡
       if ($cloudinary_image) {
@@ -910,8 +1019,6 @@ class EntryTest extends BaseTestCase {
 
       $response->assertStatus(401)
         ->assertJsonStructure(['data' => ['image']]);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -954,8 +1061,6 @@ class EntryTest extends BaseTestCase {
         ->first();
 
       $this->assertNull($actual->image);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1002,8 +1107,6 @@ class EntryTest extends BaseTestCase {
         ->toArray();
 
       $this->assertEqualsCanonicalizing($params, $actual['rating']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1082,8 +1185,6 @@ class EntryTest extends BaseTestCase {
       $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
       $this->assertEquals($params_graphics['graphics'], $actual['rating']['graphics']);
       $this->assertEquals($params_plot['plot'], $actual['rating']['plot']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1169,8 +1270,6 @@ class EntryTest extends BaseTestCase {
       $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
       $this->assertEquals($params_graphics['graphics'], $actual['rating']['graphics']);
       $this->assertEquals($params_plot['plot'], $actual['rating']['plot']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1221,8 +1320,6 @@ class EntryTest extends BaseTestCase {
             'plot',
           ],
         ]);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1292,8 +1389,6 @@ class EntryTest extends BaseTestCase {
 
       $this->assertCount($expected_count, $actual);
       $this->assertEqualsCanonicalizing($expected_rewatches, $actual);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1320,8 +1415,6 @@ class EntryTest extends BaseTestCase {
 
       $response->assertStatus(401)
         ->assertJsonStructure(['data' => ['date_rewatched']]);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1376,8 +1469,6 @@ class EntryTest extends BaseTestCase {
 
       $this->assertCount(0, $actual_entry_rewatch);
       $this->assertNull($actual_rewatch);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1418,8 +1509,6 @@ class EntryTest extends BaseTestCase {
       $response->assertStatus(200)
         ->assertJsonCount(1, 'data')
         ->assertJsonStructure(['data']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
@@ -1439,8 +1528,6 @@ class EntryTest extends BaseTestCase {
         ->assertJsonStructure(['data']);
 
       $this->assertNotContains($excluded_id, $response['data']);
-    } catch (Exception $e) {
-      throw $e;
     } finally {
       $this->setup_restore();
     }
