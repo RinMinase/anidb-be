@@ -9,11 +9,23 @@ use App\Models\Sequence;
 
 class SequenceTest extends BaseTestCase {
 
+  // Backup related variables
+  private $sequence_backup = null;
+
+  // Class variables
   private $sequence_id_1 = 99999;
 
+  // Place this outside the try-catch block
+  private function setup_backup() {
+    // Save current sequence list
+    $this->sequence_backup = Sequence::all()
+      ->makeVisible(['created_at', 'updated_at'])
+      ->toArray();
+  }
+
+  // Place this in a try block
   private function setup_config() {
-    // Clearing possible duplicate data
-    $this->setup_clear();
+    Sequence::truncate();
 
     Sequence::insert([
       'id' => $this->sequence_id_1,
@@ -25,79 +37,87 @@ class SequenceTest extends BaseTestCase {
     ]);
   }
 
-  private function setup_clear() {
-    Sequence::where('id', $this->sequence_id_1)
-      ->forceDelete();
+  // Place this in a finally block
+  private function setup_restore() {
+    Sequence::truncate();
+    Sequence::insert($this->sequence_backup);
   }
 
   public function test_should_get_all_data() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->withoutMiddleware()->get('/api/sequences');
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(200)
-      ->assertJsonStructure([
-        'data' => [[
-          'id',
-          'title',
-          'dateFrom',
-          'dateTo',
-        ]],
-      ]);
+      $response = $this->withoutMiddleware()->get('/api/sequences');
 
-    $this->setup_clear();
+      $response->assertStatus(200)
+        ->assertJsonCount(1, 'data')
+        ->assertJsonStructure([
+          'data' => [[
+            'id',
+            'title',
+            'dateFrom',
+            'dateTo',
+          ]],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_get_all_data_no_auth() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->get('/api/sequences');
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
+      $response = $this->get('/api/sequences');
 
-    $this->setup_clear();
+      $response->assertStatus(401)
+        ->assertJson(['message' => 'Unauthorized']);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_add_data_successfully() {
-    $test_title = 'test title ';
-    $test_date_from = '1980-10-20 13:00';
-    $test_date_to = '1980-11-20 13:00';
+    $this->setup_backup();
 
-    // Clearing possible duplicate data
-    Sequence::where('date_from', $test_date_from)
-      ->where('date_to', $test_date_to)
-      ->delete();
+    try {
+      $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/sequences', [
-      'title' => $test_title,
-      'date_from' => $test_date_from,
-      'date_to' => $test_date_to,
-    ]);
+      $test_title = 'test title ';
+      $test_date_from = '1980-10-20 13:00';
+      $test_date_to = '1980-11-20 13:00';
 
-    $response->assertStatus(200);
+      $response = $this->withoutMiddleware()->post('/api/sequences', [
+        'title' => $test_title,
+        'date_from' => $test_date_from,
+        'date_to' => $test_date_to,
+      ]);
 
-    $actual = Sequence::where('date_from', $test_date_from)
-      ->where('date_to', $test_date_to)
-      ->first()
-      ->toArray();
+      $response->assertStatus(200);
 
-    $this->assertSame($test_title, $actual['title']);
+      $actual = Sequence::where('date_from', $test_date_from)
+        ->where('date_to', $test_date_to)
+        ->first()
+        ->toArray();
 
-    $this->assertSame(
-      Carbon::parse($test_date_from)->toDateString(),
-      Carbon::parse($actual['date_from'])->toDateString(),
-    );
+      $this->assertSame($test_title, $actual['title']);
 
-    $this->assertSame(
-      Carbon::parse($test_date_to)->toDateString(),
-      Carbon::parse($actual['date_to'])->toDateString(),
-    );
+      $this->assertSame(
+        Carbon::parse($test_date_from)->toDateString(),
+        Carbon::parse($actual['date_from'])->toDateString(),
+      );
 
-    // Clearing test data
-    Sequence::where('date_from', $test_date_from)
-      ->where('date_to', $test_date_to)
-      ->delete();
+      $this->assertSame(
+        Carbon::parse($test_date_to)->toDateString(),
+        Carbon::parse($actual['date_to'])->toDateString(),
+      );
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_add_data_on_form_errors() {
@@ -128,41 +148,42 @@ class SequenceTest extends BaseTestCase {
   }
 
   public function test_should_edit_data_successfully() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $test_title = 'new test title';
-    $test_date_from = '1980-10-20 13:00';
-    $test_date_to = '1980-11-20 13:00';
+    try {
+      $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/sequences/' . $this->sequence_id_1, [
-      'title' => $test_title,
-      'date_from' => $test_date_from,
-      'date_to' => $test_date_to,
-    ]);
+      $test_title = 'new test title';
+      $test_date_from = '1980-10-20 13:00';
+      $test_date_to = '1980-11-20 13:00';
 
-    $response->assertStatus(200);
+      $response = $this->withoutMiddleware()->put('/api/sequences/' . $this->sequence_id_1, [
+        'title' => $test_title,
+        'date_from' => $test_date_from,
+        'date_to' => $test_date_to,
+      ]);
 
-    $actual = Sequence::where('date_from', $test_date_from)
-      ->where('date_to', $test_date_to)
-      ->first()
-      ->toArray();
+      $response->assertStatus(200);
 
-    $this->assertSame($test_title, $actual['title']);
+      $actual = Sequence::where('date_from', $test_date_from)
+        ->where('date_to', $test_date_to)
+        ->first()
+        ->toArray();
 
-    $this->assertSame(
-      Carbon::parse($test_date_from)->toDateString(),
-      Carbon::parse($actual['date_from'])->toDateString(),
-    );
+      $this->assertSame($test_title, $actual['title']);
 
-    $this->assertSame(
-      Carbon::parse($test_date_to)->toDateString(),
-      Carbon::parse($actual['date_to'])->toDateString(),
-    );
+      $this->assertSame(
+        Carbon::parse($test_date_from)->toDateString(),
+        Carbon::parse($actual['date_from'])->toDateString(),
+      );
 
-    // Clearing test data
-    Sequence::where('date_from', $test_date_from)
-      ->where('date_to', $test_date_to)
-      ->delete();
+      $this->assertSame(
+        Carbon::parse($test_date_to)->toDateString(),
+        Carbon::parse($actual['date_to'])->toDateString(),
+      );
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_edit_data_on_form_errors() {
@@ -186,51 +207,59 @@ class SequenceTest extends BaseTestCase {
   }
 
   public function test_should_not_edit_on_no_auth() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->put('/api/sequences/' . $this->sequence_id_1, []);
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
+      $response = $this->put('/api/sequences/' . $this->sequence_id_1, []);
 
-    $this->setup_clear();
+      $response->assertStatus(401)
+        ->assertJson(['message' => 'Unauthorized']);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_delete_data_successfully() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->withoutMiddleware()->withoutMiddleware()
-      ->delete('/api/sequences/' . $this->sequence_id_1);
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(200);
+      $response = $this->withoutMiddleware()->withoutMiddleware()
+        ->delete('/api/sequences/' . $this->sequence_id_1);
 
-    $actual = Sequence::where('id', $this->sequence_id_1)->first();
+      $response->assertStatus(200);
 
-    $this->assertNull($actual);
+      $actual = Sequence::where('id', $this->sequence_id_1)->first();
 
-    $this->setup_clear();
+      $this->assertNull($actual);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_delete_non_existent_data() {
-    $this->setup_config();
-
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/sequence/' . $invalid_id);
 
     $response->assertStatus(404);
-
-    $this->setup_clear();
   }
 
   public function test_should_not_delete_on_no_auth() {
-    $this->setup_config();
+    $this->setup_backup();
 
-    $response = $this->delete('/api/sequences/' . $this->sequence_id_1);
+    try {
+      $this->setup_config();
 
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
+      $response = $this->delete('/api/sequences/' . $this->sequence_id_1);
 
-    $this->setup_clear();
+      $response->assertStatus(401)
+        ->assertJson(['message' => 'Unauthorized']);
+    } finally {
+      $this->setup_restore();
+    }
   }
 }
