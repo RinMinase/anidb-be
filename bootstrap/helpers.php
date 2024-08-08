@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Str;
 
+use App\Enums\IntegerSizesEnum;
+use App\Enums\IntegerTypesEnum;
+
 if (!function_exists('parse_filesize')) {
   function parse_filesize(?int $size, string $forced_unit = null): string {
     $KB = 1024;
@@ -88,5 +91,32 @@ if (!function_exists('rand_str')) {
     }
 
     return Str::random($length);
+  }
+}
+
+if (!function_exists('max_int')) {
+  function max_int(
+    IntegerTypesEnum $type = IntegerTypesEnum::SIGNED,
+    IntegerSizesEnum $size = IntegerSizesEnum::DEFAULT,
+    bool $is_negative = false,
+  ) {
+    if ($type === IntegerTypesEnum::SIGNED) {
+      if ($size === IntegerSizesEnum::TINY) return $is_negative ? -127 : 127;
+      if ($size === IntegerSizesEnum::SMALL) return $is_negative ? -32767 : 32767;
+      if ($size === IntegerSizesEnum::MEDIUM) return $is_negative ? -8388607 : 8388607;
+
+      if ($size === IntegerSizesEnum::BIG) {
+        return $is_negative ? -9223372036854775807 : 9223372036854775807;
+      }
+
+      return $is_negative ? -2147483647 : 2147483647;
+    } else {
+      if ($size === IntegerSizesEnum::TINY) return 255;
+      if ($size === IntegerSizesEnum::SMALL) return 65535;
+      if ($size === IntegerSizesEnum::MEDIUM) return 16777215;
+      if ($size === IntegerSizesEnum::BIG) return 18446744073709551615;
+
+      return 4294967295;
+    }
   }
 }
