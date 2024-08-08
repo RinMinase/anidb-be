@@ -154,7 +154,7 @@ class EntryByBucketTest extends BaseTestCase {
       ->assertJson(['message' => 'Unauthorized']);
   }
 
-  public function tests_should_not_get_all_entries_with_non_existent_bucket() {
+  public function test_should_not_get_all_entries_with_non_existent_bucket() {
     $this->setup_backup();
 
     try {

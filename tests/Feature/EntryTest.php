@@ -91,7 +91,7 @@ class EntryTest extends BaseTestCase {
     $date_finished_rewatch = Carbon::parse('2001-02-01')->format('Y-m-d');
 
     if (self::$entry_1_image_url === null) {
-      echo "\nINFO: API call to Cloudinary:AdminAPI:asset\n";
+      echo PHP_EOL . 'INFO: API call to Cloudinary:AdminAPI:asset' . PHP_EOL;
 
       $image_url = (new AdminApi())->asset($this->entry_1_image)['url'];
 
@@ -1596,7 +1596,7 @@ class EntryTest extends BaseTestCase {
       // Remove Cloudinary image¡
       if ($cloudinary_image) {
         (new UploadApi())->destroy('entries/' . $cloudinary_image);
-        echo "\nINFO: API call to Cloudinary:UploadAPI:destroy\n";
+        echo PHP_EOL . 'INFO: API call to Cloudinary:UploadAPI:destroy' . PHP_EOL;
       }
 
       $this->setup_restore();
