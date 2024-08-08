@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\IntegerSizesEnum;
-use App\Enums\IntegerTypesEnum;
 use Error;
 use Carbon\Carbon;
 use Cloudinary\Api\Admin\AdminApi;
@@ -12,6 +10,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
+use App\Enums\IntegerSizesEnum;
+use App\Enums\IntegerTypesEnum;
 use App\Models\CodecAudio;
 use App\Models\CodecVideo;
 use App\Models\Entry;
