@@ -27,4 +27,7 @@
       <directory suffix=".php">./app</directory>
     </include>
   </source>
+  <extensions>
+    <bootstrap class="Tests\BaseExtension"/>
+  </extensions>
 </phpunit>
