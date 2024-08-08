@@ -2,7 +2,6 @@
 
 namespace Tests\Extension;
 
-use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Event\Application\Finished;
 use PHPUnit\Event\Application\FinishedSubscriber;
 

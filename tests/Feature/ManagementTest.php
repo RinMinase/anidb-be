@@ -196,6 +196,14 @@ class ManagementTest extends BaseTestCase {
       Bucket::insert($buckets_backup);
       Catalog::insert($catalogs_backup);
       Partial::insert($partials_backup);
+
+      refresh_db_table_autoincrement((new Entry())->getTable());
+      refresh_db_table_autoincrement((new EntryOffquel())->getTable());
+      refresh_db_table_autoincrement((new EntryRating())->getTable());
+      refresh_db_table_autoincrement((new EntryRewatch())->getTable());
+      refresh_db_table_autoincrement((new Bucket())->getTable());
+      refresh_db_table_autoincrement((new Catalog())->getTable());
+      refresh_db_table_autoincrement((new Partial())->getTable());
     }
   }
 

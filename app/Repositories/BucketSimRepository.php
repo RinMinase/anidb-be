@@ -93,6 +93,8 @@ class BucketSimRepository {
     Bucket::truncate();
     Bucket::insert($buckets);
 
+    refresh_db_table_autoincrement((new Bucket())->getTable());
+
     $this->delete($uuid);
   }
 }

@@ -378,6 +378,8 @@ class BucketSimTest extends BaseTestCase {
       // Restore previous buckets on test fail or success
       Bucket::truncate();
       Bucket::insert($saved_buckets);
+
+      refresh_db_table_autoincrement((new Bucket())->getTable());
     }
   }
 
@@ -397,6 +399,8 @@ class BucketSimTest extends BaseTestCase {
       // Restore previous buckets on test fail or success
       Bucket::truncate();
       Bucket::insert($saved_buckets);
+
+      refresh_db_table_autoincrement((new Bucket())->getTable());
     }
   }
 
@@ -414,6 +418,8 @@ class BucketSimTest extends BaseTestCase {
       // Restore previous buckets on test fail or success
       Bucket::truncate();
       Bucket::insert($saved_buckets);
+
+      refresh_db_table_autoincrement((new Bucket())->getTable());
     }
   }
 }

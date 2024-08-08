@@ -41,6 +41,8 @@ class SequenceTest extends BaseTestCase {
   private function setup_restore() {
     Sequence::truncate();
     Sequence::insert($this->sequence_backup);
+
+    refresh_db_table_autoincrement((new Sequence())->getTable());
   }
 
   public function test_should_get_all_data() {

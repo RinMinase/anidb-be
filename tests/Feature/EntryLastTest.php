@@ -78,6 +78,11 @@ class EntryLastTest extends BaseTestCase {
     EntryOffquel::insert($this->offquel_backup);
     EntryRating::insert($this->rating_backup);
     EntryRewatch::insert($this->rewatch_backup);
+
+    refresh_db_table_autoincrement((new Entry())->getTable());
+    refresh_db_table_autoincrement((new EntryOffquel())->getTable());
+    refresh_db_table_autoincrement((new EntryRating())->getTable());
+    refresh_db_table_autoincrement((new EntryRewatch())->getTable());
   }
 
   public function test_should_get_all_latest_entries() {
