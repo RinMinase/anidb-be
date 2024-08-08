@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 use App\Enums\IntegerSizesEnum;
@@ -117,6 +118,24 @@ if (!function_exists('max_int')) {
       if ($size === IntegerSizesEnum::BIG) return 18446744073709551615;
 
       return 4294967295;
+    }
+  }
+}
+
+if (!function_exists('refresh_db_table_autoincrement')) {
+  function refresh_db_table_autoincrement(string $table, string $pkey = 'id') {
+    try {
+      $current_db = env('DB_CONNECTION', 'pgsql');
+
+      if ($current_db === 'pgsql') {
+        $max = DB::table($table)->max($pkey) + 1;
+        DB::statement('ALTER SEQUENCE ' . $table . '_' . $pkey . '_seq RESTART WITH ' . $max);
+      } else if ($current_db === 'mysql') {
+        $max = DB::table($table)->max($pkey) + 1;
+        DB::statement('ALTER TABLE ' . $table . ' AUTO_INCREMENT = ' . $max);
+      }
+    } catch (Exception $e) {
+      throw $e;
     }
   }
 }
