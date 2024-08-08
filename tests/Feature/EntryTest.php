@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\IntegerSizesEnum;
+use App\Enums\IntegerTypesEnum;
 use Error;
 use Carbon\Carbon;
 use Cloudinary\Api\Admin\AdminApi;
@@ -40,6 +42,8 @@ class EntryTest extends BaseTestCase {
   private $entry_uuid_3 = '959d90bd-f1ed-4078-b374-4fd4dfedfbb6';
   private $entry_uuid_4 = '64b3e54c-8280-4275-b5c2-5361065a5bf9';
   private $entry_uuid_5 = 'ddd65078-5d05-48a3-9604-a2ed9f4a679e';
+
+  private $entry_title_1 = 'testing series title season 1';
 
   private $entry_1_image = '__test_data__8fa9b149-0185-41b2-b6c2-7d2ac7512eb4';
   // cached value throughout the whole test, make single call only to API
@@ -104,7 +108,7 @@ class EntryTest extends BaseTestCase {
         'uuid' => $this->entry_uuid_1,
         'id_quality' => $id_quality,
         'date_finished' => $date_finished_1,
-        'title' => 'testing series title season 1',
+        'title' => $this->entry_title_1,
         'season_number' => 1,
         'prequel_id' => null,
         'sequel_id' => $this->entry_id_4,
@@ -740,12 +744,235 @@ class EntryTest extends BaseTestCase {
   // }
 
   public function test_should_not_add_data_on_form_errors() {
+    $response = $this->withoutMiddleware()
+      ->post('/api/entries/');
+
+    $response->assertStatus(401)
+      ->assertJsonStructure([
+        'data' => [
+          'id_quality',
+          'title',
+        ],
+      ]);
+
+    $test_id_quality = -1;
+    $test_title = 'testing newly added title' . rand_str(256);
+    $test_date_finished = Carbon::now()->addDay()->format('Y-m-d');
+
+    $test_duration = -1;
+    $test_filesize = -1;
+
+    $test_episodes = -1;
+    $test_ovas = -1;
+    $test_specials = -1;
+
+    $test_season_number = -1;
+
+    $test_encoder_video = 'video encoder' . rand_str(128);
+    $test_encoder_audio = 'audio encoder' . rand_str(128);
+    $test_encoder_subs = 'subs encoder' . rand_str(128);
+
+    $test_release_year = '1899';
+    $test_release_season = 'invalid';
+
+    $test_variants = 'variant' . rand_str(256);
+    $test_remarks = 'remarks' . rand_str(256);
+
+    $test_id_codec_audio = -1;
+    $test_id_codec_video = -1;
+    $test_codec_hdr = 'invalid';
+
+    $response = $this->withoutMiddleware()
+      ->post('/api/entries/', [
+        'id_quality' => $test_id_quality,
+        'title' => $test_title,
+        'date_finished' => $test_date_finished,
+        'duration' => $test_duration,
+        'filesize' => $test_filesize,
+        'episodes' => $test_episodes,
+        'ovas' => $test_ovas,
+        'specials' => $test_specials,
+        'season_number' => $test_season_number,
+        'encoder_video' => $test_encoder_video,
+        'encoder_audio' => $test_encoder_audio,
+        'encoder_subs' => $test_encoder_subs,
+        'release_year' => $test_release_year,
+        'release_season' => $test_release_season,
+        'variants' => $test_variants,
+        'remarks' => $test_remarks,
+        'id_codec_audio' => $test_id_codec_audio,
+        'id_codec_video' => $test_id_codec_video,
+        'codec_hdr' => $test_codec_hdr,
+      ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure([
+        'data' => [
+          'id_quality',
+          'title',
+          'date_finished',
+          'duration',
+          'filesize',
+          'episodes',
+          'ovas',
+          'specials',
+          'season_number',
+          'encoder_video',
+          'encoder_audio',
+          'encoder_subs',
+          'release_year',
+          'release_season',
+          'variants',
+          'remarks',
+          'id_codec_audio',
+          'id_codec_video',
+          'codec_hdr',
+        ],
+      ]);
+
+    $test_id_quality = 99999;
+    $test_valid_title = 'testing newly added title';
+
+    $test_duration = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::MEDIUM) + 1;
+    $test_filesize = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::BIG) + 1;
+
+    $test_episodes = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
+    $test_ovas = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
+    $test_specials = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
+
+    $test_season_number = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY) + 1;
+
+    $test_release_year = '3000';
+
+    $response = $this->withoutMiddleware()
+      ->post('/api/entries/', [
+        'id_quality' => $test_id_quality,
+        'title' => $test_valid_title,
+        'date_finished' => $test_date_finished,
+        'duration' => $test_duration,
+        'filesize' => $test_filesize,
+        'episodes' => $test_episodes,
+        'ovas' => $test_ovas,
+        'specials' => $test_specials,
+        'season_number' => $test_season_number,
+        'release_year' => $test_release_year,
+      ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure([
+        'data' => [
+          'id_quality',
+          'date_finished',
+          'duration',
+          'filesize',
+          'episodes',
+          'ovas',
+          'specials',
+          'season_number',
+          'release_year',
+        ],
+      ]);
+  }
+
+  public function test_should_not_add_data_when_title_is_duplicate() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $test_id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/', [
+          'id_quality' => $test_id_quality,
+          'title' => $this->entry_title_1,
+        ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure([
+          'data' => [
+            'title',
+          ],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_add_data_when_entry_id_is_used_instead_of_uuid_for_connections() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $test_id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
+      $test_title = 'testing newly added title';
+
+      $test_prequel_id = $this->entry_id_1;
+      $test_sequel_id = $this->entry_id_2;
+      $test_season_number = 2;
+
+      // TODO: add offquel connection
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/', [
+          'id_quality' => $test_id_quality,
+          'title' => $test_title,
+          'prequel_id' => $test_prequel_id,
+          'sequel_id' => $test_sequel_id,
+          'season_number' => $test_season_number,
+          'season_first_title_id' => $test_prequel_id,
+        ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure([
+          'data' => [
+            'prequel_id',
+            'sequel_id',
+            'season_first_title_id',
+          ],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_add_data_when_any_connection_id_is_non_existent() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $test_id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
+      $test_title = 'testing newly added title';
+
+      $test_prequel_id = -1;
+      $test_sequel_id = -1;
+      $test_season_number = 2;
+
+      // TODO: add offquel connection
+
+      $response = $this->withoutMiddleware()
+        ->post('/api/entries/', [
+          'id_quality' => $test_id_quality,
+          'title' => $test_title,
+          'prequel_id' => $test_prequel_id,
+          'sequel_id' => $test_sequel_id,
+          'season_number' => $test_season_number,
+          'season_first_title_id' => $test_prequel_id,
+        ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure([
+          'data' => [
+            'prequel_id',
+            'sequel_id',
+            'season_first_title_id',
+          ],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   /**
@@ -778,9 +1005,69 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_edit_data_when_entry_id_is_used_instead_of_uuid_for_connections() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $test_prequel_id = $this->entry_id_1;
+      $test_sequel_id = $this->entry_id_3;
+      $test_season_number = 2;
+
+      // TODO: add offquel connection
+
+      $response = $this->withoutMiddleware()
+        ->put('/api/entries/' . $this->entry_uuid_2, [
+          'prequel_id' => $test_prequel_id,
+          'sequel_id' => $test_sequel_id,
+          'season_number' => $test_season_number,
+          'season_first_title_id' => $test_prequel_id,
+        ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure([
+          'data' => [
+            'prequel_id',
+            'sequel_id',
+            'season_first_title_id',
+          ],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   public function test_should_not_edit_data_when_any_connection_id_is_non_existent() {
+    $this->setup_backup();
+
+    try {
+      $this->setup_config();
+
+      $test_prequel_id = -1;
+      $test_sequel_id = -1;
+      $test_season_number = 2;
+
+      // TODO: add offquel connection
+
+      $response = $this->withoutMiddleware()
+        ->put('/api/entries/' . $this->entry_uuid_2, [
+          'prequel_id' => $test_prequel_id,
+          'sequel_id' => $test_sequel_id,
+          'season_number' => $test_season_number,
+          'season_first_title_id' => $test_prequel_id,
+        ]);
+
+      $response->assertStatus(401)
+        ->assertJsonStructure([
+          'data' => [
+            'prequel_id',
+            'sequel_id',
+            'season_first_title_id',
+          ],
+        ]);
+    } finally {
+      $this->setup_restore();
+    }
   }
 
   /**
