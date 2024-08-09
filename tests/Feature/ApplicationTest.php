@@ -8,10 +8,12 @@ use Tests\BaseTestCase;
 class ApplicationTest extends BaseTestCase {
 
   // On true, prints URLs being tested
-  private $debugging = false;
+  private $debugging = true;
 
   private $id = -1;
+  private $integer = 1;
   private $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
+  private $string = 'searchstring';
 
   public function test_application_loads_successfully() {
     $response = $this->get('/');
@@ -44,15 +46,12 @@ class ApplicationTest extends BaseTestCase {
       if (
         str_contains($uri, 'api/') &&
         !str_contains($uri, 'api/oauth') &&
-        !str_contains($uri, 'api/fourleaf/') &&
-        !str_contains($uri, 'api/mal') &&
-        !str_contains($uri, 'api/anilist') &&
-        !str_contains($uri, 'api/changelog') &&
-        !str_contains($uri, 'api/issues')
+        !str_contains($uri, 'api/fourleaf/')
       ) {
         $uri = str_replace('{uuid}', $this->uuid, $uri);
         $uri = str_replace('{id}', $this->id, $uri);
-        $uri = str_replace('{integer}', $this->id, $uri);
+        $uri = str_replace('{integer}', $this->integer, $uri);
+        $uri = str_replace('{string}', $this->string, $uri);
 
         array_push($get_routes, '/' . $uri);
       }
@@ -77,13 +76,7 @@ class ApplicationTest extends BaseTestCase {
     foreach ($put_raw_routes as $route) {
       $uri = $route->uri();
 
-      if (
-        str_contains($uri, 'api/') &&
-        !str_contains($uri, 'api/fourleaf/') &&
-        !str_contains($uri, 'api/mal') &&
-        !str_contains($uri, 'api/changelog') &&
-        !str_contains($uri, 'api/issues')
-      ) {
+      if (str_contains($uri, 'api/') && !str_contains($uri, 'api/fourleaf/')) {
         $uri = str_replace('{uuid}', $this->uuid, $uri);
         $uri = str_replace('{id}', $this->id, $uri);
         $uri = str_replace('{integer}', $this->id, $uri);
@@ -95,13 +88,7 @@ class ApplicationTest extends BaseTestCase {
     foreach ($delete_raw_routes as $route) {
       $uri = $route->uri();
 
-      if (
-        str_contains($uri, 'api/') &&
-        !str_contains($uri, 'api/fourleaf/') &&
-        !str_contains($uri, 'api/mal') &&
-        !str_contains($uri, 'api/changelog') &&
-        !str_contains($uri, 'api/issues')
-      ) {
+      if (str_contains($uri, 'api/') && !str_contains($uri, 'api/fourleaf/')) {
         $uri = str_replace('{uuid}', $this->uuid, $uri);
         $uri = str_replace('{id}', $this->id, $uri);
 
