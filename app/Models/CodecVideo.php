@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * @OA\Schema(
  *   @OA\Property(property="id", type="integer", example=1),
@@ -17,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  *   ),
  * )
  */
-class CodecVideo extends Model {
+class CodecVideo extends BaseModel {
   /**
    * The attributes that are mass assignable.
    *

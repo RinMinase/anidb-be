@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * @OA\Schema(
  *   @OA\Property(property="id", type="integer", format="int32", example=1),
@@ -17,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  *   ),
  * )
  */
-class CodecAudio extends Model {
+class CodecAudio extends BaseModel {
 
   protected $table = 'codec_audios';
 
