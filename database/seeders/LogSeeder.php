@@ -15,6 +15,7 @@ class LogSeeder extends Seeder {
   public function run() {
     $testData = [
       [
+        'uuid' => Str::uuid()->toString(),
         'table_changed' => 'hdd',
         'id_changed' => Str::uuid()->toString(),
         'description' => 'some description',
@@ -22,6 +23,7 @@ class LogSeeder extends Seeder {
         'created_at' => '2022-01-01 00:00:00',
       ],
       [
+        'uuid' => Str::uuid()->toString(),
         'table_changed' => 'marathon',
         'id_changed' => Str::uuid()->toString(),
         'description' => 'title from "old" to "new"',

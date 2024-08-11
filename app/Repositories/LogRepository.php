@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 use App\Models\Log;
 
@@ -50,6 +50,7 @@ class LogRepository {
     $action = null,
   ) {
     $data = [
+      'uuid' => Str::uuid()->toString(),
       'table_changed' => $table_changed,
       'id_changed' => $id_changed,
       'desc' => $desc,
@@ -61,6 +62,6 @@ class LogRepository {
     // Keeps the latest 200 entries in logs
     $last_id = Log::latest()->pluck('id')->first();
     Log::where('id', '<=', $last_id - config('app.logs_to_keep'))
-      ->delete();
+      ->forceDelete();
   }
 }
