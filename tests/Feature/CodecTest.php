@@ -221,7 +221,7 @@ class CodecTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec']]);
 
-    $test_codec = 'testing codec' . rand_str(16);
+    $test_codec = rand_str(16 + 1);
     $test_order = 'string';
 
     $response = $this->withoutMiddleware()->post('/api/codecs/audio', [
@@ -250,7 +250,7 @@ class CodecTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec']]);
 
-    $test_codec = 'testing codec' . rand_str(16);
+    $test_codec = rand_str(16 + 1);
     $test_order = 'string';
 
     $response = $this->withoutMiddleware()->post('/api/codecs/video', [
@@ -324,7 +324,7 @@ class CodecTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec']]);
 
-    $test_codec = 'testing codec' . rand_str(16);
+    $test_codec = rand_str(16 + 1);
     $test_order = 'string';
 
     $response = $this->withoutMiddleware()
@@ -364,7 +364,7 @@ class CodecTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec']]);
 
-    $test_codec = 'testing codec' . rand_str(16);
+    $test_codec = rand_str(16 + 1);
     $test_order = 'string';
 
     $response = $this->withoutMiddleware()
