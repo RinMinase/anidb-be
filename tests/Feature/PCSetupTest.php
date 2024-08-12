@@ -8,174 +8,195 @@ use App\Models\PCSetup;
 
 class PCSetupTest extends BaseTestCase {
 
-  private $pcSetup_id_1 = 99999;
-  private $pcSetup_id_2 = 99998;
-  private $pcSetup_id_3 = 99997;
-  private $pcSetup_id_4 = 99996;
-  private $pcSetup_label = "Test Run -- Test Data";
+  // Backup related variables
+  private $pc_setup_backup = null;
 
-  private $pcSetup_is_current_1 = false;
-  private $pcSetup_is_current_2 = true;
-  private $pcSetup_is_current_3 = false;
-  private $pcSetup_is_future = false;
-  private $pcSetup_is_server = false;
+  // Class variables
+  private $pc_setup_count = 4;
 
+  private $pc_setup_id_1 = 99999;
+  private $pc_setup_id_2 = 99998;
+  private $pc_setup_id_3 = 99997;
+  private $pc_setup_id_4 = 99996;
+
+  private $pc_setup_label = "Test Run -- Test Data";
+
+  private $pc_setup_is_current_1 = false;
+  private $pc_setup_is_current_2 = true;
+  private $pc_setup_is_current_3 = false;
+
+  private $pc_setup_is_future = false;
+  private $pc_setup_is_server = false;
+
+  // Backup related tables
+  private function setup_backup() {
+    $this->pc_setup_backup = PCSetup::all()->toArray();
+  }
+
+  // Restore related tables
+  private function setup_restore() {
+    PCSetup::truncate();
+    PCSetup::insert($this->pc_setup_backup);
+    PCSetup::refreshAutoIncrements();
+  }
+
+  // Setup data for testing
   private function setup_config() {
-    // Clearing possible duplicate data
-    $this->setup_clear();
+    PCSetup::truncate();
 
     PCSetup::insert([
-      [
-        'id' => $this->pcSetup_id_1,
-        'label' => $this->pcSetup_label,
+      'id' => $this->pc_setup_id_1,
+      'label' => $this->pc_setup_label,
 
-        'is_current' => $this->pcSetup_is_current_1,
-        'is_future' => $this->pcSetup_is_future,
-        'is_server' => $this->pcSetup_is_server,
+      'is_current' => $this->pc_setup_is_current_1,
+      'is_future' => $this->pc_setup_is_future,
+      'is_server' => $this->pc_setup_is_server,
 
-        'cpu' => 'test cpu',
-        'cpu_price' => 100,
-        'cpu_sub' => 'cpu subtext',
-        'cpu_sub2' => 'cpu subtext 2',
+      'cpu' => 'test cpu',
+      'cpu_price' => 100,
+      'cpu_sub' => 'cpu subtext',
+      'cpu_sub2' => 'cpu subtext 2',
 
-        'ram' => 'test ram',
-        'ram_price' => 200,
-        'ram_sub' => 'ram subtext',
+      'ram' => 'test ram',
+      'ram_price' => 200,
+      'ram_sub' => 'ram subtext',
 
-        'gpu' => 'test gpu',
-        'gpu_price' => 300,
-        'gpu_sub' => 'gpu subtext',
+      'gpu' => 'test gpu',
+      'gpu_price' => 300,
+      'gpu_sub' => 'gpu subtext',
 
-        'motherboard' => 'test motherboard',
-        'motherboard_price' => 400,
+      'motherboard' => 'test motherboard',
+      'motherboard_price' => 400,
 
-        'psu' => 'test psu',
-        'psu_price' => 500,
+      'psu' => 'test psu',
+      'psu_price' => 500,
 
-        'cooler' => 'test cooler',
-        'cooler_price' => 600,
-        'cooler_acc' => 'cooler accessory',
-        'cooler_acc_price' => 700,
+      'cooler' => 'test cooler',
+      'cooler_price' => 600,
+      'cooler_acc' => 'cooler accessory',
+      'cooler_acc_price' => 700,
 
-        'ssd_1' => 'ssd 1',
-        'ssd_1_price' => 100,
-        'ssd_2' => 'ssd 2',
-        'ssd_2_price' => 200,
-        'ssd_3' => 'ssd 3',
-        'ssd_3_price' => 300,
-        'ssd_4' => 'ssd 4',
-        'ssd_4_price' => 400,
+      'ssd_1' => 'ssd 1',
+      'ssd_1_price' => 100,
+      'ssd_2' => 'ssd 2',
+      'ssd_2_price' => 200,
+      'ssd_3' => 'ssd 3',
+      'ssd_3_price' => 300,
+      'ssd_4' => 'ssd 4',
+      'ssd_4_price' => 400,
 
-        'hdd_1' => 'hdd 1',
-        'hdd_1_price' => 500,
-        'hdd_2' => 'hdd 2',
-        'hdd_2_price' => 600,
-        'hdd_3' => 'hdd 3',
-        'hdd_3_price' => 700,
-        'hdd_4' => 'hdd 4',
-        'hdd_4_price' => 800,
+      'hdd_1' => 'hdd 1',
+      'hdd_1_price' => 500,
+      'hdd_2' => 'hdd 2',
+      'hdd_2_price' => 600,
+      'hdd_3' => 'hdd 3',
+      'hdd_3_price' => 700,
+      'hdd_4' => 'hdd 4',
+      'hdd_4_price' => 800,
 
-        'case' => 'test case',
-        'case_price' => 100,
-        'case_fans_1' => 'case fans 1',
-        'case_fans_1_price' => 200,
-        'case_fans_2' => 'case fans 2',
-        'case_fans_2_price' => 300,
-        'case_fans_3' => 'case fans 3',
-        'case_fans_3_price' => 400,
-        'case_fans_4' => 'case fans 4',
-        'case_fans_4_price' => 500,
+      'case' => 'test case',
+      'case_price' => 100,
+      'case_fans_1' => 'case fans 1',
+      'case_fans_1_price' => 200,
+      'case_fans_2' => 'case fans 2',
+      'case_fans_2_price' => 300,
+      'case_fans_3' => 'case fans 3',
+      'case_fans_3_price' => 400,
+      'case_fans_4' => 'case fans 4',
+      'case_fans_4_price' => 500,
 
-        'monitor' => 'test monitor',
-        'monitor_price' => 100,
-        'monitor_sub' => 'monitor subtext',
-        'monitor_acc_1' => 'monitor accessory 1',
-        'monitor_acc_1_price' => 200,
-        'monitor_acc_2' => 'monitor accessory 2',
-        'monitor_acc_2_price' => 300,
+      'monitor' => 'test monitor',
+      'monitor_price' => 100,
+      'monitor_sub' => 'monitor subtext',
+      'monitor_acc_1' => 'monitor accessory 1',
+      'monitor_acc_1_price' => 200,
+      'monitor_acc_2' => 'monitor accessory 2',
+      'monitor_acc_2_price' => 300,
 
-        'keyboard' => 'test keyboard',
-        'keyboard_price' => 100,
-        'keyboard_sub' => 'keyboard subtext 1',
-        'keyboard_sub2' => 'keyboard subtext 2',
-        'keyboard_acc_1' => 'keyboard accessory 1',
-        'keyboard_acc_1_price' => 200,
-        'keyboard_acc_2' => 'keyboard accessory 2',
-        'keyboard_acc_2_price' => 300,
+      'keyboard' => 'test keyboard',
+      'keyboard_price' => 100,
+      'keyboard_sub' => 'keyboard subtext 1',
+      'keyboard_sub2' => 'keyboard subtext 2',
+      'keyboard_acc_1' => 'keyboard accessory 1',
+      'keyboard_acc_1_price' => 200,
+      'keyboard_acc_2' => 'keyboard accessory 2',
+      'keyboard_acc_2_price' => 300,
 
-        'mouse' => 'test mouse',
-        'mouse_price' => 100,
+      'mouse' => 'test mouse',
+      'mouse_price' => 100,
 
-        'speakers' => 'test speakers',
-        'speakers_price' => 200,
+      'speakers' => 'test speakers',
+      'speakers_price' => 200,
 
-        'wifi' => 'test wifi',
-        'wifi_price' => 300,
+      'wifi' => 'test wifi',
+      'wifi_price' => 300,
 
-        'headset_1' => 'test headset 1',
-        'headset_1_price' => 400,
-        'headset_2' => 'test headset 2',
-        'headset_2_price' => 500,
+      'headset_1' => 'test headset 1',
+      'headset_1_price' => 400,
+      'headset_2' => 'test headset 2',
+      'headset_2_price' => 500,
 
-        'mic' => 'test mic',
-        'mic_price' => 600,
-        'mic_acc' => 'mic accessory',
-        'mic_acc_price' => 700,
+      'mic' => 'test mic',
+      'mic_price' => 600,
+      'mic_acc' => 'mic accessory',
+      'mic_acc_price' => 700,
 
-        'audio_interface' => 'test interface',
-        'audio_interface_price' => 100,
-        'equalizer' => 'test eq',
-        'equalizer_price' => 200,
-        'amplifier' => 'test amp',
-        'amplifier_price' => 300,
+      'audio_interface' => 'test interface',
+      'audio_interface_price' => 100,
+      'equalizer' => 'test eq',
+      'equalizer_price' => 200,
+      'amplifier' => 'test amp',
+      'amplifier_price' => 300,
 
-        'created_at' => '2000-12-31 23:10:00',
-        'updated_at' => '2000-12-31 23:10:00',
-      ]
+      'created_at' => '2000-12-31 23:10:00',
+      'updated_at' => '2000-12-31 23:10:00',
     ]);
 
     PCSetup::insert([
       [
-        'id' => $this->pcSetup_id_2,
-        'label' => $this->pcSetup_label,
+        'id' => $this->pc_setup_id_2,
+        'label' => $this->pc_setup_label,
 
-        'is_current' => $this->pcSetup_is_current_2,
+        'is_current' => $this->pc_setup_is_current_2,
         'is_future' => false,
         'is_server' => false,
       ], [
-        'id' => $this->pcSetup_id_3,
-        'label' => $this->pcSetup_label,
+        'id' => $this->pc_setup_id_3,
+        'label' => $this->pc_setup_label,
 
-        'is_current' => $this->pcSetup_is_current_3,
+        'is_current' => $this->pc_setup_is_current_3,
         'is_future' => false,
         'is_server' => false,
       ], [
-        'id' => $this->pcSetup_id_4,
-        'label' => $this->pcSetup_label,
+        'id' => $this->pc_setup_id_4,
+        'label' => $this->pc_setup_label,
 
         'is_current' => false,
         'is_future' => false,
-        'is_server' => $this->pcSetup_is_server,
+        'is_server' => $this->pc_setup_is_server,
       ]
     ]);
   }
 
-  private function setup_clear() {
-    PCSetup::whereIn('id', [
-      $this->pcSetup_id_1,
-      $this->pcSetup_id_2,
-      $this->pcSetup_id_3,
-      $this->pcSetup_id_4,
-    ])
-      ->forceDelete();
+  // Fixtures
+  public function setUp(): void {
+    parent::setUp();
+    $this->setup_backup();
   }
 
+  public function tearDown(): void {
+    $this->setup_restore();
+    parent::tearDown();
+  }
+
+  // Test Cases
   public function test_should_get_all_data() {
     $this->setup_config();
 
     $response = $this->withoutMiddleware()->get('/api/pc-setups');
 
     $response->assertStatus(200)
+      ->assertJsonCount($this->pc_setup_count, 'data')
       ->assertJsonStructure([
         'data' => [[
           'id',
@@ -266,14 +287,12 @@ class PCSetupTest extends BaseTestCase {
           'updatedAt',
         ]],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_get_single_data() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->get('/api/pc-setups/' . $this->pcSetup_id_1);
+    $response = $this->withoutMiddleware()->get('/api/pc-setups/' . $this->pc_setup_id_1);
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -368,8 +387,8 @@ class PCSetupTest extends BaseTestCase {
       ]);
 
     $expected = [
-      'id' => $this->pcSetup_id_1,
-      'label' => $this->pcSetup_label,
+      'id' => $this->pc_setup_id_1,
+      'label' => $this->pc_setup_label,
 
       'isCurrent' => false,
       'isFuture' => false,
@@ -584,9 +603,6 @@ class PCSetupTest extends BaseTestCase {
       'amplifier_price' => 250_000,
     ];
 
-    // Clearing possible duplicate data
-    PCSetup::where('label', 'testing data pc-setup label')->delete();
-
     $response = $this->withoutMiddleware()->post('/api/pc-setups', $data);
 
     $response->assertStatus(200);
@@ -672,114 +688,110 @@ class PCSetupTest extends BaseTestCase {
     $this->assertEquals($data['equalizer_price'], $actual['equalizer_price']);
     $this->assertEquals($data['amplifier'], $actual['amplifier']);
     $this->assertEquals($data['amplifier_price'], $actual['amplifier_price']);
-
-    // Clearing test data
-    PCSetup::where('label', 'testing data pc-setup label')->delete();
   }
 
   public function test_should_not_add_data_on_form_errors() {
+    $string_65_len = rand_str(64 + 1);
+
     $data = [
-      'label' => 'testing data pc-setup label, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'label' => $string_65_len,
 
-      'cpu' => 'test cpu, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cpu' => $string_65_len,
       'cpu_price' => 250_001,
-      'cpu_sub' => 'cpu subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'cpu_sub2' => 'cpu subtext 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cpu_sub' => $string_65_len,
+      'cpu_sub2' => $string_65_len,
 
-      'ram' => 'test ram, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ram' => $string_65_len,
       'ram_price' => 250_001,
-      'ram_sub' => 'ram subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ram_sub' => $string_65_len,
 
-      'gpu' => 'test gpu, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'gpu' => $string_65_len,
       'gpu_price' => 250_001,
-      'gpu_sub' => 'gpu subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'gpu_sub' => $string_65_len,
 
-      'motherboard' => 'test motherboard, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'motherboard' => $string_65_len,
       'motherboard_price' => 250_001,
 
-      'psu' => 'test psu, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'psu' => $string_65_len,
       'psu_price' => 250_001,
 
-      'cooler' => 'test cooler, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cooler' => $string_65_len,
       'cooler_price' => 250_001,
-      'cooler_acc' => 'cooler accessory, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cooler_acc' => $string_65_len,
       'cooler_acc_price' => 250_001,
 
-      'ssd_1' => 'ssd 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_1' => $string_65_len,
       'ssd_1_price' => 250_001,
-      'ssd_2' => 'ssd 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_2' => $string_65_len,
       'ssd_2_price' => 250_001,
-      'ssd_3' => 'ssd 3, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_3' => $string_65_len,
       'ssd_3_price' => 250_001,
-      'ssd_4' => 'ssd 4, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_4' => $string_65_len,
       'ssd_4_price' => 250_001,
 
-      'hdd_1' => 'hdd 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_1' => $string_65_len,
       'hdd_1_price' => 250_001,
-      'hdd_2' => 'hdd 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_2' => $string_65_len,
       'hdd_2_price' => 250_001,
-      'hdd_3' => 'hdd 3, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_3' => $string_65_len,
       'hdd_3_price' => 250_001,
-      'hdd_4' => 'hdd 4, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_4' => $string_65_len,
       'hdd_4_price' => 250_001,
 
-      'case' => 'test case, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case' => $string_65_len,
       'case_price' => 250_001,
-      'case_fans_1' => 'case fans 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_1' => $string_65_len,
       'case_fans_1_price' => 250_001,
-      'case_fans_2' => 'case fans 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_2' => $string_65_len,
       'case_fans_2_price' => 250_001,
-      'case_fans_3' => 'case fans 3, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_3' => $string_65_len,
       'case_fans_3_price' => 250_001,
-      'case_fans_4' => 'case fans 4, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_4' => $string_65_len,
       'case_fans_4_price' => 250_001,
 
-      'monitor' => 'test monitor, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'monitor' => $string_65_len,
       'monitor_price' => 250_001,
-      'monitor_sub' => 'monitor subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'monitor_acc_1' => 'monitor accessory 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'monitor_sub' => $string_65_len,
+      'monitor_acc_1' => $string_65_len,
       'monitor_acc_1_price' => 250_001,
-      'monitor_acc_2' => 'monitor accessory 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'monitor_acc_2' => $string_65_len,
       'monitor_acc_2_price' => 250_001,
 
-      'keyboard' => 'test keyboard, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'keyboard' => $string_65_len,
       'keyboard_price' => 250_001,
-      'keyboard_sub' => 'keyboard subtext 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'keyboard_sub2' => 'keyboard subtext 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'keyboard_acc_1' => 'keyboard accessory 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'keyboard_sub' => $string_65_len,
+      'keyboard_sub2' => $string_65_len,
+      'keyboard_acc_1' => $string_65_len,
       'keyboard_acc_1_price' => 250_001,
-      'keyboard_acc_2' => 'keyboard accessory 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'keyboard_acc_2' => $string_65_len,
       'keyboard_acc_2_price' => 250_001,
 
-      'mouse' => 'test mouse, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'mouse' => $string_65_len,
       'mouse_price' => 250_001,
 
-      'speakers' => 'test speakers, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'speakers' => $string_65_len,
       'speakers_price' => 250_001,
 
-      'wifi' => 'test wifi, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'wifi' => $string_65_len,
       'wifi_price' => 250_001,
 
-      'headset_1' => 'test headset 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'headset_1' => $string_65_len,
       'headset_1_price' => 250_001,
-      'headset_2' => 'test headset 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'headset_2' => $string_65_len,
       'headset_2_price' => 250_001,
 
-      'mic' => 'test mic, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'mic' => $string_65_len,
       'mic_price' => 250_001,
-      'mic_acc' => 'mic accessory, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'mic_acc' => $string_65_len,
       'mic_acc_price' => 250_001,
 
-      'audio_interface' => 'test interface, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'audio_interface' => $string_65_len,
       'audio_interface_price' => 250_001,
-      'equalizer' => 'test eq, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'equalizer' => $string_65_len,
       'equalizer_price' => 250_001,
-      'amplifier' => 'test am, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEANp',
+      'amplifier' => $string_65_len,
       'amplifier_price' => 250_001,
     ];
-
-    // Clearing possible duplicate data
-    PCSetup::where('label', 'testing data pc-setup label')->delete();
 
     $response = $this->withoutMiddleware()->post('/api/pc-setups', $data);
 
@@ -978,14 +990,11 @@ class PCSetupTest extends BaseTestCase {
       'amplifier_price' => 250_000,
     ];
 
-    // Clearing possible duplicate data
-    PCSetup::where('label', 'testing data pc-setup label')->delete();
-
-    $response = $this->withoutMiddleware()->put('/api/pc-setups/' . $this->pcSetup_id_1, $data);
+    $response = $this->withoutMiddleware()->put('/api/pc-setups/' . $this->pc_setup_id_1, $data);
 
     $response->assertStatus(200);
 
-    $actual = PCSetup::where('id', $this->pcSetup_id_1)
+    $actual = PCSetup::where('id', $this->pc_setup_id_1)
       ->where('label', $test_label)
       ->first()
       ->toArray();
@@ -1066,117 +1075,114 @@ class PCSetupTest extends BaseTestCase {
     $this->assertEquals($data['equalizer_price'], $actual['equalizer_price']);
     $this->assertEquals($data['amplifier'], $actual['amplifier']);
     $this->assertEquals($data['amplifier_price'], $actual['amplifier_price']);
-
-    // Clearing test data
-    PCSetup::where('label', $test_label)->delete();
-
-    $this->setup_clear();
   }
 
   public function test_should_not_edit_data_on_form_errors() {
     $this->setup_config();
 
+    $string_65_len = rand_str(64 + 1);
+
     $data = [
-      'label' => 'testing data pc-setup label, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'label' => $string_65_len,
 
-      'cpu' => 'test cpu, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cpu' => $string_65_len,
       'cpu_price' => 250_001,
-      'cpu_sub' => 'cpu subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'cpu_sub2' => 'cpu subtext 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cpu_sub' => $string_65_len,
+      'cpu_sub2' => $string_65_len,
 
-      'ram' => 'test ram, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ram' => $string_65_len,
       'ram_price' => 250_001,
-      'ram_sub' => 'ram subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ram_sub' => $string_65_len,
 
-      'gpu' => 'test gpu, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'gpu' => $string_65_len,
       'gpu_price' => 250_001,
-      'gpu_sub' => 'gpu subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'gpu_sub' => $string_65_len,
 
-      'motherboard' => 'test motherboard, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'motherboard' => $string_65_len,
       'motherboard_price' => 250_001,
 
-      'psu' => 'test psu, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'psu' => $string_65_len,
       'psu_price' => 250_001,
 
-      'cooler' => 'test cooler, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cooler' => $string_65_len,
       'cooler_price' => 250_001,
-      'cooler_acc' => 'cooler accessory, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'cooler_acc' => $string_65_len,
       'cooler_acc_price' => 250_001,
 
-      'ssd_1' => 'ssd 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_1' => $string_65_len,
       'ssd_1_price' => 250_001,
-      'ssd_2' => 'ssd 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_2' => $string_65_len,
       'ssd_2_price' => 250_001,
-      'ssd_3' => 'ssd 3, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_3' => $string_65_len,
       'ssd_3_price' => 250_001,
-      'ssd_4' => 'ssd 4, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'ssd_4' => $string_65_len,
       'ssd_4_price' => 250_001,
 
-      'hdd_1' => 'hdd 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_1' => $string_65_len,
       'hdd_1_price' => 250_001,
-      'hdd_2' => 'hdd 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_2' => $string_65_len,
       'hdd_2_price' => 250_001,
-      'hdd_3' => 'hdd 3, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_3' => $string_65_len,
       'hdd_3_price' => 250_001,
-      'hdd_4' => 'hdd 4, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'hdd_4' => $string_65_len,
       'hdd_4_price' => 250_001,
 
-      'case' => 'test case, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case' => $string_65_len,
       'case_price' => 250_001,
-      'case_fans_1' => 'case fans 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_1' => $string_65_len,
       'case_fans_1_price' => 250_001,
-      'case_fans_2' => 'case fans 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_2' => $string_65_len,
       'case_fans_2_price' => 250_001,
-      'case_fans_3' => 'case fans 3, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_3' => $string_65_len,
       'case_fans_3_price' => 250_001,
-      'case_fans_4' => 'case fans 4, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'case_fans_4' => $string_65_len,
       'case_fans_4_price' => 250_001,
 
-      'monitor' => 'test monitor, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'monitor' => $string_65_len,
       'monitor_price' => 250_001,
-      'monitor_sub' => 'monitor subtext, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'monitor_acc_1' => 'monitor accessory 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'monitor_sub' => $string_65_len,
+      'monitor_acc_1' => $string_65_len,
       'monitor_acc_1_price' => 250_001,
-      'monitor_acc_2' => 'monitor accessory 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'monitor_acc_2' => $string_65_len,
       'monitor_acc_2_price' => 250_001,
 
-      'keyboard' => 'test keyboard, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'keyboard' => $string_65_len,
       'keyboard_price' => 250_001,
-      'keyboard_sub' => 'keyboard subtext 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'keyboard_sub2' => 'keyboard subtext 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
-      'keyboard_acc_1' => 'keyboard accessory 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'keyboard_sub' => $string_65_len,
+      'keyboard_sub2' => $string_65_len,
+      'keyboard_acc_1' => $string_65_len,
       'keyboard_acc_1_price' => 250_001,
-      'keyboard_acc_2' => 'keyboard accessory 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'keyboard_acc_2' => $string_65_len,
       'keyboard_acc_2_price' => 250_001,
 
-      'mouse' => 'test mouse, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'mouse' => $string_65_len,
       'mouse_price' => 250_001,
 
-      'speakers' => 'test speakers, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'speakers' => $string_65_len,
       'speakers_price' => 250_001,
 
-      'wifi' => 'test wifi, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'wifi' => $string_65_len,
       'wifi_price' => 250_001,
 
-      'headset_1' => 'test headset 1, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'headset_1' => $string_65_len,
       'headset_1_price' => 250_001,
-      'headset_2' => 'test headset 2, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'headset_2' => $string_65_len,
       'headset_2_price' => 250_001,
 
-      'mic' => 'test mic, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'mic' => $string_65_len,
       'mic_price' => 250_001,
-      'mic_acc' => 'mic accessory, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'mic_acc' => $string_65_len,
       'mic_acc_price' => 250_001,
 
-      'audio_interface' => 'test interface, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'audio_interface' => $string_65_len,
       'audio_interface_price' => 250_001,
-      'equalizer' => 'test eq, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEAN',
+      'equalizer' => $string_65_len,
       'equalizer_price' => 250_001,
-      'amplifier' => 'test am, IGXONXUYHAASQJGNAVJFZTYUZTPHWSCUTFVOGKXVMGLLSDUUAGDLQNVOQLNQFEANp',
+      'amplifier' => $string_65_len,
       'amplifier_price' => 250_001,
     ];
 
-    $response = $this->withoutMiddleware()->put('/api/pc-setups/' . $this->pcSetup_id_1, $data);
+    $response = $this->withoutMiddleware()->put('/api/pc-setups/' . $this->pc_setup_id_1, $data);
 
     $response->assertStatus(401)
       ->assertJsonStructure([
@@ -1263,81 +1269,83 @@ class PCSetupTest extends BaseTestCase {
           'amplifier_price',
         ],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_clone_or_duplicate_data_then_return_id() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/duplicate/' . $this->pcSetup_id_1);
+    $response = $this->withoutMiddleware()->post('/api/pc-setups/duplicate/' . $this->pc_setup_id_1);
 
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => ['newID']
       ]);
 
-    $this->assertIsNumeric($response['data']['newID']);
+    $new_model_id = $response['data']['newID'];
+    $this->assertIsNumeric($new_model_id);
 
-    $this->setup_clear();
+    $old_model = PCSetup::where('id', $this->pc_setup_id_1)->first();
+    $new_model = PCSetup::where('id', $new_model_id)->first();
+
+    $this->assertModelExists($old_model);
+    $this->assertModelExists($new_model);
+
+    $actual_old = $old_model->toArray();
+    $actual_new = $new_model->toArray();
+
+    $this->assertArrayIsIdenticalToArrayIgnoringListOfKeys(
+      $actual_old,
+      $actual_new,
+      ['id', 'label', 'created_at', 'updated_at'],
+    );
+
+    $expected_label = $actual_old['label'] . ' (copy)';
+    $this->assertEquals($expected_label, $actual_new['label']);
   }
 
   public function test_should_toggle_setup_as_current_and_toggle_others_as_not_current() {
     $this->setup_config();
 
-    $expected = !$this->pcSetup_is_current_1;
+    $expected = !$this->pc_setup_is_current_1;
 
-    $response = $this->withoutMiddleware()->put('/api/pc-setups/current/' . $this->pcSetup_id_1);
+    $response = $this->withoutMiddleware()->put('/api/pc-setups/current/' . $this->pc_setup_id_1);
 
     $response->assertStatus(200);
 
-    $actual_current = PCSetup::where('id', $this->pcSetup_id_1)->first();
-    $actual_non_current = PCSetup::whereIn('id', [$this->pcSetup_id_2, $this->pcSetup_id_3])
+    $actual_current = PCSetup::where('id', $this->pc_setup_id_1)->first();
+    $actual_non_current = PCSetup::whereIn('id', [$this->pc_setup_id_2, $this->pc_setup_id_3])
       ->get();
 
-    $this->assertSame($expected, $actual_current->is_current);
+    $this->assertEquals($expected, $actual_current->is_current);
 
     foreach ($actual_non_current as $value) {
-      $this->assertSame(false, $value->is_current);
+      $this->assertEquals(false, $value->is_current);
     }
-
-    $this->setup_clear();
   }
 
   public function test_should_toggle_setup_as_future() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/pc-setups/future/' . $this->pcSetup_id_1);
+    $response = $this->withoutMiddleware()->put('/api/pc-setups/future/' . $this->pc_setup_id_1);
 
     $response->assertStatus(200);
 
-    $expected = !$this->pcSetup_is_future;
-    $actual = PCSetup::where('id', $this->pcSetup_id_1)->first();
+    $expected = !$this->pc_setup_is_future;
+    $actual = PCSetup::where('id', $this->pc_setup_id_1)->first();
 
-    $this->assertSame($expected, $actual->is_future);
-
-    $this->setup_clear();
+    $this->assertEquals($expected, $actual->is_future);
   }
 
   public function test_should_toggle_setup_as_server() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/pc-setups/server/' . $this->pcSetup_id_1);
+    $response = $this->withoutMiddleware()->put('/api/pc-setups/server/' . $this->pc_setup_id_1);
 
     $response->assertStatus(200);
 
-    $expected = !$this->pcSetup_is_server;
-    $actual = PCSetup::where('id', $this->pcSetup_id_1)->first();
+    $expected = !$this->pc_setup_is_server;
+    $actual = PCSetup::where('id', $this->pc_setup_id_1)->first();
 
-    $this->assertSame($expected, $actual->is_server);
-
-    $this->setup_clear();
-  }
-
-  public function test_should_not_be_accessible_on_no_auth() {
-    $response = $this->get('/api/pc-setups');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
+    $this->assertEquals($expected, $actual->is_server);
   }
 }

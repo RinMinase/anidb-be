@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * @OA\Schema(
  *   @OA\Property(property="label", type="string"),
@@ -118,15 +116,10 @@ use Illuminate\Database\Eloquent\Model;
  *   @OA\Property(property="deleted_at", type="string", example="2023-05-21 21:05:57"),
  * )
  */
-class PCSetup extends Model {
+class PCSetup extends BaseModel {
 
   protected $table = 'pc_setups';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'id',
     'label',
@@ -241,18 +234,8 @@ class PCSetup extends Model {
     'updated_at',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [
     'created_at' => 'datetime:Y-m-d H:i:s',
     'updated_at' => 'datetime:Y-m-d H:i:s',
