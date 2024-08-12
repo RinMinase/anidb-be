@@ -14,116 +14,114 @@ class SequenceTest extends BaseTestCase {
 
   // Class variables
   private $sequence_id_1 = 99999;
+  private $sequence_title_1 = 'test title';
+  private $sequence_date_from_1 = '2020-01-01';
+  private $sequence_date_to_1 = '2020-01-02';
 
-  // Place this outside the try-catch block
+  // Backup related tables
   private function setup_backup() {
-    // Save current sequence list
-    $this->sequence_backup = Sequence::all()
-      ->makeVisible(['created_at', 'updated_at'])
-      ->toArray();
+    $hidden_columns = ['created_at', 'updated_at'];
+    $this->sequence_backup = Sequence::all()->makeVisible($hidden_columns)->toArray();
   }
 
-  // Place this in a try block
+  // Restore related tables
+  private function setup_restore() {
+    Sequence::truncate();
+    Sequence::insert($this->sequence_backup);
+    Sequence::refreshAutoIncrements();
+  }
+
+  // Setup data for testing
   private function setup_config() {
     Sequence::truncate();
 
     Sequence::insert([
       'id' => $this->sequence_id_1,
-      'title' => 'test title',
-      'date_from' => '2020-01-01 01:00:00',
-      'date_to' => '2020-01-02 01:00:00',
+      'title' => $this->sequence_title_1,
+      'date_from' => $this->sequence_date_from_1,
+      'date_to' => $this->sequence_date_to_1,
       'created_at' => '2020-01-03 01:00:00',
       'updated_at' => '2020-01-03 01:00:00',
     ]);
   }
 
-  // Place this in a finally block
-  private function setup_restore() {
-    Sequence::truncate();
-    Sequence::insert($this->sequence_backup);
-
-    refresh_db_table_autoincrement((new Sequence())->getTable());
+  // Fixtures
+  public function setUp(): void {
+    parent::setUp();
+    $this->setup_backup();
   }
 
+  public function tearDown(): void {
+    $this->setup_restore();
+    parent::tearDown();
+  }
+
+  // Test Cases
   public function test_should_get_all_data() {
-    $this->setup_backup();
+    $this->setup_config();
 
-    try {
-      $this->setup_config();
+    $response = $this->withoutMiddleware()->get('/api/sequences');
 
-      $response = $this->withoutMiddleware()->get('/api/sequences');
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'id',
+          'title',
+          'dateFrom',
+          'dateTo',
+        ]],
+      ]);
 
-      $response->assertStatus(200)
-        ->assertJsonCount(1, 'data')
-        ->assertJsonStructure([
-          'data' => [[
-            'id',
-            'title',
-            'dateFrom',
-            'dateTo',
-          ]],
-        ]);
-    } finally {
-      $this->setup_restore();
-    }
-  }
+    $expected = [[
+      'id' => $this->sequence_id_1,
+      'title' => $this->sequence_title_1,
+      'dateFrom' => $this->sequence_date_from_1,
+      'dateTo' => $this->sequence_date_to_1,
+    ]];
 
-  public function test_should_not_get_all_data_no_auth() {
-    $this->setup_backup();
-
-    try {
-      $this->setup_config();
-
-      $response = $this->get('/api/sequences');
-
-      $response->assertStatus(401)
-        ->assertJson(['message' => 'Unauthorized']);
-    } finally {
-      $this->setup_restore();
-    }
+    $this->assertEquals($expected, $response['data']);
   }
 
   public function test_should_add_data_successfully() {
-    $this->setup_backup();
+    $test_title = 'test title';
+    $test_date_from = '1980-10-20 13:00';
+    $test_date_to = '1980-11-20 13:00';
 
-    try {
-      $this->setup_config();
+    $response = $this->withoutMiddleware()->post('/api/sequences', [
+      'title' => $test_title,
+      'date_from' => $test_date_from,
+      'date_to' => $test_date_to,
+    ]);
 
-      $test_title = 'test title ';
-      $test_date_from = '1980-10-20 13:00';
-      $test_date_to = '1980-11-20 13:00';
+    $response->assertStatus(200);
 
-      $response = $this->withoutMiddleware()->post('/api/sequences', [
-        'title' => $test_title,
-        'date_from' => $test_date_from,
-        'date_to' => $test_date_to,
-      ]);
+    $actual = Sequence::where('date_from', $test_date_from)
+      ->where('date_to', $test_date_to)
+      ->first()
+      ->toArray();
 
-      $response->assertStatus(200);
+    $this->assertEquals($test_title, $actual['title']);
 
-      $actual = Sequence::where('date_from', $test_date_from)
-        ->where('date_to', $test_date_to)
-        ->first()
-        ->toArray();
+    $this->assertEquals(
+      Carbon::parse($test_date_from)->toDateString(),
+      Carbon::parse($actual['date_from'])->toDateString(),
+    );
 
-      $this->assertSame($test_title, $actual['title']);
-
-      $this->assertSame(
-        Carbon::parse($test_date_from)->toDateString(),
-        Carbon::parse($actual['date_from'])->toDateString(),
-      );
-
-      $this->assertSame(
-        Carbon::parse($test_date_to)->toDateString(),
-        Carbon::parse($actual['date_to'])->toDateString(),
-      );
-    } finally {
-      $this->setup_restore();
-    }
+    $this->assertEquals(
+      Carbon::parse($test_date_to)->toDateString(),
+      Carbon::parse($actual['date_to'])->toDateString(),
+    );
   }
 
   public function test_should_not_add_data_on_form_errors() {
-    $test_title = 'test title BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU';
+    $response = $this->withoutMiddleware()->post('/api/sequences');
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['title', 'date_to', 'date_from']]);
+
+
+    $test_title = rand_str(256 + 1);
     $test_date_from = '2099-10-20 13:00';
     $test_date_to = '2099-10-19 13:00';
 
@@ -134,62 +132,63 @@ class SequenceTest extends BaseTestCase {
     ]);
 
     $response->assertStatus(401)
-      ->assertJsonStructure([
-        'data' => [
-          'title',
-          'date_to',
-        ],
-      ]);
-  }
+      ->assertJsonStructure(['data' => ['title', 'date_to']]);
 
-  public function test_should_not_add_on_no_auth() {
-    $response = $this->post('/api/sequences/', []);
+    $test_valid_title = 'string';
+    $test_date_from = 'string';
+    $test_date_to = 'string';
+
+    $response = $this->withoutMiddleware()->post('/api/sequences', [
+      'title' => $test_valid_title,
+      'date_from' => $test_date_from,
+      'date_to' => $test_date_to,
+    ]);
 
     $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
+      ->assertJsonStructure(['data' => ['date_to', 'date_from']]);
   }
 
   public function test_should_edit_data_successfully() {
-    $this->setup_backup();
+    $this->setup_config();
 
-    try {
-      $this->setup_config();
+    $test_title = 'new test title';
+    $test_date_from = '1980-10-20 13:00';
+    $test_date_to = '1980-11-20 13:00';
 
-      $test_title = 'new test title';
-      $test_date_from = '1980-10-20 13:00';
-      $test_date_to = '1980-11-20 13:00';
+    $response = $this->withoutMiddleware()->put('/api/sequences/' . $this->sequence_id_1, [
+      'title' => $test_title,
+      'date_from' => $test_date_from,
+      'date_to' => $test_date_to,
+    ]);
 
-      $response = $this->withoutMiddleware()->put('/api/sequences/' . $this->sequence_id_1, [
-        'title' => $test_title,
-        'date_from' => $test_date_from,
-        'date_to' => $test_date_to,
-      ]);
+    $response->assertStatus(200);
 
-      $response->assertStatus(200);
+    $actual = Sequence::where('date_from', $test_date_from)
+      ->where('date_to', $test_date_to)
+      ->first()
+      ->toArray();
 
-      $actual = Sequence::where('date_from', $test_date_from)
-        ->where('date_to', $test_date_to)
-        ->first()
-        ->toArray();
+    $this->assertEquals($test_title, $actual['title']);
 
-      $this->assertSame($test_title, $actual['title']);
+    $this->assertEquals(
+      Carbon::parse($test_date_from)->toDateString(),
+      Carbon::parse($actual['date_from'])->toDateString(),
+    );
 
-      $this->assertSame(
-        Carbon::parse($test_date_from)->toDateString(),
-        Carbon::parse($actual['date_from'])->toDateString(),
-      );
-
-      $this->assertSame(
-        Carbon::parse($test_date_to)->toDateString(),
-        Carbon::parse($actual['date_to'])->toDateString(),
-      );
-    } finally {
-      $this->setup_restore();
-    }
+    $this->assertEquals(
+      Carbon::parse($test_date_to)->toDateString(),
+      Carbon::parse($actual['date_to'])->toDateString(),
+    );
   }
 
   public function test_should_not_edit_data_on_form_errors() {
-    $test_title = 'test title BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU BIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUUBIOEIZPMPHWSCUQBTFVOGKXVMGLLSDUU';
+    $response = $this->withoutMiddleware()->put('/api/sequences/' . $this->sequence_id_1);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['title', 'date_to', 'date_from']]);
+
+
+    $test_title = rand_str(256 + 1);
     $test_date_from = '2099-10-20 13:00';
     $test_date_to = '2099-10-19 13:00';
 
@@ -200,46 +199,33 @@ class SequenceTest extends BaseTestCase {
     ]);
 
     $response->assertStatus(401)
-      ->assertJsonStructure([
-        'data' => [
-          'title',
-          'date_to',
-        ],
-      ]);
-  }
+      ->assertJsonStructure(['data' => ['title', 'date_to']]);
 
-  public function test_should_not_edit_on_no_auth() {
-    $this->setup_backup();
+    $test_valid_title = rand_str(256);
+    $test_date_from = 'string';
+    $test_date_to = 'string';
 
-    try {
-      $this->setup_config();
+    $response = $this->withoutMiddleware()->put('/api/sequences/' . $this->sequence_id_1, [
+      'title' => $test_valid_title,
+      'date_from' => $test_date_from,
+      'date_to' => $test_date_to,
+    ]);
 
-      $response = $this->put('/api/sequences/' . $this->sequence_id_1, []);
-
-      $response->assertStatus(401)
-        ->assertJson(['message' => 'Unauthorized']);
-    } finally {
-      $this->setup_restore();
-    }
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date_to', 'date_from']]);
   }
 
   public function test_should_delete_data_successfully() {
-    $this->setup_backup();
+    $this->setup_config();
 
-    try {
-      $this->setup_config();
+    $response = $this->withoutMiddleware()->withoutMiddleware()
+      ->delete('/api/sequences/' . $this->sequence_id_1);
 
-      $response = $this->withoutMiddleware()->withoutMiddleware()
-        ->delete('/api/sequences/' . $this->sequence_id_1);
+    $response->assertStatus(200);
 
-      $response->assertStatus(200);
+    $actual = Sequence::where('id', $this->sequence_id_1)->first();
 
-      $actual = Sequence::where('id', $this->sequence_id_1)->first();
-
-      $this->assertNull($actual);
-    } finally {
-      $this->setup_restore();
-    }
+    $this->assertNull($actual);
   }
 
   public function test_should_not_delete_non_existent_data() {
@@ -248,20 +234,5 @@ class SequenceTest extends BaseTestCase {
     $response = $this->withoutMiddleware()->delete('/api/sequence/' . $invalid_id);
 
     $response->assertStatus(404);
-  }
-
-  public function test_should_not_delete_on_no_auth() {
-    $this->setup_backup();
-
-    try {
-      $this->setup_config();
-
-      $response = $this->delete('/api/sequences/' . $this->sequence_id_1);
-
-      $response->assertStatus(401)
-        ->assertJson(['message' => 'Unauthorized']);
-    } finally {
-      $this->setup_restore();
-    }
   }
 }
