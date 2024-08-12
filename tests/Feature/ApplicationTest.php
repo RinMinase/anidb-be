@@ -142,4 +142,97 @@ class ApplicationTest extends BaseTestCase {
         ->assertJson(['message' => 'Unauthorized']);
     }
   }
+
+  public function test_fourleaf_routes_should_be_accessible() {
+    $id = -1;
+    $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
+
+    $raw_routes = Route::getRoutes()->getRoutesByMethod();
+
+    $get_routes = [];
+    $post_routes = [];
+    $put_routes = [];
+    $delete_routes = [];
+
+    foreach ($raw_routes['GET'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        array_push($get_routes, '/' . $uri);
+      }
+    }
+
+    foreach ($raw_routes['POST'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        array_push($post_routes, '/' . $uri);
+      }
+    }
+
+    foreach ($raw_routes['PUT'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        $uri = str_replace('{uuid}', $uuid, $uri);
+        $uri = str_replace('{id}', $id, $uri);
+
+        array_push($put_routes, '/' . $uri);
+      }
+    }
+
+    foreach ($raw_routes['DELETE'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        $uri = str_replace('{uuid}', $uuid, $uri);
+        $uri = str_replace('{id}', $id, $uri);
+
+        array_push($delete_routes, '/' . $uri);
+      }
+    }
+
+    $not_expected = ['message' => 'Unauthorized'];
+
+    foreach ($get_routes as $route) {
+      $response = $this->get($route);
+      $this->curr_method = 'GET';
+      $this->curr_url = $route;
+
+
+      $this->assertArrayNotHasKey('message', $response['data']);
+      $this->assertNotEquals($not_expected, $response['data']);
+    }
+
+    foreach ($post_routes as $route) {
+      $response = $this->post($route);
+      $this->curr_method = 'POST';
+      $this->curr_url = $route;
+
+      $this->assertArrayNotHasKey('message', $response['data']);
+      $this->assertNotEquals($not_expected, $response['data']);
+    }
+
+    foreach ($put_routes as $route) {
+      $response = $this->put($route);
+      $this->curr_method = 'PUT';
+      $this->curr_url = $route;
+
+      $this->assertArrayNotHasKey('message', $response['data']);
+      $this->assertNotEquals($not_expected, $response['data']);
+    }
+
+    foreach ($delete_routes as $route) {
+      $response = $this->delete($route);
+      $this->curr_method = 'DELETE';
+      $this->curr_url = $route;
+
+      if (property_exists($response, 'data')) {
+        $this->assertArrayNotHasKey('message', $response['data']);
+        $this->assertNotEquals($not_expected, $response['data']);
+      } else {
+        $response->assertStatus(404);
+      }
+    }
+  }
 }
