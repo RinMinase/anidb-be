@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * @OA\Schema(
  *   example={
@@ -26,13 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  *   @OA\Property(property="created_at", type="string"),
  * )
  */
-class RssItem extends Model {
+class RssItem extends BaseModel {
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'id_rss',
     'title',
@@ -43,22 +36,12 @@ class RssItem extends Model {
     'is_bookmarked',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [
     'id',
     'id_rss',
     'updated_at',
   ];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [
     'created_at' => 'datetime:Y-m-d H:i:s',
     'date' => 'datetime:Y-m-d H:i:s',
