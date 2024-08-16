@@ -149,8 +149,7 @@ class PCSetupRepository {
     if (count($import)) {
       PCSetup::truncate();
       PCSetup::insert($import);
-
-      refresh_db_table_autoincrement((new PCSetup())->getTable());
+      PCSetup::refreshAutoIncrements();
     }
 
     return count($import);

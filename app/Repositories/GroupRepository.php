@@ -54,8 +54,7 @@ class GroupRepository {
 
     Group::truncate();
     Group::insert($import);
-
-    refresh_db_table_autoincrement((new Group())->getTable());
+    Group::refreshAutoIncrements();
 
     return count($import);
   }
