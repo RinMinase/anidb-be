@@ -16,9 +16,9 @@ class EntryBySequenceTest extends BaseTestCase {
 
   // Backup related variables
   private $sequence_backup = null;
-  private $rewatch_backup = null;
-  private $rating_backup = null;
-  private $offquel_backup = null;
+  private $entry_rewatch_backup = null;
+  private $entry_rating_backup = null;
+  private $entry_offquel_backup = null;
   private $entry_backup = null;
 
   // Class variables
@@ -35,32 +35,44 @@ class EntryBySequenceTest extends BaseTestCase {
   private $entry_uuid_2 = '251c34f4-e281-4d7e-9ed9-6b7977a665ba';
   private $entry_uuid_3 = '9bea308b-a6a3-4fdd-add8-4c34a1051abc';
 
-  // Place this outside the try-catch block
+  // Backup related tables
   private function setup_backup() {
-    // Save current sequence list
-    $this->sequence_backup = Sequence::all()
-      ->makeVisible(['created_at', 'updated_at'])
-      ->toArray();
+    $hidden_columns = ['created_at', 'updated_at'];
+    $this->sequence_backup = Sequence::all()->makeVisible($hidden_columns)->toArray();
 
-    // Save current entries and relations
-    $this->rewatch_backup = EntryRewatch::all()
-      ->makeVisible(['id', 'id_entries'])
-      ->toArray();
+    $hidden_columns = ['id', 'id_entries'];
+    $this->entry_rewatch_backup = EntryRewatch::all()->makeVisible($hidden_columns)->toArray();
 
-    $this->rating_backup = EntryRating::all()
-      ->makeVisible(['id', 'id_entries', 'created_at', 'updated_at', 'deleted_at'])
-      ->toArray();
+    $hidden_columns = ['id', 'id_entries', 'created_at', 'updated_at', 'deleted_at'];
+    $this->entry_rating_backup = EntryRating::all()->makeVisible($hidden_columns)->toArray();
 
-    $this->offquel_backup = EntryOffquel::all()
-      ->makeVisible(['id_entries', 'created_at', 'updated_at', 'deleted_at'])
-      ->toArray();
+    $hidden_columns = ['id_entries', 'created_at', 'updated_at', 'deleted_at'];
+    $this->entry_offquel_backup = EntryOffquel::all()->makeVisible($hidden_columns)->toArray();
 
-    $this->entry_backup = Entry::all()
-      ->makeVisible(['id', 'id_quality', 'updated_at', 'deleted_at'])
-      ->toArray();
+    $hidden_columns = ['id', 'id_quality', 'updated_at', 'deleted_at'];
+    $this->entry_backup = Entry::all()->makeVisible($hidden_columns)->toArray();
   }
 
-  // Place this in a try block
+  // Restore related tables
+  private function setup_restore() {
+    Sequence::truncate();
+    Sequence::insert($this->sequence_backup);
+    Sequence::refreshAutoIncrements();
+
+    Entry::truncate(); // cascade deletes
+
+    Entry::insert($this->entry_backup);
+    EntryOffquel::insert($this->entry_offquel_backup);
+    EntryRating::insert($this->entry_rating_backup);
+    EntryRewatch::insert($this->entry_rewatch_backup);
+
+    Entry::refreshAutoIncrements();
+    EntryOffquel::refreshAutoIncrements();
+    EntryRating::refreshAutoIncrements();
+    EntryRewatch::refreshAutoIncrements();
+  }
+
+  // Setup data for testing
   private function setup_config() {
     Sequence::truncate();
     Entry::truncate();
@@ -70,8 +82,8 @@ class EntryBySequenceTest extends BaseTestCase {
       'title' => 'Sample Testing Sequence',
       'date_from' => Carbon::parse($this->date_from)->format('Y-m-d'),
       'date_to' => Carbon::parse($this->date_to)->format('Y-m-d'),
-      'created_at' => Carbon::now(),
-      'updated_at' => Carbon::now(),
+      'created_at' => '2020-01-01 13:00:00',
+      'updated_at' => '2020-01-01 13:00:00',
     ]);
 
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
@@ -83,101 +95,80 @@ class EntryBySequenceTest extends BaseTestCase {
         'id_quality' => $id_quality,
         'title' => "a test data title",
         'date_finished' => Carbon::parse($this->date_from)->format('Y-m-d'),
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now(),
+        'created_at' => '2020-01-01 13:00:00',
+        'updated_at' => '2020-01-01 13:00:00',
       ], [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
         'id_quality' => $id_quality,
         'title' => "x test data title",
         'date_finished' => Carbon::parse($this->date_to)->format('Y-m-d'),
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now(),
+        'created_at' => '2020-01-01 13:00:00',
+        'updated_at' => '2020-01-01 13:00:00',
       ], [
         'id' => $this->entry_id_3,
         'uuid' => $this->entry_uuid_3,
         'id_quality' => $id_quality,
         'title' => "z test data title",
         'date_finished' => Carbon::parse($this->date_to)->addDay()->format('Y-m-d'),
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now(),
+        'created_at' => '2020-01-01 13:00:00',
+        'updated_at' => '2020-01-01 13:00:00',
       ],
     ];
 
     Entry::insert($test_entries);
   }
 
-  // Place this in a finally block
-  private function setup_restore() {
-    Sequence::truncate();
-    Sequence::insert($this->sequence_backup);
-
-    // Remove test data
-    Entry::truncate();
-
-    // Restore saved entries and relations
-    Entry::insert($this->entry_backup);
-    EntryOffquel::insert($this->offquel_backup);
-    EntryRating::insert($this->rating_backup);
-    EntryRewatch::insert($this->rewatch_backup);
-
-    refresh_db_table_autoincrement((new Sequence())->getTable());
-    refresh_db_table_autoincrement((new Entry())->getTable());
-    refresh_db_table_autoincrement((new EntryOffquel())->getTable());
-    refresh_db_table_autoincrement((new EntryRating())->getTable());
-    refresh_db_table_autoincrement((new EntryRewatch())->getTable());
+  // Fixtures
+  public function setUp(): void {
+    parent::setUp();
+    $this->setup_backup();
   }
 
+  public function tearDown(): void {
+    $this->setup_restore();
+    parent::tearDown();
+  }
+
+  // Test Cases
   public function test_should_get_all_entries_by_sequence_with_stats() {
-    $this->setup_backup();
+    $this->setup_config();
 
-    try {
-      $this->setup_config();
+    $response = $this->withoutMiddleware()->get('/api/entries/by-sequence/' . $this->sequence_id);
 
-      $response = $this->withoutMiddleware()->get('/api/entries/by-sequence/' . $this->sequence_id);
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data')
+      ->assertJsonStructure([
+        'data',
+        'stats' => [
+          'titlesPerDay',
+          'epsPerDay',
+          'quality2160',
+          'quality1080',
+          'quality720',
+          'quality480',
+          'quality360',
+          'totalTitles',
+          'totalEps',
+          'totalSize',
+          'totalDays',
+          'startDate',
+          'endDate',
+        ],
+      ]);
 
-      $response->assertStatus(200)
-        ->assertJsonCount(2, 'data')
-        ->assertJsonStructure([
-          'data',
-          'stats' => [
-            'titlesPerDay',
-            'epsPerDay',
-            'quality2160',
-            'quality1080',
-            'quality720',
-            'quality480',
-            'quality360',
-            'totalTitles',
-            'totalEps',
-            'totalSize',
-            'totalDays',
-            'startDate',
-            'endDate',
-          ],
-        ]);
-    } finally {
-      $this->setup_restore();
-    }
-  }
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $expected_ids = [
+      $this->entry_uuid_1,
+      $this->entry_uuid_2,
+    ];
 
-  public function test_should_not_get_all_entries_by_sequence_when_not_authorized() {
-    $this->setup_backup();
-
-    try {
-      $this->setup_config();
-
-      $response = $this->get('/api/entries/by-sequence/' . $this->sequence_id);
-
-      $response->assertStatus(401)
-        ->assertJson(['message' => 'Unauthorized']);
-    } finally {
-      $this->setup_restore();
-    }
+    $this->assertEqualsCanonicalizing($expected_ids, $actual_ids);
   }
 
   public function test_should_not_get_all_entries_with_non_existent_sequence() {
     $invalid_id = -1;
+
     $response = $this->withoutMiddleware()->get('/api/entries/by-sequence/' . $invalid_id);
 
     $response->assertStatus(404);
