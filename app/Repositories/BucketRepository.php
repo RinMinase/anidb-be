@@ -53,8 +53,7 @@ class BucketRepository {
 
     Bucket::truncate();
     Bucket::insert($import);
-
-    refresh_db_table_autoincrement((new Bucket())->getTable());
+    Bucket::refreshAutoIncrements();
 
     return count($import);
   }

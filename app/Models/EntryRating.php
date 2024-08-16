@@ -5,17 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EntryRating extends Model {
+class EntryRating extends BaseModel {
 
   use SoftDeletes;
 
   protected $table = 'entries_rating';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'id_entries',
     'audio',
@@ -24,11 +19,6 @@ class EntryRating extends Model {
     'plot',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [
     'id',
     'id_entries',
@@ -37,10 +27,5 @@ class EntryRating extends Model {
     'deleted_at',
   ];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [];
 }
