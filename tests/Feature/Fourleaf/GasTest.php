@@ -12,32 +12,64 @@ use App\Fourleaf\Models\MaintenancePart;
 
 class GasTest extends BaseTestCase {
 
+  // Backup related variables
+  private $gas_backup = null;
+  private $maintenance_backup = null;
+  private $maintenance_part_backup = null;
+
+  // Class variables
   private $gas_id_1 = 99998;
   private $gas_id_2 = 99999;
+
   private $maintenance_id_1 = 99999;
   private $maintenance_part_id_1 = 99999;
 
-  private function setup_config() {
-    // Clearing possible duplicate data
-    $this->setup_clear();
+  // Backup related tables
+  private function setup_backup() {
+    $this->gas_backup = Gas::all()->toArray();
+    $this->maintenance_backup = Maintenance::all()->toArray();
+    $this->maintenance_part_backup = MaintenancePart::all()->toArray();
+  }
 
-    Gas::insert([[
-      'id' => $this->gas_id_1,
-      'date' => '2090-04-29',
-      'from_bars' => 8,
-      'to_bars' => 8,
-      'odometer' => 90_000,
-      'price_per_liter' => 123.45,
-      'liters_filled' => 12.34,
-    ], [
-      'id' => $this->gas_id_2,
-      'date' => '2090-04-30',
-      'from_bars' => 8,
-      'to_bars' => 8,
-      'odometer' => 90_000,
-      'price_per_liter' => 123.45,
-      'liters_filled' => 12.34,
-    ]]);
+  // Restore related tables
+  private function setup_restore() {
+    Gas::truncate();
+    Gas::insert($this->gas_backup);
+    Gas::refreshAutoIncrements();
+
+    Maintenance::truncate(); // cascaded to maintenance parts
+
+    Maintenance::insert($this->maintenance_backup);
+    Maintenance::refreshAutoIncrements();
+
+    MaintenancePart::insert($this->maintenance_part_backup);
+    MaintenancePart::refreshAutoIncrements();
+  }
+
+  // Setup data for testing
+  private function setup_config() {
+    Gas::truncate();
+    Maintenance::truncate();
+
+    Gas::insert([
+      [
+        'id' => $this->gas_id_1,
+        'date' => '2090-04-29',
+        'from_bars' => 8,
+        'to_bars' => 8,
+        'odometer' => 90_000,
+        'price_per_liter' => 123.45,
+        'liters_filled' => 12.34,
+      ], [
+        'id' => $this->gas_id_2,
+        'date' => '2090-04-30',
+        'from_bars' => 8,
+        'to_bars' => 8,
+        'odometer' => 90_000,
+        'price_per_liter' => 123.45,
+        'liters_filled' => 12.34,
+      ]
+    ]);
 
     Maintenance::insert([
       'id' => $this->maintenance_id_1,
@@ -53,18 +85,18 @@ class GasTest extends BaseTestCase {
     ]);
   }
 
-  private function setup_clear() {
-    Gas::where('id', $this->gas_id_1)
-      ->orWhere('id', $this->gas_id_2)
-      ->forceDelete();
-
-    Maintenance::where('id', $this->maintenance_id_1)
-      ->forceDelete();
-
-    MaintenancePart::where('id', $this->maintenance_part_id_1)
-      ->forceDelete();
+  // Fixtures
+  public function setUp(): void {
+    parent::setUp();
+    $this->setup_backup();
   }
 
+  public function tearDown(): void {
+    $this->setup_restore();
+    parent::tearDown();
+  }
+
+  // Test Cases
   public function test_should_get_all_data() {
     $this->setup_config();
 
@@ -127,20 +159,16 @@ class GasTest extends BaseTestCase {
           ],
         ],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_validate_calculated_data_from_get_all_data() {
-    // Save existing data
-    $backup_data = Gas::all()->toArray();
-
     try {
       // Mock date values
       Carbon::setTestNow(Carbon::parse('2023-05-20'));
       Config::set('app.vehicle_start_date', '2023-04-25');
 
       Gas::truncate();
+      Gas::refreshAutoIncrements();
 
       $test_data = [
         [
@@ -222,13 +250,6 @@ class GasTest extends BaseTestCase {
       // Restore mocks
       Carbon::setTestNow();
       Config::set('app.vehicle_start_date', env('VEHICLE_START_DATE', '2023-01-01'));
-
-      // Restore backup data
-      Gas::truncate();
-
-      foreach ($backup_data as $item) {
-        Gas::create($item);
-      }
     }
   }
 
@@ -249,8 +270,6 @@ class GasTest extends BaseTestCase {
           'litersFilled',
         ]],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_add_a_fuel_data_successfully() {
@@ -260,9 +279,6 @@ class GasTest extends BaseTestCase {
     $test_odometer = 100_000;
     $test_price_per_liter = 123.45;
     $test_liters_filled = 12.34;
-
-    // Clearing possible duplicate data
-    Gas::where('date', $test_date)->delete();
 
     $response = $this->post('/api/fourleaf/gas/fuel', [
       'date' => $test_date,
@@ -283,9 +299,6 @@ class GasTest extends BaseTestCase {
     $this->assertEquals($test_odometer, $actual->odometer);
     $this->assertEquals($test_price_per_liter, $actual->price_per_liter);
     $this->assertEquals($test_liters_filled, $actual->liters_filled);
-
-    // Clearing test data
-    Gas::where('date', $test_date)->delete();
   }
 
   public function test_should_not_add_a_fuel_data_on_form_errors() {
@@ -365,8 +378,6 @@ class GasTest extends BaseTestCase {
     $this->assertEquals($test_odometer, $actual->odometer);
     $this->assertEquals($test_price_per_liter, $actual->price_per_liter);
     $this->assertEquals($test_liters_filled, $actual->liters_filled);
-
-    $this->setup_clear();
   }
 
   public function test_should_not_edit_a_fuel_data_on_form_errors() {
@@ -422,12 +433,9 @@ class GasTest extends BaseTestCase {
 
     $response->assertStatus(200);
 
-    $actual = Gas::where('id', $this->gas_id_1)
-      ->first();
+    $actual = Gas::where('id', $this->gas_id_1)->first();
 
     $this->assertNull($actual);
-
-    $this->setup_clear();
   }
 
   public function test_should_not_delete_a_fuel_data_on_invalid_id() {
@@ -453,8 +461,6 @@ class GasTest extends BaseTestCase {
           'odometer',
         ]],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_get_all_maintenance_part_list() {
@@ -465,7 +471,5 @@ class GasTest extends BaseTestCase {
 
     $response->assertStatus(200)
       ->assertJsonStructure(['data' => [[]]]);
-
-    $this->setup_clear();
   }
 }

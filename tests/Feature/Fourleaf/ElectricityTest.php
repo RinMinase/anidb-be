@@ -9,33 +9,57 @@ use App\Fourleaf\Models\Electricity;
 
 class ElectricityTest extends BaseTestCase {
 
+  // Backup related variables
+  private $electricity_backup = null;
+
+  // Class variables
   private $electricity_id_1 = 99998;
   private $electricity_id_2 = 99999;
 
   private $year = 2090;
   private $month = 1;
 
+  // Backup related tables
+  private function setup_backup() {
+    $this->electricity_backup = Electricity::all()->toArray();
+  }
+
+  // Restore related tables
+  private function setup_restore() {
+    Electricity::truncate();
+    Electricity::insert($this->electricity_backup);
+    Electricity::refreshAutoIncrements();
+  }
+
+  // Setup data for testing
   private function setup_config() {
-    // Clearing possible duplicate data
-    $this->setup_clear();
+    Electricity::truncate();
 
-    Electricity::insert([[
-      'id' => $this->electricity_id_1,
-      'datetime' => $this->year . '-' . $this->month . '-1 13:00:00',
-      'reading' => 100,
-    ], [
-      'id' => $this->electricity_id_2,
-      'datetime' => $this->year . '-' . $this->month . '-2 13:00:00',
-      'reading' => 120,
-    ]]);
+    Electricity::insert([
+      [
+        'id' => $this->electricity_id_1,
+        'datetime' => $this->year . '-' . $this->month . '-1 13:00:00',
+        'reading' => 100,
+      ], [
+        'id' => $this->electricity_id_2,
+        'datetime' => $this->year . '-' . $this->month . '-2 13:00:00',
+        'reading' => 120,
+      ]
+    ]);
   }
 
-  private function setup_clear() {
-    Electricity::where('id', $this->electricity_id_1)
-      ->orWhere('id', $this->electricity_id_2)
-      ->forceDelete();
+  // Fixtures
+  public function setUp(): void {
+    parent::setUp();
+    $this->setup_backup();
   }
 
+  public function tearDown(): void {
+    $this->setup_restore();
+    parent::tearDown();
+  }
+
+  // Test Cases
   public function test_should_get_all_data() {
     $this->setup_config();
 
@@ -79,8 +103,6 @@ class ElectricityTest extends BaseTestCase {
           ]],
         ],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_return_blank_entries_on_no_data_dates() {
@@ -102,32 +124,25 @@ class ElectricityTest extends BaseTestCase {
   }
 
   public function test_should_add_data_successfully() {
-    $test_datetime = '1980-10-20 13:00';
+    $test_datetime_1 = '1980-10-20 13:00';
     $test_reading_1 = 999;
-    $test_reading_2 = 200_000;
-
-    // Clearing possible duplicate data
-    Electricity::where('datetime', $test_datetime)->delete();
 
     $response = $this->post('/api/fourleaf/electricity', [
-      'datetime' => $test_datetime,
+      'datetime' => $test_datetime_1,
       'reading' => $test_reading_1,
     ]);
 
     $response->assertStatus(200);
 
-    // Clearing test data
-    Electricity::where('datetime', $test_datetime)->delete();
+    $test_datetime_2 = '1980-12-20 13:00';
+    $test_reading_2 = 200_000;
 
     $response = $this->post('/api/fourleaf/electricity', [
-      'datetime' => $test_datetime,
+      'datetime' => $test_datetime_2,
       'reading' => $test_reading_2,
     ]);
 
     $response->assertStatus(200);
-
-    // Clearing test data
-    Electricity::where('datetime', $test_datetime)->delete();
   }
 
   public function test_should_not_add_data_on_form_errors() {
@@ -167,13 +182,11 @@ class ElectricityTest extends BaseTestCase {
 
     $actual = Electricity::where('id', $this->electricity_id_1)->first();
 
-    $this->assertSame($test_reading, $actual->reading);
-    $this->assertSame(
+    $this->assertEquals($test_reading, $actual->reading);
+    $this->assertEquals(
       Carbon::parse($test_datetime)->toString(),
       Carbon::parse($actual->datetime)->toString(),
     );
-
-    $this->setup_clear();
   }
 
   public function test_should_not_edit_data_on_form_errors() {
@@ -198,8 +211,6 @@ class ElectricityTest extends BaseTestCase {
           'reading',
         ],
       ]);
-
-    $this->setup_clear();
   }
 
   public function test_should_delete_data_successfully() {
@@ -213,20 +224,14 @@ class ElectricityTest extends BaseTestCase {
     $actual = Electricity::where('id', $this->electricity_id_1)->first();
 
     $this->assertNull($actual);
-
-    $this->setup_clear();
   }
 
   public function test_should_not_delete_non_existent_data() {
-    $this->setup_config();
-
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()
       ->delete('/api/fourleaf/electricity/' . $invalid_id);
 
     $response->assertStatus(404);
-
-    $this->setup_clear();
   }
 }

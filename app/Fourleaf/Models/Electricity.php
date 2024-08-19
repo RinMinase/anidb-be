@@ -2,7 +2,7 @@
 
 namespace App\Fourleaf\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * @OA\Schema(
@@ -10,33 +10,18 @@ use Illuminate\Database\Eloquent\Model;
  *   @OA\Property(property="reading", type="integer", format="int32", minimum=0, example=1234),
  * )
  */
-class Electricity extends Model {
+class Electricity extends BaseModel {
 
   protected $table = 'fourleaf_electricity';
   public $timestamps = null;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'datetime',
     'reading',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [
     'datetime' => 'datetime:Y-m-d H:i',
   ];

@@ -2,36 +2,21 @@
 
 namespace App\Fourleaf\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class Maintenance extends Model {
+class Maintenance extends BaseModel {
 
   protected $table = 'fourleaf_maintenance';
   public $timestamps = null;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'date',
     'description',
     'odometer',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [];
 
   public function parts() {

@@ -2,7 +2,7 @@
 
 namespace App\Fourleaf\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * @OA\Schema(
@@ -11,32 +11,17 @@ use Illuminate\Database\Eloquent\Model;
  *   @OA\Property(property="odometer", type="integer", format="int32", minimum=0, example=1000),
  * )
  */
-class MaintenancePart extends Model {
+class MaintenancePart extends BaseModel {
 
   protected $table = 'fourleaf_maintenance_parts';
   public $timestamps = null;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'id_fourleaf_maintenance',
     'part',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [];
 }

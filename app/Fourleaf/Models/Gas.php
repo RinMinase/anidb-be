@@ -2,7 +2,7 @@
 
 namespace App\Fourleaf\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
 /**
  * @OA\Schema(
@@ -14,16 +14,11 @@ use Illuminate\Database\Eloquent\Model;
  *   @OA\Property(property="liters_filled", type="float", minimum=0, example=12.23),
  * )
  */
-class Gas extends Model {
+class Gas extends BaseModel {
 
   protected $table = 'fourleaf_gas';
   public $timestamps = null;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'date',
     'from_bars',
@@ -33,17 +28,7 @@ class Gas extends Model {
     'liters_filled',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [];
 }
