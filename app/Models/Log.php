@@ -9,6 +9,7 @@ class Log extends BaseModel {
   const UPDATED_AT = null;
 
   protected $fillable = [
+    'uuid',
     'table_changed',
     'id_changed',
     'description',

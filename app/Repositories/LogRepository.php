@@ -53,7 +53,7 @@ class LogRepository {
       'uuid' => Str::uuid()->toString(),
       'table_changed' => $table_changed,
       'id_changed' => $id_changed,
-      'desc' => $desc,
+      'description' => $desc,
       'action' => $action,
     ];
 
