@@ -247,7 +247,7 @@ class BucketSimTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['description', 'buckets']]);
 
-    $test_description = 'Test Sample Bucket Description ' . rand_str(256);
+    $test_description = rand_str(256 + 1);
     $test_buckets = '[{"from":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":1000169533440}';
 
     $response = $this->withoutMiddleware()->post('/api/bucket-sims', [
@@ -331,7 +331,7 @@ class BucketSimTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['description', 'buckets']]);
 
-    $test_description = 'Test Sample Bucket Description ' . rand_str(256);
+    $test_description = rand_str(256 + 1);
     $test_buckets = '[{"from":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":1000169533440}';
 
     $response = $this->withoutMiddleware()->put('/api/bucket-sims/' . $this->bucket_sim_info_uuid, [

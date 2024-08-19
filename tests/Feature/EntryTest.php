@@ -732,7 +732,7 @@ class EntryTest extends BaseTestCase {
       ]);
 
     $test_id_quality = -1;
-    $test_title = 'testing newly added title' . rand_str(256);
+    $test_title = rand_str(256 + 1);
     $test_date_finished = Carbon::now()->addDay()->format('Y-m-d');
 
     $test_duration = -1;
@@ -744,15 +744,15 @@ class EntryTest extends BaseTestCase {
 
     $test_season_number = -1;
 
-    $test_encoder_video = 'video encoder' . rand_str(128);
-    $test_encoder_audio = 'audio encoder' . rand_str(128);
-    $test_encoder_subs = 'subs encoder' . rand_str(128);
+    $test_encoder_video = rand_str(128 + 1);
+    $test_encoder_audio = rand_str(128 + 1);
+    $test_encoder_subs = rand_str(128 + 1);
 
     $test_release_year = '1899';
     $test_release_season = 'invalid';
 
-    $test_variants = 'variant' . rand_str(256);
-    $test_remarks = 'remarks' . rand_str(256);
+    $test_variants = rand_str(256 + 1);
+    $test_remarks = rand_str(256 + 1);
 
     $test_id_codec_audio = -1;
     $test_id_codec_video = -1;
@@ -1147,7 +1147,7 @@ class EntryTest extends BaseTestCase {
       ]);
 
     $test_id_quality = -1;
-    $test_title = 'testing newly added title' . rand_str(256);
+    $test_title = rand_str(256 + 1);
     $test_date_finished = Carbon::now()->addDay()->format('Y-m-d');
 
     $test_duration = -1;
@@ -1159,15 +1159,15 @@ class EntryTest extends BaseTestCase {
 
     $test_season_number = -1;
 
-    $test_encoder_video = 'video encoder' . rand_str(128);
-    $test_encoder_audio = 'audio encoder' . rand_str(128);
-    $test_encoder_subs = 'subs encoder' . rand_str(128);
+    $test_encoder_video = rand_str(128 + 1);
+    $test_encoder_audio = rand_str(128 + 1);
+    $test_encoder_subs = rand_str(128 + 1);
 
     $test_release_year = '1899';
     $test_release_season = 'invalid';
 
-    $test_variants = 'variant' . rand_str(256);
-    $test_remarks = 'remarks' . rand_str(256);
+    $test_variants = rand_str(256 + 1);
+    $test_remarks = rand_str(256 + 1);
 
     $test_id_codec_audio = -1;
     $test_id_codec_video = -1;
