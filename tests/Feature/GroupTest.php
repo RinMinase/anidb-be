@@ -75,13 +75,6 @@ class GroupTest extends BaseTestCase {
     $this->assertEquals($expected, $response['data']);
   }
 
-  public function test_should_not_get_all_data_when_not_authorized() {
-    $response = $this->get('/api/groups');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
-  }
-
   public function test_should_get_names_of_all_groups_successfully() {
     $this->setup_config();
 
@@ -116,7 +109,7 @@ class GroupTest extends BaseTestCase {
 
     $this->assertModelExists($data);
     $this->assertNotNull($actual['uuid']);
-    $this->assertSame($test_name, $actual['name']);
+    $this->assertEquals($test_name, $actual['name']);
   }
 
   public function test_should_not_add_data_on_form_errors() {

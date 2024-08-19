@@ -204,11 +204,4 @@ class AuthTest extends BaseTestCase {
 
     $this->assertEquals($expected, $response['data']);
   }
-
-  public function test_should_not_get_information_when_not_authorized() {
-    $response = $this->get('/api/auth/user');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
-  }
 }

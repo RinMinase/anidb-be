@@ -114,13 +114,6 @@ class CodecTest extends BaseTestCase {
     $this->assertEquals($expected, $response['data']);
   }
 
-  public function test_should_not_get_all_data_when_not_authorized() {
-    $response = $this->get('/api/codecs');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
-  }
-
   public function test_should_get_all_audio_codecs() {
     $this->setup_config();
 

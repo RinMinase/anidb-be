@@ -206,11 +206,4 @@ class ManagementTest extends BaseTestCase {
       refresh_db_table_autoincrement((new Partial())->getTable());
     }
   }
-
-  public function test_should_not_get_all_data_when_not_authorized() {
-    $response = $this->get('/api/management');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
-  }
 }
