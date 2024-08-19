@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use Tests\BaseTestCase;
 
 use App\Models\Log;
+use App\Repositories\LogRepository;
+
+use function PHPSTORM_META\map;
 
 class LogTest extends BaseTestCase {
 
@@ -264,5 +267,30 @@ class LogTest extends BaseTestCase {
       ]);
 
     $this->assertCount($test_limit, $response['data'],);
+  }
+
+  public function test_should_create_data_with_static_function_call() {
+    Log::truncate();
+
+    $test_table_changed = 'entry';
+    $test_id_changed = '06f91954-6146-4933-841b-720f06a893cc';
+    $test_description = 'description';
+    $test_action = 'edit';
+
+    LogRepository::generateLogs(
+      $test_table_changed,
+      $test_id_changed,
+      $test_description,
+      $test_action
+    );
+
+    $actual = Log::where('id_changed', $test_id_changed)->first();
+
+    $this->assertModelExists($actual);
+
+    $this->assertEquals($test_table_changed, $actual->table_changed);
+    $this->assertEquals($test_id_changed, $actual->id_changed);
+    $this->assertEquals($test_description, $actual->description);
+    $this->assertEquals($test_action, $actual->action);
   }
 }
