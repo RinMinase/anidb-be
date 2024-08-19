@@ -1,10 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 use App\Enums\IntegerSizesEnum;
 use App\Enums\IntegerTypesEnum;
+
+if (!function_exists('vdd')) {
+  function vdd(mixed ...$value) {
+    var_dump(...$value);
+    die;
+  }
+}
 
 if (!function_exists('parse_filesize')) {
   function parse_filesize(?int $size, string $forced_unit = null): string {
@@ -57,20 +63,6 @@ if (!function_exists('to_boolean')) {
   }
 }
 
-if (!function_exists('vdd')) {
-  function vdd(mixed ...$value) {
-    var_dump(...$value);
-    die;
-  }
-}
-
-if (!function_exists('jdd')) {
-  function jdd(mixed ...$value) {
-    var_dump(json_encode($value, JSON_PRETTY_PRINT));
-    die;
-  }
-}
-
 if (!function_exists('convert_array_to_camel_case')) {
   function convert_array_to_camel_case(array $values): array {
     $array_string = json_encode($values);
@@ -118,24 +110,6 @@ if (!function_exists('max_int')) {
       if ($size === IntegerSizesEnum::BIG) return 18446744073709551615;
 
       return 4294967295;
-    }
-  }
-}
-
-if (!function_exists('refresh_db_table_autoincrement')) {
-  function refresh_db_table_autoincrement(string $table, string $pkey = 'id') {
-    try {
-      $current_db = env('DB_CONNECTION', 'pgsql');
-
-      if ($current_db === 'pgsql') {
-        $max = DB::table($table)->max($pkey) + 1;
-        DB::statement('ALTER SEQUENCE ' . $table . '_' . $pkey . '_seq RESTART WITH ' . $max);
-      } else if ($current_db === 'mysql') {
-        $max = DB::table($table)->max($pkey) + 1;
-        DB::statement('ALTER TABLE ' . $table . ' AUTO_INCREMENT = ' . $max);
-      }
-    } catch (Exception $e) {
-      throw $e;
     }
   }
 }
