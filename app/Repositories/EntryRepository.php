@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
+use Carbon\Carbon;
+use Cloudinary\Api\Upload\UploadApi;
+use Fuse\Fuse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
-use Fuse\Fuse;
-use Cloudinary;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
@@ -545,7 +545,7 @@ class EntryRepository {
 
     if (!empty($entry->image)) {
       $image_id = pathinfo($entry->image);
-      Cloudinary::destroy('entries/' . $image_id['filename']);
+      (new UploadApi())->destroy('entries/' . $image_id['filename']);
     }
 
     $imageSettings = [
@@ -553,9 +553,10 @@ class EntryRepository {
       'folder' => 'entries',
     ];
 
-    $imageURL = Cloudinary::upload($image, $imageSettings)->getSecurePath();
+    $imageUpload = (new UploadApi())->upload($image, $imageSettings);
+    $imageUrl = $imageUpload['secure_url'];
 
-    $entry->image = $imageURL;
+    $entry->image = $imageUrl;
     $entry->save();
   }
 
@@ -564,7 +565,7 @@ class EntryRepository {
 
     if (!empty($entry->image)) {
       $image_id = pathinfo($entry->image);
-      Cloudinary::destroy('entries/' . $image_id['filename']);
+      (new UploadApi())->destroy('entries/' . $image_id['filename']);
 
       $entry->image = null;
       $entry->save();
