@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   example={
@@ -24,7 +28,9 @@ namespace App\Models;
  *   @OA\Property(property="created_at", type="string"),
  * )
  */
-class RssItem extends BaseModel {
+class RssItem extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'id_rss',

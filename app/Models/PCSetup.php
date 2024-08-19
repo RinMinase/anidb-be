@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   @OA\Property(property="label", type="string"),
@@ -116,7 +120,9 @@ namespace App\Models;
  *   @OA\Property(property="deleted_at", type="string", example="2023-05-21 21:05:57"),
  * )
  */
-class PCSetup extends BaseModel {
+class PCSetup extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'pc_setups';
 

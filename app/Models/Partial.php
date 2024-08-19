@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class Partial extends BaseModel {
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
+class Partial extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'uuid',

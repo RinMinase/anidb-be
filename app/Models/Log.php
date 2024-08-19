@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class Log extends BaseModel {
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
+class Log extends Model {
+
+  use RefreshableAutoIncrements;
 
   // disables updated_at timestamp
   public $timestamps = ["created_at"];

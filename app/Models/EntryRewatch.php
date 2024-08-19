@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class EntryRewatch extends BaseModel {
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
+class EntryRewatch extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'entries_rewatch';
 

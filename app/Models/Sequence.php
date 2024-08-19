@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   @OA\Property(property="id", type="integer", format="int32", example=1),
@@ -10,7 +14,9 @@ namespace App\Models;
  *   @OA\Property(property="date_to", type="string", format="date", example="2020-02-01"),
  * )
  */
-class Sequence extends BaseModel {
+class Sequence extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'title',

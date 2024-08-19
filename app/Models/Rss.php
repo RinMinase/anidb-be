@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class Rss extends BaseModel {
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
+class Rss extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'rss';
 

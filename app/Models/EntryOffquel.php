@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EntryOffquel extends BaseModel {
+use App\Traits\RefreshableAutoIncrements;
+
+class EntryOffquel extends Model {
+
+  use RefreshableAutoIncrements, SoftDeletes;
 
   use SoftDeletes;
 

@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class BucketSim extends BaseModel {
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
+class BucketSim extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'id_sim_info',

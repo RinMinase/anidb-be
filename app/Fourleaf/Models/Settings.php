@@ -4,6 +4,8 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   schema="FourleafSettings",
@@ -13,30 +15,17 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Settings extends Model {
 
+  use RefreshableAutoIncrements;
+
   protected $table = 'fourleaf_settings';
   public $timestamps = null;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
   protected $fillable = [
     'key',
     'value',
   ];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
   protected $hidden = [];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
   protected $casts = [];
 }

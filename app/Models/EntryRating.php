@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EntryRating extends BaseModel {
+use App\Traits\RefreshableAutoIncrements;
 
-  use SoftDeletes;
+class EntryRating extends Model {
+
+  use RefreshableAutoIncrements, SoftDeletes;
 
   protected $table = 'entries_rating';
 

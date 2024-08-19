@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   example={
@@ -12,7 +16,9 @@ namespace App\Models;
  *   @OA\Property(property="name", type="string"),
  * )
  */
-class Group extends BaseModel {
+class Group extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'uuid',

@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   @OA\Property(property="id", type="integer", format="int32", example=1),
@@ -10,7 +14,9 @@ namespace App\Models;
  *   @OA\Property(property="size", type="integer", format="int64", example=2000339066880),
  * )
  */
-class Bucket extends BaseModel {
+class Bucket extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'from',

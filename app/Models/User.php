@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as BaseAuthModel;
 use Laravel\Sanctum\HasApiTokens;
+
+use App\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -22,7 +25,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends BaseAuthModel {
 
-  use HasApiTokens;
+  use HasApiTokens, RefreshableAutoIncrements;
 
   protected $fillable = [
     'email',

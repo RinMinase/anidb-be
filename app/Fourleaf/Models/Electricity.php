@@ -2,7 +2,9 @@
 
 namespace App\Fourleaf\Models;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -10,7 +12,9 @@ use App\Models\BaseModel;
  *   @OA\Property(property="reading", type="integer", format="int32", minimum=0, example=1234),
  * )
  */
-class Electricity extends BaseModel {
+class Electricity extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'fourleaf_electricity';
   public $timestamps = null;

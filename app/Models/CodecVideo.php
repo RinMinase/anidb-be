@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
 /**
  * @OA\Schema(
  *   @OA\Property(property="id", type="integer", example=1),
@@ -15,7 +19,9 @@ namespace App\Models;
  *   ),
  * )
  */
-class CodecVideo extends BaseModel {
+class CodecVideo extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'codec',

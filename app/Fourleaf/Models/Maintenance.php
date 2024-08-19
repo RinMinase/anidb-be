@@ -2,9 +2,13 @@
 
 namespace App\Fourleaf\Models;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 
-class Maintenance extends BaseModel {
+use App\Traits\RefreshableAutoIncrements;
+
+class Maintenance extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'fourleaf_maintenance';
   public $timestamps = null;

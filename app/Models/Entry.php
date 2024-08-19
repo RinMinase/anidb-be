@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Entry extends BaseModel {
+use App\Traits\RefreshableAutoIncrements;
 
-  use SoftDeletes;
+class Entry extends Model {
+
+  use RefreshableAutoIncrements, SoftDeletes;
 
   protected $fillable = [
     'uuid',

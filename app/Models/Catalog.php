@@ -2,7 +2,13 @@
 
 namespace App\Models;
 
-class Catalog extends BaseModel {
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
+
+class Catalog extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $fillable = [
     'uuid',

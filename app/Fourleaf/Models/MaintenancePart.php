@@ -2,7 +2,9 @@
 
 namespace App\Fourleaf\Models;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -11,7 +13,9 @@ use App\Models\BaseModel;
  *   @OA\Property(property="odometer", type="integer", format="int32", minimum=0, example=1000),
  * )
  */
-class MaintenancePart extends BaseModel {
+class MaintenancePart extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'fourleaf_maintenance_parts';
   public $timestamps = null;

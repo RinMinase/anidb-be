@@ -2,7 +2,9 @@
 
 namespace App\Fourleaf\Models;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
+
+use App\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -14,7 +16,9 @@ use App\Models\BaseModel;
  *   @OA\Property(property="liters_filled", type="float", minimum=0, example=12.23),
  * )
  */
-class Gas extends BaseModel {
+class Gas extends Model {
+
+  use RefreshableAutoIncrements;
 
   protected $table = 'fourleaf_gas';
   public $timestamps = null;

@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Traits;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
-class BaseAuthModel extends Authenticatable {
-
+trait RefreshableAutoIncrements {
   public static function refreshAutoIncrements() {
     $class = new static;
     $table = $class->getTable();
