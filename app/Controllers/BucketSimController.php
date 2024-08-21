@@ -54,7 +54,7 @@ class BucketSimController extends Controller {
    * @OA\Get(
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_info_id}",
-   *   summary="Get All Entries by Bucket Sim",
+   *   summary="Get Stats of Bucket Sim with Entries",
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(

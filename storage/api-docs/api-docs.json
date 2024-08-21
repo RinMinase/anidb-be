@@ -474,7 +474,7 @@
                 "tags": [
                     "Bucket Simulation"
                 ],
-                "summary": "Get All Entries by Bucket Sim",
+                "summary": "Get Stats of Bucket Sim with Entries",
                 "operationId": "1624f5c9a3f7e14b9434aac5b060a7be",
                 "parameters": [
                     {
