@@ -41,14 +41,16 @@ class GroupRepository {
 
     if (!empty($values)) {
       foreach ($values as $item) {
-        $data = [
-          'uuid' => Str::uuid()->toString(),
-          'name' => $item,
-          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-        ];
+        if ($item) {
+          $data = [
+            'uuid' => Str::uuid()->toString(),
+            'name' => $item,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          ];
 
-        array_push($import, $data);
+          array_push($import, $data);
+        }
       }
     }
 

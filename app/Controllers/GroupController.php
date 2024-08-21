@@ -10,6 +10,7 @@ use App\Requests\ImportRequest;
 use App\Requests\Group\AddEditRequest;
 
 use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class GroupController extends Controller {
 
@@ -191,13 +192,19 @@ class GroupController extends Controller {
    * )
    */
   public function import(ImportRequest $request) {
-    $file = json_decode($request->file('file')->get());
-    $count = $this->groupRepository->import($file);
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      return ErrorResponse::badRequest("The file is an invalid JSON");
+    }
+
+    $data = json_decode($file);
+    $count = $this->groupRepository->import($data);
 
     return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
-        'totalJsonEntries' => count($file),
+        'totalJsonEntries' => count($data),
       ],
     ]);
   }
