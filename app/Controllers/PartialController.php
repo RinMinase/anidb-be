@@ -48,7 +48,18 @@ class PartialController extends Controller {
    *         @OA\Schema(
    *           @OA\Property(
    *             property="data",
-   *             ref="#/components/schemas/PartialResource",
+   *             allOf={
+   *               @OA\Schema(ref="#/components/schemas/PartialResource"),
+   *               @OA\Schema(
+   *                 @OA\Property(property="idPriority", type="integer", format="int32", example=1),
+   *                 @OA\Property(
+   *                   property="idCatalog",
+   *                   type="string",
+   *                   format="uuid",
+   *                   example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *                 ),
+   *               ),
+   *             }
    *           ),
    *         ),
    *       },
@@ -58,7 +69,7 @@ class PartialController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index($uuid) {
+  public function get($uuid) {
     return DefaultResponse::success(null, [
       'data' => $this->partialRepository->get($uuid),
     ]);

@@ -137,7 +137,7 @@ Route::prefix('api')
 
         Route::prefix('partials')
           ->group(function () {
-            Route::get('{uuid}', 'PartialController@index');
+            Route::get('{uuid}', 'PartialController@get');
             Route::post('', 'PartialController@add');
             Route::put('{uuid}', 'PartialController@edit');
             Route::delete('{uuid}', 'PartialController@delete');

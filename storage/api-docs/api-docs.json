@@ -4080,7 +4080,7 @@
                     "Catalog"
                 ],
                 "summary": "Get Partial Entry",
-                "operationId": "6d2c3bca6572cba3ab310fb3ee420ea1",
+                "operationId": "377a7bab75a0d90c8fde22b76438f1a0",
                 "parameters": [
                     {
                         "name": "partial_id",
@@ -4107,7 +4107,26 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/PartialResource"
+                                                    "allOf": [
+                                                        {
+                                                            "$ref": "#/components/schemas/PartialResource"
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "idPriority": {
+                                                                    "type": "integer",
+                                                                    "format": "int32",
+                                                                    "example": 1
+                                                                },
+                                                                "idCatalog": {
+                                                                    "type": "string",
+                                                                    "format": "uuid",
+                                                                    "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    ]
                                                 }
                                             },
                                             "type": "object"
