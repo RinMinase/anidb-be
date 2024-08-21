@@ -48,8 +48,8 @@ class LogController extends Controller {
    *                 format="uuid",
    *                 example="9ef81943-78f0-4d1c-a831-a59fb5af339c",
    *               ),
-   *               @OA\Property(property="table_changed", type="string", example="marathon"),
-   *               @OA\Property(property="id_changed", type="string", example=1),
+   *               @OA\Property(property="tableChanged", type="string", example="marathon"),
+   *               @OA\Property(property="idChanged", type="string", example=1),
    *               @OA\Property(
    *                 property="description",
    *                 type="string",
@@ -57,7 +57,7 @@ class LogController extends Controller {
    *               ),
    *               @OA\Property(property="action", type="string", example="add"),
    *               @OA\Property(
-   *                 property="created_at",
+   *                 property="createdAt",
    *                 type="string",
    *                 format="date-time",
    *                 example="2020-01-01 00:00:00",
