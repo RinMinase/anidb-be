@@ -33,7 +33,23 @@ class EntryByBucketController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/BucketStatsWithEntryResource"),
+   *             @OA\Items(
+   *               @OA\Property(property="id", type="integer", format="int32", example=1),
+   *               @OA\Property(property="from", type="string", minLength=1, maxLength=1, example="a"),
+   *               @OA\Property(property="to", type="string", minLength=1, maxLength=1, example="d"),
+   *               @OA\Property(property="free", type="string", example="1.11 TB"),
+   *               @OA\Property(property="freeTB", type="string", example="1.11 TB"),
+   *               @OA\Property(property="used", type="string", example="123.12 GB"),
+   *               @OA\Property(property="percent", type="integer", format="int32", example=10),
+   *               @OA\Property(property="total", type="string", example="1.23 TB"),
+   *               @OA\Property(
+   *                 property="rawTotal",
+   *                 type="integer",
+   *                 format="int64",
+   *                 example=1000169533440,
+   *               ),
+   *               @OA\Property(property="titles", type="integer", format="int32", example=1),
+   *             ),
    *           ),
    *         ),
    *       },
@@ -47,7 +63,7 @@ class EntryByBucketController extends Controller {
     $buckets = $this->entryRepository->getBuckets();
 
     return DefaultResponse::success(null, [
-      'data' => BucketStatsWithEntryResource::collection($buckets),
+      'data' => $buckets,
     ]);
   }
 
