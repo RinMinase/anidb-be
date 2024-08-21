@@ -8,7 +8,6 @@ use App\Repositories\BucketSimRepository;
 
 use App\Requests\BucketSim\AddEditRequest;
 
-use App\Resources\Bucket\BucketStatsWithEntryResource;
 use App\Resources\DefaultResponse;
 
 class BucketSimController extends Controller {
@@ -77,7 +76,23 @@ class BucketSimController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/BucketStatsWithEntryResource"),
+   *             @OA\Items(
+   *               @OA\Property(property="id", type="integer", format="int32", example=1),
+   *               @OA\Property(property="from", type="string", minLength=1, maxLength=1, example="a"),
+   *               @OA\Property(property="to", type="string", minLength=1, maxLength=1, example="d"),
+   *               @OA\Property(property="free", type="string", example="1.11 TB"),
+   *               @OA\Property(property="freeTB", type="string", example="1.11 TB"),
+   *               @OA\Property(property="used", type="string", example="123.12 GB"),
+   *               @OA\Property(property="percent", type="integer", format="int32", example=10),
+   *               @OA\Property(property="total", type="string", example="1.23 TB"),
+   *               @OA\Property(
+   *                 property="rawTotal",
+   *                 type="integer",
+   *                 format="int64",
+   *                 example=1000169533440,
+   *               ),
+   *               @OA\Property(property="titles", type="integer", format="int32", example=1),
+   *             ),
    *           ),
    *           @OA\Property(property="stats", ref="#/components/schemas/BucketSimInfo"),
    *         ),
@@ -93,7 +108,7 @@ class BucketSimController extends Controller {
     $data = $this->bucketSimRepository->get($uuid);
 
     return DefaultResponse::success(null, [
-      'data' => BucketStatsWithEntryResource::collection($data['data']),
+      'data' => $data['data'],
       'stats' => $data['stats'],
     ]);
   }
