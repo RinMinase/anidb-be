@@ -8205,6 +8205,29 @@
                     }
                 }
             },
+            "JsonParsingException": {
+                "description": "Partial Parsing Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 400,
+                            "message": "The file is an invalid JSON"
+                        }
+                    }
+                }
+            },
             "MALConnectionResponse": {
                 "description": "MAL Connection Error",
                 "content": {

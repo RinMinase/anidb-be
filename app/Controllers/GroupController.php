@@ -4,13 +4,11 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 
+use App\Exceptions\JsonParsingException;
 use App\Repositories\GroupRepository;
-
 use App\Requests\ImportRequest;
 use App\Requests\Group\AddEditRequest;
-
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
 
 class GroupController extends Controller {
 
@@ -195,7 +193,7 @@ class GroupController extends Controller {
     $file = $request->file('file')->get();
 
     if (!is_json($file)) {
-      return ErrorResponse::badRequest("The file is an invalid JSON");
+      throw new JsonParsingException();
     }
 
     $data = json_decode($file);

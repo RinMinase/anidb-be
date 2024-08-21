@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 
+use App\Exceptions\JsonParsingException;
 use App\Repositories\EntryRepository;
 
 use App\Requests\ImportRequest;
@@ -16,7 +17,6 @@ use App\Requests\Entry\SearchTitlesRequest;
 
 use App\Resources\Entry\EntryResource;
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
 
 class EntryController extends Controller {
 
@@ -342,7 +342,7 @@ class EntryController extends Controller {
     $file = $request->file('file')->get();
 
     if (!is_json($file)) {
-      return ErrorResponse::badRequest("The file is an invalid JSON");
+      throw new JsonParsingException();
     }
 
     $data = json_decode($file);

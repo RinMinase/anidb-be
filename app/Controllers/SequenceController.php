@@ -4,13 +4,11 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 
+use App\Exceptions\JsonParsingException;
 use App\Repositories\SequenceRepository;
-
 use App\Requests\ImportRequest;
 use App\Requests\Sequence\AddEditRequest;
-
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
 
 class SequenceController extends Controller {
 
@@ -215,7 +213,7 @@ class SequenceController extends Controller {
     $file = $request->file('file')->get();
 
     if (!is_json($file)) {
-      return ErrorResponse::badRequest("The file is an invalid JSON");
+      throw new JsonParsingException();
     }
 
     $data = json_decode($file);

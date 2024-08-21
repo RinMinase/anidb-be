@@ -2,15 +2,12 @@
 
 namespace App\Controllers;
 
-
 use Illuminate\Http\JsonResponse;
 
+use App\Exceptions\JsonParsingException;
 use App\Repositories\ImportRepository;
-
 use App\Requests\ImportRequest;
-
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
 
 class ImportController extends Controller {
 
@@ -70,7 +67,7 @@ class ImportController extends Controller {
     $file = $request->file('file')->get();
 
     if (!is_json($file)) {
-      return ErrorResponse::badRequest("The file is an invalid JSON");
+      throw new JsonParsingException();
     }
 
     $data = json_decode($file);
