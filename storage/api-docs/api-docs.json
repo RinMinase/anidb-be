@@ -732,7 +732,29 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/CatalogResource"
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "format": "uuid",
+                                                                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                            },
+                                                            "year": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 2020
+                                                            },
+                                                            "season": {
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "Winter",
+                                                                    "Spring",
+                                                                    "Summer",
+                                                                    "Fall"
+                                                                ],
+                                                                "example": "Winter"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },

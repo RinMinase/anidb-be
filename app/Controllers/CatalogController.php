@@ -8,7 +8,6 @@ use App\Repositories\CatalogRepository;
 
 use App\Requests\Catalog\AddEditRequest;
 
-use App\Resources\Catalog\CatalogResource;
 use App\Resources\DefaultResponse;
 
 class CatalogController extends Controller {
@@ -35,7 +34,21 @@ class CatalogController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/CatalogResource"),
+   *             @OA\Items(
+   *               @OA\Property(
+   *                 property="id",
+   *                 type="string",
+   *                 format="uuid",
+   *                 example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *               ),
+   *               @OA\Property(property="year", type="integer", format="int32", example=2020),
+   *               @OA\Property(
+   *                 property="season",
+   *                 type="string",
+   *                 enum={"Winter", "Spring", "Summer", "Fall"},
+   *                 example="Winter",
+   *               ),
+   *             ),
    *           ),
    *         ),
    *       },
