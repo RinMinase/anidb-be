@@ -126,7 +126,8 @@ class BucketSimTest extends BaseTestCase {
         'size' => $this->bucket_sim_size_1,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'id' => $this->bucket_sim_id_2,
         'id_sim_info' => $this->bucket_sim_info_id,
         'from' => $this->bucket_sim_from_2,
@@ -148,7 +149,8 @@ class BucketSimTest extends BaseTestCase {
         'filesize' => 100_000_000_000,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
         'title' => $this->entry_title_2,
@@ -156,7 +158,8 @@ class BucketSimTest extends BaseTestCase {
         'filesize' => 100_000_000_000,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'id' => $this->entry_id_3,
         'uuid' => $this->entry_uuid_3,
         'title' => $this->entry_title_3,
@@ -454,8 +457,9 @@ class BucketSimTest extends BaseTestCase {
         'total' => '3.64 TB',
         'rawTotal' => $this->bucket_sim_size_1 + $this->bucket_sim_size_2,
         'titles' => 3,
-      ], [
-        'id' => null,
+      ],
+      [
+        'id' => 1,
         'from' => $this->bucket_sim_from_1,
         'to' => $this->bucket_sim_to_1,
         'free' => '1.64 TB',
@@ -465,8 +469,9 @@ class BucketSimTest extends BaseTestCase {
         'total' => '1.82 TB',
         'rawTotal' => $this->bucket_sim_size_1,
         'titles' => 2,
-      ], [
-        'id' => null,
+      ],
+      [
+        'id' => 2,
         'from' => $this->bucket_sim_from_2,
         'to' => $this->bucket_sim_to_2,
         'free' => '1.73 TB',
