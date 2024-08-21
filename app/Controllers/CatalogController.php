@@ -47,7 +47,7 @@ class CatalogController extends Controller {
    */
   public function index(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => CatalogResource::collection($this->catalogRepository->getAll()),
+      'data' => $this->catalogRepository->getAll(),
     ]);
   }
 

@@ -109,7 +109,7 @@ class CatalogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'year',
           'season',
         ]],
@@ -117,7 +117,7 @@ class CatalogTest extends BaseTestCase {
 
     $expected = [
       [
-        'id' => $this->catalog_uuid,
+        'uuid' => $this->catalog_uuid,
         'year' => 2050,
         'season' => 'Spring',
       ]

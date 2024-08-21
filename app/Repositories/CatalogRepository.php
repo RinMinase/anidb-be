@@ -13,7 +13,7 @@ use App\Resources\Partial\PartialResource;
 class CatalogRepository {
 
   public function getAll() {
-    return Catalog::select()
+    return Catalog::select('uuid', 'year', 'season')
       ->orderBy('year', 'desc')
       ->orderByRaw('CASE
         WHEN season=\'Winter\' THEN 1
