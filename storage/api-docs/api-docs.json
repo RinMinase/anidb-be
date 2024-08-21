@@ -1348,7 +1348,57 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/BucketStatsWithEntryResource"
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 1
+                                                            },
+                                                            "from": {
+                                                                "type": "string",
+                                                                "maxLength": 1,
+                                                                "minLength": 1,
+                                                                "example": "a"
+                                                            },
+                                                            "to": {
+                                                                "type": "string",
+                                                                "maxLength": 1,
+                                                                "minLength": 1,
+                                                                "example": "d"
+                                                            },
+                                                            "free": {
+                                                                "type": "string",
+                                                                "example": "1.11 TB"
+                                                            },
+                                                            "freeTB": {
+                                                                "type": "string",
+                                                                "example": "1.11 TB"
+                                                            },
+                                                            "used": {
+                                                                "type": "string",
+                                                                "example": "123.12 GB"
+                                                            },
+                                                            "percent": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 10
+                                                            },
+                                                            "total": {
+                                                                "type": "string",
+                                                                "example": "1.23 TB"
+                                                            },
+                                                            "rawTotal": {
+                                                                "type": "integer",
+                                                                "format": "int64",
+                                                                "example": 1000169533440
+                                                            },
+                                                            "titles": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },
@@ -4236,7 +4286,7 @@
                 "tags": [
                     "Catalog"
                 ],
-                "summary": "Multi Add a Partial Entry",
+                "summary": "Multi Edit a Partial Entry",
                 "operationId": "dca1b91b96fbc5a07172cc580a3acc81",
                 "parameters": [
                     {
@@ -7211,7 +7261,6 @@
                 },
                 "type": "object"
             },
-            "BucketStatsWithEntryResource": {},
             "CatalogResource": {
                 "properties": {
                     "id": {
