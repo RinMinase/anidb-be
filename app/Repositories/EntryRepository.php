@@ -305,7 +305,7 @@ class EntryRepository {
     $entries_full_size = 0;
     $count_full_size = 0;
 
-    foreach ($buckets as $bucket) {
+    foreach ($buckets as $index => $bucket) {
       $bucket_full_size += $bucket->size;
 
       $upper_from = strtoupper($bucket->from);
@@ -337,7 +337,7 @@ class EntryRepository {
       $titles = count($entries);
 
       array_push($bucketValues, [
-        'id' => $bucket->id,
+        'id' => $bucket->id ?? $index + 1,
         'from' => $bucket->from,
         'to' => $bucket->to,
         'free' => parse_filesize($free),
@@ -477,7 +477,7 @@ class EntryRepository {
 
     $entryInsertValues = array_filter(
       $values,
-      fn ($key) => in_array($key, $entryInsertColumns),
+      fn($key) => in_array($key, $entryInsertColumns),
       ARRAY_FILTER_USE_KEY,
     );
 
@@ -516,7 +516,7 @@ class EntryRepository {
 
     $entryUpdateValues = array_filter(
       $values,
-      fn ($key) => in_array($key, $entryUpdateColumns),
+      fn($key) => in_array($key, $entryUpdateColumns),
       ARRAY_FILTER_USE_KEY,
     );
 
