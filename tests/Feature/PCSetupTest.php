@@ -19,7 +19,7 @@ class PCSetupTest extends BaseTestCase {
   private $pc_setup_id_3 = 99997;
   private $pc_setup_id_4 = 99996;
 
-  private $pc_setup_label = "Test Run -- Test Data";
+  private $pc_setup_label = 'Test Run -- Test Data';
 
   private $pc_setup_is_current_1 = false;
   private $pc_setup_is_current_2 = true;
@@ -160,14 +160,16 @@ class PCSetupTest extends BaseTestCase {
         'is_current' => $this->pc_setup_is_current_2,
         'is_future' => false,
         'is_server' => false,
-      ], [
+      ],
+      [
         'id' => $this->pc_setup_id_3,
         'label' => $this->pc_setup_label,
 
         'is_current' => $this->pc_setup_is_current_3,
         'is_future' => false,
         'is_server' => false,
-      ], [
+      ],
+      [
         'id' => $this->pc_setup_id_4,
         'label' => $this->pc_setup_label,
 
