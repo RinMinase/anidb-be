@@ -162,14 +162,25 @@ class EntryImportRepository {
         || $item->downloadPriority == -1;
 
       if (!empty($item) && $acceptedPriority) {
+        $date_finished = null;
+
+        if (isset($item->dateFinished)) {
+          $date_finished = Carbon::createFromTimestamp($item->dateFinished, '+8:00')->format('Y-m-d');
+        }
+
+        $release_season = null;
+
+        if (isset($item->releaseSeason)) {
+          $release_season = $this->parse_season($item->releaseSeason);
+        }
+
         $data = [
           'uuid' => Str::uuid()->toString(),
 
           'id_quality' => $this->parse_quality($item->quality),
           'title' => $item->title ?? null,
 
-          'date_finished' => Carbon::createFromTimestamp($item->dateFinished, '+8:00')
-            ->format('Y-m-d'),
+          'date_finished' => $date_finished,
 
           'duration' => $item->duration ?? 0,
           'filesize' => $item->filesize ?? 0,
@@ -178,8 +189,8 @@ class EntryImportRepository {
           'ovas' => $item->ovas ?? 0,
           'specials' => $item->specials ?? 0,
 
-          'release_season' => $this->parse_season($item->releaseSeason) ?? null,
-          'release_year' => is_numeric($item->releaseYear) ? $item->releaseYear : null,
+          'release_season' => $release_season,
+          'release_year' => is_numeric($item->releaseYear ?? null) ? $item->releaseYear : null,
 
           'remarks' => $item->remarks ?? null,
           'variants' => $item->variants ?? null,

@@ -16,6 +16,7 @@ use App\Requests\Entry\SearchTitlesRequest;
 
 use App\Resources\Entry\EntryResource;
 use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class EntryController extends Controller {
 
@@ -338,13 +339,19 @@ class EntryController extends Controller {
    * )
    */
   public function import(ImportRequest $request): JsonResponse {
-    $file = json_decode($request->file('file')->get());
-    $count = $this->entryRepository->import($file);
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      return ErrorResponse::badRequest("The file is an invalid JSON");
+    }
+
+    $data = json_decode($file);
+    $count = $this->entryRepository->import($data);
 
     return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
-        'totalJsonEntries' => count($file),
+        'totalJsonEntries' => count($data),
       ],
     ]);
   }
