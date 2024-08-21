@@ -37,12 +37,30 @@ class SequenceRepository {
 
     foreach ($values as $item) {
       if (!empty($item)) {
+        $date_from = null;
+
+        if (isset($item->timeStart)) {
+          $date_from = Carbon::createFromTimestamp($item->timeStart)->format('Y-m-d');
+        }
+
+        if (isset($item->date_from)) {
+          $date_from = Carbon::createFromTimestamp($item->date_from)->format('Y-m-d');
+        }
+
+        $date_to = null;
+
+        if (isset($item->timeEnd)) {
+          $date_to = Carbon::createFromTimestamp($item->timeEnd)->format('Y-m-d');
+        }
+
+        if (isset($item->date_to)) {
+          $date_to = Carbon::createFromTimestamp($item->date_to)->format('Y-m-d');
+        }
+
         $data = [
-          'date_from' => Carbon::createFromTimestamp($item->timeStart)
-            ->format('Y-m-d'),
-          'date_to' => Carbon::createFromTimestamp($item->timeEnd)
-            ->format('Y-m-d'),
-          'title' => $item->title,
+          'date_from' => $date_from,
+          'date_to' => $date_to,
+          'title' => $item->title ?? null,
 
           'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
           'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),

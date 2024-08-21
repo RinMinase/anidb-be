@@ -10,6 +10,7 @@ use App\Requests\ImportRequest;
 use App\Requests\Sequence\AddEditRequest;
 
 use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class SequenceController extends Controller {
 
@@ -211,13 +212,19 @@ class SequenceController extends Controller {
    * )
    */
   public function import(ImportRequest $request): JsonResponse {
-    $file = json_decode($request->file('file')->get());
-    $count = $this->sequenceRepository->import($file);
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      return ErrorResponse::badRequest("The file is an invalid JSON");
+    }
+
+    $data = json_decode($file);
+    $count = $this->sequenceRepository->import($data);
 
     return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
-        'totalJsonEntries' => count($file),
+        'totalJsonEntries' => count($data),
       ],
     ]);
   }
