@@ -9,6 +9,7 @@ use App\Repositories\BucketRepository;
 use App\Requests\ImportRequest;
 
 use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class BucketController extends Controller {
 
@@ -53,13 +54,19 @@ class BucketController extends Controller {
    * )
    */
   public function import(ImportRequest $request): JsonResponse {
-    $file = json_decode($request->file('file')->get());
-    $count = $this->bucketRepository->import($file);
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      return ErrorResponse::badRequest("The file is an invalid JSON");
+    }
+
+    $data = json_decode($file);
+    $count = $this->bucketRepository->import($data);
 
     return DefaultResponse::success(null, [
       'data' => [
         'acceptedImports' => $count,
-        'totalJsonEntries' => count($file),
+        'totalJsonEntries' => count($data),
       ],
     ]);
   }
