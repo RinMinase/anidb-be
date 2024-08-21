@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @OA\Schema(
  *   @OA\Property(
- *     property="id",
+ *     property="uuid",
  *     type="string",
  *     format="uuid",
  *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
@@ -26,7 +26,7 @@ class PartialResource extends JsonResource {
   public function toArray($request) {
 
     return [
-      'id' => $this->uuid,
+      'uuid' => $this->uuid,
       'title' => $this->title,
       'priority' => $this->priority->priority,
     ];

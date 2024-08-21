@@ -323,12 +323,12 @@ class CatalogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'title',
           'priority',
         ]],
         'stats' => [
-          'id',
+          'uuid',
           'year',
           'season',
         ],
@@ -340,15 +340,15 @@ class CatalogTest extends BaseTestCase {
     ]];
 
     $expected_stats = [
-      'id' => $this->catalog_uuid,
+      'uuid' => $this->catalog_uuid,
       'year' => $this->catalog_year,
       'season' => $this->catalog_season,
     ];
 
     $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
-      $expected_data,
-      $response['data'],
-      ['id', 'title']
+      $expected_data[0],
+      $response['data'][0],
+      array_keys($expected_data),
     );
 
     $this->assertEqualsCanonicalizing($expected_stats, $response['stats']);

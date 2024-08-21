@@ -36,7 +36,7 @@ class CatalogController extends Controller {
    *             type="array",
    *             @OA\Items(
    *               @OA\Property(
-   *                 property="id",
+   *                 property="uuid",
    *                 type="string",
    *                 format="uuid",
    *                 example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
@@ -92,7 +92,22 @@ class CatalogController extends Controller {
    *             type="array",
    *             @OA\Items(ref="#/components/schemas/PartialResource"),
    *           ),
-   *           @OA\Property(property="stats", ref="#/components/schemas/CatalogResource"),
+   *           @OA\Property(
+   *             property="stats",
+   *             @OA\Property(
+   *               property="uuid",
+   *               type="string",
+   *               format="uuid",
+   *               example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *             ),
+   *             @OA\Property(property="year", type="integer", format="int32", example=2020),
+   *             @OA\Property(
+   *               property="season",
+   *               type="string",
+   *               enum={"Winter", "Spring", "Summer", "Fall"},
+   *               example="Winter",
+   *             ),
+   *           ),
    *         ),
    *       },
    *     ),

@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use App\Models\Catalog;
 use App\Models\Partial;
 
-use App\Resources\Catalog\CatalogResource;
 use App\Resources\Partial\PartialResource;
 
 class CatalogRepository {
@@ -25,7 +24,9 @@ class CatalogRepository {
   }
 
   public function get($uuid) {
-    $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
+    $catalog = Catalog::select('id', 'uuid', 'year', 'season')
+      ->where('uuid', $uuid)
+      ->firstOrFail();
 
     $partials = Partial::where('id_catalog', $catalog->id)
       ->orderBy('title')
@@ -34,7 +35,7 @@ class CatalogRepository {
 
     return [
       'data' => PartialResource::collection($partials),
-      'stats' => new CatalogResource($catalog),
+      'stats' => $catalog,
     ];
   }
 
