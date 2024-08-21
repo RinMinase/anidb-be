@@ -10,6 +10,7 @@ use App\Repositories\ImportRepository;
 use App\Requests\ImportRequest;
 
 use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class ImportController extends Controller {
 
@@ -66,27 +67,33 @@ class ImportController extends Controller {
    * )
    */
   public function index(ImportRequest $request): JsonResponse {
-    $file = json_decode($request->file('file')->get());
-    $import_count = $this->importRepository->import($file);
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      return ErrorResponse::badRequest("The file is an invalid JSON");
+    }
+
+    $data = json_decode($file);
+    $import_count = $this->importRepository->import($data);
 
     $entry_count = 0;
-    if (!empty($file->entry)) {
-      $entry_count = count($file->entry);
+    if (!empty($data->entry)) {
+      $entry_count = count($data->entry);
     }
 
     $bucket_count = 0;
-    if (!empty($file->bucket)) {
-      $bucket_count = count($file->bucket);
+    if (!empty($data->bucket)) {
+      $bucket_count = count($data->bucket);
     }
 
     $sequence_count = 0;
-    if (!empty($file->sequence)) {
-      $sequence_count = count($file->sequence);
+    if (!empty($data->sequence)) {
+      $sequence_count = count($data->sequence);
     }
 
     $group_count = 0;
-    if (!empty($file->group)) {
-      $group_count = count($file->group);
+    if (!empty($data->group)) {
+      $group_count = count($data->group);
     }
 
     return DefaultResponse::success(null, [
