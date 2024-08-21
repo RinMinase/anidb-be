@@ -92,7 +92,7 @@ class LogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'tableChanged',
           'idChanged',
           'description',
@@ -109,7 +109,7 @@ class LogTest extends BaseTestCase {
         ]
       ]);
 
-    $actual_log_ids = collect($response['data'])->pluck('id')->toArray();
+    $actual_log_ids = collect($response['data'])->pluck('uuid')->toArray();
 
     $expected_log_ids = [
       $this->log_uuid_1,
@@ -130,7 +130,7 @@ class LogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'tableChanged',
           'idChanged',
           'description',
@@ -167,7 +167,7 @@ class LogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'tableChanged',
           'idChanged',
           'description',
@@ -208,7 +208,7 @@ class LogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'tableChanged',
           'idChanged',
           'description',
@@ -249,7 +249,7 @@ class LogTest extends BaseTestCase {
     $response->assertStatus(200)
       ->assertJsonStructure([
         'data' => [[
-          'id',
+          'uuid',
           'tableChanged',
           'idChanged',
           'description',

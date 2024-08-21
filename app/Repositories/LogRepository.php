@@ -2,11 +2,10 @@
 
 namespace App\Repositories;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
 use App\Models\Log;
-
-use App\Resources\Log\LogResource;
 
 class LogRepository {
 
@@ -31,7 +30,7 @@ class LogRepository {
       ->paginate($limit);
 
     return [
-      'data' => LogResource::collection($logs),
+      'data' => JsonResource::collection($logs),
       'meta' => [
         'page' => $page,
         'limit' => intval($limit),
