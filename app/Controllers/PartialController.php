@@ -190,7 +190,7 @@ class PartialController extends Controller {
    * @OA\Put(
    *   tags={"Catalog"},
    *   path="/api/partials/multi/{catalog_id}",
-   *   summary="Multi Add a Partial Entry",
+   *   summary="Multi Edit a Partial Entry",
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(
