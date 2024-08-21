@@ -117,7 +117,7 @@ class CatalogTest extends BaseTestCase {
 
     $expected = [
       [
-        'uuid' => $this->catalog_uuid,
+        'id' => $this->catalog_uuid,
         'year' => 2050,
         'season' => 'Spring',
       ]
