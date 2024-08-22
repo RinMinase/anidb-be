@@ -159,11 +159,11 @@ class ManagementController extends Controller {
  *     @OA\Property(
  *       property="quality",
  *       description="Titles watched per quality",
- *       @OA\Property(property="quality_2160", type="integer", format="int32", example=0),
- *       @OA\Property(property="quality_1080", type="integer", format="int32", example=0),
- *       @OA\Property(property="quality_720", type="integer", format="int32", example=0),
- *       @OA\Property(property="quality_480", type="integer", format="int32", example=0),
- *       @OA\Property(property="quality_360", type="integer", format="int32", example=0),
+ *       @OA\Property(property="quality2160", type="integer", format="int32", example=0),
+ *       @OA\Property(property="quality1080", type="integer", format="int32", example=0),
+ *       @OA\Property(property="quality720", type="integer", format="int32", example=0),
+ *       @OA\Property(property="quality480", type="integer", format="int32", example=0),
+ *       @OA\Property(property="quality360", type="integer", format="int32", example=0),
  *     ),
  *     @OA\Property(
  *       property="months",

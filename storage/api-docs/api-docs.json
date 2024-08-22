@@ -6148,27 +6148,27 @@
                             "quality": {
                                 "description": "Titles watched per quality",
                                 "properties": {
-                                    "quality_2160": {
+                                    "quality2160": {
                                         "type": "integer",
                                         "format": "int32",
                                         "example": 0
                                     },
-                                    "quality_1080": {
+                                    "quality1080": {
                                         "type": "integer",
                                         "format": "int32",
                                         "example": 0
                                     },
-                                    "quality_720": {
+                                    "quality720": {
                                         "type": "integer",
                                         "format": "int32",
                                         "example": 0
                                     },
-                                    "quality_480": {
+                                    "quality480": {
                                         "type": "integer",
                                         "format": "int32",
                                         "example": 0
                                     },
-                                    "quality_360": {
+                                    "quality360": {
                                         "type": "integer",
                                         "format": "int32",
                                         "example": 0
