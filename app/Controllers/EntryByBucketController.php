@@ -5,8 +5,6 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
-
-use App\Resources\Bucket\BucketStatsWithEntryResource;
 use App\Resources\DefaultResponse;
 
 class EntryByBucketController extends Controller {

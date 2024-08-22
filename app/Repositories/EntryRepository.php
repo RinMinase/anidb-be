@@ -14,10 +14,7 @@ use App\Models\EntryRewatch;
 use App\Models\Bucket;
 use App\Models\Sequence;
 
-use App\Resources\Entry\EntryByNameResource;
 use App\Resources\Entry\EntryBySequenceResource;
-use App\Resources\Entry\EntryBySequenceStatsResource;
-use App\Resources\Entry\EntryLastStatsResource;
 use App\Resources\Entry\EntrySummaryResource;
 
 class EntryRepository {
@@ -131,7 +128,7 @@ class EntryRepository {
 
     return [
       'data' => EntrySummaryResource::collection($data),
-      'stats' => new EntryLastStatsResource($this->calculate_last_stats($data)),
+      'stats' => $this->calculate_last_stats($data),
     ];
   }
 
@@ -175,7 +172,7 @@ class EntryRepository {
       }
     }
 
-    return EntryByNameResource::collection($letters);
+    return $letters;
   }
 
   public function getByLetter($letter) {
@@ -227,7 +224,7 @@ class EntryRepository {
           array_push($data, $to_push);
         }
       } else {
-        $season = $entry->release_season ? strtolower($entry->release_season) : "none";
+        $season = $entry->release_season ? strtolower($entry->release_season) : "uncategorized";
 
         $to_push = [
           'year' => $entry->release_year,
@@ -250,6 +247,18 @@ class EntryRepository {
           array_push($data, $to_push);
         }
       }
+    }
+
+    foreach ($data as $index => $value) {
+      if (!$value['seasons']) continue;
+
+      $data[$index]['seasons'] = [
+        'winter' => $value['seasons']['winter'] ?? 0,
+        'spring' => $value['seasons']['spring'] ?? 0,
+        'summer' => $value['seasons']['summer'] ?? 0,
+        'fall' => $value['seasons']['fall'] ?? 0,
+        'uncategorized' => $value['seasons']['uncategorized'] ?? 0,
+      ];
     }
 
     return $data;
@@ -287,11 +296,11 @@ class EntryRepository {
     });
 
     $data = [
-      'Winter' => $entries_winter,
-      'Spring' => $entries_spring,
-      'Summer' => $entries_summer,
-      'Fall' => $entries_fall,
-      'Uncategorized' => $entries_uncategorized,
+      'winter' => EntrySummaryResource::collection($entries_winter),
+      'spring' => EntrySummaryResource::collection($entries_spring),
+      'summer' => EntrySummaryResource::collection($entries_summer),
+      'fall' => EntrySummaryResource::collection($entries_fall),
+      'uncategorized' => EntrySummaryResource::collection($entries_uncategorized),
     ];
 
     return $data;
@@ -439,9 +448,7 @@ class EntryRepository {
 
     return [
       'data' => EntryBySequenceResource::collection($data),
-      'stats' => new EntryBySequenceStatsResource(
-        $this->calculate_sequence_stats($data, $sequence, $date_to)
-      ),
+      'stats' => $this->calculate_sequence_stats($data, $sequence, $date_to),
     ];
   }
 

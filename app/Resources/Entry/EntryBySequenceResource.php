@@ -37,8 +37,10 @@ class EntryBySequenceResource extends JsonResource {
       'quality' => $this->quality,
       'title' => $this->title,
       'dateFinished' => $this->calcDateFinished(),
-      'rewatched' => (bool) $this->date_rewatched,
       'filesize' => parse_filesize($this->filesize ?? 0),
+
+      // should belong in the sequence date
+      'rewatched' => (bool) $this->date_rewatched,
 
       'episodes' => $this->episodes ?? 0,
       'ovas' => $this->ovas ?? 0,

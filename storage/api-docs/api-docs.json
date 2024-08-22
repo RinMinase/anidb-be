@@ -1555,7 +1555,24 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/EntryByNameResource"
+                                                        "properties": {
+                                                            "letter": {
+                                                                "type": "string",
+                                                                "maxLength": 1,
+                                                                "minLength": 1,
+                                                                "example": "A"
+                                                            },
+                                                            "titles": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 12
+                                                            },
+                                                            "filesize": {
+                                                                "type": "string",
+                                                                "example": "12.23 GB"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },
@@ -1684,7 +1701,69 @@
                                                     }
                                                 },
                                                 "stats": {
-                                                    "$ref": "#/components/schemas/EntryBySequenceStatsResource"
+                                                    "properties": {
+                                                        "titlesPerDay": {
+                                                            "type": "number",
+                                                            "example": 1.23
+                                                        },
+                                                        "epsPerDay": {
+                                                            "type": "number",
+                                                            "example": 2.34
+                                                        },
+                                                        "quality2160": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 1
+                                                        },
+                                                        "quality1080": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 2
+                                                        },
+                                                        "quality720": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 3
+                                                        },
+                                                        "quality480": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 4
+                                                        },
+                                                        "quality360": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 5
+                                                        },
+                                                        "totalTitles": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 12
+                                                        },
+                                                        "totalEps": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 123
+                                                        },
+                                                        "totalSize": {
+                                                            "type": "string",
+                                                            "example": "12.34 GB"
+                                                        },
+                                                        "totalDays": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 123
+                                                        },
+                                                        "startDate": {
+                                                            "type": "string",
+                                                            "example": "Jan 01, 2000"
+                                                        },
+                                                        "endDate": {
+                                                            "type": "string",
+                                                            "example": "Feb 01, 2000"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -1733,7 +1812,50 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/EntryByYearSummaryResource"
+                                                        "properties": {
+                                                            "year": {
+                                                                "description": "null value on uncategorized entries",
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": "2020",
+                                                                "nullable": true
+                                                            },
+                                                            "count": {
+                                                                "description": "null value whenever seasons is present; total count of 'null' year",
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": null,
+                                                                "nullable": true
+                                                            },
+                                                            "seasons": {
+                                                                "description": "null value on uncategorized entries",
+                                                                "properties": {
+                                                                    "Winter": {
+                                                                        "type": "integer",
+                                                                        "format": "int32",
+                                                                        "example": 1
+                                                                    },
+                                                                    "Spring": {
+                                                                        "type": "integer",
+                                                                        "format": "int32",
+                                                                        "example": 2
+                                                                    },
+                                                                    "Summer": {
+                                                                        "type": "integer",
+                                                                        "format": "int32",
+                                                                        "example": 3
+                                                                    },
+                                                                    "Fall": {
+                                                                        "type": "integer",
+                                                                        "format": "int32",
+                                                                        "example": 4
+                                                                    }
+                                                                },
+                                                                "type": "object",
+                                                                "nullable": true
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },
@@ -1789,7 +1911,39 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/EntryByYearResource"
+                                                    "properties": {
+                                                        "Winter": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/EntrySummaryResource"
+                                                            }
+                                                        },
+                                                        "Spring": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/EntrySummaryResource"
+                                                            }
+                                                        },
+                                                        "Summer": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/EntrySummaryResource"
+                                                            }
+                                                        },
+                                                        "Fall": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/EntrySummaryResource"
+                                                            }
+                                                        },
+                                                        "Uncategorized": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/EntrySummaryResource"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -2572,7 +2726,61 @@
                                                     "$ref": "#/components/schemas/EntrySummaryResource"
                                                 },
                                                 "stats": {
-                                                    "$ref": "#/components/schemas/EntryLastStatsResource"
+                                                    "properties": {
+                                                        "dateLastEntry": {
+                                                            "type": "string",
+                                                            "example": "Apr 01, 2015"
+                                                        },
+                                                        "daysLastEntry": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 2974
+                                                        },
+                                                        "dateOldestEntry": {
+                                                            "type": "string",
+                                                            "example": "Jan 01, 2011"
+                                                        },
+                                                        "daysOldestEntry": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 4525
+                                                        },
+                                                        "totalEps": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "totalTitles": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 7
+                                                        },
+                                                        "totalCours": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "titlesPerWeek": {
+                                                            "type": "number",
+                                                            "example": 0.01
+                                                        },
+                                                        "coursPerWeek": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "epsPerWeek": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "epsPerDay": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -7439,26 +7647,6 @@
                 },
                 "type": "object"
             },
-            "EntryByNameResource": {
-                "properties": {
-                    "letter": {
-                        "type": "string",
-                        "maxLength": 1,
-                        "minLength": 1,
-                        "example": "A"
-                    },
-                    "titles": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 12
-                    },
-                    "filesize": {
-                        "type": "string",
-                        "example": "12.23 GB"
-                    }
-                },
-                "type": "object"
-            },
             "EntryBySequenceResource": {
                 "properties": {
                     "id": {
@@ -7507,209 +7695,6 @@
                         "type": "integer",
                         "format": "int32",
                         "example": 1
-                    }
-                },
-                "type": "object"
-            },
-            "EntryBySequenceStatsResource": {
-                "properties": {
-                    "titles_per_day": {
-                        "type": "number",
-                        "example": 1.23
-                    },
-                    "eps_per_day": {
-                        "type": "number",
-                        "example": 2.34
-                    },
-                    "quality_2160": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 1
-                    },
-                    "quality_1080": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 2
-                    },
-                    "quality_720": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 3
-                    },
-                    "quality_480": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 4
-                    },
-                    "quality_360": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 5
-                    },
-                    "total_titles": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 12
-                    },
-                    "total_eps": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 123
-                    },
-                    "total_size": {
-                        "type": "string",
-                        "example": "12.34 GB"
-                    },
-                    "total_days": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 123
-                    },
-                    "start_date": {
-                        "type": "string",
-                        "example": "Jan 01, 2000"
-                    },
-                    "end_date": {
-                        "type": "string",
-                        "example": "Feb 01, 2000"
-                    }
-                },
-                "type": "object"
-            },
-            "EntryByYearResource": {
-                "properties": {
-                    "Winter": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EntrySummaryResource"
-                        }
-                    },
-                    "Spring": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EntrySummaryResource"
-                        }
-                    },
-                    "Summer": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EntrySummaryResource"
-                        }
-                    },
-                    "Fall": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EntrySummaryResource"
-                        }
-                    },
-                    "Uncategorized": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EntrySummaryResource"
-                        }
-                    }
-                },
-                "type": "object"
-            },
-            "EntryByYearSummaryResource": {
-                "properties": {
-                    "year": {
-                        "description": "null value on uncategorized entries",
-                        "type": "integer",
-                        "format": "int32",
-                        "example": "2020",
-                        "nullable": true
-                    },
-                    "count": {
-                        "description": "null value whenever seasons is present; total count of 'null' year",
-                        "type": "integer",
-                        "format": "int32",
-                        "example": null,
-                        "nullable": true
-                    },
-                    "seasons": {
-                        "description": "null value on uncategorized entries",
-                        "properties": {
-                            "Winter": {
-                                "type": "integer",
-                                "format": "int32",
-                                "example": 1
-                            },
-                            "Spring": {
-                                "type": "integer",
-                                "format": "int32",
-                                "example": 2
-                            },
-                            "Summer": {
-                                "type": "integer",
-                                "format": "int32",
-                                "example": 3
-                            },
-                            "Fall": {
-                                "type": "integer",
-                                "format": "int32",
-                                "example": 4
-                            }
-                        },
-                        "type": "object",
-                        "nullable": true
-                    }
-                },
-                "type": "object"
-            },
-            "EntryLastStatsResource": {
-                "properties": {
-                    "dateLastEntry": {
-                        "type": "string",
-                        "example": "Apr 01, 2015"
-                    },
-                    "daysLastEntry": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 2974
-                    },
-                    "dateOldestEntry": {
-                        "type": "string",
-                        "example": "Jan 01, 2011"
-                    },
-                    "daysOldestEntry": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 4525
-                    },
-                    "totalEps": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 0
-                    },
-                    "totalTitles": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 7
-                    },
-                    "totalCours": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 0
-                    },
-                    "titlesPerWeek": {
-                        "type": "number",
-                        "example": 0.01
-                    },
-                    "coursPerWeek": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 0
-                    },
-                    "epsPerWeek": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 0
-                    },
-                    "epsPerDay": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 0
                     }
                 },
                 "type": "object"

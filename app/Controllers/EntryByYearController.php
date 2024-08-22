@@ -5,10 +5,7 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
-
 use App\Resources\DefaultResponse;
-use App\Resources\Entry\EntryByYearResource;
-use App\Resources\Entry\EntryByYearSummaryResource;
 
 class EntryByYearController extends Controller {
 
@@ -34,7 +31,33 @@ class EntryByYearController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/EntryByYearSummaryResource"),
+   *             @OA\Items(
+   *               @OA\Property(
+   *                 property="year",
+   *                 type="integer",
+   *                 format="int32",
+   *                 nullable=true,
+   *                 description="null value on uncategorized entries",
+   *                 example="2020",
+   *               ),
+   *               @OA\Property(
+   *                 property="count",
+   *                 type="integer",
+   *                 format="int32",
+   *                 nullable=true,
+   *                 description="null value whenever seasons is present; total count of 'null' year",
+   *                 example=null,
+   *               ),
+   *               @OA\Property(
+   *                 property="seasons",
+   *                 nullable=true,
+   *                 description="null value on uncategorized entries",
+   *                 @OA\Property(property="Winter", type="integer", format="int32", example=1),
+   *                 @OA\Property(property="Spring", type="integer", format="int32", example=2),
+   *                 @OA\Property(property="Summer", type="integer", format="int32", example=3),
+   *                 @OA\Property(property="Fall", type="integer", format="int32", example=4),
+   *               ),
+   *             ),
    *           ),
    *         ),
    *       },
@@ -46,7 +69,7 @@ class EntryByYearController extends Controller {
    */
   public function index(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => EntryByYearSummaryResource::collection($this->entryRepository->getByYear()),
+      'data' => $this->entryRepository->getByYear(),
     ]);
   }
 
@@ -74,7 +97,32 @@ class EntryByYearController extends Controller {
    *         @OA\Schema(
    *           @OA\Property(
    *             property="data",
-   *             ref="#/components/schemas/EntryByYearResource",
+   *
+   *             @OA\Property(
+   *               property="Winter",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/EntrySummaryResource")
+   *             ),
+   *             @OA\Property(
+   *               property="Spring",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/EntrySummaryResource")
+   *             ),
+   *             @OA\Property(
+   *               property="Summer",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/EntrySummaryResource")
+   *             ),
+   *             @OA\Property(
+   *               property="Fall",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/EntrySummaryResource")
+   *             ),
+   *             @OA\Property(
+   *               property="Uncategorized",
+   *               type="array",
+   *               @OA\Items(ref="#/components/schemas/EntrySummaryResource")
+   *             ),
    *           ),
    *         ),
    *       },
@@ -86,7 +134,7 @@ class EntryByYearController extends Controller {
    */
   public function get($year): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => new EntryByYearResource($this->entryRepository->getBySeason($year)),
+      'data' => $this->entryRepository->getBySeason($year),
     ]);
   }
 }
