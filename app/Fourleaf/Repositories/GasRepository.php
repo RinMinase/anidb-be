@@ -3,11 +3,12 @@
 namespace App\Fourleaf\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 use App\Fourleaf\Models\Gas;
 use App\Fourleaf\Models\Maintenance;
 use App\Fourleaf\Models\MaintenancePart;
-use Illuminate\Support\Facades\DB;
 
 class GasRepository {
   /**
@@ -74,8 +75,37 @@ class GasRepository {
    * Gas Functions
    */
 
-  public function getFuel() {
-    return Gas::all();
+  public function getFuel($params) {
+    // Ordering Parameters
+    $column = $params['column'] ?? 'odometer';
+    $order = $params['order'] ?? 'asc';
+
+    // Pagination Parameters
+    $limit = isset($params['limit']) ? intval($params['limit']) : 30;
+    $page = isset($params['page']) ? intval($params['page']) : 1;
+    $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+
+    $gas = Gas::orderBy($column, $order)
+      ->orderBy('id', 'asc');
+
+    $total = $gas->count();
+    $total_pages = ceil($total / $limit);
+    $has_next = $page < $total_pages;
+
+    $gas = $gas->skip($skip)
+      ->paginate($limit);
+
+    return [
+      'data' => JsonResource::collection($gas),
+      'meta' => [
+        'page' => $page,
+        'limit' => intval($limit),
+        'results' => count($gas),
+        'total_results' => $total,
+        'total_pages' => $total_pages,
+        'has_next' => $has_next,
+      ],
+    ];
   }
 
   public function addFuel(array $values) {

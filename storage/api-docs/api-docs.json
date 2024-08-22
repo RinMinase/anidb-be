@@ -6107,6 +6107,20 @@
                 ],
                 "summary": "Fourleaf API - Get Fuel List",
                 "operationId": "8394dd9d4b13fb27220ccd44def301b1",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_column"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_limit"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -6116,6 +6130,9 @@
                                     "allOf": [
                                         {
                                             "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/Pagination"
                                         },
                                         {
                                             "properties": {
@@ -8526,6 +8543,54 @@
                     "maximum": 40,
                     "minimum": 0
                 }
+            },
+            "fourleaf_gas_get_fuel_column": {
+                "name": "column",
+                "in": "query",
+                "description": "Order - Column to order",
+                "schema": {
+                    "type": "string",
+                    "default": "odometer"
+                },
+                "example": "odometer"
+            },
+            "fourleaf_gas_get_fuel_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column",
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "fourleaf_gas_get_fuel_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "fourleaf_gas_get_fuel_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 30,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 30
             },
             "fourleaf_gas_get_gas_avg_efficiency_type": {
                 "name": "avg_efficiency_type",

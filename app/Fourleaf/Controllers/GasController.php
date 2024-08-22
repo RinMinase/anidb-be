@@ -12,6 +12,7 @@ use App\Fourleaf\Repositories\GasRepository;
 
 use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
 use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
+use App\Fourleaf\Requests\Gas\GetFuelRequest;
 use App\Fourleaf\Requests\Gas\GetRequest;
 
 use App\Fourleaf\Resources\Gas\MaintenanceResource;
@@ -22,7 +23,6 @@ class GasController extends Controller {
   public function __construct(GasRepository $gasRepository) {
     $this->gasRepository = $gasRepository;
   }
-
 
   /**
    * @OA\Get(
@@ -192,12 +192,19 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/fuel",
    *   summary="Fourleaf API - Get Fuel List",
+   *
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_column"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_order"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_page"),
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_limit"),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",
    *     @OA\JsonContent(
    *       allOf={
    *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(ref="#/components/schemas/Pagination"),
    *         @OA\Schema(
    *           @OA\Property(
    *             property="data",
@@ -211,9 +218,14 @@ class GasController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function getFuel(): JsonResponse {
+  public function getFuel(GetFuelRequest $request): JsonResponse {
+    $data = $this->gasRepository->getFuel(
+      $request->only('column', 'order', 'limit', 'page')
+    );
+
     return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getFuel(),
+      'data' => $data['data'],
+      'meta' => $data['meta'],
     ]);
   }
 
