@@ -5,16 +5,13 @@ namespace App\Fourleaf\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Controllers\Controller;
-
 use App\Resources\DefaultResponse;
 
 use App\Fourleaf\Repositories\GasRepository;
-
 use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
 use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
 use App\Fourleaf\Requests\Gas\GetFuelRequest;
 use App\Fourleaf\Requests\Gas\GetRequest;
-
 use App\Fourleaf\Resources\Gas\MaintenanceResource;
 
 class GasController extends Controller {

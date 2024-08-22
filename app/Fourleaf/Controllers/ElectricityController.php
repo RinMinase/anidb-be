@@ -5,14 +5,11 @@ namespace App\Fourleaf\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Controllers\Controller;
-
 use App\Resources\DefaultResponse;
 
 use App\Fourleaf\Repositories\ElectricityRepository;
-
 use App\Fourleaf\Requests\Electricity\AddEditRequest;
 use App\Fourleaf\Requests\Electricity\GetRequest;
-
 
 class ElectricityController extends Controller {
   private ElectricityRepository $electricityRepository;
