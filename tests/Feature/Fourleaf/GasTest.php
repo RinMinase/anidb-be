@@ -60,7 +60,8 @@ class GasTest extends BaseTestCase {
         'odometer' => 90_000,
         'price_per_liter' => 123.45,
         'liters_filled' => 12.34,
-      ], [
+      ],
+      [
         'id' => $this->gas_id_2,
         'date' => '2090-04-30',
         'from_bars' => 8,
@@ -124,6 +125,7 @@ class GasTest extends BaseTestCase {
           'graph' => [
             'efficiency',
             'gas',
+            'odometer'
           ],
           'maintenance' => [
             'km' => [
@@ -178,21 +180,24 @@ class GasTest extends BaseTestCase {
           'odometer' => 165,
           'price_per_liter' => null,
           'liters_filled' => null,
-        ], [
+        ],
+        [
           'date' => '2023-05-03',
           'from_bars' => 4,
           'to_bars' => 8,
           'odometer' => 239,
           'price_per_liter' => 62.85,
           'liters_filled' => 13.93,
-        ], [
+        ],
+        [
           'date' => '2023-05-10',
           'from_bars' => 1,
           'to_bars' => 8,
           'odometer' => 386,
           'price_per_liter' => 60.65,
           'liters_filled' => 18.928,
-        ], [
+        ],
+        [
           'date' => '2023-05-19',
           'from_bars' => 2,
           'to_bars' => 8,
@@ -234,6 +239,7 @@ class GasTest extends BaseTestCase {
           '2023-05-10' => 60.65,
           '2023-05-19' => 61,
         ],
+        'odometer' => [0, 0, 0, 0, 268, 0, 0, 0, 0, 0, 0, 0]
       ];
 
       $actual_stats = $response['data']['stats'];
