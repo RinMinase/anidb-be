@@ -19,7 +19,20 @@ class GasTest extends BaseTestCase {
 
   // Class variables
   private $gas_id_1 = 99998;
+  private $gas_date_1 = '2090-04-29';
+  private $gas_from_bars_1 = 8;
+  private $gas_to_bars_1 = 8;
+  private $gas_odometer_1 = 90_000;
+  private $gas_price_1 = 213.12;
+  private $gas_liters_1 = 12.34;
+
   private $gas_id_2 = 99999;
+  private $gas_date_2 = '2090-04-30';
+  private $gas_from_bars_2 = 8;
+  private $gas_to_bars_2 = 8;
+  private $gas_odometer_2 = 100_000;
+  private $gas_price_2 = 123.45;
+  private $gas_liters_2 = 12.34;
 
   private $maintenance_id_1 = 99999;
   private $maintenance_part_id_1 = 99999;
@@ -54,21 +67,21 @@ class GasTest extends BaseTestCase {
     Gas::insert([
       [
         'id' => $this->gas_id_1,
-        'date' => '2090-04-29',
-        'from_bars' => 8,
-        'to_bars' => 8,
-        'odometer' => 90_000,
-        'price_per_liter' => 123.45,
-        'liters_filled' => 12.34,
+        'date' => $this->gas_date_1,
+        'from_bars' => $this->gas_from_bars_1,
+        'to_bars' => $this->gas_to_bars_1,
+        'odometer' => $this->gas_odometer_1,
+        'price_per_liter' => $this->gas_price_1,
+        'liters_filled' => $this->gas_liters_1,
       ],
       [
         'id' => $this->gas_id_2,
-        'date' => '2090-04-30',
-        'from_bars' => 8,
-        'to_bars' => 8,
-        'odometer' => 90_000,
-        'price_per_liter' => 123.45,
-        'liters_filled' => 12.34,
+        'date' => $this->gas_date_2,
+        'from_bars' => $this->gas_from_bars_2,
+        'to_bars' => $this->gas_to_bars_2,
+        'odometer' => $this->gas_odometer_2,
+        'price_per_liter' => $this->gas_price_2,
+        'liters_filled' => $this->gas_liters_2,
       ]
     ]);
 
@@ -262,8 +275,7 @@ class GasTest extends BaseTestCase {
   public function test_should_get_all_fuel_data() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/gas/fuel');
+    $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/fuel');
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -276,9 +288,214 @@ class GasTest extends BaseTestCase {
           'litersFilled',
         ]],
       ]);
+
+    $expected = [
+      [
+        'id' => $this->gas_id_1,
+        'date' => $this->gas_date_1,
+        'fromBars' => $this->gas_from_bars_1,
+        'toBars' => $this->gas_to_bars_1,
+        'odometer' => $this->gas_odometer_1,
+        'pricePerLiter' => $this->gas_price_1,
+        'litersFilled' => $this->gas_liters_1,
+      ],
+      [
+        'id' => $this->gas_id_2,
+        'date' => $this->gas_date_2,
+        'fromBars' => $this->gas_from_bars_2,
+        'toBars' => $this->gas_to_bars_2,
+        'odometer' => $this->gas_odometer_2,
+        'pricePerLiter' => $this->gas_price_2,
+        'litersFilled' => $this->gas_liters_2,
+      ]
+    ];
+
+    $this->assertCount(count($expected), $response['data']);
+    $this->assertEquals($expected, $response['data']);
   }
 
-  public function test_should_add_a_fuel_data_successfully() {
+  public function test_should_get_all_fuel_data_sorted_by_column() {
+    $this->setup_config();
+
+    $test_column = 'price_per_liter';
+
+    $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/fuel?column=' . $test_column);
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'date',
+          'fromBars',
+          'toBars',
+          'odometer',
+          'pricePerLiter',
+          'litersFilled',
+        ]],
+      ]);
+
+    $expected = [
+      [
+        'id' => $this->gas_id_2,
+        'date' => $this->gas_date_2,
+        'fromBars' => $this->gas_from_bars_2,
+        'toBars' => $this->gas_to_bars_2,
+        'odometer' => $this->gas_odometer_2,
+        'pricePerLiter' => $this->gas_price_2,
+        'litersFilled' => $this->gas_liters_2,
+      ],
+      [
+        'id' => $this->gas_id_1,
+        'date' => $this->gas_date_1,
+        'fromBars' => $this->gas_from_bars_1,
+        'toBars' => $this->gas_to_bars_1,
+        'odometer' => $this->gas_odometer_1,
+        'pricePerLiter' => $this->gas_price_1,
+        'litersFilled' => $this->gas_liters_1,
+      ],
+    ];
+
+    $this->assertCount(count($expected), $response['data']);
+    $this->assertEquals($expected, $response['data']);
+  }
+
+  public function test_should_get_all_fuel_data_ordered() {
+    $this->setup_config();
+
+    $test_column = 'odometer';
+    $test_order = 'desc';
+
+    $response = $this->withoutMiddleware()
+      ->get(
+        '/api/fourleaf/gas/fuel?column=' . $test_column .
+          '&order=' . $test_order
+      );
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'date',
+          'fromBars',
+          'toBars',
+          'odometer',
+          'pricePerLiter',
+          'litersFilled',
+        ]],
+      ]);
+
+    $expected = [
+      [
+        'id' => $this->gas_id_2,
+        'date' => $this->gas_date_2,
+        'fromBars' => $this->gas_from_bars_2,
+        'toBars' => $this->gas_to_bars_2,
+        'odometer' => $this->gas_odometer_2,
+        'pricePerLiter' => $this->gas_price_2,
+        'litersFilled' => $this->gas_liters_2,
+      ],
+      [
+        'id' => $this->gas_id_1,
+        'date' => $this->gas_date_1,
+        'fromBars' => $this->gas_from_bars_1,
+        'toBars' => $this->gas_to_bars_1,
+        'odometer' => $this->gas_odometer_1,
+        'pricePerLiter' => $this->gas_price_1,
+        'litersFilled' => $this->gas_liters_1,
+      ],
+    ];
+
+    $this->assertCount(count($expected), $response['data']);
+    $this->assertEquals($expected, $response['data']);
+  }
+
+  public function test_should_get_all_fuel_data_by_page() {
+    $this->setup_config();
+
+    $test_column = 'odometer';
+    $test_order = 'desc';
+    $test_page = 1;
+    $test_limit = 1;
+
+    $response = $this->withoutMiddleware()
+      ->get(
+        '/api/fourleaf/gas/fuel?column=' . $test_column .
+          '&order=' . $test_order .
+          '&page=' . $test_page .
+          '&limit=' . $test_limit
+      );
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'date',
+          'fromBars',
+          'toBars',
+          'odometer',
+          'pricePerLiter',
+          'litersFilled',
+        ]],
+      ]);
+
+    $expected = [
+      [
+        'id' => $this->gas_id_2,
+        'date' => $this->gas_date_2,
+        'fromBars' => $this->gas_from_bars_2,
+        'toBars' => $this->gas_to_bars_2,
+        'odometer' => $this->gas_odometer_2,
+        'pricePerLiter' => $this->gas_price_2,
+        'litersFilled' => $this->gas_liters_2,
+      ],
+    ];
+
+    $this->assertCount(count($expected), $response['data']);
+    $this->assertEquals($expected, $response['data']);
+  }
+
+  public function test_should_get_all_fuel_data_with_limit() {
+    $this->setup_config();
+
+    $test_column = 'odometer';
+    $test_order = 'desc';
+    $test_page = 2;
+    $test_limit = 1;
+
+    $response = $this->withoutMiddleware()
+      ->get(
+        '/api/fourleaf/gas/fuel?column=' . $test_column .
+          '&order=' . $test_order .
+          '&page=' . $test_page .
+          '&limit=' . $test_limit
+      );
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'date',
+          'fromBars',
+          'toBars',
+          'odometer',
+          'pricePerLiter',
+          'litersFilled',
+        ]],
+      ]);
+
+    $expected = [
+      [
+        'id' => $this->gas_id_1,
+        'date' => $this->gas_date_1,
+        'fromBars' => $this->gas_from_bars_1,
+        'toBars' => $this->gas_to_bars_1,
+        'odometer' => $this->gas_odometer_1,
+        'pricePerLiter' => $this->gas_price_1,
+        'litersFilled' => $this->gas_liters_1,
+      ],
+    ];
+
+    $this->assertCount(count($expected), $response['data']);
+    $this->assertEquals($expected, $response['data']);
+  }
+
+  public function test_should_add_fuel_data_successfully() {
     $test_date = '1980-01-01';
     $test_from_bars = 4;
     $test_to_bars = 4;
@@ -307,7 +524,7 @@ class GasTest extends BaseTestCase {
     $this->assertEquals($test_liters_filled, $actual->liters_filled);
   }
 
-  public function test_should_not_add_a_fuel_data_on_form_errors() {
+  public function test_should_not_add_fuel_data_on_form_errors() {
     $test_date = '2090-01-01';
     $test_from_bars = 4;
     $test_to_bars = 2;
@@ -353,7 +570,7 @@ class GasTest extends BaseTestCase {
       ]);
   }
 
-  public function test_should_edit_a_fuel_data_successfully() {
+  public function test_should_edit_fuel_data_successfully() {
     $this->setup_config();
 
     $test_date = '1980-01-01';
@@ -386,7 +603,7 @@ class GasTest extends BaseTestCase {
     $this->assertEquals($test_liters_filled, $actual->liters_filled);
   }
 
-  public function test_should_not_edit_a_fuel_data_on_form_errors() {
+  public function test_should_not_edit_fuel_data_on_form_errors() {
     $test_date = '2090-01-01';
     $test_from_bars = 4;
     $test_to_bars = 2;
@@ -432,7 +649,7 @@ class GasTest extends BaseTestCase {
       ]);
   }
 
-  public function test_should_delete_a_fuel_data_successfully() {
+  public function test_should_delete_fuel_data_successfully() {
     $this->setup_config();
 
     $response = $this->delete('/api/fourleaf/gas/fuel/' . $this->gas_id_1);
@@ -444,7 +661,7 @@ class GasTest extends BaseTestCase {
     $this->assertNull($actual);
   }
 
-  public function test_should_not_delete_a_fuel_data_on_invalid_id() {
+  public function test_should_not_delete_fuel_data_on_invalid_id() {
     $invalid_id = 100_000;
 
     $response = $this->delete('/api/fourleaf/gas/fuel/' . $invalid_id);
