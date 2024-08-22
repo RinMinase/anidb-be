@@ -35,6 +35,7 @@ class GasRepository {
     $avg_efficiency = round($avg_efficiency, 3);
 
     $graph_efficiency_data = $this->calculateEfficiencyList($efficiency_graph_type);
+    $graph_odometer_data = $this->calculateOdometerPerMonth();
 
     if ($efficiency_graph_type === 'last12mos') {
       // post process group by month
@@ -62,6 +63,7 @@ class GasRepository {
       'graph' => [
         'efficiency' => $graph_efficiency_data,
         'gas' => $graph_gas_data,
+        'odometer' => $graph_odometer_data,
       ],
       'maintenance' => $maintenance,
       'last_maintenance' => $last_maintenance,
@@ -415,6 +417,51 @@ class GasRepository {
     }
 
     return $efficiency_months;
+  }
+
+  private function calculateOdometerPerMonth() {
+    $start_date = Carbon::now()->startOfYear()->subMonths(3)->startOfMonth();
+
+    $odo_data = Gas::select(DB::raw('date_trunc(\'month\', date) as txn_month'))
+      ->addselect(DB::raw('min(odometer) as min_odo'))
+      ->addselect(DB::raw('max(odometer) as max_odo'))
+      ->where('date', '>=', $start_date)
+      ->groupBy('txn_month')
+      ->orderByRaw('txn_month')
+      ->get()
+      ->toArray();
+
+    $odo_last_year = 0;
+    $odo_per_month = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    $year_now = Carbon::now()->year;
+
+    foreach ($odo_data as $index => $value) {
+      $year = Carbon::parse($value['txn_month'])->year;
+      $month = Carbon::parse($value['txn_month'])->month;
+
+      if ($year_now !== $year) {
+        if ($value['max_odo'] !== $value['min_odo']) {
+          $odo_last_year = $value['max_odo'] - $value['min_odo'];
+        }
+
+        continue;
+      }
+
+      if ($value['max_odo'] === $value['min_odo']) {
+        if (!$odo_last_year) {
+          $odo_this_month = 0;
+        } else {
+          $odo_this_month = $value['max_odo'] - $odo_last_year;
+        }
+      } else {
+        $odo_this_month = $value['max_odo'] - $value['min_odo'];
+      }
+
+      $odo_per_month[$month - 1] = $odo_this_month;
+    }
+
+    return $odo_per_month;
   }
 
   private function calculateGasList(): array {
