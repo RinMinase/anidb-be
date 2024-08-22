@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('integer', '[0-9]+');
 Route::pattern('string', '[a-z]+');
+Route::pattern('year', '^19\d{2}|2\d{3}$');
 
 Route::middleware('web')
   ->group(function () {
@@ -118,6 +119,7 @@ Route::prefix('api')
 
             Route::get('by-year', 'EntryByYearController@index');
             Route::get('by-year/{year}', 'EntryByYearController@get');
+            Route::get('by-year/uncategorized', 'EntryByYearController@get');
 
             Route::get('by-bucket', 'EntryByBucketController@index');
             Route::get('by-bucket/{id}', 'EntryByBucketController@get');

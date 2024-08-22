@@ -132,7 +132,7 @@ class EntryByYearController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function get($year): JsonResponse {
+  public function get($year = 'uncategorized'): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->entryRepository->getBySeason($year),
     ]);

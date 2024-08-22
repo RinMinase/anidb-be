@@ -67,7 +67,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => 'Winter',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -76,7 +77,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => 'Winter',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -85,7 +87,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => 'Summer',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -94,7 +97,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => 'Spring',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -103,7 +107,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => 'Fall',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -112,7 +117,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => 'Winter',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -121,7 +127,8 @@ class EntryByYearTest extends BaseTestCase {
         'release_season' => null,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => $date_finished,
@@ -319,8 +326,7 @@ class EntryByYearTest extends BaseTestCase {
   public function test_should_get_all_uncategorized_entries_on_blank_or_invalid_year() {
     $this->setup_config();
 
-    $year = '0';
-    $response = $this->withoutMiddleware()->get('/api/entries/by-year/' . $year);
+    $response = $this->withoutMiddleware()->get('/api/entries/by-year/uncategorized');
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -351,39 +357,26 @@ class EntryByYearTest extends BaseTestCase {
       ->assertJsonCount(0, 'data.summer')
       ->assertJsonCount(0, 'data.fall')
       ->assertJsonCount(1, 'data.uncategorized');
+  }
 
-    $year = 'null';
-    $response = $this->withoutMiddleware()->get('/api/entries/by-year/' . $year);
+  public function test_should_not_get_all_entries_by_year_on_invalid_year() {
+    $this->setup_config();
 
-    $response->assertStatus(200)
-      ->assertJsonStructure([
-        'data' => [
-          'winter',
-          'spring',
-          'summer',
-          'fall',
-          'uncategorized' => [[
-            'id',
-            'quality',
-            'title',
-            'dateFinished',
-            'rewatched',
-            'filesize',
-            'episodes',
-            'ovas',
-            'specials',
-            'encoder',
-            'release',
-            'remarks',
-            'rating',
-          ]],
-        ],
-      ])
-      ->assertJsonCount(0, 'data.winter')
-      ->assertJsonCount(0, 'data.spring')
-      ->assertJsonCount(0, 'data.summer')
-      ->assertJsonCount(0, 'data.fall')
-      ->assertJsonCount(1, 'data.uncategorized');
+    $invalid_year = -1;
+    $response = $this->withoutMiddleware()->get('/api/entries/by-year/' . $invalid_year);
+    $response->assertStatus(404);
+
+    $invalid_year = 0;
+    $response = $this->withoutMiddleware()->get('/api/entries/by-year/' . $invalid_year);
+    $response->assertStatus(404);
+
+    $invalid_year = 'null';
+    $response = $this->withoutMiddleware()->get('/api/entries/by-year/' . $invalid_year);
+    $response->assertStatus(404);
+
+    $invalid_year = 'invalid';
+    $response = $this->withoutMiddleware()->get('/api/entries/by-year/' . $invalid_year);
+    $response->assertStatus(404);
   }
 
   public function test_should_get_stats_of_entries_by_year() {
