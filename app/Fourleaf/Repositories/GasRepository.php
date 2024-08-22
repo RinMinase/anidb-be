@@ -300,18 +300,21 @@ class GasRepository {
 
     if ($avg_efficiency_type === 'last20data') {
       $data = $data->orderBy('date', 'desc')
+        ->orderBy('odometer', 'desc')
         ->limit(21)
         ->get()
         ->reverse()
         ->values();
     } else if ($avg_efficiency_type === 'last10') {
       $data = $data->orderBy('date', 'desc')
+        ->orderBy('odometer', 'desc')
         ->limit(11)
         ->get()
         ->reverse()
         ->values();
     } else if ($avg_efficiency_type === 'last5') {
       $data = $data->orderBy('date', 'desc')
+        ->orderBy('odometer', 'desc')
         ->limit(6)
         ->get()
         ->reverse()
@@ -324,9 +327,12 @@ class GasRepository {
 
       $data = $data->where('date', '>=', $end_date)
         ->orderBy('date', 'asc')
+        ->orderBy('odometer', 'asc')
         ->get();
     } else {
-      $data = $data->orderBy('date', 'asc')->get();
+      $data = $data->orderBy('date', 'asc')
+        ->orderBy('odometer', 'asc')
+        ->get();
     }
 
     $data = $data->toArray();
@@ -345,10 +351,10 @@ class GasRepository {
       $curr_odo = $value['odometer'];
 
       // if bars are the same for two consequent data points
-      $last_liters_filled = $data[$index]['liters_filled'];
+      $last_liters_by_bars = $tank_table[$value['to_bars']] - $tank_table[$value['from_bars']];
+      $last_liters_filled = abs($last_liters_by_bars - $data[$index]['liters_filled']);
 
       $date = Carbon::parse($value['date'])->format('Y-m-d');
-
       $liters_consumed = ($past_liters - $curr_liters) ?: $last_liters_filled;
       $efficiency_single = ($curr_odo - $past_odo) / $liters_consumed;
       $efficiency_single = round($efficiency_single, 3);
