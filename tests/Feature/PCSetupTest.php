@@ -1273,6 +1273,34 @@ class PCSetupTest extends BaseTestCase {
       ]);
   }
 
+  public function test_should_delete_data_successfully() {
+    $this->setup_config();
+
+    $actual = PCSetup::withTrashed()
+      ->where('id', $this->pc_setup_id_1)
+      ->first();
+
+    $this->assertNotSoftDeleted($actual);
+
+    $response = $this->withoutMiddleware()->delete('/api/pc-setups/' . $this->pc_setup_id_1);
+
+    $response->assertStatus(200);
+
+    $actual = PCSetup::withTrashed()
+      ->where('id', $this->pc_setup_id_1)
+      ->first();
+
+    $this->assertSoftDeleted($actual);
+  }
+
+  public function test_should_not_delete_non_existent_data() {
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()->delete('/api/pc-setups/' . $invalid_id);
+
+    $response->assertStatus(404);
+  }
+
   public function test_should_clone_or_duplicate_data_then_return_id() {
     $this->setup_config();
 

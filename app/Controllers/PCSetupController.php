@@ -476,6 +476,34 @@ class PCSetupController extends Controller {
   }
 
   /**
+   * @OA\Delete(
+   *   tags={"PC Setup"},
+   *   path="/api/pc-setups/{pc_setup_id}",
+   *   summary="Delete a PC Setup",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="pc_setup_id",
+   *     description="PC Setup ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function delete($uuid): JsonResponse {
+    $this->pcSetupRepository->delete($uuid);
+
+    return DefaultResponse::success();
+  }
+
+  /**
    * @OA\Post(
    *   tags={"Import"},
    *   path="/api/pc-setups/import",

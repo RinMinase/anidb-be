@@ -4070,6 +4070,45 @@
                         "token": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "PC Setup"
+                ],
+                "summary": "Delete a PC Setup",
+                "operationId": "fcbd8460a23c7abaf3bf803d9eed1f58",
+                "parameters": [
+                    {
+                        "name": "pc_setup_id",
+                        "in": "path",
+                        "description": "PC Setup ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/pc-setups/import": {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\RefreshableAutoIncrements;
 
@@ -123,7 +124,7 @@ use App\Traits\RefreshableAutoIncrements;
  */
 class PCSetup extends Model {
 
-  use RefreshableAutoIncrements;
+  use RefreshableAutoIncrements, SoftDeletes;
 
   protected $table = 'pc_setups';
 
