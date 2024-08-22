@@ -4747,7 +4747,46 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/RssResource"
+                                                        "properties": {
+                                                            "uuid": {
+                                                                "type": "string",
+                                                                "format": "uuid",
+                                                                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sample RSS Feed"
+                                                            },
+                                                            "lastUpdatedAt": {
+                                                                "type": "string",
+                                                                "example": "2023-05-21 21:23:57"
+                                                            },
+                                                            "updateSpeedMins": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 120
+                                                            },
+                                                            "url": {
+                                                                "type": "string",
+                                                                "format": "uri",
+                                                                "example": "{{ rss url }}"
+                                                            },
+                                                            "maxItems": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 250
+                                                            },
+                                                            "unread": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 3
+                                                            },
+                                                            "createdAt": {
+                                                                "type": "string",
+                                                                "example": "2023-05-21 21:05:57"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },
@@ -7246,13 +7285,13 @@
                     "date": {
                         "type": "string"
                     },
-                    "is_read": {
+                    "isRead": {
                         "type": "boolean"
                     },
-                    "is_bookmarked": {
+                    "isBookmarked": {
                         "type": "boolean"
                     },
-                    "created_at": {
+                    "createdAt": {
                         "type": "string"
                     }
                 },
@@ -7263,9 +7302,9 @@
                     "link": "{{ rss item link }}",
                     "guid": "{{ rss item guid link }}",
                     "date": "2022-01-04 00:01:00",
-                    "is_read": false,
-                    "is_bookmarked": true,
-                    "created_at": "2023-05-21 21:05:57"
+                    "isRead": false,
+                    "isBookmarked": true,
+                    "createdAt": "2023-05-21 21:05:57"
                 }
             },
             "Sequence": {
@@ -7989,48 +8028,6 @@
                             "Low"
                         ],
                         "example": "High"
-                    }
-                },
-                "type": "object"
-            },
-            "RssResource": {
-                "properties": {
-                    "uuid": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Sample RSS Feed"
-                    },
-                    "last_updated_at": {
-                        "type": "string",
-                        "example": "2023-05-21 21:23:57"
-                    },
-                    "update_speed_mins": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 120
-                    },
-                    "url": {
-                        "type": "string",
-                        "format": "uri",
-                        "example": "{{ rss url }}"
-                    },
-                    "max_items": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 250
-                    },
-                    "unread": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 3
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "example": "2023-05-21 21:05:57"
                     }
                 },
                 "type": "object"

@@ -14,18 +14,18 @@ use App\Traits\RefreshableAutoIncrements;
  *     "link": "{{ rss item link }}",
  *     "guid": "{{ rss item guid link }}",
  *     "date": "2022-01-04 00:01:00",
- *     "is_read": false,
- *     "is_bookmarked": true,
- *     "created_at": "2023-05-21 21:05:57"
+ *     "isRead": false,
+ *     "isBookmarked": true,
+ *     "createdAt": "2023-05-21 21:05:57"
  *   },
  *   @OA\Property(property="uuid", type="string", format="uuid"),
  *   @OA\Property(property="title", type="string"),
  *   @OA\Property(property="link", type="string", format="uri"),
  *   @OA\Property(property="guid", type="string", format="uri"),
  *   @OA\Property(property="date", type="string"),
- *   @OA\Property(property="is_read", type="boolean"),
- *   @OA\Property(property="is_bookmarked", type="boolean"),
- *   @OA\Property(property="created_at", type="string"),
+ *   @OA\Property(property="isRead", type="boolean"),
+ *   @OA\Property(property="isBookmarked", type="boolean"),
+ *   @OA\Property(property="createdAt", type="string"),
  * )
  */
 class RssItem extends Model {

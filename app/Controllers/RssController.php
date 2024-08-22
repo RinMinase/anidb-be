@@ -5,11 +5,8 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\RssRepository;
-
 use App\Requests\Rss\AddEditRequest;
-
 use App\Resources\DefaultResponse;
-use App\Resources\Rss\RssResource;
 
 class RssController extends Controller {
 
@@ -35,7 +32,21 @@ class RssController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/RssResource"),
+   *             @OA\Items(
+   *               @OA\Property(
+   *                 property="uuid",
+   *                 type="string",
+   *                 format="uuid",
+   *                 example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *               ),
+   *               @OA\Property(property="title", type="string", example="Sample RSS Feed"),
+   *               @OA\Property(property="lastUpdatedAt", type="string", example="2023-05-21 21:23:57"),
+   *               @OA\Property(property="updateSpeedMins", type="integer", format="int32", example=120),
+   *               @OA\Property(property="url", type="string", format="uri", example="{{ rss url }}"),
+   *               @OA\Property(property="maxItems", type="integer", format="int32", example=250),
+   *               @OA\Property(property="unread", type="integer", format="int32", example=3),
+   *               @OA\Property(property="createdAt", type="string", example="2023-05-21 21:05:57"),
+   *             ),
    *           ),
    *         ),
    *       },
@@ -46,10 +57,8 @@ class RssController extends Controller {
    * )
    */
   public function index(): JsonResponse {
-    $data = $this->rssRepository->getAll();
-
     return DefaultResponse::success(null, [
-      'data' => RssResource::collection($data),
+      'data' => $this->rssRepository->getAll(),
     ]);
   }
 
