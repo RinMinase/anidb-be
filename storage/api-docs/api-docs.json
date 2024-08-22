@@ -7731,6 +7731,11 @@
                         ],
                         "example": "4K 2160p"
                     },
+                    "idQuality": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
                     "title": {
                         "type": "string",
                         "example": "Sample Title"
@@ -7874,7 +7879,7 @@
                         "format": "int32",
                         "example": 1
                     },
-                    "id_codec_video": {
+                    "idCodecVideo": {
                         "type": "integer",
                         "format": "int32",
                         "example": 1
@@ -7883,7 +7888,7 @@
                         "type": "string",
                         "example": "x264 8bit"
                     },
-                    "id_codec_audio": {
+                    "idCodecAudio": {
                         "type": "integer",
                         "format": "int32",
                         "example": 4

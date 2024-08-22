@@ -21,6 +21,7 @@ use Carbon\CarbonInterval;
  *     enum={"4K 2160", "FHD 1080p", "HD 720p", "HQ 480p", "LQ 360p"},
  *     example="4K 2160p",
  *   ),
+ *   @OA\Property(property="idQuality", type="integer", format="int64", example=1),
  *   @OA\Property(property="title", type="string", example="Sample Title"),
  *   @OA\Property(
  *     property="dateInitFinishedRaw",
@@ -97,9 +98,9 @@ use Carbon\CarbonInterval;
  *   @OA\Property(property="remarks", type="string", example="Some remarks"),
  *
  *   @OA\Property(property="codecHDR", type="integer", format="int32", example=1),
- *   @OA\Property(property="id_codec_video", type="integer", format="int32", example=1),
+ *   @OA\Property(property="idCodecVideo", type="integer", format="int32", example=1),
  *   @OA\Property(property="codecVideo", type="string", example="x264 8bit"),
- *   @OA\Property(property="id_codec_audio", type="integer", format="int32", example=4),
+ *   @OA\Property(property="idCodecAudio", type="integer", format="int32", example=4),
  *   @OA\Property(property="codecAudio", type="string", example="FLAC 7.1"),
  *
  *   @OA\Property(
@@ -131,7 +132,7 @@ class EntryResource extends JsonResource {
     return [
       'id' => $this->uuid,
       'quality' => $this->quality->quality,
-      'id_quality' => $this->quality->id,
+      'idQuality' => $this->quality->id,
       'title' => $this->title,
       'dateInitFinishedRaw' => $this->calcDateInitFinishRaw(),
       'dateInitFinished' => $this->calcDateInitFinish(),
@@ -173,9 +174,9 @@ class EntryResource extends JsonResource {
       'remarks' => $this->remarks,
 
       'codecHDR' => $this->codec_hdr,
-      'id_codec_video' => $this->id_codec_video,
+      'idCodecVideo' => $this->id_codec_video,
       'codecVideo' => $this->codec_video->codec ?? '',
-      'id_codec_audio' => $this->id_codec_audio,
+      'idCodecAudio' => $this->id_codec_audio,
       'codecAudio' => $this->codec_audio->codec ?? '',
 
       'offquels' => EntryOffquelResource::collection($this->offquels),
