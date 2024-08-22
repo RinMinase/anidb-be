@@ -219,10 +219,10 @@ Route::prefix('api')
             Route::put('{uuid}', 'RssController@edit');
             Route::delete('{uuid}', 'RssController@delete');
 
-            Route::post('read/{uuid}', 'RssController@read');
+            Route::put('read/{uuid}', 'RssController@read');
             Route::delete('read/{uuid}', 'RssController@unread');
 
-            Route::post('bookmark/{uuid}', 'RssController@bookmark');
+            Route::put('bookmark/{uuid}', 'RssController@bookmark');
             Route::delete('bookmark/{uuid}', 'RssController@removeBookmark');
           });
 

@@ -84,7 +84,8 @@ class RssTest extends BaseTestCase {
         'max_items' => $this->rss_max_items_1,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'id' => $this->rss_id_2,
         'uuid' => $this->rss_uuid_2,
         'title' => $this->rss_title_2,
@@ -110,7 +111,8 @@ class RssTest extends BaseTestCase {
         'is_bookmarked' => $this->rss_item_is_bookmarked_1,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'id' => $this->rss_item_id_2,
         'uuid' => $this->rss_item_uuid_2,
         'id_rss' => $this->rss_id_1,
@@ -166,7 +168,8 @@ class RssTest extends BaseTestCase {
         'url' => $this->rss_url_1,
         'maxItems' => $this->rss_max_items_1,
         'createdAt' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => $this->rss_uuid_2,
         'title' => $this->rss_title_2,
         'lastUpdatedAt' => $this->rss_last_updated_at_2,
@@ -470,7 +473,8 @@ class RssTest extends BaseTestCase {
         'date' => $this->rss_item_date_2,
         'isRead' => $this->rss_item_is_read_2,
         'isBookmarked' => $this->rss_item_is_bookmarked_2,
-      ], [
+      ],
+      [
         'uuid' => $this->rss_item_uuid_1,
         'title' => $this->rss_item_title_1,
         'link' => $this->rss_item_link_1,
@@ -518,7 +522,7 @@ class RssTest extends BaseTestCase {
     $this->assertNotNull($actual);
     $this->assertFalse($actual['is_read']);
 
-    $response = $this->withoutMiddleware()->post('/api/rss/read/' . $this->rss_item_uuid_1);
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $this->rss_item_uuid_1);
 
     $response->assertStatus(200);
 
@@ -549,7 +553,7 @@ class RssTest extends BaseTestCase {
   public function test_should_not_mark_rss_item_as_read_or_unread_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/rss/read/' . $this->rss_item_id_1);
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $this->rss_item_id_1);
 
     $response->assertStatus(404);
   }
@@ -557,7 +561,7 @@ class RssTest extends BaseTestCase {
   public function test_should_not_toggle_read_or_unread_on_invalid_rss_item() {
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->post('/api/rss/read/' . $invalid_id);
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $invalid_id);
 
     $response->assertStatus(404);
   }
@@ -570,7 +574,7 @@ class RssTest extends BaseTestCase {
     $this->assertNotNull($actual);
     $this->assertFalse($actual['is_bookmarked']);
 
-    $response = $this->withoutMiddleware()->post('/api/rss/bookmark/' . $this->rss_item_uuid_1);
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $this->rss_item_uuid_1);
 
     $response->assertStatus(200);
 
@@ -601,7 +605,7 @@ class RssTest extends BaseTestCase {
   public function test_should_not_toggle_bookmark_on_rss_item_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/rss/bookmark/' . $this->rss_item_id_1);
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $this->rss_item_id_1);
 
     $response->assertStatus(404);
   }
@@ -609,7 +613,7 @@ class RssTest extends BaseTestCase {
   public function test_should_not_toggle_bookmark_on_invalid_rss_item() {
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->post('/api/rss/bookmark/' . $invalid_id);
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $invalid_id);
 
     $response->assertStatus(404);
   }
