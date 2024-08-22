@@ -6916,20 +6916,25 @@
             },
             "PCSetup": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
                     "label": {
                         "type": "string"
                     },
-                    "is_current": {
+                    "isCurrent": {
                         "type": "boolean",
                         "default": false,
                         "example": false
                     },
-                    "is_future": {
+                    "isFuture": {
                         "type": "boolean",
                         "default": false,
                         "example": false
                     },
-                    "is_server": {
+                    "isServer": {
                         "type": "boolean",
                         "default": false,
                         "example": false
@@ -6937,284 +6942,284 @@
                     "cpu": {
                         "type": "string"
                     },
-                    "cpu_price": {
+                    "cpuPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "cpu_sub": {
+                    "cpuSub": {
                         "type": "string"
                     },
-                    "cpu_sub2": {
+                    "cpuSub2": {
                         "type": "string"
                     },
                     "ram": {
                         "type": "string"
                     },
-                    "ram_price": {
+                    "ramPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "ram_sub": {
+                    "ramSub": {
                         "type": "string"
                     },
                     "gpu": {
                         "type": "string"
                     },
-                    "gpu_price": {
+                    "gpuPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "gpu_sub": {
+                    "gpuSub": {
                         "type": "string"
                     },
                     "motherboard": {
                         "type": "string"
                     },
-                    "motherboard_price": {
+                    "motherboardPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "psu": {
                         "type": "string"
                     },
-                    "psu_price": {
+                    "psuPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "cooler": {
                         "type": "string"
                     },
-                    "cooler_price": {
+                    "coolerPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "cooler_acc": {
+                    "coolerAcc": {
                         "type": "string"
                     },
-                    "cooler_acc_price": {
+                    "coolerAccPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "ssd_1": {
+                    "ssd1": {
                         "type": "string"
                     },
-                    "ssd_1_price": {
+                    "ssd1Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "ssd_2": {
+                    "ssd2": {
                         "type": "string"
                     },
-                    "ssd_2_price": {
+                    "ssd2Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "ssd_3": {
+                    "ssd3": {
                         "type": "string"
                     },
-                    "ssd_3_price": {
+                    "ssd3Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "ssd_4": {
+                    "ssd4": {
                         "type": "string"
                     },
-                    "ssd_4_price": {
+                    "ssd4Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "hdd_1": {
+                    "hdd1": {
                         "type": "string"
                     },
-                    "hdd_1_price": {
+                    "hdd1Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "hdd_2": {
+                    "hdd2": {
                         "type": "string"
                     },
-                    "hdd_2_price": {
+                    "hdd2Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "hdd_3": {
+                    "hdd3": {
                         "type": "string"
                     },
-                    "hdd_3_price": {
+                    "hdd3Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "hdd_4": {
+                    "hdd4": {
                         "type": "string"
                     },
-                    "hdd_4_price": {
+                    "hdd4Price": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "case": {
                         "type": "string"
                     },
-                    "case_price": {
+                    "casePrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "case_fans_1": {
+                    "caseFans1": {
                         "type": "string"
                     },
-                    "case_fans_1_price": {
+                    "caseFans1Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "case_fans_2": {
+                    "caseFans2": {
                         "type": "string"
                     },
-                    "case_fans_2_price": {
+                    "caseFans2Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "case_fans_3": {
+                    "caseFans3": {
                         "type": "string"
                     },
-                    "case_fans_3_price": {
+                    "caseFans3Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "case_fans_4": {
+                    "caseFans4": {
                         "type": "string"
                     },
-                    "case_fans_4_price": {
+                    "caseFans4Price": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "monitor": {
                         "type": "string"
                     },
-                    "monitor_price": {
+                    "monitorPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "monitor_sub": {
+                    "monitorSub": {
                         "type": "string"
                     },
-                    "monitor_acc_1": {
+                    "monitorAcc1": {
                         "type": "string"
                     },
-                    "monitor_acc_1_price": {
+                    "monitorAcc1Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "monitor_acc_2": {
+                    "monitorAcc2": {
                         "type": "string"
                     },
-                    "monitor_acc_2_price": {
+                    "monitorAcc2Price": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "keyboard": {
                         "type": "string"
                     },
-                    "keyboard_price": {
+                    "keyboardPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "keyboard_sub": {
+                    "keyboardSub": {
                         "type": "string"
                     },
-                    "keyboard_sub2": {
+                    "keyboardSub2": {
                         "type": "string"
                     },
-                    "keyboard_acc_1": {
+                    "keyboardAcc1": {
                         "type": "string"
                     },
-                    "keyboard_acc_1_price": {
+                    "keyboardAcc1Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "keyboard_acc_2": {
+                    "keyboardAcc2": {
                         "type": "string"
                     },
-                    "keyboard_acc_2_price": {
+                    "keyboardAcc2Price": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "mouse": {
                         "type": "string"
                     },
-                    "mouse_price": {
+                    "mousePrice": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "speakers": {
                         "type": "string"
                     },
-                    "speakers_price": {
+                    "speakersPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "wifi": {
                         "type": "string"
                     },
-                    "wifi_price": {
+                    "wifiPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "headset_1": {
+                    "headset1": {
                         "type": "string"
                     },
-                    "headset_1_price": {
+                    "headset1Price": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "headset_2": {
+                    "headset2": {
                         "type": "string"
                     },
-                    "headset_2_price": {
+                    "headset2Price": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "mic": {
                         "type": "string"
                     },
-                    "mic_price": {
+                    "micPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "mic_acc": {
+                    "micAcc": {
                         "type": "string"
                     },
-                    "mic_acc_price": {
+                    "micAccPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "audio_interface": {
+                    "audioInterface": {
                         "type": "string"
                     },
-                    "audio_interface_price": {
+                    "audioInterfacePrice": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "equalizer": {
                         "type": "string"
                     },
-                    "equalizer_price": {
+                    "equalizerPrice": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "amplifier": {
                         "type": "string"
                     },
-                    "amplifier_price": {
+                    "amplifierPrice": {
                         "type": "string"
                     },
-                    "created_at": {
+                    "createdAt": {
                         "type": "string",
                         "example": "2023-05-21 21:05:57"
                     },
-                    "updated_at": {
+                    "updatedAt": {
                         "type": "string",
                         "example": "2023-05-21 21:05:57"
                     },
-                    "deleted_at": {
+                    "deletedAt": {
                         "type": "string",
                         "example": "2023-05-21 21:05:57"
                     }
@@ -7318,12 +7323,12 @@
                         "type": "string",
                         "example": "Summer List"
                     },
-                    "date_from": {
+                    "dateFrom": {
                         "type": "string",
                         "format": "date",
                         "example": "2020-01-01"
                     },
-                    "date_to": {
+                    "dateTo": {
                         "type": "string",
                         "format": "date",
                         "example": "2020-02-01"
