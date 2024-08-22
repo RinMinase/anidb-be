@@ -5002,12 +5002,12 @@
             }
         },
         "/api/rss/read/{rss_item_id}": {
-            "post": {
+            "put": {
                 "tags": [
                     "RSS"
                 ],
                 "summary": "Mark an RSS Item as Read",
-                "operationId": "6ae4f92766bc325f7eaf411ecc75ed19",
+                "operationId": "ba7dc3be9843ecf4ca767cb56c968630",
                 "parameters": [
                     {
                         "name": "rss_item_id",
@@ -5082,12 +5082,12 @@
             }
         },
         "/api/rss/bookmark/{rss_item_id}": {
-            "post": {
+            "put": {
                 "tags": [
                     "RSS"
                 ],
                 "summary": "Bookmark an RSS Item",
-                "operationId": "480ded85953cf2efadf979e294ae3b90",
+                "operationId": "9cb3adfecedb71623b1b08986ac54a3d",
                 "parameters": [
                     {
                         "name": "rss_item_id",

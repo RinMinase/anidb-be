@@ -197,7 +197,7 @@ class RssController extends Controller {
   }
 
   /**
-   * @OA\Post(
+   * @OA\Put(
    *   tags={"RSS"},
    *   path="/api/rss/read/{rss_item_id}",
    *   summary="Mark an RSS Item as Read",
@@ -253,7 +253,7 @@ class RssController extends Controller {
   }
 
   /**
-   * @OA\Post(
+   * @OA\Put(
    *   tags={"RSS"},
    *   path="/api/rss/bookmark/{rss_item_id}",
    *   summary="Bookmark an RSS Item",
