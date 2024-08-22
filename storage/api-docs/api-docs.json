@@ -5753,7 +5753,338 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/FourleafGasGetResource"
+                                                    "properties": {
+                                                        "stats": {
+                                                            "properties": {
+                                                                "averageEfficiency": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "minimum": 0,
+                                                                    "example": 12.23
+                                                                },
+                                                                "lastEfficiency": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "minimum": 0,
+                                                                    "example": 12.23
+                                                                },
+                                                                "mileage": {
+                                                                    "type": "integer",
+                                                                    "format": "int32",
+                                                                    "minimum": 0,
+                                                                    "example": 1000
+                                                                },
+                                                                "age": {
+                                                                    "type": "string",
+                                                                    "example": "1 year, 2 months"
+                                                                },
+                                                                "kmPerMonth": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "minimum": 0,
+                                                                    "example": 12.23
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "graph": {
+                                                            "properties": {
+                                                                "efficiency": {
+                                                                    "properties": {
+                                                                        "<date>": {
+                                                                            "type": "string",
+                                                                            "example": "<value>"
+                                                                        },
+                                                                        "2020-10-20": {
+                                                                            "type": "number",
+                                                                            "format": "float",
+                                                                            "example": 12.23
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "gas": {
+                                                                    "properties": {
+                                                                        "<date>": {
+                                                                            "type": "string",
+                                                                            "example": "<value>"
+                                                                        },
+                                                                        "2020-10-20": {
+                                                                            "type": "number",
+                                                                            "format": "float",
+                                                                            "example": 12.23
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "odometer": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "schema": "integer"
+                                                                    },
+                                                                    "example": [
+                                                                        123,
+                                                                        234
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "maintenance": {
+                                                            "properties": {
+                                                                "km": {
+                                                                    "properties": {
+                                                                        "engineOil": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "tires": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "sparkPlugs": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "year": {
+                                                                    "properties": {
+                                                                        "engineOil": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "battery": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "acCoolant": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "tires": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "lastMaintenance": {
+                                                            "properties": {
+                                                                "km": {
+                                                                    "properties": {
+                                                                        "engineOil": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "tires": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "sparkPlugs": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "year": {
+                                                                    "properties": {
+                                                                        "acCoolant": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "battery": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "engineOil": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "sparkPlugs": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "tires": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -6343,18 +6674,23 @@
             },
             "Gas": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
                     "date": {
                         "type": "string",
                         "example": "2020-10-20"
                     },
-                    "from_bars": {
+                    "fromBars": {
                         "type": "integer",
                         "format": "int32",
                         "maximum": 9,
                         "minimum": 0,
                         "example": 1
                     },
-                    "to_bars": {
+                    "toBars": {
                         "type": "integer",
                         "format": "int32",
                         "maximum": 9,
@@ -6367,13 +6703,13 @@
                         "minimum": 0,
                         "example": 1000
                     },
-                    "price_per_liter": {
+                    "pricePerLiter": {
                         "type": "number",
                         "format": "float",
                         "minimum": 0,
                         "example": 12.23
                     },
-                    "liters_filled": {
+                    "litersFilled": {
                         "type": "number",
                         "format": "float",
                         "minimum": 0,
@@ -6410,330 +6746,6 @@
                     "value": {
                         "type": "string",
                         "example": "some value"
-                    }
-                },
-                "type": "object"
-            },
-            "FourleafGasGetResource": {
-                "properties": {
-                    "stats": {
-                        "properties": {
-                            "averageEfficiency": {
-                                "type": "number",
-                                "format": "float",
-                                "minimum": 0,
-                                "example": 12.23
-                            },
-                            "lastEfficiency": {
-                                "type": "number",
-                                "format": "float",
-                                "minimum": 0,
-                                "example": 12.23
-                            },
-                            "mileage": {
-                                "type": "integer",
-                                "format": "int32",
-                                "minimum": 0,
-                                "example": 1000
-                            },
-                            "age": {
-                                "type": "string",
-                                "example": "1 year, 2 months"
-                            },
-                            "kmPerMonth": {
-                                "type": "number",
-                                "format": "float",
-                                "minimum": 0,
-                                "example": 12.23
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "graph": {
-                        "properties": {
-                            "efficiency": {
-                                "properties": {
-                                    "<date>": {
-                                        "type": "string",
-                                        "example": "<value>"
-                                    },
-                                    "2020-10-20": {
-                                        "type": "number",
-                                        "format": "float",
-                                        "example": 12.23
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "gas": {
-                                "properties": {
-                                    "<date>": {
-                                        "type": "string",
-                                        "example": "<value>"
-                                    },
-                                    "2020-10-20": {
-                                        "type": "number",
-                                        "format": "float",
-                                        "example": 12.23
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "maintenance": {
-                        "properties": {
-                            "km": {
-                                "properties": {
-                                    "engineOil": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "tires": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "transmissionFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "brakeFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "radiatorFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "sparkPlugs": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "powerSteeringFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "year": {
-                                "properties": {
-                                    "engineOil": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "transmissionFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "brakeFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "battery": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "radiatorFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "acCoolant": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "powerSteeringFluid": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    },
-                                    "tires": {
-                                        "type": "string",
-                                        "example": "normal"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "lastMaintenance": {
-                        "properties": {
-                            "km": {
-                                "properties": {
-                                    "engineOil": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    },
-                                    "tires": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    },
-                                    "transmissionFluid": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    },
-                                    "brakeFluid": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    },
-                                    "radiatorFluid": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    },
-                                    "sparkPlugs": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    },
-                                    "powerSteeringFluid": {
-                                        "type": "string",
-                                        "example": "2024-01-01"
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "year": {
-                                "properties": {
-                                    "acCoolant": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "battery": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "brakeFluid": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "engineOil": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "powerSteeringFluid": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "radiatorFluid": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "sparkPlugs": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "tires": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "transmissionFluid": {
-                                        "properties": {
-                                            "date": {
-                                                "type": "string",
-                                                "example": "2024-01-01"
-                                            },
-                                            "odometer": {
-                                                "type": "number",
-                                                "maximum": 100000,
-                                                "minimum": 0,
-                                                "example": 2000
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        },
-                        "type": "object"
                     }
                 },
                 "type": "object"
