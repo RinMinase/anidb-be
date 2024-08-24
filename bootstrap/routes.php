@@ -2,8 +2,35 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use App\Controllers\AnilistController;
+use App\Controllers\AuthController;
+use App\Controllers\BucketController;
+use App\Controllers\BucketSimController;
+use App\Controllers\CatalogController;
+use App\Controllers\CodecController;
+use App\Controllers\EntryByBucketController;
+use App\Controllers\EntryByNameController;
+use App\Controllers\EntryBySequenceController;
+use App\Controllers\EntryByYearController;
+use App\Controllers\EntryController;
+use App\Controllers\EntryLastController;
+use App\Controllers\GroupController;
+use App\Controllers\ImportController;
+use App\Controllers\LogController;
+use App\Controllers\MALController;
+use App\Controllers\ManagementController;
+use App\Controllers\PartialController;
+use App\Controllers\PCSetupController;
+use App\Controllers\PriorityController;
+use App\Controllers\QualityController;
+use App\Controllers\ReleaseController;
+use App\Controllers\RssController;
+use App\Controllers\SequenceController;
+
+use App\Fourleaf\Controllers\ElectricityController;
+use App\Fourleaf\Controllers\GasController;
 
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('integer', '[0-9]+');
@@ -45,26 +72,26 @@ Route::prefix('api')
 
         Route::prefix('gas')
           ->group(function () {
-            Route::get('', 'GasController@get');
+            Route::get('', [GasController::class, 'get']);
 
-            Route::get('fuel', 'GasController@getFuel');
-            Route::post('fuel', 'GasController@addFuel');
-            Route::put('fuel/{id}', 'GasController@editFuel');
-            Route::delete('fuel/{id}', 'GasController@deleteFuel');
+            Route::get('fuel', [GasController::class, 'getFuel']);
+            Route::post('fuel', [GasController::class, 'addFuel']);
+            Route::put('fuel/{id}', [GasController::class, 'editFuel']);
+            Route::delete('fuel/{id}', [GasController::class, 'deleteFuel']);
 
-            Route::get('maintenance', 'GasController@getMaintenance');
-            Route::get('maintenance/parts', 'GasController@getMaintenanceParts');
-            Route::post('maintenance', 'GasController@addMaintenance');
-            Route::put('maintenance/{id}', 'GasController@editMaintenance');
-            Route::delete('maintenance/{id}', 'GasController@deleteMaintenance');
+            Route::get('maintenance', [GasController::class, 'getMaintenance']);
+            Route::get('maintenance/parts', [GasController::class, 'getMaintenanceParts']);
+            Route::post('maintenance', [GasController::class, 'addMaintenance']);
+            Route::put('maintenance/{id}', [GasController::class, 'editMaintenance']);
+            Route::delete('maintenance/{id}', [GasController::class, 'deleteMaintenance']);
           });
 
         Route::prefix('electricity')
           ->group(function () {
-            Route::get('', 'ElectricityController@get');
-            Route::post('', 'ElectricityController@add');
-            Route::put('{id}', 'ElectricityController@edit');
-            Route::delete('{id}', 'ElectricityController@delete');
+            Route::get('', [ElectricityController::class, 'get']);
+            Route::post('', [ElectricityController::class, 'add']);
+            Route::put('{id}', [ElectricityController::class, 'edit']);
+            Route::delete('{id}', [ElectricityController::class, 'delete']);
           });
       });
   });
@@ -76,189 +103,189 @@ Route::prefix('api')
 
     Route::prefix('auth')
       ->group(function () {
-        Route::post('register', 'AuthController@register');
-        Route::post('login', 'AuthController@login')->name('login');
+        Route::post('register', [AuthController::class, 'register']);
+        Route::post('login', [AuthController::class, 'login'])->name('login');
 
         Route::middleware('auth:sanctum')
           ->group(function () {
-            Route::get('user', 'AuthController@getUser');
-            Route::post('logout', 'AuthController@logout');
+            Route::get('user', [AuthController::class, 'getUser']);
+            Route::post('logout', [AuthController::class, 'logout']);
           });
       });
 
     Route::middleware('auth:sanctum')
       ->group(function () {
 
-        Route::get('management', 'ManagementController@index');
-        Route::get('logs', 'LogController@index');
-        Route::get('qualities', 'QualityController@index');
-        Route::get('priorities', 'PriorityController@index');
-        Route::post('import', 'ImportController@index');
+        Route::get('management', [ManagementController::class, 'index']);
+        Route::get('logs', [LogController::class, 'index']);
+        Route::get('qualities', [QualityController::class, 'index']);
+        Route::get('priorities', [PriorityController::class, 'index']);
+        Route::post('import', [ImportController::class, 'index']);
 
         Route::prefix('entries')
           ->group(function () {
-            Route::get('', 'EntryController@index');
-            Route::get('{uuid}', 'EntryController@get');
-            Route::post('', 'EntryController@add');
-            Route::put('{uuid}', 'EntryController@edit');
-            Route::delete('{uuid}', 'EntryController@delete');
-            Route::post('import', 'EntryController@import');
+            Route::get('', [EntryController::class, 'index']);
+            Route::get('{uuid}', [EntryController::class, 'get']);
+            Route::post('', [EntryController::class, 'add']);
+            Route::put('{uuid}', [EntryController::class, 'edit']);
+            Route::delete('{uuid}', [EntryController::class, 'delete']);
+            Route::post('import', [EntryController::class, 'import']);
 
-            Route::put('img-upload/{uuid}', 'EntryController@imageUpload');
-            Route::delete('img-upload/{uuid}', 'EntryController@imageDelete');
-            Route::put('ratings/{uuid}', 'EntryController@ratings');
-            Route::get('titles', 'EntryController@getTitles');
+            Route::put('img-upload/{uuid}', [EntryController::class, 'imageUpload']);
+            Route::delete('img-upload/{uuid}', [EntryController::class, 'imageDelete']);
+            Route::put('ratings/{uuid}', [EntryController::class, 'ratings']);
+            Route::get('titles', [EntryController::class, 'getTitles']);
 
-            Route::post('rewatch/{uuid}', 'EntryController@rewatchAdd');
-            Route::delete('rewatch/{uuid}', 'EntryController@rewatchDelete');
+            Route::post('rewatch/{uuid}', [EntryController::class, 'rewatchAdd']);
+            Route::delete('rewatch/{uuid}', [EntryController::class, 'rewatchDelete']);
 
-            Route::get('last', 'EntryLastController@index');
+            Route::get('last', [EntryLastController::class, 'index']);
 
-            Route::get('by-name', 'EntryByNameController@index');
-            Route::get('by-name/{letter}', 'EntryByNameController@get');
+            Route::get('by-name', [EntryByNameController::class, 'index']);
+            Route::get('by-name/{letter}', [EntryByNameController::class, 'get']);
 
-            Route::get('by-year', 'EntryByYearController@index');
-            Route::get('by-year/{year}', 'EntryByYearController@get');
-            Route::get('by-year/uncategorized', 'EntryByYearController@get');
+            Route::get('by-year', [EntryByYearController::class, 'index']);
+            Route::get('by-year/{year}', [EntryByYearController::class, 'get']);
+            Route::get('by-year/uncategorized', [EntryByYearController::class, 'get']);
 
-            Route::get('by-bucket', 'EntryByBucketController@index');
-            Route::get('by-bucket/{id}', 'EntryByBucketController@get');
+            Route::get('by-bucket', [EntryByBucketController::class, 'index']);
+            Route::get('by-bucket/{id}', [EntryByBucketController::class, 'get']);
 
-            Route::get('by-sequence/{id}', 'EntryBySequenceController@index');
+            Route::get('by-sequence/{id}', [EntryBySequenceController::class, 'index']);
           });
 
         Route::prefix('catalogs')
           ->group(function () {
-            Route::get('', 'CatalogController@index');
-            Route::post('', 'CatalogController@add');
-            Route::put('{uuid}', 'CatalogController@edit');
-            Route::delete('{uuid}', 'CatalogController@delete');
+            Route::get('', [CatalogController::class, 'index']);
+            Route::post('', [CatalogController::class, 'add']);
+            Route::put('{uuid}', [CatalogController::class, 'edit']);
+            Route::delete('{uuid}', [CatalogController::class, 'delete']);
 
-            Route::get('{uuid}/partials', 'CatalogController@get');
+            Route::get('{uuid}/partials', [CatalogController::class, 'get']);
           });
 
         Route::prefix('partials')
           ->group(function () {
-            Route::get('{uuid}', 'PartialController@get');
-            Route::post('', 'PartialController@add');
-            Route::put('{uuid}', 'PartialController@edit');
-            Route::delete('{uuid}', 'PartialController@delete');
+            Route::get('{uuid}', [PartialController::class, 'get']);
+            Route::post('', [PartialController::class, 'add']);
+            Route::put('{uuid}', [PartialController::class, 'edit']);
+            Route::delete('{uuid}', [PartialController::class, 'delete']);
 
-            Route::post('multi', 'PartialController@add_multiple');
-            Route::put('multi/{uuid}', 'PartialController@edit_multiple');
+            Route::post('multi', [PartialController::class, 'add_multiple']);
+            Route::put('multi/{uuid}', [PartialController::class, 'edit_multiple']);
           });
 
         Route::prefix('buckets')
           ->group(function () {
 
             // ======= Unused =======
-            // Route::get('', 'BucketController@index');
-            // Route::post('', 'BucketController@add');
-            // Route::put('{id?}', 'BucketController@edit');
-            // Route::delete('{id}', 'BucketController@delete');
+            // Route::get('', [BucketController::class, 'index']);
+            // Route::post('', [BucketController::class, 'add']);
+            // Route::put('{id?}', [BucketController::class, 'edit']);
+            // Route::delete('{id}', [BucketController::class, 'delete']);
             // ======================
 
-            Route::post('import', 'BucketController@import');
+            Route::post('import', [BucketController::class, 'import']);
           });
 
         Route::prefix('bucket-sims')
           ->group(function () {
-            Route::get('', 'BucketSimController@index');
-            Route::get('{uuid}', 'BucketSimController@get');
-            Route::post('', 'BucketSimController@add');
-            Route::put('{uuid}', 'BucketSimController@edit');
-            Route::delete('{uuid}', 'BucketSimController@delete');
+            Route::get('', [BucketSimController::class, 'index']);
+            Route::get('{uuid}', [BucketSimController::class, 'get']);
+            Route::post('', [BucketSimController::class, 'add']);
+            Route::put('{uuid}', [BucketSimController::class, 'edit']);
+            Route::delete('{uuid}', [BucketSimController::class, 'delete']);
 
-            Route::post('{uuid}', 'BucketSimController@saveBucket');
+            Route::post('{uuid}', [BucketSimController::class, 'saveBucket']);
           });
 
         Route::prefix('sequences')
           ->group(function () {
-            Route::get('', 'SequenceController@index');
-            Route::get('{id}', 'SequenceController@get');
-            Route::post('', 'SequenceController@add');
-            Route::put('{id?}', 'SequenceController@edit');
-            Route::delete('{id}', 'SequenceController@delete');
-            Route::post('import', 'SequenceController@import');
+            Route::get('', [SequenceController::class, 'index']);
+            Route::get('{id}', [SequenceController::class, 'get']);
+            Route::post('', [SequenceController::class, 'add']);
+            Route::put('{id?}', [SequenceController::class, 'edit']);
+            Route::delete('{id}', [SequenceController::class, 'delete']);
+            Route::post('import', [SequenceController::class, 'import']);
           });
 
         Route::prefix('groups')
           ->group(function () {
-            Route::get('', 'GroupController@index');
-            Route::get('names', 'GroupController@getNames');
-            Route::post('', 'GroupController@add');
-            Route::put('{uuid}', 'GroupController@edit');
-            Route::delete('{uuid}', 'GroupController@delete');
-            Route::post('import', 'GroupController@import');
+            Route::get('', [GroupController::class, 'index']);
+            Route::get('names', [GroupController::class, 'getNames']);
+            Route::post('', [GroupController::class, 'add']);
+            Route::put('{uuid}', [GroupController::class, 'edit']);
+            Route::delete('{uuid}', [GroupController::class, 'delete']);
+            Route::post('import', [GroupController::class, 'import']);
           });
 
         Route::prefix('codecs')
           ->group(function () {
-            Route::get('', 'CodecController@index');
+            Route::get('', [CodecController::class, 'index']);
 
             Route::prefix('audio')
               ->group(function () {
-                Route::get('', 'CodecController@getAudio');
-                Route::post('', 'CodecController@addAudio');
-                Route::put('{id}', 'CodecController@editAudio');
-                Route::delete('{id}', 'CodecController@deleteAudio');
+                Route::get('', [CodecController::class, 'getAudio']);
+                Route::post('', [CodecController::class, 'addAudio']);
+                Route::put('{id}', [CodecController::class, 'editAudio']);
+                Route::delete('{id}', [CodecController::class, 'deleteAudio']);
               });
 
             Route::prefix('video')
               ->group(function () {
-                Route::get('', 'CodecController@getVideo');
-                Route::post('', 'CodecController@addVideo');
-                Route::put('{id}', 'CodecController@editVideo');
-                Route::delete('{id}', 'CodecController@deleteVideo');
+                Route::get('', [CodecController::class, 'getVideo']);
+                Route::post('', [CodecController::class, 'addVideo']);
+                Route::put('{id}', [CodecController::class, 'editVideo']);
+                Route::delete('{id}', [CodecController::class, 'deleteVideo']);
               });
           });
 
         Route::prefix('rss')
           ->group(function () {
-            Route::get('', 'RssController@index');
-            Route::get('{uuid}', 'RssController@get');
-            Route::post('', 'RssController@add');
-            Route::put('{uuid}', 'RssController@edit');
-            Route::delete('{uuid}', 'RssController@delete');
+            Route::get('', [RssController::class, 'index']);
+            Route::get('{uuid}', [RssController::class, 'get']);
+            Route::post('', [RssController::class, 'add']);
+            Route::put('{uuid}', [RssController::class, 'edit']);
+            Route::delete('{uuid}', [RssController::class, 'delete']);
 
-            Route::put('read/{uuid}', 'RssController@read');
-            Route::delete('read/{uuid}', 'RssController@unread');
+            Route::put('read/{uuid}', [RssController::class, 'read']);
+            Route::delete('read/{uuid}', [RssController::class, 'unread']);
 
-            Route::put('bookmark/{uuid}', 'RssController@bookmark');
-            Route::delete('bookmark/{uuid}', 'RssController@removeBookmark');
+            Route::put('bookmark/{uuid}', [RssController::class, 'bookmark']);
+            Route::delete('bookmark/{uuid}', [RssController::class, 'removeBookmark']);
           });
 
         Route::prefix('anilist')
           ->group(function () {
-            Route::get('title/{integer}', 'AnilistController@get');
-            Route::get('search', 'AnilistController@search');
+            Route::get('title/{integer}', [AnilistController::class, 'get']);
+            Route::get('search', [AnilistController::class, 'search']);
           });
 
         Route::prefix('pc-setups')
           ->group(function () {
-            Route::get('', 'PCSetupController@index');
-            Route::get('{id}', 'PCSetupController@get');
-            Route::post('', 'PCSetupController@add');
-            Route::put('{id}', 'PCSetupController@edit');
-            Route::delete('{id}', 'PCSetupController@delete');
-            Route::post('import', 'PCSetupController@import');
+            Route::get('', [PCSetupController::class, 'index']);
+            Route::get('{id}', [PCSetupController::class, 'get']);
+            Route::post('', [PCSetupController::class, 'add']);
+            Route::put('{id}', [PCSetupController::class, 'edit']);
+            Route::delete('{id}', [PCSetupController::class, 'delete']);
+            Route::post('import', [PCSetupController::class, 'import']);
 
-            Route::post('duplicate/{id}', 'PCSetupController@duplicate');
-            Route::put('current/{id}', 'PCSetupController@toggleCurrent');
-            Route::put('future/{id}', 'PCSetupController@toggleFuture');
-            Route::put('server/{id}', 'PCSetupController@toggleServer');
+            Route::post('duplicate/{id}', [PCSetupController::class, 'duplicate']);
+            Route::put('current/{id}', [PCSetupController::class, 'toggleCurrent']);
+            Route::put('future/{id}', [PCSetupController::class, 'toggleFuture']);
+            Route::put('server/{id}', [PCSetupController::class, 'toggleServer']);
           });
 
         // ===== Deprecated =====
         Route::prefix('mal')
           ->group(function () {
-            Route::get('title/{integer}', 'MALController@get');
-            Route::get('search/{string}', 'MALController@search');
+            Route::get('title/{integer}', [MALController::class, 'get']);
+            Route::get('search/{string}', [MALController::class, 'search']);
           });
 
-        Route::get('changelog/{params?}', 'ReleaseController@getLogs');
-        Route::get('changelog-be/{params?}', 'ReleaseController@getLogsBE');
-        Route::get('issues/{params?}', 'ReleaseController@getIssues');
+        Route::get('changelog/{params?}', [ReleaseController::class, 'getLogs']);
+        Route::get('changelog-be/{params?}', [ReleaseController::class, 'getLogsBE']);
+        Route::get('issues/{params?}', [ReleaseController::class, 'getIssues']);
         // ======================
       });
   });
