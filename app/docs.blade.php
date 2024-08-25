@@ -31,6 +31,10 @@
       background: #fafafa;
     }
 
+    .renderedMarkdown {
+      line-height: 1.25em;
+    }
+
     .swagger-ui .info {
       margin-bottom: 0;
     }
