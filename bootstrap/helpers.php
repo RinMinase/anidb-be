@@ -113,3 +113,32 @@ if (!function_exists('max_int')) {
     }
   }
 }
+
+if (!function_exists('parse_comparator')) {
+  function parse_comparator(string $comparator_text): string {
+    $valid_comparators = ['>', '>=', '<', '<='];
+    if (in_array($comparator_text, $valid_comparators)) {
+      return $comparator_text;
+    }
+
+    if ($comparator_text === 'gt' || $comparator_text === 'greater than') {
+      return '>';
+    } else if (
+      $comparator_text === 'gte' ||
+      $comparator_text === 'greater than or equal' ||
+      $comparator_text === 'greater than equal'
+    ) {
+      return '>=';
+    } else if ($comparator_text === 'lt' || $comparator_text === 'less than') {
+      return '<';
+    } else if (
+      $comparator_text === 'lte' ||
+      $comparator_text === 'less than or equal' ||
+      $comparator_text === 'less than equal'
+    ) {
+      return '<=';
+    } else {
+      return '';
+    }
+  }
+}
