@@ -7,6 +7,8 @@ use App\Models\Quality;
 class QualityRepository {
 
   public function getAll() {
-    return Quality::all();
+    return Quality::select('id', 'quality')
+      ->orderBy('id', 'asc')
+      ->get();
   }
 }

@@ -14,6 +14,7 @@ return new class extends Migration {
     Schema::create('qualities', function (Blueprint $table) {
       $table->id();
       $table->string('quality', 16);
+      $table->smallInteger('vertical_pixels');
     });
   }
 
