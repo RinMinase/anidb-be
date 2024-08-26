@@ -175,6 +175,6 @@ if (!function_exists('get_comparator')) {
       }
     }
 
-    return null;
+    throw new Error('Error parsing comparator');
   }
 }
