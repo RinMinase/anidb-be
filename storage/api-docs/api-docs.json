@@ -1976,22 +1976,19 @@
                 "operationId": "0715d85a4978cb676a1adae8ea40927c",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/entry_search_needle"
+                        "$ref": "#/components/parameters/entry_get_all_query"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_search_haystack"
+                        "$ref": "#/components/parameters/entry_get_all_column"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_search_column"
+                        "$ref": "#/components/parameters/entry_get_all_order"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_search_order"
+                        "$ref": "#/components/parameters/entry_get_all_page"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_search_page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/entry_search_limit"
+                        "$ref": "#/components/parameters/entry_get_all_limit"
                     }
                 ],
                 "responses": {
@@ -2332,6 +2329,106 @@
                     },
                     "404": {
                         "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/search": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Search All Entries",
+                "operationId": "63761719a8d753eef3ae795a29b43aeb",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/entry_search_quality"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_title"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_filesize"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_episodes"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_ovas"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_specials"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_encoder"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_encoder_video"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_encoder_audio"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_encoder_subs"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_release"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_remarks"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_has_remarks"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_has_image"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_column"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_order"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntrySummaryResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -8262,6 +8359,36 @@
                     }
                 }
             },
+            "SearchFilterParsingException": {
+                "description": "Partial Parsing Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "field": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "data": {
+                                "field": "{{ Error Message }}"
+                            }
+                        }
+                    }
+                }
+            },
             "JsonParsingException": {
                 "description": "Partial Parsing Error",
                 "content": {
@@ -8900,6 +9027,63 @@
                 },
                 "example": "2022-01-23"
             },
+            "entry_get_all_query": {
+                "name": "needle",
+                "in": "query",
+                "description": "Search - Item to search for in haystack (column)",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "item name"
+            },
+            "entry_get_all_column": {
+                "name": "column",
+                "in": "query",
+                "description": "Order - Column to order",
+                "schema": {
+                    "type": "string",
+                    "default": "id_quality"
+                },
+                "example": "id_quality"
+            },
+            "entry_get_all_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column",
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "entry_get_all_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "entry_get_all_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 30,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 30
+            },
             "entry_ratings_audio": {
                 "name": "audio",
                 "in": "query",
@@ -8944,24 +9128,138 @@
                 },
                 "example": 10
             },
-            "entry_search_needle": {
-                "name": "needle",
+            "entry_search_quality": {
+                "name": "quality",
                 "in": "query",
-                "description": "Search - Item to search for in haystack (column)",
+                "description": "Could be common terms: 4K, UHD<br>Vertical pixels: 1080, 1080p;",
                 "schema": {
                     "type": "string"
                 },
-                "example": "item name"
+                "example": "UHD"
             },
-            "entry_search_haystack": {
-                "name": "haystack",
+            "entry_search_title": {
+                "name": "title",
                 "in": "query",
-                "description": "Search - Column to search for",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "sample title"
+            },
+            "entry_search_date": {
+                "name": "date",
+                "in": "query",
+                "description": "Could be a date or date range: '{date}', '{date} to {date}', 'from {date} to {date}';<br>Comparators: '> 2024-10-20', '>= 2024', 'gt 2024-10-20', 'gte 2024', 'greater than 2024-10', 'greater than or equal 2024-10-20'",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "2024-10 to 2024-11"
+            },
+            "entry_search_filesize": {
+                "name": "filesize",
+                "in": "query",
+                "description": "Could be common terms or byte value: '3 GB', 3000000000<br>Comparators: '> 3 GB'",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "> 3 GB"
+            },
+            "entry_search_episodes": {
+                "name": "episodes",
+                "in": "query",
+                "description": "Could be absolute value: 3<br>Range: 10 to 12<br>Comparators > 12",
+                "schema": {
+                    "type": "string"
+                },
+                "example": ">= 12"
+            },
+            "entry_search_ovas": {
+                "name": "ovas",
+                "in": "query",
+                "description": "Could be absolute value: 3<br>Range: 10 to 12<br>Comparators > 12",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_specials": {
+                "name": "specials",
+                "in": "query",
+                "description": "Could be absolute value: 3<br>Range: 10 to 12<br>Comparators > 12",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_encoder": {
+                "name": "encoder",
+                "in": "query",
+                "description": "This searches / matches for all Video, Audio, Sub Encoders",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "sample encoder"
+            },
+            "entry_search_encoder_video": {
+                "name": "encoder_video",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_encoder_audio": {
+                "name": "encoder_audio",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_encoder_subs": {
+                "name": "encoder_subs",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_release": {
+                "name": "release",
+                "in": "query",
+                "description": "Could be absolute: spring, 2020, 'spring 2020'<br>Range: '2020 to 2021', 'summer 2020 to spring 2021', '2020 summer to 2022'<br>Comparators: '> spring 2023'",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_remarks": {
+                "name": "remarks",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_has_remarks": {
+                "name": "has_remarks",
+                "in": "query",
                 "schema": {
                     "type": "string",
-                    "default": "title"
+                    "default": "any",
+                    "enum": [
+                        "any",
+                        "yes",
+                        "no"
+                    ]
                 },
-                "example": "title"
+                "example": "any"
+            },
+            "entry_search_has_image": {
+                "name": "has_image",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "any",
+                    "enum": [
+                        "any",
+                        "yes",
+                        "no"
+                    ]
+                },
+                "example": "any"
             },
             "entry_search_column": {
                 "name": "column",
@@ -8985,31 +9283,6 @@
                         "desc"
                     ]
                 }
-            },
-            "entry_search_page": {
-                "name": "page",
-                "in": "query",
-                "description": "Pagination - Page to query",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "default": 1,
-                    "minimum": 1
-                },
-                "example": 1
-            },
-            "entry_search_limit": {
-                "name": "limit",
-                "in": "query",
-                "description": "Pagination - Page item limit",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "default": 30,
-                    "maximum": 9999,
-                    "minimum": 1
-                },
-                "example": 30
             },
             "entry_search_titles_id": {
                 "name": "id",
