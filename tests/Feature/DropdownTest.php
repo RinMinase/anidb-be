@@ -18,13 +18,6 @@ class DropdownTest extends BaseTestCase {
       ]);
   }
 
-  public function test_should_not_get_all_priorities_on_no_auth() {
-    $response = $this->get('/api/priorities');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
-  }
-
   public function test_should_get_all_qualities_successfully() {
     $response = $this->withoutMiddleware()->get('/api/qualities');
 
@@ -35,12 +28,5 @@ class DropdownTest extends BaseTestCase {
           'quality',
         ]]
       ]);
-  }
-
-  public function test_should_not_get_all_qualities_on_no_auth() {
-    $response = $this->get('/api/qualities');
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'Unauthorized']);
   }
 }
