@@ -13,7 +13,7 @@ class QualityRepository {
   }
 
   // Helper Functions
-  public static function parseQuality(string $quality): string {
+  public static function parseQuality(string $quality): string | null {
     $quality = strtolower($quality);
 
     $values = ['4k', 'uhd', '2160p', '2160'];
