@@ -10,6 +10,7 @@ use App\Repositories\EntryRepository;
 use App\Requests\ImportRequest;
 use App\Requests\Entry\AddEditRequest;
 use App\Requests\Entry\AddRewatchRequest;
+use App\Requests\Entry\GetAllRequest;
 use App\Requests\Entry\ImageUploadRequest;
 use App\Requests\Entry\RatingsRequest;
 use App\Requests\Entry\SearchRequest;
@@ -33,12 +34,11 @@ class EntryController extends Controller {
    *   summary="Get All Entries",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_needle"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_haystack"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_column"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_order"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_page"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_limit"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_query"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_column"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_order"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_page"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_limit"),
    *
    *   @OA\Response(
    *     response=200,
@@ -61,9 +61,9 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(SearchRequest $request): JsonResponse {
+  public function index(GetAllRequest $request): JsonResponse {
     $data = $this->entryRepository->getAll(
-      $request->only('needle', 'haystack', 'column', 'order', 'limit', 'page')
+      $request->only('query', 'column', 'order', 'limit', 'page')
     );
 
     return DefaultResponse::success(null, [

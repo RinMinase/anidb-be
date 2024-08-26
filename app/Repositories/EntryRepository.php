@@ -21,8 +21,7 @@ class EntryRepository {
 
   public function getAll(array $values) {
     // Search Parameters
-    $needle = $values['needle'] ?? '';
-    $haystack = $values['haystack'] ?? 'title';
+    $query = $values['query'] ?? '';
 
     // Ordering Parameters
     $column = $values['column'] ?? 'id_quality';
@@ -33,15 +32,14 @@ class EntryRepository {
     $page = isset($values['page']) ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
-    $data = Entry::select()
-      ->with('rating');
-
+    $data = Entry::select()->with('rating');
     $fuzzy_ids = [];
-    if ($haystack === 'title' && !empty($needle)) {
+
+    if (!empty($query)) {
       $names = Entry::select('uuid', 'title')->get()->toArray();
 
       $fuse = new Fuse($names, ['keys' => ['title']]);
-      $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
+      $fuzzy_names = $fuse->search($query, ['limit' => 10]);
 
       foreach ($fuzzy_names as $fuzzy_name) {
         $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
@@ -55,23 +53,22 @@ class EntryRepository {
         }
         $case_string .= 'END';
 
-        $data = $data->orderByRaw($case_string);
+        if (isset($column) && isset($order)) {
+          $data = $data->orderBy($column, $order);
+        }
+
+        $data = $data->orderByRaw($case_string)
+          ->orderBy('id');
       }
-    } else {
-      $data = $data->where($haystack, 'ilike', '%' . $needle . '%')
-        ->orderBy($column, $order)
-        ->orderBy('title')
-        ->orderBy('id');
     }
 
     $total = $data->count();
     $total_pages = ceil($total / $limit);
     $has_next = $page < $total_pages;
 
-    $data = $data->skip($skip)
-      ->paginate($limit);
+    $data = $data->skip($skip)->paginate($limit);
 
-    if ($haystack === 'title' && !empty($needle) && !count($fuzzy_ids)) {
+    if (!empty($needle) && !count($fuzzy_ids)) {
       $data = [];
     }
 
