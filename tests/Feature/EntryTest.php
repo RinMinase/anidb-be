@@ -2008,10 +2008,7 @@ class EntryTest extends BaseTestCase {
    * Entry Search Functions
    */
   public function test_should_parse_quality_value_with_multiple_values() {
-    $expected = [
-      'filters' => ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'],
-      'comparator' => null,
-    ];
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
 
     $value = '4k, 1080p, 720p, 480p, 360p';
     $actual = EntryRepository::search_parse_quality($value);
@@ -2043,55 +2040,35 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_parse_quality_value_with_absolute_value() {
-    $expected = [
-      'filters' => ['4K 2160p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['4K 2160p'];
     $values = ['4K', '4k', 'UHD', 'uhd', '2160P', '2160p', '2160'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['FHD 1080p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['FHD 1080p'];
     $values = ['FHD', 'fhd', '1080P', '1080p', '1080'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HD 720p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['HD 720p'];
     $values = ['HD', 'hd', '720P', '720p', '720'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HQ 480p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['HQ 480p'];
     $values = ['HQ', 'hq', '480P', '480p', '480'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['LQ 360p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['LQ 360p'];
     $values = ['LQ', 'lq', '360P', '360p', '360'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
@@ -2100,232 +2077,136 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_parse_quality_value_with_comparators() {
-    $expected = [
-      'filters' => ['4K 2160p'],
-      'comparator' => '>',
-    ];
-
+    $expected = ['4K 2160p'];
     $values = [
-      '> uhd',
-      'gt uhd',
-      'greater than uhd',
-      '> 4k',
-      'gt 4k',
-      'greater than 4k',
-      '> 2160p',
-      'gt 2160p',
-      'greater than 2160p',
+      '>= uhd',
+      '>= 4k',
+      'gte uhd',
+      'gte 4k',
+      'greater than equal uhd',
+      'greater than equal 4k',
+      'greater than or equal uhd',
+      'greater than or equal 4k',
     ];
-
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['4K 2160p'],
-      'comparator' => '>=',
-    ];
-
-    $values = ['>= uhd', 'gte uhd', 'greater than equal uhd', 'greater than or equal uhd'];
-    foreach ($values as $value) {
-      $actual = EntryRepository::search_parse_quality($value);
-      $this->assertEquals($expected, $actual);
-    }
-
-    $expected = [
-      'filters' => ['4K 2160p'],
-      'comparator' => '<=',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
     $values = ['<= uhd', 'lte uhd', 'less than equal uhd', 'less than or equal uhd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['4K 2160p'],
-      'comparator' => '<',
-    ];
-
+    $expected = ['FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
     $values = ['< uhd', 'lt uhd', 'less than uhd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['FHD 1080p'],
-      'comparator' => '>',
-    ];
-
+    $expected = ['4K 2160p'];
     $values = ['> fhd', 'gt fhd', 'greater than fhd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['FHD 1080p'],
-      'comparator' => '>=',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p'];
     $values = ['>= fhd', 'gte fhd', 'greater than equal fhd', 'greater than or equal fhd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['FHD 1080p'],
-      'comparator' => '<=',
-    ];
-
+    $expected = ['FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
     $values = ['<= fhd', 'lte fhd', 'less than equal fhd', 'less than or equal fhd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['FHD 1080p'],
-      'comparator' => '<',
-    ];
-
+    $expected = ['HD 720p', 'HQ 480p', 'LQ 360p'];
     $values = ['< fhd', 'lt fhd', 'less than fhd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HD 720p'],
-      'comparator' => '>',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p'];
     $values = ['> hd', 'gt hd', 'greater than hd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HD 720p'],
-      'comparator' => '>=',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p'];
     $values = ['>= hd', 'gte hd', 'greater than equal hd', 'greater than or equal hd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HD 720p'],
-      'comparator' => '<=',
-    ];
-
+    $expected = ['HD 720p', 'HQ 480p', 'LQ 360p'];
     $values = ['<= hd', 'lte hd', 'less than equal hd', 'less than or equal hd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HD 720p'],
-      'comparator' => '<',
-    ];
-
+    $expected = ['HQ 480p', 'LQ 360p'];
     $values = ['< hd', 'lt hd', 'less than hd'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HQ 480p'],
-      'comparator' => '>',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p'];
     $values = ['> hq', 'gt hq', 'greater than hq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HQ 480p'],
-      'comparator' => '>=',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p'];
     $values = ['>= hq', 'gte hq', 'greater than equal hq', 'greater than or equal hq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HQ 480p'],
-      'comparator' => '<=',
-    ];
-
+    $expected = ['HQ 480p', 'LQ 360p'];
     $values = ['<= hq', 'lte hq', 'less than equal hq', 'less than or equal hq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['HQ 480p'],
-      'comparator' => '<',
-    ];
-
+    $expected = ['LQ 360p'];
     $values = ['< hq', 'lt hq', 'less than hq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['LQ 360p'],
-      'comparator' => '>',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p'];
     $values = ['> lq', 'gt lq', 'greater than lq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['LQ 360p'],
-      'comparator' => '>=',
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
     $values = ['>= lq', 'gte lq', 'greater than equal lq', 'greater than or equal lq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
     }
 
-    $expected = [
-      'filters' => ['LQ 360p'],
-      'comparator' => '<=',
-    ];
-
+    $expected = ['LQ 360p'];
     $values = ['<= lq', 'lte lq', 'less than equal lq', 'less than or equal lq'];
-    foreach ($values as $value) {
-      $actual = EntryRepository::search_parse_quality($value);
-      $this->assertEquals($expected, $actual);
-    }
-
-    $expected = [
-      'filters' => ['LQ 360p'],
-      'comparator' => '<',
-    ];
-
-    $values = ['< lq', 'lt lq', 'less than lq'];
     foreach ($values as $value) {
       $actual = EntryRepository::search_parse_quality($value);
       $this->assertEquals($expected, $actual);
@@ -2333,47 +2214,27 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_return_valid_filters_when_parsing_partial_invalid_quality() {
-    $expected = [
-      'filters' => ['FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
     $value = 'invalid, fhd, hd, hq, lq';
     $actual = EntryRepository::search_parse_quality($value);
     $this->assertEquals($expected, $actual);
 
-    $expected = [
-      'filters' => ['4K 2160p', 'HD 720p', 'HQ 480p', 'LQ 360p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['4K 2160p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
     $value = 'uhd, invalid, hd, hq, lq';
     $actual = EntryRepository::search_parse_quality($value);
     $this->assertEquals($expected, $actual);
 
-    $expected = [
-      'filters' => ['4K 2160p', 'FHD 1080p', 'HQ 480p', 'LQ 360p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HQ 480p', 'LQ 360p'];
     $value = 'uhd, fhd, invalid, hq, lq';
     $actual = EntryRepository::search_parse_quality($value);
     $this->assertEquals($expected, $actual);
 
-    $expected = [
-      'filters' => ['4K 2160p', 'FHD 1080p', 'HD 720p', 'LQ 360p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'LQ 360p'];
     $value = 'uhd, fhd, hd, invalid, lq';
     $actual = EntryRepository::search_parse_quality($value);
     $this->assertEquals($expected, $actual);
 
-    $expected = [
-      'filters' => ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p'],
-      'comparator' => null,
-    ];
-
+    $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p'];
     $value = 'uhd, fhd, hd, hq, invalid';
     $actual = EntryRepository::search_parse_quality($value);
     $this->assertEquals($expected, $actual);
@@ -2390,6 +2251,30 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_throw_error_on_parsing_completely_invalid_quality() {
+    $value = 'greater than uhd';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      Exception::class
+    );
+
+    $value = 'greater than 4k';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      Exception::class
+    );
+
+    $value = 'less than 360p';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      Exception::class
+    );
+
+    $value = '< lq';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      Exception::class
+    );
+
     $value = 'greater than invalid';
     $this->assertThrows(
       fn() => EntryRepository::search_parse_quality($value),
