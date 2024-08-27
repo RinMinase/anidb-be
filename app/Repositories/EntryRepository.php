@@ -2,12 +2,17 @@
 
 namespace App\Repositories;
 
+use Error;
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 use Cloudinary\Api\Upload\UploadApi;
 use Fuse\Fuse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
+use App\Enums\EntrySearchHasEnum;
+use App\Exceptions\Entry\SearchFilterParsingException;
 
 use App\Models\Entry;
 use App\Models\EntryRewatch;
@@ -86,6 +91,38 @@ class EntryRepository {
     ];
 
     return $return_value;
+  }
+
+  public function search(array $values) {
+    // Search Parameters
+    $search_quality = self::search_parse_quality($values['quality']);
+    $search_title = $values['title'] ?? null;
+
+    $search_date = self::search_parse_date($values['date']);
+    $search_filesize = self::search_parse_filesize($values['filesize']);
+
+    $search_episodes = self::search_parse_count($values['episodes'], 'episodes');
+    $search_ovas = self::search_parse_count($values['ovas'], 'ovas');
+    $search_specials = self::search_parse_count($values['specials'], 'specials');
+
+    $search_encoder = $values['encoder'] ?? null;
+    $search_encoder_video = $values['encoder_video'] ?? null;
+    $search_encoder_audio = $values['encoder_audio'] ?? null;
+    $search_encoder_subs = $values['encoder_subs'] ?? null;
+
+    $search_release = $values['release'] ?? null;
+    $search_remarks = $values['remarks'] ?? null;
+
+    $search_has_remarks = self::search_parse_has_value($values['has_remarks']);
+    $search_has_image = self::search_parse_has_value($values['has_image']);
+
+    // Ordering Parameters
+    $column = $values['column'] ?? 'id_quality';
+    $order = $values['order'] ?? 'asc';
+
+    $data = [];
+
+    return $data;
   }
 
   public function get($id) {
@@ -792,5 +829,366 @@ class EntryRepository {
       'start_date' => $start_date->format('M d, Y'),
       'end_date' => $end_date->format('M d, Y'),
     ];
+  }
+
+  // Search Functions
+  public static function search_parse_quality($value) {
+    if (!$value) return null;
+
+    // Note:
+    // 'p' suffix should not matter in parsing vertical pixels,
+    // 2160p has 2 common terms: UHD and 4K
+
+    // Multiple :: {value}, {value}, {value}
+    if (str_contains($value, ',')) {
+      $filters = [];
+      $values = explode(',', $value);
+
+      foreach ($values as $item) {
+        $raw_filter = trim($item);
+
+        $filter = QualityRepository::parseQuality($raw_filter);
+
+        if ($filter) {
+          array_push($filters, $filter);
+        }
+      }
+
+      if (!count($filters)) {
+        throw new SearchFilterParsingException('quality', 'Error in parsing string');
+      }
+
+      return [
+        'filters' => $filters,
+        'comparator' => null,
+      ];
+    }
+
+    // Comparators :: {comparator} {value}
+    $comparator = get_comparator($value);
+
+    if ($comparator) {
+      $value = strtolower($value);
+      $quality = trim(str_replace($comparator, '', $value));
+
+      try {
+        $comparator = parse_comparator($comparator);
+      } catch (Error) {
+        throw new SearchFilterParsingException('quality', 'Error in parsing comparator');
+      }
+
+      $filter = QualityRepository::parseQuality($quality);
+
+      if (!$filter) {
+        throw new SearchFilterParsingException('quality', 'Error in parsing string');
+      }
+
+      return [
+        'filters' => [$filter],
+        'comparator' => $comparator ?? null,
+      ];
+    }
+
+    // Absolute Value :: {value}
+    $filter = QualityRepository::parseQuality($value);
+
+    if ($filter) {
+      return [
+        'filters' => [$filter],
+        'comparator' => null,
+      ];
+    }
+
+    // Invalid
+    throw new SearchFilterParsingException('quality', 'Error in parsing string');
+  }
+
+  public static function search_parse_date($value) {
+    if (!$value) return null;
+
+    // Range ::
+    // - {date} to {date}
+    // - from {date} to {date}
+    if (str_contains($value, ' to ')) {
+      $value = str_ireplace('from', '', $value);
+      $value = trim($value);
+
+      $parts = explode(' to ', $value);
+      $date_from = trim($parts[0]);
+      $date_to = trim(end($parts));
+
+      try {
+        $date_from = Carbon::parse($date_from);
+      } catch (InvalidFormatException) {
+        throw new SearchFilterParsingException('date', 'Error in parsing from date');
+      }
+
+      try {
+        $date_to = Carbon::parse($date_to);
+      } catch (InvalidFormatException) {
+        throw new SearchFilterParsingException('date', 'Error in parsing to date');
+      }
+
+      if ($date_from->gte($date_to)) {
+        throw new SearchFilterParsingException('date', 'Date to should be later than date from');
+      }
+
+      return [
+        'date_from' => $date_from->format('Y-m-d'),
+        'date_to' => $date_to->format('Y-m-d'),
+        'comparator' => null,
+      ];
+    }
+
+    // Comparators :: {comparator} {date}
+    $comparator = get_comparator($value);
+
+    if ($comparator) {
+      $value = strtolower($value);
+      $date = trim(str_replace($comparator, '', $value));
+
+      try {
+        $comparator = parse_comparator($comparator);
+      } catch (Error) {
+        throw new SearchFilterParsingException('date', 'Error in parsing comparator');
+      }
+
+      try {
+        $date = Carbon::parse($date);
+      } catch (InvalidFormatException) {
+        throw new SearchFilterParsingException('date', 'Error in parsing date');
+      }
+
+      return [
+        'date_from' => $date->format('Y-m-d'),
+        'date_to' => null,
+        'comparator' => $comparator ?? null,
+      ];
+    }
+
+    // Absolute Value :: {date}
+    try {
+      $date = Carbon::parse($value);
+
+      return [
+        'date_from' => $date->format('Y-m-d'),
+        'date_to' => null,
+        'comparator' => null,
+      ];
+    } catch (InvalidFormatException) {
+      throw new SearchFilterParsingException('date', 'Error in parsing date');
+    }
+
+    // Invalid
+    throw new SearchFilterParsingException('date', 'Error in parsing string');
+  }
+
+  public static function search_parse_filesize($value) {
+    if (!$value) return null;
+
+    // Range
+    // - {value} {unit?} to {value} {unit?}
+    // - from {value} {unit?} to {value} {unit?}
+    if (str_contains($value, ' to ')) {
+      $value = str_ireplace('from', '', $value);
+      $value = trim($value);
+
+      $parts = explode(' to ', $value);
+      $filesize_from = strtolower(trim($parts[0]));
+      $filesize_to = strtolower(trim(end($parts)));
+
+      $valid_units = ['tb', 'gb', 'mb', 'kb'];
+
+      if (!is_numeric($filesize_from)) {
+        $flag_from = true;
+
+        foreach ($valid_units as $unit) {
+          if (strpos($filesize_from, $unit) !== false) {
+            $raw_filesize = preg_match('![0-9]+!', $filesize_from, $matches);
+            $raw_filesize = implode('', $matches);
+
+            if ($unit === 'kb') $filesize_from = $raw_filesize * 1024;
+            if ($unit === 'mb') $filesize_from = $raw_filesize * 1024 * 1024;
+            if ($unit === 'gb') $filesize_from = $raw_filesize * 1024 * 1024 * 1024;
+            if ($unit === 'tb') $filesize_from = $raw_filesize * 1024 * 1024 * 1024 * 1024;
+
+            $flag_from = false;
+            break;
+          }
+        }
+
+        if ($flag_from) {
+          throw new SearchFilterParsingException('filesize', 'Error in parsing from filesize');
+        }
+      }
+
+      if (!is_numeric($filesize_to)) {
+        $flag_to = true;
+
+        foreach ($valid_units as $unit) {
+          if (strpos($filesize_to, $unit) !== false) {
+            $raw_filesize = preg_match('![0-9]+!', $filesize_to, $matches);
+            $raw_filesize = implode('', $matches);
+
+            if ($unit === 'kb') $filesize_to = $raw_filesize * 1024;
+            if ($unit === 'mb') $filesize_to = $raw_filesize * 1024 * 1024;
+            if ($unit === 'gb') $filesize_to = $raw_filesize * 1024 * 1024 * 1024;
+            if ($unit === 'tb') $filesize_to = $raw_filesize * 1024 * 1024 * 1024 * 1024;
+
+            $flag_to = false;
+            break;
+          }
+        }
+
+        if ($flag_to) {
+          throw new SearchFilterParsingException('filesize', 'Error in parsing to filesize');
+        }
+      }
+
+      if ($filesize_from >= $filesize_to) {
+        throw new SearchFilterParsingException('filesize', 'Filesize to to should be smaller than filesize from');
+      }
+
+      return [
+        'filesize_from' => $filesize_from,
+        'filesize_to' => $filesize_to,
+        'comparator' => null,
+      ];
+    }
+
+    // Comparators :: {comparator} {value} {unit?}
+    $comparator = get_comparator($value);
+
+    if ($comparator) {
+      $value = strtolower($value);
+      $filesize = trim(str_replace($comparator, '', $value));
+
+      try {
+        $comparator = parse_comparator($comparator);
+      } catch (Error) {
+        throw new SearchFilterParsingException('filesize', 'Error in parsing comparator');
+      }
+
+      if (!is_numeric($filesize)) {
+        $valid_units = ['tb', 'gb', 'mb', 'kb'];
+        $flag_invalid = true;
+
+        foreach ($valid_units as $unit) {
+          if (strpos($filesize, $unit) !== false) {
+            $raw_filesize = preg_match('![0-9]+!', $filesize, $matches);
+            $raw_filesize = implode('', $matches);
+
+            if ($unit === 'kb') $filesize = $raw_filesize * 1024;
+            if ($unit === 'mb') $filesize = $raw_filesize * 1024 * 1024;
+            if ($unit === 'gb') $filesize = $raw_filesize * 1024 * 1024 * 1024;
+            if ($unit === 'tb') $filesize = $raw_filesize * 1024 * 1024 * 1024 * 1024;
+
+            $flag_invalid = false;
+
+            break;
+          }
+        }
+
+        if ($flag_invalid) {
+          throw new SearchFilterParsingException('filesize', 'Error in parsing filesize');
+        }
+      }
+
+      return [
+        'filesize_from' => $filesize,
+        'filesize_to' => null,
+        'comparator' => $comparator ?? null,
+      ];
+    }
+
+    // Invalid
+    throw new SearchFilterParsingException('filesize', 'Error in parsing string');
+  }
+
+  public static function search_parse_count($value, string $field) {
+    if (!$value) return null;
+
+    // Range ::
+    // - {value} to {value}
+    // - from {value} to {value}
+    if (str_contains($value, ' to ')) {
+      $value = str_ireplace('from', '', $value);
+      $value = trim($value);
+
+      $parts = explode(' to ', $value);
+      $count_from = trim($parts[0]);
+      $count_to = trim(end($parts));
+
+      if (!is_numeric($count_from)) {
+        throw new SearchFilterParsingException($field, 'Error in parsing from ' . $field);
+      }
+
+      if (!is_numeric($count_to)) {
+        throw new SearchFilterParsingException($field, 'Error in parsing to ' . $field);
+      }
+
+      if ($count_from >= $count_to) {
+        throw new SearchFilterParsingException($field, $field . ' to should be smaller than ' . $field . ' from');
+      }
+
+      return [
+        'count_from' => $count_from,
+        'count_to' => $count_to,
+        'comparator' => null,
+      ];
+    }
+
+    // Comparators :: {comparator} {value}
+    $comparator = get_comparator($value);
+
+    if ($comparator) {
+      $count = trim(str_replace($comparator, '', $value));
+
+      try {
+        $comparator = parse_comparator($comparator);
+      } catch (Error) {
+        throw new SearchFilterParsingException($field, 'Error in parsing comparator');
+      }
+
+      if (!is_numeric($count)) {
+        throw new SearchFilterParsingException($field, 'Error in parsing to ' . $field);
+      }
+
+      return [
+        'count_from' => $count,
+        'count_to' => null,
+        'comparator' => $comparator ?? null,
+      ];
+    }
+
+    // Absolute Value :: {value}
+    if (!is_numeric($value)) {
+      throw new SearchFilterParsingException($field, 'Error in parsing to ' . $field);
+    }
+
+    return [
+      'count_from' => $value,
+      'count_to' => null,
+      'comparator' => $comparator ?? null,
+    ];
+
+    // Invalid
+    throw new SearchFilterParsingException($field, 'Error in parsing string');
+  }
+
+  public static function search_parse_has_value($value) {
+    if (!is_bool($value)) {
+      $value = strtolower($value);
+    }
+
+    if ($value === 'yes' || $value === 'true' || $value === true) {
+      return EntrySearchHasEnum::YES;
+    }
+
+    if ($value === 'no' || $value === 'false' || $value === false) {
+      return EntrySearchHasEnum::NO;
+    }
+
+    return EntrySearchHasEnum::ANY;
   }
 }

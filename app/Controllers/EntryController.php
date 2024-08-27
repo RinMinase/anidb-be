@@ -305,6 +305,79 @@ class EntryController extends Controller {
   }
 
   /**
+   * @OA\Get(
+   *   tags={"Entry"},
+   *   path="/api/entries/search",
+   *   summary="Search All Entries",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_quality"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_title"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_date"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_filesize"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_episodes"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_ovas"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_specials"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder_video"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder_subs"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_release"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_remarks"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_has_remarks"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_has_image"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_column"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_order"),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
+   *           ),
+   *         ),
+   *       },
+   *     )
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function search(SearchRequest $request): JsonResponse {
+    $data = $this->entryRepository->search(
+      $request->only(
+        'quality',
+        'title',
+        'date',
+        'filesize',
+        'episodes',
+        'ovas',
+        'specials',
+        'encoder',
+        'encoder_video',
+        'encoder_audio',
+        'encoder_subs',
+        'release',
+        'remarks',
+        'has_remarks',
+        'has_image',
+        'column',
+        'order',
+      )
+    );
+
+    return DefaultResponse::success(null, [
+      'data' => $data,
+    ]);
+  }
+
+  /**
    * @OA\Post(
    *   tags={"Import"},
    *   path="/api/entries/import",
