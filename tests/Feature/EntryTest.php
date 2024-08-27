@@ -10,8 +10,11 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
+use App\Enums\EntrySearchHasEnum;
 use App\Enums\IntegerSizesEnum;
 use App\Enums\IntegerTypesEnum;
+
+use App\Exceptions\Entry\SearchFilterParsingException;
 
 use App\Models\CodecAudio;
 use App\Models\CodecVideo;
@@ -21,6 +24,9 @@ use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 use App\Models\Log;
 use App\Models\Quality;
+
+use App\Repositories\EntryRepository;
+use Exception;
 
 class EntryTest extends BaseTestCase {
 
@@ -128,7 +134,8 @@ class EntryTest extends BaseTestCase {
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => self::$entry_1_image_url,
-      ], [
+      ],
+      [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
         'id_quality' => $id_quality,
@@ -140,7 +147,8 @@ class EntryTest extends BaseTestCase {
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
-      ], [
+      ],
+      [
         'id' => $this->entry_id_3,
         'uuid' => $this->entry_uuid_3,
         'id_quality' => $id_quality,
@@ -152,7 +160,8 @@ class EntryTest extends BaseTestCase {
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
-      ], [
+      ],
+      [
         'id' => $this->entry_id_4,
         'uuid' => $this->entry_uuid_4,
         'id_quality' => $id_quality,
@@ -164,7 +173,8 @@ class EntryTest extends BaseTestCase {
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
-      ], [
+      ],
+      [
         'id' => $this->entry_id_5,
         'uuid' => $this->entry_uuid_5,
         'id_quality' => $id_quality,
@@ -312,8 +322,8 @@ class EntryTest extends BaseTestCase {
   public function test_should_search_all_data_by_title() {
     $this->setup_config();
 
-    $test_needle = 'another solo';
-    $response = $this->withoutMiddleware()->get('/api/entries?needle=' . $test_needle);
+    $test_query = 'another solo';
+    $response = $this->withoutMiddleware()->get('/api/entries?query=' . $test_query);
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
@@ -364,11 +374,11 @@ class EntryTest extends BaseTestCase {
 
     $test_page = 2;
     $test_limit = 1;
-    $test_needle = 'series title season';
+    $test_query = 'series title season';
     $response = $this->withoutMiddleware()->get(
       '/api/entries?page=' . $test_page .
         '&limit=' . $test_limit .
-        '&needle=' . $test_needle
+        '&query=' . $test_query
     );
 
     $response->assertStatus(200)
@@ -424,6 +434,11 @@ class EntryTest extends BaseTestCase {
     $this->assertTrue(in_array($actual_data['id'], $expected_possible_titles));
   }
 
+  public function test_should_deep_search_all_data() {
+  }
+
+  public function test_should_not_deep_search_all_data_when_any_filter_is_invalid() {
+  }
 
   /**
    * Get Single Endpoint
@@ -1987,5 +2002,1027 @@ class EntryTest extends BaseTestCase {
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['id']]);
+  }
+
+  /**
+   * Entry Search Functions
+   */
+  public function test_should_parse_quality_value_with_multiple_values() {
+    $expected = [
+      'filters' => ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'],
+      'comparator' => null,
+    ];
+
+    $value = '4k, 1080p, 720p, 480p, 360p';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '4K, 1080P, 720P, 480P, 360P';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2160p, 1080p, 720p, 480p, 360p';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2160P, 1080P, 720P, 480P, 360P';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2160, 1080, 720, 480, 360';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'uhd, fhd, hd, hq, lq';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'uhd,fhd,hd,hq,lq';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_quality_value_with_absolute_value() {
+    $expected = [
+      'filters' => ['4K 2160p'],
+      'comparator' => null,
+    ];
+
+    $values = ['4K', '4k', 'UHD', 'uhd', '2160P', '2160p', '2160'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['FHD 1080p'],
+      'comparator' => null,
+    ];
+
+    $values = ['FHD', 'fhd', '1080P', '1080p', '1080'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HD 720p'],
+      'comparator' => null,
+    ];
+
+    $values = ['HD', 'hd', '720P', '720p', '720'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HQ 480p'],
+      'comparator' => null,
+    ];
+
+    $values = ['HQ', 'hq', '480P', '480p', '480'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['LQ 360p'],
+      'comparator' => null,
+    ];
+
+    $values = ['LQ', 'lq', '360P', '360p', '360'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_parse_quality_value_with_comparators() {
+    $expected = [
+      'filters' => ['4K 2160p'],
+      'comparator' => '>',
+    ];
+
+    $values = [
+      '> uhd',
+      'gt uhd',
+      'greater than uhd',
+      '> 4k',
+      'gt 4k',
+      'greater than 4k',
+      '> 2160p',
+      'gt 2160p',
+      'greater than 2160p',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['4K 2160p'],
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= uhd', 'gte uhd', 'greater than equal uhd', 'greater than or equal uhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['4K 2160p'],
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= uhd', 'lte uhd', 'less than equal uhd', 'less than or equal uhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['4K 2160p'],
+      'comparator' => '<',
+    ];
+
+    $values = ['< uhd', 'lt uhd', 'less than uhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['FHD 1080p'],
+      'comparator' => '>',
+    ];
+
+    $values = ['> fhd', 'gt fhd', 'greater than fhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['FHD 1080p'],
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= fhd', 'gte fhd', 'greater than equal fhd', 'greater than or equal fhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['FHD 1080p'],
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= fhd', 'lte fhd', 'less than equal fhd', 'less than or equal fhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['FHD 1080p'],
+      'comparator' => '<',
+    ];
+
+    $values = ['< fhd', 'lt fhd', 'less than fhd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HD 720p'],
+      'comparator' => '>',
+    ];
+
+    $values = ['> hd', 'gt hd', 'greater than hd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HD 720p'],
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= hd', 'gte hd', 'greater than equal hd', 'greater than or equal hd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HD 720p'],
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= hd', 'lte hd', 'less than equal hd', 'less than or equal hd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HD 720p'],
+      'comparator' => '<',
+    ];
+
+    $values = ['< hd', 'lt hd', 'less than hd'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HQ 480p'],
+      'comparator' => '>',
+    ];
+
+    $values = ['> hq', 'gt hq', 'greater than hq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HQ 480p'],
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= hq', 'gte hq', 'greater than equal hq', 'greater than or equal hq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HQ 480p'],
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= hq', 'lte hq', 'less than equal hq', 'less than or equal hq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['HQ 480p'],
+      'comparator' => '<',
+    ];
+
+    $values = ['< hq', 'lt hq', 'less than hq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['LQ 360p'],
+      'comparator' => '>',
+    ];
+
+    $values = ['> lq', 'gt lq', 'greater than lq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['LQ 360p'],
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= lq', 'gte lq', 'greater than equal lq', 'greater than or equal lq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['LQ 360p'],
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= lq', 'lte lq', 'less than equal lq', 'less than or equal lq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filters' => ['LQ 360p'],
+      'comparator' => '<',
+    ];
+
+    $values = ['< lq', 'lt lq', 'less than lq'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_return_valid_filters_when_parsing_partial_invalid_quality() {
+    $expected = [
+      'filters' => ['FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'],
+      'comparator' => null,
+    ];
+
+    $value = 'invalid, fhd, hd, hq, lq';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'filters' => ['4K 2160p', 'HD 720p', 'HQ 480p', 'LQ 360p'],
+      'comparator' => null,
+    ];
+
+    $value = 'uhd, invalid, hd, hq, lq';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'filters' => ['4K 2160p', 'FHD 1080p', 'HQ 480p', 'LQ 360p'],
+      'comparator' => null,
+    ];
+
+    $value = 'uhd, fhd, invalid, hq, lq';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'filters' => ['4K 2160p', 'FHD 1080p', 'HD 720p', 'LQ 360p'],
+      'comparator' => null,
+    ];
+
+    $value = 'uhd, fhd, hd, invalid, lq';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'filters' => ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p'],
+      'comparator' => null,
+    ];
+
+    $value = 'uhd, fhd, hd, hq, invalid';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_return_null_on_parsing_empty_quality() {
+    $value = '';
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntryRepository::search_parse_quality($value);
+    $this->assertNull($actual);
+  }
+
+  public function test_should_throw_error_on_parsing_completely_invalid_quality() {
+    $value = 'greater than invalid';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      Exception::class
+    );
+
+    $value = '> invalid';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'invalid value';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'invalid, value';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'invalid,value';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_quality($value),
+      SearchFilterParsingException::class
+    );
+  }
+
+  public function test_should_parse_date_value_with_range() {
+    $expected = [
+      'date_from' => '2020-10-12',
+      'date_to' => '2020-11-12',
+      'comparator' => null,
+    ];
+
+    // from {date} to {date}
+    $value = 'from 2020-10-12 to 2020-11-12';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from 12-10-2020 to 12-11-2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from 10/12/2020 to 11/12/2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from oct 12 2020 to nov 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from Oct 12 2020 to Nov 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from Oct 12, 2020 to Nov 12, 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from october 12 2020 to november 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from October 12 2020 to November 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from October 12, 2020 to November 12, 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    // {date} to {date}
+    $value = '2020-10-12 to 2020-11-12';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '12-10-2020 to 12-11-2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '10/12/2020 to 11/12/2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'oct 12 2020 to nov 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'Oct 12 2020 to Nov 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'Oct 12, 2020 to Nov 12, 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'october 12 2020 to november 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'October 12 2020 to November 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'October 12, 2020 to November 12, 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_date_value_with_absolute_value() {
+    $expected = [
+      'date_from' => '2020-10-12',
+      'date_to' => null,
+      'comparator' => null,
+    ];
+
+    $value = '2020-10-12';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '12-10-2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '10/12/2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'oct 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'Oct 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'Oct 12, 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'october 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'October 12 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'October 12, 2020';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_date_value_with_comparators() {
+    $expected = [
+      'date_from' => '2020-10-12',
+      'date_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = [
+      '> 2020-10-12',
+      'gt 2020-10-12',
+      'greater than 2020-10-12',
+      '> oct 12 2020',
+      'gt oct 12 2020',
+      'greater than oct 12 2020',
+      '> oct 12, 2020',
+      'gt oct 12, 2020',
+      'greater than oct 12, 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'date_from' => '2020-10-12',
+      'date_to' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = [
+      '>= 2020-10-12',
+      'gte 2020-10-12',
+      'greater than equal 2020-10-12',
+      'greater than or equal 2020-10-12',
+      '>= oct 12 2020',
+      'gte oct 12 2020',
+      'greater than equal oct 12 2020',
+      'greater than or equal oct 12 2020',
+      '>= oct 12, 2020',
+      'gte oct 12, 2020',
+      'greater than equal oct 12, 2020',
+      'greater than or equal oct 12, 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'date_from' => '2020-10-12',
+      'date_to' => null,
+      'comparator' => '<',
+    ];
+
+    $values = [
+      '< 2020-10-12',
+      'lt 2020-10-12',
+      'less than 2020-10-12',
+      '< oct 12 2020',
+      'lt oct 12 2020',
+      'less than oct 12 2020',
+      '< oct 12, 2020',
+      'lt oct 12, 2020',
+      'less than oct 12, 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'date_from' => '2020-10-12',
+      'date_to' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = [
+      '<= 2020-10-12',
+      'lte 2020-10-12',
+      'less than equal 2020-10-12',
+      'less than or equal 2020-10-12',
+      '<= oct 12 2020',
+      'lte oct 12 2020',
+      'less than equal oct 12 2020',
+      'less than or equal oct 12 2020',
+      '<= oct 12, 2020',
+      'lte oct 12, 2020',
+      'less than equal oct 12, 2020',
+      'less than or equal oct 12, 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_return_null_on_parsing_empty_date() {
+    $value = '';
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntryRepository::search_parse_date($value);
+    $this->assertNull($actual);
+  }
+
+  public function test_should_throw_error_on_parsing_invalid_date() {
+    $value = '2020-11-20 to 2020-10-21';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_date($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '<> invalid';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_date($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> jan 40 3000';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_date($value),
+      SearchFilterParsingException::class
+    );
+  }
+
+  public function test_should_parse_filesize_value_with_range() {
+    $expected = [
+      'filesize_from' => 3_145_728,
+      'filesize_to' => 3_221_225_472,
+      'comparator' => null,
+    ];
+
+    $value = 'from 3145728 to 3221225472';
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from 3 MB to 3 GB';
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from 3MB to 3GB';
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'filesize_from' => 3,
+      'filesize_to' => 10_995_116_277_760,
+      'comparator' => null,
+    ];
+
+    $value = 'from 3 to 10995116277760';
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from 3 to 10TB';
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_filesize_value_correctly() {
+    $expected = [
+      'filesize_from' => 3,
+      'filesize_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_072,
+      'filesize_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3072', '> 3KB', '> 3 KB', '> 3kb', '> 3 kb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_145_728,
+      'filesize_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3145728', '> 3MB', '> 3 MB', '> 3mb', '> 3 mb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_221_225_472,
+      'filesize_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3221225472', '> 3GB', '> 3 GB', '> 3gb', '> 3 gb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_298_534_883_328,
+      'filesize_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3298534883328', '> 3TB', '> 3 TB', '> 3tb', '> 3 tb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_parse_filesize_value_with_comparators() {
+    $expected = [
+      'filesize_from' => 3_221_225_472,
+      'filesize_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3 gb', 'gt 3 gb', 'greater than 3 gb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_221_225_472,
+      'filesize_to' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= 3 gb', 'gte 3 gb', 'greater than equal 3 gb', 'greater than or equal 3 gb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_221_225_472,
+      'filesize_to' => null,
+      'comparator' => '<',
+    ];
+
+    $values = ['< 3 gb', 'lt 3 gb', 'less than 3 gb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'filesize_from' => 3_221_225_472,
+      'filesize_to' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= 3 gb', 'lte 3 gb', 'less than equal 3 gb', 'less than or equal 3 gb'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_filesize($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_return_null_on_parsing_empty_filesize() {
+    $value = '';
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntryRepository::search_parse_filesize($value);
+    $this->assertNull($actual);
+  }
+
+  public function test_should_throw_error_on_parsing_invalid_filesize() {
+    $value = '6 GB to 3 GB';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_filesize($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '5 EB to 6 EB';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_filesize($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '>< 6 GB';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_filesize($value),
+      SearchFilterParsingException::class
+    );
+  }
+
+  public function test_should_parse_count_value_with_range() {
+    $expected = [
+      'count_from' => 3,
+      'count_to' => 6,
+      'comparator' => null,
+    ];
+
+    $value = 'from 3 to 6';
+    $actual = EntryRepository::search_parse_count($value, 'test_field');
+    $this->assertEquals($expected, $actual);
+
+    $value = '3 to 6';
+    $actual = EntryRepository::search_parse_count($value, 'test_field');
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_count_value_with_absolute_value() {
+    $expected = [
+      'count_from' => 3,
+      'count_to' => null,
+      'comparator' => null,
+    ];
+
+    $value = '3';
+    $actual = EntryRepository::search_parse_count($value, 'test_field');
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_count_value_with_comparators() {
+    $expected = [
+      'count_from' => 3,
+      'count_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3', 'gt 3', 'greater than 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_count($value, 'test_field');
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'count_from' => 3,
+      'count_to' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= 3', 'gte 3', 'greater than equal 3', 'greater than or equal 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_count($value, 'test_field');
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'count_from' => 3,
+      'count_to' => null,
+      'comparator' => '<',
+    ];
+
+    $values = ['< 3', 'lt 3', 'less than 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_count($value, 'test_field');
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'count_from' => 3,
+      'count_to' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= 3', 'lte 3', 'less than equal 3', 'less than or equal 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_count($value, 'test_field');
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_throw_error_on_parsing_invalid_count_value() {
+    $value = '6 to 3';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_count($value, 'test_field'),
+      SearchFilterParsingException::class,
+    );
+
+    $value = 'invalid';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_count($value, 'test_field'),
+      SearchFilterParsingException::class,
+    );
+
+    $value = '>< 6';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_count($value, 'test_field'),
+      SearchFilterParsingException::class
+    );
+  }
+
+  public function test_should_parse_has_value_as_yes() {
+    $expected = EntrySearchHasEnum::YES;
+
+    $actual = EntryRepository::search_parse_has_value('yes');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('YES');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('Yes');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('true');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('TRUE');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('True');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('TruE');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value(true);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_has_value_as_no() {
+    $expected = EntrySearchHasEnum::NO;
+
+    $actual = EntryRepository::search_parse_has_value('no');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('NO');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('No');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('false');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('FALSE');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('False');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('FalsE');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value(false);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_has_value_as_any() {
+    $expected = EntrySearchHasEnum::ANY;
+
+    $actual = EntryRepository::search_parse_has_value('any');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('null');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('default');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value('');
+    $this->assertEquals($expected, $actual);
+
+    $actual = EntryRepository::search_parse_has_value(null);
+    $this->assertEquals($expected, $actual);
   }
 }
