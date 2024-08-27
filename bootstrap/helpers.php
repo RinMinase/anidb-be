@@ -12,6 +12,15 @@ if (!function_exists('vdd')) {
   }
 }
 
+if (!function_exists('to_sql')) {
+  function to_sql($builder): string {
+    $query = str_replace(array('?'), array('\'%s\''), $builder->toSql());
+    $query = vsprintf($query, $builder->getBindings());
+
+    return $query;
+  }
+}
+
 if (!function_exists('parse_filesize')) {
   function parse_filesize(?int $size, string $forced_unit = null): string {
     $KB = 1024;
