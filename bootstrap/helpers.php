@@ -178,3 +178,65 @@ if (!function_exists('get_comparator')) {
     return null;
   }
 }
+
+if (!function_exists('parse_season')) {
+  function parse_season(string $season_text) {
+    $retval = [];
+    $seasons = ['winter', 'spring', 'summer', 'fall'];
+
+    $season_text = strtolower($season_text);
+    $parts = explode(' ', $season_text);
+
+    if (count($parts) === 2) {
+      if (is_numeric($parts[0])) {
+        $year = intval($parts[0]);
+        $season = $parts[1];
+
+        if ($year >= 1900 && $year <= 2999) {
+          array_push($retval, $year);
+        } else {
+          throw new Error('Error in parsing string');
+        }
+
+        if (in_array($season, $seasons)) {
+          array_push($retval, $season);
+        } else {
+          throw new Error('Error in parsing string');
+        }
+      } else if (is_numeric($parts[1])) {
+        $year = intval($parts[1]);
+        $season = $parts[0];
+
+        if ($year >= 1900 && $year <= 2999) {
+          array_push($retval, $year);
+        } else {
+          throw new Error('Error in parsing string');
+        }
+
+        if (in_array($season, $seasons)) {
+          array_push($retval, $season);
+        } else {
+          throw new Error('Error in parsing string');
+        }
+      } else {
+        throw new Error('Error in parsing string');
+      }
+    } else if (count($parts) === 1) {
+      $year = intval($parts[0]);
+
+      if (is_numeric($year)) {
+        if ($year >= 1900 && $year <= 2999) {
+          array_push($retval, $year);
+        } else {
+          throw new Error('Error in parsing string');
+        }
+      } else {
+        throw new Error('Error in parsing string');
+      }
+    } else {
+      throw new Error('Error in parsing string');
+    }
+
+    return $retval;
+  }
+}
