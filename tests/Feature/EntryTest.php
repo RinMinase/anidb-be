@@ -2931,6 +2931,16 @@ class EntryTest extends BaseTestCase {
     }
   }
 
+  public function test_should_return_null_on_parsing_empty_count() {
+    $value = '';
+    $actual = EntryRepository::search_parse_count($value, 'test_field');
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntryRepository::search_parse_count($value, 'test_field');
+    $this->assertNull($actual);
+  }
+
   public function test_should_throw_error_on_parsing_invalid_count_value() {
     $value = '6 to 3';
     $this->assertThrows(
@@ -2947,6 +2957,303 @@ class EntryTest extends BaseTestCase {
     $value = '>< 6';
     $this->assertThrows(
       fn() => EntryRepository::search_parse_count($value, 'test_field'),
+      SearchFilterParsingException::class
+    );
+  }
+
+  public function test_should_parse_release_value_with_range() {
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'winter',
+      'release_to_year' => 2021,
+      'release_to_season' => 'fall',
+      'comparator' => null,
+    ];
+
+    $value = 'from 2020 to 2021';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'from winter 2020 to fall 2021';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2020 to 2021';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'winter 2020 to fall 2021';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'spring',
+      'release_to_year' => 2099,
+      'release_to_season' => 'summer',
+      'comparator' => null,
+    ];
+
+    $value = 'from spring 2020 to summer 2099';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_release_value_with_absolute_value() {
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'winter',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+    ];
+
+    $value = 'winter 2020';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'Winter 2020';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = 'WINTER 2020';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2020 winter';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2020 Winter';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2020 WINTER';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => 2999,
+      'release_from_season' => 'spring',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+    ];
+
+    $value = 'spring 2999';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '2999 spring';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => 1900,
+      'release_from_season' => 'winter',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+    ];
+
+    $value = 'winter 1900';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '1900 winter';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => 1900,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+    ];
+
+    $value = '1900';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => 2999,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+    ];
+
+    $value = '2999';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_release_value_with_comparators() {
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'winter',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '>',
+    ];
+
+    $values = [
+      '> 2020',
+      '> winter 2020',
+      '> 2020 winter',
+      'gt 2020',
+      'gt winter 2020',
+      'gt 2020 winter',
+      'greater than 2020',
+      'greater than winter 2020',
+      'greater than 2020 winter',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'spring',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = [
+      '>= spring 2020',
+      '>= 2020 spring',
+      'gte spring 2020',
+      'gte 2020 spring',
+      'greater than equal spring 2020',
+      'greater than equal 2020 spring',
+      'greater than or equal spring 2020',
+      'greater than or equal 2020 spring',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'summer',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = [
+      '<= summer 2020',
+      '<= 2020 summer',
+      'lte summer 2020',
+      'lte 2020 summer',
+      'less than equal summer 2020',
+      'less than equal 2020 summer',
+      'less than or equal summer 2020',
+      'less than or equal 2020 summer',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => 'fall',
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '<',
+    ];
+
+    $values = [
+      '< fall 2020',
+      '< 2020 fall',
+      'lt fall 2020',
+      'lt 2020 fall',
+      'less than fall 2020',
+      'less than 2020 fall',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_return_null_on_parsing_empty_release() {
+    $value = '';
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntryRepository::search_parse_release($value);
+    $this->assertNull($actual);
+  }
+
+  public function test_should_throw_error_on_parsing_invalid_release_value() {
+    $value = 'invalid value';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      Exception::class
+    );
+
+    $value = '> 3000';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'invalid to invalid';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'invalid 3000';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '3000';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '1899';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '1899 to 3000';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'invalid 1899 to invalid 3000';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '2020 to 2019';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'spring 2020 to winter 2020';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_release($value),
       SearchFilterParsingException::class
     );
   }
