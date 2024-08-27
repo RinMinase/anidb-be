@@ -2,8 +2,6 @@
 
 namespace Tests\Unit;
 
-use Error;
-
 use Tests\BaseUnitTestCase;
 
 class GetComparatorTest extends BaseUnitTestCase {
@@ -100,26 +98,33 @@ class GetComparatorTest extends BaseUnitTestCase {
     $this->assertEquals($expected, $actual);
   }
 
-  public function test_should_throw_error_if_text_has_no_comparators() {
+  public function test_should_return_null_if_text_has_no_comparators() {
     $test_text = 'string';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
 
     $test_text = 'string value';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
 
     $test_text = '<> value';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
 
     $test_text = '>< value';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
 
     $test_text = 'is greater than value';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
 
     $test_text = 'less thanvalue';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
 
     $test_text = '<value';
-    $this->assertException(Error::class, fn() => get_comparator($test_text));
+    $actual = get_comparator($test_text);
+    $this->assertNull($actual);
   }
 }

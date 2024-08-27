@@ -138,7 +138,7 @@ if (!function_exists('parse_comparator')) {
     ) {
       return '<=';
     } else {
-      return '';
+      throw new Error('Error parsing comparator');
     }
   }
 }
@@ -175,6 +175,6 @@ if (!function_exists('get_comparator')) {
       }
     }
 
-    throw new Error('Error parsing comparator');
+    return null;
   }
 }

@@ -2,9 +2,10 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Error;
+use Tests\BaseUnitTestCase;
 
-class ParseComparatorTest extends TestCase {
+class ParseComparatorTest extends BaseUnitTestCase {
 
   public function test_should_parse_comparator_symbols() {
     $test_symbol = '>';
@@ -84,18 +85,18 @@ class ParseComparatorTest extends TestCase {
 
   public function test_should_return_blank_string_on_invalid_input() {
     $test_symbol = 'invalid string';
-    $actual = parse_comparator($test_symbol);
-    $expected = '';
-    $this->assertEquals($expected, $actual);
+    $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
+
+    $test_symbol = '<>';
+    $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
+
+    $test_symbol = 'greater less than';
+    $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
 
     $test_symbol = ' ';
-    $actual = parse_comparator($test_symbol);
-    $expected = '';
-    $this->assertEquals($expected, $actual);
+    $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
 
     $test_symbol = '';
-    $actual = parse_comparator($test_symbol);
-    $expected = '';
-    $this->assertEquals($expected, $actual);
+    $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
   }
 }
