@@ -110,7 +110,7 @@ class EntryRepository {
     $search_encoder_audio = $values['encoder_audio'] ?? null;
     $search_encoder_subs = $values['encoder_subs'] ?? null;
 
-    $search_release = $values['release'] ?? null;
+    $search_release = self::search_parse_release($values['release']);
     $search_remarks = $values['remarks'] ?? null;
 
     $search_has_remarks = self::search_parse_has_value($values['has_remarks']);
@@ -1174,6 +1174,124 @@ class EntryRepository {
 
     // Invalid
     throw new SearchFilterParsingException($field, 'Error in parsing string');
+  }
+
+  public static function search_parse_release($value) {
+    if (!$value) return null;
+
+    // Range ::
+    // - {season?} {year} to {season?} {year}
+    // - {year} {season?} to {year} {season?}
+    // - from {season?} {year} to {season?} {year}
+    // - from {year} {season?} to {year} {season?}
+    // - from {year} to {year}
+    if (str_contains($value, ' to ')) {
+      $value = str_ireplace('from', '', $value);
+      $value = trim($value);
+
+      $parts = explode(' to ', $value);
+      $release_from = strtolower(trim($parts[0]));
+      $release_to = strtolower(trim(end($parts)));
+
+      $formatted_release_from = null;
+      $formatted_release_to = null;
+
+      try {
+        $formatted_release_from = parse_season($release_from);
+        $formatted_release_to = parse_season($release_to);
+      } catch (Error) {
+        throw new SearchFilterParsingException('release', 'Error in parsing string');
+      }
+
+      $date_from = Carbon::parse($formatted_release_from[0] . '-01-01');
+      $date_to = Carbon::parse($formatted_release_to[0] . '-01-01');
+
+      if ($formatted_release_from[1] ?? null) {
+        if ($formatted_release_from[1] === 'winter') {
+          $date_from = Carbon::parse($formatted_release_from[0] . '-02-01');
+        } else if ($formatted_release_from[1] === 'spring') {
+          $date_from = Carbon::parse($formatted_release_from[0] . '-03-01');
+        } else if ($formatted_release_from[1] === 'summer') {
+          $date_from = Carbon::parse($formatted_release_from[0] . '-04-01');
+        } else if ($formatted_release_from[1] === 'fall') {
+          $date_from = Carbon::parse($formatted_release_from[0] . '-05-01');
+        }
+      }
+
+      if ($formatted_release_to[1] ?? null) {
+        if ($formatted_release_to[1] === 'winter') {
+          $date_to = Carbon::parse($formatted_release_to[0] . '-02-01');
+        } else if ($formatted_release_to[1] === 'spring') {
+          $date_to = Carbon::parse($formatted_release_to[0] . '-03-01');
+        } else if ($formatted_release_to[1] === 'summer') {
+          $date_to = Carbon::parse($formatted_release_to[0] . '-04-01');
+        } else if ($formatted_release_to[1] === 'fall') {
+          $date_to = Carbon::parse($formatted_release_to[0] . '-05-01');
+        }
+      }
+
+      if ($date_from->gte($date_to)) {
+        throw new SearchFilterParsingException('release', 'Release to should be earlier than release from');
+      }
+
+      return [
+        'release_from_year' => $formatted_release_from[0],
+        'release_from_season' => $formatted_release_from[1] ?? 'winter',
+        'release_to_year' => $formatted_release_to[0],
+        'release_to_season' => $formatted_release_to[1] ?? 'fall',
+        'comparator' => null,
+      ];
+    }
+
+    // Comparators ::
+    // - {comparator} {season?} {year}
+    // - {comparator} {year} {season?}
+    $comparator = get_comparator($value);
+
+    if ($comparator) {
+      $value = strtolower($value);
+      $release = trim(str_replace($comparator, '', $value));
+
+      try {
+        $comparator = parse_comparator($comparator);
+      } catch (Error) {
+        throw new SearchFilterParsingException('release', 'Error in parsing comparator');
+      }
+
+      try {
+        $release = parse_season($release);
+      } catch (Error) {
+        throw new SearchFilterParsingException('release', 'Error in parsing string');
+      }
+
+      return [
+        'release_from_year' => $release[0],
+        'release_from_season' => $release[1] ?? 'winter',
+        'release_to_year' => null,
+        'release_to_season' => null,
+        'comparator' => $comparator,
+      ];
+    }
+
+    // Absolute Value ::
+    // - {season?} {year}
+    // - {year} {season?}
+    try {
+      $release = parse_season($value);
+
+      return [
+        'release_from_year' => $release[0],
+        'release_from_season' => $release[1] ?? null,
+        'release_to_year' => null,
+        'release_to_season' => null,
+        'comparator' => null,
+      ];
+    } catch (Error) {
+      throw new SearchFilterParsingException('release', 'Error in parsing string');
+    }
+
+    // Invalid
+    throw new SearchFilterParsingException('release', 'Error in parsing string');
   }
 
   public static function search_parse_has_value($value) {
