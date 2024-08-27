@@ -17,6 +17,7 @@ use App\Exceptions\Entry\SearchFilterParsingException;
 use App\Models\Entry;
 use App\Models\EntryRewatch;
 use App\Models\Bucket;
+use App\Models\Quality;
 use App\Models\Sequence;
 
 use App\Resources\Entry\EntryBySequenceResource;
@@ -841,27 +842,23 @@ class EntryRepository {
 
     // Multiple :: {value}, {value}, {value}
     if (str_contains($value, ',')) {
-      $filters = [];
+      $qualities = [];
       $values = explode(',', $value);
 
       foreach ($values as $item) {
         $raw_filter = trim($item);
+        $quality = QualityRepository::parseQuality($raw_filter);
 
-        $filter = QualityRepository::parseQuality($raw_filter);
-
-        if ($filter) {
-          array_push($filters, $filter);
+        if ($quality) {
+          array_push($qualities, $quality);
         }
       }
 
-      if (!count($filters)) {
+      if (!count($qualities)) {
         throw new SearchFilterParsingException('quality', 'Error in parsing string');
       }
 
-      return [
-        'filters' => $filters,
-        'comparator' => null,
-      ];
+      return $qualities;
     }
 
     // Comparators :: {comparator} {value}
@@ -877,26 +874,65 @@ class EntryRepository {
         throw new SearchFilterParsingException('quality', 'Error in parsing comparator');
       }
 
-      $filter = QualityRepository::parseQuality($quality);
+      $quality = QualityRepository::parseQuality($quality);
 
-      if (!$filter) {
+      if (!$quality) {
         throw new SearchFilterParsingException('quality', 'Error in parsing string');
       }
 
-      return [
-        'filters' => [$filter],
-        'comparator' => $comparator ?? null,
-      ];
+      $qualities = [];
+
+      $quality_list = Quality::select('quality')
+        ->orderBy('id', 'asc')
+        ->pluck('quality')
+        ->toArray();
+
+      if ($comparator === '>') {
+        $id = array_search($quality, $quality_list);
+
+        foreach ($quality_list as $key => $item) {
+          if ($id > $key) {
+            array_push($qualities, $item);
+          }
+        }
+      } else if ($comparator === '>=') {
+        $id = array_search($quality, $quality_list);
+
+        foreach ($quality_list as $key => $item) {
+          if ($id >= $key) {
+            array_push($qualities, $item);
+          }
+        }
+      } else if ($comparator === '<=') {
+        $id = array_search($quality, $quality_list);
+
+        foreach ($quality_list as $key => $item) {
+          if ($id <= $key) {
+            array_push($qualities, $item);
+          }
+        }
+      } else if ($comparator === '<') {
+        $id = array_search($quality, $quality_list);
+
+        foreach ($quality_list as $key => $item) {
+          if ($id < $key) {
+            array_push($qualities, $item);
+          }
+        }
+      }
+
+      if (!count($qualities)) {
+        throw new SearchFilterParsingException('quality', 'Error in parsing string');
+      }
+
+      return $qualities;
     }
 
     // Absolute Value :: {value}
-    $filter = QualityRepository::parseQuality($value);
+    $quality = QualityRepository::parseQuality($value);
 
-    if ($filter) {
-      return [
-        'filters' => [$filter],
-        'comparator' => null,
-      ];
+    if ($quality) {
+      return [$quality];
     }
 
     // Invalid
