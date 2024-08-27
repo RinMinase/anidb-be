@@ -83,7 +83,7 @@ class ParseComparatorTest extends BaseUnitTestCase {
     $this->assertEquals($expected, $actual);
   }
 
-  public function test_should_return_blank_string_on_invalid_input() {
+  public function test_should_throw_error_on_invalid_input() {
     $test_symbol = 'invalid string';
     $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
 
