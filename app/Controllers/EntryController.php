@@ -341,6 +341,11 @@ class EntryController extends Controller {
    *             type="array",
    *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
    *           ),
+   *           @OA\Property(
+   *             property="stats",
+   *             @OA\Property(property="totalFiltered", type="integer", format="int64", example=1),
+   *             @OA\Property(property="totalEntries", type="integer", format="int64", example=42),
+   *           ),
    *         ),
    *       },
    *     )
@@ -373,7 +378,8 @@ class EntryController extends Controller {
     );
 
     return DefaultResponse::success(null, [
-      'data' => $data,
+      'data' => $data['data'],
+      'stats' => $data['stats'],
     ]);
   }
 
