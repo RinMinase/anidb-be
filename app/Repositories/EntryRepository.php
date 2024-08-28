@@ -96,22 +96,22 @@ class EntryRepository {
 
   public function search(array $values) {
     // Search Parameters
-    $search_quality = self::search_parse_quality($values['quality']);
+    $search_quality = self::search_parse_quality($values['quality'] ?? null);
     $search_title = $values['title'] ?? null;
 
-    $search_date = self::search_parse_date($values['date']);
-    $search_filesize = self::search_parse_filesize($values['filesize']);
+    // $search_date = self::search_parse_date($values['date'] ?? null);
+    $search_filesize = self::search_parse_filesize($values['filesize'] ?? null);
 
-    $search_episodes = self::search_parse_count($values['episodes'], 'episodes');
-    $search_ovas = self::search_parse_count($values['ovas'], 'ovas');
-    $search_specials = self::search_parse_count($values['specials'], 'specials');
+    $search_episodes = self::search_parse_count($values['episodes'] ?? null, 'episodes');
+    $search_ovas = self::search_parse_count($values['ovas'] ?? null, 'ovas');
+    $search_specials = self::search_parse_count($values['specials'] ?? null, 'specials');
 
     $search_encoder = $values['encoder'] ?? null;
     $search_encoder_video = $values['encoder_video'] ?? null;
     $search_encoder_audio = $values['encoder_audio'] ?? null;
     $search_encoder_subs = $values['encoder_subs'] ?? null;
 
-    $search_release = self::search_parse_release($values['release']);
+    $search_release = self::search_parse_release($values['release'] ?? null);
     $search_remarks = $values['remarks'] ?? null;
 
     $search_has_remarks = self::search_parse_has_value($values['has_remarks']);
@@ -121,9 +121,211 @@ class EntryRepository {
     $column = $values['column'] ?? 'id_quality';
     $order = $values['order'] ?? 'asc';
 
-    $data = [];
+    $data = Entry::select()->with('rating');
 
-    return $data;
+    if (!empty($search_title)) {
+      $data = $data->where('title', 'ilike', '%' . $search_title . '%');
+    }
+
+    if (!empty($search_remarks)) {
+      $data = $data->where('title', 'ilike', '%' . $search_remarks . '%');
+    }
+
+    if (!empty($search_encoder)) {
+      $data = $data->where('encoder_video', 'ilike', '%' . $search_encoder . '%')
+        ->where('encoder_audio', 'ilike', '%' . $search_encoder . '%')
+        ->where('encoder_subs', 'ilike', '%' . $search_encoder . '%');
+    }
+
+    if (!empty($search_encoder_video)) {
+      $data = $data->where('encoder_video', 'ilike', '%' . $search_encoder_video . '%');
+    }
+
+    if (!empty($search_encoder_audio)) {
+      $data = $data->where('encoder_audio', 'ilike', '%' . $search_encoder_audio . '%');
+    }
+
+    if (!empty($search_encoder_subs)) {
+      $data = $data->where('encoder_subs', 'ilike', '%' . $search_encoder_subs . '%');
+    }
+
+    if (isset($search_quality)) {
+      $data = $data->where(function ($query) use ($search_quality) {
+        $quality_list = Quality::all();
+        $total_values = 0;
+
+        foreach ($search_quality as $quality_value) {
+          $id_quality = $quality_list
+            ->filter(fn($item) => $item->quality === $quality_value)
+            ->first()
+            ->id;
+
+          if ($total_values === 0) {
+            $query->where('id_quality', $id_quality);
+          } else {
+            $query->orWhere('id_quality', $id_quality);
+          }
+
+          $total_values++;
+        }
+      });
+    }
+
+    if (!empty($search_filesize)) {
+      $from = $search_filesize['filesize_from'];
+      $to = $search_filesize['filesize_to'];
+      $comparator = $search_filesize['comparator'];
+
+      if ($comparator) {
+        $data = $data->where('filesize', $comparator, $from);
+      } else {
+        $data = $data->whereBetween('filesize', [$from, $to]);
+      }
+    }
+
+    if (!empty($search_episodes)) {
+      $from = $search_episodes['count_from'];
+      $to = $search_episodes['count_to'];
+      $comparator = $search_episodes['comparator'];
+
+      if ($comparator) {
+        $data = $data->where('episodes', $comparator, $from);
+      } else if (!$to) {
+        $data = $data->where('episodes', $from);
+      } else {
+        $data = $data->whereBetween('episodes', [$from, $to]);
+      }
+    }
+
+    if (!empty($search_ovas)) {
+      $from = $search_ovas['count_from'];
+      $to = $search_ovas['count_to'];
+      $comparator = $search_ovas['comparator'];
+
+      if ($comparator) {
+        $data = $data->where('ovas', $comparator, $from);
+      } else if (!$to) {
+        $data = $data->where('ovas', $from);
+      } else {
+        $data = $data->whereBetween('ovas', [$from, $to]);
+      }
+    }
+
+    if (!empty($search_specials)) {
+      $from = $search_specials['count_from'];
+      $to = $search_specials['count_to'];
+      $comparator = $search_specials['comparator'];
+
+      if ($comparator) {
+        $data = $data->where('specials', $comparator, $from);
+      } else if (!$to) {
+        $data = $data->where('specials', $from);
+      } else {
+        $data = $data->whereBetween('specials', [$from, $to]);
+      }
+    }
+
+    if (!empty($search_release)) {
+      $release_from_year = $search_release['release_from_year'];
+      $release_from_season = $search_release['release_from_season'];
+      $release_to_year = $search_release['release_to_year'];
+      $release_to_season = $search_release['release_to_season'];
+      $comparator = $search_release['comparator'];
+
+
+      if ($comparator) {
+        $data = $data->where('release_year', $comparator, $release_from_year);
+
+        $seasons = ['Winter', 'Spring', 'Summer', 'Fall'];
+        $excluded_seasons = [];
+
+        $capitalized_season_from = ucfirst($release_from_season);
+        $season_index = array_search($capitalized_season_from, $seasons);
+
+        foreach ($seasons as $key => $value) {
+          if ($comparator === '>' && $key <= $season_index) {
+            array_push($excluded_seasons, $value);
+          } else if ($comparator === '>=' && $key < $season_index) {
+            array_push($excluded_seasons, $value);
+          } else if ($comparator === '<=' && $key > $season_index) {
+            array_push($excluded_seasons, $value);
+          } else if ($comparator === '<' && $key >= $season_index) {
+            array_push($excluded_seasons, $value);
+          }
+        }
+
+        if (count($excluded_seasons)) {
+          $data = $data->whereNotIn('uuid', function ($query) use ($release_from_year, $excluded_seasons) {
+            $query->select('uuid')
+              ->where('release_year', $release_from_year)
+              ->whereIn('release_season', $excluded_seasons);
+          });
+        }
+      } else if ($release_to_year) {
+        $data = $data->whereBetween('release_year', [$release_from_year, $release_to_year]);
+
+        $seasons = ['Winter', 'Spring', 'Summer', 'Fall'];
+
+        // Handle From
+        $season_index_from = array_search(ucfirst($release_from_season), $seasons);
+        $excluded_seasons_from = array_slice($seasons, 0, $season_index_from);
+
+        if (count($excluded_seasons_from)) {
+          $data = $data->whereNotIn('uuid', function ($query) use ($release_from_year, $excluded_seasons_from) {
+            $query->select('uuid')
+              ->where('release_year', $release_from_year)
+              ->whereIn('release_season', $excluded_seasons_from);
+          });
+        }
+
+        // Handle To
+        $season_index_to = array_search(ucfirst($release_to_season), $seasons);
+        $excluded_seasons_to = array_slice($seasons, $season_index_to + 1);
+
+        if (count($excluded_seasons_to)) {
+          $data = $data->whereNotIn('uuid', function ($query) use ($release_to_year, $excluded_seasons_to) {
+            $query->select('uuid')
+              ->where('release_year', $release_to_year)
+              ->whereIn('release_season', $excluded_seasons_to);
+          });
+        }
+      } else {
+        $data = $data = $data->where('release_year', $release_from_year)
+          ->where('release_season', $release_from_season);
+      }
+    }
+
+    if ($search_has_remarks !== EntrySearchHasEnum::ANY) {
+      if ($search_has_remarks === EntrySearchHasEnum::YES) {
+        $data = $data = $data->whereNotNull('remarks');
+      } else {
+        $data = $data = $data->whereNull('remarks');
+      }
+    }
+
+    if ($search_has_image !== EntrySearchHasEnum::ANY) {
+      if ($search_has_image === EntrySearchHasEnum::YES) {
+        $data = $data = $data->whereNotNull('image');
+      } else {
+        $data = $data = $data->whereNull('image');
+      }
+    }
+
+    $data = $data->orderBy($column, $order)
+      ->orderBy('title', 'asc');
+
+    $total_filtered = $data->count();
+    $data = $data->get();
+
+    $total_entries = Entry::count();
+
+    return [
+      'data' => EntrySummaryResource::collection($data),
+      'stats' => [
+        'totalFiltered' => $total_filtered,
+        'totalEntries' => $total_entries,
+      ],
+    ];
   }
 
   public function get($id) {
