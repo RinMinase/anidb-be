@@ -2418,6 +2418,21 @@
                                                     "items": {
                                                         "$ref": "#/components/schemas/EntrySummaryResource"
                                                     }
+                                                },
+                                                "stats": {
+                                                    "properties": {
+                                                        "totalFiltered": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "example": 1
+                                                        },
+                                                        "totalEntries": {
+                                                            "type": "integer",
+                                                            "format": "int64",
+                                                            "example": 42
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -8355,36 +8370,6 @@
                         "example": {
                             "status": 401,
                             "message": "Credentials does not match."
-                        }
-                    }
-                }
-            },
-            "SearchFilterParsingException": {
-                "description": "Partial Parsing Error",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "data": {
-                                    "properties": {
-                                        "field": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 401,
-                            "data": {
-                                "field": "{{ Error Message }}"
-                            }
                         }
                     }
                 }
