@@ -197,7 +197,7 @@ if (!function_exists('parse_season')) {
     $parts = explode(' ', $season_text);
 
     if (count($parts) === 2) {
-      if (is_numeric($parts[0])) {
+      if (is_numeric($parts[0])) { // {year} {season}
         $year = intval($parts[0]);
         $season = $parts[1];
 
@@ -212,7 +212,7 @@ if (!function_exists('parse_season')) {
         } else {
           throw new Error('Error in parsing string');
         }
-      } else if (is_numeric($parts[1])) {
+      } else if (is_numeric($parts[1])) { // {season} {year}
         $year = intval($parts[1]);
         $season = $parts[0];
 
@@ -231,16 +231,26 @@ if (!function_exists('parse_season')) {
         throw new Error('Error in parsing string');
       }
     } else if (count($parts) === 1) {
-      $year = intval($parts[0]);
 
-      if (is_numeric($year)) {
+
+      if (is_numeric($parts[0])) { // {year}
+        $year = intval($parts[0]);
+
         if ($year >= 1900 && $year <= 2999) {
           array_push($retval, $year);
+          array_push($retval, null);
         } else {
           throw new Error('Error in parsing string');
         }
-      } else {
-        throw new Error('Error in parsing string');
+      } else { // {season}
+        $season = $parts[0];
+
+        if (in_array($season, $seasons)) {
+          array_push($retval, null);
+          array_push($retval, $season);
+        } else {
+          throw new Error('Error in parsing string');
+        }
       }
     } else {
       throw new Error('Error in parsing string');

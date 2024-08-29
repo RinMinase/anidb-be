@@ -36,24 +36,47 @@ class ParseSeasonTest extends BaseUnitTestCase {
       $this->assertEquals($expected, $actual);
     }
 
+    $expected = [null, 'winter'];
+    $test_strings = ['winter', 'Winter', 'WINTER'];
+    foreach ($test_strings as $test_string) {
+      $actual = parse_season($test_string);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [null, 'spring'];
+    $test_strings = ['spring', 'Spring', 'SPRING'];
+    foreach ($test_strings as $test_string) {
+      $actual = parse_season($test_string);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [null, 'summer'];
+    $test_strings = ['summer', 'Summer', 'SUMMER'];
+    foreach ($test_strings as $test_string) {
+      $actual = parse_season($test_string);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [null, 'winter'];
+    $test_strings = ['winter', 'Winter', 'WINTER'];
+    foreach ($test_strings as $test_string) {
+      $actual = parse_season($test_string);
+      $this->assertEquals($expected, $actual);
+    }
+
     $test_string = '2020';
     $actual = parse_season($test_string);
-    $expected = [2020];
+    $expected = [2020, null];
     $this->assertEquals($expected, $actual);
 
     $test_string = '1900';
     $actual = parse_season($test_string);
-    $expected = [1900];
+    $expected = [1900, null];
     $this->assertEquals($expected, $actual);
 
     $test_string = '2999';
     $actual = parse_season($test_string);
-    $expected = [2999];
-    $this->assertEquals($expected, $actual);
-
-    $test_string = 'winter 2020';
-    $actual = parse_season($test_string);
-    $expected = [2020, 'winter'];
+    $expected = [2999, null];
     $this->assertEquals($expected, $actual);
 
     $test_string = 'winter 1900';
