@@ -113,6 +113,7 @@ class EntryRepository {
 
     $search_release = self::search_parse_release($values['release'] ?? null);
     $search_remarks = $values['remarks'] ?? null;
+    $search_rating = self::search_parse_rating($values['rating'] ?? null);
 
     $search_has_remarks = self::search_parse_has_value($values['has_remarks']);
     $search_has_image = self::search_parse_has_value($values['has_image']);
@@ -351,6 +352,37 @@ class EntryRepository {
 
     $data = $data->orderBy($column, $order)
       ->orderBy('title', 'asc');
+
+    // ratings come last due to subquery + derived table
+    if (!empty($search_rating)) {
+      $from = $search_rating['rating_from'];
+      $to = $search_rating['rating_to'];
+      $comparator = $search_rating['comparator'];
+
+      $rating_subquery = DB::table('entries as entry_sub')->select('entry_sub.id')
+        ->addSelect(DB::raw('(
+          select round(avg(x), 2)
+          from unnest(array[
+            entries_rating.audio,
+            entries_rating.enjoyment,
+            entries_rating.graphics,
+            entries_rating.plot
+          ]) as x
+        ) as avg_rating'))
+        ->leftJoin('entries_rating', 'entry_sub.id', '=', 'entries_rating.id_entries');
+
+      $data = $data->leftJoinSub($rating_subquery, 'derived_table', function ($query) {
+        $query->on('derived_table.id', '=', 'entries.id');
+      });
+
+      if ($comparator) {
+        $data = $data->where('avg_rating', $comparator, $from);
+      } else if (!$to) {
+        $data = $data->where('avg_rating', $from);
+      } else {
+        $data = $data->whereBetween('avg_rating', [$from, $to]);
+      }
+    }
 
     $total_filtered = $data->count();
     $data = $data->get();
@@ -1416,6 +1448,9 @@ class EntryRepository {
         throw new SearchFilterParsingException($field, 'Error in parsing to ' . $field);
       }
 
+      $count_from = intval($count_from);
+      $count_to = intval($count_to);
+
       if ($count_from >= $count_to) {
         throw new SearchFilterParsingException($field, $field . ' to should be smaller than ' . $field . ' from');
       }
@@ -1440,8 +1475,10 @@ class EntryRepository {
       }
 
       if (!is_numeric($count)) {
-        throw new SearchFilterParsingException($field, 'Error in parsing to ' . $field);
+        throw new SearchFilterParsingException($field, 'Error in parsing string');
       }
+
+      $count = intval($count);
 
       return [
         'count_from' => $count,
@@ -1452,13 +1489,125 @@ class EntryRepository {
 
     // Absolute Value :: {value}
     if (!is_numeric($value)) {
-      throw new SearchFilterParsingException($field, 'Error in parsing to ' . $field);
+      throw new SearchFilterParsingException($field, 'Error in parsing string');
+    }
+
+    $count = intval($value);
+
+    return [
+      'count_from' => $count,
+      'count_to' => null,
+      'comparator' => null,
+    ];
+
+    // Invalid
+    throw new SearchFilterParsingException($field, 'Error in parsing string');
+  }
+
+  public static function search_parse_rating($value) {
+    if (!$value) return null;
+
+    // Range ::
+    // - {value} to {value}
+    // - from {value} to {value}
+    if (str_contains($value, ' to ')) {
+      $value = str_ireplace('from', '', $value);
+      $value = trim($value);
+
+      $parts = explode(' to ', $value);
+      $rating_from = trim($parts[0]);
+      $rating_to = trim(end($parts));
+
+      if (!is_numeric($rating_from)) {
+        throw new SearchFilterParsingException('rating', 'Rating from should be numeric and maxes out to 10');
+      }
+
+      if (!is_numeric($rating_to)) {
+        throw new SearchFilterParsingException('rating', 'Rating to should be numeric and maxes out to 10');
+      }
+
+      $rating_from = floatval($rating_from);
+      $rating_to = floatval($rating_to);
+
+      if ($rating_from >= $rating_to) {
+        throw new SearchFilterParsingException('rating', 'Rating to should be smaller than rating from');
+      }
+
+      if ($rating_from > 10 || $rating_to > 10) {
+        throw new SearchFilterParsingException('rating', 'Max value of rating is 10');
+      }
+
+      if ($rating_from < 0 || $rating_to < 0) {
+        throw new SearchFilterParsingException('rating', 'Min value of rating is 0');
+      }
+
+      if ($rating_from === $rating_to) {
+        throw new SearchFilterParsingException('rating', 'Rating or from should not be the same');
+      }
+
+      return [
+        'rating_from' => $rating_from,
+        'rating_to' => $rating_to,
+        'comparator' => null,
+      ];
+    }
+
+    // Comparators :: {comparator} {value}
+    $comparator = get_comparator($value);
+
+    if ($comparator) {
+      $rating = trim(str_replace($comparator, '', $value));
+
+      try {
+        $comparator = parse_comparator($comparator);
+      } catch (Error) {
+        throw new SearchFilterParsingException('rating', 'Error in parsing comparator');
+      }
+
+      if (!is_numeric($rating)) {
+        throw new SearchFilterParsingException('rating', 'Error in parsing string');
+      }
+
+      $rating = floatval($rating);
+
+      if ($rating >= 10 && $comparator === '>') {
+        throw new SearchFilterParsingException('rating', 'Error in parsing string');
+      }
+
+      if ($rating > 10) {
+        throw new SearchFilterParsingException('rating', 'Max value of rating is 10');
+      }
+
+      if ($rating < 0) {
+        throw new SearchFilterParsingException('rating', 'Min value of rating is 0');
+      }
+
+      return [
+        'rating_from' => $rating,
+        'rating_to' => null,
+        'comparator' => $comparator ?? null,
+      ];
+    }
+
+    // Absolute Value :: {value}
+    if (!is_numeric($value)) {
+      throw new SearchFilterParsingException('rating', 'Error in parsing string');
+    }
+
+    $rating = floatval($value);
+
+    if ($rating > 10) {
+      throw new SearchFilterParsingException('rating', 'Max value of rating is 10');
+    }
+
+    if ($rating < 0) {
+      throw new SearchFilterParsingException('rating', 'Min value of rating is 0');
     }
 
     return [
-      'count_from' => $value,
-      'count_to' => null,
-      'comparator' => $comparator ?? null,
+      'rating_from' => $rating,
+      'rating_to' => null,
+      'comparator' => null,
     ];
 
     // Invalid
