@@ -2846,6 +2846,240 @@ class EntryTest extends BaseTestCase {
     );
   }
 
+  public function test_should_parse_rating_value_with_range() {
+    $expected = [
+      'rating_from' => 3,
+      'rating_to' => 6,
+      'comparator' => null,
+    ];
+
+    $value = 'from 3 to 6';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '3 to 6';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'rating_from' => 3.3,
+      'rating_to' => 6.75,
+      'comparator' => null,
+    ];
+
+    $value = 'from 3.3 to 6.75';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertEquals($expected, $actual);
+
+    $value = '3.3 to 6.75';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_rating_value_with_absolute_value() {
+    $expected = [
+      'rating_from' => 3,
+      'rating_to' => null,
+      'comparator' => null,
+    ];
+
+    $value = '3';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'rating_from' => 3.75,
+      'rating_to' => null,
+      'comparator' => null,
+    ];
+
+    $value = '3.75';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_rating_value_with_comparators() {
+    $expected = [
+      'rating_from' => 10,
+      'rating_to' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= 10', 'gte 10', 'greater than equal 10', 'greater than or equal 10'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3,
+      'rating_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3', 'gt 3', 'greater than 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3,
+      'rating_to' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= 3', 'gte 3', 'greater than equal 3', 'greater than or equal 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3,
+      'rating_to' => null,
+      'comparator' => '<',
+    ];
+
+    $values = ['< 3', 'lt 3', 'less than 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3,
+      'rating_to' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= 3', 'lte 3', 'less than equal 3', 'less than or equal 3'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3.75,
+      'rating_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 3.75', 'gt 3.75', 'greater than 3.75'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3.75,
+      'rating_to' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = ['>= 3.75', 'gte 3.75', 'greater than equal 3.75', 'greater than or equal 3.75'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3.75,
+      'rating_to' => null,
+      'comparator' => '<',
+    ];
+
+    $values = ['< 3.75', 'lt 3.75', 'less than 3.75'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+
+    $expected = [
+      'rating_from' => 3.75,
+      'rating_to' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = ['<= 3.75', 'lte 3.75', 'less than equal 3.75', 'less than or equal 3.75'];
+    foreach ($values as $value) {
+      $actual = EntryRepository::search_parse_rating($value);
+      $this->assertEquals($expected, $actual);
+    }
+  }
+
+  public function test_should_return_null_on_parsing_empty_rating() {
+    $value = '';
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntryRepository::search_parse_rating($value);
+    $this->assertNull($actual);
+  }
+
+  public function test_should_throw_error_on_parsing_invalid_rating_value() {
+    $value = '6 to 3';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class,
+    );
+
+    $value = 'invalid';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class,
+    );
+
+    $value = '>< 6';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> 10';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '10 to 10';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '5 to 5';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '11';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '10.1';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '-1';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '-0.1';
+    $this->assertThrows(
+      fn() => EntryRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+  }
+
   public function test_should_parse_release_value_with_range() {
     $expected = [
       'release_from_year' => 2020,
