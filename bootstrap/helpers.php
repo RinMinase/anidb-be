@@ -231,8 +231,6 @@ if (!function_exists('parse_season')) {
         throw new Error('Error in parsing string');
       }
     } else if (count($parts) === 1) {
-
-
       if (is_numeric($parts[0])) { // {year}
         $year = intval($parts[0]);
 
