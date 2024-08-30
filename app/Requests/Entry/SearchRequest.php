@@ -119,6 +119,15 @@ class SearchRequest extends FormRequest {
    * ),
    *
    * @OA\Parameter(
+   *   parameter="entry_search_rating",
+   *   name="rating",
+   *   description="Max value should be 10<br>Could be absolute value: 3<br>Range: 5 to 10<br>Comparators < 7",
+   *   in="query",
+   *   example=">= 5",
+   *   @OA\Schema(type="string"),
+   * ),
+   *
+   * @OA\Parameter(
    *   parameter="entry_search_has_remarks",
    *   name="has_remarks",
    *   in="query",
@@ -166,6 +175,7 @@ class SearchRequest extends FormRequest {
       'encoder_subs' => ['string'],
       'release' => ['string'],
       'remarks' => ['string'],
+      'rating' => ['string'],
       'has_remarks' => [new Enum(EntrySearchHasEnum::class)],
       'has_image' => [new Enum(EntrySearchHasEnum::class)],
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
