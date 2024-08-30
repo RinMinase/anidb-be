@@ -2389,6 +2389,9 @@
                         "$ref": "#/components/parameters/entry_search_remarks"
                     },
                     {
+                        "$ref": "#/components/parameters/entry_search_rating"
+                    },
+                    {
                         "$ref": "#/components/parameters/entry_search_has_remarks"
                     },
                     {
@@ -9217,6 +9220,15 @@
                 "schema": {
                     "type": "string"
                 }
+            },
+            "entry_search_rating": {
+                "name": "rating",
+                "in": "query",
+                "description": "Max value should be 10<br>Could be absolute value: 3<br>Range: 5 to 10<br>Comparators < 7",
+                "schema": {
+                    "type": "string"
+                },
+                "example": ">= 5"
             },
             "entry_search_has_remarks": {
                 "name": "has_remarks",
