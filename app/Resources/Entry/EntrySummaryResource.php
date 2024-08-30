@@ -37,10 +37,12 @@ class EntrySummaryResource extends JsonResource {
 
   private static $date_range_from;
   private static $date_range_to;
+  private static $date_comparator;
 
-  public static function collectionWithDate($resource, $from, $to) {
+  public static function collectionWithDate($resource, $from, $to, $comparator) {
     self::$date_range_from = $from;
     self::$date_range_to = $to;
+    self::$date_comparator = $comparator;
 
     return parent::collection($resource);
   }
@@ -68,6 +70,7 @@ class EntrySummaryResource extends JsonResource {
   private function calcDateFinished() {
     $from = self::$date_range_from ?? null;
     $to = self::$date_range_to ?? null;
+    $comparator = self::$date_comparator ?? null;
 
     $last_date_finished = '';
 
@@ -88,6 +91,42 @@ class EntrySummaryResource extends JsonResource {
           $rewatch_date = Carbon::parse($rewatch->date_rewatched);
 
           if ($rewatch_date->between($from, $to, true)) {
+            $last_date_finished = $rewatch_date->format('M d, Y');
+          }
+        }
+      }
+
+      return $last_date_finished;
+    }
+
+    if (isset($from) && isset($comparator)) {
+      $from = Carbon::parse($from);
+
+      if ($this->date_finished) {
+        $date = Carbon::parse($this->date_finished);
+
+        if ($comparator === '>' && $date->gt($from)) {
+          $last_date_finished = $date->format('M d, Y');
+        } else if ($comparator === '>=' && $date->gte($from)) {
+          $last_date_finished = $date->format('M d, Y');
+        } else if ($comparator === '<=' && $date->lte($from)) {
+          $last_date_finished = $date->format('M d, Y');
+        } else if ($comparator === '<' && $date->lt($from)) {
+          $last_date_finished = $date->format('M d, Y');
+        }
+      }
+
+      if (count($this->rewatches)) {
+        foreach ($this->rewatches as $rewatch) {
+          $rewatch_date = Carbon::parse($rewatch->date_rewatched);
+
+          if ($comparator === '>' && $rewatch_date->gt($from)) {
+            $last_date_finished = $rewatch_date->format('M d, Y');
+          } else if ($comparator === '>=' && $rewatch_date->gte($from)) {
+            $last_date_finished = $rewatch_date->format('M d, Y');
+          } else if ($comparator === '<=' && $rewatch_date->lte($from)) {
+            $last_date_finished = $rewatch_date->format('M d, Y');
+          } else if ($comparator === '<' && $rewatch_date->lt($from)) {
             $last_date_finished = $rewatch_date->format('M d, Y');
           }
         }

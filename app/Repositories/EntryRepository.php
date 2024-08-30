@@ -350,7 +350,7 @@ class EntryRepository {
       $comparator = $search_date['comparator'];
 
       return [
-        'data' => EntrySummaryResource::collectionWithDate($data, $from, $to),
+        'data' => EntrySummaryResource::collectionWithDate($data, $from, $to, $comparator),
         'stats' => $stats,
       ];
     }
