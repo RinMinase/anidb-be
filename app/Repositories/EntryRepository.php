@@ -252,7 +252,6 @@ class EntryRepository {
       $release_to_season = $search_release['release_to_season'];
       $comparator = $search_release['comparator'];
 
-
       if ($comparator) {
         $data = $data->where('release_year', $comparator, $release_from_year);
 
@@ -309,8 +308,25 @@ class EntryRepository {
               ->whereIn('release_season', $excluded_seasons_to);
           });
         }
-      } else if (!$release_from_year && $release_from_season) {
+      } else if (!$release_from_year && $release_from_season && !$release_to_season) {
         $data = $data = $data->where('release_season', ucfirst($release_from_season));
+      } else if (
+        !$release_from_year
+        && !$release_to_year
+        && $release_from_season
+        && $release_to_season
+      ) {
+        $seasons = ['Winter', 'Spring', 'Summer', 'Fall'];
+
+        $capitalized_season_from = ucfirst($release_from_season);
+        $capitalized_season_to = ucfirst($release_to_season);
+
+        $season_index_from = array_search($capitalized_season_from, $seasons);
+        $season_index_to = array_search($capitalized_season_to, $seasons);
+
+        $actual_seasons = array_slice($seasons, $season_index_from, $season_index_to - $season_index_from + 1);
+
+        $data = $data->whereIn('release_season', $actual_seasons);
       } else {
         $data = $data = $data->where('release_year', $release_from_year)
           ->where('release_season', ucfirst($release_from_season));
