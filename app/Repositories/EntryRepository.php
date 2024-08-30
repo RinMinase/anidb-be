@@ -1420,9 +1420,11 @@ class EntryRepository {
     // Range ::
     // - {season?} {year} to {season?} {year}
     // - {year} {season?} to {year} {season?}
+    // - {season} to {season}
     // - from {season?} {year} to {season?} {year}
     // - from {year} {season?} to {year} {season?}
     // - from {year} to {year}
+    // - from {season} to {season}
     if (str_contains($value, ' to ')) {
       $value = str_ireplace('from', '', $value);
       $value = trim($value);
@@ -1441,10 +1443,32 @@ class EntryRepository {
         throw new SearchFilterParsingException('release', 'Error in parsing string');
       }
 
+      // If {from?} {season} to {season}
+      if ($formatted_release_from[0] === null && $formatted_release_to[0] === null) {
+        $season_from = $formatted_release_from[1];
+        $season_to = $formatted_release_to[1];
+
+        $seasons = ['winter', 'spring', 'summer', 'fall'];
+        $season_from_index = array_search($season_from, $seasons);
+        $season_to_index = array_search($season_to, $seasons);
+
+        if ($season_from_index >= $season_to_index) {
+          throw new SearchFilterParsingException('release', 'Release season to should be earlier than release season from');
+        }
+
+        return [
+          'release_from_year' => null,
+          'release_from_season' => $formatted_release_from[1],
+          'release_to_year' => null,
+          'release_to_season' => $formatted_release_to[1],
+          'comparator' => null,
+        ];
+      }
+
       $date_from = Carbon::parse($formatted_release_from[0] . '-01-01');
       $date_to = Carbon::parse($formatted_release_to[0] . '-01-01');
 
-      if ($formatted_release_from[1] ?? null) {
+      if (isset($formatted_release_from[1])) {
         if ($formatted_release_from[1] === 'winter') {
           $date_from = Carbon::parse($formatted_release_from[0] . '-02-01');
         } else if ($formatted_release_from[1] === 'spring') {
@@ -1456,7 +1480,7 @@ class EntryRepository {
         }
       }
 
-      if ($formatted_release_to[1] ?? null) {
+      if (isset($formatted_release_to[1])) {
         if ($formatted_release_to[1] === 'winter') {
           $date_to = Carbon::parse($formatted_release_to[0] . '-02-01');
         } else if ($formatted_release_to[1] === 'spring') {
@@ -1512,13 +1536,15 @@ class EntryRepository {
     }
 
     // Absolute Value ::
-    // - {season?} {year}
-    // - {year} {season?}
+    // - {season} {year}
+    // - {year} {season}
+    // - {year}
+    // - {season}
     try {
       $release = parse_season($value);
 
       return [
-        'release_from_year' => $release[0],
+        'release_from_year' => $release[0] ?? null,
         'release_from_season' => $release[1] ?? null,
         'release_to_year' => null,
         'release_to_season' => null,
