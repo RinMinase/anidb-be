@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 use App\Exceptions\JsonParsingException;
 use App\Repositories\EntryRepository;
-
+use App\Repositories\EntrySearchRepository;
 use App\Requests\ImportRequest;
 use App\Requests\Entry\AddEditRequest;
 use App\Requests\Entry\AddRewatchRequest;
@@ -22,9 +22,14 @@ use App\Resources\DefaultResponse;
 class EntryController extends Controller {
 
   private EntryRepository $entryRepository;
+  private EntrySearchRepository $entrySearchRepository;
 
-  public function __construct(EntryRepository $entryRepository) {
+  public function __construct(
+    EntryRepository $entryRepository,
+    EntrySearchRepository $entrySearchRepository
+  ) {
     $this->entryRepository = $entryRepository;
+    $this->entrySearchRepository = $entrySearchRepository;
   }
 
   /**
@@ -356,7 +361,7 @@ class EntryController extends Controller {
    * )
    */
   public function search(SearchRequest $request): JsonResponse {
-    $data = $this->entryRepository->search(
+    $data = $this->entrySearchRepository->search(
       $request->only(
         'quality',
         'title',
