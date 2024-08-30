@@ -99,7 +99,7 @@ class EntryRepository {
     $search_quality = self::search_parse_quality($values['quality'] ?? null);
     $search_title = $values['title'] ?? null;
 
-    // $search_date = self::search_parse_date($values['date'] ?? null);
+    $search_date = self::search_parse_date($values['date'] ?? null);
     $search_filesize = self::search_parse_filesize($values['filesize'] ?? null);
 
     $search_episodes = self::search_parse_count($values['episodes'] ?? null, 'episodes');
@@ -121,14 +121,10 @@ class EntryRepository {
     $column = $values['column'] ?? 'id_quality';
     $order = $values['order'] ?? 'asc';
 
-    $data = Entry::select()->with('rating');
+    $data = Entry::select('entries.*')->with('rating');
 
     if (!empty($search_title)) {
       $data = $data->where('title', 'ilike', '%' . $search_title . '%');
-    }
-
-    if (!empty($search_remarks)) {
-      $data = $data->where('title', 'ilike', '%' . $search_remarks . '%');
     }
 
     if (!empty($search_encoder)) {
@@ -147,6 +143,10 @@ class EntryRepository {
 
     if (!empty($search_encoder_subs)) {
       $data = $data->where('encoder_subs', 'ilike', '%' . $search_encoder_subs . '%');
+    }
+
+    if (!empty($search_remarks)) {
+      $data = $data->where('title', 'ilike', '%' . $search_remarks . '%');
     }
 
     if (isset($search_quality)) {
@@ -169,6 +169,26 @@ class EntryRepository {
           $total_values++;
         }
       });
+    }
+
+    if (isset($search_date)) {
+      $from = $search_date['date_from'];
+      $to = $search_date['date_to'];
+      $comparator = $search_date['comparator'];
+
+      $data = $data->distinct()->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries');
+
+      if ($comparator) {
+        $data = $data->where(function ($query) use ($comparator, $from) {
+          $query->where('date_finished', $comparator, $from)
+            ->orWhere('entries_rewatch.date_rewatched', $comparator, $from);
+        });
+      } else {
+        $data = $data->where(function ($query) use ($from, $to) {
+          $query->whereBetween('date_finished', [$from, $to])
+            ->orWhereBetween('entries_rewatch.date_rewatched', [$from, $to]);
+        });
+      }
     }
 
     if (!empty($search_filesize)) {
@@ -291,7 +311,7 @@ class EntryRepository {
         }
       } else {
         $data = $data = $data->where('release_year', $release_from_year)
-          ->where('release_season', $release_from_season);
+          ->where('release_season', ucfirst($release_from_season));
       }
     }
 
@@ -319,12 +339,25 @@ class EntryRepository {
 
     $total_entries = Entry::count();
 
+    $stats = [
+      'totalFiltered' => $total_filtered,
+      'totalEntries' => $total_entries,
+    ];
+
+    if (isset($search_date)) {
+      $from = $search_date['date_from'];
+      $to = $search_date['date_to'];
+      $comparator = $search_date['comparator'];
+
+      return [
+        'data' => EntrySummaryResource::collectionWithDate($data, $from, $to),
+        'stats' => $stats,
+      ];
+    }
+
     return [
       'data' => EntrySummaryResource::collection($data),
-      'stats' => [
-        'totalFiltered' => $total_filtered,
-        'totalEntries' => $total_entries,
-      ],
+      'stats' => $stats,
     ];
   }
 

@@ -2,6 +2,7 @@
 
 namespace App\Resources\Entry;
 
+use App\Repositories\EntryRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
@@ -34,8 +35,17 @@ use Carbon\Carbon;
  */
 class EntrySummaryResource extends JsonResource {
 
-  public function toArray($request) {
+  private static $date_range_from;
+  private static $date_range_to;
 
+  public static function collectionWithDate($resource, $from, $to) {
+    self::$date_range_from = $from;
+    self::$date_range_to = $to;
+
+    return parent::collection($resource);
+  }
+
+  public function toArray($request) {
     return [
       'id' => $this->uuid,
       'quality' => $this->quality->quality,
@@ -56,7 +66,35 @@ class EntrySummaryResource extends JsonResource {
   }
 
   private function calcDateFinished() {
+    $from = self::$date_range_from ?? null;
+    $to = self::$date_range_to ?? null;
+
     $last_date_finished = '';
+
+    if (isset($from) && isset($to)) {
+      $from = Carbon::parse($from);
+      $to = Carbon::parse($to);
+
+      if ($this->date_finished) {
+        $date = Carbon::parse($this->date_finished);
+
+        if ($date->between($from, $to, true)) {
+          $last_date_finished = $date->format('M d, Y');
+        }
+      }
+
+      if (count($this->rewatches)) {
+        foreach ($this->rewatches as $rewatch) {
+          $rewatch_date = Carbon::parse($rewatch->date_rewatched);
+
+          if ($rewatch_date->between($from, $to, true)) {
+            $last_date_finished = $rewatch_date->format('M d, Y');
+          }
+        }
+      }
+
+      return $last_date_finished;
+    }
 
     if ($this->date_finished) {
       $last_date_finished = Carbon::parse($this->date_finished)
