@@ -309,6 +309,8 @@ class EntryRepository {
               ->whereIn('release_season', $excluded_seasons_to);
           });
         }
+      } else if (!$release_from_year && $release_from_season) {
+        $data = $data = $data->where('release_season', ucfirst($release_from_season));
       } else {
         $data = $data = $data->where('release_year', $release_from_year)
           ->where('release_season', ucfirst($release_from_season));
