@@ -441,12 +441,80 @@ class EntrySearchRepository {
     throw new SearchFilterParsingException('quality', 'Error in parsing string');
   }
 
+  public static function search_parse_date_value(
+    string $date_value,
+    bool $end = null,
+    string $on_error_message = null
+  ) {
+
+    $date = null;
+
+    if (is_numeric($date_value)) { // yyyy format
+      $date = intval($date_value);
+
+      if ($date < 1900 && $date > 2999) {
+        throw new SearchFilterParsingException('date', 'Year should start at 1900 and maxes out at 2999');
+      }
+
+      $date = Carbon::createFromFormat('Y', $date)->startOfYear();
+
+      if ($end) {
+        $date = $date->endOfYear();
+      }
+    } else {
+      try {
+        // $date_value = str_ireplace(',', '', $date_value);
+        // $date_value = strtolower($date_value);
+        $parts = [];
+
+        if (str_contains($date_value, '-')) {
+          $parts = explode('-', $date_value, 3);
+        } else if (str_contains($date_value, '/')) {
+          $parts = explode('/', $date_value, 3);
+          // } else if (str_contains($date_value, ' ')) {
+          //   $parts = explode(' ', $date_value, 3);
+          // } else {
+          //   throw new SearchFilterParsingException('date', 'Error in parsing date');
+        }
+
+        // if (count($parts) === 3) {
+
+        // }
+
+        if (count($parts) === 2) {
+          if (preg_match('/^\d{4}[-\/]\d{1,2}$/', $date_value)) {
+            // yyyy-mm or yyyy/mm format
+            $date = Carbon::createFromDate($parts[0], $parts[1], 1);
+
+            if ($end) $date = $date->endOfMonth();
+          } else if (preg_match('/^\d{1,2}[-\/]\d{4}$/', $date_value)) {
+            // mm-yyyy or mm/yyyy format
+            $date = Carbon::createFromDate($parts[1], $parts[0], 1);
+
+            if ($end) $date = $date->endOfMonth();
+          } else {
+            $date = Carbon::parse($date_value);
+          }
+        } else {
+          $date = Carbon::parse($date_value);
+
+          if ($end) $date = $date->lastOfMonth();
+        }
+      } catch (InvalidFormatException) {
+        throw new SearchFilterParsingException('date', $on_error_message ?? 'Error in parsing date');
+      }
+    }
+
+    return $date;
+  }
+
   public static function search_parse_date($value) {
     if (!$value) return null;
 
     // Range ::
     // - {date} to {date}
     // - from {date} to {date}
+    // Valid date formats: yyyy-mm-dd, yyyy-mm, yyyy or valid date formats
     if (str_contains($value, ' to ')) {
       $value = str_ireplace('from', '', $value);
       $value = trim($value);
@@ -455,17 +523,8 @@ class EntrySearchRepository {
       $date_from = trim($parts[0]);
       $date_to = trim(end($parts));
 
-      try {
-        $date_from = Carbon::parse($date_from);
-      } catch (InvalidFormatException) {
-        throw new SearchFilterParsingException('date', 'Error in parsing from date');
-      }
-
-      try {
-        $date_to = Carbon::parse($date_to);
-      } catch (InvalidFormatException) {
-        throw new SearchFilterParsingException('date', 'Error in parsing to date');
-      }
+      $date_from = self::search_parse_date_value($date_from, false, 'Error in parsing from date');
+      $date_to = self::search_parse_date_value($date_to, true, 'Error in parsing to date');
 
       if ($date_from->gte($date_to)) {
         throw new SearchFilterParsingException('date', 'Date to should be later than date from');
@@ -491,11 +550,7 @@ class EntrySearchRepository {
         throw new SearchFilterParsingException('date', 'Error in parsing comparator');
       }
 
-      try {
-        $date = Carbon::parse($date);
-      } catch (InvalidFormatException) {
-        throw new SearchFilterParsingException('date', 'Error in parsing date');
-      }
+      $date = self::search_parse_date_value($date);
 
       return [
         'date_from' => $date->format('Y-m-d'),
@@ -504,18 +559,51 @@ class EntrySearchRepository {
       ];
     }
 
-    // Absolute Value :: {date}
-    try {
-      $date = Carbon::parse($value);
+    // Absolute Value (or semi-range) :: {date}
+    $date_from = null;
+    $date_to = null;
 
-      return [
-        'date_from' => $date->format('Y-m-d'),
-        'date_to' => null,
-        'comparator' => null,
-      ];
-    } catch (InvalidFormatException) {
+    $date = strtolower($value);
+    $date = str_replace(',', '', $date);
+    $date_parts = preg_split('/(-|\/|\ )/', $date, 3);
+
+    if (count($date_parts) === 3) {
+      $date_from = self::search_parse_date_value($value);
+    } else if (count($date_parts) === 2) {
+      // yyyy-mm or mm-yyyy or yyyy/mm or mm/yyyy format -> treat as range for the whole month
+      if (preg_match('/^(\d{4}[-\/]\d{1,2})$|^(\d{1,2}[-\/]\d{4})$/', $value)) {
+        $date_from = self::search_parse_date_value($value, false, 'Error in parsing from date');
+        $date_to = self::search_parse_date_value($value, true, 'Error in parsing to date');
+      } else {
+        // yyyy mmm or mmm yyyy format
+        $m_y_regex = '((jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|sept|september|oct|october|nov|november|dec|december) \d{4})';
+        $y_m_regex = '(\d{4} (jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|sept|september|oct|october|nov|november|dec|december))';
+        $regex = '/^' . $m_y_regex . '$|^' . $y_m_regex . '$/';
+
+        if (preg_match($regex, $date)) {
+          $date_from = self::search_parse_date_value($date, false, 'Error in parsing from date');
+          $date_to = self::search_parse_date_value($date, true, 'Error in parsing to date');
+        } else {
+          throw new SearchFilterParsingException('date', 'Error in parsing date');
+        }
+      }
+    } else if (count($date_parts) === 1) {
+      // yyyy format -> treat as range for the whole year
+      if (is_numeric($value)) {
+        $date_from = self::search_parse_date_value($value, false, 'Error in parsing from date');
+        $date_to = self::search_parse_date_value($value, true, 'Error in parsing to date');
+      } else {
+        throw new SearchFilterParsingException('date', 'Error in parsing date');
+      }
+    } else {
       throw new SearchFilterParsingException('date', 'Error in parsing date');
     }
+
+    return [
+      'date_from' => $date_from->format('Y-m-d'),
+      'date_to' => $date_to ? $date_to->format('Y-m-d') : null,
+      'comparator' => null,
+    ];
 
     // Invalid
     throw new SearchFilterParsingException('date', 'Error in parsing string');
