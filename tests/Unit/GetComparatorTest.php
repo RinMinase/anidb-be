@@ -82,6 +82,21 @@ class GetComparatorTest extends BaseUnitTestCase {
     $expected = 'greater than or equal';
     $this->assertEquals($expected, $actual);
 
+    $test_text = 'more than some value';
+    $actual = get_comparator($test_text);
+    $expected = 'greater than';
+    $this->assertEquals($expected, $actual);
+
+    $test_text = 'more than equal some value';
+    $actual = get_comparator($test_text);
+    $expected = 'greater than equal';
+    $this->assertEquals($expected, $actual);
+
+    $test_text = 'more than or equal some value';
+    $actual = get_comparator($test_text);
+    $expected = 'greater than or equal';
+    $this->assertEquals($expected, $actual);
+
     $test_text = 'less than some value';
     $actual = get_comparator($test_text);
     $expected = 'less than';
@@ -99,32 +114,19 @@ class GetComparatorTest extends BaseUnitTestCase {
   }
 
   public function test_should_return_null_if_text_has_no_comparators() {
-    $test_text = 'string';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
+    $values = [
+      'string',
+      'string value',
+      '<> value',
+      '>< value',
+      'is greater than value',
+      'less thanvalue',
+      '<value',
+    ];
 
-    $test_text = 'string value';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
-
-    $test_text = '<> value';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
-
-    $test_text = '>< value';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
-
-    $test_text = 'is greater than value';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
-
-    $test_text = 'less thanvalue';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
-
-    $test_text = '<value';
-    $actual = get_comparator($test_text);
-    $this->assertNull($actual);
+    foreach ($values as $key => $value) {
+      $actual = get_comparator($value);
+      $this->assertNull($actual, 'Error in $key=' . $key);
+    }
   }
 }
