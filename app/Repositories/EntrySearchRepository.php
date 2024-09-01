@@ -516,15 +516,48 @@ class EntrySearchRepository {
     // - from {date} to {date}
     // Valid date formats: yyyy-mm-dd, yyyy-mm, yyyy or valid date formats
     if (str_contains($value, ' to ')) {
-      $value = str_ireplace('from', '', $value);
-      $value = trim($value);
+      $date_range = str_ireplace('from', '', $value);
+      $date_range = str_replace(',', '', $date_range);
+      $date_range = strtolower(trim($date_range));
 
-      $parts = explode(' to ', $value);
+      $parts = explode(' to ', $date_range);
       $date_from = trim($parts[0]);
       $date_to = trim(end($parts));
 
+      // Process from
       $date_from = self::search_parse_date_value($date_from, false, 'Error in parsing from date');
-      $date_to = self::search_parse_date_value($date_to, true, 'Error in parsing to date');
+
+      // Process to
+      $date_to_parts = preg_split('/(-|\/|\ )/', $date_to, 3);
+
+      if (count($date_to_parts) === 3) {
+        $date_to = self::search_parse_date_value($date_to, false, 'Error in parsing to date');
+      } else if (count($date_to_parts) === 2) {
+        if (preg_match('/^(\d{4}[-\/]\d{1,2})$|^(\d{1,2}[-\/]\d{4})$/', $date_to)) {
+          // yyyy-mm or mm-yyyy or yyyy/mm or mm/yyyy format
+          $date_to = self::search_parse_date_value($date_to, true, 'Error in parsing from date');
+        } else {
+          // yyyy mmm or mmm yyyy format
+          $m_y_regex = '((jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|sept|september|oct|october|nov|november|dec|december) \d{4})';
+          $y_m_regex = '(\d{4} (jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|sept|september|oct|october|nov|november|dec|december))';
+          $regex = '/^' . $m_y_regex . '$|^' . $y_m_regex . '$/';
+
+          if (preg_match($regex, $date_to)) {
+            $date_to = self::search_parse_date_value($date_to, true, 'Error in parsing to date');
+          } else {
+            throw new SearchFilterParsingException('date', 'Error in parsing date');
+          }
+        }
+      } else if (count($date_to_parts) === 1) {
+        // yyyy format
+        if (is_numeric($date_to)) {
+          $date_to = self::search_parse_date_value($date_to, true, 'Error in parsing to date');
+        } else {
+          throw new SearchFilterParsingException('date', 'Error in parsing date');
+        }
+      } else {
+        throw new SearchFilterParsingException('date', 'Error in parsing date');
+      }
 
       if ($date_from->gte($date_to)) {
         throw new SearchFilterParsingException('date', 'Date to should be later than date from');
@@ -571,9 +604,9 @@ class EntrySearchRepository {
       $date_from = self::search_parse_date_value($value);
     } else if (count($date_parts) === 2) {
       // yyyy-mm or mm-yyyy or yyyy/mm or mm/yyyy format -> treat as range for the whole month
-      if (preg_match('/^(\d{4}[-\/]\d{1,2})$|^(\d{1,2}[-\/]\d{4})$/', $value)) {
-        $date_from = self::search_parse_date_value($value, false, 'Error in parsing from date');
-        $date_to = self::search_parse_date_value($value, true, 'Error in parsing to date');
+      if (preg_match('/^(\d{4}[-\/]\d{1,2})$|^(\d{1,2}[-\/]\d{4})$/', $date)) {
+        $date_from = self::search_parse_date_value($date, false, 'Error in parsing from date');
+        $date_to = self::search_parse_date_value($date, true, 'Error in parsing to date');
       } else {
         // yyyy mmm or mmm yyyy format
         $m_y_regex = '((jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|sept|september|oct|october|nov|november|dec|december) \d{4})';
@@ -589,9 +622,9 @@ class EntrySearchRepository {
       }
     } else if (count($date_parts) === 1) {
       // yyyy format -> treat as range for the whole year
-      if (is_numeric($value)) {
-        $date_from = self::search_parse_date_value($value, false, 'Error in parsing from date');
-        $date_to = self::search_parse_date_value($value, true, 'Error in parsing to date');
+      if (is_numeric($date)) {
+        $date_from = self::search_parse_date_value($date, false, 'Error in parsing from date');
+        $date_to = self::search_parse_date_value($date, true, 'Error in parsing to date');
       } else {
         throw new SearchFilterParsingException('date', 'Error in parsing date');
       }
