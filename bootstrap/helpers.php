@@ -154,6 +154,9 @@ if (!function_exists('parse_comparator')) {
 
 if (!function_exists('get_comparator')) {
   function get_comparator(string $comparator_text) {
+    $comparator_text = strtolower($comparator_text);
+    $comparator_text = str_replace('more than', 'greater than', $comparator_text);
+
     $comparators = [
       'greater than or equal',
       'greater than equal',
@@ -170,8 +173,6 @@ if (!function_exists('get_comparator')) {
       '>',
       '<',
     ];
-
-    $comparator_text = strtolower($comparator_text);
 
     foreach ($comparators as $comparator) {
       $index = strpos($comparator_text, $comparator);
