@@ -31,6 +31,20 @@ RUN set -xe; \
 RUN docker-php-ext-install pdo pdo_pgsql
 
 ###########################################################################
+# Swoole (~2min install)
+###########################################################################
+
+RUN set -xe; \
+    apk add --no-cache \
+    autoconf \
+    brotli-dev \
+    g++ \
+    make
+
+RUN pecl install swoole
+RUN docker-php-ext-enable swoole
+
+###########################################################################
 # Composer
 ###########################################################################
 
