@@ -533,79 +533,131 @@ class EntrySearchTest extends BaseTestCase {
       'comparator' => null,
     ];
 
-    // from {date} to {date}
-    $value = 'from 2020-10-12 to 2020-11-12';
+    $values = [
+      'from 2020-10-12 to 2020-11-12',
+      'from 12-10-2020 to 12-11-2020',
+      'from 10/12/2020 to 11/12/2020',
+      'from oct 12 2020 to nov 12 2020',
+      'from Oct 12 2020 to Nov 12 2020',
+      'from Oct 12, 2020 to Nov 12, 2020',
+      'from october 12 2020 to november 12 2020',
+      'from October 12 2020 to November 12 2020',
+      'from October 12, 2020 to November 12, 2020',
+      '2020-10-12 to 2020-11-12',
+      '12-10-2020 to 12-11-2020',
+      '10/12/2020 to 11/12/2020',
+      'oct 12 2020 to nov 12 2020',
+      'Oct 12 2020 to Nov 12 2020',
+      'Oct 12, 2020 to Nov 12, 2020',
+      'october 12 2020 to november 12 2020',
+      'October 12 2020 to November 12 2020',
+      'October 12, 2020 to November 12, 2020',
+    ];
+
+    foreach ($values as $key => $value) {
+      $actual = EntrySearchRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual, 'Error on $key = ' . $key);
+    }
+
+    $expected = [
+      'date_from' => '2020-01-01',
+      'date_to' => '2022-12-31',
+      'comparator' => null,
+    ];
+
+    $value = '2020 to 2022';
     $actual = EntrySearchRepository::search_parse_date($value);
     $this->assertEquals($expected, $actual);
 
-    $value = 'from 12-10-2020 to 12-11-2020';
+    $value = 'from 2020 to 2022';
     $actual = EntrySearchRepository::search_parse_date($value);
     $this->assertEquals($expected, $actual);
 
-    $value = 'from 10/12/2020 to 11/12/2020';
+    $expected = [
+      'date_from' => '2020-03-01',
+      'date_to' => '2020-06-30',
+      'comparator' => null,
+    ];
+
+    $values = [
+      '2020-03 to 2020-06',
+      '2020-3 to 2020-6',
+      'from 2020-03 to 2020-06',
+      '03-2020 to 06-2020',
+      '3-2020 to 6-2020',
+      'from 03-2020 to 06-2020',
+      '2020/03 to 2020/06',
+      '2020/3 to 2020/6',
+      'from 2020/03 to 2020/06',
+      '03/2020 to 06/2020',
+      '3/2020 to 6/2020',
+      'from 03/2020 to 06/2020',
+      'from 2020/03 to 2020/06',
+      'Mar 2020 to Jun 2020',
+      '2020 mar to 2020 jun',
+      '2020 Mar to 2020 Jun',
+      'from Mar 2020 to Jun 2020',
+      'from 2020 Mar to 2020 Jun',
+      'March 2020 to June 2020',
+      'from March 2020 to June 2020',
+    ];
+
+    foreach ($values as $key => $value) {
+      $actual = EntrySearchRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual, 'Error on $key = ' . $key);
+    }
+  }
+
+  public function test_should_parse_date_value_with_semirange_absolute_value() {
+    $expected = [
+      'date_from' => '2020-01-01',
+      'date_to' => '2020-12-31',
+      'comparator' => null,
+    ];
+
+    $value = '2020';
     $actual = EntrySearchRepository::search_parse_date($value);
     $this->assertEquals($expected, $actual);
 
-    $value = 'from oct 12 2020 to nov 12 2020';
+    $expected = [
+      'date_from' => '2021-01-01',
+      'date_to' => '2021-12-31',
+      'comparator' => null,
+    ];
+
+    $value = '2021';
     $actual = EntrySearchRepository::search_parse_date($value);
     $this->assertEquals($expected, $actual);
 
-    $value = 'from Oct 12 2020 to Nov 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
+    $expected = [
+      'date_from' => '2021-01-01',
+      'date_to' => '2021-01-31',
+      'comparator' => null,
+    ];
 
-    $value = 'from Oct 12, 2020 to Nov 12, 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
+    $values = [
+      '2021-1',
+      '2021-01',
+      '1-2021',
+      '01-2021',
+      '2021/1',
+      '2021/01',
+      '1/2021',
+      '01/2021',
+      'jan 2021',
+      'Jan 2021',
+      'JAN 2021',
+      'January 2021',
+      '2021 jan',
+      '2021 Jan',
+      '2021 JAN',
+      '2021 January',
+    ];
 
-    $value = 'from october 12 2020 to november 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'from October 12 2020 to November 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'from October 12, 2020 to November 12, 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    // {date} to {date}
-    $value = '2020-10-12 to 2020-11-12';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = '12-10-2020 to 12-11-2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = '10/12/2020 to 11/12/2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'oct 12 2020 to nov 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'Oct 12 2020 to Nov 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'Oct 12, 2020 to Nov 12, 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'october 12 2020 to november 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'October 12 2020 to November 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'October 12, 2020 to November 12, 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
+    foreach ($values as $key => $value) {
+      $actual = EntrySearchRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual, 'Error on $key = ' . $key);
+    }
   }
 
   public function test_should_parse_date_value_with_absolute_value() {
@@ -615,41 +667,22 @@ class EntrySearchTest extends BaseTestCase {
       'comparator' => null,
     ];
 
-    $value = '2020-10-12';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
+    $values = [
+      '2020-10-12',
+      '12-10-2020',
+      '10/12/2020',
+      'oct 12 2020',
+      'Oct 12 2020',
+      'Oct 12, 2020',
+      'october 12 2020',
+      'October 12 2020',
+      'October 12, 2020',
+    ];
 
-    $value = '12-10-2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = '10/12/2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'oct 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'Oct 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'Oct 12, 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'october 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'October 12 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'October 12, 2020';
-    $actual = EntrySearchRepository::search_parse_date($value);
-    $this->assertEquals($expected, $actual);
+    foreach ($values as $key => $value) {
+      $actual = EntrySearchRepository::search_parse_date($value);
+      $this->assertEquals($expected, $actual, 'Error on $key = ' . $key);
+    }
   }
 
   public function test_should_parse_date_value_with_comparators() {
