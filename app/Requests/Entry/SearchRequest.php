@@ -16,7 +16,7 @@ class SearchRequest extends FormRequest {
    * @OA\Parameter(
    *   parameter="entry_search_quality",
    *   name="quality",
-   *   description="Could be common terms: 4K, UHD<br>Vertical pixels: 1080, 1080p;",
+   *   description="Range or Comma separated values<br>Could be common terms: 4K, UHD<br>Vertical pixels: 1080, 1080p<br>Range: 1080p to UHD",
    *   in="query",
    *   example="UHD",
    *   @OA\Schema(type="string"),
@@ -144,6 +144,31 @@ class SearchRequest extends FormRequest {
    * ),
    *
    * @OA\Parameter(
+   *   parameter="entry_search_is_hdr",
+   *   name="is_hdr",
+   *   in="query",
+   *   example="any",
+   *   @OA\Schema(type="string", enum={"any", "yes", "no"}, default="any"),
+   * ),
+   *
+   * @OA\Parameter(
+   *   parameter="entry_search_codec_video",
+   *   name="codec_video",
+   *   description="Comma separated IDs of video codecs",
+   *   in="query",
+   *   example="1,2",
+   *   @OA\Schema(type="string"),
+   * ),
+   *
+   * @OA\Parameter(
+   *   parameter="entry_search_codec_audio",
+   *   name="codec_audio",
+   *   description="Comma separated IDs of audio codecs",
+   *   in="query",
+   *   @OA\Schema(type="string"),
+   * ),
+   *
+   * @OA\Parameter(
    *   parameter="entry_search_column",
    *   name="column",
    *   description="Order - Column to order",
@@ -166,18 +191,27 @@ class SearchRequest extends FormRequest {
       'title' => ['string'],
       'date' => ['string'],
       'filesize' => ['string'],
+
       'episodes' => ['string'],
       'ovas' => ['string'],
       'specials' => ['string'],
+
       'encoder' => ['string'],
       'encoder_video' => ['string'],
       'encoder_audio' => ['string'],
       'encoder_subs' => ['string'],
+
       'release' => ['string'],
       'remarks' => ['string'],
       'rating' => ['string'],
+
       'has_remarks' => [new Enum(EntrySearchHasEnum::class)],
       'has_image' => [new Enum(EntrySearchHasEnum::class)],
+
+      'is_hdr' => [new Enum(EntrySearchHasEnum::class)],
+      'codec_video' => ['string'],
+      'codec_audio' => ['string'],
+
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
       'order' => ['in:asc,desc,ASC,DESC'],
     ];
