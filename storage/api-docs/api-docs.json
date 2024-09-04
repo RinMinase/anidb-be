@@ -2398,6 +2398,15 @@
                         "$ref": "#/components/parameters/entry_search_has_image"
                     },
                     {
+                        "$ref": "#/components/parameters/entry_search_is_hdr"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_codec_video"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_codec_audio"
+                    },
+                    {
                         "$ref": "#/components/parameters/entry_search_column"
                     },
                     {
@@ -9119,7 +9128,7 @@
             "entry_search_quality": {
                 "name": "quality",
                 "in": "query",
-                "description": "Could be common terms: 4K, UHD<br>Vertical pixels: 1080, 1080p;",
+                "description": "Range or Comma separated values<br>Could be common terms: 4K, UHD<br>Vertical pixels: 1080, 1080p<br>Range: 1080p to UHD",
                 "schema": {
                     "type": "string"
                 },
@@ -9257,6 +9266,37 @@
                     ]
                 },
                 "example": "any"
+            },
+            "entry_search_is_hdr": {
+                "name": "is_hdr",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "any",
+                    "enum": [
+                        "any",
+                        "yes",
+                        "no"
+                    ]
+                },
+                "example": "any"
+            },
+            "entry_search_codec_video": {
+                "name": "codec_video",
+                "in": "query",
+                "description": "Comma separated IDs of video codecs",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "1,2"
+            },
+            "entry_search_codec_audio": {
+                "name": "codec_audio",
+                "in": "query",
+                "description": "Comma separated IDs of audio codecs",
+                "schema": {
+                    "type": "string"
+                }
             },
             "entry_search_column": {
                 "name": "column",
