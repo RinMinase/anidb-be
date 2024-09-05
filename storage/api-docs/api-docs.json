@@ -2386,10 +2386,10 @@
                         "$ref": "#/components/parameters/entry_search_release"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_search_remarks"
+                        "$ref": "#/components/parameters/entry_search_rating"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_search_rating"
+                        "$ref": "#/components/parameters/entry_search_remarks"
                     },
                     {
                         "$ref": "#/components/parameters/entry_search_has_remarks"
