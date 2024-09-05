@@ -2719,20 +2719,17 @@ class EntrySearchTest extends BaseTestCase {
     ];
 
     $values = [
-      '> 2020',
       '> winter 2020',
       '> 2020 winter',
-      'gt 2020',
       'gt winter 2020',
       'gt 2020 winter',
-      'greater than 2020',
       'greater than winter 2020',
       'greater than 2020 winter',
     ];
 
     foreach ($values as $value) {
       $actual = EntrySearchRepository::search_parse_release($value);
-      $this->assertEquals($expected, $actual);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
     }
 
     $expected = [
@@ -2756,7 +2753,7 @@ class EntrySearchTest extends BaseTestCase {
 
     foreach ($values as $value) {
       $actual = EntrySearchRepository::search_parse_release($value);
-      $this->assertEquals($expected, $actual);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
     }
 
     $expected = [
@@ -2780,7 +2777,7 @@ class EntrySearchTest extends BaseTestCase {
 
     foreach ($values as $value) {
       $actual = EntrySearchRepository::search_parse_release($value);
-      $this->assertEquals($expected, $actual);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
     }
 
     $expected = [
@@ -2802,7 +2799,91 @@ class EntrySearchTest extends BaseTestCase {
 
     foreach ($values as $value) {
       $actual = EntrySearchRepository::search_parse_release($value);
-      $this->assertEquals($expected, $actual);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '>',
+    ];
+
+    $values = [
+      '> 2020',
+      'gt 2020',
+      'greater than 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntrySearchRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '>=',
+    ];
+
+    $values = [
+      '>= 2020',
+      'gte 2020',
+      'greater than equal 2020',
+      'greater than or equal 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntrySearchRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '<=',
+    ];
+
+    $values = [
+      '<= 2020',
+      'lte 2020',
+      'less than equal 2020',
+      'less than or equal 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntrySearchRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
+    }
+
+
+    foreach ($values as $value) {
+      $actual = EntrySearchRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
+    }
+
+    $expected = [
+      'release_from_year' => 2020,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => '<',
+    ];
+
+    $values = [
+      '< 2020',
+      'lt 2020',
+      'less than 2020',
+    ];
+
+    foreach ($values as $value) {
+      $actual = EntrySearchRepository::search_parse_release($value);
+      $this->assertEquals($expected, $actual, 'Error in $value="' . $value . '"');
     }
   }
 
