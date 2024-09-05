@@ -11,6 +11,8 @@ use Tests\BaseTestCase;
 use App\Enums\EntrySearchHasEnum;
 use App\Exceptions\Entry\SearchFilterParsingException;
 
+use App\Models\CodecAudio;
+use App\Models\CodecVideo;
 use App\Models\Entry;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
@@ -1869,5 +1871,94 @@ class EntrySearchTest extends BaseTestCase {
 
     $actual = EntrySearchRepository::search_parse_has_value(null);
     $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_codec_value() {
+    $codecs = CodecVideo::select('id')->pluck('id')->toArray();
+
+    $value = implode(',', $codecs);
+    $actual = EntrySearchRepository::search_parse_codec($value, 'video');
+    $this->assertEquals($codecs, $actual);
+
+    $value = implode(', ', $codecs);
+    $actual = EntrySearchRepository::search_parse_codec($value, 'video');
+    $this->assertEquals($codecs, $actual);
+
+    $expected = [$codecs[0]];
+    $value = '' . $codecs[0];
+    $actual = EntrySearchRepository::search_parse_codec($value, 'video');
+    $this->assertEquals($expected, $actual);
+
+    $codecs = CodecAudio::select('id')->pluck('id')->toArray();
+
+    $value = implode(',', $codecs);
+    $actual = EntrySearchRepository::search_parse_codec($value, 'audio');
+    $this->assertEquals($codecs, $actual);
+
+    $value = implode(', ', $codecs);
+    $actual = EntrySearchRepository::search_parse_codec($value, 'audio');
+    $this->assertEquals($codecs, $actual);
+
+    $expected = [$codecs[0]];
+    $value = '' . $codecs[0];
+    $actual = EntrySearchRepository::search_parse_codec($value, 'audio');
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_codec_value_with_valid_and_invalid_id() {
+    $codecs = CodecVideo::select('id')->pluck('id')->toArray();
+    $invalid_ids = [-1, -99999, 99999];
+
+    $value = implode(',', [...$codecs, ...$invalid_ids]);
+    $actual = EntrySearchRepository::search_parse_codec($value, 'video');
+    $this->assertEquals($codecs, $actual);
+
+    $value = implode(', ', [...$codecs, ...$invalid_ids]);
+    $actual = EntrySearchRepository::search_parse_codec($value, 'video');
+    $this->assertEquals($codecs, $actual);
+
+    foreach ($invalid_ids as $value) {
+      $this->assertNotContains($value, $actual);
+    }
+  }
+
+  public function test_should_return_null_on_parsing_empty_codec_or_invalid_type() {
+    $value = '';
+    $actual = EntrySearchRepository::search_parse_codec($value, '');
+    $this->assertNull($actual);
+
+    $value = null;
+    $actual = EntrySearchRepository::search_parse_codec($value, '');
+    $this->assertNull($actual);
+
+    $value = '-1';
+    $invalid_type = '';
+    $actual = EntrySearchRepository::search_parse_codec($value, $invalid_type);
+    $this->assertNull($actual);
+
+    $value = '-1';
+    $invalid_type = 'invalid';
+    $actual = EntrySearchRepository::search_parse_codec($value, $invalid_type);
+    $this->assertNull($actual);
+  }
+
+  public function test_should_throw_error_on_parsing_invalid_codec_value() {
+    $value = 'invalid,value';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_codec($value, 'video'),
+      Exception::class
+    );
+
+    $value = 'invalid,1,2,3';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_codec($value, 'video'),
+      Exception::class
+    );
+
+    $value = 'invalid';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_codec($value, 'video'),
+      Exception::class
+    );
   }
 }
