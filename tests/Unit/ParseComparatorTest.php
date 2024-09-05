@@ -90,6 +90,9 @@ class ParseComparatorTest extends BaseUnitTestCase {
     $test_symbol = '<>';
     $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
 
+    $test_symbol = '< >';
+    $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
+
     $test_symbol = 'greater less than';
     $this->assertException(Error::class, fn() => parse_comparator($test_symbol));
 
