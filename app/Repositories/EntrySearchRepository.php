@@ -283,9 +283,9 @@ class EntrySearchRepository {
 
     if ($search_is_hdr !== EntrySearchHasEnum::ANY) {
       if ($search_is_hdr === EntrySearchHasEnum::YES) {
-        $data = $data = $data->where('codec_hdr', true);
+        $data = $data->where('codec_hdr', true);
       } else {
-        $data = $data = $data->where('codec_hdr', false);
+        $data = $data->where('codec_hdr', false);
       }
     }
 
@@ -753,6 +753,13 @@ class EntrySearchRepository {
       }
 
       if (!is_numeric($filesize)) {
+        $is_valid_regex = '/^[\d]+(\.\d+)?\ ?(tb|gb|mb|kb)$/i';
+        $is_valid = preg_match($is_valid_regex, $filesize);
+
+        if (!$is_valid) {
+          throw new SearchFilterParsingException('filesize', 'Error in parsing string');
+        }
+
         $valid_units = ['tb', 'gb', 'mb', 'kb'];
         $flag_invalid = true;
 
@@ -1088,6 +1095,10 @@ class EntrySearchRepository {
         throw new SearchFilterParsingException('release', 'Error in parsing string');
       }
 
+      if (!$release[0]) {
+        throw new SearchFilterParsingException('release', 'Error in parsing string');
+      }
+
       return [
         'release_from_year' => $release[0],
         'release_from_season' => $release[1] ?? 'winter',
@@ -1121,7 +1132,7 @@ class EntrySearchRepository {
   }
 
   public static function search_parse_has_value($value) {
-    if (empty($value)) return EntrySearchHasEnum::ANY;
+    if (empty($value) && $value !== false) return EntrySearchHasEnum::ANY;
 
     if (!is_bool($value)) {
       $value = strtolower($value);
