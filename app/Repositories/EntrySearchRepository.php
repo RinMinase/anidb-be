@@ -373,7 +373,7 @@ class EntrySearchRepository {
         $raw_filter = trim($item);
         $quality = QualityRepository::parseQuality($raw_filter);
 
-        if ($quality) {
+        if ($quality && !in_array($quality, $qualities)) {
           array_push($qualities, $quality);
         }
       }
