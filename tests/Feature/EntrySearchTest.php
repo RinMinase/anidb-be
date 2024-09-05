@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use Error;
 use Exception;
 use Carbon\Carbon;
-use Cloudinary\Api\Admin\AdminApi;
 use Tests\BaseTestCase;
 
 use App\Enums\EntrySearchHasEnum;
@@ -30,8 +28,6 @@ class EntrySearchTest extends BaseTestCase {
   private $entry_backup = null;
 
   // Class variables
-  private $total_entry_count = 5;
-
   private $entry_id_1 = 99999;
   private $entry_id_2 = 99998;
   private $entry_id_3 = 99997;
@@ -42,21 +38,40 @@ class EntrySearchTest extends BaseTestCase {
   private $entry_uuid_2 = 'a787f460-bc60-44cf-9224-3901fb5b08ca';
   private $entry_uuid_3 = '959d90bd-f1ed-4078-b374-4fd4dfedfbb6';
   private $entry_uuid_4 = '64b3e54c-8280-4275-b5c2-5361065a5bf9';
-  private $entry_uuid_5 = 'ddd65078-5d05-48a3-9604-a2ed9f4a679e';
+  private $entry_uuid_5 = 'a9493744-8b97-458e-9152-f561eddf67bc';
 
-  private $entry_title_1 = 'testing series title season 1';
+  private $entry_title_1 = 'testing title 1';
+  private $entry_title_2 = 'testing title 2';
+  private $entry_title_3 = 'testing title 3';
+  private $entry_title_4 = 'testing title 4';
+  private $entry_title_5 = 'testing title 5';
 
-  private $entry_1_image = '__test_data__8fa9b149-0185-41b2-b6c2-7d2ac7512eb4';
-  // cached static value throughout the whole test, make single call only to API
-  private static $entry_1_image_url = null;
+  private $entry_date_finished_1 = '2001-01-01';
+  private $entry_date_finished_2 = '2001-10-01';
+  private $entry_date_finished_3 = '2002-01-01';
+  private $entry_date_finished_4 = '2005-01-01';
+  private $entry_date_finished_5 = '2005-02-01';
 
+  // Average of 4.5
   private $entry_1_rating_audio = 6;
   private $entry_1_rating_enjoyment = 5;
   private $entry_1_rating_graphics = 4;
   private $entry_1_rating_plot = 3;
 
+  // Average of 2.0
+  private $entry_2_rating_audio = 2;
+  private $entry_2_rating_enjoyment = 2;
+  private $entry_2_rating_graphics = 2;
+  private $entry_2_rating_plot = 2;
+
   private $entry_1_rewatch_id = 99999;
+  private $entry_2_rewatch_id = 99998;
+
   private $entry_1_rewatch_uuid = 'e16593ad-ed01-4314-b4b1-0120ba734f90';
+  private $entry_2_rewatch_uuid = '1c8cb214-a87b-4d91-8ba0-4d956612e1e1';
+
+  private $entry_date_rewatch_1 = '2001-03-01';
+  private $entry_date_rewatch_2 = '2001-05-01';
 
   // Backup related tables
   private function setup_backup() {
@@ -92,51 +107,61 @@ class EntrySearchTest extends BaseTestCase {
   private function setup_config() {
     Entry::truncate();
 
-    $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
+    $id_quality_2160 = Quality::where('quality', '4K 2160p')->first()->id;
+    $id_quality_1080 = Quality::where('quality', 'FHD 1080p')->first()->id;
+    $id_quality_720 = Quality::where('quality', 'HD 720p')->first()->id;
 
-    $date_finished_1 = Carbon::parse('2001-01-01')->format('Y-m-d');
-    $date_finished_2 = Carbon::parse('2001-01-02')->format('Y-m-d');
-    $date_finished_3 = Carbon::parse('2001-01-03')->format('Y-m-d');
-    $date_finished_4 = Carbon::parse('2001-01-04')->format('Y-m-d');
-    $date_finished_5 = Carbon::parse('2001-01-05')->format('Y-m-d');
+    $id_codec_video_1 = CodecVideo::where('codec', 'x264 8bit')->first()->id;
+    $id_codec_video_2 = CodecVideo::where('codec', 'x264 10bit')->first()->id;
+    $id_codec_video_3 = CodecVideo::where('codec', 'x265 10bit')->first()->id;
 
-    $date_finished_rewatch = Carbon::parse('2001-02-01')->format('Y-m-d');
-
-    if (self::$entry_1_image_url === null) {
-      echo PHP_EOL . 'INFO: API call to Cloudinary:AdminAPI:asset' . PHP_EOL;
-
-      $image_url = (new AdminApi())->asset($this->entry_1_image)['url'];
-
-      if (!$image_url) {
-        throw new Error('Image URL was not acquired');
-      }
-
-      self::$entry_1_image_url = $image_url;
-    }
+    $id_codec_audio_1 = CodecAudio::where('codec', 'FLAC 2.0')->first()->id;
+    $id_codec_audio_2 = CodecAudio::where('codec', 'DTS-HD MA 2.0')->first()->id;
+    $id_codec_audio_3 = CodecAudio::where('codec', 'TrueHD 2.0')->first()->id;
 
     $test_entries = [
       [
         'id' => $this->entry_id_1,
         'uuid' => $this->entry_uuid_1,
-        'id_quality' => $id_quality,
-        'date_finished' => $date_finished_1,
+        'id_quality' => $id_quality_2160,
+        'date_finished' => $this->entry_date_finished_1,
         'title' => $this->entry_title_1,
-        'season_number' => 1,
-        'prequel_id' => null,
-        'sequel_id' => $this->entry_id_4,
+        'filesize' => 3_221_225_472,
+        'episodes' => 10,
+        'ovas' => 20,
+        'specials' => 30,
+        'encoder_video' => 'AlphaVideo',
+        'encoder_audio' => 'AlphaAudio',
+        'encoder_subs' => 'AlphaSubs',
+        'codec_hdr' => true,
+        'id_codec_video' => $id_codec_video_1,
+        'id_codec_audio' => $id_codec_audio_1,
+        'release_year' => 2020,
+        'release_season' => 'Spring',
+        'remarks' => 'sample remarks',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-        'image' => self::$entry_1_image_url,
+        'image' => 'https://example.com',
       ],
       [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
-        'id_quality' => $id_quality,
-        'date_finished' => $date_finished_2,
-        'title' => 'testing another solo title',
-        'season_number' => 1,
-        'prequel_id' => null,
-        'sequel_id' => null,
+        'id_quality' => $id_quality_1080,
+        'date_finished' => $this->entry_date_finished_2,
+        'title' => $this->entry_title_2,
+        'filesize' => 2_147_483_648,
+        'episodes' => 5,
+        'ovas' => 5,
+        'specials' => 5,
+        'encoder_video' => 'BetaVideo',
+        'encoder_audio' => 'BetaAudio',
+        'encoder_subs' => 'BetaSubs',
+        'codec_hdr' => false,
+        'id_codec_video' => $id_codec_video_2,
+        'id_codec_audio' => $id_codec_audio_2,
+        'release_year' => 2020,
+        'release_season' => 'Spring',
+        'remarks' => null,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -144,12 +169,22 @@ class EntrySearchTest extends BaseTestCase {
       [
         'id' => $this->entry_id_3,
         'uuid' => $this->entry_uuid_3,
-        'id_quality' => $id_quality,
-        'date_finished' => $date_finished_3,
-        'title' => 'test offquel',
-        'season_number' => 1,
-        'prequel_id' => null,
-        'sequel_id' => null,
+        'id_quality' => $id_quality_720,
+        'date_finished' => $this->entry_date_finished_3,
+        'title' => $this->entry_title_3,
+        'filesize' => 1_073_741_824,
+        'episodes' => 0,
+        'ovas' => 0,
+        'specials' => 0,
+        'encoder_video' => null,
+        'encoder_audio' => null,
+        'encoder_subs' => null,
+        'codec_hdr' => false,
+        'id_codec_video' => $id_codec_video_3,
+        'id_codec_audio' => $id_codec_audio_3,
+        'release_year' => 2021,
+        'release_season' => 'Winter',
+        'remarks' => null,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -157,12 +192,22 @@ class EntrySearchTest extends BaseTestCase {
       [
         'id' => $this->entry_id_4,
         'uuid' => $this->entry_uuid_4,
-        'id_quality' => $id_quality,
-        'date_finished' => $date_finished_4,
-        'title' => 'testing series title season 2',
-        'season_number' => 2,
-        'prequel_id' => $this->entry_id_1,
-        'sequel_id' => $this->entry_id_5,
+        'id_quality' => $id_quality_720,
+        'date_finished' => $this->entry_date_finished_4,
+        'title' => $this->entry_title_4,
+        'filesize' => 0,
+        'episodes' => 0,
+        'ovas' => 0,
+        'specials' => 0,
+        'encoder_video' => null,
+        'encoder_audio' => null,
+        'encoder_subs' => null,
+        'codec_hdr' => false,
+        'id_codec_video' => $id_codec_video_3,
+        'id_codec_audio' => $id_codec_audio_3,
+        'release_year' => 2021,
+        'release_season' => 'Fall',
+        'remarks' => null,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -170,24 +215,29 @@ class EntrySearchTest extends BaseTestCase {
       [
         'id' => $this->entry_id_5,
         'uuid' => $this->entry_uuid_5,
-        'id_quality' => $id_quality,
-        'date_finished' => $date_finished_5,
-        'title' => 'testing series title season 3',
-        'season_number' => 3,
-        'prequel_id' => $this->entry_id_4,
-        'sequel_id' => null,
+        'id_quality' => $id_quality_720,
+        'date_finished' => $this->entry_date_finished_5,
+        'title' => $this->entry_title_5,
+        'filesize' => 0,
+        'episodes' => 0,
+        'ovas' => 0,
+        'specials' => 0,
+        'encoder_video' => null,
+        'encoder_audio' => null,
+        'encoder_subs' => null,
+        'codec_hdr' => false,
+        'id_codec_video' => $id_codec_video_3,
+        'id_codec_audio' => $id_codec_audio_3,
+        'release_year' => 2022,
+        'release_season' => 'Spring',
+        'remarks' => null,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
       ],
     ];
 
-    $test_entry_offquel = [
-      'id_entries' => $this->entry_id_1,          // parent entry
-      'id_entries_offquel' => $this->entry_id_3,  // offquel entry
-    ];
-
-    $test_entry_rating = [
+    $test_entry_rating = [[
       'id_entries' => $this->entry_id_1,
       'audio' => $this->entry_1_rating_audio,
       'enjoyment' => $this->entry_1_rating_enjoyment,
@@ -195,17 +245,29 @@ class EntrySearchTest extends BaseTestCase {
       'plot' => $this->entry_1_rating_plot,
       'created_at' => '2020-01-01 13:00:00',
       'updated_at' => '2020-01-01 13:00:00',
-    ];
+    ], [
+      'id_entries' => $this->entry_id_2,
+      'audio' => $this->entry_2_rating_audio,
+      'enjoyment' => $this->entry_2_rating_enjoyment,
+      'graphics' => $this->entry_2_rating_graphics,
+      'plot' => $this->entry_2_rating_plot,
+      'created_at' => '2020-01-01 13:00:00',
+      'updated_at' => '2020-01-01 13:00:00',
+    ]];
 
-    $test_entry_rewatch = [
+    $test_entry_rewatch = [[
       'id' => $this->entry_1_rewatch_id,
       'id_entries' => $this->entry_id_1,
       'uuid' => $this->entry_1_rewatch_uuid,
-      'date_rewatched' => $date_finished_rewatch,
-    ];
+      'date_rewatched' => $this->entry_date_rewatch_1,
+    ], [
+      'id' => $this->entry_2_rewatch_id,
+      'id_entries' => $this->entry_id_1,
+      'uuid' => $this->entry_2_rewatch_uuid,
+      'date_rewatched' => $this->entry_date_rewatch_2,
+    ]];
 
     Entry::insert($test_entries);
-    EntryOffquel::insert($test_entry_offquel);
     EntryRating::insert($test_entry_rating);
     EntryRewatch::insert($test_entry_rewatch);
   }
@@ -222,10 +284,1174 @@ class EntrySearchTest extends BaseTestCase {
   }
 
   // Test Cases
-  public function test_should_deep_search_all_data() {
+  public function test_should_search_all_data_successfully() {
+    $this->setup_config();
+
+    $id_codec_video_1 = CodecVideo::where('codec', 'x264 8bit')->first()->id;
+    $id_codec_audio_1 = CodecAudio::where('codec', 'FLAC 2.0')->first()->id;
+
+    $test_params = [
+      'quality' => '2160p, 1080p',
+      'title' => $this->entry_title_1,
+      'date' => 'from ' . $this->entry_date_finished_1 . ' to ' . $this->entry_date_rewatch_2,
+      'filesize' => '>= 3 GB',
+      'episodes' => '>= 10',
+      'ovas' => '20',
+      'specials' => '<= 30',
+      'encoder' => 'Alpha',
+      'is_hdr' => 'yes',
+      'codec_audio' => $id_codec_audio_1,
+      'codec_video' => $id_codec_video_1,
+      'release' => 'Spring 2020',
+      'has_remarks' => 'yes',
+      'remarks' => 'sample',
+      'has_image' => 'yes',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
   }
 
-  public function test_should_not_deep_search_all_data_when_any_filter_is_invalid() {
+  public function test_should_search_quality_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'quality' => '2160p, 1080p',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'quality' => '>= 1080p',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'quality' => '< 1080p',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_title_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'quality' => '>= 1080p',
+      'title' => $this->entry_title_1,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'title' => 'testing title',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(5, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_episode_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'quality' => '>= 1080p',
+      'title' => $this->entry_title_1,
+      'episodes' => '>= 10',
+      'ovas' => '>= 20',
+      'specials' => '>= 30',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'episodes' => '10',
+      'ovas' => '20',
+      'specials' => '30',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'episodes' => '< 10',
+      'ovas' => '< 20',
+      'specials' => '< 30',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'episodes' => '5 to 10',
+      'ovas' => 'from 5 to 20',
+      'specials' => 'from 5 to 30',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+  }
+
+  public function test_should_search_general_encoder_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'encoder' => 'Video',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'encoder' => 'Alpha',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'encoder' => 'BetaAudio',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+  }
+
+  public function test_should_search_specific_encoder_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'encoder_video' => 'Video',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'encoder_video' => 'Video',
+      'encoder_audio' => 'BetaAudio',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'encoder_video' => 'Video',
+      'encoder_subs' => 'AlphaSubs',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+  }
+
+  public function test_should_search_image_flag_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'quality' => '>= 1080p',
+      'has_image' => 'yes',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'has_image' => 'no',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'has_image' => 'any',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(5, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_hdr_flag_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'quality' => '>= 1080p',
+      'is_hdr' => 'yes',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'is_hdr' => 'no',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'is_hdr' => 'any',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(5, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_codec_data_successfully() {
+    $this->setup_config();
+
+    $id_codec_video_1 = CodecVideo::where('codec', 'x264 8bit')->first()->id;
+    $id_codec_video_2 = CodecVideo::where('codec', 'x264 10bit')->first()->id;
+
+    $test_params = [
+      'codec_video' => $id_codec_video_1 . ',' . $id_codec_video_2,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $id_codec_audio_1 = CodecAudio::where('codec', 'FLAC 2.0')->first()->id;
+    $id_codec_audio_2 = CodecAudio::where('codec', 'DTS-HD MA 2.0')->first()->id;
+
+    $test_params = [
+      'codec_audio' => $id_codec_audio_1 . ',' . $id_codec_audio_2,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $id_codec_video_3 = CodecVideo::where('codec', 'x265 10bit')->first()->id;
+    $id_codec_audio_3 = CodecAudio::where('codec', 'TrueHD 2.0')->first()->id;
+
+    $test_params = [
+      'codec_video' => $id_codec_video_3,
+      'codec_audio' => $id_codec_audio_3,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_not_search_all_data_when_any_filter_is_invalid() {
+  }
+
+  public function test_should_search_remarks_flag_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'has_remarks' => 'yes',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'has_remarks' => 'no',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'has_remarks' => 'any',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(5, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_remarks_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'remarks' => 'non existing remarks',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(0, 'data');
+
+    $test_params = [
+      'remarks' => 'sample remarks',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'remarks' => 'remarks',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+  }
+
+  public function test_should_search_release_data_by_range_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'release' => '2020 spring to 2021 spring',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+
+    $test_params = [
+      'release' => 'spring 2020 to spring 2021',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+
+    $test_params = [
+      'release' => '2020 to 2021',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+
+    $test_params = [
+      'release' => '2021 to 2022',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_release_data_by_comparators_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'release' => '> 2021 winter',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => '>= 2021 winter',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => '< 2021 winter',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'release' => '<= 2021',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+
+    $test_params = [
+      'release' => 'gte 2022',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_release_data_by_absolute_value_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'release' => 'spring 2022',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => '2022',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => '2020',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'release' => 'spring 2020',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+  }
+
+  public function test_should_search_release_data_by_season_range_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'release' => 'spring to summer',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => 'winter to spring',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => 'winter to fall',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(5, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_release_data_by_season_absolute_value_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'release' => 'spring',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $test_params = [
+      'release' => 'fall',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+
+    $test_params = [
+      'release' => 'WINTER',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+  }
+
+  public function test_should_search_date_data_by_range_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'date' => $this->entry_date_finished_1 . ' to ' . $this->entry_date_finished_3,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+
+      $this->assertTrue(
+        $date->between($this->entry_date_finished_1, $this->entry_date_finished_3),
+        'Error in $value=' . $value,
+      );
+    }
+
+    $test_params = [
+      'date' => '2001-01 to 2001-10',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+    $date_from = Carbon::parse('2001-01-01');
+    $date_to = Carbon::parse('2001-10-31');
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+
+      $this->assertTrue(
+        $date->between($date_from, $date_to),
+        'Error in $value=' . $value,
+      );
+    }
+
+    $test_params = [
+      'date' => $this->entry_date_rewatch_1 . ' to ' . $this->entry_date_finished_2,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+
+      $this->assertTrue(
+        $date->between($this->entry_date_rewatch_1, $this->entry_date_finished_3),
+        'Error in $value=' . $value,
+      );
+    }
+
+    $entry_rewatch_id = $this->entry_uuid_1;
+    $actual_rewatch_date = collect($response['data'])
+      ->filter(fn($item) => $item['id'] === $entry_rewatch_id)
+      ->first();
+
+    $this->assertEquals(
+      Carbon::parse($this->entry_date_rewatch_2)->toString(),
+      Carbon::parse($actual_rewatch_date['dateFinished'])->toString(),
+    );
+
+
+    $test_params = [
+      'date' => $this->entry_date_rewatch_2 . ' to ' . $this->entry_date_finished_2,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+
+      $this->assertTrue(
+        $date->between($this->entry_date_rewatch_2, $this->entry_date_finished_3),
+        'Error in $value=' . $value,
+      );
+    }
+
+    $entry_rewatch_id = $this->entry_uuid_1;
+    $actual_rewatch_date = collect($response['data'])
+      ->filter(fn($item) => $item['id'] === $entry_rewatch_id)
+      ->first();
+
+    $this->assertEquals(
+      Carbon::parse($this->entry_date_rewatch_2)->toString(),
+      Carbon::parse($actual_rewatch_date['dateFinished'])->toString(),
+    );
+  }
+
+  public function test_should_search_date_data_by_comparators_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'date' => '> ' . $this->entry_date_finished_4,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+    $date_target = Carbon::parse($this->entry_date_finished_4);
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+      $this->assertTrue($date->gt($date_target), 'Error in $value=' . $value);
+    }
+
+    $test_params = [
+      'date' => 'gte ' . $this->entry_date_finished_4,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+    $date_target = Carbon::parse($this->entry_date_finished_4);
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+      $this->assertTrue($date->gte($date_target), 'Error in $value=' . $value);
+    }
+
+    $test_params = [
+      'date' => 'less than ' . $this->entry_date_rewatch_2,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+    $date_target = Carbon::parse($this->entry_date_rewatch_2);
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+      $this->assertTrue($date->lt($date_target), 'Error in $value=' . $value);
+    }
+
+    $actual_date = $response['data'][0]['dateFinished'];
+    $expected_date = $this->entry_date_rewatch_1;
+    $this->assertEquals(
+      Carbon::parse($expected_date)->toString(),
+      Carbon::parse($actual_date)->toString(),
+    );
+
+    $test_params = [
+      'date' => '<= ' . $this->entry_date_rewatch_2,
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $actual_dates = collect($response['data'])->pluck('dateFinished')->toArray();
+    $date_target = Carbon::parse($this->entry_date_rewatch_2);
+
+    foreach ($actual_dates as $value) {
+      $date = Carbon::parse($value);
+      $this->assertTrue($date->lte($date_target), 'Error in $value=' . $value);
+    }
+
+    $actual_date = $response['data'][0]['dateFinished'];
+    $expected_date = $this->entry_date_rewatch_2;
+    $this->assertEquals(
+      Carbon::parse($expected_date)->toString(),
+      Carbon::parse($actual_date)->toString(),
+    );
+  }
+
+  public function test_should_search_filesize_data_by_range_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'filesize' => '2 GB to 3 GB',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'filesize' => '1 GB to 2 GB',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+  }
+
+  public function test_should_search_filesize_data_by_comparators_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'filesize' => '> 2 GB',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'filesize' => 'gte 2 GB',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'filesize' => 'less than 2 GB',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_rating_data_by_range_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'rating' => '2 to 4',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'rating' => 'from 2 to 4.5',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'rating' => 'from 2 to 5',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+  }
+
+  public function test_should_search_rating_data_by_comparators_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'rating' => 'gt 2',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'rating' => 'greater than or equal 2',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+  }
+
+  public function test_should_search_rating_data_by_absolute_value_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'rating' => '2',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'rating' => '4.5',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
   }
 
   // Entry Search Functions
@@ -800,7 +2026,19 @@ class EntrySearchTest extends BaseTestCase {
       SearchFilterParsingException::class
     );
 
+    $value = '< > invalid';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_date($value),
+      SearchFilterParsingException::class
+    );
+
     $value = '> jan 40 3000';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_date($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> < jan 40 3000';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_date($value),
       SearchFilterParsingException::class
@@ -981,6 +2219,12 @@ class EntrySearchTest extends BaseTestCase {
       fn() => EntrySearchRepository::search_parse_filesize($value),
       SearchFilterParsingException::class
     );
+
+    $value = '> < 6 GB';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_filesize($value),
+      SearchFilterParsingException::class
+    );
   }
 
   public function test_should_parse_count_value_with_range() {
@@ -1085,6 +2329,12 @@ class EntrySearchTest extends BaseTestCase {
     );
 
     $value = '>< 6';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_count($value, 'test_field'),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> < 6';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_count($value, 'test_field'),
       SearchFilterParsingException::class
@@ -1277,6 +2527,12 @@ class EntrySearchTest extends BaseTestCase {
     );
 
     $value = '>< 6';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> < 6';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_rating($value),
       SearchFilterParsingException::class
@@ -1746,6 +3002,30 @@ class EntrySearchTest extends BaseTestCase {
     );
 
     $value = '2020 to 2019';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> spring';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '>< spring';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> < spring';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_release($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '> < 2020';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_release($value),
       SearchFilterParsingException::class
