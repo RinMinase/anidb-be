@@ -311,7 +311,6 @@ class EntrySearchTest extends BaseTestCase {
     $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
 
     $response->assertStatus(200)
-      ->assertStatus(200)
       ->assertJsonCount(1, 'data');
 
     $actual_ids = collect($response['data'])->pluck('id')->toArray();
@@ -693,9 +692,6 @@ class EntrySearchTest extends BaseTestCase {
     $this->assertContains($this->entry_uuid_3, $actual_ids);
     $this->assertContains($this->entry_uuid_4, $actual_ids);
     $this->assertContains($this->entry_uuid_5, $actual_ids);
-  }
-
-  public function test_should_not_search_all_data_when_any_filter_is_invalid() {
   }
 
   public function test_should_search_remarks_flag_data_successfully() {
@@ -1452,6 +1448,234 @@ class EntrySearchTest extends BaseTestCase {
 
     $actual_ids = collect($response['data'])->pluck('id')->toArray();
     $this->assertContains($this->entry_uuid_1, $actual_ids);
+  }
+
+  public function test_should_not_search_all_data_when_any_filter_is_invalid() {
+    $test_params = [
+      'is_hdr' => 'invalid',
+      'has_image' => 'invalid',
+      'has_remarks' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure([
+        'data' => [
+          'is_hdr',
+          'has_image',
+          'has_remarks',
+        ],
+      ]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+
+      // Invalid
+      'quality' => 'invalid',
+      'date' => 'invalid',
+      'filesize' => 'invalid',
+      'episodes' => 'invalid',
+      'ovas' => 'invalid',
+      'specials' => 'invalid',
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['quality']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+
+      // Invalid
+      'date' => 'invalid',
+      'filesize' => 'invalid',
+      'episodes' => 'invalid',
+      'ovas' => 'invalid',
+      'specials' => 'invalid',
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+
+      // Invalid
+      'filesize' => 'invalid',
+      'episodes' => 'invalid',
+      'ovas' => 'invalid',
+      'specials' => 'invalid',
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['filesize']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+      'filesize' => '> 1 GB',
+
+      // Invalid
+      'episodes' => 'invalid',
+      'ovas' => 'invalid',
+      'specials' => 'invalid',
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['episodes']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+      'filesize' => '> 1 GB',
+      'episodes' => '1',
+
+      // Invalid
+      'ovas' => 'invalid',
+      'specials' => 'invalid',
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['ovas']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+      'filesize' => '> 1 GB',
+      'episodes' => '1',
+      'ovas' => '1',
+
+      // Invalid
+      'specials' => 'invalid',
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['specials']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+      'filesize' => '> 1 GB',
+      'episodes' => '1',
+      'ovas' => '1',
+      'specials' => '1',
+
+      // Invalid
+      'release' => 'invalid',
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['release']]);
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+      'filesize' => '> 1 GB',
+      'episodes' => '1',
+      'ovas' => '1',
+      'specials' => '1',
+      'release' => 'spring 2020',
+
+      // Invalid
+      'codec_video' => 'invalid',
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['codec_video']]);
+
+    $id_codec_video = CodecVideo::where('codec', 'x264 8bit')->first()->id;
+
+    $test_params = [
+      // Valid
+      'is_hdr' => 'any',
+      'has_image' => 'any',
+      'has_remarks' => 'any',
+      'quality' => '1080p',
+      'date' => '> 2020-10-10',
+      'filesize' => '> 1 GB',
+      'episodes' => '1',
+      'ovas' => '1',
+      'specials' => '1',
+      'release' => 'spring 2020',
+      'codec_video' => $id_codec_video,
+
+      // Invalid
+      'codec_audio' => 'invalid',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['codec_audio']]);
   }
 
   // Entry Search Functions
