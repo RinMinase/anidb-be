@@ -40,10 +40,10 @@ class EntrySearchRepository {
     $search_remarks = $values['remarks'] ?? null;
     $search_rating = self::search_parse_rating($values['rating'] ?? null);
 
-    $search_has_remarks = self::search_parse_has_value($values['has_remarks']);
-    $search_has_image = self::search_parse_has_value($values['has_image']);
+    $search_has_remarks = self::search_parse_has_value($values['has_remarks'] ?? null);
+    $search_has_image = self::search_parse_has_value($values['has_image'] ?? null);
 
-    $search_is_hdr = self::search_parse_has_value($values['is_hdr']);
+    $search_is_hdr = self::search_parse_has_value($values['is_hdr'] ?? null);
     $search_codec_video = self::search_parse_codec($values['codec_video'] ?? null, 'video');
     $search_codec_audio = self::search_parse_codec($values['codec_audio'] ?? null, 'audio');
 
@@ -58,9 +58,11 @@ class EntrySearchRepository {
     }
 
     if (!empty($search_encoder)) {
-      $data = $data->where('encoder_video', 'ilike', '%' . $search_encoder . '%')
-        ->where('encoder_audio', 'ilike', '%' . $search_encoder . '%')
-        ->where('encoder_subs', 'ilike', '%' . $search_encoder . '%');
+      $data = $data->where(function ($query) use ($search_encoder) {
+        $query->where('encoder_video', 'ilike', '%' . $search_encoder . '%')
+          ->orWhere('encoder_audio', 'ilike', '%' . $search_encoder . '%')
+          ->orWhere('encoder_subs', 'ilike', '%' . $search_encoder . '%');
+      });
     }
 
     if (!empty($search_encoder_video)) {
@@ -288,11 +290,11 @@ class EntrySearchRepository {
     }
 
     if ($search_codec_audio && count($search_codec_audio)) {
-      $data = $data->whereIn('codec_audio', $search_codec_audio);
+      $data = $data->whereIn('id_codec_audio', $search_codec_audio);
     }
 
     if ($search_codec_video && count($search_codec_video)) {
-      $data = $data->whereIn('codec_video', $search_codec_video);
+      $data = $data->whereIn('id_codec_video', $search_codec_video);
     }
 
     $data = $data->orderBy($column, $order)
@@ -1119,6 +1121,8 @@ class EntrySearchRepository {
   }
 
   public static function search_parse_has_value($value) {
+    if (empty($value)) return EntrySearchHasEnum::ANY;
+
     if (!is_bool($value)) {
       $value = strtolower($value);
     }
