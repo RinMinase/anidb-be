@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use App\Enums\EntrySearchHasEnum;
 use App\Exceptions\Entry\SearchFilterParsingException;
 
+use App\Models\CodecAudio;
+use App\Models\CodecVideo;
 use App\Models\Entry;
 use App\Models\Quality;
 
@@ -40,6 +42,10 @@ class EntrySearchRepository {
 
     $search_has_remarks = self::search_parse_has_value($values['has_remarks']);
     $search_has_image = self::search_parse_has_value($values['has_image']);
+
+    $search_is_hdr = self::search_parse_has_value($values['is_hdr']);
+    $search_codec_video = self::search_parse_codec($values['codec_video'] ?? null, 'video');
+    $search_codec_audio = self::search_parse_codec($values['codec_audio'] ?? null, 'audio');
 
     // Ordering Parameters
     $column = $values['column'] ?? 'id_quality';
@@ -271,6 +277,22 @@ class EntrySearchRepository {
       } else {
         $data = $data = $data->whereNull('image');
       }
+    }
+
+    if ($search_is_hdr !== EntrySearchHasEnum::ANY) {
+      if ($search_is_hdr === EntrySearchHasEnum::YES) {
+        $data = $data = $data->where('codec_hdr', true);
+      } else {
+        $data = $data = $data->where('codec_hdr', false);
+      }
+    }
+
+    if ($search_codec_audio && count($search_codec_audio)) {
+      $data = $data->whereIn('codec_audio', $search_codec_audio);
+    }
+
+    if ($search_codec_video && count($search_codec_video)) {
+      $data = $data->whereIn('codec_video', $search_codec_video);
     }
 
     $data = $data->orderBy($column, $order)
@@ -1110,5 +1132,39 @@ class EntrySearchRepository {
     }
 
     return EntrySearchHasEnum::ANY;
+  }
+
+  public static function search_parse_codec($value, $type) {
+    if (!$value) return null;
+    if ($type !== 'video' && $type !== 'audio') return null;
+
+    $value = str_replace(' ', '', $value);
+    $parts = explode(',', $value);
+
+    foreach ($parts as $part) {
+      if (!is_numeric($part)) {
+        throw new SearchFilterParsingException('codec_' . $type, 'Error in parsing string');
+      }
+    }
+
+    $valid_ids = [];
+
+    if ($type === 'video') {
+      $valid_ids = CodecVideo::select('id')->pluck('id')->toArray();
+    } else if ($type === 'audio') {
+      $valid_ids = CodecAudio::select('id')->pluck('id')->toArray();
+    }
+
+    $codec_ids = [];
+
+    foreach ($parts as $part) {
+      $part = intval($part);
+
+      if (in_array($part, $valid_ids)) {
+        array_push($codec_ids, $part);
+      }
+    }
+
+    return $codec_ids;
   }
 }
