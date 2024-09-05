@@ -78,7 +78,7 @@ class EntrySearchRepository {
     }
 
     if (!empty($search_remarks)) {
-      $data = $data->where('title', 'ilike', '%' . $search_remarks . '%');
+      $data = $data->where('remarks', 'ilike', '%' . $search_remarks . '%');
     }
 
     if (isset($search_quality)) {
