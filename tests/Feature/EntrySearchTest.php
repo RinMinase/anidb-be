@@ -232,33 +232,23 @@ class EntrySearchTest extends BaseTestCase {
   public function test_should_parse_quality_value_with_multiple_values() {
     $expected = ['4K 2160p', 'FHD 1080p', 'HD 720p', 'HQ 480p', 'LQ 360p'];
 
-    $value = '4k, 1080p, 720p, 480p, 360p';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
+    $values = [
+      '4k, 1080p, 720p, 480p, 360p',
+      '4k, uhd, 1080p, fhd, 720p, 480p, 360p',
+      '4K, 1080P, 720P, 480P, 360P',
+      '4K, 1080P, 720P, hd, 480P, 360P',
+      '2160p, 1080p, 720p, 480p, 360p',
+      '2160P, 1080P, 720P, 480P, 360P',
+      '2160P, 1080P, 720P, 480P, hq, 360P',
+      '2160, 1080, 720, 480, 360',
+      'uhd, fhd, hd, hq, lq',
+      'uhd,fhd,hd,hq,lq',
+    ];
 
-    $value = '4K, 1080P, 720P, 480P, 360P';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = '2160p, 1080p, 720p, 480p, 360p';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = '2160P, 1080P, 720P, 480P, 360P';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = '2160, 1080, 720, 480, 360';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'uhd, fhd, hd, hq, lq';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
-
-    $value = 'uhd,fhd,hd,hq,lq';
-    $actual = EntrySearchRepository::search_parse_quality($value);
-    $this->assertEquals($expected, $actual);
+    foreach ($values as $key => $value) {
+      $actual = EntrySearchRepository::search_parse_quality($value);
+      $this->assertEquals($expected, $actual, 'Error in $key=' . $key);
+    }
   }
 
   public function test_should_parse_quality_value_with_absolute_value() {
