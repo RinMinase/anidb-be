@@ -252,6 +252,21 @@ class EntrySeeder extends Seeder {
 
     Entry::insert($testData);
 
+    $addtl_test_data = [];
+
+    for ($i = 1; $i <= 15; $i++) {
+      array_push($addtl_test_data, [
+        'id_quality' => $id_quality_480,
+        'uuid' => Str::uuid(),
+        'title' => 'additional test data ' . $i,
+        'date_finished' => '2000-01-' . $i,
+        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+      ]);
+    }
+
+    Entry::insert($addtl_test_data);
+
     $id_entries_1 = Entry::where('uuid', $uuid_1)->first()->id;
     $id_entries_2 = Entry::where('uuid', $uuid_2)->first()->id;
     $id_entries_3 = Entry::where('uuid', $uuid_3)->first()->id;
