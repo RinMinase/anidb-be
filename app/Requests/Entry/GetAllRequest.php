@@ -14,7 +14,7 @@ class GetAllRequest extends FormRequest {
   /**
    * @OA\Parameter(
    *   parameter="entry_get_all_query",
-   *   name="needle",
+   *   name="query",
    *   description="Search - Item to search for in haystack (column)",
    *   in="query",
    *   example="item name",
@@ -54,7 +54,7 @@ class GetAllRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'needle' => ['string'],
+      'query' => ['string'],
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
       'order' => ['in:asc,desc,ASC,DESC'],
       'page' => ['integer', 'min:1'],

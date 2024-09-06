@@ -9025,7 +9025,7 @@
                 "example": "2022-01-23"
             },
             "entry_get_all_query": {
-                "name": "needle",
+                "name": "query",
                 "in": "query",
                 "description": "Search - Item to search for in haystack (column)",
                 "schema": {
