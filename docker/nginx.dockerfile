@@ -1,6 +1,7 @@
 ARG NGINX_VERSION
+ARG ALPINE_VERSION
 
-FROM nginx:${NGINX_VERSION}-alpine-slim
+FROM nginx:${NGINX_VERSION}-alpine${ALPINE_VERSION}-slim
 
 COPY nginx.conf /etc/nginx/
 
