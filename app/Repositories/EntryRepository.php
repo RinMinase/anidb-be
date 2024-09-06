@@ -697,14 +697,14 @@ class EntryRepository {
       $date_last_entry = Carbon::parse(
         $this->calc_date_finished($data[0])
       );
-      $days_last_entry = $date_last_entry->diffInDays($now);
+      $days_last_entry = round($date_last_entry->diffInDays($now, true));
       $date_last_entry = $date_last_entry->format('M d, Y');
 
       $date_oldest_entry = Carbon::parse(
         $this->calc_date_finished($data[count($data) - 1])
       );
       $weeks_since_oldest_entry = $date_oldest_entry->floatDiffInWeeks($now);
-      $days_oldest_entry = $date_oldest_entry->diffInDays($now);
+      $days_oldest_entry = round($date_oldest_entry->diffInDays($now, true));
       $date_oldest_entry = $date_oldest_entry->format('M d, Y');
 
       $total_titles = count($data);
