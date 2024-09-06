@@ -53,12 +53,12 @@ class EntryRepository {
         }
         $case_string .= 'END';
 
-        if (isset($column) && isset($order)) {
-          $data = $data->orderBy($column, $order);
-        }
-
         $data = $data->orderByRaw($case_string)
           ->orderBy('id');
+      }
+    } else {
+      if (isset($column) && isset($order)) {
+        $data = $data->orderBy($column, $order);
       }
     }
 
