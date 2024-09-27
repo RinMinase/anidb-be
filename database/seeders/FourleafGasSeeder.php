@@ -463,7 +463,7 @@ class FourleafGasSeeder extends Seeder {
         'liters_filled' => 20.545,
       ],
       [
-        'date' => '2024-04-21',
+        'date' => '2024-04-20',
         'from_bars' => 3,
         'to_bars' => 8,
         'odometer' => 8613,
@@ -597,6 +597,22 @@ class FourleafGasSeeder extends Seeder {
         'odometer' => 11537,
         'price_per_liter' => 63.5,
         'liters_filled' => 12.905,
+      ],
+      [
+        'date' => '2024-09-07',
+        'from_bars' => 3,
+        'to_bars' => 9,
+        'odometer' => 11719,
+        'price_per_liter' => 62.29,
+        'liters_filled' => 17.018,
+      ],
+      [
+        'date' => '2024-09-15',
+        'from_bars' => 6,
+        'to_bars' => 9,
+        'odometer' => 11809,
+        'price_per_liter' => 59.3,
+        'liters_filled' => 9.029,
       ],
     ];
 
