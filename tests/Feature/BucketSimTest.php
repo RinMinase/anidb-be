@@ -540,7 +540,7 @@ class BucketSimTest extends BaseTestCase {
   public function test_should_not_save_bucket_sim_as_bucket_when_using_bucket_id_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $this->bucket_sim_id_1);
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $this->bucket_sim_info_id);
 
     $response->assertStatus(404);
   }
@@ -554,12 +554,60 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_clone_bucket_sim_successfully() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/clone/' . $this->bucket_sim_info_uuid);
+
+    $response->assertStatus(200);
+
+    $this->assertNotNull($response['data']);
+    $this->assertNotNull($response['data']['newId']);
+    $new_id = $response['data']['newId'];
+
+    $new_bucket_sim = BucketSimInfo::where('uuid', $new_id)
+      ->firstOrFail()
+      ->makeVisible('id');
+
+    $this->assertNotNull($new_bucket_sim);
+
+    $expected_description = $this->bucket_sim_info_description . ' - cloned';
+    $this->assertEquals($expected_description, $new_bucket_sim->description);
+
+    $new_buckets = BucketSim::where('id_sim_info', $new_bucket_sim->id)->get()->toArray();
+    $expected_total_buckets = 2;
+    $this->assertEquals($expected_total_buckets, count($new_buckets));
+
+    $expected_buckets = [[
+      'from' => $this->bucket_sim_from_1,
+      'to' => $this->bucket_sim_to_1,
+      'size' => $this->bucket_sim_size_1,
+    ], [
+      'from' => $this->bucket_sim_from_2,
+      'to' => $this->bucket_sim_to_2,
+      'size' => $this->bucket_sim_size_2,
+    ]];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected_buckets,
+      $new_buckets,
+      ['from', 'to', 'size'],
+    );
   }
 
   public function test_should_not_clone_bucket_sim_when_using_bucket_id_instead_of_uuid() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/clone/' . $this->bucket_sim_info_id);
+
+    $response->assertStatus(404);
   }
 
   public function test_should_not_clone_non_existent_bucket_sim() {
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/clone/' . $invalid_id);
+
+    $response->assertStatus(404);
   }
 
   public function test_should_preview_bucket_sim_successfully() {
