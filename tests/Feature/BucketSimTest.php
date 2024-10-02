@@ -513,7 +513,7 @@ class BucketSimTest extends BaseTestCase {
   public function test_should_save_bucket_sim_as_bucket() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $this->bucket_sim_info_uuid);
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $this->bucket_sim_info_uuid);
 
     $response->assertStatus(200);
 
@@ -540,7 +540,7 @@ class BucketSimTest extends BaseTestCase {
   public function test_should_not_save_bucket_sim_as_bucket_when_using_bucket_id_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $this->bucket_sim_id_1);
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $this->bucket_sim_id_1);
 
     $response->assertStatus(404);
   }
@@ -548,7 +548,7 @@ class BucketSimTest extends BaseTestCase {
   public function test_should_not_save_non_existent_bucket_sim_as_bucket() {
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->post('/api/bucket-sims/' . $invalid_id);
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $invalid_id);
 
     $response->assertStatus(404);
   }
