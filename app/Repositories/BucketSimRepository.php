@@ -104,6 +104,7 @@ class BucketSimRepository {
     $new_id = Str::uuid()->toString();
     $cloned_info = $info->replicate(['id', 'uuid'])->toArray();
     $cloned_info['uuid'] = $new_id;
+    $cloned_info['description'] = $cloned_info['description'] . ' - cloned';
 
     BucketSimInfo::create($cloned_info);
 
