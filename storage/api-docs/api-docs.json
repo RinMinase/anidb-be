@@ -779,6 +779,114 @@
                 ]
             }
         },
+        "/api/bucket-sims/preview": {
+            "post": {
+                "tags": [
+                    "Bucket Simulation"
+                ],
+                "summary": "Preview a Bucket Sim",
+                "operationId": "aea7e9c4f2bcc821c8198382865dcb18",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/bucket_sim_preview_buckets"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 1
+                                                            },
+                                                            "from": {
+                                                                "type": "string",
+                                                                "maxLength": 1,
+                                                                "minLength": 1,
+                                                                "example": "a"
+                                                            },
+                                                            "to": {
+                                                                "type": "string",
+                                                                "maxLength": 1,
+                                                                "minLength": 1,
+                                                                "example": "d"
+                                                            },
+                                                            "free": {
+                                                                "type": "string",
+                                                                "example": "1.11 TB"
+                                                            },
+                                                            "freeTB": {
+                                                                "type": "string",
+                                                                "example": "1.11 TB"
+                                                            },
+                                                            "used": {
+                                                                "type": "string",
+                                                                "example": "123.12 GB"
+                                                            },
+                                                            "percent": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 10
+                                                            },
+                                                            "total": {
+                                                                "type": "string",
+                                                                "example": "1.23 TB"
+                                                            },
+                                                            "rawTotal": {
+                                                                "type": "integer",
+                                                                "format": "int64",
+                                                                "example": 1000169533440
+                                                            },
+                                                            "titles": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "stats": {
+                                                    "$ref": "#/components/schemas/BucketSimInfo"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/catalogs": {
             "get": {
                 "tags": [
@@ -8852,6 +8960,16 @@
                 "example": "Sample 2 buckets"
             },
             "bucket_sim_add_edit_buckets": {
+                "name": "buckets",
+                "in": "query",
+                "description": "Bucket JSON String",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
+            },
+            "bucket_sim_preview_buckets": {
                 "name": "buckets",
                 "in": "query",
                 "description": "Bucket JSON String",
