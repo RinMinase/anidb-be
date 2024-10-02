@@ -168,7 +168,7 @@ class ManagementTest extends BaseTestCase {
     $response = $this->withoutMiddleware()->get('/api/management');
 
     $expected_count = [
-      'entries' => 9,
+      'entries' => 24,
       'buckets' => 6,
       'partials' => 4,
     ];
@@ -183,20 +183,20 @@ class ManagementTest extends BaseTestCase {
       'bucketSize' => '10.92 TB',
       'entrySize' => '365.23 GB',
       'episodes' => 90,
-      'titles' => 9,
-      'seasons' => 7,
+      'titles' => 24,
+      'seasons' => 22,
     ];
 
     $expected_graph_quality = [
       'quality2160' => 1,
       'quality1080' => 2,
       'quality720' => 2,
-      'quality480' => 3,
+      'quality480' => 18,
       'quality360' => 1,
     ];
 
     $expected_graph_months = [
-      'jan' => 4,
+      'jan' => 19,
       'feb' => 0,
       'mar' => 0,
       'apr' => 1,
