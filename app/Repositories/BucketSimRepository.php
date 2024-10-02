@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Str;
+use Exception;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
+use App\Exceptions\JsonParsingException;
 use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
@@ -116,5 +118,53 @@ class BucketSimRepository {
     }
 
     return $new_id;
+  }
+
+  public function preview(array $values) {
+    $raw_buckets = json_decode($values['buckets'], true);
+
+    $buckets = [];
+
+    // Verify JSON partially
+    foreach ($raw_buckets as $value) {
+      $from = $value['from'] ?? null;
+      $to = $value['to'] ?? null;
+      $size = $value['size'] ?? null;
+
+      if (!$from || strlen($from) > 1 || !ctype_alpha($from)) {
+        throw new JsonParsingException();
+      }
+
+      if (!$to || strlen($to) > 1 || !ctype_alpha($to)) {
+        throw new JsonParsingException();
+      }
+
+      if (!$size || !ctype_digit($size) || $size <= 0) {
+        throw new JsonParsingException();
+      }
+
+      $from = strtolower($from);
+      $to = strtolower($to);
+
+      if (strcmp($from, $to) > 0) {
+        throw new JsonParsingException();
+      }
+    }
+
+    foreach ($raw_buckets as $value) {
+      $new_bucket = new Bucket($value);
+      array_push($buckets, $new_bucket);
+    }
+
+    $buckets = collect($buckets);
+
+    try {
+      $entryRepo = new EntryRepository();
+      $preview_data = $entryRepo->getBuckets($buckets);
+    } catch (Exception $e) {
+      throw new JsonParsingException();
+    }
+
+    return $preview_data;
   }
 }

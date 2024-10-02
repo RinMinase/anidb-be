@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\BucketSimRepository;
 
 use App\Requests\BucketSim\AddEditRequest;
+use App\Requests\BucketSim\PreviewRequest;
 
 use App\Resources\DefaultResponse;
 
@@ -271,6 +272,63 @@ class BucketSimController extends Controller {
       'data' => [
         'newId' => $new_id,
       ]
+    ]);
+  }
+
+  /**
+   * @OA\Post(
+   *   tags={"Bucket Simulation"},
+   *   path="/api/bucket-sims/preview",
+   *   summary="Preview a Bucket Sim",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/bucket_sim_preview_buckets"),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(
+   *               @OA\Property(property="id", type="integer", format="int32", example=1),
+   *               @OA\Property(property="from", type="string", minLength=1, maxLength=1, example="a"),
+   *               @OA\Property(property="to", type="string", minLength=1, maxLength=1, example="d"),
+   *               @OA\Property(property="free", type="string", example="1.11 TB"),
+   *               @OA\Property(property="freeTB", type="string", example="1.11 TB"),
+   *               @OA\Property(property="used", type="string", example="123.12 GB"),
+   *               @OA\Property(property="percent", type="integer", format="int32", example=10),
+   *               @OA\Property(property="total", type="string", example="1.23 TB"),
+   *               @OA\Property(
+   *                 property="rawTotal",
+   *                 type="integer",
+   *                 format="int64",
+   *                 example=1000169533440,
+   *               ),
+   *               @OA\Property(property="titles", type="integer", format="int32", example=1),
+   *             ),
+   *           ),
+   *           @OA\Property(property="stats", ref="#/components/schemas/BucketSimInfo"),
+   *         ),
+   *       }
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function preview(PreviewRequest $request): JsonResponse {
+    $data = $this->bucketSimRepository->preview(
+      $request->only('buckets'),
+    );
+
+    return DefaultResponse::success(null, [
+      'data' => $data
     ]);
   }
 }
