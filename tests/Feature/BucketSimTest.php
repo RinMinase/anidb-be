@@ -611,6 +611,8 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_preview_bucket_sim_successfully() {
+    $this->setup_config();
+
     $test_buckets = '[{"from":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":1000169533440}]';
 
     $response = $this->withoutMiddleware()->post('/api/bucket-sims/preview', [
@@ -638,37 +640,37 @@ class BucketSimTest extends BaseTestCase {
         'id' => null,
         'from' => null,
         'to' => null,
-        'free' => '2.37 TB',
-        'freeTB' => '2.37 TB',
-        'used' => '365.23 GB',
-        'percent' => 13,
+        'free' => '2.46 TB',
+        'freeTB' => '2.46 TB',
+        'used' => '279.4 GB',
+        'percent' => 10,
         'total' => '2.73 TB',
         'rawTotal' => 2000339066880 + 1000169533440,
-        'titles' => 24,
+        'titles' => 3,
       ],
       [
         'id' => 1,
         'from' => 'a',
         'to' => 'i',
-        'free' => '1.61 TB',
+        'free' => '1.73 TB',
         'freeTB' => null,
-        'used' => '219.01 GB',
-        'percent' => 12,
+        'used' => '93.13 GB',
+        'percent' => 5,
         'total' => '1.82 TB',
         'rawTotal' => 2000339066880,
-        'titles' => 19,
+        'titles' => 1,
       ],
       [
         'id' => 2,
         'from' => 'j',
         'to' => 'z',
-        'free' => '785.26 GB',
+        'free' => '745.22 GB',
         'freeTB' => null,
-        'used' => '146.22 GB',
-        'percent' => 16,
+        'used' => '186.26 GB',
+        'percent' => 20,
         'total' => '931.48 GB',
         'rawTotal' => 1000169533440,
-        'titles' => 5,
+        'titles' => 2,
       ]
     ];
 
