@@ -198,7 +198,7 @@ class BucketSimController extends Controller {
   /**
    * @OA\Post(
    *   tags={"Bucket Simulation"},
-   *   path="/api/bucket-sims/{bucket_sim_id}",
+   *   path="/api/bucket-sims/save/{bucket_sim_id}",
    *   summary="Save Bucket Sim as Current Bucket",
    *   security={{"token":{}}},
    *
@@ -221,5 +221,56 @@ class BucketSimController extends Controller {
     $this->bucketSimRepository->save_bucket($uuid);
 
     return DefaultResponse::success();
+  }
+
+  /**
+   * @OA\Post(
+   *   tags={"Bucket Simulation"},
+   *   path="/api/bucket-sims/clone/{bucket_sim_id}",
+   *   summary="Clone Bucket Sim",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="bucket_sim_id",
+   *     description="Bucket Sim Info ID",
+   *     in="path",
+   *     required=true,
+   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(
+   *               property="newId",
+   *               type="string",
+   *               format="uuid",
+   *               example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
+   *             ),
+   *           ),
+   *         ),
+   *       }
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function clone($uuid): JsonResponse {
+    $new_id = $this->bucketSimRepository->clone($uuid);
+
+    return DefaultResponse::success(null, [
+      'data' => [
+        'newId' => $new_id,
+      ]
+    ]);
   }
 }

@@ -96,4 +96,24 @@ class BucketSimRepository {
 
     $this->delete($uuid);
   }
+
+  public function clone(string $uuid) {
+    $info = BucketSimInfo::where('uuid', $uuid)->firstOrFail();
+    $buckets = BucketSim::where('id_sim_info', $info->id)->get()->toArray();
+
+    $new_id = Str::uuid()->toString();
+    $cloned_info = $info->replicate(['id', 'uuid'])->toArray();
+    $cloned_info['uuid'] = $new_id;
+
+    BucketSimInfo::create($cloned_info);
+
+    $new_info = BucketSimInfo::where('uuid', $new_id)->firstOrFail();
+
+    foreach ($buckets as $bucket) {
+      $bucket['id_sim_info'] = $new_info->id;
+      BucketSim::create($bucket);
+    }
+
+    return $new_id;
+  }
 }

@@ -197,7 +197,8 @@ Route::prefix('api')
             Route::put('{uuid}', [BucketSimController::class, 'edit']);
             Route::delete('{uuid}', [BucketSimController::class, 'delete']);
 
-            Route::post('{uuid}', [BucketSimController::class, 'saveBucket']);
+            Route::post('save/{uuid}', [BucketSimController::class, 'saveBucket']);
+            Route::post('clone/{uuid}', [BucketSimController::class, 'clone']);
           });
 
         Route::prefix('sequences')
