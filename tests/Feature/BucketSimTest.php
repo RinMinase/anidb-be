@@ -552,4 +552,19 @@ class BucketSimTest extends BaseTestCase {
 
     $response->assertStatus(404);
   }
+
+  public function test_should_clone_bucket_sim_successfully() {
+  }
+
+  public function test_should_not_clone_bucket_sim_when_using_bucket_id_instead_of_uuid() {
+  }
+
+  public function test_should_not_clone_non_existent_bucket_sim() {
+  }
+
+  public function test_should_preview_bucket_sim_successfully() {
+  }
+
+  public function test_should_not_preview_bucket_sim_on_form_errors() {
+  }
 }
