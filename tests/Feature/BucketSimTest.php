@@ -611,8 +611,104 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_preview_bucket_sim_successfully() {
+    $test_buckets = '[{"from":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":1000169533440}]';
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/preview', [
+      'buckets' => $test_buckets,
+    ]);
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'id',
+          'from',
+          'to',
+          'free',
+          'freeTB',
+          'used',
+          'percent',
+          'total',
+          'rawTotal',
+          'titles',
+        ]],
+      ]);
+
+    $expected_data = [
+      [
+        'id' => null,
+        'from' => null,
+        'to' => null,
+        'free' => '2.37 TB',
+        'freeTB' => '2.37 TB',
+        'used' => '365.23 GB',
+        'percent' => 13,
+        'total' => '2.73 TB',
+        'rawTotal' => 2000339066880 + 1000169533440,
+        'titles' => 24,
+      ],
+      [
+        'id' => 1,
+        'from' => 'a',
+        'to' => 'i',
+        'free' => '1.61 TB',
+        'freeTB' => null,
+        'used' => '219.01 GB',
+        'percent' => 12,
+        'total' => '1.82 TB',
+        'rawTotal' => 2000339066880,
+        'titles' => 19,
+      ],
+      [
+        'id' => 2,
+        'from' => 'j',
+        'to' => 'z',
+        'free' => '785.26 GB',
+        'freeTB' => null,
+        'used' => '146.22 GB',
+        'percent' => 16,
+        'total' => '931.48 GB',
+        'rawTotal' => 1000169533440,
+        'titles' => 5,
+      ]
+    ];
+
+    $this->assertEqualsCanonicalizing($expected_data, $response['data']);
   }
 
   public function test_should_not_preview_bucket_sim_on_form_errors() {
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/preview');
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['buckets']]);
+
+    $test_buckets_401 = [
+      '[{"":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":1000169533440}',
+      '[{"from":"a","to":"i","size":2000339066880},{from:"j","to":"z","size":1000169533440}]',
+      '',
+    ];
+
+    foreach ($test_buckets_401 as $key => $value) {
+      $response = $this->withoutMiddleware()->post('/api/bucket-sims/preview', [
+        'buckets' => $value,
+      ]);
+
+      $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
+      $this->assertArrayHasKey('buckets', $response['data'], 'Error in $key=' . $key);
+    }
+
+    $test_buckets_400 = [
+      '[{"from":"b","to":"a","size":2000339066880}]',
+      '[{"from":"a","to":"a","size":0}]',
+      '[{"from":"2","to":"a","size":0}]',
+      '[{"from":"a","to":"2","size":0}]',
+    ];
+
+    foreach ($test_buckets_400 as $key => $value) {
+      $response = $this->withoutMiddleware()->post('/api/bucket-sims/preview', [
+        'buckets' => $value,
+      ]);
+
+      $this->assertEquals(400, $response['status'], 'Error in $key=' . $key);
+    }
   }
 }
