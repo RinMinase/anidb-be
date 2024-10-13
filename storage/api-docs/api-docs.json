@@ -9019,7 +9019,9 @@
                 "in": "query",
                 "schema": {
                     "type": "integer",
-                    "format": "int32"
+                    "format": "int8",
+                    "maximum": 127,
+                    "minimum": 1
                 },
                 "example": "1"
             },
