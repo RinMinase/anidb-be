@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-use App\Rules\SignedTinyIntRule;
+use App\Rules\PositiveSignedTinyIntRule;
 
 class AddEditRequest extends FormRequest {
 
@@ -30,7 +30,7 @@ class AddEditRequest extends FormRequest {
   public function rules() {
     return [
       'codec' => ['required', 'string', 'max:16'],
-      'order' => ['integer', 'min:1', new SignedTinyIntRule],
+      'order' => ['integer', 'min:1', new PositiveSignedTinyIntRule],
     ];
   }
 
