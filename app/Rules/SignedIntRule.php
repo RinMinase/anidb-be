@@ -9,7 +9,7 @@ class SignedIntRule implements ValidationRule {
 
   public function validate(string $attribute, mixed $value, Closure $fail): void {
     if ($value > 2147483647 || $value < -2147483647) {
-      $fail($attribute . ' must not be greater than 2147483647 or -2147483647');
+      $fail(ucfirst($attribute) . ' must not be greater than 2147483647 or less than -2147483647');
     }
   }
 }
