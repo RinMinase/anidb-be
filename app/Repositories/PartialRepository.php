@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\Partial\ParsingException;
 use Illuminate\Support\Str;
 
 use App\Models\Catalog;
@@ -30,6 +31,8 @@ class PartialRepository {
   }
 
   public function add_multiple(array $values) {
+    $this->validate_partial_entries($values);
+
     $catalog = Catalog::create([
       'uuid' => Str::uuid()->toString(),
       'season' => $values['season'],
@@ -48,6 +51,8 @@ class PartialRepository {
 
   public function edit_multiple(array $values, $uuid) {
     $catalog = Catalog::where('uuid', $uuid)->firstOrFail();
+
+    $this->validate_partial_entries($values);
 
     $catalog->year = $values['year'];
     $catalog->season = $values['season'];
@@ -116,5 +121,31 @@ class PartialRepository {
     }
 
     return $count;
+  }
+
+  private function validate_partial_entries(array $values) {
+    if (!empty($values['data']['low'])) {
+      foreach ($values['data']['low'] as $item) {
+        if (strlen($item) > 256) {
+          throw new ParsingException('low');
+        }
+      }
+    }
+
+    if (!empty($values['data']['normal'])) {
+      foreach ($values['data']['normal'] as $item) {
+        if (strlen($item) > 256) {
+          throw new ParsingException('normal');
+        }
+      }
+    }
+
+    if (!empty($values['data']['high'])) {
+      foreach ($values['data']['high'] as $item) {
+        if (strlen($item) > 256) {
+          throw new ParsingException('high');
+        }
+      }
+    }
   }
 }
