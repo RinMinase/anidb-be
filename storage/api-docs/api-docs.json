@@ -2974,13 +2974,18 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "type": "string"
-                                                    },
-                                                    "example": [
-                                                        "title 1",
-                                                        "title 2",
-                                                        "title 3"
-                                                    ]
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "title 1"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
