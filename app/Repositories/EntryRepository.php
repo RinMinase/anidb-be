@@ -618,12 +618,22 @@ class EntryRepository {
 
       return $final_array;
     } else {
-      return Entry::select('title')
+      $titles = Entry::select('uuid', 'title')
         ->where('uuid', '!=', $id)
         ->orderBy('title')
         ->take(10)
-        ->pluck('title')
+        ->get()
         ->toArray();
+
+      $final_array = [];
+      foreach ($titles as $value) {
+        array_push($final_array, [
+          'id' => $value['uuid'],
+          'title' => $value['title'],
+        ]);
+      }
+
+      return $final_array;
     }
   }
 
