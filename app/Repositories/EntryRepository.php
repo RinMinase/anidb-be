@@ -600,7 +600,7 @@ class EntryRepository {
 
   public function getTitles($id, ?string $needle) {
     if (!empty($needle)) {
-      $names = Entry::select('title')
+      $names = Entry::select('uuid', 'title')
         ->where('uuid', '!=', $id)
         ->get()
         ->toArray();
@@ -610,7 +610,10 @@ class EntryRepository {
 
       $final_array = [];
       foreach ($fuzzy_names as $fuzzy_name) {
-        array_push($final_array, $fuzzy_name['item']['title']);
+        array_push($final_array, [
+          'id' => $fuzzy_name['item']['uuid'],
+          'title' => $fuzzy_name['item']['title'],
+        ]);
       }
 
       return $final_array;

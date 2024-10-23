@@ -627,14 +627,12 @@ class EntryController extends Controller {
    *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
    *         @OA\Schema(
    *           @OA\Property(
-   *             example={
-   *               "title 1",
-   *               "title 2",
-   *               "title 3",
-   *             },
    *             property="data",
    *             type="array",
-   *             @OA\Items(type="string"),
+   *             @OA\Items(
+   *               @OA\Property(property="id", type="string", example="e9597119-8452-4f2b-96d8-f2b1b1d2f158"),
+   *               @OA\Property(property="title", type="string", example="title 1"),
+   *             ),
    *           ),
    *         ),
    *       },
