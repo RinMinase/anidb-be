@@ -1967,7 +1967,7 @@ class EntryTest extends BaseTestCase {
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
-      ->assertJsonStructure(['data']);
+      ->assertJsonStructure(['data' => ['id', 'title']]);
   }
 
   public function test_should_return_searched_titles_excluding_a_single_title() {
@@ -1978,7 +1978,7 @@ class EntryTest extends BaseTestCase {
 
     $response->assertStatus(200)
       ->assertJsonCount($this->total_entry_count - 1, 'data')
-      ->assertJsonStructure(['data']);
+      ->assertJsonStructure(['data' => ['id', 'title']]);
 
     $this->assertNotContains($excluded_id, $response['data']);
   }
