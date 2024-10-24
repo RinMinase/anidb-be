@@ -167,4 +167,20 @@ class BucketSimRepository {
 
     return $preview_data;
   }
+
+  public function backup() {
+    $buckets = Bucket::all()->makeHidden(['id'])->toArray();
+    $date = Carbon::now()->format('Y-m-d');
+
+    $info_id = BucketSimInfo::insertGetId([
+      'uuid' => Str::uuid(),
+      'description' => 'Backup of bucket - ' . $date,
+    ]);
+
+    foreach ($buckets as $key => $value) {
+      $buckets[$key]['id_sim_info'] = $info_id;
+    }
+
+    BucketSim::insert($buckets);
+  }
 }

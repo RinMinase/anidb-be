@@ -200,6 +200,7 @@ Route::prefix('api')
             Route::post('save/{uuid}', [BucketSimController::class, 'saveBucket']);
             Route::post('clone/{uuid}', [BucketSimController::class, 'clone']);
             Route::post('preview', [BucketSimController::class, 'preview']);
+            Route::post('backup', [BucketSimController::class, 'backup']);
           });
 
         Route::prefix('sequences')

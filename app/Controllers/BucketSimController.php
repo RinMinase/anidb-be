@@ -331,4 +331,23 @@ class BucketSimController extends Controller {
       'data' => $data
     ]);
   }
+
+  /**
+   * @OA\Post(
+   *   tags={"Bucket Simulation"},
+   *   path="/api/bucket-sims/backup",
+   *   summary="Backup current buckets to sim list",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function backup(): JsonResponse {
+    $this->bucketSimRepository->backup();
+
+    return DefaultResponse::success();
+  }
 }
