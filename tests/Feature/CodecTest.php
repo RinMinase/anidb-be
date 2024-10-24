@@ -166,7 +166,7 @@ class CodecTest extends BaseTestCase {
 
   public function test_should_add_audio_codec_successfully() {
     $test_codec = 'testing codec';
-    $test_order = 9999;
+    $test_order = 127;
 
     $response = $this->withoutMiddleware()->post('/api/codecs/audio', [
       'codec' => $test_codec,
@@ -188,7 +188,7 @@ class CodecTest extends BaseTestCase {
 
   public function test_should_add_video_codec_successfully() {
     $test_codec = 'testing codec';
-    $test_order = 9999;
+    $test_order = 127;
 
     $response = $this->withoutMiddleware()->post('/api/codecs/video', [
       'codec' => $test_codec,
@@ -235,6 +235,17 @@ class CodecTest extends BaseTestCase {
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec', 'order']]);
+
+    $test_valid_codec = "valid codec";
+    $test_order = 128;
+
+    $response = $this->withoutMiddleware()->post('/api/codecs/audio', [
+      'codec' => $test_valid_codec,
+      'order' => $test_order,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['order']]);
   }
 
   public function test_should_not_add_video_codec_on_form_errors() {
@@ -264,13 +275,24 @@ class CodecTest extends BaseTestCase {
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec', 'order']]);
+
+    $test_valid_codec = "valid codec";
+    $test_order = 128;
+
+    $response = $this->withoutMiddleware()->post('/api/codecs/video', [
+      'codec' => $test_valid_codec,
+      'order' => $test_order,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['order']]);
   }
 
   public function test_should_edit_audio_codec_successfully() {
     $this->setup_config();
 
     $test_codec = 'testing codec';
-    $test_order = 150;
+    $test_order = 127;
 
     $response = $this->withoutMiddleware()->put('/api/codecs/audio/' . $this->audio_codec_id, [
       'codec' => $test_codec,
@@ -291,7 +313,7 @@ class CodecTest extends BaseTestCase {
     $this->setup_config();
 
     $test_codec = 'testing codec';
-    $test_order = 150;
+    $test_order = 127;
 
     $response = $this->withoutMiddleware()->put('/api/codecs/video/' . $this->video_codec_id, [
       'codec' => $test_codec,
@@ -346,6 +368,21 @@ class CodecTest extends BaseTestCase {
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec', 'order']]);
+
+    $test_valid_codec = "valid codec";
+    $test_order = 128;
+
+    $response = $this->withoutMiddleware()
+      ->put(
+        '/api/codecs/audio/' . $this->audio_codec_id,
+        [
+          'codec' => $test_valid_codec,
+          'order' => $test_order,
+        ]
+      );
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['order']]);
   }
 
   public function test_should_not_edit_video_codec_on_form_errors() {
@@ -386,6 +423,21 @@ class CodecTest extends BaseTestCase {
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['codec', 'order']]);
+
+    $test_valid_codec = "valid codec";
+    $test_order = 128;
+
+    $response = $this->withoutMiddleware()
+      ->put(
+        '/api/codecs/video/' . $this->video_codec_id,
+        [
+          'codec' => $test_valid_codec,
+          'order' => $test_order,
+        ]
+      );
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['order']]);
   }
 
   public function test_should_delete_audio_codec_successfully() {
