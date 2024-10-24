@@ -181,30 +181,30 @@ class AddEditRequest extends FormRequest {
       ],
 
       'date_finished' => ['string', 'date', 'before_or_equal:today'],
-      'duration' => ['integer', 'min:0', new SignedMediumIntRule],
-      'filesize' => ['integer', 'min:0', new SignedBigIntRule],
+      'duration' => ['nullable', 'integer', 'min:0', new SignedMediumIntRule],
+      'filesize' => ['nullable', 'integer', 'min:0', new SignedBigIntRule],
 
-      'episodes' => ['integer', 'min:0', new SignedSmallIntRule],
-      'ovas' => ['integer', 'min:0', new SignedSmallIntRule],
-      'specials' => ['integer', 'min:0', new SignedSmallIntRule],
+      'episodes' => ['nullable', 'integer', 'min:0', new SignedSmallIntRule],
+      'ovas' => ['nullable', 'integer', 'min:0', new SignedSmallIntRule],
+      'specials' => ['nullable', 'integer', 'min:0', new SignedSmallIntRule],
 
-      'season_number' => ['integer', 'min:0', new SignedTinyIntRule],
-      'season_first_title_id' => ['uuid', 'exists:entries,uuid'],
-      'prequel_id' => ['uuid', 'exists:entries,uuid'],
-      'sequel_id' => ['uuid', 'exists:entries,uuid'],
+      'season_number' => ['nullable', 'integer', 'min:0', new SignedTinyIntRule],
+      'season_first_title_id' => ['nullable', 'uuid', 'exists:entries,uuid'],
+      'prequel_id' => ['nullable', 'uuid', 'exists:entries,uuid'],
+      'sequel_id' => ['nullable', 'uuid', 'exists:entries,uuid'],
 
-      'encoder_video' => ['string', 'max:128'],
-      'encoder_audio' => ['string', 'max:128'],
-      'encoder_subs' => ['string', 'max:128'],
+      'encoder_video' => ['nullable', 'string', 'max:128'],
+      'encoder_audio' => ['nullable', 'string', 'max:128'],
+      'encoder_subs' => ['nullable', 'string', 'max:128'],
 
-      'release_year' => [new YearRule],
-      'release_season' => [new Enum(SeasonsEnum::class)],
+      'release_year' => ['nullable', new YearRule],
+      'release_season' => ['nullable', new Enum(SeasonsEnum::class)],
 
-      'variants' => ['string', 'max:256'],
-      'remarks' => ['string', 'max:256'],
+      'variants' => ['nullable', 'string', 'max:256'],
+      'remarks' => ['nullable', 'string', 'max:256'],
 
-      'id_codec_audio' => ['integer', 'exists:codec_audios,id'],
-      'id_codec_video' => ['integer', 'exists:codec_videos,id'],
+      'id_codec_audio' => ['nullable', 'integer', 'exists:codec_audios,id'],
+      'id_codec_video' => ['nullable', 'integer', 'exists:codec_videos,id'],
       'codec_hdr' => ['boolean'],
     ];
   }
