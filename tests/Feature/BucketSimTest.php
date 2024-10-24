@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Tests\BaseTestCase;
 
+use Carbon\Carbon;
+
 use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
@@ -39,6 +41,20 @@ class BucketSimTest extends BaseTestCase {
   private $bucket_sim_from_2 = 'n';
   private $bucket_sim_to_2 = 'z';
   private $bucket_sim_size_2 = 2_000_339_066_880;
+
+  private $bucket_id_1 = 99999;
+  private $bucket_id_2 = 99998;
+  private $bucket_id_3 = 99997;
+
+  private $bucket_from_1 = 'a';
+  private $bucket_to_1 = 'd';
+  private $bucket_size_1 = 2_000_339_066_880;
+  private $bucket_from_2 = 'e';
+  private $bucket_to_2 = 'j';
+  private $bucket_size_2 = 2_000_339_066_880;
+  private $bucket_from_3 = 'k';
+  private $bucket_to_3 = 'z';
+  private $bucket_size_3 = 2_000_339_066_880;
 
   private $entry_id_1 = 99999;
   private $entry_id_2 = 99998;
@@ -136,6 +152,33 @@ class BucketSimTest extends BaseTestCase {
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
       ]
+    ]);
+
+    Bucket::insert([
+      [
+        'id' => $this->bucket_id_1,
+        'from' => $this->bucket_from_1,
+        'to' => $this->bucket_to_1,
+        'size' => $this->bucket_size_1,
+        'created_at' => '2022-01-01 13:00:00',
+        'updated_at' => '2022-01-01 13:00:00',
+      ],
+      [
+        'id' => $this->bucket_id_2,
+        'from' => $this->bucket_from_2,
+        'to' => $this->bucket_to_2,
+        'size' => $this->bucket_size_2,
+        'created_at' => '2022-01-01 13:00:00',
+        'updated_at' => '2022-01-01 13:00:00',
+      ],
+      [
+        'id' => $this->bucket_id_3,
+        'from' => $this->bucket_from_3,
+        'to' => $this->bucket_to_3,
+        'size' => $this->bucket_size_3,
+        'created_at' => '2022-01-01 13:00:00',
+        'updated_at' => '2022-01-01 13:00:00',
+      ],
     ]);
 
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
@@ -712,5 +755,59 @@ class BucketSimTest extends BaseTestCase {
 
       $this->assertEquals(400, $response['status'], 'Error in $key=' . $key);
     }
+  }
+
+  public function test_should_backup_current_bucket_to_bucket_sim_sucessfully() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/backup');
+
+    $response->assertStatus(200);
+
+    $date = Carbon::now()->format('Y-m-d');
+    $actual_data_info = BucketSimInfo::where('description', 'Backup of bucket - ' . $date)
+      ->get()
+      ->makeVisible('id')
+      ->toArray();
+
+    // Check if created only one info
+    $this->assertCount(1, $actual_data_info);
+
+    $actual_data_info = $actual_data_info[0];
+
+    $actual_data_bucket_sims = BucketSim::where('id_sim_info', $actual_data_info['id'])
+      ->get()
+      ->toArray();
+
+    $expected_data_bucket_sims = [
+      [
+        'from' => $this->bucket_from_1,
+        'to' => $this->bucket_to_1,
+        'size' => $this->bucket_size_1,
+        'created_at' => '2022-01-01 13:00:00',
+        'updated_at' => '2022-01-01 13:00:00',
+      ],
+      [
+        'from' => $this->bucket_from_2,
+        'to' => $this->bucket_to_2,
+        'size' => $this->bucket_size_2,
+        'created_at' => '2022-01-01 13:00:00',
+        'updated_at' => '2022-01-01 13:00:00',
+      ],
+      [
+        'from' => $this->bucket_from_3,
+        'to' => $this->bucket_to_3,
+        'size' => $this->bucket_size_3,
+        'created_at' => '2022-01-01 13:00:00',
+        'updated_at' => '2022-01-01 13:00:00',
+      ],
+    ];
+
+    $this->assertCount(count($expected_data_bucket_sims), $actual_data_bucket_sims);
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected_data_bucket_sims,
+      $actual_data_bucket_sims,
+      ['from', 'to', 'size', 'created_at', 'updated_at'],
+    );
   }
 }
