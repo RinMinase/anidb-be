@@ -606,9 +606,21 @@ class EntryRepository {
         ->toArray();
 
       $fuse = new Fuse($names, ['keys' => ['title']]);
-      $fuzzy_names = $fuse->search($needle, ['limit' => 10]);
+      $fuzzy_names = $fuse->search($needle, ['limit' => 14]);
+
+      $current_title = Entry::select('uuid', 'title')
+        ->where('uuid', $id)
+        ->first();
 
       $final_array = [];
+
+      if ($current_title) {
+        array_push($final_array, [
+          'id' => $current_title['uuid'],
+          'title' => $current_title['title'],
+        ]);
+      }
+
       foreach ($fuzzy_names as $fuzzy_name) {
         array_push($final_array, [
           'id' => $fuzzy_name['item']['uuid'],
@@ -621,11 +633,23 @@ class EntryRepository {
       $titles = Entry::select('uuid', 'title')
         ->where('uuid', '!=', $id)
         ->orderBy('title')
-        ->take(10)
+        ->take(14)
         ->get()
         ->toArray();
 
+      $current_title = Entry::select('uuid', 'title')
+        ->where('uuid', $id)
+        ->first();
+
       $final_array = [];
+
+      if ($current_title) {
+        array_push($final_array, [
+          'id' => $current_title['uuid'],
+          'title' => $current_title['title'],
+        ]);
+      }
+
       foreach ($titles as $value) {
         array_push($final_array, [
           'id' => $value['uuid'],
@@ -665,13 +689,16 @@ class EntryRepository {
 
       if ($prequel) {
         Entry::where('id', $inserted_id)
-          ->update(['prequel_id' => $prequel->id]);
+          ->update(['prequel_id' => $prequel->id ?? null]);
 
         if (empty($prequel->sequel_id)) {
           $prequel->sequel_id = $inserted_id;
           $prequel->save();
         }
       }
+    } else {
+      Entry::where('id', $inserted_id)
+        ->update(['prequel_id' => null]);
     }
 
     if (!empty($values['sequel_id'])) {
@@ -686,6 +713,9 @@ class EntryRepository {
           $sequel->save();
         }
       }
+    } else {
+      Entry::where('id', $inserted_id)
+        ->update(['sequel_id' => null]);
     }
   }
 
