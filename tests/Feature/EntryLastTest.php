@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
 
+use App\Enums\IntegerSizesEnum;
+use App\Enums\IntegerTypesEnum;
+
 use App\Models\Entry;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
@@ -15,7 +18,6 @@ use App\Models\Quality;
 class EntryLastTest extends BaseTestCase {
 
   // Backup related variables
-  private $sequence_backup = null;
   private $entry_rewatch_backup = null;
   private $entry_rating_backup = null;
   private $entry_offquel_backup = null;
@@ -61,7 +63,7 @@ class EntryLastTest extends BaseTestCase {
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
     $test_entries = [];
 
-    for ($i = 0; $i < 30; $i++) {
+    for ($i = 0; $i < 50; $i++) {
       $id = Str::uuid()->toString();
 
       $values = [
@@ -142,5 +144,69 @@ class EntryLastTest extends BaseTestCase {
       ->toArray();
 
     $this->assertEquals($expected_ids, $actual_ids);
+  }
+
+  public function test_should_get_all_latest_entries_with_limit() {
+    $this->setup_config();
+
+    $items = 25;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($items, 'data');
+
+    $items = 30;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($items, 'data');
+
+    $items = 40;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($items, 'data');
+
+    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY) - 1;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($items, 'data');
+  }
+
+  public function test_should_not_get_all_latest_entries_on_form_errors() {
+    $this->setup_config();
+
+    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY);
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(401)
+      ->assertJsonStructure(['data' => ['items']]);
+
+    $items = -1;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(401)
+      ->assertJsonStructure(['data' => ['items']]);
+
+    $items = 0;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(401)
+      ->assertJsonStructure(['data' => ['items']]);
+
+    $items = "string";
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(401)
+      ->assertJsonStructure(['data' => ['items']]);
   }
 }
