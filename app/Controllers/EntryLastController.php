@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\EntryRepository;
+use App\Requests\Entry\LastWatchRequest;
 use App\Resources\DefaultResponse;
 
 class EntryLastController extends Controller {
@@ -21,6 +22,9 @@ class EntryLastController extends Controller {
    *   path="/api/entries/last",
    *   summary="Get Latest Entries",
    *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/entry_last_items"),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="OK",
@@ -51,8 +55,8 @@ class EntryLastController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(): JsonResponse {
-    $data = $this->entryRepository->getLast();
+  public function index(LastWatchRequest $request): JsonResponse {
+    $data = $this->entryRepository->getLast($request->only('items'));
 
     return DefaultResponse::success(null, [
       'data' => $data['data'],

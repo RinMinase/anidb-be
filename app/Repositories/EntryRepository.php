@@ -100,7 +100,11 @@ class EntryRepository {
     return $entry;
   }
 
-  public function getLast() {
+  public function getLast($items) {
+    if (!$items || $items > 127 || empty($items) || !isset($items)) {
+      $items = 20;
+    }
+
     $sub_query = EntryRewatch::select('id_entries', 'date_rewatched')
       ->whereIn('date_rewatched', function ($where_in) {
         $where_in->select(DB::raw('max(date_rewatched)'))
@@ -121,7 +125,7 @@ class EntryRepository {
         END DESC
       ');
 
-    $data = $data->limit(20)->get();
+    $data = $data->limit($items)->get();
 
     return [
       'data' => EntrySummaryResource::collection($data),
