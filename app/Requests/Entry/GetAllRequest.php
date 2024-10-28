@@ -54,7 +54,7 @@ class GetAllRequest extends FormRequest {
    */
   public function rules() {
     return [
-      'query' => ['string'],
+      'query' => ['nullable', 'string'],
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
       'order' => ['in:asc,desc,ASC,DESC'],
       'page' => ['integer', 'min:1'],
