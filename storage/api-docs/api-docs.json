@@ -3044,6 +3044,11 @@
                 ],
                 "summary": "Get Latest Entries",
                 "operationId": "88b2d137e04516a70107ca8d65a51395",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/entry_last_items"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -9302,6 +9307,19 @@
                     "minimum": 1
                 },
                 "example": 30
+            },
+            "entry_last_items": {
+                "name": "items",
+                "in": "query",
+                "description": "Number of items to load",
+                "schema": {
+                    "type": "integer",
+                    "format": "int8",
+                    "default": 20,
+                    "maximum": 127,
+                    "minimum": 1
+                },
+                "example": 20
             },
             "entry_ratings_audio": {
                 "name": "audio",

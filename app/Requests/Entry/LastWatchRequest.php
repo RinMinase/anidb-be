@@ -16,8 +16,8 @@ class LastWatchRequest extends FormRequest {
    *   name="items",
    *   description="Number of items to load",
    *   in="query",
-   *   example=30,
-   *   @OA\Schema(type="integer", format="int8", default=30, minimum=1, maximum=127),
+   *   example=20,
+   *   @OA\Schema(type="integer", format="int8", default=20, minimum=1, maximum=127),
    * ),
    */
   public function rules() {
