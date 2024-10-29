@@ -19,8 +19,11 @@ class AddRewatchRequest extends FormRequest {
    * ),
    */
   public function rules() {
+    $today = date("Y-m-d H:i:s", strtotime("+8 hours"));
+    $date_validation = 'before_or_equal:' . $today;
+
     return [
-      'date_rewatched' => ['required', 'date', 'before_or_equal:today'],
+      'date_rewatched' => ['required', 'date', $date_validation],
     ];
   }
 
