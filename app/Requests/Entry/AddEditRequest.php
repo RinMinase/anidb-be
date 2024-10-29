@@ -165,6 +165,9 @@ class AddEditRequest extends FormRequest {
    * ),
    */
   public function rules() {
+    $today = date("Y-m-d H:i:s", strtotime("+8 hours"));
+    $date_validation = 'before_or_equal:' . $today;
+
     if ($this->route('uuid')) {
       $id = Entry::where('uuid', $this->route('uuid'))
         ->first()
@@ -180,7 +183,7 @@ class AddEditRequest extends FormRequest {
         Rule::unique('entries')->ignore($id ?? null)
       ],
 
-      'date_finished' => ['string', 'date', 'before_or_equal:today'],
+      'date_finished' => ['string', 'date', $date_validation],
       'duration' => ['nullable', 'integer', 'min:0', new SignedMediumIntRule],
       'filesize' => ['nullable', 'integer', 'min:0', new SignedBigIntRule],
 
