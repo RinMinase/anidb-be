@@ -95,8 +95,6 @@ class BucketSimRepository {
     Bucket::truncate();
     Bucket::insert($buckets);
     Bucket::refreshAutoIncrements();
-
-    $this->delete($uuid);
   }
 
   public function clone(string $uuid) {
