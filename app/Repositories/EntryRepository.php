@@ -101,7 +101,9 @@ class EntryRepository {
   }
 
   public function getLast($items) {
-    if (!$items || $items > 127 || empty($items) || !isset($items)) {
+    $items = intval($items['items'] ?? 20);
+
+    if ($items < 20 || $items > 127) {
       $items = 20;
     }
 
