@@ -25,6 +25,7 @@ class EntryLastTest extends BaseTestCase {
 
   // Class variables
   private $entry_ids = [];
+  private $entry_count = 50;
 
   // Backup related tables
   private function setup_backup() {
@@ -63,7 +64,7 @@ class EntryLastTest extends BaseTestCase {
     $id_quality = Quality::where('quality', 'FHD 1080p')->first()->id;
     $test_entries = [];
 
-    for ($i = 0; $i < 50; $i++) {
+    for ($i = 0; $i < $this->entry_count; $i++) {
       $id = Str::uuid()->toString();
 
       $values = [
@@ -146,6 +147,40 @@ class EntryLastTest extends BaseTestCase {
     $this->assertEquals($expected_ids, $actual_ids);
   }
 
+  public function test_should_get_all_latest_20_entries_when_limit_is_lower_than_20() {
+    $this->setup_config();
+
+    $expected_count = 20;
+
+    $items = 19;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($expected_count, 'data');
+
+    $items = 10;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($expected_count, 'data');
+
+    $items = 5;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($expected_count, 'data');
+
+    $items = 1;
+
+    $this->withoutMiddleware()
+      ->get('/api/entries/last?items=' . $items)
+      ->assertStatus(200)
+      ->assertJsonCount($expected_count, 'data');
+  }
+
   public function test_should_get_all_latest_entries_with_limit() {
     $this->setup_config();
 
@@ -170,18 +205,19 @@ class EntryLastTest extends BaseTestCase {
       ->assertStatus(200)
       ->assertJsonCount($items, 'data');
 
-    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY) - 1;
+    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY);
+    $expected_count = $this->entry_count;
 
     $this->withoutMiddleware()
       ->get('/api/entries/last?items=' . $items)
       ->assertStatus(200)
-      ->assertJsonCount($items, 'data');
+      ->assertJsonCount($expected_count, 'data');
   }
 
   public function test_should_not_get_all_latest_entries_on_form_errors() {
     $this->setup_config();
 
-    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY);
+    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY) + 1;
 
     $this->withoutMiddleware()
       ->get('/api/entries/last?items=' . $items)
