@@ -6103,16 +6103,6 @@
                                                                         }
                                                                     },
                                                                     "type": "object"
-                                                                },
-                                                                "odometer": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "schema": "integer"
-                                                                    },
-                                                                    "example": [
-                                                                        123,
-                                                                        234
-                                                                    ]
                                                                 }
                                                             },
                                                             "type": "object"
@@ -6380,6 +6370,57 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
+        "/api/fourleaf/gas/odo": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Odometer by Year",
+                "operationId": "25279572a67e99915b2cca5d6ea21ed7",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_odo_year"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "schema": "integer"
+                                                    },
+                                                    "example": [
+                                                        123,
+                                                        234
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/FourleafGasInvalidYearResponse"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -8200,6 +8241,29 @@
                     }
                 }
             },
+            "FourleafGasInvalidYearResponse": {
+                "description": "Fourleaf - Gas Invalid Year Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "message": "The year is invalid"
+                        }
+                    }
+                }
+            },
             "Success": {
                 "description": "Success",
                 "content": {
@@ -8489,6 +8553,15 @@
                     "minimum": 1
                 },
                 "example": 30
+            },
+            "fourleaf_gas_get_odo_year": {
+                "name": "year",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
             },
             "fourleaf_gas_get_gas_avg_efficiency_type": {
                 "name": "avg_efficiency_type",
