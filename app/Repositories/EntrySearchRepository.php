@@ -311,7 +311,8 @@ class EntrySearchRepository {
       $data = $data->whereIn('id_codec_video', $search_codec_video);
     }
 
-    $data = $data->orderBy($column, $order)
+    $nulls = $order === 'asc' ? 'first' : 'last';
+    $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls)
       ->orderBy('title', 'asc');
 
     // ratings come last due to subquery + derived table
