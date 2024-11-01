@@ -1967,20 +1967,27 @@ class EntryTest extends BaseTestCase {
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
-      ->assertJsonStructure(['data' => ['id', 'title']]);
+      ->assertJsonStructure(['data' => [['id', 'title']]]);
   }
 
-  public function test_should_return_searched_titles_excluding_a_single_title() {
+  public function test_should_return_searched_titles_inluding_a_single_title() {
     $this->setup_config();
 
-    $excluded_id = $this->entry_uuid_1;
-    $response = $this->withoutMiddleware()->get('/api/entries/titles?id=' . $excluded_id);
+    $included_id = $this->entry_uuid_1;
+    $response = $this->withoutMiddleware()->get('/api/entries/titles?id=' . $included_id);
 
     $response->assertStatus(200)
-      ->assertJsonCount($this->total_entry_count - 1, 'data')
-      ->assertJsonStructure(['data' => ['id', 'title']]);
+      ->assertJsonCount($this->total_entry_count, 'data')
+      ->assertJsonStructure(['data' => [['id', 'title']]]);
 
-    $this->assertNotContains($excluded_id, $response['data']);
+    $actual = current(
+      array_filter(
+        $response['data'],
+        fn($item) => $item['id'] === $included_id
+      )
+    );
+
+    $this->assertNotNull($actual);
   }
 
   public function test_should_not_return_searched_titles_when_entry_id_is_used_instead_of_uuid() {
