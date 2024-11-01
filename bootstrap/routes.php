@@ -73,6 +73,8 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', [GasController::class, 'get']);
 
+            Route::get('odo', [GasController::class, 'getOdo']);
+
             Route::get('fuel', [GasController::class, 'getFuel']);
             Route::post('fuel', [GasController::class, 'addFuel']);
             Route::put('fuel/{id}', [GasController::class, 'editFuel']);

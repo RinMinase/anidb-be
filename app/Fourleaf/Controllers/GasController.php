@@ -11,6 +11,7 @@ use App\Fourleaf\Repositories\GasRepository;
 use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
 use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
 use App\Fourleaf\Requests\Gas\GetFuelRequest;
+use App\Fourleaf\Requests\Gas\GetOdoRequest;
 use App\Fourleaf\Requests\Gas\GetRequest;
 use App\Fourleaf\Resources\Gas\MaintenanceResource;
 
@@ -60,12 +61,6 @@ class GasController extends Controller {
    *                 property="gas",
    *                 @OA\Property(property="<date>", type="string", example="<value>"),
    *                 @OA\Property(property="2020-10-20", type="float", example=12.23),
-   *               ),
-   *               @OA\Property(
-   *                 property="odometer",
-   *                 type="array",
-   *                 example={123, 234},
-   *                 @OA\Items(schema="integer")
    *               ),
    *             ),
    *
@@ -178,6 +173,43 @@ class GasController extends Controller {
       $request->get('avg_efficiency_type'),
       $request->get('efficiency_graph_type'),
     );
+
+    return DefaultResponse::success(null, [
+      'data' => $data,
+    ]);
+  }
+
+  /**
+   * @OA\Get(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/odo",
+   *   summary="Fourleaf API - Get Odometer by Year",
+   *
+   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_odo_year"),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             example={123, 234},
+   *             @OA\Items(schema="integer"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/FourleafGasInvalidYearResponse"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function getOdo(GetOdoRequest $request): JsonResponse {
+    $data = $this->gasRepository->getOdo($request->get('year'));
 
     return DefaultResponse::success(null, [
       'data' => $data,

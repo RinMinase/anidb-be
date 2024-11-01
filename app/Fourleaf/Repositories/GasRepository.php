@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
+use App\Fourleaf\Exceptions\Gas\InvalidYearException;
+
 use App\Fourleaf\Models\Gas;
 use App\Fourleaf\Models\Maintenance;
 use App\Fourleaf\Models\MaintenancePart;
@@ -36,7 +38,6 @@ class GasRepository {
     $avg_efficiency = round($avg_efficiency, 3);
 
     $graph_efficiency_data = $this->calculateEfficiencyList($efficiency_graph_type);
-    $graph_odometer_data = $this->calculateOdometerPerMonth();
 
     if ($efficiency_graph_type === 'last12mos') {
       // post process group by month
@@ -64,11 +65,18 @@ class GasRepository {
       'graph' => [
         'efficiency' => $graph_efficiency_data,
         'gas' => $graph_gas_data,
-        'odometer' => $graph_odometer_data,
       ],
       'maintenance' => $maintenance,
       'last_maintenance' => $last_maintenance,
     ];
+  }
+
+  /**
+   * Odometer Functions
+   */
+
+  public function getOdo($year) {
+    return $this->calculateOdometerPerMonth(intval($year));
   }
 
   /**
@@ -449,13 +457,23 @@ class GasRepository {
     return $efficiency_months;
   }
 
-  private function calculateOdometerPerMonth() {
-    $start_date = Carbon::now()->startOfYear()->subMonths(3)->startOfMonth();
+  private function calculateOdometerPerMonth(int $year) {
+    $min_year = Gas::select(DB::raw('min(date)'))->firstOrFail();
+    $min_year = Carbon::parse($min_year['min'])->year;
+    $max_year = Carbon::now()->year;
+
+    if (!$year || $year < $min_year || $year > $max_year) {
+      throw new InvalidYearException();
+    }
+
+    $start_date = Carbon::createFromDate($year)->startOfYear()->subMonths(3)->startOfMonth();
+    $end_date = Carbon::createFromDate($year)->endOfYear();
 
     $odo_data = Gas::select(DB::raw('date_trunc(\'month\', date) as txn_month'))
       ->addselect(DB::raw('min(odometer) as min_odo'))
       ->addselect(DB::raw('max(odometer) as max_odo'))
       ->where('date', '>=', $start_date)
+      ->where('date', '<=', $end_date)
       ->groupBy('txn_month')
       ->orderByRaw('txn_month')
       ->get()
@@ -464,15 +482,13 @@ class GasRepository {
     $odo_last_month = 0;
     $odo_per_month = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-    $year_now = Carbon::now()->year;
-
     foreach ($odo_data as $value) {
       $parsed_date = Carbon::parse($value['txn_month']);
       $year = $parsed_date->year;
       $month = $parsed_date->month;
 
       // save last odo of previous year
-      if ($year_now !== $year) {
+      if ($end_date->year !== $year) {
         if ($value['max_odo'] !== $value['min_odo']) {
           $odo_last_month = $value['max_odo'] - $value['min_odo'];
         }
