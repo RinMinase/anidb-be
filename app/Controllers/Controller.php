@@ -44,7 +44,6 @@ use Illuminate\Routing\Controller as BaseController;
  *
  * // Deprecated Tags
  * @OA\Tag(name="MAL")
- * @OA\Tag(name="Release")
  */
 class Controller extends BaseController {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

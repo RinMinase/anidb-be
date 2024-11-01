@@ -25,7 +25,6 @@ use App\Controllers\PartialController;
 use App\Controllers\PCSetupController;
 use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
-use App\Controllers\ReleaseController;
 use App\Controllers\RssController;
 use App\Controllers\SequenceController;
 
@@ -286,10 +285,6 @@ Route::prefix('api')
             Route::get('title/{integer}', [MALController::class, 'get']);
             Route::get('search/{string}', [MALController::class, 'search']);
           });
-
-        Route::get('changelog/{params?}', [ReleaseController::class, 'getLogs']);
-        Route::get('changelog-be/{params?}', [ReleaseController::class, 'getLogsBE']);
-        Route::get('issues/{params?}', [ReleaseController::class, 'getIssues']);
         // ======================
       });
   });
