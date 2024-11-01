@@ -3574,130 +3574,6 @@
                 ]
             }
         },
-        "/api/mal/title/{title_id}": {
-            "get": {
-                "tags": [
-                    "MAL"
-                ],
-                "summary": "Retrieve Title Information",
-                "operationId": "c130dc737947802d9501246a399df8e3",
-                "parameters": [
-                    {
-                        "name": "title_id",
-                        "in": "path",
-                        "description": "Title ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        },
-                        "example": "39535"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "$ref": "#/components/schemas/MALEntry"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/MALOtherErrorResponse"
-                    },
-                    "503": {
-                        "$ref": "#/components/responses/MALConnectionResponse"
-                    }
-                },
-                "deprecated": true,
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
-        "/api/mal/search/{query_string}": {
-            "get": {
-                "tags": [
-                    "MAL"
-                ],
-                "summary": "Query Titles",
-                "operationId": "b9a6edf0c8dbced6e8c46a9c6a9d84ca",
-                "parameters": [
-                    {
-                        "name": "query_string",
-                        "in": "path",
-                        "description": "Title Search String",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "tensei"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/MALSearch"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/MALOtherErrorResponse"
-                    },
-                    "503": {
-                        "$ref": "#/components/responses/MALConnectionResponse"
-                    }
-                },
-                "deprecated": true,
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
         "/api/management": {
             "get": {
                 "tags": [
@@ -7275,46 +7151,6 @@
                     "name": "Sample Group Name"
                 }
             },
-            "MALEntry": {
-                "properties": {
-                    "url": {
-                        "type": "string",
-                        "format": "uri",
-                        "example": "https://example.com/"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Sample Title"
-                    },
-                    "synonyms": {
-                        "type": "string",
-                        "example": "Synonyms"
-                    },
-                    "episodes": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 100
-                    },
-                    "premiered": {
-                        "type": "string",
-                        "example": "Winter 2020"
-                    }
-                },
-                "type": "object"
-            },
-            "MALSearch": {
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "example": "12345"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Sample Title"
-                    }
-                },
-                "type": "object"
-            },
             "PCSetup": {
                 "properties": {
                     "id": {
@@ -8249,33 +8085,6 @@
                     }
                 }
             },
-            "MALOtherErrorResponse": {
-                "description": "Other Error Responses",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "examples": {
-                            "MALConfigErrorExample": {
-                                "$ref": "#/components/examples/MALConfigErrorExample"
-                            },
-                            "MALConfigDisabledErrorExample": {
-                                "$ref": "#/components/examples/MALConfigDisabledErrorExample"
-                            }
-                        }
-                    }
-                }
-            },
             "AnilistConnectionErrorResponse": {
                 "description": "Connection Error",
                 "content": {
@@ -8364,29 +8173,6 @@
                         "example": {
                             "status": 400,
                             "message": "The file is an invalid JSON"
-                        }
-                    }
-                }
-            },
-            "MALConnectionResponse": {
-                "description": "MAL Connection Error",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 503,
-                            "message": "Issues in connecting to MAL Servers"
                         }
                     }
                 }
@@ -10278,20 +10064,6 @@
                     "status": 500,
                     "message": "Issues in parsing AniList response."
                 }
-            },
-            "MALConfigDisabledErrorExample": {
-                "summary": "MAL Config Disabled Error",
-                "value": {
-                    "status": 500,
-                    "message": "Web Scraper is disabled"
-                }
-            },
-            "MALConfigErrorExample": {
-                "summary": "MAL Config Error",
-                "value": {
-                    "status": 500,
-                    "message": "Web Scraper configuration not found"
-                }
             }
         },
         "securitySchemes": {
@@ -10356,9 +10128,6 @@
         },
         {
             "name": "Fourleaf - Electricity"
-        },
-        {
-            "name": "MAL"
         }
     ]
 }

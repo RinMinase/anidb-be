@@ -278,13 +278,5 @@ Route::prefix('api')
             Route::put('future/{id}', [PCSetupController::class, 'toggleFuture']);
             Route::put('server/{id}', [PCSetupController::class, 'toggleServer']);
           });
-
-        // ===== Deprecated =====
-        Route::prefix('mal')
-          ->group(function () {
-            Route::get('title/{integer}', [MALController::class, 'get']);
-            Route::get('search/{string}', [MALController::class, 'search']);
-          });
-        // ======================
       });
   });
