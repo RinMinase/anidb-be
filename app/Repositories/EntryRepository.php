@@ -36,9 +36,25 @@ class EntryRepository {
     $fuzzy_ids = [];
 
     if (!empty($query)) {
-      $names = Entry::select('uuid', 'title')->get()->toArray();
+      $names = Entry::select(
+        'uuid',
+        'title',
+        'release_season',
+        'encoder_audio',
+        'encoder_video',
+        'encoder_subs',
+      )->get()->toArray();
 
-      $fuse = new Fuse($names, ['keys' => ['title']]);
+      $fuse = new Fuse($names, [
+        'keys' => [
+          'title',
+          'release_season',
+          'encoder_audio',
+          'encoder_video',
+          'encoder_subs',
+        ],
+        'threshold' => 0.4,
+      ]);
       $fuzzy_names = $fuse->search($query, ['limit' => 10]);
 
       foreach ($fuzzy_names as $fuzzy_name) {
@@ -53,12 +69,19 @@ class EntryRepository {
         }
         $case_string .= 'END';
 
-        $data = $data->orderByRaw($case_string)
-          ->orderBy('id');
+        if (isset($column) && isset($order)) {
+          $nulls = $order === 'asc' ? 'first' : 'last';
+          $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
+        } else {
+          $data = $data->orderByRaw($case_string);
+        }
+
+        $data = $data->orderBy('id');
       }
     } else {
       if (isset($column) && isset($order)) {
-        $data = $data->orderBy($column, $order);
+        $nulls = $order === 'asc' ? 'first' : 'last';
+        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
       }
     }
 
