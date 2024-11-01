@@ -461,34 +461,40 @@ class GasRepository {
       ->get()
       ->toArray();
 
-    $odo_last_year = 0;
+    $odo_last_month = 0;
     $odo_per_month = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     $year_now = Carbon::now()->year;
 
-    foreach ($odo_data as $index => $value) {
-      $year = Carbon::parse($value['txn_month'])->year;
-      $month = Carbon::parse($value['txn_month'])->month;
+    foreach ($odo_data as $value) {
+      $parsed_date = Carbon::parse($value['txn_month']);
+      $year = $parsed_date->year;
+      $month = $parsed_date->month;
 
+      // save last odo of previous year
       if ($year_now !== $year) {
         if ($value['max_odo'] !== $value['min_odo']) {
-          $odo_last_year = $value['max_odo'] - $value['min_odo'];
+          $odo_last_month = $value['max_odo'] - $value['min_odo'];
         }
 
         continue;
       }
 
+      // process values for this year only
       if ($value['max_odo'] === $value['min_odo']) {
-        if (!$odo_last_year) {
-          $odo_this_month = 0;
+        if ($odo_last_month) {
+          $odo_this_month = $value['max_odo'] - $odo_last_month;
         } else {
-          $odo_this_month = $value['max_odo'] - $odo_last_year;
+          $odo_this_month = 0;
         }
       } else {
         $odo_this_month = $value['max_odo'] - $value['min_odo'];
       }
 
       $odo_per_month[$month - 1] = $odo_this_month;
+
+      // prepare value for next loop
+      $odo_last_month = $value['max_odo'];
     }
 
     return $odo_per_month;
