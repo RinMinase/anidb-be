@@ -47,6 +47,7 @@ class BillsElectricity extends Model {
   public $timestamps = null;
 
   protected $fillable = [
+    'uuid',
     'uid',
     'kwh',
     'cost',

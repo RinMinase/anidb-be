@@ -97,8 +97,8 @@ class BillsController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function edit(AddEditBillsElectricityRequest $request, $id): JsonResponse {
-    $this->billsRepository->edit($request->only('date', 'kwh', 'cost'), $id);
+  public function edit(AddEditBillsElectricityRequest $request, $uuid): JsonResponse {
+    $this->billsRepository->edit($request->only('date', 'kwh', 'cost'), $uuid);
 
     return DefaultResponse::success();
   }
@@ -123,8 +123,8 @@ class BillsController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function delete($id): JsonResponse {
-    $this->billsRepository->delete($id);
+  public function delete($uuid): JsonResponse {
+    $this->billsRepository->delete($uuid);
 
     return DefaultResponse::success();
   }

@@ -3,6 +3,7 @@
 namespace App\Fourleaf\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 use App\Fourleaf\Models\BillsElectricity;
 
@@ -35,22 +36,27 @@ class BillsRepository {
   }
 
   public function add(array $values) {
-    return BillsElectricity::create($values);
+    BillsElectricity::create([
+      'uuid' => Str::uuid()->toString(),
+      'uid' => Carbon::parse($values['date'])->startOfMonth()->format('Ym'),
+      'kwh' => $values['kwh'],
+      'cost' => $values['cost'],
+    ]);
   }
 
-  public function edit(array $values, $id) {
-    return BillsElectricity::where('id', $id)
+  public function edit(array $values, $uuid) {
+    BillsElectricity::where('uuid', $uuid)
       ->firstOrFail()
-      ->update($values);
+      ->update([
+        'uid' => Carbon::parse($values['date'])->startOfMonth()->format('Ym'),
+        'kwh' => $values['kwh'],
+        'cost' => $values['cost'],
+      ]);
   }
 
-  public function delete($id) {
-    return BillsElectricity::where('id', $id)
+  public function delete($uuid) {
+    BillsElectricity::where('uuid', $uuid)
       ->firstOrFail()
       ->delete();
   }
-
-  /**
-   * Calculation Functions
-   */
 }
