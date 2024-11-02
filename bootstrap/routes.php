@@ -91,8 +91,8 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', [ElectricityController::class, 'get']);
             Route::post('', [ElectricityController::class, 'add']);
-            Route::put('{id}', [ElectricityController::class, 'edit']);
-            Route::delete('{id}', [ElectricityController::class, 'delete']);
+            Route::put('{uuid}', [ElectricityController::class, 'edit']);
+            Route::delete('{uuid}', [ElectricityController::class, 'delete']);
           });
 
         Route::prefix('bills')
