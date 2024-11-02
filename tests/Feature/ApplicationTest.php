@@ -158,6 +158,11 @@ class ApplicationTest extends BaseTestCase {
       $uri = $route->uri();
 
       if (str_contains($uri, 'api/fourleaf')) {
+        if (str_contains($uri, 'gas/odo')) {
+          // skip odo route due to parameters
+          continue;
+        }
+
         array_push($get_routes, '/' . $uri);
       }
     }
@@ -198,7 +203,6 @@ class ApplicationTest extends BaseTestCase {
       $response = $this->get($route);
       $this->curr_method = 'GET';
       $this->curr_url = $route;
-
 
       $this->assertArrayNotHasKey('message', $response['data']);
       $this->assertNotEquals($not_expected, $response['data']);
