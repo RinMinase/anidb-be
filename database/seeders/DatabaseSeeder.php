@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder {
       FourleafSettingsSeeder::class,
       FourleafGasSeeder::class,
       FourleafMaintenanceSeeder::class,
+      FourleafBillsElectricitySeeder::class,
+
       FourleafElectricitySeeder::class,     // test data
     ]);
   }
