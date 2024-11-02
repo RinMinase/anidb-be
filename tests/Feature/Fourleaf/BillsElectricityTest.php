@@ -5,6 +5,9 @@ namespace Tests\Feature\Fourleaf;
 use Carbon\Carbon;
 use Tests\BaseTestCase;
 
+use App\Enums\IntegerSizesEnum;
+use App\Enums\IntegerTypesEnum;
+
 use App\Fourleaf\Models\BillsElectricity;
 
 class BillsElectricityTest extends BaseTestCase {
@@ -194,5 +197,221 @@ class BillsElectricityTest extends BaseTestCase {
 
       $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
     }
+  }
+
+  public function test_should_add_data_successfully() {
+    $test_date = '2020-10-01';
+    $test_kwh = 5000;
+    $test_cost = 1234.12;
+
+    $response = $this->post('/api/fourleaf/bills/electricity', [
+      'date' => $test_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_cost,
+    ]);
+
+    $response->assertStatus(200);
+
+    $actual = BillsElectricity::where('kwh', $test_kwh)
+      ->where('cost', $test_cost)
+      ->first();
+
+    $this->assertNotNull($actual);
+  }
+
+  public function test_should_not_add_data_on_form_errors() {
+    $response = $this->post('/api/fourleaf/bills/electricity');
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
+
+    $test_date = '2100-01-01';
+    $test_kwh = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
+    $test_cost = 'string';
+
+    $response = $this->post('/api/fourleaf/bills/electricity', [
+      'date' => $test_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_cost,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
+
+    $test_date = Carbon::now()->addYear()->format('Y-m-d');
+    $test_kwh = -1;
+    $test_cost = -1;
+
+    $response = $this->post('/api/fourleaf/bills/electricity', [
+      'date' => $test_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_cost,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
+
+    $test_valid_date = '2000-01-01';
+    $test_valid_cost = 123.12;
+    $test_kwh = 'string';
+
+    $response = $this->post('/api/fourleaf/bills/electricity', [
+      'date' => $test_valid_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_valid_cost,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['kwh']]);
+  }
+
+  public function test_should_edit_data_successfully() {
+    $this->setup_config();
+
+    $test_date = '2020-10-01';
+    $test_kwh = 5000;
+    $test_cost = 1234.12;
+
+    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_2, [
+      'date' => $test_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_cost,
+    ]);
+
+    $response->assertStatus(200);
+
+    $actual = BillsElectricity::where('uuid', $this->bills_electricity_uuid_2)
+      ->first()
+      ->toArray();
+
+    $expected = [
+      'uid' => intval(Carbon::parse($test_date)->startOfMonth()->format('Ym')),
+      'kwh' => $test_kwh,
+      'cost' => '' . $test_cost,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $actual,
+      ['uid, kwh', 'cost']
+    );
+  }
+
+  public function test_should_not_edit_data_on_form_errors() {
+    $this->setup_config();
+
+    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
+
+    $test_date = '2100-01-01';
+    $test_kwh = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
+    $test_cost = 'string';
+
+    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
+      'date' => $test_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_cost,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
+
+    $test_date = Carbon::now()->addYear()->format('Y-m-d');
+    $test_kwh = -1;
+    $test_cost = -1;
+
+    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
+      'date' => $test_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_cost,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
+
+    $test_valid_date = '2000-01-01';
+    $test_valid_cost = 123.12;
+    $test_kwh = 'string';
+
+    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
+      'date' => $test_valid_date,
+      'kwh' => $test_kwh,
+      'cost' => $test_valid_cost,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['kwh']]);
+  }
+
+  public function test_should_not_edit_data_when_id_is_used_instead_of_uuid() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_id_1);
+
+    $response->assertStatus(404);
+  }
+
+  public function test_should_not_edit_non_existent_data() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+    $test_date = '2020-01-01';
+    $test_kwh = 123;
+    $test_cost = 123;
+
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $invalid_id, [
+        'date' => $test_date,
+        'kwh' => $test_kwh,
+        'cost' => $test_cost,
+      ]);
+
+    $response->assertStatus(404);
+
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $invalid_id);
+
+    $response->assertStatus(404);
+  }
+
+  public function test_should_delete_data_successfully() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->delete('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1);
+
+    $response->assertStatus(200);
+
+    $actual = BillsElectricity::where('uuid', $this->bills_electricity_uuid_1)->first();
+
+    $this->assertNull($actual);
+  }
+
+  public function test_should_not_delete_data_when_id_is_used_instead_of_uuid() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()
+      ->delete('/api/fourleaf/bills/electricity/' . $this->bills_electricity_id_1);
+
+    $response->assertStatus(404);
+  }
+
+  public function test_should_not_delete_non_existent_data() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()
+      ->delete('/api/fourleaf/bills/electricity/' . $invalid_id);
+
+    $response->assertStatus(404);
+
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()
+      ->delete('/api/fourleaf/bills/electricity/' . $invalid_id);
+
+    $response->assertStatus(404);
   }
 }
