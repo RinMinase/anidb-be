@@ -212,6 +212,12 @@ class GroupTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_non_existent_data() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/groups/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/groups/' . $invalid_id);

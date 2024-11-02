@@ -456,6 +456,12 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_non_existent_bucket_sim() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/bucket-sims/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/bucket-sims/' . $invalid_id);
@@ -546,6 +552,12 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_not_get_current_entry_stats_of_non_existent_bucket_sim() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->get('/api/bucket-sims/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->get('/api/bucket-sims/' . $invalid_id);
@@ -589,6 +601,12 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_not_save_non_existent_bucket_sim_as_bucket() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->post('/api/bucket-sims/save/' . $invalid_id);
@@ -646,6 +664,12 @@ class BucketSimTest extends BaseTestCase {
   }
 
   public function test_should_not_clone_non_existent_bucket_sim() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->post('/api/bucket-sims/clone/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->post('/api/bucket-sims/clone/' . $invalid_id);

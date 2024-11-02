@@ -307,6 +307,12 @@ class CatalogTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_non_existent_catalog() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/catalogs/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/catalogs/' . $invalid_id);
@@ -364,6 +370,12 @@ class CatalogTest extends BaseTestCase {
   }
 
   public function test_should_not_get_partials_in_invalid_catalog() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->get('/api/catalogs/' . $invalid_id . '/partials');
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->get('/api/catalogs/' . $invalid_id . '/partials');
@@ -405,6 +417,12 @@ class CatalogTest extends BaseTestCase {
   }
 
   public function test_should_not_get_non_existent_partial() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->get('/api/partials/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->get('/api/partials/' . $invalid_id);
@@ -571,6 +589,12 @@ class CatalogTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_non_existent_partial() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/partials/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/partials/' . $invalid_id);

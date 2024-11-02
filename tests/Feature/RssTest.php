@@ -438,6 +438,12 @@ class RssTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_non_existent_rss_feed() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/rss/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/rss/' . $invalid_id);
@@ -507,6 +513,12 @@ class RssTest extends BaseTestCase {
   }
 
   public function test_should_not_get_rss_items_from_invalid_rss_feed() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->get('/api/rss/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->get('/api/rss/' . $invalid_id);
@@ -559,6 +571,12 @@ class RssTest extends BaseTestCase {
   }
 
   public function test_should_not_toggle_read_or_unread_on_invalid_rss_item() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->put('/api/rss/read/' . $invalid_id);
@@ -611,6 +629,12 @@ class RssTest extends BaseTestCase {
   }
 
   public function test_should_not_toggle_bookmark_on_invalid_rss_item() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $invalid_id);

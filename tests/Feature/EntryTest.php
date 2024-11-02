@@ -510,6 +510,12 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_get_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->get('/api/entries/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->get('/api/entries/' . $invalid_id);
@@ -736,7 +742,7 @@ class EntryTest extends BaseTestCase {
 
     $test_id_quality = -1;
     $test_title = rand_str(256 + 1);
-    $test_date_finished = Carbon::now()->addDay()->format('Y-m-d');
+    $test_date_finished = Carbon::now()->addDay()->addHours(8)->format('Y-m-d');
 
     $test_duration = -1;
     $test_filesize = -1;
@@ -1151,7 +1157,7 @@ class EntryTest extends BaseTestCase {
 
     $test_id_quality = -1;
     $test_title = rand_str(256 + 1);
-    $test_date_finished = Carbon::now()->addDay()->format('Y-m-d');
+    $test_date_finished = Carbon::now()->addDay()->addHours(8)->format('Y-m-d');
 
     $test_duration = -1;
     $test_filesize = -1;
@@ -1278,9 +1284,15 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_edit_data_on_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->put('/api/entries/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->post('/api/entries/' . $invalid_id);
+    $response = $this->withoutMiddleware()->put('/api/entries/' . $invalid_id);
 
     $response->assertStatus(404);
   }
@@ -1437,6 +1449,12 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/entries/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/entries/' . $invalid_id);
@@ -1535,15 +1553,21 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_upload_entry_image_on_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->post('/api/entries/img-upload/' . $invalid_id);
+    $response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $invalid_id);
 
     $response->assertStatus(404);
   }
 
   public function test_should_not_upload_entry_image_when_entry_id_is_used_instead_of_uuid() {
-    $response = $this->withoutMiddleware()->post('/api/entries/img-upload/' . $this->entry_id_1);
+    $response = $this->withoutMiddleware()->put('/api/entries/img-upload/' . $this->entry_id_1);
 
     $response->assertStatus(404);
   }
@@ -1571,6 +1595,12 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_delete_image_on_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/entries/img-upload/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/entries/img-upload/' . $invalid_id);
@@ -1806,15 +1836,21 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_add_or_edit_ratings_to_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->put('/api/entries/ratings/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->patch('/api/entries/ratings/' . $invalid_id);
+    $response = $this->withoutMiddleware()->put('/api/entries/ratings/' . $invalid_id);
 
     $response->assertStatus(404);
   }
 
   public function test_should_not_add_or_edit_ratings_to_entry_when_entry_id_is_used_instead_of_uuid() {
-    $response = $this->withoutMiddleware()->patch('/api/entries/ratings/' . $this->entry_id_1);
+    $response = $this->withoutMiddleware()->put('/api/entries/ratings/' . $this->entry_id_1);
 
     $response->assertStatus(404);
   }
@@ -1879,7 +1915,7 @@ class EntryTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['date_rewatched']]);
 
-    $params = ['date_rewatched' => Carbon::now()->addDay()->format('Y-m-d')];
+    $params = ['date_rewatched' => Carbon::now()->addDay()->addHours(8)->format('Y-m-d')];
 
     $response = $this->withoutMiddleware()
       ->post('/api/entries/rewatch/' . $this->entry_uuid_2, $params);
@@ -1889,6 +1925,12 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_add_entry_rewatch_on_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->post('/api/entries/rewatch/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->post('/api/entries/rewatch/' . $invalid_id);
@@ -1937,6 +1979,12 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_not_delete_rewatch_on_non_existent_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->delete('/api/entries/rewatch/' . $invalid_id);
+
+    $response->assertStatus(404);
+
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/entries/rewatch/' . $invalid_id);
