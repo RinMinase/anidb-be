@@ -13,7 +13,7 @@ class FourleafGasSeeder extends Seeder {
    * @return void
    */
   public function run() {
-    $testData = [
+    $data = [
       [
         'date' => '2023-04-29',
         'from_bars' => 8,
@@ -640,7 +640,7 @@ class FourleafGasSeeder extends Seeder {
       ],
     ];
 
-    foreach ($testData as $item) {
+    foreach ($data as $item) {
       Gas::create($item);
     }
   }
