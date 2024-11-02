@@ -5736,6 +5736,149 @@
                 ]
             }
         },
+        "/api/fourleaf/bills/electricity": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Bills"
+                ],
+                "summary": "Fourleaf API - Get Electricity Bills by Year",
+                "operationId": "75d49251a1fc38fff0218c8c211a4ca2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_get_year"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/BillsElectricity"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Fourleaf - Bills"
+                ],
+                "summary": "Fourleaf API - Add an Electricity Bill data point",
+                "operationId": "85f6113def2dcb0857a2b86eb7fe25cb",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_kwh"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_cost"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
+        "/api/fourleaf/bills/electricity/{electricity_bill_id}": {
+            "put": {
+                "tags": [
+                    "Fourleaf - Bills"
+                ],
+                "summary": "Fourleaf API - Edit an Electricity Bill data point",
+                "operationId": "99b25333d58cf4eb750bccbc20fa5fd0",
+                "parameters": [
+                    {
+                        "name": "electricity_bill_id",
+                        "in": "path",
+                        "description": "Electricity Bill ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_kwh"
+                    },
+                    {
+                        "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_cost"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Fourleaf - Bills"
+                ],
+                "summary": "Fourleaf API - Delete an Electricity Bill data point",
+                "operationId": "317bfb3b68fc38ae0b820c2ecba88b36",
+                "parameters": [
+                    {
+                        "name": "electricity_bill_id",
+                        "in": "path",
+                        "description": "Electricity Bill ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                }
+            }
+        },
         "/api/fourleaf/electricity": {
             "get": {
                 "tags": [
@@ -6959,6 +7102,37 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "BillsElectricity": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "kwh": {
+                        "type": "integer",
+                        "format": "int16",
+                        "maximum": 32767,
+                        "minimum": 0,
+                        "example": "123"
+                    },
+                    "cost": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.23
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "Oct 2020"
+                    },
+                    "costPerKwh": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 12.23
                     }
                 },
                 "type": "object"
@@ -8404,6 +8578,43 @@
             }
         },
         "parameters": {
+            "fourleaf_bills_electricity_add_edit_date": {
+                "name": "date",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "2020-10-20"
+            },
+            "fourleaf_bills_electricity_add_edit_kwh": {
+                "name": "kwh",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int16",
+                    "maximum": 32767,
+                    "minimum": 0
+                }
+            },
+            "fourleaf_bills_electricity_add_edit_cost": {
+                "name": "cost",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "number",
+                    "minimum": 0
+                }
+            },
+            "fourleaf_bills_electricity_get_year": {
+                "name": "year",
+                "in": "query",
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
+            },
             "fourleaf_electricity_add_edit_datetime": {
                 "name": "datetime",
                 "in": "query",
@@ -10201,6 +10412,9 @@
         },
         {
             "name": "Fourleaf - Electricity"
+        },
+        {
+            "name": "Fourleaf - Bills"
         }
     ]
 }
