@@ -5806,24 +5806,24 @@
                 }
             }
         },
-        "/api/fourleaf/bills/electricity/{electricity_bill_id}": {
+        "/api/fourleaf/bills/electricity/{electricity_bill_uuid}": {
             "put": {
                 "tags": [
                     "Fourleaf - Bills"
                 ],
                 "summary": "Fourleaf API - Edit an Electricity Bill data point",
-                "operationId": "99b25333d58cf4eb750bccbc20fa5fd0",
+                "operationId": "51acc789cd1dd3e29af415887dabf255",
                 "parameters": [
                     {
-                        "name": "electricity_bill_id",
+                        "name": "electricity_bill_uuid",
                         "in": "path",
                         "description": "Electricity Bill ID",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int32"
+                            "type": "string",
+                            "format": "uuid"
                         },
-                        "example": 1
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
                         "$ref": "#/components/parameters/fourleaf_bills_electricity_add_edit_date"
@@ -5852,18 +5852,18 @@
                     "Fourleaf - Bills"
                 ],
                 "summary": "Fourleaf API - Delete an Electricity Bill data point",
-                "operationId": "317bfb3b68fc38ae0b820c2ecba88b36",
+                "operationId": "9ff3c2f92579b5a62be8929e93ef36dc",
                 "parameters": [
                     {
-                        "name": "electricity_bill_id",
+                        "name": "electricity_bill_uuid",
                         "in": "path",
                         "description": "Electricity Bill ID",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int32"
+                            "type": "string",
+                            "format": "uuid"
                         },
-                        "example": 1
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     }
                 ],
                 "responses": {

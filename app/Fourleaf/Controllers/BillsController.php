@@ -76,16 +76,16 @@ class BillsController extends Controller {
   /**
    * @OA\Put(
    *   tags={"Fourleaf - Bills"},
-   *   path="/api/fourleaf/bills/electricity/{electricity_bill_id}",
+   *   path="/api/fourleaf/bills/electricity/{electricity_bill_uuid}",
    *   summary="Fourleaf API - Edit an Electricity Bill data point",
    *
    *   @OA\Parameter(
-   *     name="electricity_bill_id",
+   *     name="electricity_bill_uuid",
    *     description="Electricity Bill ID",
    *     in="path",
    *     required=true,
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32"),
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_bills_electricity_add_edit_date"),
@@ -106,16 +106,16 @@ class BillsController extends Controller {
   /**
    * @OA\Delete(
    *   tags={"Fourleaf - Bills"},
-   *   path="/api/fourleaf/bills/electricity/{electricity_bill_id}",
+   *   path="/api/fourleaf/bills/electricity/{electricity_bill_uuid}",
    *   summary="Fourleaf API - Delete an Electricity Bill data point",
    *
    *   @OA\Parameter(
-   *     name="electricity_bill_id",
+   *     name="electricity_bill_uuid",
    *     description="Electricity Bill ID",
    *     in="path",
    *     required=true,
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32"),
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
