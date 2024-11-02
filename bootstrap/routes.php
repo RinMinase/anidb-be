@@ -91,8 +91,8 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', [ElectricityController::class, 'get']);
             Route::post('', [ElectricityController::class, 'add']);
-            Route::put('{uuid}', [ElectricityController::class, 'edit']);
-            Route::delete('{uuid}', [ElectricityController::class, 'delete']);
+            Route::put('{id}', [ElectricityController::class, 'edit']);
+            Route::delete('{id}', [ElectricityController::class, 'delete']);
           });
 
         Route::prefix('bills')
@@ -101,8 +101,8 @@ Route::prefix('api')
               ->group(function () {
                 Route::get('', [BillsController::class, 'get']);
                 Route::post('', [BillsController::class, 'add']);
-                Route::put('{id}', [BillsController::class, 'edit']);
-                Route::delete('{id}', [BillsController::class, 'delete']);
+                Route::put('{uuid}', [BillsController::class, 'edit']);
+                Route::delete('{uuid}', [BillsController::class, 'delete']);
               });
           });
       });
