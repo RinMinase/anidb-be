@@ -138,7 +138,6 @@ class GasTest extends BaseTestCase {
           'graph' => [
             'efficiency',
             'gas',
-            'odometer'
           ],
           'maintenance' => [
             'km' => [
@@ -252,7 +251,6 @@ class GasTest extends BaseTestCase {
           '2023-05-10' => 60.65,
           '2023-05-19' => 61,
         ],
-        'odometer' => [0, 0, 0, 0, 268, 0, 0, 0, 0, 0, 0, 0]
       ];
 
       $actual_stats = $response['data']['stats'];
@@ -669,6 +667,126 @@ class GasTest extends BaseTestCase {
     $response->assertStatus(404);
   }
 
+  /**
+   * Odometer Functions
+   */
+  public function test_should_get_odometer_data_for_current_year_successfully() {
+    try {
+      $this->setup_config();
+
+      // Mock date values
+      Carbon::setTestNow(Carbon::parse('2090-12-31'));
+
+      $year = 2090;
+
+      $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $year);
+
+      $response->assertStatus(200)
+        ->assertJsonStructure(['data']);
+    } finally {
+      // Restore mocks
+      Carbon::setTestNow();
+    }
+  }
+
+  public function test_should_validate_calculated_data_from_get_odo() {
+    try {
+      // Mock date values
+      Carbon::setTestNow(Carbon::parse('2023-12-31'));
+
+      Gas::truncate();
+      Gas::refreshAutoIncrements();
+
+      $test_data = [
+        ['date' => '2021-12-30', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 100],
+        ['date' => '2021-12-31', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 150],
+        ['date' => '2022-01-01', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 200],
+        ['date' => '2022-02-01', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 300],
+        ['date' => '2022-06-01', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 500],
+        ['date' => '2022-06-02', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 550],
+        ['date' => '2022-06-03', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 600],
+        ['date' => '2022-07-15', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 800],
+        ['date' => '2022-12-30', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 950],
+        ['date' => '2022-12-31', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 1000],
+        ['date' => '2023-01-15', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 1050],
+        ['date' => '2023-01-31', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 1100],
+      ];
+
+      foreach ($test_data as $item) {
+        Gas::create($item);
+      }
+
+      $year = 2022;
+      $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $year);
+
+      $expected_data = [50, 100, 0, 0, 0, 100, 200, 0, 0, 0, 0, 50];
+
+      $this->assertEquals($expected_data, $response['data']);
+    } finally {
+      // Restore mocks
+      Carbon::setTestNow();
+    }
+  }
+
+  public function test_should_get_odometer_data_for_earliest_year_successfully() {
+    try {
+      $this->setup_config();
+
+      // Mock date values
+      Carbon::setTestNow(Carbon::parse('2091-12-31'));
+
+      // No year passed
+      $response = $this->withoutMiddleware()
+        ->get('/api/fourleaf/gas/odo')
+        ->assertStatus(401);
+
+      // Data is on year 2090
+      $invalid_years_past = [2020, 2080, 2089];
+      $invalid_years_future = [2092, 2100];
+      $invalid_years = ['', 'invalid', false, true, 1800, 1899, 3000, 3100];
+
+      foreach ($invalid_years_past as $key => $value) {
+        $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $value);
+        $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
+      }
+
+      foreach ($invalid_years_future as $key => $value) {
+        $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $value);
+        $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
+      }
+
+      foreach ($invalid_years as $key => $value) {
+        $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $value);
+        $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
+      }
+    } finally {
+      // Restore mocks
+      Carbon::setTestNow();
+    }
+  }
+
+  public function test_should_not_get_odometer_data_for_invalid_year() {
+    try {
+      $this->setup_config();
+
+      // Mock date values
+      Carbon::setTestNow(Carbon::parse('2190-12-31'));
+
+      $year = 2090;
+
+      $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $year);
+
+      $response->assertStatus(200)
+        ->assertJsonStructure(['data']);
+    } finally {
+      // Restore mocks
+      Carbon::setTestNow();
+    }
+  }
+
+  /**
+   * Maintenance Functions
+   */
   public function test_should_get_all_maintenance_data() {
     $this->setup_config();
 
