@@ -487,12 +487,9 @@ class GasRepository {
       $year = $parsed_date->year;
       $month = $parsed_date->month;
 
-      // save last odo of previous year
+      // save last odo of previous year, then skip loop
       if ($end_date->year !== $year) {
-        if ($value['max_odo'] !== $value['min_odo']) {
-          $odo_last_month = $value['max_odo'] - $value['min_odo'];
-        }
-
+        $odo_last_month = $value['max_odo'];
         continue;
       }
 
