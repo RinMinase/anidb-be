@@ -41,6 +41,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="PC Setup")
  * @OA\Tag(name="Fourleaf - Gas")
  * @OA\Tag(name="Fourleaf - Electricity")
+ * @OA\Tag(name="Fourleaf - Bills")
  */
 class Controller extends BaseController {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

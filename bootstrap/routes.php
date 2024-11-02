@@ -19,7 +19,6 @@ use App\Controllers\EntryLastController;
 use App\Controllers\GroupController;
 use App\Controllers\ImportController;
 use App\Controllers\LogController;
-use App\Controllers\MALController;
 use App\Controllers\ManagementController;
 use App\Controllers\PartialController;
 use App\Controllers\PCSetupController;
@@ -28,6 +27,7 @@ use App\Controllers\QualityController;
 use App\Controllers\RssController;
 use App\Controllers\SequenceController;
 
+use App\Fourleaf\Controllers\BillsController;
 use App\Fourleaf\Controllers\ElectricityController;
 use App\Fourleaf\Controllers\GasController;
 
@@ -93,6 +93,17 @@ Route::prefix('api')
             Route::post('', [ElectricityController::class, 'add']);
             Route::put('{id}', [ElectricityController::class, 'edit']);
             Route::delete('{id}', [ElectricityController::class, 'delete']);
+          });
+
+        Route::prefix('bills')
+          ->group(function () {
+            Route::prefix('electricity')
+              ->group(function () {
+                Route::get('', [BillsController::class, 'get']);
+                Route::post('', [BillsController::class, 'add']);
+                Route::put('{id}', [BillsController::class, 'edit']);
+                Route::delete('{id}', [BillsController::class, 'delete']);
+              });
           });
       });
   });
