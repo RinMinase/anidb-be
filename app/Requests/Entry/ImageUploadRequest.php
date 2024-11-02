@@ -6,9 +6,15 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use App\Models\Entry;
+
 class ImageUploadRequest extends FormRequest {
 
   public function rules() {
+    if ($this->route('uuid')) {
+      Entry::where('uuid', $this->route('uuid'))->firstOrFail();
+    }
+
     return [
       'image' => [
         'required',

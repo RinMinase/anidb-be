@@ -6,6 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use App\Models\Entry;
+
 class RatingsRequest extends FormRequest {
 
   /**
@@ -39,6 +41,10 @@ class RatingsRequest extends FormRequest {
    * ),
    */
   public function rules() {
+    if ($this->route('uuid')) {
+      Entry::where('uuid', $this->route('uuid'))->firstOrFail();
+    }
+
     return [
       'audio' => ['integer', 'min:0', 'max:10'],
       'enjoyment' => ['integer', 'min:0', 'max:10'],

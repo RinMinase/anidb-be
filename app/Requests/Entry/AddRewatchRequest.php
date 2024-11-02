@@ -6,6 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use App\Models\Entry;
+
 class AddRewatchRequest extends FormRequest {
 
   /**
@@ -19,6 +21,10 @@ class AddRewatchRequest extends FormRequest {
    * ),
    */
   public function rules() {
+    if ($this->route('uuid')) {
+      Entry::where('uuid', $this->route('uuid'))->firstOrFail();
+    }
+
     $today = date("Y-m-d H:i:s", strtotime("+8 hours"));
     $date_validation = 'before_or_equal:' . $today;
 

@@ -170,8 +170,8 @@ class AddEditRequest extends FormRequest {
 
     if ($this->route('uuid')) {
       $id = Entry::where('uuid', $this->route('uuid'))
-        ->first()
-        ->id ?? null;
+        ->firstOrFail()
+        ->id;
     }
 
     return [
