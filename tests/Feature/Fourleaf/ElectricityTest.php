@@ -216,9 +216,14 @@ class ElectricityTest extends BaseTestCase {
 
   public function test_should_not_edit_non_existent_data() {
     $invalid_id = -1;
+    $test_datetime = '2020-10-01 00:00';
+    $test_reading = 123;
 
     $response = $this->withoutMiddleware()
-      ->put('/api/fourleaf/electricity/' . $invalid_id);
+      ->put('/api/fourleaf/electricity/' . $invalid_id, [
+        'datetime' => $test_datetime,
+        'reading' => $test_reading,
+      ]);
 
     $response->assertStatus(404);
   }
