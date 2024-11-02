@@ -85,7 +85,8 @@ class EntryByBucketTest extends BaseTestCase {
         'from' => $this->bucket_from_1,
         'to' => $this->bucket_to_1,
         'size' => $this->bucket_size_1,
-      ], [
+      ],
+      [
         'id' => $this->bucket_id_2,
         'from' => $this->bucket_from_2,
         'to' => $this->bucket_to_2,
@@ -104,7 +105,8 @@ class EntryByBucketTest extends BaseTestCase {
         'filesize' => 500_000_000_000,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'id' => $this->entry_id_2,
         'uuid' => $this->entry_uuid_2,
         'id_quality' => $id_quality,
@@ -196,7 +198,8 @@ class EntryByBucketTest extends BaseTestCase {
         'total' => '3.64 TB',
         'rawTotal' => $this->bucket_size_1 + $this->bucket_size_2,
         'titles' => 2,
-      ], [
+      ],
+      [
         'id' => $this->bucket_id_1,
         'from' => $this->bucket_from_1,
         'to' => $this->bucket_to_1,
@@ -207,7 +210,8 @@ class EntryByBucketTest extends BaseTestCase {
         'total' => '1.82 TB',
         'rawTotal' => $this->bucket_size_1,
         'titles' => 1,
-      ], [
+      ],
+      [
         'id' => $this->bucket_id_2,
         'from' => $this->bucket_from_2,
         'to' => $this->bucket_to_2,
