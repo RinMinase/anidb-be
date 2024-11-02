@@ -40,7 +40,8 @@ class ElectricityTest extends BaseTestCase {
         'id' => $this->electricity_id_1,
         'datetime' => $this->year . '-' . $this->month . '-1 13:00:00',
         'reading' => 100,
-      ], [
+      ],
+      [
         'id' => $this->electricity_id_2,
         'datetime' => $this->year . '-' . $this->month . '-2 13:00:00',
         'reading' => 120,
@@ -211,6 +212,15 @@ class ElectricityTest extends BaseTestCase {
           'reading',
         ],
       ]);
+  }
+
+  public function test_should_not_edit_non_existent_data() {
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/electricity/' . $invalid_id);
+
+    $response->assertStatus(404);
   }
 
   public function test_should_delete_data_successfully() {
