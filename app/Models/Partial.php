@@ -28,6 +28,10 @@ class Partial extends Model {
     'created_at' => 'datetime:Y-m-d H:i:s',
   ];
 
+  public function catalog() {
+    return $this->belongsTo(Catalog::class, 'id_catalog');
+  }
+
   public function priority() {
     return $this->belongsTo(Priority::class, 'id_priority');
   }
