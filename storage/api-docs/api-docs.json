@@ -4564,6 +4564,107 @@
                 ]
             }
         },
+        "/api/partials": {
+            "get": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Get All Partials in All Catalogs",
+                "operationId": "eea051e55e99504a9781c82557978db8",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/partial_get_all_query"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_get_all_column"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_get_all_order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_get_all_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_get_all_limit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PartialWithCatalogResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Catalog"
+                ],
+                "summary": "Add a Partial Entry",
+                "operationId": "e600f83f93bd02554d7ece261d8d9a54",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/partial_add_edit_id_catalog"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_add_edit_id_priority"
+                    },
+                    {
+                        "$ref": "#/components/parameters/partial_add_edit_title"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/partials/{partial_id}": {
             "get": {
                 "tags": [
@@ -4716,42 +4817,6 @@
                     },
                     "404": {
                         "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
-        "/api/partials": {
-            "post": {
-                "tags": [
-                    "Catalog"
-                ],
-                "summary": "Add a Partial Entry",
-                "operationId": "e600f83f93bd02554d7ece261d8d9a54",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/partial_add_edit_id_catalog"
-                    },
-                    {
-                        "$ref": "#/components/parameters/partial_add_edit_id_priority"
-                    },
-                    {
-                        "$ref": "#/components/parameters/partial_add_edit_title"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -8270,6 +8335,33 @@
                     }
                 },
                 "type": "object"
+            },
+            "PartialWithCatalogResource": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "catalog": {
+                        "type": "string",
+                        "example": "Spring 2020"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Title"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "High",
+                            "Normal",
+                            "Low"
+                        ],
+                        "example": "High"
+                    }
+                },
+                "type": "object"
             }
         },
         "responses": {
@@ -10262,6 +10354,63 @@
                     "minLength": 1
                 },
                 "example": "Partial Title"
+            },
+            "partial_get_all_query": {
+                "name": "query",
+                "in": "query",
+                "description": "Search - Title to search for",
+                "schema": {
+                    "type": "string"
+                },
+                "example": ""
+            },
+            "partial_get_all_column": {
+                "name": "column",
+                "in": "query",
+                "description": "Order - Column to order",
+                "schema": {
+                    "type": "string",
+                    "default": "id_catalog"
+                },
+                "example": "id_catalog"
+            },
+            "partial_get_all_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column",
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "partial_get_all_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "partial_get_all_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 30,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 30
             },
             "rss_add_edit_title": {
                 "name": "title",
