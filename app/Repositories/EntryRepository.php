@@ -36,14 +36,10 @@ class EntryRepository {
     $fuzzy_ids = [];
 
     if (!empty($query)) {
-      $names = Entry::select(
-        'uuid',
-        'title',
-        'release_season',
-        'encoder_audio',
-        'encoder_video',
-        'encoder_subs',
-      )->get()->toArray();
+      $names = Entry::select('uuid', 'title', 'release_season')
+        ->addSelect('encoder_audio', 'encoder_video', 'encoder_subs')
+        ->get()
+        ->toArray();
 
       $fuse = new Fuse($names, [
         'keys' => [
@@ -55,6 +51,7 @@ class EntryRepository {
         ],
         'threshold' => 0.4,
       ]);
+
       $fuzzy_names = $fuse->search($query, ['limit' => 10]);
 
       foreach ($fuzzy_names as $fuzzy_name) {
@@ -73,6 +70,7 @@ class EntryRepository {
           $nulls = $order === 'asc' ? 'first' : 'last';
           $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
         } else {
+          // if no order and column, sort by fuzzy search
           $data = $data->orderByRaw($case_string);
         }
 
@@ -86,7 +84,7 @@ class EntryRepository {
     }
 
     $total = $data->count();
-    $total_pages = ceil($total / $limit);
+    $total_pages = intval(ceil($total / $limit));
     $has_next = $page < $total_pages;
 
     $data = $data->skip($skip)->paginate($limit);
@@ -95,9 +93,7 @@ class EntryRepository {
       $data = [];
     }
 
-    $return_value = [
-      'data' => EntrySummaryResource::collection($data),
-    ];
+    $return_value['data'] = EntrySummaryResource::collection($data);
 
     $return_value['meta'] = [
       'page' => $page,
