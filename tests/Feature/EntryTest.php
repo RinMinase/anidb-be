@@ -264,10 +264,8 @@ class EntryTest extends BaseTestCase {
 
     $test_page = 2;
     $test_limit = 2;
-    $response = $this->withoutMiddleware()->get(
-      '/api/entries?page=' . $test_page .
-        '&limit=' . $test_limit
-    );
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries?page=' . $test_page . '&limit=' . $test_limit);
 
     $response->assertStatus(200)
       ->assertJsonCount($test_limit, 'data')
@@ -300,7 +298,7 @@ class EntryTest extends BaseTestCase {
     $actual_meta = $response['meta'];
 
     $expected_total_pages = ceil($this->total_entry_count / $test_limit);
-    $expected_has_next = $test_page <= $expected_total_pages;
+    $expected_has_next = $test_page < $expected_total_pages;
     $expected_meta = [
       'page' => $test_page,
       'limit' => $test_limit,
@@ -414,7 +412,7 @@ class EntryTest extends BaseTestCase {
 
     $expected_total_results = count($expected_possible_titles);
     $expected_total_pages = ceil($expected_total_results / $test_limit);
-    $expected_has_next = $test_page <= $expected_total_pages;
+    $expected_has_next = $test_page < $expected_total_pages;
     $expected_meta = [
       'page' => $test_page,
       'limit' => $test_limit,
