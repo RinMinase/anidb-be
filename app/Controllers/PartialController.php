@@ -14,6 +14,7 @@ use App\Requests\Partial\AddEditRequest;
 use App\Resources\DefaultResponse;
 
 use App\Exceptions\Partial\ParsingException;
+use App\Requests\Partial\GetAllRequest;
 
 class PartialController extends Controller {
 
@@ -21,6 +22,55 @@ class PartialController extends Controller {
 
   public function __construct(PartialRepository $partialRepository) {
     $this->partialRepository = $partialRepository;
+  }
+
+  /**
+   * @OA\Get(
+   *   tags={"Catalog"},
+   *   path="/api/partials",
+   *   summary="Get All Partials in All Catalogs",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/partial_get_all_query"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_get_all_column"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_get_all_order"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_get_all_page"),
+   *   @OA\Parameter(ref="#/components/parameters/partial_get_all_limit"),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(ref="#/components/schemas/PartialWithCatalogResource"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function index(GetAllRequest $request) {
+    $data = $this->partialRepository->getAll($request->only(
+      'query',
+      'column',
+      'order',
+      'page',
+      'limit',
+    ));
+
+    return DefaultResponse::success(null, [
+      'data' => $data['data'],
+      'meta' => $data['meta'],
+    ]);
   }
 
   /**

@@ -2,14 +2,97 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\Partial\ParsingException;
+use Fuse\Fuse;
 use Illuminate\Support\Str;
+
+use App\Exceptions\Partial\ParsingException;
 
 use App\Models\Catalog;
 use App\Models\Partial;
 use App\Models\Priority;
 
+use App\Resources\Partial\PartialWithCatalogResource;
+
 class PartialRepository {
+
+  public function getAll(array $values) {
+    // Search Parameters
+    $query = $values['query'] ?? '';
+
+    // Ordering Parameters
+    $column = $values['column'] ?? 'id_catalog';
+    $order = $values['order'] ?? 'asc';
+
+    // Pagination Parameters
+    $limit = isset($values['limit']) ? intval($values['limit']) : 30;
+    $page = isset($values['page']) ? intval($values['page']) : 1;
+    $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+
+    $data = Partial::select()->with('catalog');
+    $fuzzy_ids = [];
+
+    if (!empty($query)) {
+      $names = Partial::select('uuid', 'title')->get()->toArray();
+
+      $fuse = new Fuse($names, [
+        'keys' => ['title'],
+        'threshold' => 0.4,
+      ]);
+
+      $fuzzy_names = $fuse->search($query, ['limit' => 10]);
+
+      foreach ($fuzzy_names as $fuzzy_name) {
+        $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
+      }
+
+      if (count($fuzzy_ids)) {
+        $case_string = 'CASE ';
+        foreach ($fuzzy_ids as $key => $fuzzy_id) {
+          $data = $data->orWhere('uuid', $fuzzy_id);
+          $case_string .= 'WHEN uuid=\'' . $fuzzy_id . '\' THEN ' . $key + 1 . ' ';
+        }
+        $case_string .= 'END';
+
+        if (isset($column) && isset($order)) {
+          $nulls = $order === 'asc' ? 'first' : 'last';
+          $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
+        } else {
+          // if no order and column, sort by fuzzy search
+          $data = $data->orderByRaw($case_string);
+        }
+
+        $data = $data->orderBy('id');
+      }
+    } else {
+      if (isset($column) && isset($order)) {
+        $nulls = $order === 'asc' ? 'first' : 'last';
+        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
+      }
+    }
+
+    $total = $data->count();
+    $total_pages = intval(ceil($total / $limit));
+    $has_next = $page < $total_pages;
+
+    $data = $data->skip($skip)->paginate($limit);
+
+    if (!empty($needle) && !count($fuzzy_ids)) {
+      $data = [];
+    }
+
+    $return_value['data'] = PartialWithCatalogResource::collection($data);
+
+    $return_value['meta'] = [
+      'page' => $page,
+      'limit' => $limit,
+      'results' => count($data),
+      'total_results' => $total,
+      'total_pages' => $total_pages,
+      'has_next' => $has_next,
+    ];
+
+    return $return_value;
+  }
 
   public function get($uuid) {
     return Partial::select('title', 'id_priority', 'priority')
