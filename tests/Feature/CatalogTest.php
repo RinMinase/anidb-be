@@ -15,14 +15,33 @@ class CatalogTest extends BaseTestCase {
   private $partial_backup = null;
 
   // Class variables
-  private $catalog_id = 99999;
-  private $catalog_uuid = 'ee7163e8-0be6-4bdf-85a7-eba3af21dfbe';
-  private $catalog_year = 2050;
-  private $catalog_season = 'Spring';
+  private $catalog_id_1 = 99999;
+  private $catalog_uuid_1 = 'ee7163e8-0be6-4bdf-85a7-eba3af21dfbe';
+  private $catalog_year_1 = 2050;
+  private $catalog_season_1 = 'Spring';
 
-  private $partial_id = 99999;
-  private $partial_uuid = '0f98f5c0-f493-41a1-a184-d43782223d47';
-  private $partial_title = 'sample partial title';
+  private $catalog_id_2 = 99998;
+  private $catalog_uuid_2 = '41ecbac2-8e65-45eb-a0fe-a2bb82f701c4';
+  private $catalog_year_2 = 2050;
+  private $catalog_season_2 = 'Fall';
+
+  private $total_partial_count = 4;
+
+  private $partial_id_1 = 99999;
+  private $partial_uuid_1 = '0f98f5c0-f493-41a1-a184-d43782223d47';
+  private $partial_title_1 = 'sample partial title 1';
+
+  private $partial_id_2 = 99998;
+  private $partial_uuid_2 = 'a44a5351-a342-4f71-a95c-bce04d161442';
+  private $partial_title_2 = 'for searching title 2';
+
+  private $partial_id_3 = 99997;
+  private $partial_uuid_3 = '39a393d4-5a27-4936-aaad-cf68bd148d4b';
+  private $partial_title_3 = 'for searching title 3';
+
+  private $partial_id_4 = 99996;
+  private $partial_uuid_4 = '21822256-5171-4b7d-8cfc-0a03a88753cb';
+  private $partial_title_4 = 'sample partial title 4';
 
   // Backup related tables
   private function setup_backup() {
@@ -52,24 +71,55 @@ class CatalogTest extends BaseTestCase {
 
     $id_priority = Priority::where('priority', 'High')->first()->id;
 
-    Catalog::insert([
-      'id' => $this->catalog_id,
-      'uuid' => $this->catalog_uuid,
-      'year' => $this->catalog_year,
-      'season' => $this->catalog_season,
+    Catalog::insert([[
+      'id' => $this->catalog_id_1,
+      'uuid' => $this->catalog_uuid_1,
+      'year' => $this->catalog_year_1,
+      'season' => $this->catalog_season_1,
       'created_at' => '2020-01-01 13:00:00',
       'updated_at' => '2020-01-01 13:00:00',
-    ]);
+    ], [
+      'id' => $this->catalog_id_2,
+      'uuid' => $this->catalog_uuid_2,
+      'year' => $this->catalog_year_2,
+      'season' => $this->catalog_season_2,
+      'created_at' => '2020-01-01 13:00:00',
+      'updated_at' => '2020-01-01 13:00:00',
+    ]]);
 
-    Partial::insert([
-      'id' => $this->partial_id,
-      'uuid' => $this->partial_uuid,
-      'title' => $this->partial_title,
-      'id_catalog' => $this->catalog_id,
+    Partial::insert([[
+      'id' => $this->partial_id_1,
+      'uuid' => $this->partial_uuid_1,
+      'title' => $this->partial_title_1,
+      'id_catalog' => $this->catalog_id_1,
       'id_priority' => $id_priority,
       'created_at' => '2020-01-01 13:00:00',
       'updated_at' => '2020-01-01 13:00:00',
-    ]);
+    ], [
+      'id' => $this->partial_id_2,
+      'uuid' => $this->partial_uuid_2,
+      'title' => $this->partial_title_2,
+      'id_catalog' => $this->catalog_id_1,
+      'id_priority' => $id_priority,
+      'created_at' => '2020-01-01 13:00:00',
+      'updated_at' => '2020-01-01 13:00:00',
+    ], [
+      'id' => $this->partial_id_3,
+      'uuid' => $this->partial_uuid_3,
+      'title' => $this->partial_title_3,
+      'id_catalog' => $this->catalog_id_2,
+      'id_priority' => $id_priority,
+      'created_at' => '2020-01-01 13:00:00',
+      'updated_at' => '2020-01-01 13:00:00',
+    ], [
+      'id' => $this->partial_id_4,
+      'uuid' => $this->partial_uuid_4,
+      'title' => $this->partial_title_4,
+      'id_catalog' => $this->catalog_id_2,
+      'id_priority' => $id_priority,
+      'created_at' => '2020-01-01 13:00:00',
+      'updated_at' => '2020-01-01 13:00:00',
+    ]]);
   }
 
   // Fixtures
@@ -100,7 +150,9 @@ class CatalogTest extends BaseTestCase {
     return $ret_val;
   }
 
-  // Test Cases
+  /**
+   * Catalogs
+   */
   public function test_should_get_all_catalogs() {
     $this->setup_config();
 
@@ -117,10 +169,15 @@ class CatalogTest extends BaseTestCase {
 
     $expected = [
       [
-        'uuid' => $this->catalog_uuid,
+        'uuid' => $this->catalog_uuid_1,
         'year' => 2050,
         'season' => 'Spring',
-      ]
+      ],
+      [
+        'uuid' => $this->catalog_uuid_2,
+        'year' => 2050,
+        'season' => 'Fall',
+      ],
     ];
 
     $this->assertEqualsCanonicalizing($expected, $response['data']);
@@ -205,7 +262,7 @@ class CatalogTest extends BaseTestCase {
     $test_year = 2051;
     $test_season = 'Fall';
 
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid_1, [
       'year' => $test_year,
       'season' => $test_season,
     ]);
@@ -227,7 +284,7 @@ class CatalogTest extends BaseTestCase {
   }
 
   public function test_should_not_edit_catalog_on_form_errors() {
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid);
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid_1);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['year', 'season']]);
@@ -235,7 +292,7 @@ class CatalogTest extends BaseTestCase {
     $test_year = 3000;
     $test_season = 'Invalid';
 
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid_1, [
       'year' => $test_year,
       'season' => $test_season,
     ]);
@@ -247,7 +304,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_year = 3000;
 
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid_1, [
       'year' => $test_year,
       'season' => $test_valid_season,
     ]);
@@ -257,7 +314,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_year = 1899;
 
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid_1, [
       'year' => $test_year,
       'season' => $test_valid_season,
     ]);
@@ -267,7 +324,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_year = 'string';
 
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_uuid_1, [
       'year' => $test_year,
       'season' => $test_valid_season,
     ]);
@@ -279,7 +336,7 @@ class CatalogTest extends BaseTestCase {
   public function test_should_not_edit_catalog_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_id);
+    $response = $this->withoutMiddleware()->put('/api/catalogs/' . $this->catalog_id_1);
 
     $response->assertStatus(404);
   }
@@ -287,12 +344,12 @@ class CatalogTest extends BaseTestCase {
   public function test_should_delete_catalog_successfully() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->delete('/api/catalogs/' . $this->catalog_uuid);
+    $response = $this->withoutMiddleware()->delete('/api/catalogs/' . $this->catalog_uuid_1);
 
     $response->assertStatus(200);
 
-    $actualCatalog = Catalog::where('uuid', $this->catalog_uuid)->first();
-    $actualPartials = Partial::where('id_catalog', $this->catalog_id)->get();
+    $actualCatalog = Catalog::where('uuid', $this->catalog_uuid_1)->first();
+    $actualPartials = Partial::where('id_catalog', $this->catalog_id_1)->get();
 
     $this->assertNull($actualCatalog);
     $this->assertCount(0, $actualPartials);
@@ -301,7 +358,7 @@ class CatalogTest extends BaseTestCase {
   public function test_should_not_delete_catalog_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->delete('/api/catalogs/' . $this->catalog_id);
+    $response = $this->withoutMiddleware()->delete('/api/catalogs/' . $this->catalog_id_1);
 
     $response->assertStatus(404);
   }
@@ -324,7 +381,7 @@ class CatalogTest extends BaseTestCase {
     $this->setup_config();
 
     $response = $this->withoutMiddleware()
-      ->get('/api/catalogs/' . $this->catalog_uuid . '/partials');
+      ->get('/api/catalogs/' . $this->catalog_uuid_1 . '/partials');
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -341,19 +398,73 @@ class CatalogTest extends BaseTestCase {
       ]);
 
     $expected_data = [[
-      'uuid' => $this->partial_uuid,
-      'title' => $this->partial_title,
+      'uuid' => $this->partial_uuid_1,
+      'title' => $this->partial_title_1,
+    ], [
+      'uuid' => $this->partial_uuid_2,
+      'title' => $this->partial_title_2,
     ]];
 
     $expected_stats = [
-      'uuid' => $this->catalog_uuid,
-      'year' => $this->catalog_year,
-      'season' => $this->catalog_season,
+      'uuid' => $this->catalog_uuid_1,
+      'year' => $this->catalog_year_1,
+      'season' => $this->catalog_season_1,
     ];
 
     $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
       $expected_data[0],
       $response['data'][0],
+      array_keys($expected_data),
+    );
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected_data[1],
+      $response['data'][1],
+      array_keys($expected_data),
+    );
+
+    $this->assertEqualsCanonicalizing($expected_stats, $response['stats']);
+
+    $response = $this->withoutMiddleware()
+      ->get('/api/catalogs/' . $this->catalog_uuid_2 . '/partials');
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [[
+          'uuid',
+          'title',
+          'priority',
+        ]],
+        'stats' => [
+          'uuid',
+          'year',
+          'season',
+        ],
+      ]);
+
+    $expected_data = [[
+      'uuid' => $this->partial_uuid_3,
+      'title' => $this->partial_title_3,
+    ], [
+      'uuid' => $this->partial_uuid_4,
+      'title' => $this->partial_title_4,
+    ]];
+
+    $expected_stats = [
+      'uuid' => $this->catalog_uuid_2,
+      'year' => $this->catalog_year_2,
+      'season' => $this->catalog_season_2,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected_data[0],
+      $response['data'][0],
+      array_keys($expected_data),
+    );
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected_data[1],
+      $response['data'][1],
       array_keys($expected_data),
     );
 
@@ -364,7 +475,7 @@ class CatalogTest extends BaseTestCase {
     $this->setup_config();
 
     $response = $this->withoutMiddleware()
-      ->get('/api/catalogs/' . $this->catalog_id . '/partials');
+      ->get('/api/catalogs/' . $this->catalog_id_1 . '/partials');
 
     $response->assertStatus(404);
   }
@@ -383,10 +494,205 @@ class CatalogTest extends BaseTestCase {
     $response->assertStatus(404);
   }
 
+  /**
+   * Partials
+   */
+  public function test_should_get_partials_in_all_catalogs_successfully() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->get('/api/partials');
+
+    $response->assertStatus(200)
+      ->assertJsonCount($this->total_partial_count, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'uuid',
+          'catalog',
+          'title',
+          'priority',
+        ]],
+        'meta' => [
+          'page',
+          'limit',
+          'results',
+          'totalResults',
+          'totalPages',
+          'hasNext',
+        ]
+      ]);
+  }
+
+  public function test_should_get_partials_in_all_catalogs_and_verify_paginated_data() {
+    $this->setup_config();
+
+    $test_page = 2;
+    $test_limit = 2;
+    $response = $this->withoutMiddleware()
+      ->get('/api/partials?page=' . $test_page . '&limit=' . $test_limit);
+
+    $response->assertStatus(200)
+      ->assertJsonCount($test_limit, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'uuid',
+          'catalog',
+          'title',
+          'priority',
+        ]],
+        'meta' => [
+          'page',
+          'limit',
+          'results',
+          'totalResults',
+          'totalPages',
+          'hasNext',
+        ]
+      ]);
+
+    $actual_meta = $response['meta'];
+
+    $expected_total_pages = intval(ceil($this->total_partial_count / $test_limit));
+    $expected_has_next = $test_page < $expected_total_pages;
+    $expected_meta = [
+      'page' => $test_page,
+      'limit' => $test_limit,
+      'results' => $test_limit,
+      'totalResults' => $this->total_partial_count,
+      'totalPages' => $expected_total_pages,
+      'hasNext' => $expected_has_next,
+    ];
+
+    $this->assertEqualsCanonicalizing($expected_meta, $actual_meta);
+  }
+
+  public function test_should_get_partials_in_all_catalogs_and_search_title() {
+    $this->setup_config();
+
+    $test_query = 'for searching title';
+    $response = $this->withoutMiddleware()
+      ->get('/api/partials?query=' . $test_query);
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'uuid',
+          'catalog',
+          'title',
+          'priority',
+        ]]
+      ]);
+
+    $expected = [
+      'uuid' => $this->partial_uuid_3,
+      'catalog' => $this->catalog_season_2 . ' ' . $this->catalog_year_2,
+      'title' => $this->partial_title_3,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'][0],
+      array_keys($expected),
+    );
+
+    $expected = [
+      'uuid' => $this->partial_uuid_2,
+      'catalog' => $this->catalog_season_1 . ' ' . $this->catalog_year_1,
+      'title' => $this->partial_title_2,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'][1],
+      array_keys($expected),
+    );
+  }
+
+  public function test_should_get_partials_in_all_catalogs_and_search_title_with_column_ordering() {
+    $this->setup_config();
+
+    $test_query = 'for searching title';
+    $test_column = 'id_catalog';
+    $test_order = 'desc';
+    $response = $this->withoutMiddleware()
+      ->get(
+        '/api/partials?query=' . $test_query
+          . '&column=' . $test_column
+          . '&order=' . $test_order
+      );
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data')
+      ->assertJsonStructure([
+        'data' => [[
+          'uuid',
+          'catalog',
+          'title',
+          'priority',
+        ]]
+      ]);
+
+    $expected = [
+      'uuid' => $this->partial_uuid_2,
+      'catalog' => $this->catalog_season_1 . ' ' . $this->catalog_year_1,
+      'title' => $this->partial_title_2,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'][0],
+      array_keys($expected),
+    );
+
+    $expected = [
+      'uuid' => $this->partial_uuid_3,
+      'catalog' => $this->catalog_season_2 . ' ' . $this->catalog_year_2,
+      'title' => $this->partial_title_3,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'][1],
+      array_keys($expected),
+    );
+  }
+
+  public function test_should_not_get_partials_in_all_catalogs_on_form_errors() {
+    $test_column = 'invalid_column';
+    $test_order = 'invalid_order';
+    $test_page = 'string';
+    $test_limit = 'string';
+
+    $response = $this->withoutMiddleware()
+      ->get(
+        '/api/partials?column=' . $test_column
+          . '&order=' . $test_order
+          . '&page=' . $test_page
+          . '&limit=' . $test_limit
+      );
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['column', 'order', 'page', 'limit']]);
+
+    $test_column = 1;
+    $test_page = -1;
+    $test_limit = -1;
+
+    $response = $this->withoutMiddleware()
+      ->get(
+        '/api/partials?column=' . $test_column
+          . '&page=' . $test_page
+          . '&limit=' . $test_limit
+      );
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['column', 'page', 'limit']]);
+  }
+
   public function test_should_get_partial_successfully() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->get('/api/partials/' . $this->partial_uuid);
+    $response = $this->withoutMiddleware()->get('/api/partials/' . $this->partial_uuid_1);
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -401,17 +707,17 @@ class CatalogTest extends BaseTestCase {
 
     $priority = Priority::where('priority', 'High')->first();
 
-    $this->assertEquals($this->partial_uuid, $response['data']['uuid']);
-    $this->assertEquals($this->partial_title, $response['data']['title']);
+    $this->assertEquals($this->partial_uuid_1, $response['data']['uuid']);
+    $this->assertEquals($this->partial_title_1, $response['data']['title']);
     $this->assertEquals($priority->priority, $response['data']['priority']);
     $this->assertEquals($priority->id, $response['data']['idPriority']);
-    $this->assertEquals($this->catalog_uuid, $response['data']['idCatalog']);
+    $this->assertEquals($this->catalog_uuid_1, $response['data']['idCatalog']);
   }
 
   public function test_should_not_get_partial_when_using_id_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->get('/api/partials/' . $this->partial_id);
+    $response = $this->withoutMiddleware()->get('/api/partials/' . $this->partial_id_1);
 
     $response->assertStatus(404);
   }
@@ -434,7 +740,7 @@ class CatalogTest extends BaseTestCase {
     $this->setup_config();
 
     $test_title = 'sample testing partial title';
-    $test_id_catalog = $this->catalog_uuid;
+    $test_id_catalog = $this->catalog_uuid_1;
     $test_id_priority = Priority::where('priority', 'High')->first()->id;
 
     $response = $this->withoutMiddleware()->post('/api/partials', [
@@ -446,7 +752,7 @@ class CatalogTest extends BaseTestCase {
     $response->assertStatus(200);
 
     $data = Partial::where('title', $test_title)
-      ->where('id_catalog', $this->catalog_id)
+      ->where('id_catalog', $this->catalog_id_1)
       ->where('id_priority', $test_id_priority)
       ->first();
 
@@ -455,7 +761,7 @@ class CatalogTest extends BaseTestCase {
     $this->assertNotNull($actual);
     $this->assertNotNull($actual['uuid']);
     $this->assertEquals($test_title, $actual['title']);
-    $this->assertEquals($this->catalog_id, $actual['id_catalog']);
+    $this->assertEquals($this->catalog_id_1, $actual['id_catalog']);
     $this->assertEquals($test_id_priority, $actual['id_priority']);
   }
 
@@ -499,10 +805,10 @@ class CatalogTest extends BaseTestCase {
     $this->setup_config();
 
     $test_title = 'sample testing partial title';
-    $test_id_catalog = $this->catalog_uuid;
+    $test_id_catalog = $this->catalog_uuid_1;
     $test_id_priority = Priority::where('priority', 'Low')->first()->id;
 
-    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid_1, [
       'title' => $test_title,
       'id_catalog' => $test_id_catalog,
       'id_priority' => $test_id_priority,
@@ -511,7 +817,7 @@ class CatalogTest extends BaseTestCase {
     $response->assertStatus(200);
 
     $data = Partial::where('title', $test_title)
-      ->where('id_catalog', $this->catalog_id)
+      ->where('id_catalog', $this->catalog_id_1)
       ->where('id_priority', $test_id_priority)
       ->first();
 
@@ -520,14 +826,14 @@ class CatalogTest extends BaseTestCase {
     $this->assertNotNull($actual);
     $this->assertNotNull($actual['uuid']);
     $this->assertEquals($test_title, $actual['title']);
-    $this->assertEquals($this->catalog_id, $actual['id_catalog']);
+    $this->assertEquals($this->catalog_id_1, $actual['id_catalog']);
     $this->assertEquals($test_id_priority, $actual['id_priority']);
   }
 
   public function test_should_not_edit_partial_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_id);
+    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_id_1);
 
     $response->assertStatus(404);
   }
@@ -535,7 +841,7 @@ class CatalogTest extends BaseTestCase {
   public function test_should_not_edit_partial_on_form_errors() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid);
+    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid_1);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['title', 'id_catalog', 'id_priority']]);
@@ -544,7 +850,7 @@ class CatalogTest extends BaseTestCase {
     $test_id_catalog = 'invalid catalog';
     $test_id_priority = 'string';
 
-    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid_1, [
       'title' => $test_title,
       'id_catalog' => $test_id_catalog,
       'id_priority' => $test_id_priority,
@@ -558,7 +864,7 @@ class CatalogTest extends BaseTestCase {
     $test_id_catalog = 'd459e6c1-60a0-48dc-b025-4834bbfe66af'; // non-existent catalog
     $test_id_priority = 100; // invalid id
 
-    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/' . $this->partial_uuid_1, [
       'title' => $test_valid_title,
       'id_catalog' => $test_id_catalog,
       'id_priority' => $test_id_priority,
@@ -571,11 +877,11 @@ class CatalogTest extends BaseTestCase {
   public function test_should_delete_partial_successfully() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->delete('/api/partials/' . $this->partial_uuid);
+    $response = $this->withoutMiddleware()->delete('/api/partials/' . $this->partial_uuid_1);
 
     $response->assertStatus(200);
 
-    $actual = Partial::where('uuid', $this->partial_uuid)->first();
+    $actual = Partial::where('uuid', $this->partial_uuid_1)->first();
 
     $this->assertNull($actual);
   }
@@ -583,7 +889,7 @@ class CatalogTest extends BaseTestCase {
   public function test_should_not_delete_partial_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->delete('/api/partials/' . $this->partial_id);
+    $response = $this->withoutMiddleware()->delete('/api/partials/' . $this->partial_id_1);
 
     $response->assertStatus(404);
   }
@@ -742,7 +1048,7 @@ class CatalogTest extends BaseTestCase {
     $test_season = 'Spring';
     $test_year = 2090;
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid_1, [
       'data' => $test_data,
       'season' => $test_season,
       'year' => $test_year,
@@ -810,7 +1116,7 @@ class CatalogTest extends BaseTestCase {
     $test_valid_season = 'Spring';
     $test_valid_year = 2090;
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid_1, [
       'data' => $test_data,
       'season' => $test_valid_season,
       'year' => $test_valid_year,
@@ -822,7 +1128,7 @@ class CatalogTest extends BaseTestCase {
   public function test_should_not_edit_multiple_partials_when_catalog_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_id);
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_id_1);
 
     $response->assertStatus(404);
   }
@@ -833,7 +1139,7 @@ class CatalogTest extends BaseTestCase {
     $test_valid_data = '';
     $test_valid_season = 'Spring';
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid);
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid_1);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['data', 'season', 'year']]);
@@ -841,7 +1147,7 @@ class CatalogTest extends BaseTestCase {
     $test_season = 'invalid season';
     $test_year = 3000;
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid_1, [
       'data' => $test_valid_data,
       'season' => $test_season,
       'year' => $test_year,
@@ -852,7 +1158,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_year = 1899;
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid_1, [
       'data' => $test_valid_data,
       'season' => $test_valid_season,
       'year' => $test_year,
@@ -863,7 +1169,7 @@ class CatalogTest extends BaseTestCase {
 
     $test_year = 'string';
 
-    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid, [
+    $response = $this->withoutMiddleware()->put('/api/partials/multi/' . $this->catalog_uuid_1, [
       'data' => $test_valid_data,
       'season' => $test_valid_season,
       'year' => $test_year,
