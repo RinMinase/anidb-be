@@ -22,8 +22,9 @@ use Carbon\Carbon;
  *   ),
  *   @OA\Property(property="title", type="string", example="Sample Title"),
  *   @OA\Property(property="dateFinished", type="string", example="Mar 01, 2011"),
- *   @OA\Property(property="rewatched", type="boolean", example=false),
  *   @OA\Property(property="filesize", type="string", example="10.25 GB"),
+ *   @OA\Property(property="rewatched", type="boolean", example=false),
+ *   @OA\Property(property="rewatchCount", type="integer", format="int32", example=1),
  *   @OA\Property(property="episodes", type="integer", format="int32", example=25),
  *   @OA\Property(property="ovas", type="integer", format="int32", example=1),
  *   @OA\Property(property="specials", type="integer", format="int32", example=1),
@@ -53,8 +54,10 @@ class EntrySummaryResource extends JsonResource {
       'quality' => $this->quality->quality,
       'title' => $this->title,
       'dateFinished' => $this->calcDateFinished(),
-      'rewatched' => $this->calcRewatched(),
       'filesize' => parse_filesize($this->filesize ?? 0),
+
+      'rewatched' => (bool) count($this->rewatches),
+      'rewatchCount' => count($this->rewatches) ?? 0,
 
       'episodes' => $this->episodes ?? 0,
       'ovas' => $this->ovas ?? 0,
@@ -173,9 +176,5 @@ class EntrySummaryResource extends JsonResource {
 
   private function calcRelease() {
     return trim($this->release_season . ' ' . $this->release_year);
-  }
-
-  private function calcRewatched() {
-    return (bool)count($this->rewatches);
   }
 }
