@@ -39,7 +39,7 @@ class PartialRepository {
         'threshold' => 0.4,
       ]);
 
-      $fuzzy_names = $fuse->search($query, ['limit' => 10]);
+      $fuzzy_names = $fuse->search($query);
 
       foreach ($fuzzy_names as $fuzzy_name) {
         $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
