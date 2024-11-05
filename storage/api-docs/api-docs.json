@@ -8271,13 +8271,18 @@
                         "type": "string",
                         "example": "Mar 01, 2011"
                     },
+                    "filesize": {
+                        "type": "string",
+                        "example": "10.25 GB"
+                    },
                     "rewatched": {
                         "type": "boolean",
                         "example": false
                     },
-                    "filesize": {
-                        "type": "string",
-                        "example": "10.25 GB"
+                    "rewatchCount": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
                     },
                     "episodes": {
                         "type": "integer",
