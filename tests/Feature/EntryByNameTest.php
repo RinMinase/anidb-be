@@ -67,7 +67,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -75,7 +76,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -83,7 +85,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -91,7 +94,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -99,7 +103,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -107,7 +112,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -115,7 +121,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -123,7 +130,8 @@ class EntryByNameTest extends BaseTestCase {
         'filesize' => $this->filesize,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
-      ], [
+      ],
+      [
         'uuid' => Str::uuid()->toString(),
         'id_quality' => $id_quality,
         'date_finished' => '2001-01-01',
@@ -163,8 +171,9 @@ class EntryByNameTest extends BaseTestCase {
           'quality',
           'title',
           'dateFinished',
-          'rewatched',
           'filesize',
+          'rewatched',
+          'rewatchCount',
           'episodes',
           'ovas',
           'specials',
