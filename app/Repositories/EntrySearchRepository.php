@@ -54,7 +54,8 @@ class EntrySearchRepository {
     $data = Entry::select('entries.*')->with('rating');
 
     if (!empty($search_title)) {
-      $data = $data->where('title', 'ilike', '%' . $search_title . '%');
+      $data = $data->where('title', 'ilike', '%' . $search_title . '%')
+        ->orWhere('variants', 'ilike', '%' . $search_title . '%');
     }
 
     if (!empty($search_encoder)) {
