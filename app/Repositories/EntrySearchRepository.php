@@ -183,6 +183,7 @@ class EntrySearchRepository {
       $release_to_year = $search_release['release_to_year'];
       $release_to_season = $search_release['release_to_season'];
       $comparator = $search_release['comparator'];
+      $releases = $search_release['releases'];
 
       if ($comparator) {
         if (!$release_from_season) {
@@ -252,7 +253,7 @@ class EntrySearchRepository {
           });
         }
       } else if (!$release_from_year && $release_from_season && !$release_to_season) {
-        $data = $data = $data->where('release_season', ucfirst($release_from_season));
+        $data = $data->where('release_season', ucfirst($release_from_season));
       } else if (
         !$release_from_year
         && !$release_to_year
@@ -270,8 +271,23 @@ class EntrySearchRepository {
         $actual_seasons = array_slice($seasons, $season_index_from, $season_index_to - $season_index_from + 1);
 
         $data = $data->whereIn('release_season', $actual_seasons);
+      } else if ($releases && count($releases)) {
+        foreach ($releases as $value) {
+          $release_year = $value['year'] ?? null;
+          $release_season = $value['season'] ? ucfirst($value['season']) : null;
+
+          $data = $data->orWhere(function ($query) use ($release_year, $release_season) {
+            if ($release_season && $release_year) {
+              $query->where('release_season', $release_season)->where('release_year', $release_year);
+            } else if (!$release_season && $release_year) {
+              $query->where('release_year', $release_year);
+            } else if ($release_season && !$release_year) {
+              $query->where('release_season', $release_season);
+            }
+          });
+        }
       } else {
-        $data = $data = $data->where('release_year', $release_from_year);
+        $data = $data->where('release_year', $release_from_year);
 
         if ($release_from_season) {
           $data = $data->where('release_season', ucfirst($release_from_season));
@@ -281,17 +297,17 @@ class EntrySearchRepository {
 
     if ($search_has_remarks !== EntrySearchHasEnum::ANY) {
       if ($search_has_remarks === EntrySearchHasEnum::YES) {
-        $data = $data = $data->whereNotNull('remarks');
+        $data = $data->whereNotNull('remarks');
       } else {
-        $data = $data = $data->whereNull('remarks');
+        $data = $data->whereNull('remarks');
       }
     }
 
     if ($search_has_image !== EntrySearchHasEnum::ANY) {
       if ($search_has_image === EntrySearchHasEnum::YES) {
-        $data = $data = $data->whereNotNull('image');
+        $data = $data->whereNotNull('image');
       } else {
-        $data = $data = $data->whereNull('image');
+        $data = $data->whereNull('image');
       }
     }
 
@@ -1086,6 +1102,7 @@ class EntrySearchRepository {
         'release_to_year' => $formatted_release_to[0],
         'release_to_season' => $formatted_release_to[1] ?? 'fall',
         'comparator' => null,
+        'releases' => [],
       ];
     }
 
@@ -1120,8 +1137,45 @@ class EntrySearchRepository {
         'release_to_year' => null,
         'release_to_season' => null,
         'comparator' => $comparator,
+        'releases' => [],
       ];
     }
+
+    // Commma-separated Values ::
+    // - {season?} {year?} {season?}, {season?} {year?} {season?}
+    try {
+      if (str_contains($value, ',')) {
+        $parts = explode(',', $value);
+
+        $releases = [];
+        foreach ($parts as $value) {
+          $release_value = trim($value);
+          $release_value = parse_season($release_value);
+
+          // has NO season and has NO year
+          if (!$release_value[0] && !$release_value[1]) {
+            throw new SearchFilterParsingException('release', 'Error in parsing string');
+          }
+
+          array_push($releases, [
+            'year' => $release_value[0],
+            'season' => $release_value[1],
+          ]);
+        }
+
+        return [
+          'release_from_year' => $release[0] ?? null,
+          'release_from_season' => $release[1] ?? null,
+          'release_to_year' => null,
+          'release_to_season' => null,
+          'comparator' => null,
+          'releases' => $releases,
+        ];
+      }
+    } catch (Error) {
+      throw new SearchFilterParsingException('release', 'Error in parsing string');
+    }
+
 
     // Absolute Value ::
     // - {season} {year}
@@ -1137,6 +1191,7 @@ class EntrySearchRepository {
         'release_to_year' => null,
         'release_to_season' => null,
         'comparator' => null,
+        'releases' => [],
       ];
     } catch (Error) {
       throw new SearchFilterParsingException('release', 'Error in parsing string');
