@@ -139,6 +139,7 @@ class EntrySearchTest extends BaseTestCase {
         'release_year' => 2020,
         'release_season' => 'Spring',
         'remarks' => 'sample remarks',
+        'variants' => 'variant sample',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => 'https://example.com',
@@ -162,6 +163,7 @@ class EntrySearchTest extends BaseTestCase {
         'release_year' => 2020,
         'release_season' => 'Spring',
         'remarks' => null,
+        'variants' => 'alternate',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -185,6 +187,7 @@ class EntrySearchTest extends BaseTestCase {
         'release_year' => 2021,
         'release_season' => 'Winter',
         'remarks' => null,
+        'variants' => 'test value',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -208,6 +211,7 @@ class EntrySearchTest extends BaseTestCase {
         'release_year' => 2021,
         'release_season' => 'Fall',
         'remarks' => null,
+        'variants' => 'another value',
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -231,6 +235,7 @@ class EntrySearchTest extends BaseTestCase {
         'release_year' => 2022,
         'release_season' => 'Spring',
         'remarks' => null,
+        'variants' => null,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
@@ -392,6 +397,34 @@ class EntrySearchTest extends BaseTestCase {
     $this->assertContains($this->entry_uuid_3, $actual_ids);
     $this->assertContains($this->entry_uuid_4, $actual_ids);
     $this->assertContains($this->entry_uuid_5, $actual_ids);
+  }
+
+  public function test_should_search_variant_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'title' => 'variant',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+
+    $test_params = [
+      'title' => 'alternate',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
   }
 
   public function test_should_search_episode_data_successfully() {
