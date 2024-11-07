@@ -1055,6 +1055,54 @@ class EntrySearchTest extends BaseTestCase {
     $this->assertContains($this->entry_uuid_3, $actual_ids);
   }
 
+  public function test_should_search_release_data_by_comma_separated_values_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'release' => '2020, 2021',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+
+    $test_params = [
+      'release' => '2020 spring, fall',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+
+    $test_params = [
+      'release' => 'spring 2020, 2021',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(4, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+  }
+
   public function test_should_search_date_data_by_range_successfully() {
     $this->setup_config();
 
