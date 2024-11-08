@@ -65,6 +65,10 @@ class Entry extends Model {
     return $this->hasOne(EntryRating::class, 'id_entries');
   }
 
+  public function genres() {
+    return $this->hasMany(EntryGenre::class, 'id_entries');
+  }
+
   public function offquels() {
     return $this->hasMany(EntryOffquel::class, 'id_entries');
   }

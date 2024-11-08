@@ -9,9 +9,11 @@ use Carbon\Carbon;
 use App\Models\CodecAudio;
 use App\Models\CodecVideo;
 use App\Models\Entry;
+use App\Models\EntryGenre;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
+use App\Models\Genre;
 use App\Models\Quality;
 
 class EntrySeeder extends Seeder {
@@ -275,6 +277,9 @@ class EntrySeeder extends Seeder {
     $id_entries_6 = Entry::where('uuid', $uuid_6)->first()->id;
     $id_entries_7 = Entry::where('uuid', $uuid_7)->first()->id;
 
+    $id_genre_action = Genre::where('genre', 'Action')->first()->id;
+    $id_genre_comedy = Genre::where('genre', 'Comedy')->first()->id;
+
     // Handle relations
     $entry = Entry::where('id', $id_entries_1)->first();
     $entry->season_first_title_id = $id_entries_1;
@@ -308,14 +313,14 @@ class EntrySeeder extends Seeder {
     $entry->save();
 
     // Handle other entry related information
-    $testDataOffquel = [
+    $test_data_offquel = [
       [
         'id_entries' => $id_entries_1,          // parent entry
         'id_entries_offquel' => $id_entries_3,  // offquel entry
       ],
     ];
 
-    $testDataRating = [
+    $test_data_rating = [
       [
         'id_entries' => $id_entries_1,
         'audio' => 6,
@@ -336,7 +341,7 @@ class EntrySeeder extends Seeder {
       ],
     ];
 
-    $testDataRewatch = [
+    $test_data_rewatch = [
       [
         'id_entries' => $id_entries_1,
         'uuid' => Str::uuid()->toString(),
@@ -354,8 +359,17 @@ class EntrySeeder extends Seeder {
       ],
     ];
 
-    EntryOffquel::insert($testDataOffquel);
-    EntryRating::insert($testDataRating);
-    EntryRewatch::insert($testDataRewatch);
+    $test_data_genre = [[
+      'id_entries' => $id_entries_1,
+      'id_genres' => $id_genre_action,
+    ], [
+      'id_entries' => $id_entries_1,
+      'id_genres' => $id_genre_comedy,
+    ]];
+
+    EntryOffquel::insert($test_data_offquel);
+    EntryRating::insert($test_data_rating);
+    EntryRewatch::insert($test_data_rewatch);
+    EntryGenre::insert($test_data_genre);
   }
 }

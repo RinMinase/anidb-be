@@ -113,6 +113,7 @@ class EntryRepository {
   public function get($id) {
     $entry = Entry::where('entries.uuid', $id)
       ->with('offquels')
+      ->with('genres')
       ->with('rewatches', function ($rewatches) {
         $rewatches->orderBy('date_rewatched', 'desc');
       })

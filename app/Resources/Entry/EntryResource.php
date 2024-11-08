@@ -2,10 +2,11 @@
 
 namespace App\Resources\Entry;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+use App\Resources\Genre\GenreResource;
 
 /**
  * @OA\Schema(
@@ -122,6 +123,11 @@ use Carbon\CarbonInterval;
  *     @OA\Property(property="graphics", type="integer", format="int32", example=4),
  *     @OA\Property(property="plot", type="integer", format="int32", example=3),
  *   ),
+ *   @OA\Property(
+ *     property="genres",
+ *     type="array",
+ *     @OA\Items(ref="#/components/schemas/GenreResource")
+ *   ),
  *   @OA\Property(property="image", type="string", format="uri", example="{{ image url }}"),
  * ),
  */
@@ -187,6 +193,9 @@ class EntryResource extends JsonResource {
 
       'ratingAverage' => $this->calcRating(),
       'rating' => $this->rating,
+
+      'genres' => GenreResource::collection($this->genres),
+
       'image' => $this->image,
     ];
   }
