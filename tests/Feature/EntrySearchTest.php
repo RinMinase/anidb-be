@@ -2893,6 +2893,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => 2021,
       'release_to_season' => 'fall',
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'from 2020 to 2021';
@@ -2917,6 +2918,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => 2099,
       'release_to_season' => 'summer',
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'from spring 2020 to summer 2099';
@@ -2931,6 +2933,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'winter 2020';
@@ -2963,6 +2966,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'spring 2999';
@@ -2979,6 +2983,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'winter 1900';
@@ -2995,6 +3000,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = '1900';
@@ -3007,6 +3013,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = '2999';
@@ -3021,6 +3028,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '>',
+      'releases' => [],
     ];
 
     $values = [
@@ -3043,6 +3051,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '>=',
+      'releases' => [],
     ];
 
     $values = [
@@ -3067,6 +3076,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '<=',
+      'releases' => [],
     ];
 
     $values = [
@@ -3091,6 +3101,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '<',
+      'releases' => [],
     ];
 
     $values = [
@@ -3113,6 +3124,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '>',
+      'releases' => [],
     ];
 
     $values = [
@@ -3132,6 +3144,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '>=',
+      'releases' => [],
     ];
 
     $values = [
@@ -3152,6 +3165,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '<=',
+      'releases' => [],
     ];
 
     $values = [
@@ -3178,6 +3192,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => '<',
+      'releases' => [],
     ];
 
     $values = [
@@ -3199,6 +3214,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => 'fall',
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'from winter to fall';
@@ -3219,6 +3235,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => 'summer',
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'from spring to summer';
@@ -3235,6 +3252,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => 'fall',
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'from spring to fall';
@@ -3253,6 +3271,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'winter';
@@ -3273,6 +3292,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'spring';
@@ -3293,6 +3313,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'summer';
@@ -3313,6 +3334,7 @@ class EntrySearchTest extends BaseTestCase {
       'release_to_year' => null,
       'release_to_season' => null,
       'comparator' => null,
+      'releases' => [],
     ];
 
     $value = 'fall';
@@ -3324,6 +3346,71 @@ class EntrySearchTest extends BaseTestCase {
     $this->assertEquals($expected, $actual);
 
     $value = 'Fall';
+    $actual = EntrySearchRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function test_should_parse_release_value_with_comma_separated_values() {
+    $expected = [
+      'release_from_year' => null,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+      'releases' => [[
+        'year' => '2020',
+        'season' => 'fall',
+      ], [
+        'year' => '2020',
+        'season' => 'summer',
+      ], [
+        'year' => '2021',
+        'season' => 'spring',
+      ]],
+    ];
+
+    $value = 'fall 2020, summer 2020, 2021 spring';
+    $actual = EntrySearchRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => null,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+      'releases' => [[
+        'year' => '2020',
+        'season' => 'fall',
+      ], [
+        'year' => '2021',
+        'season' => null,
+      ]],
+    ];
+
+    $value = 'FALL 2020, 2021';
+    $actual = EntrySearchRepository::search_parse_release($value);
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'release_from_year' => null,
+      'release_from_season' => null,
+      'release_to_year' => null,
+      'release_to_season' => null,
+      'comparator' => null,
+      'releases' => [[
+        'year' => null,
+        'season' => 'fall',
+      ], [
+        'year' => '2021',
+        'season' => 'summer',
+      ], [
+        'year' => '2022',
+        'season' => null,
+      ]],
+    ];
+
+    $value = 'Fall, 2021 summer, 2022';
     $actual = EntrySearchRepository::search_parse_release($value);
     $this->assertEquals($expected, $actual);
   }
