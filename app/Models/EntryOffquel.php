@@ -9,11 +9,10 @@ use App\Traits\RefreshableAutoIncrements;
 
 class EntryOffquel extends Model {
 
-  use RefreshableAutoIncrements, SoftDeletes;
-
-  use SoftDeletes;
+  use RefreshableAutoIncrements;
 
   protected $table = 'entries_offquel';
+  public $timestamps = null;
 
   protected $fillable = [
     'id_entries',
