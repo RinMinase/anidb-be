@@ -2733,13 +2733,13 @@
                 ]
             }
         },
-        "/api/entries/offquels/{entry_id}": {
-            "put": {
+        "/api/entries/{entry_id}/offquel/{entry_offquel_id}": {
+            "post": {
                 "tags": [
                     "Entry"
                 ],
-                "summary": "Edit Entry Offquels",
-                "operationId": "11cac605e3e62347f128a1c5ff3981cc",
+                "summary": "Add Entry Offquel",
+                "operationId": "a468b8ac8eb249ba011331458777358c",
                 "parameters": [
                     {
                         "name": "entry_id",
@@ -2753,7 +2753,65 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_offquels_data"
+                        "name": "entry_offquel_id",
+                        "in": "path",
+                        "description": "Entry Offquel ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/EntryParsingResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Delete Entry Offquel",
+                "operationId": "ae9ddea40f34c44f03a0f86c44ed0afc",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "name": "entry_offquel_id",
+                        "in": "path",
+                        "description": "Entry Offquel ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     }
                 ],
                 "responses": {
@@ -8520,15 +8578,22 @@
                                     "type": "integer",
                                     "format": "int32"
                                 },
-                                "message": {
-                                    "type": "string"
+                                "data": {
+                                    "properties": {
+                                        "offquel_id": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             },
                             "type": "object"
                         },
                         "example": {
                             "status": 401,
-                            "message": "There was a problem in parsing your request"
+                            "data": {
+                                "offquel_id": "{{ validation message }}"
+                            }
                         }
                     }
                 }
