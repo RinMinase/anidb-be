@@ -22,7 +22,7 @@ class SearchTitlesRequest extends FormRequest {
    *   name="id_excluded",
    *   description="If true, id parameter is exluded instead of included",
    *   in="query",
-   *   @OA\Schema(type="boolean", default=false),
+   *   @OA\Schema(type="string", enum={"0", "1"}, default="0"),
    * ),
    * @OA\Parameter(
    *   parameter="entry_search_titles_needle",

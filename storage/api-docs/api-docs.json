@@ -9631,8 +9631,12 @@
                 "in": "query",
                 "description": "If true, id parameter is exluded instead of included",
                 "schema": {
-                    "type": "boolean",
-                    "default": false
+                    "type": "string",
+                    "default": "0",
+                    "enum": [
+                        "0",
+                        "1"
+                    ]
                 }
             },
             "entry_search_titles_needle": {
