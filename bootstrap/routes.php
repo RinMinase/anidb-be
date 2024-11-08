@@ -144,6 +144,7 @@ Route::prefix('api')
             Route::get('search', [EntryController::class, 'search']);
             Route::post('import', [EntryController::class, 'import']);
 
+            Route::put('offquels/{uuid}', [EntryController::class, 'editOffquels']);
             Route::put('img-upload/{uuid}', [EntryController::class, 'imageUpload']);
             Route::delete('img-upload/{uuid}', [EntryController::class, 'imageDelete']);
             Route::put('ratings/{uuid}', [EntryController::class, 'ratings']);
