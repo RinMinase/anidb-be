@@ -727,9 +727,9 @@ class AddEditRequest extends FormRequest {
 
   protected function prepareForValidation() {
     $this->merge([
-      'is_current' => to_boolean($this->is_current),
-      'is_future' => to_boolean($this->is_future),
-      'is_server' => to_boolean($this->is_server),
+      'is_current' => to_boolean($this->is_curren, true),
+      'is_future' => to_boolean($this->is_future, true),
+      'is_server' => to_boolean($this->is_server, true),
     ]);
   }
 
