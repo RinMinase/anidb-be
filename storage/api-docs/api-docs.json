@@ -3248,6 +3248,53 @@
                 ]
             }
         },
+        "/api/genres": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Genres",
+                "operationId": "1a7e6175a7291425bb512144658d3ea3",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Genre"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/groups": {
             "get": {
                 "tags": [
@@ -7520,6 +7567,22 @@
                 },
                 "type": "object"
             },
+            "Genre": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "genre": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "genre": "Comedy"
+                }
+            },
             "Group": {
                 "properties": {
                     "uuid": {
@@ -8323,6 +8386,12 @@
                         },
                         "type": "object"
                     },
+                    "genres": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GenreResource"
+                        }
+                    },
                     "image": {
                         "type": "string",
                         "format": "uri",
@@ -8419,6 +8488,20 @@
                     "rating": {
                         "type": "number",
                         "example": 7.5
+                    }
+                },
+                "type": "object"
+            },
+            "GenreResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "genre": {
+                        "type": "string",
+                        "example": "Genre Name"
                     }
                 },
                 "type": "object"
