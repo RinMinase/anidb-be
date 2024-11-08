@@ -12,10 +12,17 @@ class SearchTitlesRequest extends FormRequest {
    * @OA\Parameter(
    *   parameter="entry_search_titles_id",
    *   name="id",
-   *   description="Entry ID, search should not include this entry",
+   *   description="Entry ID, search should by default include this entry",
    *   in="query",
    *   example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
    *   @OA\Schema(type="string", format="uuid"),
+   * ),
+   * @OA\Parameter(
+   *   parameter="entry_search_titles_id_excluded",
+   *   name="id_excluded",
+   *   description="If true, id parameter is exluded instead of included",
+   *   in="query",
+   *   @OA\Schema(type="boolean", default=false),
    * ),
    * @OA\Parameter(
    *   parameter="entry_search_titles_needle",
@@ -29,6 +36,7 @@ class SearchTitlesRequest extends FormRequest {
   public function rules() {
     return [
       'id' => ['uuid', 'exists:entries,uuid'],
+      'id_excluded' => ['nullable', 'boolean'],
       'needle' => ['string'],
     ];
   }

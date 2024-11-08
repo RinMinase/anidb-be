@@ -694,6 +694,7 @@ class EntryController extends Controller {
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_id"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_id_excluded"),
    *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_needle"),
    *
    *   @OA\Response(
@@ -723,6 +724,7 @@ class EntryController extends Controller {
     return DefaultResponse::success(null, [
       'data' => $this->entryRepository->getTitles(
         $request->get('id'),
+        $request->get('id_excluded') ?? false,
         $request->get('needle') ?? '',
       ),
     ]);

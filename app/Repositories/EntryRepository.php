@@ -658,7 +658,7 @@ class EntryRepository {
       ->delete();
   }
 
-  public function getTitles($id, ?string $needle) {
+  public function getTitles($id, bool $id_excluded, ?string $needle) {
     if (!empty($needle)) {
       $names = Entry::select('uuid', 'title')
         ->where('uuid', '!=', $id)
@@ -668,13 +668,16 @@ class EntryRepository {
       $fuse = new Fuse($names, ['keys' => ['title']]);
       $fuzzy_names = $fuse->search($needle, ['limit' => 14]);
 
-      $current_title = Entry::select('uuid', 'title')
-        ->where('uuid', $id)
-        ->first();
+      $current_title = null;
+      if (!$id_excluded) {
+        $current_title = Entry::select('uuid', 'title')
+          ->where('uuid', $id)
+          ->first();
+      }
 
       $final_array = [];
 
-      if ($current_title) {
+      if (!$id_excluded && $current_title) {
         array_push($final_array, [
           'id' => $current_title['uuid'],
           'title' => $current_title['title'],
@@ -697,13 +700,16 @@ class EntryRepository {
         ->get()
         ->toArray();
 
-      $current_title = Entry::select('uuid', 'title')
-        ->where('uuid', $id)
-        ->first();
+      $current_title = null;
+      if (!$id_excluded) {
+        $current_title = Entry::select('uuid', 'title')
+          ->where('uuid', $id)
+          ->first();
+      }
 
       $final_array = [];
 
-      if ($current_title) {
+      if (!$id_excluded && $current_title) {
         array_push($final_array, [
           'id' => $current_title['uuid'],
           'title' => $current_title['title'],
