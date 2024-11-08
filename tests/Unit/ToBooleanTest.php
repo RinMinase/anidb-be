@@ -29,12 +29,13 @@ class ToBooleanTest extends TestCase {
 
     foreach ($test_data_false as $value) {
       $actual = to_boolean($value);
-      $this->assertFalse($actual);
+      $this->assertFalse($actual, 'Error in $value=' . $value);
     }
   }
 
-  public function test_should_fail_in_converting_invalid_boolean_values() {
+  public function test_should_fail_with_false_in_converting_invalid_boolean_values() {
     $test_data = [
+      '',
       'any value',
       2,
       -1,
@@ -42,7 +43,21 @@ class ToBooleanTest extends TestCase {
 
     foreach ($test_data as $value) {
       $actual = to_boolean($value);
-      $this->assertNull($actual);
+      $this->assertFalse($actual, 'Error in $value=' . $value);
+    }
+  }
+
+  public function test_should_fail_with_null_in_converting_invalid_boolean_values() {
+    $test_data = [
+      'invalid',
+      'any value',
+      2,
+      -1,
+    ];
+
+    foreach ($test_data as $value) {
+      $actual = to_boolean($value, true);
+      $this->assertNull($actual, 'Error in $value=' . $value);
     }
   }
 }
