@@ -77,8 +77,12 @@ if (!function_exists('is_uuid')) {
 }
 
 if (!function_exists('to_boolean')) {
-  function to_boolean($value) {
-    return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+  function to_boolean($value, $null_on_fail = false) {
+    if ($null_on_fail) {
+      return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    }
+
+    return filter_var($value, FILTER_VALIDATE_BOOLEAN);
   }
 }
 
