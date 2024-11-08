@@ -2236,6 +2236,32 @@ class EntryTest extends BaseTestCase {
     $this->assertNotNull($actual);
   }
 
+  public function test_should_return_searched_titles_excluding_a_single_title() {
+    $this->setup_config();
+
+    $excluded_id = $this->entry_uuid_1;
+
+    $params = http_build_query([
+      'id' => $excluded_id,
+      'id_excluded' => true,
+    ]);
+
+    $response = $this->withoutMiddleware()->get('/api/entries/titles?' . $params);
+
+    $response->assertStatus(200)
+      ->assertJsonCount($this->total_entry_count - 1, 'data')
+      ->assertJsonStructure(['data' => [['id', 'title']]]);
+
+    $actual = current(
+      array_filter(
+        $response['data'],
+        fn($item) => $item['id'] === $excluded_id
+      )
+    );
+
+    $this->assertFalse($actual);
+  }
+
   public function test_should_not_return_searched_titles_when_entry_id_is_used_instead_of_uuid() {
     $excluded_id = $this->entry_id_1;
 
