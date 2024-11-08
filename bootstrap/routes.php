@@ -32,6 +32,7 @@ use App\Fourleaf\Controllers\ElectricityController;
 use App\Fourleaf\Controllers\GasController;
 
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('integer', '[0-9]+');
 Route::pattern('string', '[a-z]+');
 Route::pattern('year', '^19\d{2}|2\d{3}$');
@@ -144,7 +145,8 @@ Route::prefix('api')
             Route::get('search', [EntryController::class, 'search']);
             Route::post('import', [EntryController::class, 'import']);
 
-            Route::put('offquels/{uuid}', [EntryController::class, 'editOffquels']);
+            Route::post('{uuid}/offquel/{uuid2}', [EntryController::class, 'add_offquel']);
+            Route::delete('{uuid}/offquel/{uuid2}', [EntryController::class, 'delete_offquel']);
             Route::put('img-upload/{uuid}', [EntryController::class, 'imageUpload']);
             Route::delete('img-upload/{uuid}', [EntryController::class, 'imageDelete']);
             Route::put('ratings/{uuid}', [EntryController::class, 'ratings']);

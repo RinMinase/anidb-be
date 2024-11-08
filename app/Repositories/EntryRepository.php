@@ -572,34 +572,36 @@ class EntryRepository {
     return $repo->import($values);
   }
 
-  public function editOffquels(array $values, $uuid) {
-    if (!empty($values['data'])) {
-      $entry_id = Entry::where('uuid', $uuid)->firstOrFail()->id;
+  public function add_offquel(string $entry_uuid, string $offquel_uuid) {
+    $entry_id = Entry::where('uuid', $entry_uuid)->firstOrFail()->id;
+    $offquel_id = Entry::where('uuid', $offquel_uuid)->firstOrFail()->id;
 
-      $data = [];
-      foreach ($values['data'] as $item) {
-        if (!is_uuid($item)) throw new ParsingException();
-
-        $offquel_id = Entry::where('uuid', $item)->firstOrFail()->id;
-
-        if ($entry_id === $offquel_id) {
-          continue; // skip when offquel is set to self
-        }
-
-        array_push($data, [
-          'id_entries' => $entry_id,
-          'id_entries_offquel' => $offquel_id,
-        ]);
-      }
-
-      EntryOffquel::where('id_entries', $entry_id)->delete();
-
-      foreach ($data as $item) {
-        EntryOffquel::create($item);
-      }
-
-      return count($data);
+    if ($entry_id === $offquel_id) {
+      throw new ParsingException('The title should not be the same as the connected entry');
     }
+
+    $is_duplicate = EntryOffquel::where('id_entries', $entry_id)
+      ->where('id_entries_offquel', $offquel_id)
+      ->first();
+
+    if ($is_duplicate) {
+      throw new ParsingException('This offquel entry already exists');
+    }
+
+    EntryOffquel::create([
+      'id_entries' => $entry_id,
+      'id_entries_offquel' => $offquel_id,
+    ]);
+  }
+
+  public function delete_offquel(string $entry_uuid, string $offquel_uuid) {
+    $entry_id = Entry::where('uuid', $entry_uuid)->firstOrFail()->id;
+    $offquel_id = Entry::where('uuid', $offquel_uuid)->firstOrFail()->id;
+
+    EntryOffquel::where('id_entries', $entry_id)
+      ->where('id_entries_offquel', $offquel_id)
+      ->firstOrFail()
+      ->delete();
   }
 
   public function upload($image, $uuid) {

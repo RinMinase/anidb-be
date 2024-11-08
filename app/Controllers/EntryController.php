@@ -454,10 +454,10 @@ class EntryController extends Controller {
   }
 
   /**
-   * @OA\Put(
+   * @OA\Post(
    *   tags={"Entry"},
-   *   path="/api/entries/offquels/{entry_id}",
-   *   summary="Edit Entry Offquels",
+   *   path="/api/entries/{entry_id}/offquel/{entry_offquel_id}",
+   *   summary="Add Entry Offquel",
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(
@@ -468,7 +468,14 @@ class EntryController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(ref="#/components/parameters/entry_offquels_data"),
+   *   @OA\Parameter(
+   *     name="entry_offquel_id",
+   *     description="Entry Offquel ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/EntryParsingResponse"),
@@ -476,30 +483,46 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function editOffquels(OffquelsRequest $request, $uuid): JsonResponse {
-    try {
-      $data = [];
-      parse_str($request->get('data'), $data);
+  public function add_offquel($entry_uuid, $offquel_uuid): JsonResponse {
+    $this->entryRepository->add_offquel($entry_uuid, $offquel_uuid);
 
-      if (!isset($data['data'])) {
-        throw new ParsingException();
-      }
+    return DefaultResponse::success();
+  }
 
-      $total_count = 0;
+  /**
+   * @OA\Delete(
+   *   tags={"Entry"},
+   *   path="/api/entries/{entry_id}/offquel/{entry_offquel_id}",
+   *   summary="Delete Entry Offquel",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(
+   *     name="entry_offquel_id",
+   *     description="Entry Offquel ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/EntryParsingResponse"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function delete_offquel($entry_uuid, $offquel_uuid): JsonResponse {
+    $this->entryRepository->delete_offquel($entry_uuid, $offquel_uuid);
 
-      if (isset($data['data'])) $total_count += count($data['data']);
-
-      $count = $this->entryRepository->editOffquels($data, $uuid);
-
-      return DefaultResponse::success(null, [
-        'data' => [
-          'accepted' => $count,
-          'total' => $total_count,
-        ],
-      ]);
-    } catch (TypeError) {
-      throw new ParsingException();
-    }
+    return DefaultResponse::success();
   }
 
   /**

@@ -21,12 +21,14 @@ class OffquelsRequest extends FormRequest {
    * ),
    */
   public function rules() {
+    vdd($this->route('uuid'));
+
     if ($this->route('uuid')) {
       Entry::where('uuid', $this->route('uuid'))->firstOrFail();
     }
 
     return [
-      'data' => ['required', 'string'],
+      'offquel_uuid' => ['required', 'string', 'uuid'],
     ];
   }
 
