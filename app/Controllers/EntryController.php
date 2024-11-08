@@ -161,6 +161,8 @@ class EntryController extends Controller {
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
    *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_genres"),
+   *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
@@ -192,6 +194,7 @@ class EntryController extends Controller {
         'id_codec_video',
         'id_codec_video',
         'codec_hdr',
+        'genres',
       )
     );
 
@@ -247,6 +250,8 @@ class EntryController extends Controller {
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
    *
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_genres"),
+   *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
@@ -279,6 +284,7 @@ class EntryController extends Controller {
         'id_codec_video',
         'id_codec_video',
         'codec_hdr',
+        'genres',
       ),
       $uuid,
     );

@@ -163,6 +163,14 @@ class AddEditRequest extends FormRequest {
    *   in="query",
    *   @OA\Schema(type="boolean"),
    * ),
+   *
+   * @OA\Parameter(
+   *   parameter="entry_add_edit_genres",
+   *   name="genres",
+   *   in="query",
+   *   description="Comma-separated genre IDs",
+   *   @OA\Schema(type="string"),
+   * ),
    */
   public function rules() {
     $today = date("Y-m-d H:i:s", strtotime("+8 hours"));
@@ -209,6 +217,8 @@ class AddEditRequest extends FormRequest {
       'id_codec_audio' => ['nullable', 'integer', 'exists:codec_audios,id'],
       'id_codec_video' => ['nullable', 'integer', 'exists:codec_videos,id'],
       'codec_hdr' => ['boolean'],
+
+      'genres' => ['nullable', 'string'], // comma separated ids
     ];
   }
 

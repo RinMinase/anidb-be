@@ -15,7 +15,7 @@ class EntryGenre extends Model {
 
   protected $fillable = [
     'id_entries',
-    'id_entries_genre',
+    'id_genres',
   ];
 
   protected $hidden = [

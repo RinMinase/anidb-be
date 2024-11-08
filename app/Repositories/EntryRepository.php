@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\Entry\InvalidGenreException;
 use Carbon\Carbon;
 use Cloudinary\Api\Upload\UploadApi;
 use Fuse\Fuse;
@@ -14,7 +15,9 @@ use App\Exceptions\Entry\ParsingException;
 use App\Models\Entry;
 use App\Models\EntryRewatch;
 use App\Models\Bucket;
+use App\Models\EntryGenre;
 use App\Models\EntryOffquel;
+use App\Models\Genre;
 use App\Models\Sequence;
 
 use App\Resources\Entry\EntryBySequenceResource;
@@ -479,6 +482,8 @@ class EntryRepository {
   }
 
   public function add(array $values) {
+    $genre_ids = $this->validate_genres_and_return_ids($values);
+
     $values['uuid'] = Str::uuid()->toString();
     $values['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
     $values['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
@@ -518,11 +523,14 @@ class EntryRepository {
 
     $this->update_season($values, $id);
     $this->update_prequel_sequel($values, $id);
+    $this->update_genres($genre_ids, $id);
 
     LogRepository::generateLogs('entry', $values['uuid'], null, 'add');
   }
 
   public function edit(array $values, $uuid) {
+    $genre_ids = $this->validate_genres_and_return_ids($values);
+
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
     $entryUpdateColumns = [
@@ -557,6 +565,7 @@ class EntryRepository {
 
     $this->update_season($values, $entry->id);
     $this->update_prequel_sequel($values, $entry->id);
+    $this->update_genres($genre_ids, $entry->id);
 
     LogRepository::generateLogs('entry', $entry->uuid, null, 'edit');
   }
@@ -789,6 +798,19 @@ class EntryRepository {
     }
   }
 
+  private function update_genres($genre_ids, $inserted_id) {
+    if ($genre_ids && count($genre_ids)) {
+      EntryGenre::where('id_entries', $inserted_id)->delete();
+
+      foreach ($genre_ids as $genre_id) {
+        EntryGenre::create([
+          'id_entries' => $inserted_id,
+          'id_genres' => $genre_id,
+        ]);
+      }
+    }
+  }
+
   private function calc_date_finished($item) {
     $last_date_finished = '';
 
@@ -905,5 +927,26 @@ class EntryRepository {
       'start_date' => $start_date->format('M d, Y'),
       'end_date' => $end_date->format('M d, Y'),
     ];
+  }
+
+  private function validate_genres_and_return_ids($values) {
+    // Validate genres before proceeding
+    $genre_ids = [];
+    if ($values['genres']) {
+      $valid_genre_ids = Genre::select('id')->get()->pluck('id')->toArray();
+
+      $parts = explode(',', $values['genres']);
+      foreach ($parts as $value) {
+        $value = intval(trim($value));
+
+        if (!in_array($value, $valid_genre_ids, true)) {
+          throw new InvalidGenreException("One or more genre is invalid");
+        }
+
+        array_push($genre_ids, $value);
+      }
+    }
+
+    return $genre_ids;
   }
 }
