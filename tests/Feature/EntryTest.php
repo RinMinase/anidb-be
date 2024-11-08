@@ -31,19 +31,23 @@ class EntryTest extends BaseTestCase {
   private $entry_backup = null;
 
   // Class variables
-  private $total_entry_count = 5;
+  private $total_entry_count = 7;
 
   private $entry_id_1 = 99999;
   private $entry_id_2 = 99998;
   private $entry_id_3 = 99997;
   private $entry_id_4 = 99996;
   private $entry_id_5 = 99995;
+  private $entry_id_6 = 99994;
+  private $entry_id_7 = 99993;
 
   private $entry_uuid_1 = 'b354c456-fb16-4809-b4bb-e55f8c9ec900';
   private $entry_uuid_2 = 'a787f460-bc60-44cf-9224-3901fb5b08ca';
   private $entry_uuid_3 = '959d90bd-f1ed-4078-b374-4fd4dfedfbb6';
   private $entry_uuid_4 = '64b3e54c-8280-4275-b5c2-5361065a5bf9';
   private $entry_uuid_5 = 'ddd65078-5d05-48a3-9604-a2ed9f4a679e';
+  private $entry_uuid_6 = '012140c2-3f8d-42e5-af36-291f37db4c36';
+  private $entry_uuid_7 = 'a46e625d-91ce-4716-8bb8-f9dba381a3bc';
 
   private $entry_title_1 = 'testing series title season 1';
 
@@ -100,6 +104,8 @@ class EntryTest extends BaseTestCase {
     $date_finished_3 = Carbon::parse('2001-01-03')->format('Y-m-d');
     $date_finished_4 = Carbon::parse('2001-01-04')->format('Y-m-d');
     $date_finished_5 = Carbon::parse('2001-01-05')->format('Y-m-d');
+    $date_finished_6 = Carbon::parse('2001-01-06')->format('Y-m-d');
+    $date_finished_7 = Carbon::parse('2001-01-07')->format('Y-m-d');
 
     $date_finished_rewatch = Carbon::parse('2001-02-01')->format('Y-m-d');
 
@@ -181,6 +187,32 @@ class EntryTest extends BaseTestCase {
         'updated_at' => '2020-01-01 13:00:00',
         'image' => null,
       ],
+      [
+        'id' => $this->entry_id_6,
+        'uuid' => $this->entry_uuid_6,
+        'id_quality' => $id_quality,
+        'date_finished' => $date_finished_6,
+        'title' => 'for offquel 1',
+        'season_number' => 3,
+        'prequel_id' => $this->entry_id_4,
+        'sequel_id' => null,
+        'created_at' => '2020-01-01 13:00:00',
+        'updated_at' => '2020-01-01 13:00:00',
+        'image' => null,
+      ],
+      [
+        'id' => $this->entry_id_7,
+        'uuid' => $this->entry_uuid_7,
+        'id_quality' => $id_quality,
+        'date_finished' => $date_finished_7,
+        'title' => 'for offquel 2',
+        'season_number' => 3,
+        'prequel_id' => $this->entry_id_4,
+        'sequel_id' => null,
+        'created_at' => '2020-01-01 13:00:00',
+        'updated_at' => '2020-01-01 13:00:00',
+        'image' => null,
+      ],
     ];
 
     $test_entry_offquel = [
@@ -220,6 +252,23 @@ class EntryTest extends BaseTestCase {
   public function tearDown(): void {
     $this->setup_restore();
     parent::tearDown();
+  }
+
+  // Helper Functions
+  private function stringify_multi_data(array $data): string {
+    $ret_val = '';
+
+    foreach ($data as $base_key => $item) {
+      foreach ($item as $key => $value) {
+        $ret_val .= $base_key . '[' . $key . ']=' . $value . '&';
+      }
+    }
+
+    if ($ret_val) {
+      $ret_val = rtrim($ret_val, '&');
+    }
+
+    return $ret_val;
   }
 
   /**
@@ -727,9 +776,6 @@ class EntryTest extends BaseTestCase {
     $this->assertEquals($actual->uuid, $actual_sequel->prequel->uuid);
   }
 
-  // public function test_should_add_data_and_set_existing_entry_as_offquel() {
-  // }
-
   public function test_should_not_add_data_on_form_errors() {
     $response = $this->withoutMiddleware()
       ->post('/api/entries/');
@@ -1140,9 +1186,6 @@ class EntryTest extends BaseTestCase {
     $this->assertEquals($actual->uuid, $actual_sequel->prequel->uuid);
   }
 
-  // public function test_should_edit_data_as_offquel_to_existing_entry() {
-  // }
-
   public function test_should_not_edit_data_on_form_errors() {
     $this->setup_config();
 
@@ -1460,6 +1503,134 @@ class EntryTest extends BaseTestCase {
     $invalid_id = -1;
 
     $response = $this->withoutMiddleware()->delete('/api/entries/' . $invalid_id);
+
+    $response->assertStatus(404);
+  }
+
+  /**
+   * Offquel Update Endpoint
+   */
+  public function test_should_add_offquels_to_existing_entry_successfully() {
+    $this->setup_config();
+
+    $params = [
+      'data' => $this->stringify_multi_data([
+        'data' => [
+          $this->entry_uuid_6,
+          $this->entry_uuid_7
+        ],
+      ])
+    ];
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_2, $params);
+
+    $response->assertStatus(200);
+
+    $actual = EntryOffquel::select('id_entries_offquel')
+      ->where('id_entries', $this->entry_id_2)
+      ->get()
+      ->pluck('id_entries_offquel')
+      ->toArray();
+
+    $expected = [
+      $this->entry_id_6,
+      $this->entry_id_7
+    ];
+
+    $this->assertCount(count($expected), $actual);
+    $this->assertEqualsCanonicalizing($expected, $actual);
+  }
+
+  public function test_should_not_add_offquels_when_offquel_is_set_to_self() {
+    $this->setup_config();
+
+    $params = [
+      'data' => $this->stringify_multi_data([
+        'data' => [$this->entry_uuid_6],
+      ])
+    ];
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
+
+    $response->assertStatus(200);
+
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_6)->get()->toArray();
+
+    $this->assertCount(0, $actual);
+  }
+
+  public function test_should_not_add_offquels_on_form_errors() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure([
+        'data' => ['data'],
+      ]);
+
+    $params = [
+      'data' => $this->stringify_multi_data([
+        'data' => ['invalid id'],
+      ])
+    ];
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'There was a problem in parsing your request']);
+
+    $params = [
+      'data' => $this->stringify_multi_data([
+        'data' => ['data[]=invalid id'],
+      ])
+    ];
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'There was a problem in parsing your request']);
+
+    $params = [
+      'data' => $this->stringify_multi_data([
+        'data' => ['data[0]=invalid'],
+      ])
+    ];
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
+
+    $response->assertStatus(401)
+      ->assertJson(['message' => 'There was a problem in parsing your request']);
+  }
+
+  public function test_should_not_add_offquels_when_id_is_used_instead_of_uuid() {
+    $this->setup_config();
+
+    $params = [
+      'data' => $this->stringify_multi_data([
+        'data' => [$this->entry_uuid_7],
+      ])
+    ];
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_id_6, $params);
+
+    $response->assertStatus(404);
+
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_6)->get()->toArray();
+
+    $this->assertCount(0, $actual);
+  }
+
+  public function test_should_not_add_offquels_to_non_existing_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $invalid_id);
+
+    $response->assertStatus(404);
+
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $invalid_id);
 
     $response->assertStatus(404);
   }
