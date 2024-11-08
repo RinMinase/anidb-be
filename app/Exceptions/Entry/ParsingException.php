@@ -35,7 +35,7 @@ class ParsingException extends CustomException {
     return response()->json([
       'status' => 401,
       'data' => [
-        'offquel_id' => $this->error_message,
+        'offquel_id' => [$this->error_message],
       ],
     ], 401);
   }
