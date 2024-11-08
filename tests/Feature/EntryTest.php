@@ -1510,129 +1510,154 @@ class EntryTest extends BaseTestCase {
   /**
    * Offquel Update Endpoint
    */
-  public function test_should_add_offquels_to_existing_entry_successfully() {
+  public function test_should_add_offquel_to_existing_entry_successfully() {
     $this->setup_config();
 
-    $params = [
-      'data' => $this->stringify_multi_data([
-        'data' => [
-          $this->entry_uuid_6,
-          $this->entry_uuid_7
-        ],
-      ])
-    ];
+    $entry = $this->entry_uuid_2;
+    $offquel = $this->entry_uuid_6;
 
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_2, $params);
+    $response = $this->withoutMiddleware()->post('/api/entries/' . $entry . '/offquel/' . $offquel);
 
     $response->assertStatus(200);
 
-    $actual = EntryOffquel::select('id_entries_offquel')
-      ->where('id_entries', $this->entry_id_2)
-      ->get()
-      ->pluck('id_entries_offquel')
-      ->toArray();
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_2)
+      ->where('id_entries_offquel', $this->entry_id_6)
+      ->first();
 
-    $expected = [
-      $this->entry_id_6,
-      $this->entry_id_7
-    ];
-
-    $this->assertCount(count($expected), $actual);
-    $this->assertEqualsCanonicalizing($expected, $actual);
+    $this->assertNotNull($actual);
   }
 
-  public function test_should_not_add_offquels_when_offquel_is_set_to_self() {
+  public function test_should_not_add_offquel_when_offquel_is_set_to_self() {
     $this->setup_config();
 
-    $params = [
-      'data' => $this->stringify_multi_data([
-        'data' => [$this->entry_uuid_6],
-      ])
-    ];
+    $entry = $this->entry_uuid_6;
+    $offquel = $this->entry_uuid_6;
 
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
-
-    $response->assertStatus(200);
-
-    $actual = EntryOffquel::where('id_entries', $this->entry_id_6)->get()->toArray();
-
-    $this->assertCount(0, $actual);
-  }
-
-  public function test_should_not_add_offquels_on_form_errors() {
-    $this->setup_config();
-
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6);
+    $response = $this->withoutMiddleware()->post('/api/entries/' . $entry . '/offquel/' . $offquel);
 
     $response->assertStatus(401)
       ->assertJsonStructure([
-        'data' => ['data'],
+        'data' => ['offquel_id'],
       ]);
 
-    $params = [
-      'data' => $this->stringify_multi_data([
-        'data' => ['invalid id'],
-      ])
-    ];
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_6)
+      ->where('id_entries_offquel', $this->entry_id_6)
+      ->first();
 
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'There was a problem in parsing your request']);
-
-    $params = [
-      'data' => $this->stringify_multi_data([
-        'data' => ['data[]=invalid id'],
-      ])
-    ];
-
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'There was a problem in parsing your request']);
-
-    $params = [
-      'data' => $this->stringify_multi_data([
-        'data' => ['data[0]=invalid'],
-      ])
-    ];
-
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_uuid_6, $params);
-
-    $response->assertStatus(401)
-      ->assertJson(['message' => 'There was a problem in parsing your request']);
+    $this->assertNull($actual);
   }
 
-  public function test_should_not_add_offquels_when_id_is_used_instead_of_uuid() {
+  public function test_should_not_add_offquel_when_id_is_used_instead_of_uuid() {
     $this->setup_config();
 
-    $params = [
-      'data' => $this->stringify_multi_data([
-        'data' => [$this->entry_uuid_7],
-      ])
-    ];
+    $entry = $this->entry_id_6;
+    $offquel = $this->entry_id_7;
 
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $this->entry_id_6, $params);
+    $response = $this->withoutMiddleware()->post('/api/entries/' . $entry . '/offquel/' . $offquel);
 
     $response->assertStatus(404);
 
-    $actual = EntryOffquel::where('id_entries', $this->entry_id_6)->get()->toArray();
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_6)
+      ->where('id_entries_offquel', $this->entry_id_7)
+      ->first();
 
-    $this->assertCount(0, $actual);
+    $this->assertNull($actual);
   }
 
-  public function test_should_not_add_offquels_to_non_existing_entry() {
+  public function test_should_not_add_offquel_to_non_existing_entry() {
     $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+    $valid_id = $this->entry_uuid_1;
 
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $invalid_id);
+    $this->withoutMiddleware()
+      ->post('/api/entries/' . $invalid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
 
-    $response->assertStatus(404);
+    $this->withoutMiddleware()
+      ->post('/api/entries/' . $valid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->post('/api/entries/' . $invalid_id . '/offquel/' . $valid_id)
+      ->assertStatus(404);
 
     $invalid_id = -1;
 
-    $response = $this->withoutMiddleware()->put('/api/entries/offquels/' . $invalid_id);
+    $this->withoutMiddleware()
+      ->post('/api/entries/' . $invalid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->post('/api/entries/' . $valid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->post('/api/entries/' . $invalid_id . '/offquel/' . $valid_id)
+      ->assertStatus(404);
+  }
+
+  public function test_should_delete_offquel_to_existing_entry_successfully() {
+    $this->setup_config();
+
+    $entry = $this->entry_uuid_1;
+    $offquel = $this->entry_uuid_3;
+
+    $response = $this->withoutMiddleware()->delete('/api/entries/' . $entry . '/offquel/' . $offquel);
+
+    $response->assertStatus(200);
+
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_1)
+      ->where('id_entries_offquel', $this->entry_id_3)
+      ->first();
+
+    $this->assertNull($actual);
+  }
+
+  public function test_should_not_delete_offquel_when_id_is_used_instead_of_uuid() {
+    $this->setup_config();
+
+    $entry = $this->entry_id_1;
+    $offquel = $this->entry_id_3;
+
+    $response = $this->withoutMiddleware()->delete('/api/entries/' . $entry . '/offquel/' . $offquel);
 
     $response->assertStatus(404);
+
+    $actual = EntryOffquel::where('id_entries', $this->entry_id_1)
+      ->where('id_entries_offquel', $this->entry_id_3)
+      ->first();
+
+    $this->assertNotNull($actual);
+  }
+
+  public function test_should_not_delete_offquel_to_non_existing_entry() {
+    $invalid_id = 'aaaaaaaa-1234-1234-1234-aaaaaaaa1234';
+    $valid_id = $this->entry_uuid_1;
+
+    $this->withoutMiddleware()
+      ->delete('/api/entries/' . $invalid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->delete('/api/entries/' . $valid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->delete('/api/entries/' . $invalid_id . '/offquel/' . $valid_id)
+      ->assertStatus(404);
+
+    $invalid_id = -1;
+
+    $this->withoutMiddleware()
+      ->delete('/api/entries/' . $invalid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->delete('/api/entries/' . $valid_id . '/offquel/' . $invalid_id)
+      ->assertStatus(404);
+
+    $this->withoutMiddleware()
+      ->delete('/api/entries/' . $invalid_id . '/offquel/' . $valid_id)
+      ->assertStatus(404);
   }
 
   /**
