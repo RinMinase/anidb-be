@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder {
       CodecVideoSeeder::class,
       PrioritySeeder::class,
       QualitySeeder::class,
+      GenreSeeder::class,
 
       BucketSeeder::class,      // test data
       BucketSimSeeder::class,   // test data

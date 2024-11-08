@@ -16,6 +16,7 @@ use App\Controllers\EntryBySequenceController;
 use App\Controllers\EntryByYearController;
 use App\Controllers\EntryController;
 use App\Controllers\EntryLastController;
+use App\Controllers\GenreController;
 use App\Controllers\GroupController;
 use App\Controllers\ImportController;
 use App\Controllers\LogController;
@@ -131,9 +132,12 @@ Route::prefix('api')
 
         Route::get('management', [ManagementController::class, 'index']);
         Route::get('logs', [LogController::class, 'index']);
+        Route::post('import', [ImportController::class, 'index']);
+
+        // Dropdowns
+        Route::get('genres', [GenreController::class, 'index']);
         Route::get('qualities', [QualityController::class, 'index']);
         Route::get('priorities', [PriorityController::class, 'index']);
-        Route::post('import', [ImportController::class, 'index']);
 
         Route::prefix('entries')
           ->group(function () {
