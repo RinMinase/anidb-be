@@ -3086,6 +3086,9 @@
                         "$ref": "#/components/parameters/entry_search_titles_id"
                     },
                     {
+                        "$ref": "#/components/parameters/entry_search_titles_id_excluded"
+                    },
+                    {
                         "$ref": "#/components/parameters/entry_search_titles_needle"
                     }
                 ],
@@ -9616,12 +9619,21 @@
             "entry_search_titles_id": {
                 "name": "id",
                 "in": "query",
-                "description": "Entry ID, search should not include this entry",
+                "description": "Entry ID, search should by default include this entry",
                 "schema": {
                     "type": "string",
                     "format": "uuid"
                 },
                 "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+            },
+            "entry_search_titles_id_excluded": {
+                "name": "id_excluded",
+                "in": "query",
+                "description": "If true, id parameter is exluded instead of included",
+                "schema": {
+                    "type": "boolean",
+                    "default": false
+                }
             },
             "entry_search_titles_needle": {
                 "name": "needle",
