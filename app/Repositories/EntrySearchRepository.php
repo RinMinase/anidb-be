@@ -1063,6 +1063,7 @@ class EntrySearchRepository {
           'release_to_year' => null,
           'release_to_season' => $formatted_release_to[1],
           'comparator' => null,
+          'releases' => [],
         ];
       }
 
@@ -1165,8 +1166,8 @@ class EntrySearchRepository {
         }
 
         return [
-          'release_from_year' => $release[0] ?? null,
-          'release_from_season' => $release[1] ?? null,
+          'release_from_year' => null,
+          'release_from_season' => null,
           'release_to_year' => null,
           'release_to_season' => null,
           'comparator' => null,
