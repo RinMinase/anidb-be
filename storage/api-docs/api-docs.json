@@ -2316,6 +2316,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/entry_add_edit_codec_hdr"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_genres"
                     }
                 ],
                 "responses": {
@@ -2484,6 +2487,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/entry_add_edit_codec_hdr"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_genres"
                     }
                 ],
                 "responses": {
@@ -8654,6 +8660,39 @@
                     }
                 }
             },
+            "EntryGenreResponse": {
+                "description": "Invalid Genre Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "properties": {
+                                        "genres": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "data": {
+                                "genres": [
+                                    "{{ validation message }}"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
             "EntryParsingResponse": {
                 "description": "Partial Parsing Error",
                 "content": {
@@ -9368,6 +9407,14 @@
                 "in": "query",
                 "schema": {
                     "type": "boolean"
+                }
+            },
+            "entry_add_edit_genres": {
+                "name": "genres",
+                "in": "query",
+                "description": "Comma-separated genre IDs",
+                "schema": {
+                    "type": "string"
                 }
             },
             "entry_add_rewatch_date_rewatched": {
