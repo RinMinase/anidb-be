@@ -2733,6 +2733,50 @@
                 ]
             }
         },
+        "/api/entries/offquels/{entry_id}": {
+            "put": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Edit Entry Offquels",
+                "operationId": "11cac605e3e62347f128a1c5ff3981cc",
+                "parameters": [
+                    {
+                        "name": "entry_id",
+                        "in": "path",
+                        "description": "Entry ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_offquels_data"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/EntryParsingResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/img-upload/{entry_id}": {
             "post": {
                 "tags": [
@@ -8466,6 +8510,29 @@
                     }
                 }
             },
+            "EntryParsingResponse": {
+                "description": "Partial Parsing Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "message": "There was a problem in parsing your request"
+                        }
+                    }
+                }
+            },
             "JsonParsingException": {
                 "description": "Partial Parsing Error",
                 "content": {
@@ -9231,6 +9298,15 @@
                     "minimum": 1
                 },
                 "example": 20
+            },
+            "entry_offquels_data": {
+                "name": "data",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "data[0]=e9597119-8452-4f2b-96d8-f2b1b1d2f158&data[1]=786f90ce-87a6-4096-833b-a4a1db740f3d"
             },
             "entry_ratings_audio": {
                 "name": "audio",
