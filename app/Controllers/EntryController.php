@@ -2,16 +2,21 @@
 
 namespace App\Controllers;
 
+use TypeError;
 use Illuminate\Http\JsonResponse;
 
 use App\Exceptions\JsonParsingException;
+use App\Exceptions\Entry\ParsingException;
+
 use App\Repositories\EntryRepository;
 use App\Repositories\EntrySearchRepository;
+
 use App\Requests\ImportRequest;
 use App\Requests\Entry\AddEditRequest;
 use App\Requests\Entry\AddRewatchRequest;
 use App\Requests\Entry\GetAllRequest;
 use App\Requests\Entry\ImageUploadRequest;
+use App\Requests\Entry\OffquelsRequest;
 use App\Requests\Entry\RatingsRequest;
 use App\Requests\Entry\SearchRequest;
 use App\Requests\Entry\SearchTitlesRequest;
@@ -446,6 +451,55 @@ class EntryController extends Controller {
         'totalJsonEntries' => count($data),
       ],
     ]);
+  }
+
+  /**
+   * @OA\Put(
+   *   tags={"Entry"},
+   *   path="/api/entries/offquels/{entry_id}",
+   *   summary="Edit Entry Offquels",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="entry_id",
+   *     description="Entry ID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/entry_offquels_data"),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/EntryParsingResponse"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function editOffquels(OffquelsRequest $request, $uuid): JsonResponse {
+    try {
+      $data = [];
+      parse_str($request->get('data'), $data);
+
+      if (!isset($data['data'])) {
+        throw new ParsingException();
+      }
+
+      $total_count = 0;
+
+      if (isset($data['data'])) $total_count += count($data['data']);
+
+      $count = $this->entryRepository->editOffquels($data, $uuid);
+
+      return DefaultResponse::success(null, [
+        'data' => [
+          'accepted' => $count,
+          'total' => $total_count,
+        ],
+      ]);
+    } catch (TypeError) {
+      throw new ParsingException();
+    }
   }
 
   /**

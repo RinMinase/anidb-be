@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\Exceptions\Entry\ParsingException;
+
 use App\Models\Entry;
 use App\Models\EntryRewatch;
 use App\Models\Bucket;
+use App\Models\EntryOffquel;
 use App\Models\Sequence;
 
 use App\Resources\Entry\EntryBySequenceResource;
@@ -569,6 +572,36 @@ class EntryRepository {
     return $repo->import($values);
   }
 
+  public function editOffquels(array $values, $uuid) {
+    if (!empty($values['data'])) {
+      $entry_id = Entry::where('uuid', $uuid)->firstOrFail()->id;
+
+      $data = [];
+      foreach ($values['data'] as $item) {
+        if (!is_uuid($item)) throw new ParsingException();
+
+        $offquel_id = Entry::where('uuid', $item)->firstOrFail()->id;
+
+        if ($entry_id === $offquel_id) {
+          continue; // skip when offquel is set to self
+        }
+
+        array_push($data, [
+          'id_entries' => $entry_id,
+          'id_entries_offquel' => $offquel_id,
+        ]);
+      }
+
+      EntryOffquel::where('id_entries', $entry_id)->delete();
+
+      foreach ($data as $item) {
+        EntryOffquel::create($item);
+      }
+
+      return count($data);
+    }
+  }
+
   public function upload($image, $uuid) {
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
@@ -686,6 +719,9 @@ class EntryRepository {
     }
   }
 
+  /**
+   * Calculation Functions
+   */
   private function update_season($values, $inserted_id) {
     $has_season = empty($values['season_number'])
       || $values['season_number'] === 1;
