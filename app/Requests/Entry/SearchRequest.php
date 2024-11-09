@@ -169,6 +169,14 @@ class SearchRequest extends FormRequest {
    * ),
    *
    * @OA\Parameter(
+   *   parameter="entry_search_genres",
+   *   name="genres",
+   *   description="Comma separated IDs of genres",
+   *   in="query",
+   *   @OA\Schema(type="string"),
+   * ),
+   *
+   * @OA\Parameter(
    *   parameter="entry_search_column",
    *   name="column",
    *   description="Order - Column to order",
@@ -211,6 +219,8 @@ class SearchRequest extends FormRequest {
       'is_hdr' => [new Enum(EntrySearchHasEnum::class)],
       'codec_video' => ['string'],
       'codec_audio' => ['string'],
+
+      'genres' => ['string'],
 
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
       'order' => ['in:asc,desc,ASC,DESC'],

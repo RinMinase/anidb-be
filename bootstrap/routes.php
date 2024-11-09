@@ -11,6 +11,7 @@ use App\Controllers\BucketSimController;
 use App\Controllers\CatalogController;
 use App\Controllers\CodecController;
 use App\Controllers\EntryByBucketController;
+use App\Controllers\EntryByGenreController;
 use App\Controllers\EntryByNameController;
 use App\Controllers\EntryBySequenceController;
 use App\Controllers\EntryByYearController;
@@ -35,7 +36,7 @@ use App\Fourleaf\Controllers\GasController;
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('integer', '[0-9]+');
-Route::pattern('string', '[a-z]+');
+Route::pattern('string', '[a-zA-z%0-9 ]+');
 Route::pattern('year', '^19\d{2}|2\d{3}$');
 
 Route::middleware('web')
@@ -167,6 +168,9 @@ Route::prefix('api')
             Route::get('by-year', [EntryByYearController::class, 'index']);
             Route::get('by-year/{year}', [EntryByYearController::class, 'get']);
             Route::get('by-year/uncategorized', [EntryByYearController::class, 'get']);
+
+            Route::get('by-genre', [EntryByGenreController::class, 'index']);
+            Route::get('by-genre/{string}', [EntryByGenreController::class, 'get']);
 
             Route::get('by-bucket', [EntryByBucketController::class, 'index']);
             Route::get('by-bucket/{id}', [EntryByBucketController::class, 'get']);

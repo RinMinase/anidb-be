@@ -346,6 +346,7 @@ class EntryController extends Controller {
    *   @OA\Parameter(ref="#/components/parameters/entry_search_is_hdr"),
    *   @OA\Parameter(ref="#/components/parameters/entry_search_codec_video"),
    *   @OA\Parameter(ref="#/components/parameters/entry_search_codec_audio"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_search_genres"),
    *   @OA\Parameter(ref="#/components/parameters/entry_search_column"),
    *   @OA\Parameter(ref="#/components/parameters/entry_search_order"),
    *
@@ -396,6 +397,7 @@ class EntryController extends Controller {
         'is_hdr',
         'codec_video',
         'codec_audio',
+        'genres',
         'column',
         'order',
       )

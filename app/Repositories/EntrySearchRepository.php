@@ -13,6 +13,7 @@ use App\Exceptions\Entry\SearchFilterParsingException;
 use App\Models\CodecAudio;
 use App\Models\CodecVideo;
 use App\Models\Entry;
+use App\Models\Genre;
 use App\Models\Quality;
 
 use App\Resources\Entry\EntrySummaryResource;
@@ -46,12 +47,13 @@ class EntrySearchRepository {
     $search_is_hdr = self::search_parse_has_value($values['is_hdr'] ?? null);
     $search_codec_video = self::search_parse_codec($values['codec_video'] ?? null, 'video');
     $search_codec_audio = self::search_parse_codec($values['codec_audio'] ?? null, 'audio');
+    $search_genres = self::search_parse_genres($values['genres'] ?? null);
 
     // Ordering Parameters
     $column = $values['column'] ?? 'id_quality';
     $order = $values['order'] ?? 'asc';
 
-    $data = Entry::select('entries.*')->with('rating');
+    $data = Entry::select('entries.*')->with('rating')->with('genres');
 
     if (!empty($search_title)) {
       $data = $data->where('title', 'ilike', '%' . $search_title . '%')
@@ -326,6 +328,12 @@ class EntrySearchRepository {
 
     if ($search_codec_video && count($search_codec_video)) {
       $data = $data->whereIn('id_codec_video', $search_codec_video);
+    }
+
+    if ($search_genres && count($search_genres)) {
+      $data = $data->leftJoin('entries_genre', 'entries_genre.id_entries', '=', 'entries.id')
+        ->whereIn('entries_genre.id_genres', $search_genres)
+        ->groupBy('entries.id');
     }
 
     $nulls = $order === 'asc' ? 'first' : 'last';
@@ -1253,5 +1261,31 @@ class EntrySearchRepository {
     }
 
     return $codec_ids;
+  }
+
+  public static function search_parse_genres($value) {
+    if (!$value) return null;
+
+    $value = str_replace(' ', '', $value);
+    $parts = explode(',', $value);
+
+    foreach ($parts as $part) {
+      if (!is_numeric($part)) {
+        throw new SearchFilterParsingException('genres', 'Error in parsing string');
+      }
+    }
+
+    $valid_ids = Genre::select('id')->pluck('id')->toArray();
+
+    $genre_ids = [];
+    foreach ($parts as $part) {
+      $part = intval($part);
+
+      if (in_array($part, $valid_ids)) {
+        array_push($genre_ids, $part);
+      }
+    }
+
+    return $genre_ids;
   }
 }

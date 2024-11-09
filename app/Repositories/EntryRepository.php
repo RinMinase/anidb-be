@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\Entry\InvalidGenreException;
 use Carbon\Carbon;
 use Cloudinary\Api\Upload\UploadApi;
 use Fuse\Fuse;
@@ -10,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\Exceptions\Entry\InvalidGenreException;
 use App\Exceptions\Entry\ParsingException;
 
 use App\Models\Entry;
@@ -479,6 +479,41 @@ class EntryRepository {
       'data' => EntryBySequenceResource::collection($data),
       'stats' => $this->calculate_sequence_stats($data, $sequence, $date_to),
     ];
+  }
+
+  public function getByGenreStats() {
+    $data = EntryGenre::select(DB::raw('genres.genre'))
+      ->addSelect(DB::raw('count(*) as count'))
+      ->leftJoin('genres', 'entries_genre.id_genres', '=', 'genres.id')
+      ->groupBy('genres.genre')
+      ->orderBy('genres.genre', 'asc')
+      ->get()
+      ->toArray();
+
+    return $data;
+  }
+
+  public function getByGenre($genre) {
+    $genre_valid_list = Genre::select('genre')->get()->pluck('genre')->toArray();
+    $genre = strtolower($genre);
+
+    foreach ($genre_valid_list as $key => $value) {
+      $genre_valid_list[$key] = strtolower($value);
+    }
+
+    if (!in_array($genre, $genre_valid_list)) {
+      throw new ModelNotFoundException();
+    }
+
+    $genre_id = Genre::where('genre', 'ilike', $genre)->first()->id;
+
+    $entries = Entry::select('entries.*')
+      ->with('genres')
+      ->leftJoin('entries_genre', 'entries_genre.id_entries', '=', 'entries.id')
+      ->where('entries_genre.id_genres', '=', $genre_id)
+      ->get();
+
+    return $entries;
   }
 
   public function add(array $values) {

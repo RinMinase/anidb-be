@@ -2,9 +2,10 @@
 
 namespace App\Resources\Entry;
 
-use App\Repositories\EntryRepository;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+use App\Resources\Genre\GenreResource;
 
 /**
  * @OA\Schema(
@@ -32,6 +33,11 @@ use Carbon\Carbon;
  *   @OA\Property(property="release", type="string", example="Spring 2017"),
  *   @OA\Property(property="remarks", type="string", example="Some remarks"),
  *   @OA\Property(property="rating", type="number", example=7.5),
+ *   @OA\Property(
+ *     property="genres",
+ *     type="array",
+ *     @OA\Items(ref="#/components/schemas/GenreResource")
+ *   ),
  * ),
  */
 class EntrySummaryResource extends JsonResource {
@@ -67,6 +73,8 @@ class EntrySummaryResource extends JsonResource {
       'release' => $this->calcRelease(),
       'remarks' => $this->remarks,
       'rating' => $this->calcRating(),
+
+      'genres' => GenreResource::collection($this->genres),
     ];
   }
 
