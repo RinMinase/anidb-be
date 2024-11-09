@@ -1738,6 +1738,126 @@
                 ]
             }
         },
+        "/api/entries/by-genre": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All By Genre Stats with Entries",
+                "operationId": "6eb0e4d0c3a4f5148952e6ff1b8908f9",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "genre": {
+                                                                "type": "string",
+                                                                "example": "Comedy"
+                                                            },
+                                                            "count": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 12
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/entries/by-genre/{genre}": {
+            "get": {
+                "tags": [
+                    "Entry Specific"
+                ],
+                "summary": "Get All Entries by Genre",
+                "operationId": "d91f768ae8e077cd26caee959485cc32",
+                "parameters": [
+                    {
+                        "name": "genre",
+                        "in": "path",
+                        "description": "Genre",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "comedy"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/EntrySummaryResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/by-name": {
             "get": {
                 "tags": [
@@ -2616,6 +2736,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/entry_search_codec_audio"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_search_genres"
                     },
                     {
                         "$ref": "#/components/parameters/entry_search_column"
@@ -8494,6 +8617,12 @@
                     "rating": {
                         "type": "number",
                         "example": 7.5
+                    },
+                    "genres": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GenreResource"
+                        }
                     }
                 },
                 "type": "object"
@@ -9719,6 +9848,14 @@
                 "name": "codec_audio",
                 "in": "query",
                 "description": "Comma separated IDs of audio codecs",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "entry_search_genres": {
+                "name": "genres",
+                "in": "query",
+                "description": "Comma separated IDs of genres",
                 "schema": {
                     "type": "string"
                 }
