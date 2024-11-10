@@ -36,7 +36,7 @@ class PartialRepository {
 
       $fuse = new Fuse($names, [
         'keys' => ['title'],
-        'threshold' => 0.4,
+        'threshold' => 0.2,
       ]);
 
       $fuzzy_names = $fuse->search($query);
