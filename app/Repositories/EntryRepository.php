@@ -34,7 +34,7 @@ class EntryRepository {
     $order = $values['order'] ?? 'asc';
 
     // Pagination Parameters
-    $limit = isset($values['limit']) ? intval($values['limit']) : 30;
+    $limit = isset($values['limit']) ? intval($values['limit']) : 50;
     $page = isset($values['page']) ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
@@ -55,7 +55,7 @@ class EntryRepository {
           'encoder_video',
           'encoder_subs',
         ],
-        'threshold' => 0.4,
+        'threshold' => 0.2,
       ]);
 
       $fuzzy_names = $fuse->search($query);
