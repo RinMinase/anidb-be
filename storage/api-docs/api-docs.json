@@ -8618,6 +8618,10 @@
                         "type": "number",
                         "example": 7.5
                     },
+                    "ratingOver5": {
+                        "type": "number",
+                        "example": 3.75
+                    },
                     "genres": {
                         "type": "array",
                         "items": {

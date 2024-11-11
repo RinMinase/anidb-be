@@ -33,6 +33,7 @@ use App\Resources\Genre\GenreResource;
  *   @OA\Property(property="release", type="string", example="Spring 2017"),
  *   @OA\Property(property="remarks", type="string", example="Some remarks"),
  *   @OA\Property(property="rating", type="number", example=7.5),
+ *   @OA\Property(property="ratingOver5", type="number", example=3.75),
  *   @OA\Property(
  *     property="genres",
  *     type="array",
