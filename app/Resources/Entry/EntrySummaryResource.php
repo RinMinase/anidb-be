@@ -73,6 +73,7 @@ class EntrySummaryResource extends JsonResource {
       'release' => $this->calcRelease(),
       'remarks' => $this->remarks,
       'rating' => $this->calcRating(),
+      'ratingOver5' => round($this->calcRating() / 2, 2),
 
       'genres' => GenreResource::collection($this->genres),
     ];
