@@ -21,7 +21,7 @@
         "php": "^8.1",
         "cloudinary-labs/cloudinary-laravel": "~2.2.2",
         "darkaonline/l5-swagger": "~8.6.3",
-        "laravel/framework": "~11.30.0",
+        "laravel/framework": "~11.31.0",
         "laravel/sanctum": "~4.0.3",
         "loilo/fuse": "~7.0.1",
         "nesbot/carbon": "~3.8.2"
