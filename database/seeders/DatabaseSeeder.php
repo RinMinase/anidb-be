@@ -18,17 +18,20 @@ class DatabaseSeeder extends Seeder {
       QualitySeeder::class,
       GenreSeeder::class,
 
-      BucketSeeder::class,      // test data
-      BucketSimSeeder::class,   // test data
-      CatalogSeeder::class,     // test data
-      EntrySeeder::class,       // test data
-      GroupSeeder::class,       // test data
-      LogSeeder::class,         // test data
-      PartialSeeder::class,     // test data
+      PCSetupInventoryTypeSeeder::class,
+
+      // BucketSeeder::class,      // test data
+      // BucketSimSeeder::class,   // test data
+      // CatalogSeeder::class,     // test data
+      // EntrySeeder::class,       // test data
+      // GroupSeeder::class,       // test data
+      // LogSeeder::class,         // test data
+      // PartialSeeder::class,     // test data
+      // SequenceSeeder::class,    // test data
       RssSeeder::class,         // test data
       RssItemsSeeder::class,    // test data
-      SequenceSeeder::class,    // test data
       PCSetupSeeder::class,     // test data
+      PCSetupInventorySeeder::class,     // test data
 
       // Four leaf seeds
       FourleafSettingsSeeder::class,
