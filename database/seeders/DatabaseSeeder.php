@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder {
 
       // PC Seeds
       PCOwnerSeeder::class,
+      PCInfoSeeder::class,
     ]);
   }
 }
