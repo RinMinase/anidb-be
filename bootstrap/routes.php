@@ -24,6 +24,8 @@ use App\Controllers\LogController;
 use App\Controllers\ManagementController;
 use App\Controllers\PartialController;
 use App\Controllers\PCSetupController;
+use App\Controllers\PCSetupInventoryController;
+use App\Controllers\PCSetupInventoryTypesController;
 use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
 use App\Controllers\RssController;
@@ -302,6 +304,20 @@ Route::prefix('api')
             Route::put('current/{id}', [PCSetupController::class, 'toggleCurrent']);
             Route::put('future/{id}', [PCSetupController::class, 'toggleFuture']);
             Route::put('server/{id}', [PCSetupController::class, 'toggleServer']);
+
+            Route::prefix('inventories')
+              ->group(function () {
+                Route::get('', [PCSetupInventoryController::class, 'index']);
+                Route::get('', [PCSetupInventoryController::class, 'index']);
+
+                Route::prefix('inventories')
+                  ->group(function () {
+                    Route::get('', [PCSetupInventoryTypesController::class, 'index']);
+                    Route::post('', [PCSetupInventoryTypesController::class, 'add']);
+                    Route::put('{id}', [PCSetupInventoryTypesController::class, 'edit']);
+                    Route::delete('{id}', [PCSetupInventoryTypesController::class, 'delete']);
+                  });
+              });
           });
       });
   });

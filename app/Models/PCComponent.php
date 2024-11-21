@@ -7,18 +7,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\RefreshableAutoIncrements;
 
-class PCSetup extends Model {
+class PCComponent extends Model {
 
   use RefreshableAutoIncrements, SoftDeletes;
 
-  protected $table = 'pc_setups';
+  protected $table = 'pc_components';
 
   protected $fillable = [
     'id',
-    'id_owner',
-    'id_info',
-    'id_component',
-    'count',
+    'id_type',
+    'name',
+    'description',
+    'sub_description',
+    'price',
+    'purchase_date',
+    'purchase_location',
+    'is_onhand',
   ];
 
   protected $hidden = [];

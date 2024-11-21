@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Models\PCSetup;
+use App\Models\PCSetupOld;
 
-class PCSetupSeeder extends Seeder {
+class PCSetupOldSeeder extends Seeder {
 
   /**
    * Run the database seeds.
@@ -25,7 +25,7 @@ class PCSetupSeeder extends Seeder {
     ];
 
     foreach ($testData as $item) {
-      PCSetup::create($item);
+      PCSetupOld::create($item);
     }
   }
 }

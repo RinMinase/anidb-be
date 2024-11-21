@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder {
       RssSeeder::class,         // test data
       RssItemsSeeder::class,    // test data
 
-      PCSetupSeeder::class,     // test data
+      // PCSetupSeeder::class,     // test data
       PCSetupInventorySeeder::class,     // test data
 
       // Four leaf seeds
@@ -45,8 +45,8 @@ class DatabaseSeeder extends Seeder {
 
       // PC Seeds
       PCOwnerSeeder::class,
-      PCInfoSeeder::class,
       PCComponentTypeSeeder::class,
+      PCSeeder::class,
     ]);
   }
 }
