@@ -22,6 +22,7 @@ return new class extends Migration {
       $table->foreign('id_component')->references('id')->on('pc_components')->onDelete('cascade');
 
       $table->smallInteger('count')->default(1);
+      $table->boolean('is_hidden')->default(false)->nullable();
 
       $table->timestamps();
       $table->softDeletes();

@@ -18,6 +18,7 @@ return new class extends Migration {
 
       $table->string('label', 128);
       $table->boolean('is_active')->default(false)->nullable();
+      $table->boolean('is_hidden')->default(false)->nullable();
 
       $table->timestamps();
       $table->softDeletes();

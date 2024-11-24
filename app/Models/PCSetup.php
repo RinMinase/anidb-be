@@ -19,6 +19,7 @@ class PCSetup extends Model {
     'id_info',
     'id_component',
     'count',
+    'is_hidden',
   ];
 
   protected $hidden = [];

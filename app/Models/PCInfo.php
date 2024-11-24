@@ -16,9 +16,10 @@ class PCInfo extends Model {
 
   protected $fillable = [
     'uuid',
+    'id_owner',
     'label',
     'is_active',
-    'id_owner',
+    'is_hidden',
   ];
 
   protected $hidden = [
