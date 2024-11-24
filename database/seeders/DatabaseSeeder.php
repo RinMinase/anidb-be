@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder {
       QualitySeeder::class,
       GenreSeeder::class,
 
-      PCSetupInventoryTypeSeeder::class,
-
       BucketSeeder::class,      // test data
       BucketSimSeeder::class,   // test data
       CatalogSeeder::class,     // test data
@@ -32,9 +30,6 @@ class DatabaseSeeder extends Seeder {
       RssSeeder::class,         // test data
       RssItemsSeeder::class,    // test data
 
-      // PCSetupSeeder::class,     // test data
-      PCSetupInventorySeeder::class,     // test data
-
       // Four leaf seeds
       FourleafSettingsSeeder::class,
       FourleafGasSeeder::class,
@@ -46,7 +41,7 @@ class DatabaseSeeder extends Seeder {
       // PC Seeds
       PCOwnerSeeder::class,
       PCComponentTypeSeeder::class,
-      PCSeeder::class,
+      PCSeeder::class,        // test data
     ]);
   }
 }

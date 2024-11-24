@@ -5,18 +5,20 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Exceptions\JsonParsingException;
-use App\Repositories\PCSetupRepository;
+use App\Repositories\PCRepository;
 use App\Requests\ImportRequest;
 use App\Requests\PCSetup\AddEditRequest;
 use App\Resources\DefaultResponse;
 
-class PCSetupController extends Controller {
+class PCController extends Controller {
 
-  private PCSetupRepository $pcSetupRepository;
+  private PCRepository $pcRepository;
 
-  public function __construct(PCSetupRepository $pcSetupRepository) {
-    $this->pcSetupRepository = $pcSetupRepository;
+  public function __construct(PCRepository $pcRepository) {
+    $this->pcRepository = $pcRepository;
   }
+
+
 
   /**
    * @OA\Get(

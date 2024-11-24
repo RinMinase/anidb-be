@@ -23,9 +23,9 @@ use App\Controllers\ImportController;
 use App\Controllers\LogController;
 use App\Controllers\ManagementController;
 use App\Controllers\PartialController;
-use App\Controllers\PCSetupController;
-use App\Controllers\PCSetupInventoryController;
-use App\Controllers\PCSetupInventoryTypesController;
+use App\Controllers\PCController;
+use App\Controllers\PCComponentController;
+use App\Controllers\PCComponentTypeController;
 use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
 use App\Controllers\RssController;
@@ -291,14 +291,43 @@ Route::prefix('api')
             Route::get('search', [AnilistController::class, 'search']);
           });
 
-        Route::prefix('pc-setups')
+        Route::prefix('pc')
           ->group(function () {
-            Route::get('', [PCSetupController::class, 'index']);
-            Route::get('{id}', [PCSetupController::class, 'get']);
-            Route::post('', [PCSetupController::class, 'add']);
-            Route::put('{id}', [PCSetupController::class, 'edit']);
-            Route::delete('{id}', [PCSetupController::class, 'delete']);
-            Route::post('import', [PCSetupController::class, 'import']);
+
+            Route::prefix('owners')
+              ->group(function () {
+                Route::get('', [PCController::class, 'get_owners']);
+                Route::post('', [PCController::class, 'add_owner']);
+                Route::put('{id}', [PCController::class, 'edit_owner']);
+                Route::delete('{id}', [PCController::class, 'delete_owner']);
+              });
+
+            Route::prefix('setups')
+              ->group(function () {
+                Route::get('{id}', [PCController::class, 'get_setup_by_owner']);
+                Route::post('', [PCController::class, 'add_owner']);
+                Route::put('{id}', [PCController::class, 'edit_owner']);
+                Route::delete('{id}', [PCController::class, 'delete_owner']);
+              });
+
+            Route::prefix('components')
+              ->group(function () {
+                Route::get('', [PCComponentController::class, 'index']);
+                Route::post('', [PCComponentController::class, 'add']);
+                Route::put('{id}', [PCComponentController::class, 'edit']);
+                Route::delete('{id}', [PCComponentController::class, 'delete']);
+              });
+
+            Route::prefix('types')
+              ->group(function () {
+                Route::get('', [PCComponentTypeController::class, 'index']);
+                Route::post('', [PCComponentTypeController::class, 'add']);
+                Route::put('{id}', [PCComponentTypeController::class, 'edit']);
+                Route::delete('{id}', [PCComponentTypeController::class, 'delete']);
+              });
+
+
+            // Route::post('import', [PCSetupController::class, 'import']);
 
             Route::post('duplicate/{id}', [PCSetupController::class, 'duplicate']);
             Route::put('current/{id}', [PCSetupController::class, 'toggleCurrent']);

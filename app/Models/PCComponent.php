@@ -18,10 +18,10 @@ class PCComponent extends Model {
     'id_type',
     'name',
     'description',
-    'sub_description',
     'price',
     'purchase_date',
     'purchase_location',
+    'purchase_notes',
     'is_onhand',
   ];
 

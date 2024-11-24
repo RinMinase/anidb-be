@@ -17,7 +17,7 @@ class PCInfo extends Model {
   protected $fillable = [
     'uuid',
     'label',
-    'is_current',
+    'is_active',
     'id_owner',
   ];
 

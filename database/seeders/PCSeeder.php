@@ -25,17 +25,17 @@ class PCSeeder extends Seeder {
     $dataInfo = [
       [
         'label' => 'Alice v1',
-        'is_current' => false,
+        'is_active' => false,
         'id_owner' => $id_owner_alice,
       ],
       [
         'label' => 'Alice v2',
-        'is_current' => true,
+        'is_active' => true,
         'id_owner' => $id_owner_alice,
       ],
       [
         'label' => 'Hecate v1',
-        'is_current' => false,
+        'is_active' => false,
         'id_owner' => $id_owner_hecate,
       ],
     ];
@@ -47,12 +47,12 @@ class PCSeeder extends Seeder {
 
     $id_info_alice2 = PCInfo::insertGetId([
       'uuid' => Str::uuid()->toString(),
-      ...$dataInfo[0],
+      ...$dataInfo[1],
     ]);
 
     $id_info_hecate = PCInfo::insertGetId([
       'uuid' => Str::uuid()->toString(),
-      ...$dataInfo[0],
+      ...$dataInfo[2],
     ]);
 
     $id_component_types = PCComponentType::select('id', 'type')->get()->toArray();

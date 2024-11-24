@@ -15,13 +15,13 @@ return new class extends Migration {
       $table->integer('id_type')->nullable();
       $table->foreign('id_type')->references('id')->on('pc_component_types');
 
-      $table->string('name', 128);
-      $table->string('description', 128)->nullable();
-      $table->string('sub_description', 128)->nullable();
+      $table->string('name', 64);
+      $table->string('description', 64)->nullable();
 
       $table->integer('price')->nullable();
       $table->date('purchase_date')->nullable();
-      $table->string('purchase_location', 256)->nullable();
+      $table->string('purchase_location', 64)->nullable();
+      $table->string('purchase_notes', 64)->nullable();
 
       $table->boolean('is_onhand')->nullable();
 

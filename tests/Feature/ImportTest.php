@@ -11,14 +11,14 @@ use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
 use App\Models\Group;
-use App\Models\PCSetup;
+// use App\Models\PCSetup;
 use App\Models\Sequence;
 
 class ImportTest extends BaseTestCase {
 
   // Backup related variables
   private $bucket_backup = null;
-  private $pc_setup_backup = null;
+  // private $pc_setup_backup = null;
   private $group_backup = null;
   private $sequence_backup = null;
 
@@ -32,7 +32,7 @@ class ImportTest extends BaseTestCase {
   // Backup related tables
   private function setup_backup() {
     $this->bucket_backup = Bucket::all()->toArray();
-    $this->pc_setup_backup = PCSetup::all()->toArray();
+    // $this->pc_setup_backup = PCSetup::all()->toArray();
 
     $hidden_columns = ['id', 'created_at', 'updated_at'];
     $this->group_backup = Group::all()->makeVisible($hidden_columns)->toArray();
@@ -59,9 +59,9 @@ class ImportTest extends BaseTestCase {
     Bucket::insert($this->bucket_backup);
     Bucket::refreshAutoIncrements();
 
-    PCSetup::truncate();
-    PCSetup::insert($this->pc_setup_backup);
-    PCSetup::refreshAutoIncrements();
+    // PCSetup::truncate();
+    // PCSetup::insert($this->pc_setup_backup);
+    // PCSetup::refreshAutoIncrements();
 
     Group::truncate();
     Group::insert($this->group_backup);
@@ -233,193 +233,193 @@ class ImportTest extends BaseTestCase {
   }
 
   // PC Setups
-  public function test_should_import_pc_setups() {
-    PCSetup::truncate();
-    PCSetup::refreshAutoIncrements();
+  // public function test_should_import_pc_setups() {
+  //   PCSetup::truncate();
+  //   PCSetup::refreshAutoIncrements();
 
-    $content = [
-      [
-        'label' => 'test label',
+  //   $content = [
+  //     [
+  //       'label' => 'test label',
 
-        'is_current' => true,
-        'is_future' => false,
-        'is_server' => false,
+  //       'is_current' => true,
+  //       'is_future' => false,
+  //       'is_server' => false,
 
-        'cpu' => 'test cpu',
-        'cpu_price' => 100,
-        'cpu_sub' => 'cpu subtext',
-        'cpu_sub2' => 'cpu subtext 2',
+  //       'cpu' => 'test cpu',
+  //       'cpu_price' => 100,
+  //       'cpu_sub' => 'cpu subtext',
+  //       'cpu_sub2' => 'cpu subtext 2',
 
-        'ram' => 'test ram',
-        'ram_price' => 200,
-        'ram_sub' => 'ram subtext',
+  //       'ram' => 'test ram',
+  //       'ram_price' => 200,
+  //       'ram_sub' => 'ram subtext',
 
-        'gpu' => 'test gpu',
-        'gpu_price' => 300,
-        'gpu_sub' => 'gpu subtext',
+  //       'gpu' => 'test gpu',
+  //       'gpu_price' => 300,
+  //       'gpu_sub' => 'gpu subtext',
 
-        'motherboard' => 'test motherboard',
-        'motherboard_price' => 400,
+  //       'motherboard' => 'test motherboard',
+  //       'motherboard_price' => 400,
 
-        'psu' => 'test psu',
-        'psu_price' => 500,
+  //       'psu' => 'test psu',
+  //       'psu_price' => 500,
 
-        'cooler' => 'test cooler',
-        'cooler_price' => 600,
-        'cooler_acc' => 'cooler accessory',
-        'cooler_acc_price' => 700,
+  //       'cooler' => 'test cooler',
+  //       'cooler_price' => 600,
+  //       'cooler_acc' => 'cooler accessory',
+  //       'cooler_acc_price' => 700,
 
-        'ssd_1' => 'ssd 1',
-        'ssd_1_price' => 100,
-        'ssd_2' => 'ssd 2',
-        'ssd_2_price' => 200,
-        'ssd_3' => 'ssd 3',
-        'ssd_3_price' => 300,
-        'ssd_4' => 'ssd 4',
-        'ssd_4_price' => 400,
+  //       'ssd_1' => 'ssd 1',
+  //       'ssd_1_price' => 100,
+  //       'ssd_2' => 'ssd 2',
+  //       'ssd_2_price' => 200,
+  //       'ssd_3' => 'ssd 3',
+  //       'ssd_3_price' => 300,
+  //       'ssd_4' => 'ssd 4',
+  //       'ssd_4_price' => 400,
 
-        'hdd_1' => 'hdd 1',
-        'hdd_1_price' => 500,
-        'hdd_2' => 'hdd 2',
-        'hdd_2_price' => 600,
-        'hdd_3' => 'hdd 3',
-        'hdd_3_price' => 700,
-        'hdd_4' => 'hdd 4',
-        'hdd_4_price' => 800,
+  //       'hdd_1' => 'hdd 1',
+  //       'hdd_1_price' => 500,
+  //       'hdd_2' => 'hdd 2',
+  //       'hdd_2_price' => 600,
+  //       'hdd_3' => 'hdd 3',
+  //       'hdd_3_price' => 700,
+  //       'hdd_4' => 'hdd 4',
+  //       'hdd_4_price' => 800,
 
-        'case' => 'test case',
-        'case_price' => 100,
-        'case_fans_1' => 'case fans 1',
-        'case_fans_1_price' => 200,
-        'case_fans_2' => 'case fans 2',
-        'case_fans_2_price' => 300,
-        'case_fans_3' => 'case fans 3',
-        'case_fans_3_price' => 400,
-        'case_fans_4' => 'case fans 4',
-        'case_fans_4_price' => 500,
+  //       'case' => 'test case',
+  //       'case_price' => 100,
+  //       'case_fans_1' => 'case fans 1',
+  //       'case_fans_1_price' => 200,
+  //       'case_fans_2' => 'case fans 2',
+  //       'case_fans_2_price' => 300,
+  //       'case_fans_3' => 'case fans 3',
+  //       'case_fans_3_price' => 400,
+  //       'case_fans_4' => 'case fans 4',
+  //       'case_fans_4_price' => 500,
 
-        'monitor' => 'test monitor',
-        'monitor_price' => 100,
-        'monitor_sub' => 'monitor subtext',
-        'monitor_acc_1' => 'monitor accessory 1',
-        'monitor_acc_1_price' => 200,
-        'monitor_acc_2' => 'monitor accessory 2',
-        'monitor_acc_2_price' => 300,
+  //       'monitor' => 'test monitor',
+  //       'monitor_price' => 100,
+  //       'monitor_sub' => 'monitor subtext',
+  //       'monitor_acc_1' => 'monitor accessory 1',
+  //       'monitor_acc_1_price' => 200,
+  //       'monitor_acc_2' => 'monitor accessory 2',
+  //       'monitor_acc_2_price' => 300,
 
-        'keyboard' => 'test keyboard',
-        'keyboard_price' => 100,
-        'keyboard_sub' => 'keyboard subtext 1',
-        'keyboard_sub2' => 'keyboard subtext 2',
-        'keyboard_acc_1' => 'keyboard accessory 1',
-        'keyboard_acc_1_price' => 200,
-        'keyboard_acc_2' => 'keyboard accessory 2',
-        'keyboard_acc_2_price' => 300,
+  //       'keyboard' => 'test keyboard',
+  //       'keyboard_price' => 100,
+  //       'keyboard_sub' => 'keyboard subtext 1',
+  //       'keyboard_sub2' => 'keyboard subtext 2',
+  //       'keyboard_acc_1' => 'keyboard accessory 1',
+  //       'keyboard_acc_1_price' => 200,
+  //       'keyboard_acc_2' => 'keyboard accessory 2',
+  //       'keyboard_acc_2_price' => 300,
 
-        'mouse' => 'test mouse',
-        'mouse_price' => 100,
+  //       'mouse' => 'test mouse',
+  //       'mouse_price' => 100,
 
-        'speakers' => 'test speakers',
-        'speakers_price' => 200,
+  //       'speakers' => 'test speakers',
+  //       'speakers_price' => 200,
 
-        'wifi' => 'test wifi',
-        'wifi_price' => 300,
+  //       'wifi' => 'test wifi',
+  //       'wifi_price' => 300,
 
-        'headset_1' => 'test headset 1',
-        'headset_1_price' => 400,
-        'headset_2' => 'test headset 2',
-        'headset_2_price' => 500,
+  //       'headset_1' => 'test headset 1',
+  //       'headset_1_price' => 400,
+  //       'headset_2' => 'test headset 2',
+  //       'headset_2_price' => 500,
 
-        'mic' => 'test mic',
-        'mic_price' => 600,
-        'mic_acc' => 'mic accessory',
-        'mic_acc_price' => 700,
+  //       'mic' => 'test mic',
+  //       'mic_price' => 600,
+  //       'mic_acc' => 'mic accessory',
+  //       'mic_acc_price' => 700,
 
-        'audio_interface' => 'test interface',
-        'audio_interface_price' => 100,
-        'equalizer' => 'test eq',
-        'equalizer_price' => 200,
-        'amplifier' => 'test amp',
-        'amplifier_price' => 300,
-      ],
-      [
-        'label' => 'test label 2',
+  //       'audio_interface' => 'test interface',
+  //       'audio_interface_price' => 100,
+  //       'equalizer' => 'test eq',
+  //       'equalizer_price' => 200,
+  //       'amplifier' => 'test amp',
+  //       'amplifier_price' => 300,
+  //     ],
+  //     [
+  //       'label' => 'test label 2',
 
-        'is_current' => false,
-        'is_future' => true,
-        'is_server' => false,
+  //       'is_current' => false,
+  //       'is_future' => true,
+  //       'is_server' => false,
 
-        'cpu' => 'test cpu 2',
-      ],
-      [
-        'label' => 'test server 1',
+  //       'cpu' => 'test cpu 2',
+  //     ],
+  //     [
+  //       'label' => 'test server 1',
 
-        'is_current' => false,
-        'is_future' => true,
-        'is_server' => true,
+  //       'is_current' => false,
+  //       'is_future' => true,
+  //       'is_server' => true,
 
-        'cpu' => 'test server cpu',
-      ],
-    ];
+  //       'cpu' => 'test server cpu',
+  //     ],
+  //   ];
 
-    $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
+  //   $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file]);
+  //   $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file]);
 
-    $response->assertStatus(200)
-      ->assertJson([
-        'data' => [
-          'acceptedImports' => count($content),
-          'totalJsonEntries' => count($content),
-        ]
-      ]);
+  //   $response->assertStatus(200)
+  //     ->assertJson([
+  //       'data' => [
+  //         'acceptedImports' => count($content),
+  //         'totalJsonEntries' => count($content),
+  //       ]
+  //     ]);
 
-    $actual = PCSetup::all()->toArray();
+  //   $actual = PCSetup::all()->toArray();
 
-    foreach ($content as $index => $value) {
-      $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
-        $value,
-        $actual[$index],
-        array_keys($value),
-      );
-    }
-  }
+  //   foreach ($content as $index => $value) {
+  //     $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+  //       $value,
+  //       $actual[$index],
+  //       array_keys($value),
+  //     );
+  //   }
+  // }
 
-  public function test_should_not_import_pc_setups_when_no_file_is_attached() {
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/import/');
+  // public function test_should_not_import_pc_setups_when_no_file_is_attached() {
+  //   $response = $this->withoutMiddleware()->post('/api/pc-setups/import/');
 
-    $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['file']]);
+  //   $response->assertStatus(401)
+  //     ->assertJsonStructure(['data' => ['file']]);
 
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => null]);
+  //   $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => null]);
 
-    $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['file']]);
-  }
+  //   $response->assertStatus(401)
+  //     ->assertJsonStructure(['data' => ['file']]);
+  // }
 
-  public function test_should_not_import_pc_setups_when_file_type_is_invalid() {
-    $file = UploadedFile::fake()->create('test_file.txt');
+  // public function test_should_not_import_pc_setups_when_file_type_is_invalid() {
+  //   $file = UploadedFile::fake()->create('test_file.txt');
 
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file]);
+  //   $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file]);
 
-    $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['file']]);
-  }
+  //   $response->assertStatus(401)
+  //     ->assertJsonStructure(['data' => ['file']]);
+  // }
 
-  public function test_should_not_import_pc_setups_when_json_content_is_invalid() {
-    $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
+  // public function test_should_not_import_pc_setups_when_json_content_is_invalid() {
+  //   $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
 
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file_1]);
+  //   $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file_1]);
 
-    $response->assertStatus(400)
-      ->assertJson(['message' => 'The file is an invalid JSON']);
+  //   $response->assertStatus(400)
+  //     ->assertJson(['message' => 'The file is an invalid JSON']);
 
-    $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
+  //   $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
 
-    $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file_2]);
+  //   $response = $this->withoutMiddleware()->post('/api/pc-setups/import/', ['file' => $file_2]);
 
-    $response->assertStatus(400)
-      ->assertJson(['message' => 'The file is an invalid JSON']);
-  }
+  //   $response->assertStatus(400)
+  //     ->assertJson(['message' => 'The file is an invalid JSON']);
+  // }
 
   // Sequences
   public function test_should_import_sequences() {

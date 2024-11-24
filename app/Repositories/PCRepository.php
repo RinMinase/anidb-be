@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 use App\Models\PCSetup;
 
-class PCSetupRepository {
+class PCRepository {
 
   public function getAll() {
     return PCSetup::all();
