@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Str;
+
 use App\Models\PCOwner;
 
 class PCOwnerRepository {
@@ -15,6 +17,7 @@ class PCOwnerRepository {
 
   public function add(array $values) {
     return PCOwner::create([
+      'uuid' => Str::uuid()->toString(),
       'name' => $values['name'],
     ]);
   }
