@@ -32,4 +32,8 @@ class PCComponent extends Model {
     'updated_at' => 'datetime:Y-m-d H:i:s',
     'deleted_at' => 'datetime:Y-m-d H:i:s',
   ];
+
+  public function type() {
+    return $this->belongsTo(PCComponentType::class, 'id_type');
+  }
 }
