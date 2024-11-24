@@ -294,20 +294,32 @@ Route::prefix('api')
         Route::prefix('pc')
           ->group(function () {
 
+            Route::post('import', [PCSetupController::class, 'duplicate']);
+
             Route::prefix('owners')
               ->group(function () {
-                Route::get('', [PCController::class, 'get_owners']);
-                Route::post('', [PCController::class, 'add_owner']);
-                Route::put('{id}', [PCController::class, 'edit_owner']);
-                Route::delete('{id}', [PCController::class, 'delete_owner']);
+                Route::get('', [PCOwnerController::class, 'index']);
+                Route::post('', [PCOwnerController::class, 'add']);
+                Route::put('{uuid}', [PCOwnerController::class, 'edit']);
+                Route::delete('{uuid}', [PCOwnerController::class, 'delete']);
+              });
+
+            Route::prefix('infos')
+              ->group(function () {
+                Route::get('{uuid}', [PCInfoController::class, 'get']);
+                Route::post('', [PCInfoController::class, 'add']);
+                Route::put('{id}', [PCInfoController::class, 'edit']);
+                Route::delete('{id}', [PCInfoController::class, 'delete']);
               });
 
             Route::prefix('setups')
               ->group(function () {
-                Route::get('{id}', [PCController::class, 'get_setup_by_owner']);
-                Route::post('', [PCController::class, 'add_owner']);
-                Route::put('{id}', [PCController::class, 'edit_owner']);
-                Route::delete('{id}', [PCController::class, 'delete_owner']);
+                Route::get('', [PCSetupController::class, 'index']);
+                Route::get('{uuid}', [PCSetupController::class, 'get']);
+                Route::post('', [PCSetupController::class, 'add']);
+                Route::put('{uuid}', [PCSetupController::class, 'edit']);
+                Route::delete('{uuid}', [PCSetupController::class, 'delete']);
+                Route::post('{uuid}/duplicate', [PCSetupController::class, 'duplicate']);
               });
 
             Route::prefix('components')
@@ -324,28 +336,6 @@ Route::prefix('api')
                 Route::post('', [PCComponentTypeController::class, 'add']);
                 Route::put('{id}', [PCComponentTypeController::class, 'edit']);
                 Route::delete('{id}', [PCComponentTypeController::class, 'delete']);
-              });
-
-
-            // Route::post('import', [PCSetupController::class, 'import']);
-
-            Route::post('duplicate/{id}', [PCSetupController::class, 'duplicate']);
-            Route::put('current/{id}', [PCSetupController::class, 'toggleCurrent']);
-            Route::put('future/{id}', [PCSetupController::class, 'toggleFuture']);
-            Route::put('server/{id}', [PCSetupController::class, 'toggleServer']);
-
-            Route::prefix('inventories')
-              ->group(function () {
-                Route::get('', [PCSetupInventoryController::class, 'index']);
-                Route::get('', [PCSetupInventoryController::class, 'index']);
-
-                Route::prefix('inventories')
-                  ->group(function () {
-                    Route::get('', [PCSetupInventoryTypesController::class, 'index']);
-                    Route::post('', [PCSetupInventoryTypesController::class, 'add']);
-                    Route::put('{id}', [PCSetupInventoryTypesController::class, 'edit']);
-                    Route::delete('{id}', [PCSetupInventoryTypesController::class, 'delete']);
-                  });
               });
           });
       });
