@@ -23,10 +23,10 @@ use App\Controllers\ImportController;
 use App\Controllers\LogController;
 use App\Controllers\ManagementController;
 use App\Controllers\PartialController;
-use App\Controllers\PCController;
 use App\Controllers\PCOwnerController;
 use App\Controllers\PCComponentController;
 use App\Controllers\PCComponentTypeController;
+use App\Controllers\PCInfoController;
 use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
 use App\Controllers\RssController;
@@ -307,6 +307,7 @@ Route::prefix('api')
 
             Route::prefix('infos')
               ->group(function () {
+                Route::get('', [PCInfoController::class, 'index']);
                 Route::get('{uuid}', [PCInfoController::class, 'get']);
                 Route::post('', [PCInfoController::class, 'add']);
                 Route::put('{id}', [PCInfoController::class, 'edit']);
