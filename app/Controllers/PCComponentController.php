@@ -154,8 +154,8 @@ class PCComponentController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function delete($uuid): JsonResponse {
-    $this->pcComponentRepository->delete($uuid);
+  public function delete($id): JsonResponse {
+    $this->pcComponentRepository->delete($id);
 
     return DefaultResponse::success();
   }
