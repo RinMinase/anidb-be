@@ -27,4 +27,8 @@ class PCInfo extends Model {
   ];
 
   protected $casts = [];
+
+  public function owner() {
+    return $this->belongsTo(PCOwner::class, 'id_owner');
+  }
 }

@@ -34,4 +34,8 @@ class PCOwner extends Model {
   ];
 
   protected $casts = [];
+
+  public function infos() {
+    return $this->hasMany(PCInfo::class, 'id_owner');
+  }
 }
