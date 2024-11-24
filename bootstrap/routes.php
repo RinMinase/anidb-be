@@ -24,6 +24,7 @@ use App\Controllers\LogController;
 use App\Controllers\ManagementController;
 use App\Controllers\PartialController;
 use App\Controllers\PCController;
+use App\Controllers\PCOwnerController;
 use App\Controllers\PCComponentController;
 use App\Controllers\PCComponentTypeController;
 use App\Controllers\PriorityController;
