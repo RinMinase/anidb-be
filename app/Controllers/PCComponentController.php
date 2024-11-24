@@ -32,7 +32,7 @@ class PCComponentController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/PCComponentType"),
+   *             @OA\Items(ref="#/components/schemas/PCComponent"),
    *           ),
    *         ),
    *       },
@@ -136,7 +136,7 @@ class PCComponentController extends Controller {
    * @OA\Delete(
    *   tags={"PC"},
    *   path="/api/pc/components/{component_id}",
-   *   summary="Delete a PC Component ",
+   *   summary="Delete a PC Component",
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(

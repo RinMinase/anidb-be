@@ -3921,7 +3921,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/PCComponentType"
+                                                        "$ref": "#/components/schemas/PCComponent"
                                                     }
                                                 }
                                             },
@@ -4063,7 +4063,7 @@
                 "tags": [
                     "PC"
                 ],
-                "summary": "Delete a PC Component ",
+                "summary": "Delete a PC Component",
                 "operationId": "2e06d30f542c51d4ff86ffae4b33058b",
                 "parameters": [
                     {
@@ -4234,6 +4234,164 @@
                             "format": "int32"
                         },
                         "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/pc/owners": {
+            "get": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Get All PC Owners",
+                "operationId": "cf6a52d54b36401863bda9182f9ae38e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PCOwner"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Add a PC Owner",
+                "operationId": "693d52764e879e4014ca9461fcc67075",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_owner_name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/pc/owners/{owner_uuid}": {
+            "put": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Edit a PC Owner",
+                "operationId": "ce6a3a7a6d63f579a39b3fa269d31217",
+                "parameters": [
+                    {
+                        "name": "owner_uuid",
+                        "in": "path",
+                        "description": "Owner UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_owner_name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Delete a PC Owner",
+                "operationId": "e59e035287f351df558f6298265746c0",
+                "parameters": [
+                    {
+                        "name": "owner_uuid",
+                        "in": "path",
+                        "description": "Owner UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     }
                 ],
                 "responses": {
@@ -7140,6 +7298,50 @@
                     "name": "Sample Group Name"
                 }
             },
+            "PCComponent": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "idType": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Sample Component Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Sample Component Description"
+                    },
+                    "price": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 10000
+                    },
+                    "purchase_date": {
+                        "type": "string",
+                        "example": "2020-10-01"
+                    },
+                    "purchase_location": {
+                        "type": "string",
+                        "example": "Store Name"
+                    },
+                    "purchase_notes": {
+                        "type": "string",
+                        "example": "Some notes"
+                    },
+                    "is_onhand": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "PCComponentType": {
                 "properties": {
                     "id": {
@@ -9181,6 +9383,16 @@
                     "minLength": 1
                 },
                 "example": "sample type"
+            },
+            "pc_add_edit_owner_name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                }
             },
             "pc_setup_add_edit_label": {
                 "name": "label",
