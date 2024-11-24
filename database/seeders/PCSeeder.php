@@ -186,6 +186,12 @@ class PCSeeder extends Seeder {
 
       PCSetup::create($data_to_insert);
     }
+
+    PCOwner::refreshAutoIncrements();
+    PCInfo::refreshAutoIncrements();
+    PCSetup::refreshAutoIncrements();
+    PCComponent::refreshAutoIncrements();
+    PCComponentType::refreshAutoIncrements();
   }
 
   private function get_id_from_type(array $types, string $type): int {
