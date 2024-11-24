@@ -3899,13 +3899,13 @@
                 ]
             }
         },
-        "/api/pc-setups": {
+        "/api/pc/components": {
             "get": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Get All PC Setups",
-                "operationId": "e65a91cdac743998a01b9f26569de359",
+                "summary": "Get All PC Components",
+                "operationId": "881f1c5779b6039b697a518a5cf17215",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -3921,7 +3921,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/PCSetup"
+                                                        "$ref": "#/components/schemas/PCComponentType"
                                                     }
                                                 }
                                             },
@@ -3947,259 +3947,34 @@
             },
             "post": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Add a PC Setup",
-                "operationId": "1b838e4d298bffcc803529a8498e0664",
+                "summary": "Add a PC Component",
+                "operationId": "5f37fb756f944006677e72d7919d9abc",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_label"
+                        "$ref": "#/components/parameters/pc_add_edit_component_id_type"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_is_current"
+                        "$ref": "#/components/parameters/pc_add_edit_component_name"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_is_future"
+                        "$ref": "#/components/parameters/pc_add_edit_component_description"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_is_server"
+                        "$ref": "#/components/parameters/pc_add_edit_component_price"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu"
+                        "$ref": "#/components/parameters/pc_add_edit_component_purchase_date"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_price"
+                        "$ref": "#/components/parameters/pc_add_edit_component_purchase_location"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub"
+                        "$ref": "#/components/parameters/pc_add_edit_component_purchase_notes"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ram"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_psu"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_psu_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier_price"
+                        "$ref": "#/components/parameters/pc_add_edit_component_is_onhand"
                     }
                 ],
                 "responses": {
@@ -4220,76 +3995,18 @@
                 ]
             }
         },
-        "/api/pc-setups/{pc_setup_id}": {
-            "get": {
-                "tags": [
-                    "PC Setup"
-                ],
-                "summary": "Get a PC Setup",
-                "operationId": "432b67ac031009c692515efa89887e6d",
-                "parameters": [
-                    {
-                        "name": "pc_setup_id",
-                        "in": "path",
-                        "description": "PC Setup ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "$ref": "#/components/schemas/PCSetup"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            },
+        "/api/pc/components/{component_id}": {
             "put": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Edit a PC Setup",
-                "operationId": "b10c3c2642f1f6690e19b711c21c973a",
+                "summary": "Edit a PC Component",
+                "operationId": "508b8544181888d527b4bb82eb100ad1",
                 "parameters": [
                     {
-                        "name": "pc_setup_id",
+                        "name": "component_id",
                         "in": "path",
-                        "description": "PC Setup ID",
+                        "description": "Component ID",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -4298,253 +4015,28 @@
                         "example": 1
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_label"
+                        "$ref": "#/components/parameters/pc_add_edit_component_id_type"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_is_current"
+                        "$ref": "#/components/parameters/pc_add_edit_component_name"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_is_future"
+                        "$ref": "#/components/parameters/pc_add_edit_component_description"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_is_server"
+                        "$ref": "#/components/parameters/pc_add_edit_component_price"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu"
+                        "$ref": "#/components/parameters/pc_add_edit_component_purchase_date"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_price"
+                        "$ref": "#/components/parameters/pc_add_edit_component_purchase_location"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub"
+                        "$ref": "#/components/parameters/pc_add_edit_component_purchase_notes"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cpu_sub2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ram"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ram_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_gpu_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_motherboard_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_psu"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_psu_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_cooler_acc_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_3_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_ssd_4_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_3_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_hdd_4_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_3_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_case_fans_4_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_monitor_acc_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_sub2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_keyboard_acc_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mouse_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_speakers_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_wifi_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_1_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_headset_2_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_mic_acc_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_audio_interface_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_equalizer_price"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_setup_add_edit_amplifier_price"
+                        "$ref": "#/components/parameters/pc_add_edit_component_is_onhand"
                     }
                 ],
                 "responses": {
@@ -4569,15 +4061,15 @@
             },
             "delete": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Delete a PC Setup",
-                "operationId": "fcbd8460a23c7abaf3bf803d9eed1f58",
+                "summary": "Delete a PC Component ",
+                "operationId": "2e06d30f542c51d4ff86ffae4b33058b",
                 "parameters": [
                     {
-                        "name": "pc_setup_id",
+                        "name": "component_id",
                         "in": "path",
-                        "description": "PC Setup ID",
+                        "description": "Component ID",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -4607,29 +4099,13 @@
                 ]
             }
         },
-        "/api/pc-setups/import": {
-            "post": {
+        "/api/pc/types": {
+            "get": {
                 "tags": [
-                    "Import"
+                    "PC"
                 ],
-                "summary": "Import a JSON file to seed data for PC Setups table",
-                "operationId": "1502dd5241790dcaad72ecd512975308",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "file": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
+                "summary": "Get All PC Component Types",
+                "operationId": "3b3d765a183473602665207e67f83094",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -4643,7 +4119,10 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/DefaultImportSchema"
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/PCComponentType"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -4665,90 +4144,16 @@
                         "token": []
                     }
                 ]
-            }
-        },
-        "/api/pc-setups/duplicate/{pc_setup_id}": {
+            },
             "post": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Duplicate a PC Setup and return ID of duplicate",
-                "operationId": "2178f53d45679b33852a3396b3b89999",
+                "summary": "Add a PC Component Type",
+                "operationId": "1f684207688f4de4065355798f1d4122",
                 "parameters": [
                     {
-                        "name": "pc_setup_id",
-                        "in": "path",
-                        "description": "PC Setup ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "newID": {
-                                                            "type": "integer",
-                                                            "format": "int32",
-                                                            "example": 1
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
-        "/api/pc-setups/current/{pc_setup_id}": {
-            "put": {
-                "tags": [
-                    "PC Setup"
-                ],
-                "summary": "Toggle a PC Setup as current",
-                "operationId": "0fbdb8bbb35d4df006730dd105d36012",
-                "parameters": [
-                    {
-                        "name": "pc_setup_id",
-                        "in": "path",
-                        "description": "PC Setup ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
+                        "$ref": "#/components/parameters/pc_add_edit_component_type_type"
                     }
                 ],
                 "responses": {
@@ -4769,24 +4174,27 @@
                 ]
             }
         },
-        "/api/pc-setups/future/{pc_setup_id}": {
+        "/api/pc/types/{type_id}": {
             "put": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Toggle a PC Setup as future",
-                "operationId": "40fcd854d64aa30a3c5f09351ca169fc",
+                "summary": "Edit a PC Component Type",
+                "operationId": "681505f4bbb2066946fc1ec63659b19a",
                 "parameters": [
                     {
-                        "name": "pc_setup_id",
+                        "name": "type_id",
                         "in": "path",
-                        "description": "PC Setup ID",
+                        "description": "Type ID",
                         "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int32"
                         },
                         "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_component_type_type"
                     }
                 ],
                 "responses": {
@@ -4795,6 +4203,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -4805,20 +4216,18 @@
                         "token": []
                     }
                 ]
-            }
-        },
-        "/api/pc-setups/server/{pc_setup_id}": {
-            "put": {
+            },
+            "delete": {
                 "tags": [
-                    "PC Setup"
+                    "PC"
                 ],
-                "summary": "Toggle a PC Setup as a server setup",
-                "operationId": "26877fdb8abfa3d355da6481f2047468",
+                "summary": "Delete a PC Component Type",
+                "operationId": "535719d4e985e19f8f67111e222896a0",
                 "parameters": [
                     {
-                        "name": "pc_setup_id",
+                        "name": "type_id",
                         "in": "path",
-                        "description": "PC Setup ID",
+                        "description": "Type ID",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -4833,6 +4242,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -7728,314 +7140,28 @@
                     "name": "Sample Group Name"
                 }
             },
-            "PCSetup": {
+            "PCComponentType": {
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64",
                         "example": 1
                     },
-                    "label": {
+                    "type": {
                         "type": "string"
-                    },
-                    "isCurrent": {
-                        "type": "boolean",
-                        "default": false,
-                        "example": false
-                    },
-                    "isFuture": {
-                        "type": "boolean",
-                        "default": false,
-                        "example": false
-                    },
-                    "isServer": {
-                        "type": "boolean",
-                        "default": false,
-                        "example": false
-                    },
-                    "cpu": {
-                        "type": "string"
-                    },
-                    "cpuPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "cpuSub": {
-                        "type": "string"
-                    },
-                    "cpuSub2": {
-                        "type": "string"
-                    },
-                    "ram": {
-                        "type": "string"
-                    },
-                    "ramPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "ramSub": {
-                        "type": "string"
-                    },
-                    "gpu": {
-                        "type": "string"
-                    },
-                    "gpuPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "gpuSub": {
-                        "type": "string"
-                    },
-                    "motherboard": {
-                        "type": "string"
-                    },
-                    "motherboardPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "psu": {
-                        "type": "string"
-                    },
-                    "psuPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "cooler": {
-                        "type": "string"
-                    },
-                    "coolerPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "coolerAcc": {
-                        "type": "string"
-                    },
-                    "coolerAccPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "ssd1": {
-                        "type": "string"
-                    },
-                    "ssd1Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "ssd2": {
-                        "type": "string"
-                    },
-                    "ssd2Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "ssd3": {
-                        "type": "string"
-                    },
-                    "ssd3Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "ssd4": {
-                        "type": "string"
-                    },
-                    "ssd4Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "hdd1": {
-                        "type": "string"
-                    },
-                    "hdd1Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "hdd2": {
-                        "type": "string"
-                    },
-                    "hdd2Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "hdd3": {
-                        "type": "string"
-                    },
-                    "hdd3Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "hdd4": {
-                        "type": "string"
-                    },
-                    "hdd4Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "case": {
-                        "type": "string"
-                    },
-                    "casePrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "caseFans1": {
-                        "type": "string"
-                    },
-                    "caseFans1Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "caseFans2": {
-                        "type": "string"
-                    },
-                    "caseFans2Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "caseFans3": {
-                        "type": "string"
-                    },
-                    "caseFans3Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "caseFans4": {
-                        "type": "string"
-                    },
-                    "caseFans4Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "monitor": {
-                        "type": "string"
-                    },
-                    "monitorPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "monitorSub": {
-                        "type": "string"
-                    },
-                    "monitorAcc1": {
-                        "type": "string"
-                    },
-                    "monitorAcc1Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "monitorAcc2": {
-                        "type": "string"
-                    },
-                    "monitorAcc2Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "keyboard": {
-                        "type": "string"
-                    },
-                    "keyboardPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "keyboardSub": {
-                        "type": "string"
-                    },
-                    "keyboardSub2": {
-                        "type": "string"
-                    },
-                    "keyboardAcc1": {
-                        "type": "string"
-                    },
-                    "keyboardAcc1Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "keyboardAcc2": {
-                        "type": "string"
-                    },
-                    "keyboardAcc2Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "mouse": {
-                        "type": "string"
-                    },
-                    "mousePrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "speakers": {
-                        "type": "string"
-                    },
-                    "speakersPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "wifi": {
-                        "type": "string"
-                    },
-                    "wifiPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "headset1": {
-                        "type": "string"
-                    },
-                    "headset1Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "headset2": {
-                        "type": "string"
-                    },
-                    "headset2Price": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "mic": {
-                        "type": "string"
-                    },
-                    "micPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "micAcc": {
-                        "type": "string"
-                    },
-                    "micAccPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "audioInterface": {
-                        "type": "string"
-                    },
-                    "audioInterfacePrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "equalizer": {
-                        "type": "string"
-                    },
-                    "equalizerPrice": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "amplifier": {
-                        "type": "string"
-                    },
-                    "amplifierPrice": {
-                        "type": "string"
-                    },
-                    "createdAt": {
+                    }
+                },
+                "type": "object"
+            },
+            "PCOwner": {
+                "properties": {
+                    "uuid": {
                         "type": "string",
-                        "example": "2023-05-21 21:05:57"
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
-                    "updatedAt": {
-                        "type": "string",
-                        "example": "2023-05-21 21:05:57"
-                    },
-                    "deletedAt": {
-                        "type": "string",
-                        "example": "2023-05-21 21:05:57"
+                    "name": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -9974,6 +9100,88 @@
                 },
                 "example": 30
             },
+            "pc_add_edit_component_id_type": {
+                "name": "id_type",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 1
+            },
+            "pc_add_edit_component_name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                }
+            },
+            "pc_add_edit_component_description": {
+                "name": "description",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                }
+            },
+            "pc_add_edit_component_price": {
+                "name": "price",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0
+                }
+            },
+            "pc_add_edit_component_purchase_date": {
+                "name": "purchase_date",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                }
+            },
+            "pc_add_edit_component_purchase_location": {
+                "name": "purchase_location",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                }
+            },
+            "pc_add_edit_component_purchase_notes": {
+                "name": "purchase_notes",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "minLength": 1
+                }
+            },
+            "pc_add_edit_component_is_onhand": {
+                "name": "is_onhand",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                }
+            },
+            "pc_add_edit_component_type_type": {
+                "name": "type",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "example": "sample type"
+            },
             "pc_setup_add_edit_label": {
                 "name": "label",
                 "in": "query",
@@ -10983,7 +10191,7 @@
             "name": "Sequence"
         },
         {
-            "name": "PC Setup"
+            "name": "PC"
         },
         {
             "name": "Fourleaf - Gas"

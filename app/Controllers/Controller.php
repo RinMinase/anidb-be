@@ -38,7 +38,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Management")
  * @OA\Tag(name="RSS")
  * @OA\Tag(name="Sequence")
- * @OA\Tag(name="PC Setup")
+ * @OA\Tag(name="PC")
  * @OA\Tag(name="Fourleaf - Gas")
  * @OA\Tag(name="Fourleaf - Electricity")
  * @OA\Tag(name="Fourleaf - Bills")
