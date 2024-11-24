@@ -67,7 +67,7 @@ class AddEditComponentRequest extends FormRequest {
   public function rules() {
     return [
       'id_type' => ['required', 'integer', 'exists:pc_component_types,id'],
-      'title' => ['required', 'string', 'max:64'],
+      'name' => ['required', 'string', 'max:64'],
       'description' => ['nullable', 'string', 'max:64'],
 
       'price' => ['nullable', 'integer', 'min:0', new PositiveSignedIntRule],
@@ -77,6 +77,12 @@ class AddEditComponentRequest extends FormRequest {
 
       'is_onhand' => ['nullable', 'boolean'],
     ];
+  }
+
+  protected function prepareForValidation() {
+    $this->merge([
+      'is_onhand' => to_boolean($this->is_onhand, true),
+    ]);
   }
 
   public function failedValidation(Validator $validator) {

@@ -12,7 +12,14 @@ class PCComponentRepository {
 
   public function add(array $values) {
     return PCComponent::create([
-      'type' => $values['type'],
+      'id_type' => $values['id_type'],
+      'name' => $values['name'],
+      'description' => $values['description'],
+      'price' => $values['price'],
+      'purchase_date' => $values['purchase_date'],
+      'purchase_location' => $values['purchase_location'],
+      'purchase_notes' => $values['purchase_notes'],
+      'is_onhand' => $values['is_onhand'],
     ]);
   }
 
