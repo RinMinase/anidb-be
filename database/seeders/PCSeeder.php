@@ -124,7 +124,7 @@ class PCSeeder extends Seeder {
       ],
       [
         'id' => 9,
-        'id_type' => $this->get_id_from_type($id_component_types, 'pcie card'),
+        'id_type' => $this->get_id_from_type($id_component_types, 'pcie_card'),
         'name' => 'TP-Link TL-WN881ND WiFi Adapter',
         'description' => null,
         'price' => 1_200,
