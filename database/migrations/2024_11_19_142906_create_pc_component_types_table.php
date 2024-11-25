@@ -12,6 +12,7 @@ return new class extends Migration {
     Schema::create('pc_component_types', function (Blueprint $table) {
       $table->id();
       $table->string('type', 32)->unique();
+      $table->string('name', 32);
     });
   }
 

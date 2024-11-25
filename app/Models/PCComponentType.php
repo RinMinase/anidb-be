@@ -9,7 +9,8 @@ use App\Traits\RefreshableAutoIncrements;
 /**
  * @OA\Schema(
  *   @OA\Property(property="id", type="integer", format="int64", example=1),
- *   @OA\Property(property="type", type="string"),
+ *   @OA\Property(property="type", type="string", example="cpu"),
+ *   @OA\Property(property="name", type="string", example="CPU"),
  * )
  */
 class PCComponentType extends Model {
@@ -22,6 +23,7 @@ class PCComponentType extends Model {
   protected $fillable = [
     'id',
     'type',
+    'name',
   ];
 
   protected $hidden = [];

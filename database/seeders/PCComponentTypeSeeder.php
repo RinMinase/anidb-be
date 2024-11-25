@@ -15,33 +15,36 @@ class PCComponentTypeSeeder extends Seeder {
    */
   public function run() {
     $data = [
-      'cpu',
-      'ram',
-      'gpu',
-      'motherboard',
-      'psu',
-      'cooler',
-      'ssd',
-      'hdd',
-      'chassis',
-      'fan',
-      'pcie_card',
-      'accessory',
-      'monitor',
-      'keyboard',
-      'keyboard_accessory',
-      'mouse',
-      'speakers',
-      'headset',
-      'microphone',
-      'interface',
-      'amplifier',
-      'equalizer',
-      'other',
+      'cpu' => 'CPU',
+      'ram' => 'RAM',
+      'gpu' => 'GPU',
+      'motherboard' => 'Motherboard',
+      'psu' => 'PSU',
+      'cooler' => 'Cooler',
+      'ssd' => 'SSD',
+      'hdd' => 'HDD',
+      'chassis' => 'Chassis',
+      'fan' => 'Fan',
+      'pcie_card' => 'PCIe Card',
+      'accessory' => 'Accessory',
+      'monitor' => 'Monitor',
+      'keyboard' => 'Keyboard',
+      'keyboard_accessory' => 'Keyboard Accesory',
+      'mouse' => 'Mouse',
+      'speakers' => 'Speakers',
+      'headset' => 'Headset',
+      'microphone' => 'Microphone',
+      'interface' => 'Interface',
+      'amplifier' => 'Amplifier',
+      'equalizer' => 'Equalizer',
+      'other' => 'Other',
     ];
 
-    foreach ($data as $item) {
-      PCComponentType::create(['type' => $item]);
+    foreach ($data as $type => $name) {
+      PCComponentType::create([
+        'type' => $type,
+        'name' => $name,
+      ]);
     }
   }
 }
