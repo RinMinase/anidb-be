@@ -310,8 +310,9 @@ Route::prefix('api')
                 Route::get('', [PCInfoController::class, 'index']);
                 Route::get('{uuid}', [PCInfoController::class, 'get']);
                 Route::post('', [PCInfoController::class, 'add']);
-                Route::put('{id}', [PCInfoController::class, 'edit']);
-                Route::delete('{id}', [PCInfoController::class, 'delete']);
+                Route::put('{uuid}', [PCInfoController::class, 'edit']);
+                Route::delete('{uuid}', [PCInfoController::class, 'delete']);
+                Route::post('{uuid}/duplicate', [PCInfoController::class, 'duplicate']);
               });
 
             Route::prefix('setups')
@@ -320,7 +321,6 @@ Route::prefix('api')
                 Route::post('', [PCSetupController::class, 'add']);
                 Route::put('{uuid}', [PCSetupController::class, 'edit']);
                 Route::delete('{uuid}', [PCSetupController::class, 'delete']);
-                Route::post('{uuid}/duplicate', [PCSetupController::class, 'duplicate']);
               });
 
             Route::prefix('components')
