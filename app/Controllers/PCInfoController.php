@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\PCInfoRepository;
 use App\Requests\PC\AddEditInfoRequest;
 use App\Resources\DefaultResponse;
+use App\Resources\PC\PCInfoResource;
+use App\Resources\PC\PCInfoSummaryResource;
 
 class PCInfoController extends Controller {
 
@@ -44,7 +46,7 @@ class PCInfoController extends Controller {
    */
   public function index(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->pcInfoRepository->getAll(),
+      'data' => PCInfoSummaryResource::collection($this->pcInfoRepository->getAll()),
     ]);
   }
 
@@ -82,7 +84,7 @@ class PCInfoController extends Controller {
    */
   public function get($uuid): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->pcInfoRepository->get($uuid),
+      'data' => new PCInfoResource($this->pcInfoRepository->get($uuid)),
     ]);
   }
 

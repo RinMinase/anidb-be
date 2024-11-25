@@ -12,16 +12,16 @@ class PCInfoRepository {
     return PCInfo::with('owner')
       ->orderBy('label')
       ->orderBy('id')
-      ->get()
-      ->toArray();
+      ->get();
   }
 
   public function get($uuid) {
     $info = PCInfo::with('owner')
+      ->with('setups')
       ->where('uuid', $uuid)
       ->firstOrFail();
 
-    return $info->toArray();
+    return $info;
   }
 
   public function add(array $values) {

@@ -316,7 +316,6 @@ Route::prefix('api')
 
             Route::prefix('setups')
               ->group(function () {
-                Route::get('', [PCSetupController::class, 'index']);
                 Route::get('{uuid}', [PCSetupController::class, 'get']);
                 Route::post('', [PCSetupController::class, 'add']);
                 Route::put('{uuid}', [PCSetupController::class, 'edit']);

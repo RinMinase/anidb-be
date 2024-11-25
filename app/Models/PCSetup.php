@@ -29,4 +29,16 @@ class PCSetup extends Model {
     'updated_at' => 'datetime:Y-m-d H:i:s',
     'deleted_at' => 'datetime:Y-m-d H:i:s',
   ];
+
+  public function owner() {
+    return $this->belongsTo(PCOwner::class, 'id_owner');
+  }
+
+  public function info() {
+    return $this->belongsTo(PCInfo::class, 'id_info');
+  }
+
+  public function component() {
+    return $this->belongsTo(PCComponent::class, 'id_component');
+  }
 }

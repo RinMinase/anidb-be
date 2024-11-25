@@ -45,4 +45,8 @@ class PCInfo extends Model {
   public function owner() {
     return $this->belongsTo(PCOwner::class, 'id_owner');
   }
+
+  public function setups() {
+    return $this->hasMany(PCSetup::class, 'id_info');
+  }
 }
