@@ -9,7 +9,7 @@ class PCComponentResource extends JsonResource {
   public function toArray($request) {
     return [
       'id' => $this->id,
-      'type' => $this->type->type,
+      'type' => $this->type,
 
       'name' => $this->name,
       'description' => $this->description,
