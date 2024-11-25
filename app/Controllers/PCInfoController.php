@@ -34,7 +34,7 @@ class PCInfoController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/PCInfo"),
+   *             @OA\Items(ref="#/components/schemas/PCInfoSummaryResource"),
    *           ),
    *         ),
    *       },
@@ -73,7 +73,7 @@ class PCInfoController extends Controller {
    *       allOf={
    *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
    *         @OA\Schema(
-   *           @OA\Property(property="data", ref="#/components/schemas/PCInfo"),
+   *           @OA\Property(property="data", ref="#/components/schemas/PCInfoResource"),
    *         ),
    *       },
    *     ),

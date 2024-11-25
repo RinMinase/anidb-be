@@ -4279,7 +4279,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/PCInfo"
+                                                        "$ref": "#/components/schemas/PCInfoSummaryResource"
                                                     }
                                                 }
                                             },
@@ -4374,7 +4374,7 @@
                                         {
                                             "properties": {
                                                 "data": {
-                                                    "$ref": "#/components/schemas/PCInfo"
+                                                    "$ref": "#/components/schemas/PCInfoResource"
                                                 }
                                             },
                                             "type": "object"
@@ -7586,33 +7586,6 @@
                 },
                 "type": "object"
             },
-            "PCInfo": {
-                "properties": {
-                    "uuid": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                    },
-                    "idOwner": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 1
-                    },
-                    "label": {
-                        "type": "string",
-                        "example": "Upcoming Setup"
-                    },
-                    "isActive": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "isHidden": {
-                        "type": "boolean",
-                        "example": false
-                    }
-                },
-                "type": "object"
-            },
             "PCOwner": {
                 "properties": {
                     "uuid": {
@@ -8227,6 +8200,126 @@
                     "genre": {
                         "type": "string",
                         "example": "Genre Name"
+                    }
+                },
+                "type": "object"
+            },
+            "PCInfoResource": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/PCOwner"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Upcoming Setup"
+                    },
+                    "components": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PCSetupSummaryResource"
+                        }
+                    },
+                    "isActive": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "isHidden": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-10-01"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-10-01"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-10-01"
+                    }
+                },
+                "type": "object"
+            },
+            "PCInfoSummaryResource": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "owner": {
+                        "$ref": "#/components/schemas/PCOwner"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Upcoming Setup"
+                    },
+                    "isActive": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "isHidden": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-10-01"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-10-01"
+                    },
+                    "deletedAt": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-10-01"
+                    }
+                },
+                "type": "object"
+            },
+            "PCSetupSummaryResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "rawType": {
+                        "type": "string",
+                        "example": "ssd"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "SSD"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Component Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Component Description"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "isHidden": {
+                        "type": "boolean",
+                        "example": false
                     }
                 },
                 "type": "object"
