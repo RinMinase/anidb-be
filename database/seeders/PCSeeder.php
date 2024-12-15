@@ -165,7 +165,10 @@ class PCSeeder extends Seeder {
     ];
 
     foreach ($data_components_alice1 as $item) {
-      PCComponent::create($item);
+      PCComponent::create([
+        ...$item,
+        'is_purchased' => true,
+      ]);
     }
 
     for ($i = 1; $i <= count($data_components_alice1); $i++) {

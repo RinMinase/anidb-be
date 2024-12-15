@@ -24,6 +24,7 @@ return new class extends Migration {
       $table->string('purchase_notes', 64)->nullable();
 
       $table->boolean('is_onhand')->nullable();
+      $table->boolean('is_purchased')->nullable()->default(false);
 
       $table->timestamps();
       $table->softDeletes();

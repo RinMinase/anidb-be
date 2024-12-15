@@ -18,6 +18,7 @@ use App\Traits\RefreshableAutoIncrements;
  *   @OA\Property(property="purchase_location", type="string", example="Store Name"),
  *   @OA\Property(property="purchase_notes", type="string", example="Some notes"),
  *   @OA\Property(property="is_onhand", type="boolean", example=true),
+ *   @OA\Property(property="is_purchased", type="boolean", example=true),
  * ),
  */
 class PCComponent extends Model {
@@ -36,6 +37,7 @@ class PCComponent extends Model {
     'purchase_location',
     'purchase_notes',
     'is_onhand',
+    'is_purchased',
   ];
 
   protected $hidden = [];
