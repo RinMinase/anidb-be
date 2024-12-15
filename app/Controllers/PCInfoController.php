@@ -5,7 +5,9 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\PCInfoRepository;
+use App\Repositories\PCSetupRepository;
 use App\Requests\PC\AddEditInfoRequest;
+use App\Requests\PC\AddEditSetupRequest;
 use App\Resources\DefaultResponse;
 use App\Resources\PC\PCInfoResource;
 use App\Resources\PC\PCInfoSummaryResource;
@@ -13,9 +15,14 @@ use App\Resources\PC\PCInfoSummaryResource;
 class PCInfoController extends Controller {
 
   private PCInfoRepository $pcInfoRepository;
+  private PCSetupRepository $pcSetupRepository;
 
-  public function __construct(PCInfoRepository $pcInfoRepository) {
+  public function __construct(
+    PCInfoRepository $pcInfoRepository,
+    PCSetupRepository $pcSetupRepository
+  ) {
     $this->pcInfoRepository = $pcInfoRepository;
+    $this->pcSetupRepository = $pcSetupRepository;
   }
 
   /**
@@ -172,6 +179,24 @@ class PCInfoController extends Controller {
    */
   public function delete($uuid): JsonResponse {
     $this->pcInfoRepository->delete($uuid);
+
+    return DefaultResponse::success();
+  }
+
+  public function duplicate($uuid): JsonResponse {
+    $this->pcInfoRepository->duplicate($uuid);
+
+    return DefaultResponse::success();
+  }
+
+  public function add_setup(AddEditSetupRequest $request, $uuid): JsonResponse {
+    $this->pcSetupRepository->add($request->only('data'), $uuid);
+
+    return DefaultResponse::success();
+  }
+
+  public function edit_setup(AddEditSetupRequest $request, $uuid): JsonResponse {
+    $this->pcSetupRepository->edit($request->only('data'), $uuid);
 
     return DefaultResponse::success();
   }

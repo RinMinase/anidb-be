@@ -295,7 +295,7 @@ Route::prefix('api')
         Route::prefix('pc')
           ->group(function () {
 
-            Route::post('import', [PCSetupController::class, 'duplicate']);
+            Route::post('import', [PCImportController::class, 'import']);
 
             Route::prefix('owners')
               ->group(function () {
@@ -312,15 +312,11 @@ Route::prefix('api')
                 Route::post('', [PCInfoController::class, 'add']);
                 Route::put('{uuid}', [PCInfoController::class, 'edit']);
                 Route::delete('{uuid}', [PCInfoController::class, 'delete']);
-                Route::post('{uuid}/duplicate', [PCInfoController::class, 'duplicate']);
-              });
 
-            Route::prefix('setups')
-              ->group(function () {
-                Route::get('{uuid}', [PCSetupController::class, 'get']);
-                Route::post('', [PCSetupController::class, 'add']);
-                Route::put('{uuid}', [PCSetupController::class, 'edit']);
-                Route::delete('{uuid}', [PCSetupController::class, 'delete']);
+                Route::post('{uuid}/duplicate', [PCInfoController::class, 'duplicate']);
+
+                Route::post('{uuid}/setup', [PCInfoController::class, 'add_setup']);
+                Route::put('{uuid}/setup', [PCInfoController::class, 'edit_setup']);
               });
 
             Route::prefix('components')
