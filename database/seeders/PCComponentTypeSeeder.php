@@ -37,6 +37,7 @@ class PCComponentTypeSeeder extends Seeder {
       'interface' => 'Interface',
       'amplifier' => 'Amplifier',
       'equalizer' => 'Equalizer',
+      'audio_related' => 'Audio Related',
       'controller' => 'Controller',
       'other' => 'Other',
     ];
