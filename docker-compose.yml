@@ -11,7 +11,7 @@ services:
       dockerfile: php.dockerfile
       args:
         - PHP_VERSION=8.4.2
-        - ALPINE_VERSION=3.20
+        - ALPINE_VERSION=3.21
         - COMPOSER_VERSION=2.8.4
     volumes:
       - ./:/var/www
@@ -28,7 +28,7 @@ services:
       dockerfile: nginx.dockerfile
       args:
         - NGINX_VERSION=1.27.2
-        - ALPINE_VERSION=3.20
+        - ALPINE_VERSION=3.21
         - PHP_UPSTREAM_CONTAINER=php
         - PHP_UPSTREAM_PORT=9000
     volumes:
