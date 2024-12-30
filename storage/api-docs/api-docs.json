@@ -4099,6 +4099,66 @@
                 ]
             }
         },
+        "/api/pc/components/import": {
+            "post": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Import a JSON file to add (does not delete existing) data for PC components table",
+                "operationId": "1cd19ea5a54e27976fd2c91113321cd6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/DefaultImportSchema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/pc/types": {
             "get": {
                 "tags": [
@@ -7554,6 +7614,11 @@
                         "format": "int32",
                         "example": 10000
                     },
+                    "price_estimate": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 15000
+                    },
                     "purchase_date": {
                         "type": "string",
                         "example": "2020-10-01"
@@ -7569,6 +7634,10 @@
                     "is_onhand": {
                         "type": "boolean",
                         "example": true
+                    },
+                    "is_purchased": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
@@ -7581,7 +7650,12 @@
                         "example": 1
                     },
                     "type": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "cpu"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "CPU"
                     }
                 },
                 "type": "object"
@@ -8297,13 +8371,9 @@
                         "format": "int32",
                         "example": 1
                     },
-                    "rawType": {
-                        "type": "string",
-                        "example": "ssd"
-                    },
                     "type": {
                         "type": "string",
-                        "example": "SSD"
+                        "example": "CPU"
                     },
                     "name": {
                         "type": "string",
@@ -9778,6 +9848,36 @@
                     "maxLength": 64,
                     "minLength": 1
                 }
+            },
+            "pc_add_edit_setup_id_owner": {
+                "name": "id_owner",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+            },
+            "pc_add_edit_setup_id_info": {
+                "name": "id_info",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
+            },
+            "pc_add_edit_setup_components": {
+                "name": "components",
+                "in": "query",
+                "description": "PC Setup Components JSON String",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "[{\"id_component\":1,\"count\":1,\"is_hidden\":false},{\"id_component\":10,\"count\":2,\"is_hidden\":true}]"
             },
             "pc_setup_add_edit_label": {
                 "name": "label",
