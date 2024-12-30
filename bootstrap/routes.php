@@ -325,6 +325,7 @@ Route::prefix('api')
                 Route::post('', [PCComponentController::class, 'add']);
                 Route::put('{id}', [PCComponentController::class, 'edit']);
                 Route::delete('{id}', [PCComponentController::class, 'delete']);
+                Route::post('import', [PCComponentController::class, 'import']);
               });
 
             Route::prefix('types')
