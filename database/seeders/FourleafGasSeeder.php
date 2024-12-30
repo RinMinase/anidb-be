@@ -638,6 +638,38 @@ class FourleafGasSeeder extends Seeder {
         'price_per_liter' => 60.8,
         'liters_filled' => 14.98,
       ],
+      [
+        'date' => '2024-11-30',
+        'from_bars' => 4,
+        'to_bars' => 9,
+        'odometer' => 12803,
+        'price_per_liter' => 60.85,
+        'liters_filled' => 15.712,
+      ],
+      [
+        'date' => '2024-12-07',
+        'from_bars' => 3,
+        'to_bars' => 9,
+        'odometer' => 13034,
+        'price_per_liter' => 61.75,
+        'liters_filled' => 18.288,
+      ],
+      [
+        'date' => '2024-12-08',
+        'from_bars' => 7,
+        'to_bars' => 9,
+        'odometer' => 13097,
+        'price_per_liter' => 61.34,
+        'liters_filled' => 6.606,
+      ],
+      [
+        'date' => '2024-12-22',
+        'from_bars' => 2,
+        'to_bars' => 9,
+        'odometer' => 13369,
+        'price_per_liter' => 62.3,
+        'liters_filled' => 21.302,
+      ],
     ];
 
     foreach ($data as $item) {
