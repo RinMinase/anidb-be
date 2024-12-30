@@ -35,6 +35,7 @@ class ApplicationTest extends BaseTestCase {
     $id = -1;
     $integer = 1;
     $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
+    $uuid2 = '9b693f7c-bc6f-4c1d-b5b2-342f1d6d6004';
     $string = 'searchstring';
     $letter = 'A';
     $year = '2020';
@@ -76,6 +77,7 @@ class ApplicationTest extends BaseTestCase {
         !str_contains($uri, 'api/auth')
       ) {
         $uri = str_replace('{uuid}', $uuid, $uri);
+        $uri = str_replace('{uuid2}', $uuid2, $uri);
         $uri = str_replace('{id}', $id, $uri);
         $uri = str_replace('{integer}', $id, $uri);
 
@@ -100,6 +102,7 @@ class ApplicationTest extends BaseTestCase {
 
       if (str_contains($uri, 'api/') && !str_contains($uri, 'api/fourleaf/')) {
         $uri = str_replace('{uuid}', $uuid, $uri);
+        $uri = str_replace('{uuid2}', $uuid2, $uri);
         $uri = str_replace('{id}', $id, $uri);
 
         array_push($delete_routes, '/' . $uri);
