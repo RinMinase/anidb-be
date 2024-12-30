@@ -27,7 +27,7 @@ services:
       context: ./docker
       dockerfile: nginx.dockerfile
       args:
-        - NGINX_VERSION=1.27.2
+        - NGINX_VERSION=1.27.3
         - ALPINE_VERSION=3.21
         - PHP_UPSTREAM_CONTAINER=php
         - PHP_UPSTREAM_PORT=9000
