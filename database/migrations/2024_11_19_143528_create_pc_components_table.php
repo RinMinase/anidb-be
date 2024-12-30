@@ -19,6 +19,7 @@ return new class extends Migration {
       $table->string('description', 64)->nullable();
 
       $table->integer('price')->nullable();
+      $table->integer('price_estimate')->nullable();
       $table->date('purchase_date')->nullable();
       $table->string('purchase_location', 64)->nullable();
       $table->string('purchase_notes', 64)->nullable();
