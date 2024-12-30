@@ -19,6 +19,7 @@ return new class extends Migration {
 
       $table->smallInteger('kwh');
       $table->float('cost')->nullable();
+      $table->boolean('estimated_kwh')->nullable()->default(false);
     });
   }
 

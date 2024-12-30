@@ -51,6 +51,7 @@ class BillsElectricity extends Model {
     'uid',
     'kwh',
     'cost',
+    'estimated_kwh',
   ];
 
   protected $hidden = [
