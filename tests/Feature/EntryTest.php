@@ -402,7 +402,7 @@ class EntryTest extends BaseTestCase {
 
     $expected_meta = [
       'page' => 1,
-      'limit' => 30,
+      'limit' => 50,
       'results' => 1,
       'totalResults' => 1,
       'totalPages' => 1,

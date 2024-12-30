@@ -967,7 +967,7 @@ class EntryRepository {
   private function validate_genres_and_return_ids($values) {
     // Validate genres before proceeding
     $genre_ids = [];
-    if ($values['genres']) {
+    if (isset($values['genres']) && !empty($values['genres'])) {
       $valid_genre_ids = Genre::select('id')->get()->pluck('id')->toArray();
 
       $parts = explode(',', $values['genres']);
