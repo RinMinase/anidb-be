@@ -33,4 +33,25 @@ class PCOwnerRepository {
       ->firstOrFail()
       ->delete();
   }
+
+  public function import(array $contents) {
+    $import = [];
+
+    foreach ($contents as $item) {
+      if (!empty($item) && is_string($item)) {
+        $data = [
+          'uuid' => Str::uuid()->toString(),
+          'name' => $item,
+        ];
+
+        array_push($import, $data);
+      }
+    }
+
+    PCOwner::refreshAutoIncrements();
+    PCOwner::insert($import);
+    PCOwner::refreshAutoIncrements();
+
+    return count($import);
+  }
 }
