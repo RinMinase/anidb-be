@@ -39,8 +39,8 @@ class DatabaseSeeder extends Seeder {
       FourleafElectricitySeeder::class,     // test data
 
       // PC Seeds
-      PCOwnerSeeder::class,
       PCComponentTypeSeeder::class,
+      // PCOwnerSeeder::class,   // test data
       // PCSeeder::class,        // test data
     ]);
   }
