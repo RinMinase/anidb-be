@@ -26,7 +26,9 @@ use App\Controllers\PartialController;
 use App\Controllers\PCOwnerController;
 use App\Controllers\PCComponentController;
 use App\Controllers\PCComponentTypeController;
+use App\Controllers\PCController;
 use App\Controllers\PCInfoController;
+use App\Controllers\PCSetupController;
 use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
 use App\Controllers\RssController;
@@ -295,7 +297,7 @@ Route::prefix('api')
         Route::prefix('pc')
           ->group(function () {
 
-            Route::post('import', [PCImportController::class, 'import']);
+            Route::post('import', [PCController::class, 'import']);
 
             Route::prefix('owners')
               ->group(function () {
@@ -303,6 +305,7 @@ Route::prefix('api')
                 Route::post('', [PCOwnerController::class, 'add']);
                 Route::put('{uuid}', [PCOwnerController::class, 'edit']);
                 Route::delete('{uuid}', [PCOwnerController::class, 'delete']);
+                Route::post('import', [PCOwnerController::class, 'import']);
               });
 
             Route::prefix('infos')
@@ -312,6 +315,7 @@ Route::prefix('api')
                 Route::post('', [PCInfoController::class, 'add']);
                 Route::put('{uuid}', [PCInfoController::class, 'edit']);
                 Route::delete('{uuid}', [PCInfoController::class, 'delete']);
+                Route::post('import', [PCInfoController::class, 'import']);
 
                 Route::post('{uuid}/duplicate', [PCInfoController::class, 'duplicate']);
 
@@ -326,6 +330,11 @@ Route::prefix('api')
                 Route::put('{id}', [PCComponentController::class, 'edit']);
                 Route::delete('{id}', [PCComponentController::class, 'delete']);
                 Route::post('import', [PCComponentController::class, 'import']);
+              });
+
+            Route::prefix('setups')
+              ->group(function () {
+                Route::post('import', [PCSetupController::class, 'import']);
               });
 
             Route::prefix('types')
