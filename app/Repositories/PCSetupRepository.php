@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\JsonParsingException;
 use Carbon\Carbon;
-use App\Models\PCComponent;
-use Illuminate\Support\Str;
 
+use App\Exceptions\JsonParsingException;
+
+use App\Models\PCComponent;
 use App\Models\PCInfo;
 use App\Models\PCOwner;
 use App\Models\PCSetup;
@@ -59,5 +59,58 @@ class PCSetupRepository {
     return PCInfo::where('uuid', $uuid)
       ->firstOrFail()
       ->delete();
+  }
+
+  public function import(array $contents) {
+    $import = [];
+
+    $owners = PCOwner::select('id', 'name')->get()->makeVisible('id');
+    $infos = PCInfo::select('id', 'id_owner', 'label')->get()->makeVisible('id');
+    $components = PCComponent::select('id', 'name', 'description')->get();
+
+    foreach ($contents as $item) {
+      if (!empty($item)) {
+        if (!$item->id_owner) continue;
+        if (!$item->id_info) continue;
+        if (!$item->id_component) continue;
+        if (!$item->component_name) continue;
+
+        // Find the actual owner ID
+        $actual_owner = $owners->first(fn($owner) => $owner->name == $item->id_owner);
+        if (!$actual_owner) continue;
+
+        // Find the actual info ID
+        $actual_info = $infos->first(fn($info) => $info->label == $item->id_info);
+        if (!$actual_info) continue;
+        if ($actual_info->id_owner !== $actual_owner->id) continue;
+
+        // Find the actual component to retrieve component ID
+        $actual_component = $components->first(function ($cmp) use ($item) {
+          return $cmp->name == $item->component_name &&
+            $cmp->description == $item->component_description;
+        });
+
+        if (!$actual_component) continue;
+
+        $data = [
+          'id_owner' => $actual_owner->id,
+          'id_info' => $actual_info->id,
+          'id_component' => $actual_component->id,
+          'count' => $item->count,
+          'is_hidden' => to_boolean($item->is_hidden, true),
+
+          'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+          'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ];
+
+        array_push($import, $data);
+      }
+    }
+
+    PCSetup::refreshAutoIncrements();
+    PCSetup::insert($import);
+    PCSetup::refreshAutoIncrements();
+
+    return count($import);
   }
 }
