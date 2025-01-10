@@ -177,6 +177,14 @@ class SearchRequest extends FormRequest {
    * ),
    *
    * @OA\Parameter(
+   *   parameter="entry_search_watcher",
+   *   name="watcher",
+   *   description="ID of watcher (null = any, 0 = null in DB)",
+   *   in="query",
+   *   @OA\Schema(type="integer", format="int32"),
+   * ),
+   *
+   * @OA\Parameter(
    *   parameter="entry_search_column",
    *   name="column",
    *   description="Order - Column to order",
@@ -221,6 +229,7 @@ class SearchRequest extends FormRequest {
       'codec_audio' => ['string'],
 
       'genres' => ['string'],
+      'watcher' => ['integer', 'min:0'],
 
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
       'order' => ['in:asc,desc,ASC,DESC'],

@@ -39,6 +39,7 @@ use App\Resources\Genre\GenreResource;
  *     type="array",
  *     @OA\Items(ref="#/components/schemas/GenreResource")
  *   ),
+ *   @OA\Property(property="watcher", ref="#/components/schemas/EntryWatcher"),
  * ),
  */
 class EntrySummaryResource extends JsonResource {
@@ -77,6 +78,7 @@ class EntrySummaryResource extends JsonResource {
       'ratingOver5' => round($this->calcRating() / 2, 2),
 
       'genres' => GenreResource::collection($this->genres),
+      'watcher' => $this->watcher ?? [],
     ];
   }
 

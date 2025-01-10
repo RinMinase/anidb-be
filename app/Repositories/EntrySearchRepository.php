@@ -13,6 +13,7 @@ use App\Exceptions\Entry\SearchFilterParsingException;
 use App\Models\CodecAudio;
 use App\Models\CodecVideo;
 use App\Models\Entry;
+use App\Models\EntryWatcher;
 use App\Models\Genre;
 use App\Models\Quality;
 
@@ -48,6 +49,7 @@ class EntrySearchRepository {
     $search_codec_video = self::search_parse_codec($values['codec_video'] ?? null, 'video');
     $search_codec_audio = self::search_parse_codec($values['codec_audio'] ?? null, 'audio');
     $search_genres = self::search_parse_genres($values['genres'] ?? null);
+    $search_watcher = $values['watcher'] ?? null;
 
     // Ordering Parameters
     $column = $values['column'] ?? 'id_quality';
@@ -334,6 +336,24 @@ class EntrySearchRepository {
       $data = $data->leftJoin('entries_genre', 'entries_genre.id_entries', '=', 'entries.id')
         ->whereIn('entries_genre.id_genres', $search_genres)
         ->groupBy('entries.id');
+    }
+
+    if ($search_watcher !== null) {
+      // null value means any watcher
+      $search_watcher = intval($search_watcher);
+
+      if ($search_watcher === 0) {
+        // 0 value means watcher column is null
+        $data = $data->where('id_watcher', null);
+      } else {
+        // other values means watcher column is not null
+        $id_watcher = EntryWatcher::where('id', $search_watcher)->first();
+
+        if ($id_watcher) {
+          $id_watcher = $id_watcher->id;
+          $data = $data->where('id_watcher', $id_watcher);
+        }
+      }
     }
 
     $nulls = $order === 'asc' ? 'first' : 'last';
