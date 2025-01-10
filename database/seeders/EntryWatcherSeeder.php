@@ -16,11 +16,11 @@ class EntryWatcherSeeder extends Seeder {
     $data = [
       [
         'label' => 'Pamm',
-        'color' => '#F2C6DE',
+        'color' => '#F78FA7',
       ],
       [
         'label' => 'Together',
-        'color' => '#C6DEF1',
+        'color' => '#B39DDB',
       ]
     ];
 
