@@ -162,6 +162,7 @@ class EntryController extends Controller {
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
    *
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_genres"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_watcher"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -195,6 +196,7 @@ class EntryController extends Controller {
         'id_codec_video',
         'codec_hdr',
         'genres',
+        'id_watcher',
       )
     );
 
@@ -251,6 +253,7 @@ class EntryController extends Controller {
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
    *
    *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_genres"),
+   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_watcher"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -285,6 +288,7 @@ class EntryController extends Controller {
         'id_codec_video',
         'codec_hdr',
         'genres',
+        'id_watcher',
       ),
       $uuid,
     );

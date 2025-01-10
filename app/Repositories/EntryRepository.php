@@ -546,6 +546,7 @@ class EntryRepository {
       'id_codec_video',
       'id_codec_video',
       'codec_hdr',
+      'id_watcher'
     ];
 
     $entryInsertValues = array_filter(
@@ -588,6 +589,7 @@ class EntryRepository {
       'id_codec_video' => $values['id_codec_video'] ?? null,
       'id_codec_video' => $values['id_codec_video'] ?? null,
       'codec_hdr' => $values['codec_hdr'] ?? null,
+      'id_watcher' => $values['id_watcher'] ?? null,
     ];
 
     $entry->update($entryUpdateValues);

@@ -171,6 +171,13 @@ class AddEditRequest extends FormRequest {
    *   description="Comma-separated genre IDs",
    *   @OA\Schema(type="string"),
    * ),
+   *
+   * @OA\Parameter(
+   *   parameter="entry_add_edit_id_watcher",
+   *   name="id_watcher",
+   *   in="query",
+   *   @OA\Schema(type="integer", format="int32"),
+   * ),
    */
   public function rules() {
     $today = date("Y-m-d H:i:s", strtotime("+8 hours"));
@@ -219,6 +226,7 @@ class AddEditRequest extends FormRequest {
       'codec_hdr' => ['boolean'],
 
       'genres' => ['nullable', 'string'], // comma separated ids
+      'id_watcher' => ['nullable', 'integer', 'exists:entries_watchers,id']
     ];
   }
 
