@@ -3280,6 +3280,64 @@
                 ]
             }
         },
+        "/api/entries/watchers": {
+            "get": {
+                "tags": [
+                    "Entry"
+                ],
+                "summary": "Get list of Entry Watchers",
+                "operationId": "8fb676f68d24b9ed76acc3775cc56143",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 1
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "label"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/last": {
             "get": {
                 "tags": [
