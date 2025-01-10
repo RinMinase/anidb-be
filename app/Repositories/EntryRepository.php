@@ -568,33 +568,27 @@ class EntryRepository {
 
     $entry = Entry::where('uuid', $uuid)->firstOrFail();
 
-    $entryUpdateColumns = [
-      'id_quality',
-      'title',
-      'date_finished',
-      'duration',
-      'filesize',
-      'episodes',
-      'ovas',
-      'specials',
-      'encoder_video',
-      'encoder_audio',
-      'encoder_subs',
-      'release_year',
-      'release_season',
-      'variants',
-      'remarks',
-      'id_codec_audio',
-      'id_codec_video',
-      'id_codec_video',
-      'codec_hdr',
+    $entryUpdateValues = [
+      'id_quality' => $values['id_quality'],
+      'title' => $values['title'],
+      'date_finished' => $values['date_finished'] ?? null,
+      'duration' => $values['duration'] ?? null,
+      'filesize' => $values['filesize'] ?? null,
+      'episodes' => $values['episodes'] ?? 0,
+      'ovas' => $values['ovas'] ?? 0,
+      'specials' => $values['specials'] ?? 0,
+      'encoder_video' => $values['encoder_video'] ?? null,
+      'encoder_audio' => $values['encoder_audio'] ?? null,
+      'encoder_subs' => $values['encoder_subs'] ?? null,
+      'release_year' => $values['release_year'] ?? null,
+      'release_season' => $values['release_season'] ?? null,
+      'variants' => $values['variants'] ?? null,
+      'remarks' => $values['remarks'] ?? null,
+      'id_codec_audio' => $values['id_codec_audio'] ?? null,
+      'id_codec_video' => $values['id_codec_video'] ?? null,
+      'id_codec_video' => $values['id_codec_video'] ?? null,
+      'codec_hdr' => $values['codec_hdr'] ?? null,
     ];
-
-    $entryUpdateValues = array_filter(
-      $values,
-      fn($key) => in_array($key, $entryUpdateColumns),
-      ARRAY_FILTER_USE_KEY,
-    );
 
     $entry->update($entryUpdateValues);
 
