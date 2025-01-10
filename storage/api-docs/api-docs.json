@@ -2741,6 +2741,9 @@
                         "$ref": "#/components/parameters/entry_search_genres"
                     },
                     {
+                        "$ref": "#/components/parameters/entry_search_watcher"
+                    },
+                    {
                         "$ref": "#/components/parameters/entry_search_column"
                     },
                     {
@@ -7811,6 +7814,27 @@
                 },
                 "type": "object"
             },
+            "EntryWatcher": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "color": {
+                        "description": "Color hex code",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "label": "label",
+                    "color": "#ffffff"
+                }
+            },
             "Genre": {
                 "properties": {
                     "id": {
@@ -8412,6 +8436,9 @@
                         "type": "string",
                         "format": "uri",
                         "example": "{{ image url }}"
+                    },
+                    "watcher": {
+                        "$ref": "#/components/schemas/EntryWatcher"
                     }
                 },
                 "type": "object"
@@ -9865,6 +9892,15 @@
                 "description": "Comma separated IDs of genres",
                 "schema": {
                     "type": "string"
+                }
+            },
+            "entry_search_watcher": {
+                "name": "watcher",
+                "in": "query",
+                "description": "ID of watcher (null = any, 0 = null in DB)",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
                 }
             },
             "entry_search_column": {
