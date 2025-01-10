@@ -8503,6 +8503,11 @@
                     },
                     "watcher": {
                         "$ref": "#/components/schemas/EntryWatcher"
+                    },
+                    "idWatcher": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
                     }
                 },
                 "type": "object"
