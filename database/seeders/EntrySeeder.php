@@ -13,6 +13,7 @@ use App\Models\EntryGenre;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
+use App\Models\EntryWatcher;
 use App\Models\Genre;
 use App\Models\Quality;
 
@@ -52,6 +53,9 @@ class EntrySeeder extends Seeder {
     $id_codec_video_3 = CodecVideo::where('codec', 'x265 8bit')->first()->id;
     $id_codec_video_4 = CodecVideo::where('codec', 'x265 10bit')->first()->id;
 
+    $id_watcher_1 = EntryWatcher::where('label', 'Pamm')->first()->id;
+    $id_watcher_2 = EntryWatcher::where('label', 'Together')->first()->id;
+
     $testData = [
       [
         'uuid' => $uuid_1,
@@ -73,6 +77,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_1,
         'id_codec_audio' => $id_codec_audio_4,
         'image' => 'https://res.cloudinary.com/rin-minase/image/upload/v1722926844/entries/n2aipkefesx9ddb1wifd.jpg',
+        'id_watcher' => $id_watcher_1,
       ],
       [
         'uuid' => $uuid_2,
@@ -94,6 +99,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_10,
         'image' => null,
+        'id_watcher' => $id_watcher_1,
       ],
       [
         'uuid' => $uuid_3,
@@ -115,6 +121,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_2,
         'id_codec_audio' => $id_codec_audio_9,
         'image' => null,
+        'id_watcher' => $id_watcher_2,
       ],
       [
         'uuid' => $uuid_4,
@@ -136,6 +143,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_3,
         'id_codec_audio' => $id_codec_audio_6,
         'image' => null,
+        'id_watcher' => $id_watcher_2,
       ],
       [
         'uuid' => $uuid_5,
@@ -157,6 +165,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_12,
         'image' => null,
+        'id_watcher' => null,
       ],
       [
         'uuid' => $uuid_6,
@@ -178,6 +187,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_7,
         'image' => null,
+        'id_watcher' => null,
       ],
       [
         'uuid' => $uuid_7,
@@ -199,6 +209,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => $id_codec_video_4,
         'id_codec_audio' => $id_codec_audio_11,
         'image' => null,
+        'id_watcher' => null,
       ],
       [
         'uuid' => $uuid_8,
@@ -220,6 +231,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => null,
         'id_codec_audio' => null,
         'image' => null,
+        'id_watcher' => null,
       ],
       [
         'uuid' => $uuid_9,
@@ -241,6 +253,7 @@ class EntrySeeder extends Seeder {
         'id_codec_video' => null,
         'id_codec_audio' => null,
         'image' => null,
+        'id_watcher' => null,
       ],
     ];
 

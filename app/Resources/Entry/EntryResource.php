@@ -129,6 +129,7 @@ use App\Resources\Genre\GenreResource;
  *     @OA\Items(ref="#/components/schemas/GenreResource")
  *   ),
  *   @OA\Property(property="image", type="string", format="uri", example="{{ image url }}"),
+ *   @OA\Property(property="watcher", ref="#/components/schemas/EntryWatcher"),
  * ),
  */
 class EntryResource extends JsonResource {
@@ -197,6 +198,8 @@ class EntryResource extends JsonResource {
       'genres' => GenreResource::collection($this->genres),
 
       'image' => $this->image,
+
+      'watcher' => $this->watcher ?? [],
     ];
   }
 

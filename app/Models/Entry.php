@@ -32,6 +32,7 @@ class Entry extends Model {
     'id_codec_audio',
     'id_codec_video',
     'codec_hdr',
+    'id_watcher',
   ];
 
   protected $hidden = [
@@ -83,5 +84,9 @@ class Entry extends Model {
 
   public function codec_audio() {
     return $this->belongsTo(CodecAudio::class, 'id_codec_audio');
+  }
+
+  public function watcher() {
+    return $this->belongsTo(EntryWatcher::class, 'id_watcher');
   }
 }
