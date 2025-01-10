@@ -78,7 +78,7 @@ class EntrySummaryResource extends JsonResource {
       'ratingOver5' => round($this->calcRating() / 2, 2),
 
       'genres' => GenreResource::collection($this->genres),
-      'watcher' => $this->watcher ?? [],
+      'watcher' => $this->watcher ?? null,
     ];
   }
 

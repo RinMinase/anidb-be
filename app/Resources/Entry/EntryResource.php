@@ -200,7 +200,7 @@ class EntryResource extends JsonResource {
 
       'image' => $this->image,
 
-      'watcher' => $this->watcher ?? [],
+      'watcher' => $this->watcher ?? null,
       'idWatcher' => $this->watcher ? $this->watcher->id : null,
     ];
   }
