@@ -2439,6 +2439,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/entry_add_edit_genres"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_id_watcher"
                     }
                 ],
                 "responses": {
@@ -2610,6 +2613,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/entry_add_edit_genres"
+                    },
+                    {
+                        "$ref": "#/components/parameters/entry_add_edit_id_watcher"
                     }
                 ],
                 "responses": {
@@ -8541,6 +8547,9 @@
                         "items": {
                             "$ref": "#/components/schemas/GenreResource"
                         }
+                    },
+                    "watcher": {
+                        "$ref": "#/components/schemas/EntryWatcher"
                     }
                 },
                 "type": "object"
@@ -9578,6 +9587,14 @@
                 "description": "Comma-separated genre IDs",
                 "schema": {
                     "type": "string"
+                }
+            },
+            "entry_add_edit_id_watcher": {
+                "name": "id_watcher",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
                 }
             },
             "entry_add_rewatch_date_rewatched": {
