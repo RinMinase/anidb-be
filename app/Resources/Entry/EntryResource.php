@@ -130,6 +130,7 @@ use App\Resources\Genre\GenreResource;
  *   ),
  *   @OA\Property(property="image", type="string", format="uri", example="{{ image url }}"),
  *   @OA\Property(property="watcher", ref="#/components/schemas/EntryWatcher"),
+ *   @OA\Property(property="idWatcher", type="integer", format="int32", example=1),
  * ),
  */
 class EntryResource extends JsonResource {
@@ -200,6 +201,7 @@ class EntryResource extends JsonResource {
       'image' => $this->image,
 
       'watcher' => $this->watcher ?? [],
+      'idWatcher' => $this->watcher ? $this->watcher->id : null,
     ];
   }
 
