@@ -743,4 +743,40 @@ class EntryController extends Controller {
       ),
     ]);
   }
+
+  /**
+   * @OA\Get(
+   *   tags={"Entry"},
+   *   path="/api/entries/watchers",
+   *   summary="Get list of Entry Watchers",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="OK",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             type="array",
+   *             @OA\Items(
+   *               @OA\Property(property="id", type="integer", format="int32", example=1),
+   *               @OA\Property(property="label", type="string", example="label"),
+   *             ),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function get_watchers(): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->entryRepository->get_watchers(),
+    ]);
+  }
 }

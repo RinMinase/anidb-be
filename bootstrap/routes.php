@@ -153,6 +153,7 @@ Route::prefix('api')
             Route::put('{uuid}', [EntryController::class, 'edit']);
             Route::delete('{uuid}', [EntryController::class, 'delete']);
             Route::get('search', [EntryController::class, 'search']);
+            Route::get('watchers', [EntryController::class, 'get_watchers']);
             Route::post('import', [EntryController::class, 'import']);
 
             Route::post('{uuid}/offquel/{uuid2}', [EntryController::class, 'add_offquel']);

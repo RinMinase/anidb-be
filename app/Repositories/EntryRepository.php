@@ -17,6 +17,7 @@ use App\Models\EntryRewatch;
 use App\Models\Bucket;
 use App\Models\EntryGenre;
 use App\Models\EntryOffquel;
+use App\Models\EntryWatcher;
 use App\Models\Genre;
 use App\Models\Sequence;
 
@@ -766,6 +767,12 @@ class EntryRepository {
 
       return $final_array;
     }
+  }
+
+  public function get_watchers() {
+    return EntryWatcher::select('id', 'label')
+      ->get()
+      ->toArray();
   }
 
   /**
