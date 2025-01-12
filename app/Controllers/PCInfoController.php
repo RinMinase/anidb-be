@@ -56,7 +56,7 @@ class PCInfoController extends Controller {
    */
   public function index(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => PCInfoSummaryResource::collection($this->pcInfoRepository->getAll()),
+      'data' => PCInfoSummaryResource::collection($this->pcInfoRepository->get_all()),
     ]);
   }
 

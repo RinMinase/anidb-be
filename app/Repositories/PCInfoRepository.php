@@ -10,7 +10,7 @@ use App\Models\PCOwner;
 
 class PCInfoRepository {
 
-  public function getAll() {
+  public function get_all() {
     return PCInfo::with('owner')
       ->orderBy('label')
       ->orderBy('id')
