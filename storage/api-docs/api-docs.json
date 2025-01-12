@@ -4771,7 +4771,23 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/PCOwner"
+                                                        "properties": {
+                                                            "uuid": {
+                                                                "type": "string",
+                                                                "format": "uuid",
+                                                                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                                                            },
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "infos": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "$ref": "#/components/schemas/PCInfoSummaryResource"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 }
                                             },
