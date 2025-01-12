@@ -33,7 +33,20 @@ class PCOwnerController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/PCOwner"),
+   *             @OA\Items(
+   *               @OA\Property(
+   *                 property="uuid",
+   *                 type="string",
+   *                 format="uuid",
+   *                 example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *               ),
+   *               @OA\Property(property="name", type="string"),
+   *               @OA\Property(
+   *                 property="infos",
+   *                 type="array",
+   *                 @OA\Items(ref="#/components/schemas/PCInfoSummaryResource"),
+   *               ),
+   *             ),
    *           ),
    *         ),
    *       },

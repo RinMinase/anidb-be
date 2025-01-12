@@ -9,7 +9,8 @@ use App\Models\PCOwner;
 class PCOwnerRepository {
 
   public function getAll() {
-    return PCOwner::orderBy('name')
+    return PCOwner::with('infos')
+      ->orderBy('name')
       ->orderBy('id')
       ->get()
       ->toArray();
