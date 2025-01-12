@@ -39,7 +39,7 @@ class PCSetupSummaryResource extends JsonResource {
         null,
 
       'priceEstimate' => $this->component->price_estimate ?? null,
-      'priceEstimateFormatted' => $this->component->price ?
+      'priceEstimateFormatted' => $this->component->price_estimate ?
         number_format($this->component->price_estimate) :
         null,
 
