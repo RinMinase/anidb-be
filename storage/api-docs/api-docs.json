@@ -8768,6 +8768,14 @@
                         "type": "string",
                         "example": "1,234"
                     },
+                    "priceEstimate": {
+                        "type": "integer",
+                        "example": 1234
+                    },
+                    "priceEstimateFormatted": {
+                        "type": "string",
+                        "example": "1,234"
+                    },
                     "purhcaseDate": {
                         "type": "string",
                         "example": "2020-10-10"
