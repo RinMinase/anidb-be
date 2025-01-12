@@ -8759,6 +8759,30 @@
                     "isHidden": {
                         "type": "boolean",
                         "example": false
+                    },
+                    "price": {
+                        "type": "integer",
+                        "example": 1234
+                    },
+                    "priceFormatted": {
+                        "type": "string",
+                        "example": "1,234"
+                    },
+                    "purhcaseDate": {
+                        "type": "string",
+                        "example": "2020-10-10"
+                    },
+                    "purhcaseLocation": {
+                        "type": "string",
+                        "example": "Location"
+                    },
+                    "purhcaseNotes": {
+                        "type": "string",
+                        "example": "Notes"
+                    },
+                    "isOnhand": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
