@@ -14,6 +14,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *   @OA\Property(property="isHidden", type="boolean", example=false),
  *   @OA\Property(property="price", type="integer", example=1234),
  *   @OA\Property(property="priceFormatted", type="string", example="1,234"),
+ *   @OA\Property(property="priceEstimate", type="integer", example=1234),
+ *   @OA\Property(property="priceEstimateFormatted", type="string", example="1,234"),
  *   @OA\Property(property="purhcaseDate", type="string", example="2020-10-10"),
  *   @OA\Property(property="purhcaseLocation", type="string", example="Location"),
  *   @OA\Property(property="purhcaseNotes", type="string", example="Notes"),
@@ -32,7 +34,16 @@ class PCSetupSummaryResource extends JsonResource {
       'isHidden' => $this->is_hidden,
 
       'price' => $this->component->price ?? null,
-      'priceFormatted' => $this->component->price ? number_format($this->component->price) : null,
+      'priceFormatted' => $this->component->price ?
+        number_format($this->component->price) :
+        null,
+
+      'priceEstimate' => $this->component->price_estimate ?? null,
+      'priceEstimateFormatted' => $this->component->price ?
+        number_format($this->component->price_estimate) :
+        null,
+
+
       'purchaseDate' => $this->component->purchase_date ?? '',
       'purchaseLocation' => $this->component->purchase_location ?? '',
       'purchaseNotes' => $this->component->purchase_notes ?? '',
