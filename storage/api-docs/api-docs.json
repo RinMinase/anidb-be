@@ -4576,6 +4576,51 @@
                                             "properties": {
                                                 "data": {
                                                     "$ref": "#/components/schemas/PCInfoResource"
+                                                },
+                                                "stats": {
+                                                    "properties": {
+                                                        "totalSetupCost": {
+                                                            "type": "integer",
+                                                            "example": 10000
+                                                        },
+                                                        "totalSetupCostFormat": {
+                                                            "type": "string",
+                                                            "example": "10,000"
+                                                        },
+                                                        "totalSystemCost": {
+                                                            "type": "integer",
+                                                            "example": 10000
+                                                        },
+                                                        "totalSystemCostFormat": {
+                                                            "type": "string",
+                                                            "example": "10,000"
+                                                        },
+                                                        "totalPeripheralCost": {
+                                                            "type": "integer",
+                                                            "example": 10000
+                                                        },
+                                                        "totalPeripheralCostFormat": {
+                                                            "type": "string",
+                                                            "example": "10,000"
+                                                        },
+                                                        "highlightCpu": {
+                                                            "type": "string",
+                                                            "example": "Sample CPU Name"
+                                                        },
+                                                        "highlightGpu": {
+                                                            "type": "string",
+                                                            "example": "Sample GPU Name"
+                                                        },
+                                                        "highlightRam": {
+                                                            "type": "string",
+                                                            "example": "Sample RAM Details"
+                                                        },
+                                                        "highlightStorage": {
+                                                            "type": "string",
+                                                            "example": "Sample Storage Details"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -8014,6 +8059,10 @@
                     "name": {
                         "type": "string",
                         "example": "CPU"
+                    },
+                    "is_peripheral": {
+                        "type": "boolean",
+                        "example": true
                     }
                 },
                 "type": "object"
