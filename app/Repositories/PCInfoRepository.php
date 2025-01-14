@@ -112,13 +112,13 @@ class PCInfoRepository {
 
     // CPU Highlight
     $cpu_value = $info_resource->setups->first(fn($item) => $item->component->type->type === 'cpu');
-    $highlight_cpu = $cpu_value->component->name;
+    $highlight_cpu = $cpu_value->component->name ?? '';
     $highlight_cpu = str_ireplace(['amd', 'intel'], '', $highlight_cpu);
 
     // GPU Highlight
     $gpu_value = $info_resource->setups->first(fn($item) => $item->component->type->type === 'gpu');
     $gpu_search_value = null;
-    preg_match('/[GR]TX?\ \d{3,5}(TI)?/i', $gpu_value->component->name, $gpu_search_value);
+    preg_match('/[GR]TX?\ \d{3,5}(TI)?/i', $gpu_value->component->name ?? '', $gpu_search_value);
     $highlight_gpu = $gpu_search_value[0] ?? '';
 
     // RAM Highlight
@@ -133,9 +133,9 @@ class PCInfoRepository {
 
     $ram_name = $actual_ram_size . 'GB';
     $ram_desc_search_value = null;
-    preg_match('/\d{4,5}\ ?MHz/i', $ram_values->first()->component->description, $ram_desc_search_value);
-    $ram_desc = str_replace(' ', '', $ram_desc_search_value[0]);
-    $highlight_ram = $ram_name . ' ' . $ram_desc;
+    preg_match('/\d{4,5}\ ?MHz/i', $ram_values->first()->component->description ?? '', $ram_desc_search_value);
+    $ram_desc = str_replace(' ', '', $ram_desc_search_value[0] ?? '');
+    $highlight_ram = trim($ram_name . ' ' . $ram_desc);
 
     // HDD Highlight
     $hdd_values = $info_resource->setups->filter(fn($item) => $item->component->type->type === 'hdd');
