@@ -14,7 +14,7 @@ class PCComponentTypeSeeder extends Seeder {
    * @return void
    */
   public function run() {
-    $data = [
+    $data_system = [
       'cpu' => 'CPU',
       'ram' => 'RAM',
       'gpu' => 'GPU',
@@ -27,6 +27,9 @@ class PCComponentTypeSeeder extends Seeder {
       'fan' => 'Fan',
       'pcie_card' => 'PCIe Card',
       'accessory' => 'Accessory',
+    ];
+
+    $data_peripherals = [
       'monitor' => 'Monitor',
       'keyboard' => 'Keyboard',
       'keyboard_accessory' => 'Keyboard Accesory',
@@ -42,10 +45,19 @@ class PCComponentTypeSeeder extends Seeder {
       'other' => 'Other',
     ];
 
-    foreach ($data as $type => $name) {
+    foreach ($data_system as $type => $name) {
       PCComponentType::create([
         'type' => $type,
         'name' => $name,
+        'is_peripheral' => false,
+      ]);
+    }
+
+    foreach ($data_peripherals as $type => $name) {
+      PCComponentType::create([
+        'type' => $type,
+        'name' => $name,
+        'is_peripheral' => true,
       ]);
     }
   }

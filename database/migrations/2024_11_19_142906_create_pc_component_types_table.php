@@ -13,6 +13,7 @@ return new class extends Migration {
       $table->id();
       $table->string('type', 32)->unique();
       $table->string('name', 32);
+      $table->boolean('is_peripheral')->default(true);
     });
   }
 
