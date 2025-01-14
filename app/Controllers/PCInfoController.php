@@ -12,7 +12,6 @@ use App\Requests\PC\AddEditSetupRequest;
 use App\Requests\ImportRequest;
 
 use App\Resources\DefaultResponse;
-use App\Resources\PC\PCInfoResource;
 use App\Resources\PC\PCInfoSummaryResource;
 
 class PCInfoController extends Controller {
@@ -84,6 +83,19 @@ class PCInfoController extends Controller {
    *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
    *         @OA\Schema(
    *           @OA\Property(property="data", ref="#/components/schemas/PCInfoResource"),
+   *           @OA\Property(
+   *             property="stats",
+   *             @OA\Property(property="totalSetupCost", type="integer", example=10000),
+   *             @OA\Property(property="totalSetupCostFormat", type="string", example="10,000"),
+   *             @OA\Property(property="totalSystemCost", type="integer", example=10000),
+   *             @OA\Property(property="totalSystemCostFormat", type="string", example="10,000"),
+   *             @OA\Property(property="totalPeripheralCost", type="integer", example=10000),
+   *             @OA\Property(property="totalPeripheralCostFormat", type="string", example="10,000"),
+   *             @OA\Property(property="highlightCpu", type="string", example="Sample CPU Name"),
+   *             @OA\Property(property="highlightGpu", type="string", example="Sample GPU Name"),
+   *             @OA\Property(property="highlightRam", type="string", example="Sample RAM Details"),
+   *             @OA\Property(property="highlightStorage", type="string", example="Sample Storage Details"),
+   *           ),
    *         ),
    *       },
    *     ),
@@ -93,8 +105,11 @@ class PCInfoController extends Controller {
    * )
    */
   public function get($uuid): JsonResponse {
+    $data = $this->pcInfoRepository->get($uuid);
+
     return DefaultResponse::success(null, [
-      'data' => new PCInfoResource($this->pcInfoRepository->get($uuid)),
+      'data' => $data['data'],
+      'stats' => $data['stats'],
     ]);
   }
 
