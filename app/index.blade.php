@@ -70,6 +70,13 @@
         margin: 6px 0;
       }
     </style>
+
+    <style media="(prefers-color-scheme: dark)">
+      body {
+        background-color: #212121;
+        color: #fff;
+      }
+    </style>
   </head>
 
   <body>
