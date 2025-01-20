@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 use App\Models\PCInfo;
 use App\Models\PCOwner;
+use App\Models\PCSetup;
 use App\Resources\PC\PCInfoResource;
 
 class PCInfoRepository {
@@ -23,6 +24,9 @@ class PCInfoRepository {
       ->with('setups')
       ->where('uuid', $uuid)
       ->firstOrFail();
+
+    // Check if info contains any setup
+    PCSetup::where('id_info', $info_resource->id)->firstOrFail();
 
     $stats = $this->calculate_info_stats($info_resource);
 
