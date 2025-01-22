@@ -8,8 +8,16 @@ use App\Models\PCOwner;
 
 class PCOwnerRepository {
 
-  public function getAll() {
-    return PCOwner::with('infos')
+  public function getAll(array $values) {
+    $show_hidden = $values['show_hidden'];
+
+    return PCOwner::with(['infos' => function ($query) use ($show_hidden) {
+      $query->orderBy('label');
+
+      if (!$show_hidden) {
+        $query->where('is_hidden', false);
+      }
+    }])
       ->orderBy('name')
       ->orderBy('id')
       ->get()

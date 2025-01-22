@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\PCOwnerRepository;
 use App\Requests\ImportRequest;
 use App\Requests\PC\AddEditOwnerRequest;
+use App\Requests\PC\GetOwnersRequest;
 use App\Resources\DefaultResponse;
 
 class PCOwnerController extends Controller {
@@ -56,9 +57,9 @@ class PCOwnerController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(): JsonResponse {
+  public function index(GetOwnersRequest $request): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->pcOwnerRepository->getAll(),
+      'data' => $this->pcOwnerRepository->getAll($request->only('show_hidden')),
     ]);
   }
 
