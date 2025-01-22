@@ -25,9 +25,6 @@ class PCInfoRepository {
       ->where('uuid', $uuid)
       ->firstOrFail();
 
-    // Check if info contains any setup
-    PCSetup::where('id_info', $info_resource->id)->firstOrFail();
-
     $stats = $this->calculate_info_stats($info_resource);
 
     return [
@@ -135,7 +132,7 @@ class PCInfoRepository {
       $actual_ram_size += intval($ram_name_search_value[0]);
     }
 
-    $ram_name = $actual_ram_size . 'GB';
+    $ram_name = $actual_ram_size ? $actual_ram_size . 'GB' : '';
     $ram_desc_search_value = null;
     preg_match('/\d{4,5}\ ?MHz/i', $ram_values->first()->component->description ?? '', $ram_desc_search_value);
     $ram_desc = str_replace(' ', '', $ram_desc_search_value[0] ?? '');
