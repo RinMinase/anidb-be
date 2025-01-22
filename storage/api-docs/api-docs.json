@@ -4794,6 +4794,47 @@
                 ]
             }
         },
+        "/api/pc/infos/{info_uuid}/hide": {
+            "put": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Set a PC Info to either shown or hidden",
+                "operationId": "7dbf5187b0ef2ff129ac873fc5007e4c",
+                "parameters": [
+                    {
+                        "name": "info_uuid",
+                        "in": "path",
+                        "description": "PC Info UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/pc/owners": {
             "get": {
                 "tags": [
@@ -10345,6 +10386,14 @@
                     "type": "string"
                 },
                 "example": "[{\"id_component\":1,\"count\":1,\"is_hidden\":false},{\"id_component\":10,\"count\":2,\"is_hidden\":true}]"
+            },
+            "pc_get_owners_show_hidden": {
+                "name": "show_hidden",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                },
+                "example": true
             },
             "pc_setup_add_edit_label": {
                 "name": "label",
