@@ -113,4 +113,14 @@ class PCSetupRepository {
 
     return count($import);
   }
+
+  public function toggle_hide_setup($uuid) {
+    $info = PCInfo::where('uuid', $uuid)
+      ->firstOrFail();
+
+    $prev_value = $info->is_hidden;
+    $info->is_hidden = !$prev_value;
+
+    $info->save();
+  }
 }

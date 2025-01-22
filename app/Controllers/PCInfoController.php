@@ -270,4 +270,32 @@ class PCInfoController extends Controller {
 
     return DefaultResponse::success();
   }
+
+  /**
+   * @OA\Put(
+   *   tags={"PC"},
+   *   path="/api/pc/infos/{info_uuid}/hide",
+   *   summary="Set a PC Info to either shown or hidden",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="info_uuid",
+   *     description="PC Info UUID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function toggle_hide_setup($uuid): JsonResponse {
+    $this->pcSetupRepository->toggle_hide_setup($uuid);
+
+    return DefaultResponse::success();
+  }
 }

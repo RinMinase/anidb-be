@@ -322,6 +322,8 @@ Route::prefix('api')
 
                 Route::post('{uuid}/setup', [PCInfoController::class, 'add_setup']);
                 Route::put('{uuid}/setup', [PCInfoController::class, 'edit_setup']);
+
+                Route::put('{uuid}/hide', [PCInfoController::class, 'toggle_hide_setup']);
               });
 
             Route::prefix('components')
