@@ -4458,90 +4458,6 @@
                 ]
             }
         },
-        "/api/pc/infos": {
-            "get": {
-                "tags": [
-                    "PC"
-                ],
-                "summary": "Get All PC Info",
-                "operationId": "0dcb7083b71258b62c6f4ee17db3c594",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/PCInfoSummaryResource"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "PC"
-                ],
-                "summary": "Add a PC Info",
-                "operationId": "db72030ebfa2883688026ff6dd8a92c4",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/pc_add_edit_info_id_owner"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_add_edit_info_label"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_add_edit_info_is_active"
-                    },
-                    {
-                        "$ref": "#/components/parameters/pc_add_edit_info_is_hidden"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            }
-        },
         "/api/pc/infos/{info_uuid}": {
             "get": {
                 "tags": [
@@ -4662,9 +4578,6 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_add_edit_info_id_owner"
-                    },
-                    {
                         "$ref": "#/components/parameters/pc_add_edit_info_label"
                     },
                     {
@@ -4672,6 +4585,9 @@
                     },
                     {
                         "$ref": "#/components/parameters/pc_add_edit_info_is_hidden"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_info_components"
                     }
                 ],
                 "responses": {
@@ -4722,6 +4638,45 @@
                     },
                     "404": {
                         "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/pc/infos": {
+            "post": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Add a PC Info",
+                "operationId": "db72030ebfa2883688026ff6dd8a92c4",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_info_label"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_info_is_active"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_info_is_hidden"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_info_components"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -4794,13 +4749,38 @@
                 ]
             }
         },
+        "/api/pc/infos/{info_uuid}/duplicate": {
+            "post": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Duplicate a PC Info",
+                "operationId": "52d2e4351e9914af2215f5c32faee228",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/pc/infos/{info_uuid}/hide": {
             "put": {
                 "tags": [
                     "PC"
                 ],
                 "summary": "Set a PC Info to either shown or hidden",
-                "operationId": "7dbf5187b0ef2ff129ac873fc5007e4c",
+                "operationId": "f9a80b7310d22adc4cd171fe3b5d5292",
                 "parameters": [
                     {
                         "name": "info_uuid",
@@ -4927,6 +4907,61 @@
             }
         },
         "/api/pc/owners/{owner_uuid}": {
+            "get": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Get PC Owner",
+                "operationId": "0e20db2d5935b00822da917aad83416f",
+                "parameters": [
+                    {
+                        "name": "owner_uuid",
+                        "in": "path",
+                        "description": "Owner UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PCOwner"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "PC"
@@ -10313,16 +10348,6 @@
                 },
                 "example": "sample type"
             },
-            "pc_add_edit_info_id_owner": {
-                "name": "id_owner",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string",
-                    "format": "uuid"
-                },
-                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-            },
             "pc_add_edit_info_label": {
                 "name": "label",
                 "in": "query",
@@ -10347,6 +10372,16 @@
                     "type": "boolean"
                 }
             },
+            "pc_add_edit_info_components": {
+                "name": "components",
+                "in": "query",
+                "description": "PC Setup Components JSON String",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "[{\"id_component\":1,\"count\":1,\"is_hidden\":false},{\"id_component\":10,\"count\":2,\"is_hidden\":true}]"
+            },
             "pc_add_edit_owner_name": {
                 "name": "name",
                 "in": "query",
@@ -10356,36 +10391,6 @@
                     "maxLength": 64,
                     "minLength": 1
                 }
-            },
-            "pc_add_edit_setup_id_owner": {
-                "name": "id_owner",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string",
-                    "format": "uuid"
-                },
-                "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-            },
-            "pc_add_edit_setup_id_info": {
-                "name": "id_info",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string",
-                    "format": "uuid"
-                },
-                "example": "87d66263-269c-4f7c-9fb8-dd78c4408ff6"
-            },
-            "pc_add_edit_setup_components": {
-                "name": "components",
-                "in": "query",
-                "description": "PC Setup Components JSON String",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "[{\"id_component\":1,\"count\":1,\"is_hidden\":false},{\"id_component\":10,\"count\":2,\"is_hidden\":true}]"
             },
             "pc_get_owners_show_hidden": {
                 "name": "show_hidden",
