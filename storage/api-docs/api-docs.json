@@ -3973,6 +3973,14 @@
                 ],
                 "summary": "Get All PC Components",
                 "operationId": "881f1c5779b6039b697a518a5cf17215",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pc_search_component_query"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_search_component_id_type"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -10399,6 +10407,23 @@
                     "type": "boolean"
                 },
                 "example": true
+            },
+            "pc_search_component_query": {
+                "name": "query",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "component name"
+            },
+            "pc_search_component_id_type": {
+                "name": "id_type",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "example": 1
             },
             "pc_setup_add_edit_label": {
                 "name": "label",
