@@ -22,8 +22,9 @@ class PCSetupRepository {
 
     $setups_to_save = [];
     foreach ($setups as $value) {
+      // If component ID is invalid
       if (!in_array($value['id_component'], $valid_component_ids)) {
-        throw new JsonParsingException();
+        continue;
       }
 
       $date = Carbon::now()->toString();
