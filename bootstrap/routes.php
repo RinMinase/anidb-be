@@ -311,7 +311,6 @@ Route::prefix('api')
 
             Route::prefix('infos')
               ->group(function () {
-                Route::get('', [PCInfoController::class, 'index']);
                 Route::get('{uuid}', [PCInfoController::class, 'get']);
                 Route::post('', [PCInfoController::class, 'add']);
                 Route::put('{uuid}', [PCInfoController::class, 'edit']);
@@ -319,11 +318,7 @@ Route::prefix('api')
                 Route::post('import', [PCInfoController::class, 'import']);
 
                 Route::post('{uuid}/duplicate', [PCInfoController::class, 'duplicate']);
-
-                Route::post('{uuid}/setup', [PCInfoController::class, 'add_setup']);
-                Route::put('{uuid}/setup', [PCInfoController::class, 'edit_setup']);
-
-                Route::put('{uuid}/hide', [PCInfoController::class, 'toggle_hide_setup']);
+                Route::put('{uuid}/hide', [PCInfoController::class, 'toggle_hide']);
               });
 
             Route::prefix('components')
