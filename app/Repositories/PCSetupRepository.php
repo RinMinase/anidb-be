@@ -49,18 +49,6 @@ class PCSetupRepository {
     PCSetup::refreshAutoIncrements();
   }
 
-  public function edit(array $values, $uuid) {
-    return PCInfo::where('uuid', $uuid)
-      ->firstOrFail()
-      ->update($values);
-  }
-
-  public function delete($uuid) {
-    return PCInfo::where('uuid', $uuid)
-      ->firstOrFail()
-      ->delete();
-  }
-
   public function import(array $contents) {
     $import = [];
 
@@ -112,15 +100,5 @@ class PCSetupRepository {
     PCSetup::refreshAutoIncrements();
 
     return count($import);
-  }
-
-  public function toggle_hide_setup($uuid) {
-    $info = PCInfo::where('uuid', $uuid)
-      ->firstOrFail();
-
-    $prev_value = $info->is_hidden;
-    $info->is_hidden = !$prev_value;
-
-    $info->save();
   }
 }

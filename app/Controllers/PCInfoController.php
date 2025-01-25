@@ -5,10 +5,8 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\PCInfoRepository;
-use App\Repositories\PCSetupRepository;
 
 use App\Requests\PC\AddEditInfoRequest;
-use App\Requests\PC\AddEditSetupRequest;
 use App\Requests\ImportRequest;
 
 use App\Resources\DefaultResponse;
@@ -17,46 +15,9 @@ use App\Resources\PC\PCInfoSummaryResource;
 class PCInfoController extends Controller {
 
   private PCInfoRepository $pcInfoRepository;
-  private PCSetupRepository $pcSetupRepository;
 
-  public function __construct(
-    PCInfoRepository $pcInfoRepository,
-    PCSetupRepository $pcSetupRepository
-  ) {
+  public function __construct(PCInfoRepository $pcInfoRepository) {
     $this->pcInfoRepository = $pcInfoRepository;
-    $this->pcSetupRepository = $pcSetupRepository;
-  }
-
-  /**
-   * @OA\Get(
-   *   tags={"PC"},
-   *   path="/api/pc/infos",
-   *   summary="Get All PC Info",
-   *   security={{"token":{}}},
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/PCInfoSummaryResource"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
-  public function index(): JsonResponse {
-    return DefaultResponse::success(null, [
-      'data' => PCInfoSummaryResource::collection($this->pcInfoRepository->get_all()),
-    ]);
   }
 
   /**
@@ -120,10 +81,10 @@ class PCInfoController extends Controller {
    *   summary="Add a PC Info",
    *   security={{"token":{}}},
    *
-   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_id_owner"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_label"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_active"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_hidden"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_components"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -132,7 +93,7 @@ class PCInfoController extends Controller {
    */
   public function add(AddEditInfoRequest $request): JsonResponse {
     $this->pcInfoRepository->add(
-      $request->only('id_owner', 'label', 'is_active', 'is_hidden'),
+      $request->only('id_owner', 'label', 'is_active', 'is_hidden', 'components'),
     );
 
     return DefaultResponse::success();
@@ -153,10 +114,10 @@ class PCInfoController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
-   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_id_owner"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_label"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_active"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_hidden"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_components"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -166,7 +127,7 @@ class PCInfoController extends Controller {
    */
   public function edit(AddEditInfoRequest $request, $uuid): JsonResponse {
     $this->pcInfoRepository->edit(
-      $request->only('id_owner', 'label', 'is_active', 'is_hidden'),
+      $request->only('id_owner', 'label', 'is_active', 'is_hidden', 'components'),
       $uuid,
     );
 
@@ -253,20 +214,20 @@ class PCInfoController extends Controller {
     ]);
   }
 
+  /**
+   * @OA\Post(
+   *   tags={"PC"},
+   *   path="/api/pc/infos/{info_uuid}/duplicate",
+   *   summary="Duplicate a PC Info",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Response(response=200, ref="#/components/responses/Success"),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function duplicate($uuid): JsonResponse {
     $this->pcInfoRepository->duplicate($uuid);
-
-    return DefaultResponse::success();
-  }
-
-  public function add_setup(AddEditSetupRequest $request, $uuid): JsonResponse {
-    $this->pcSetupRepository->add($request->only('data'), $uuid);
-
-    return DefaultResponse::success();
-  }
-
-  public function edit_setup(AddEditSetupRequest $request, $uuid): JsonResponse {
-    $this->pcSetupRepository->edit($request->only('data'), $uuid);
 
     return DefaultResponse::success();
   }
@@ -293,8 +254,8 @@ class PCInfoController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function toggle_hide_setup($uuid): JsonResponse {
-    $this->pcSetupRepository->toggle_hide_setup($uuid);
+  public function toggle_hide($uuid): JsonResponse {
+    $this->pcInfoRepository->toggle_hide_setup($uuid);
 
     return DefaultResponse::success();
   }
