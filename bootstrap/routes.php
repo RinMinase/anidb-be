@@ -303,6 +303,7 @@ Route::prefix('api')
             Route::prefix('owners')
               ->group(function () {
                 Route::get('', [PCOwnerController::class, 'index']);
+                Route::get('{uuid}', [PCOwnerController::class, 'get']);
                 Route::post('', [PCOwnerController::class, 'add']);
                 Route::put('{uuid}', [PCOwnerController::class, 'edit']);
                 Route::delete('{uuid}', [PCOwnerController::class, 'delete']);

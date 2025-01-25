@@ -64,6 +64,44 @@ class PCOwnerController extends Controller {
   }
 
   /**
+   * @OA\Get(
+   *   tags={"PC"},
+   *   path="/api/pc/owners/{owner_uuid}",
+   *   summary="Get PC Owner",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="owner_uuid",
+   *     description="Owner UUID",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/PCOwner"),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function get($uuid): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->pcOwnerRepository->get($uuid),
+    ]);
+  }
+
+  /**
    * @OA\Post(
    *   tags={"PC"},
    *   path="/api/pc/owners",

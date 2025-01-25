@@ -24,6 +24,12 @@ class PCOwnerRepository {
       ->toArray();
   }
 
+  public function get($uuid) {
+    return PCOwner::where('uuid', $uuid)
+      ->firstOrFail()
+      ->toArray();
+  }
+
   public function add(array $values) {
     return PCOwner::create([
       'uuid' => Str::uuid()->toString(),
