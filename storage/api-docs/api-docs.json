@@ -3996,7 +3996,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/PCComponent"
+                                                        "$ref": "#/components/schemas/PCComponentResource"
                                                     }
                                                 }
                                             },
@@ -4071,6 +4071,61 @@
             }
         },
         "/api/pc/components/{component_id}": {
+            "get": {
+                "tags": [
+                    "PC"
+                ],
+                "summary": "Get All PC Components",
+                "operationId": "dcb986c70a2f15bc67ee9ce6106e64db",
+                "parameters": [
+                    {
+                        "name": "component_id",
+                        "in": "path",
+                        "description": "Component ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/PCComponentResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "PC"
@@ -8101,30 +8156,35 @@
                         "format": "int32",
                         "example": 10000
                     },
-                    "price_estimate": {
+                    "priceEstimate": {
                         "type": "integer",
                         "format": "int32",
                         "example": 15000
                     },
-                    "purchase_date": {
+                    "purchaseDate": {
                         "type": "string",
                         "example": "2020-10-01"
                     },
-                    "purchase_location": {
+                    "purchaseLocation": {
                         "type": "string",
                         "example": "Store Name"
                     },
-                    "purchase_notes": {
+                    "purchaseNotes": {
                         "type": "string",
                         "example": "Some notes"
                     },
-                    "is_onhand": {
+                    "isOnhand": {
                         "type": "boolean",
                         "example": true
                     },
-                    "is_purchased": {
+                    "isPurchased": {
                         "type": "boolean",
                         "example": true
+                    },
+                    "descriptiveName": {
+                        "description": "{name} ({price})",
+                        "type": "string",
+                        "example": "Sample Component Name (10,000)"
                     }
                 },
                 "type": "object"
@@ -8776,6 +8836,64 @@
                     "genre": {
                         "type": "string",
                         "example": "Genre Name"
+                    }
+                },
+                "type": "object"
+            },
+            "PCComponentResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "idType": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Sample Component Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Sample Component Description"
+                    },
+                    "price": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 10000
+                    },
+                    "priceEstimate": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 15000
+                    },
+                    "purchaseDate": {
+                        "type": "string",
+                        "example": "2020-10-01"
+                    },
+                    "purchaseLocation": {
+                        "type": "string",
+                        "example": "Store Name"
+                    },
+                    "purchaseNotes": {
+                        "type": "string",
+                        "example": "Some notes"
+                    },
+                    "isOnhand": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "isPurchased": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "descriptiveName": {
+                        "description": "{name} ({price})",
+                        "type": "string",
+                        "example": "Sample Component Name (10,000)"
                     }
                 },
                 "type": "object"
