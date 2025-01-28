@@ -9,8 +9,20 @@ use App\Models\PCComponentType;
 
 class PCComponentRepository {
 
-  public function getAll() {
-    return PCComponent::orderBy('id')->get()->toArray();
+  public function getAll(array $values) {
+    $id_type = $values['id_type'] ?? null;
+
+    $data = PCComponent::orderBy('id');
+
+    if ($id_type) {
+      $is_valid_type_id = PCComponentType::where('id', $id_type)->first();
+
+      if ($is_valid_type_id) {
+        $data = $data->where('id_type', $id_type);
+      }
+    }
+
+    return $data->limit(20)->get();
   }
 
   public function add(array $values) {

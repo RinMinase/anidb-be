@@ -7,7 +7,9 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\PCComponentRepository;
 use App\Requests\PC\AddEditComponentRequest;
 use App\Requests\ImportRequest;
+use App\Requests\PC\SearchComponentRequest;
 use App\Resources\DefaultResponse;
+use App\Resources\PC\PCComponentResource;
 
 class PCComponentController extends Controller {
 
@@ -23,6 +25,9 @@ class PCComponentController extends Controller {
    *   path="/api/pc/components",
    *   summary="Get All PC Components",
    *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/pc_search_component_id_type"),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -33,7 +38,7 @@ class PCComponentController extends Controller {
    *           @OA\Property(
    *             property="data",
    *             type="array",
-   *             @OA\Items(ref="#/components/schemas/PCComponent"),
+   *             @OA\Items(ref="#/components/schemas/PCComponentResource"),
    *           ),
    *         ),
    *       },
@@ -43,9 +48,13 @@ class PCComponentController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(): JsonResponse {
+  public function index(SearchComponentRequest $request): JsonResponse {
+    $data = $this->pcComponentRepository->getAll(
+      $request->only('id_type'),
+    );
+
     return DefaultResponse::success(null, [
-      'data' => $this->pcComponentRepository->getAll(),
+      'data' => PCComponentResource::collection($data),
     ]);
   }
 
