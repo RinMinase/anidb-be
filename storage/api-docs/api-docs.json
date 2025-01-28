@@ -4641,6 +4641,9 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
+                        "$ref": "#/components/parameters/pc_add_edit_info_id_owner"
+                    },
+                    {
                         "$ref": "#/components/parameters/pc_add_edit_info_label"
                     },
                     {
@@ -4721,6 +4724,9 @@
                 "summary": "Add a PC Info",
                 "operationId": "db72030ebfa2883688026ff6dd8a92c4",
                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_info_id_owner"
+                    },
                     {
                         "$ref": "#/components/parameters/pc_add_edit_info_label"
                     },
@@ -8992,6 +8998,9 @@
                         "example": 1
                     },
                     "type": {
+                        "$ref": "#/components/schemas/PCComponentType"
+                    },
+                    "typeName": {
                         "type": "string",
                         "example": "CPU"
                     },
@@ -10473,6 +10482,15 @@
                     "minLength": 1
                 },
                 "example": "sample type"
+            },
+            "pc_add_edit_info_id_owner": {
+                "name": "id_owner",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                }
             },
             "pc_add_edit_info_label": {
                 "name": "label",
