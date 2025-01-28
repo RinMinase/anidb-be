@@ -25,6 +25,10 @@ class PCComponentRepository {
     return $data->limit(20)->get();
   }
 
+  public function get($id) {
+    return PCComponent::where('id', $id)->firstOrFail();
+  }
+
   public function add(array $values) {
     return PCComponent::create([
       'id_type' => $values['id_type'],

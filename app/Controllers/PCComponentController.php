@@ -59,6 +59,44 @@ class PCComponentController extends Controller {
   }
 
   /**
+   * @OA\Get(
+   *   tags={"PC"},
+   *   path="/api/pc/components/{component_id}",
+   *   summary="Get All PC Components",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="component_id",
+   *     description="Component ID",
+   *     in="path",
+   *     required=true,
+   *     example=1,
+   *     @OA\Schema(type="integer", format="int32"),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(property="data", ref="#/components/schemas/PCComponentResource"),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function get($id): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => new PCComponentResource($this->pcComponentRepository->get($id)),
+    ]);
+  }
+
+  /**
    * @OA\Post(
    *   tags={"PC"},
    *   path="/api/pc/components",

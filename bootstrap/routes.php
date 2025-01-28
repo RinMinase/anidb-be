@@ -325,6 +325,7 @@ Route::prefix('api')
             Route::prefix('components')
               ->group(function () {
                 Route::get('', [PCComponentController::class, 'index']);
+                Route::get('{id}', [PCComponentController::class, 'get']);
                 Route::post('', [PCComponentController::class, 'add']);
                 Route::put('{id}', [PCComponentController::class, 'edit']);
                 Route::delete('{id}', [PCComponentController::class, 'delete']);
