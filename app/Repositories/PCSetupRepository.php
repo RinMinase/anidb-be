@@ -21,13 +21,12 @@ class PCSetupRepository {
     $setups = json_decode($values['components'], true);
 
     $setups_to_save = [];
+    $date = Carbon::now()->toString();
     foreach ($setups as $value) {
       // If component ID is invalid
       if (!in_array($value['id_component'], $valid_component_ids)) {
         continue;
       }
-
-      $date = Carbon::now()->toString();
 
       $data = [
         'id_owner' => $id_owner,
