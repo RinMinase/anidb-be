@@ -7,17 +7,9 @@ use Illuminate\Support\Str;
 
 use App\Models\PCInfo;
 use App\Models\PCOwner;
-use App\Models\PCSetup;
 use App\Resources\PC\PCInfoResource;
 
 class PCInfoRepository {
-
-  public function get_all() {
-    return PCInfo::with('owner')
-      ->orderBy('label')
-      ->orderBy('id')
-      ->get();
-  }
 
   public function get($uuid) {
     $info_resource = PCInfo::with('owner')
@@ -34,19 +26,45 @@ class PCInfoRepository {
   }
 
   public function add(array $values) {
-    return PCInfo::create([
-      'uuid' => Str::uuid()->toString(),
-      'id_owner' => $values['id_owner'],
+    $id_owner = PCOwner::where('uuid', $values['id_owner'])->firstOrFail()->id;
+    $uuid_info = Str::uuid()->toString();
+
+    PCInfo::refreshAutoIncrements();
+    PCInfo::create([
+      'uuid' => $uuid_info,
+      'id_owner' => $id_owner,
       'label' => $values['label'],
       'is_active' => $values['is_active'],
       'is_hidden' => $values['is_hidden'],
     ]);
+
+    $pc_setup_repo = new PCSetupRepository();
+    $pc_setup_repo->add([
+      'id_owner' => $values['id_owner'],
+      'id_info' => $uuid_info,
+      'components' => $values['components'],
+    ]);
   }
 
   public function edit(array $values, $uuid) {
-    return PCInfo::where('uuid', $uuid)
+    $id_owner = PCOwner::where('uuid', $values['id_owner'])->firstOrFail()->id;
+    $info = PCInfo::where('uuid', $uuid)
       ->firstOrFail()
-      ->update($values);
+      ->makeVisible('id');
+
+    $info->update([
+      'id_owner' => $id_owner,
+      'label' => $values['label'],
+      'is_active' => $values['is_active'],
+      'is_hidden' => $values['is_hidden'],
+    ]);
+
+    $pc_setup_repo = new PCSetupRepository();
+    $pc_setup_repo->add([
+      'id_owner' => $values['id_owner'],
+      'id_info' => $uuid,
+      'components' => $values['components'],
+    ]);
   }
 
   public function delete($uuid) {
@@ -89,6 +107,29 @@ class PCInfoRepository {
     PCInfo::refreshAutoIncrements();
 
     return count($import);
+  }
+
+  public function duplicate($uuid) {
+    $info = PCInfo::where('uuid', $uuid)
+      ->with(['setups', 'owner'])
+      ->firstOrFail();
+
+    $cloned_info = $info->replicate()->fill([
+      'uuid' => Str::uuid()->toString(),
+      'label' => $info->label . ' (copy)'
+    ]);
+
+    $cloned_info->push();
+  }
+
+  public function toggle_hide_setup($uuid) {
+    $info = PCInfo::where('uuid', $uuid)
+      ->firstOrFail();
+
+    $prev_value = $info->is_hidden;
+    $info->is_hidden = !$prev_value;
+
+    $info->save();
   }
 
   /**

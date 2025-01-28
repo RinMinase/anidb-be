@@ -81,6 +81,7 @@ class PCInfoController extends Controller {
    *   summary="Add a PC Info",
    *   security={{"token":{}}},
    *
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_id_owner"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_label"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_active"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_hidden"),
@@ -114,6 +115,7 @@ class PCInfoController extends Controller {
    *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *     @OA\Schema(type="string", format="uuid"),
    *   ),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_id_owner"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_label"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_active"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_is_hidden"),
