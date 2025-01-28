@@ -6,6 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use App\Rules\JsonRule;
+
 class AddEditInfoRequest extends FormRequest {
 
   /**
@@ -14,7 +16,6 @@ class AddEditInfoRequest extends FormRequest {
    *   name="id_owner",
    *   in="query",
    *   required=true,
-   *   example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
    *   @OA\Schema(type="string", format="uuid"),
    * ),
    * @OA\Parameter(
@@ -36,13 +37,23 @@ class AddEditInfoRequest extends FormRequest {
    *   in="query",
    *   @OA\Schema(type="boolean"),
    * ),
+   * @OA\Parameter(
+   *   parameter="pc_add_edit_info_components",
+   *   name="components",
+   *   description="PC Setup Components JSON String",
+   *   in="query",
+   *   required=true,
+   *   example="[{""id_component"":1,""count"":1,""is_hidden"":false},{""id_component"":10,""count"":2,""is_hidden"":true}]",
+   *   @OA\Schema(type="string"),
+   * ),
    */
   public function rules() {
     return [
-      'id_owner' => ['required', 'string', 'uuid', 'exists:pc_owners,uuid'],
+      'id_owner' => ['required', 'string', 'exists:pc_owners,uuid'],
       'label' => ['required', 'string', 'max:128'],
       'is_active' => ['nullable', 'boolean'],
       'is_hidden' => ['nullable', 'boolean'],
+      'components' => ['required', 'string', new JsonRule],
     ];
   }
 
