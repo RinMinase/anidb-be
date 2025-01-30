@@ -3975,10 +3975,10 @@
                 "operationId": "881f1c5779b6039b697a518a5cf17215",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/pc_search_component_query"
+                        "$ref": "#/components/parameters/pc_search_component_id_type"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_search_component_id_type"
+                        "$ref": "#/components/parameters/pc_search_component_limit"
                     }
                 ],
                 "responses": {
@@ -9000,10 +9000,6 @@
                     "type": {
                         "$ref": "#/components/schemas/PCComponentType"
                     },
-                    "typeName": {
-                        "type": "string",
-                        "example": "CPU"
-                    },
                     "name": {
                         "type": "string",
                         "example": "Component Name"
@@ -10544,20 +10540,23 @@
                 },
                 "example": true
             },
-            "pc_search_component_query": {
-                "name": "query",
-                "in": "query",
-                "schema": {
-                    "type": "string"
-                },
-                "example": "component name"
-            },
             "pc_search_component_id_type": {
                 "name": "id_type",
                 "in": "query",
                 "schema": {
                     "type": "integer",
                     "format": "int32"
+                },
+                "example": 1
+            },
+            "pc_search_component_limit": {
+                "name": "limit",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 9999,
+                    "minimum": 1
                 },
                 "example": 1
             },
