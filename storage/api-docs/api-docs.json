@@ -4344,6 +4344,12 @@
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/pc_add_edit_component_type_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_component_type_name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_component_type_is_peripheral"
                     }
                 ],
                 "responses": {
@@ -4385,6 +4391,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/pc_add_edit_component_type_type"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_component_type_name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/pc_add_edit_component_type_is_peripheral"
                     }
                 ],
                 "responses": {
@@ -8880,6 +8892,10 @@
                         "type": "string",
                         "example": "2020-10-01"
                     },
+                    "purchaseDateFormatted": {
+                        "type": "string",
+                        "example": "Oct 01, 2020"
+                    },
                     "purchaseLocation": {
                         "type": "string",
                         "example": "Store Name"
@@ -10478,6 +10494,25 @@
                     "minLength": 1
                 },
                 "example": "sample type"
+            },
+            "pc_add_edit_component_type_name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "example": "sample type"
+            },
+            "pc_add_edit_component_type_is_peripheral": {
+                "name": "is_peripheral",
+                "in": "query",
+                "schema": {
+                    "type": "boolean"
+                },
+                "example": true
             },
             "pc_add_edit_info_id_owner": {
                 "name": "id_owner",
