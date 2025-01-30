@@ -16,10 +16,18 @@ class SearchComponentRequest extends FormRequest {
    *   example=1,
    *   @OA\Schema(type="integer", format="int32"),
    * ),
+   * @OA\Parameter(
+   *   parameter="pc_search_component_limit",
+   *   name="limit",
+   *   in="query",
+   *   example=1,
+   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=9999),
+   * ),
    */
   public function rules() {
     return [
       'id_type' => ['nullable', 'integer', 'exists:pc_component_types,id'],
+      'limit' => ['nullable', 'integer', 'min:1', 'max:99999'],
     ];
   }
 

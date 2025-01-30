@@ -27,6 +27,7 @@ class PCComponentController extends Controller {
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_search_component_id_type"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_search_component_limit"),
    *
    *   @OA\Response(
    *     response=200,
@@ -50,7 +51,7 @@ class PCComponentController extends Controller {
    */
   public function index(SearchComponentRequest $request): JsonResponse {
     $data = $this->pcComponentRepository->getAll(
-      $request->only('id_type'),
+      $request->only('id_type', 'limit'),
     );
 
     return DefaultResponse::success(null, [
