@@ -56,6 +56,8 @@ class PCComponentTypeController extends Controller {
    *   security={{"token":{}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_type"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_name"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_is_peripheral"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -63,7 +65,7 @@ class PCComponentTypeController extends Controller {
    * )
    */
   public function add(AddEditComponentTypeRequest $request): JsonResponse {
-    $this->pcComponentTypeRepository->add($request->only('type'));
+    $this->pcComponentTypeRepository->add($request->only('type', 'name', 'is_peripheral'));
 
     return DefaultResponse::success();
   }
@@ -84,6 +86,8 @@ class PCComponentTypeController extends Controller {
    *     @OA\Schema(type="integer", format="int32"),
    *   ),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_type"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_name"),
+   *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_is_peripheral"),
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -92,7 +96,7 @@ class PCComponentTypeController extends Controller {
    * )
    */
   public function edit(AddEditComponentTypeRequest $request, $id): JsonResponse {
-    $this->pcComponentTypeRepository->edit($request->only('type'), $id);
+    $this->pcComponentTypeRepository->edit($request->only('type', 'name', 'is_peripheral'), $id);
 
     return DefaultResponse::success();
   }
