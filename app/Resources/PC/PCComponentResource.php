@@ -2,6 +2,7 @@
 
 namespace App\Resources\PC;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -13,6 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *   @OA\Property(property="price", type="integer", format="int32", example=10000),
  *   @OA\Property(property="priceEstimate", type="integer", format="int32", example=15000),
  *   @OA\Property(property="purchaseDate", type="string", example="2020-10-01"),
+ *   @OA\Property(property="purchaseDateFormatted", type="string", example="Oct 01, 2020"),
  *   @OA\Property(property="purchaseLocation", type="string", example="Store Name"),
  *   @OA\Property(property="purchaseNotes", type="string", example="Some notes"),
  *   @OA\Property(property="isOnhand", type="boolean", example=true),
@@ -37,6 +39,7 @@ class PCComponentResource extends JsonResource {
 
       'price' => $this->price,
       'purchaseDate' => $this->purchase_date,
+      'purchaseDateFormatted' => $this->format_purnchase_date(),
       'purchaseLocation' => $this->purchase_location,
       'purchaseNotes' => $this->purchase_notes,
       'isOnhand' => $this->is_onhand,
@@ -45,5 +48,11 @@ class PCComponentResource extends JsonResource {
       'updatedAt' => $this->updated_at,
       'deletedAt' => $this->deleted_at,
     ];
+  }
+
+  private function format_purnchase_date() {
+    $date = $this->purchase_date ?? '';
+
+    return (!$date) ? '' :  Carbon::parse($this->purchase_date)->format('M d, Y');
   }
 }
