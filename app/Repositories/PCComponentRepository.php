@@ -11,6 +11,7 @@ class PCComponentRepository {
 
   public function getAll(array $values) {
     $id_type = $values['id_type'] ?? null;
+    $limit = $values['limit'] ?? null;
 
     $data = PCComponent::orderBy('id');
 
@@ -22,7 +23,11 @@ class PCComponentRepository {
       }
     }
 
-    return $data->limit(20)->get();
+    if ($limit) {
+      $data = $data->limit($limit);
+    }
+
+    return $data->get();
   }
 
   public function get($id) {
@@ -33,12 +38,12 @@ class PCComponentRepository {
     return PCComponent::create([
       'id_type' => $values['id_type'],
       'name' => $values['name'],
-      'description' => $values['description'],
-      'price' => $values['price'],
-      'purchase_date' => $values['purchase_date'],
-      'purchase_location' => $values['purchase_location'],
-      'purchase_notes' => $values['purchase_notes'],
-      'is_onhand' => $values['is_onhand'],
+      'description' => $values['description'] ?? null,
+      'price' => $values['price'] ?? null,
+      'purchase_date' => $values['purchase_date'] ?? null,
+      'purchase_location' => $values['purchase_location'] ?? null,
+      'purchase_notes' => $values['purchase_notes'] ?? null,
+      'is_onhand' => $values['is_onhand'] ?? true,
     ]);
   }
 
