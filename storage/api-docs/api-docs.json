@@ -7780,6 +7780,11 @@
                                 },
                                 "type": "object"
                             },
+                            "ratings": {
+                                "description": "Titles watched per rating -- rating values per index",
+                                "type": "array",
+                                "items": {}
+                            },
                             "months": {
                                 "description": "Titles watched per month",
                                 "properties": {
@@ -7845,6 +7850,23 @@
                                     }
                                 },
                                 "type": "object"
+                            },
+                            "years": {
+                                "description": "Titles watched per year",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "year": {
+                                            "type": "integer",
+                                            "example": 2010
+                                        },
+                                        "value": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
                             }
                         },
                         "type": "object"
