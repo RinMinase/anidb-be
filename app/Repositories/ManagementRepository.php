@@ -112,20 +112,7 @@ class ManagementRepository {
       ->cascade()
       ->forHumans();
 
-    $entries_watched_by_year_raw = DB::table('entries')
-      ->select(DB::raw('DATE_PART(\'year\', date_finished) AS year, COUNT(*) AS count'))
-      ->groupBy('year')
-      ->orderBy('year', 'asc')
-      ->get()
-      ->toArray();
-
-    $watched_by_year = [];
-    foreach ($entries_watched_by_year_raw as $value) {
-      array_push($watched_by_year, [
-        'year' => strval($value->year),
-        'value' => $value->count,
-      ]);
-    }
+    $watched_by_year = $this->calculate_watched_by_year();
 
     return [
       'count' => [
@@ -172,5 +159,27 @@ class ManagementRepository {
         'year' => $watched_by_year,
       ],
     ];
+  }
+
+  /**
+   * Calculation Functions
+   */
+  private function calculate_watched_by_year() {
+    $entries_watched_by_year_raw = DB::table('entries')
+      ->select(DB::raw('DATE_PART(\'year\', date_finished) AS year, COUNT(*) AS count'))
+      ->groupBy('year')
+      ->orderBy('year', 'asc')
+      ->get()
+      ->toArray();
+
+    $data = [];
+    foreach ($entries_watched_by_year_raw as $value) {
+      array_push($data, [
+        'year' => strval($value->year),
+        'value' => $value->count,
+      ]);
+    }
+
+    return $data;
   }
 }
