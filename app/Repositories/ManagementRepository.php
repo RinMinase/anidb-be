@@ -13,13 +13,30 @@ use App\Models\Partial;
 class ManagementRepository {
 
   public function index() {
+    $rating_subquery = DB::table('entries as entry_sub')->select('entry_sub.id')
+      ->addSelect(DB::raw('(
+          select round(avg(x))
+          from unnest(array[
+            entries_rating.audio,
+            entries_rating.enjoyment,
+            entries_rating.graphics,
+            entries_rating.plot
+          ]) as x
+        ) as avg_rating'))
+      ->leftJoin('entries_rating', 'entry_sub.id', '=', 'entries_rating.id_entries');
+
     $entries = Entry::select('entries.id', 'id_quality')
       ->addSelect('duration', 'filesize', 'season_number', 'date_finished')
       ->addSelect(DB::raw('(episodes + ovas + specials) as episodes'))
       ->addSelect(DB::raw('count(entries_rewatch) + 1 as total_watches'))
+      ->addSelect('avg_rating')
       ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
-      ->groupBy('entries.id')
-      ->orderBy('entries.id')->get();
+      ->groupBy('entries.id', 'avg_rating')
+      ->orderBy('entries.id')
+      ->leftJoinSub($rating_subquery, 'derived_table', function ($query) {
+        $query->on('derived_table.id', '=', 'entries.id');
+      })
+      ->get();
 
     $buckets = Bucket::select('size')->get();
     $partials = Partial::count();
@@ -38,6 +55,7 @@ class ManagementRepository {
     $quality_360 = 0;
 
     $titles_month = [];
+    $ratings = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     foreach ($entries as $entry) {
       $episodes += $entry->episodes;
@@ -64,6 +82,14 @@ class ManagementRepository {
 
         $titles_month[$month_finished]++;
       }
+
+      if ($entry->avg_rating) {
+        if ($entry->avg_rating <= 10 && $entry->avg_rating > 0) {
+          $ratings[$entry->avg_rating]++;
+        }
+      } else {
+        $ratings[0]++;
+      }
     }
 
     foreach ($buckets as $bucket) {
@@ -85,6 +111,21 @@ class ManagementRepository {
     $rewatch_subtext = CarbonInterval::seconds($rewatch_remainder)
       ->cascade()
       ->forHumans();
+
+    $entries_watched_by_year_raw = DB::table('entries')
+      ->select(DB::raw('DATE_PART(\'year\', date_finished) AS year, COUNT(*) AS count'))
+      ->groupBy('year')
+      ->orderBy('year', 'asc')
+      ->get()
+      ->toArray();
+
+    $watched_by_year = [];
+    foreach ($entries_watched_by_year_raw as $value) {
+      array_push($watched_by_year, [
+        'year' => strval($value->year),
+        'value' => $value->count,
+      ]);
+    }
 
     return [
       'count' => [
@@ -113,6 +154,7 @@ class ManagementRepository {
           'quality_480' => $quality_480,
           'quality_360' => $quality_360,
         ],
+        'ratings' => $ratings,
         'months' => [
           'jan' => $titles_month[1] ?? 0,
           'feb' => $titles_month[2] ?? 0,
@@ -127,6 +169,7 @@ class ManagementRepository {
           'nov' => $titles_month[11] ?? 0,
           'dec' => $titles_month[12] ?? 0,
         ],
+        'year' => $watched_by_year,
       ],
     ];
   }

@@ -47,6 +47,7 @@ class ManagementController extends Controller {
     ]);
   }
 }
+
 /**
  * @OA\Schema(
  *   @OA\Property(
@@ -166,6 +167,12 @@ class ManagementController extends Controller {
  *       @OA\Property(property="quality360", type="integer", format="int32", example=0),
  *     ),
  *     @OA\Property(
+ *       property="ratings",
+ *       description="Titles watched per rating -- rating values per index",
+ *       type="array",
+ *       @OA\Items(@OA\Schema(type="integer", format="int32", example=10)),
+ *     ),
+ *     @OA\Property(
  *       property="months",
  *       description="Titles watched per month",
  *       @OA\Property(property="jan", type="integer", format="int32", example=0),
@@ -180,6 +187,15 @@ class ManagementController extends Controller {
  *       @OA\Property(property="oct", type="integer", format="int32", example=0),
  *       @OA\Property(property="nov", type="integer", format="int32", example=0),
  *       @OA\Property(property="dec", type="integer", format="int32", example=0),
+ *     ),
+ *     @OA\Property(
+ *       property="years",
+ *       description="Titles watched per year",
+ *       type="array",
+ *       @OA\Items(
+ *         @OA\Property(property="year", type="integer", example=2010),
+ *         @OA\Property(property="value", type="integer", example=10),
+ *       ),
  *     ),
  *   ),
  * ),
