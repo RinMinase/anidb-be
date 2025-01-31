@@ -5,7 +5,7 @@ namespace App\Controllers;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\ManagementRepository;
-
+use App\Requests\Management\GetByYearRequest;
 use App\Resources\DefaultResponse;
 
 class ManagementController extends Controller {
@@ -22,6 +22,7 @@ class ManagementController extends Controller {
    *   path="/api/management",
    *   summary="Get Management Information",
    *   security={{"token":{}}},
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -44,6 +45,42 @@ class ManagementController extends Controller {
   public function index(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->managementRepository->index(),
+    ]);
+  }
+
+  /**
+   * @OA\Get(
+   *   tags={"Management"},
+   *   path="/api/management/by-year",
+   *   summary="Get Titles Watched per Month of Year",
+   *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(ref="#/components/parameters/management_get_by_year_year"),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             ref="#/components/schemas/ManagementSchema"
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function get_by_year(GetByYearRequest $request): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->managementRepository->get_by_year(
+        $request->only('year')
+      ),
     ]);
   }
 }

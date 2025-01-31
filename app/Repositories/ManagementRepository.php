@@ -163,6 +163,41 @@ class ManagementRepository {
     ];
   }
 
+  public function get_by_year(array $values) {
+    $year = $values['year'] ?? null;
+    $end = Carbon::createFromDate($year + 1, 1, 1)->startOfDay();
+    $start = Carbon::createFromDate($year, 1, 1)->startOfDay();
+
+    $data = DB::table('entries')
+      ->select('entries.title', 'entries.date_finished', 'entries_rewatch.date_rewatched')
+      ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
+      ->where(function ($query) use ($start, $end) {
+        $query->whereBetween('entries.date_finished', [$start, $end])
+          ->orWhereBetween('entries_rewatch.date_rewatched', [$start, $end]);
+      })
+      ->get()
+      ->toArray();
+
+    $months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    foreach ($data as $value) {
+      $date_finished = Carbon::parse($value->date_finished)->startOfDay();
+
+      if ($date_finished->between($start, $end)) {
+        $months[$date_finished->month - 1]++;
+      }
+
+      if ($value->date_rewatched) {
+        $date_rewatched = Carbon::parse($value->date_rewatched)->startOfDay();
+
+        if ($date_rewatched->between($start, $end)) {
+          $months[$date_rewatched->month - 1]++;
+        }
+      }
+    }
+
+    return $months;
+  }
+
   /**
    * Calculation Functions
    */

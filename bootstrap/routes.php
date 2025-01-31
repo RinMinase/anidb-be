@@ -136,7 +136,6 @@ Route::prefix('api')
     Route::middleware('auth:sanctum')
       ->group(function () {
 
-        Route::get('management', [ManagementController::class, 'index']);
         Route::get('logs', [LogController::class, 'index']);
         Route::post('import', [ImportController::class, 'index']);
 
@@ -144,6 +143,12 @@ Route::prefix('api')
         Route::get('genres', [GenreController::class, 'index']);
         Route::get('qualities', [QualityController::class, 'index']);
         Route::get('priorities', [PriorityController::class, 'index']);
+
+        Route::prefix('management')
+          ->group(function () {
+            Route::get('', [ManagementController::class, 'index']);
+            Route::get('by-year', [ManagementController::class, 'get_by_year']);
+          });
 
         Route::prefix('entries')
           ->group(function () {
