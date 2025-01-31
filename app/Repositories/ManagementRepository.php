@@ -113,6 +113,7 @@ class ManagementRepository {
       ->forHumans();
 
     $watched_by_year = $this->calculate_watched_by_year();
+    $watched_by_season = $this->calculate_watched_by_season();
 
     return [
       'count' => [
@@ -156,7 +157,8 @@ class ManagementRepository {
           'nov' => $titles_month[11] ?? 0,
           'dec' => $titles_month[12] ?? 0,
         ],
-        'year' => $watched_by_year,
+        'years' => $watched_by_year,
+        'seasons' => $watched_by_season,
       ],
     ];
   }
@@ -165,21 +167,47 @@ class ManagementRepository {
    * Calculation Functions
    */
   private function calculate_watched_by_year() {
-    $entries_watched_by_year_raw = DB::table('entries')
+    $data = DB::table('entries')
       ->select(DB::raw('DATE_PART(\'year\', date_finished) AS year, COUNT(*) AS count'))
       ->groupBy('year')
       ->orderBy('year', 'asc')
       ->get()
       ->toArray();
 
-    $data = [];
-    foreach ($entries_watched_by_year_raw as $value) {
-      array_push($data, [
+    $watched_by_year = [];
+    foreach ($data as $value) {
+      array_push($watched_by_year, [
         'year' => strval($value->year),
         'value' => $value->count,
       ]);
     }
 
-    return $data;
+    return $watched_by_year;
+  }
+
+  private function calculate_watched_by_season() {
+    $data = DB::table('entries')
+      ->select('release_season')
+      ->addSelect(DB::raw('COUNT(*) AS count'))
+      ->groupBy('release_season')
+      ->orderByRaw('CASE
+        WHEN release_season=\'Winter\' THEN 1
+        WHEN release_season=\'Spring\' THEN 2
+        WHEN release_season=\'Summer\' THEN 3
+        WHEN release_season=\'Fall\' THEN 4
+        ELSE 0 END
+      ')
+      ->get()
+      ->toArray();
+
+    $watched_by_season = [];
+    foreach ($data as $value) {
+      array_push($watched_by_season, [
+        'season' => $value->release_season ?? "None",
+        'value' => $value->count,
+      ]);
+    }
+
+    return $watched_by_season;
   }
 }

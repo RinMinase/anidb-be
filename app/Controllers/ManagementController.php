@@ -189,11 +189,20 @@ class ManagementController extends Controller {
  *       @OA\Property(property="dec", type="integer", format="int32", example=0),
  *     ),
  *     @OA\Property(
- *       property="years",
+ *       property="year",
  *       description="Titles watched per year",
  *       type="array",
  *       @OA\Items(
- *         @OA\Property(property="year", type="integer", example=2010),
+ *         @OA\Property(property="year", type="string", example=2010),
+ *         @OA\Property(property="value", type="integer", example=10),
+ *       ),
+ *     ),
+ *     @OA\Property(
+ *       property="seasons",
+ *       description="Titles watched per season",
+ *       type="array",
+ *       @OA\Items(
+ *         @OA\Property(property="season", type="string", example="Spring"),
  *         @OA\Property(property="value", type="integer", example=10),
  *       ),
  *     ),
