@@ -3966,6 +3966,55 @@
                 ]
             }
         },
+        "/api/management/by-year": {
+            "get": {
+                "tags": [
+                    "Management"
+                ],
+                "summary": "Get Titles Watched per Month of Year",
+                "operationId": "204d073a3c8f92e409a5051ee6cacc95",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/management_get_by_year_year"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/ManagementSchema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/pc/components": {
             "get": {
                 "tags": [
@@ -10451,6 +10500,14 @@
                     "minimum": 1
                 },
                 "example": 30
+            },
+            "management_get_by_year_year": {
+                "name": "year",
+                "in": "query",
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
             },
             "pc_add_edit_component_id_type": {
                 "name": "id_type",
