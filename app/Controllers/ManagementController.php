@@ -189,7 +189,7 @@ class ManagementController extends Controller {
  *       @OA\Property(property="dec", type="integer", format="int32", example=0),
  *     ),
  *     @OA\Property(
- *       property="year",
+ *       property="years",
  *       description="Titles watched per year",
  *       type="array",
  *       @OA\Items(

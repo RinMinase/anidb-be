@@ -7851,7 +7851,7 @@
                                 },
                                 "type": "object"
                             },
-                            "year": {
+                            "years": {
                                 "description": "Titles watched per year",
                                 "type": "array",
                                 "items": {
