@@ -7851,14 +7851,31 @@
                                 },
                                 "type": "object"
                             },
-                            "years": {
+                            "year": {
                                 "description": "Titles watched per year",
                                 "type": "array",
                                 "items": {
                                     "properties": {
                                         "year": {
-                                            "type": "integer",
+                                            "type": "string",
                                             "example": 2010
+                                        },
+                                        "value": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "seasons": {
+                                "description": "Titles watched per season",
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "season": {
+                                            "type": "string",
+                                            "example": "Spring"
                                         },
                                         "value": {
                                             "type": "integer",
