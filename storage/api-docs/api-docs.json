@@ -7933,6 +7933,32 @@
                                     },
                                     "type": "object"
                                 }
+                            },
+                            "genres": {
+                                "description": "Titles watched per genre",
+                                "properties": {
+                                    "list": {
+                                        "type": "array",
+                                        "items": {}
+                                    },
+                                    "values": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "genre": {
+                                                    "type": "string",
+                                                    "example": "Action"
+                                                },
+                                                "value": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
                             }
                         },
                         "type": "object"
