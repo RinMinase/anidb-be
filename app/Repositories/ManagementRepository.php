@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Bucket;
 use App\Models\Entry;
+use App\Models\Genre;
 use App\Models\Partial;
 
 class ManagementRepository {
@@ -100,6 +101,9 @@ class ManagementRepository {
     $watched_by_month = $this->calculate_watched_by_month();
     $watched_by_year = $this->calculate_watched_by_year();
     $watched_by_season = $this->calculate_watched_by_season();
+    $watched_by_genre = $this->calculate_by_genre();
+
+    $genre_list = Genre::select('genre')->orderBy('genre')->get()->pluck('genre');
 
     return [
       'count' => [
@@ -145,6 +149,10 @@ class ManagementRepository {
         ],
         'years' => $watched_by_year,
         'seasons' => $watched_by_season,
+        'genres' => [
+          'list' => $genre_list,
+          'values' => $watched_by_genre,
+        ],
       ],
     ];
   }
@@ -277,5 +285,27 @@ class ManagementRepository {
     }
 
     return $watched_by_season;
+  }
+
+  private function calculate_by_genre() {
+    $data = DB::table('entries')
+      ->select('genres.genre')
+      ->addSelect(DB::raw('COUNT(*) AS count'))
+      ->rightJoin('entries_genre', 'entries.id', '=', 'entries_genre.id_entries')
+      ->leftJoin('genres', 'entries_genre.id_genres', '=', 'genres.id')
+      ->groupBy('genres.genre')
+      ->orderBy('genres.genre', 'asc')
+      ->get()
+      ->toArray();
+
+    $watched_by_genre = [];
+    foreach ($data as $value) {
+      array_push($watched_by_genre, [
+        'genre' => $value->genre,
+        'value' => $value->count,
+      ]);
+    }
+
+    return $watched_by_genre;
   }
 }

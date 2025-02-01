@@ -243,6 +243,24 @@ class ManagementController extends Controller {
  *         @OA\Property(property="value", type="integer", example=10),
  *       ),
  *     ),
+ *     @OA\Property(
+ *       property="genres",
+ *       description="Titles watched per genre",
+ *
+ *       @OA\Property(
+ *         property="list",
+ *         type="array",
+ *         @OA\Items(@OA\Schema(type="string", example="Action"))
+ *       ),
+ *       @OA\Property(
+ *         property="values",
+ *         type="array",
+ *         @OA\Items(
+ *           @OA\Property(property="genre", type="string", example="Action"),
+ *           @OA\Property(property="value", type="integer", example=10),
+ *         ),
+ *       )
+ *     ),
  *   ),
  * ),
  */
