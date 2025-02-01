@@ -54,7 +54,6 @@ class ManagementRepository {
     $quality_480 = 0;
     $quality_360 = 0;
 
-    $titles_month = [];
     $ratings = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     foreach ($entries as $entry) {
@@ -72,16 +71,6 @@ class ManagementRepository {
       if ($entry->id_quality === 3) $quality_720++;
       if ($entry->id_quality === 4) $quality_480++;
       if ($entry->id_quality === 5) $quality_360++;
-
-      if ($entry->date_finished) {
-        $month_finished = Carbon::parse($entry->date_finished)->month;
-
-        if (!array_key_exists($month_finished, $titles_month)) {
-          $titles_month[$month_finished] = 0;
-        };
-
-        $titles_month[$month_finished]++;
-      }
 
       if ($entry->avg_rating) {
         if ($entry->avg_rating <= 10 && $entry->avg_rating > 0) {
@@ -101,17 +90,14 @@ class ManagementRepository {
     $watch_remainder = $watch_time % $seconds_in_days;
 
     $watch_text = $watch_days . ' days';
-    $watch_subtext = CarbonInterval::seconds($watch_remainder)
-      ->cascade()
-      ->forHumans();
+    $watch_subtext = CarbonInterval::seconds($watch_remainder)->cascade()->forHumans();
 
     $rewatch_days = floor($rewatch_time / $seconds_in_days);
     $rewatch_remainder = $rewatch_time % $seconds_in_days;
     $rewatch_text = $rewatch_days . ' days';
-    $rewatch_subtext = CarbonInterval::seconds($rewatch_remainder)
-      ->cascade()
-      ->forHumans();
+    $rewatch_subtext = CarbonInterval::seconds($rewatch_remainder)->cascade()->forHumans();
 
+    $watched_by_month = $this->calculate_watched_by_month();
     $watched_by_year = $this->calculate_watched_by_year();
     $watched_by_season = $this->calculate_watched_by_season();
 
@@ -144,18 +130,18 @@ class ManagementRepository {
         ],
         'ratings' => $ratings,
         'months' => [
-          'jan' => $titles_month[1] ?? 0,
-          'feb' => $titles_month[2] ?? 0,
-          'mar' => $titles_month[3] ?? 0,
-          'apr' => $titles_month[4] ?? 0,
-          'may' => $titles_month[5] ?? 0,
-          'jun' => $titles_month[6] ?? 0,
-          'jul' => $titles_month[7] ?? 0,
-          'aug' => $titles_month[8] ?? 0,
-          'sep' => $titles_month[9] ?? 0,
-          'oct' => $titles_month[10] ?? 0,
-          'nov' => $titles_month[11] ?? 0,
-          'dec' => $titles_month[12] ?? 0,
+          'jan' => $watched_by_month[0],
+          'feb' => $watched_by_month[1],
+          'mar' => $watched_by_month[2],
+          'apr' => $watched_by_month[3],
+          'may' => $watched_by_month[4],
+          'jun' => $watched_by_month[5],
+          'jul' => $watched_by_month[6],
+          'aug' => $watched_by_month[7],
+          'sep' => $watched_by_month[8],
+          'oct' => $watched_by_month[9],
+          'nov' => $watched_by_month[10],
+          'dec' => $watched_by_month[11],
         ],
         'years' => $watched_by_year,
         'seasons' => $watched_by_season,
@@ -201,6 +187,29 @@ class ManagementRepository {
   /**
    * Calculation Functions
    */
+  private function calculate_watched_by_month() {
+    $data = DB::table('entries')
+      ->select(DB::raw('DATE_PART(\'month\', entries.date_finished) AS date_finished'))
+      ->addSelect(DB::raw('DATE_PART(\'month\', entries_rewatch.date_rewatched) AS date_rewatched'))
+      ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
+      ->orderBy('entries.id', 'asc')
+      ->get()
+      ->toArray();
+
+    $watched_by_month = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    foreach ($data as $value) {
+      if ($value->date_finished) {
+        $watched_by_month[$value->date_finished - 1]++;
+      }
+
+      if ($value->date_rewatched) {
+        $watched_by_month[$value->date_rewatched - 1]++;
+      }
+    }
+
+    return $watched_by_month;
+  }
+
   private function calculate_watched_by_year() {
     $data = DB::table('entries')
       ->select(DB::raw('DATE_PART(\'year\', entries.date_finished) AS date_finished'))
