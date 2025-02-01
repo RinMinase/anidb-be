@@ -203,19 +203,43 @@ class ManagementRepository {
    */
   private function calculate_watched_by_year() {
     $data = DB::table('entries')
-      ->select(DB::raw('DATE_PART(\'year\', date_finished) AS year, COUNT(*) AS count'))
-      ->groupBy('year')
-      ->orderBy('year', 'asc')
+      ->select(DB::raw('DATE_PART(\'year\', entries.date_finished) AS date_finished'))
+      ->addSelect(DB::raw('DATE_PART(\'year\', entries_rewatch.date_rewatched) AS date_rewatched'))
+      ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
+      ->orderBy('entries.id', 'asc')
       ->get()
       ->toArray();
 
-    $watched_by_year = [];
+    $watched_by_year_pre = [];
     foreach ($data as $value) {
+      if ($value->date_finished) {
+        if (!isset($watched_by_year_pre[$value->date_finished])) {
+          $watched_by_year_pre[$value->date_finished] = 0;
+        }
+
+        $watched_by_year_pre[$value->date_finished]++;
+      }
+
+      if ($value->date_rewatched) {
+        if (!isset($watched_by_year_pre[$value->date_rewatched])) {
+          $watched_by_year_pre[$value->date_rewatched] = 0;
+        }
+
+        $watched_by_year_pre[$value->date_rewatched]++;
+      }
+    }
+
+    $watched_by_year = [];
+    foreach ($watched_by_year_pre as $key => $value) {
       array_push($watched_by_year, [
-        'year' => strval($value->year),
-        'value' => $value->count,
+        'year' => $key,
+        'value' => $value,
       ]);
     }
+
+    usort($watched_by_year, function ($item1, $item2) {
+      return $item1['year'] <=> $item2['year'];
+    });
 
     return $watched_by_year;
   }
