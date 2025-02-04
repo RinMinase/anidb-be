@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 use App\Fourleaf\Models\Maintenance;
+use App\Fourleaf\Models\MaintenancePart;
+use App\Fourleaf\Models\MaintenanceType;
 
 class FourleafMaintenanceSeeder extends Seeder {
   /**
@@ -14,6 +16,29 @@ class FourleafMaintenanceSeeder extends Seeder {
    * @return void
    */
   public function run() {
+    $types = [
+      ['type' => 'ac_coolant', 'label' => 'AC Coolant'],
+      ['type' => 'battery', 'label' => 'Battery'],
+      ['type' => 'brake_fluid', 'label' => 'Brake Fluid'],
+      ['type' => 'brake_sanding', 'label' => 'Brake Sanding'],
+      ['type' => 'engine_oil', 'label' => 'Engine Oil'],
+      ['type' => 'power_steering_fluid', 'label' => 'Power Steering Fluid'],
+      ['type' => 'radiator_fluid', 'label' => 'Radiator Fluid'],
+      ['type' => 'spark_plugs', 'label' => 'Spark Plugs'],
+      ['type' => 'tires_rotation', 'label' => 'Tires Rotation'],
+      ['type' => 'tires_change', 'label' => 'Tires Change'],
+      ['type' => 'transmission', 'label' => 'Transmission Fluid'],
+      ['type' => 'others', 'label' => 'Others'],
+    ];
+
+    foreach ($types as $key => $item) {
+      MaintenanceType::create([
+        'id' => $key + 1,
+        'type' => $item['type'],
+        'label' => $item['label'],
+      ]);
+    }
+
     $data = [
       [
         'date' => '2023-06-01',
@@ -51,25 +76,34 @@ class FourleafMaintenanceSeeder extends Seeder {
       ->first()
       ->id;
 
-    $testDataParts = [
+    $id_fourleaf_maintenance_part_1 = MaintenanceType::where('type', 'engine_oil')
+      ->first()
+      ->id;
+
+    $id_fourleaf_maintenance_part_2 = MaintenanceType::where('type', 'brake_sanding')
+      ->first()
+      ->id;
+
+    $parts = [
       [
         'id_fourleaf_maintenance' => $id_fourleaf_maintenance_1,
-        'part' => 'engine_oil',
+        'id_fourleaf_maintenance_type' => $id_fourleaf_maintenance_part_1,
       ],
       [
         'id_fourleaf_maintenance' => $id_fourleaf_maintenance_2,
-        'part' => 'engine_oil',
+        'id_fourleaf_maintenance_type' => $id_fourleaf_maintenance_part_1,
       ],
       [
         'id_fourleaf_maintenance' => $id_fourleaf_maintenance_3,
-        'part' => 'engine_oil',
+        'id_fourleaf_maintenance_type' => $id_fourleaf_maintenance_part_1,
       ],
       [
         'id_fourleaf_maintenance' => $id_fourleaf_maintenance_3,
-        'part' => 'brake_sanding',
+        'id_fourleaf_maintenance_type' => $id_fourleaf_maintenance_part_2,
       ],
     ];
 
-    DB::table('fourleaf_maintenance_parts')->insert($testDataParts);
+    DB::table('fourleaf_maintenance_parts')->insert($parts);
+    MaintenancePart::refreshAutoIncrements();
   }
 }
