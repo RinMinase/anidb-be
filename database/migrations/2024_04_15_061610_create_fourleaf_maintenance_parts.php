@@ -15,21 +15,8 @@ return new class extends Migration {
       $table->integer('id_fourleaf_maintenance')->unsigned();
       $table->foreign('id_fourleaf_maintenance')->references('id')->on('fourleaf_maintenance')->onDelete('cascade');
 
-      $table->enum(
-        'part',
-        [
-          'others',
-          'ac_coolant',
-          'battery',
-          'brake_fluid',
-          'engine_oil',
-          'power_steering_fluid',
-          'radiator_fluid',
-          'spark_plugs',
-          'tires',
-          'transmission',
-        ],
-      );
+      $table->integer('id_fourleaf_maintenance_type')->unsigned();
+      $table->foreign('id_fourleaf_maintenance_type')->references('id')->on('fourleaf_maintenance_types');
     });
   }
 
