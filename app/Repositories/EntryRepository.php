@@ -86,7 +86,9 @@ class EntryRepository {
     } else {
       if (isset($column) && isset($order)) {
         $nulls = $order === 'asc' ? 'first' : 'last';
-        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
+        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls)
+          ->orderBy('title', 'asc')
+          ->orderBy('id', 'asc');
       }
     }
 
