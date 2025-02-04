@@ -164,14 +164,26 @@ class EntryImportRepository {
       if (!empty($item) && $acceptedPriority) {
         $date_finished = null;
 
-        if (isset($item->dateFinished)) {
+        if (isset($item->dateFinished) && !empty($item->dateFinished)) {
           $date_finished = Carbon::createFromTimestamp($item->dateFinished, '+8:00')->format('Y-m-d');
         }
 
         $release_season = null;
 
-        if (isset($item->releaseSeason)) {
+        if (isset($item->releaseSeason) && !empty($item->releaseSeason)) {
           $release_season = $this->parse_season($item->releaseSeason);
+        }
+
+        $release_year = null;
+
+        if (
+          isset($item->releaseSeason)
+          && !empty($item->releaseSeason)
+          && is_numeric($item->releaseYear)
+          && $item->releaseYear >= 1900
+          ** $item->releaseYear < 3000
+        ) {
+          $release_year = $item->releaseYear;
         }
 
         $data = [
@@ -190,7 +202,7 @@ class EntryImportRepository {
           'specials' => $item->specials ?? 0,
 
           'release_season' => $release_season,
-          'release_year' => is_numeric($item->releaseYear ?? null) ? $item->releaseYear : null,
+          'release_year' => $release_year,
 
           'remarks' => $item->remarks ?? null,
           'variants' => $item->variants ?? null,
