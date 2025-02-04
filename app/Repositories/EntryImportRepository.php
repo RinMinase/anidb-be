@@ -181,7 +181,7 @@ class EntryImportRepository {
           && !empty($item->releaseSeason)
           && is_numeric($item->releaseYear)
           && $item->releaseYear >= 1900
-          ** $item->releaseYear < 3000
+          && $item->releaseYear < 3000
         ) {
           $release_year = $item->releaseYear;
         }
