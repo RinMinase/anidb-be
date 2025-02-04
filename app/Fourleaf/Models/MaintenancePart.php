@@ -22,10 +22,14 @@ class MaintenancePart extends Model {
 
   protected $fillable = [
     'id_fourleaf_maintenance',
-    'part',
+    'id_fourleaf_maintenance_type',
   ];
 
   protected $hidden = [];
 
   protected $casts = [];
+
+  public function type() {
+    return $this->belongsTo(MaintenancePartType::class, 'id_fourleaf_maintenance_type');
+  }
 }
