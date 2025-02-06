@@ -885,6 +885,10 @@ class EntryRepository {
       $total_titles = count($data);
       $total_cours = 0;
       $total_eps = 0;
+      $total_seconds = 0;
+      $total_seconds_for_one_wk = 0;
+      $total_seconds_for_two_wks = 0;
+
       foreach ($data as $item) {
         if ($item->episodes) $total_eps += $item->episodes;
         if ($item->ovas) $total_eps += $item->ovas;
@@ -897,12 +901,31 @@ class EntryRepository {
             $total_cours++;
           }
         }
+
+        if ($item->duration) {
+          $total_seconds += $item->duration;
+
+          $date = Carbon::parse($this->calc_date_finished($item));
+
+          if ($date->diffInDays($now, true) < 8) {
+            $total_seconds_for_one_wk += $item->duration;
+          }
+
+          if ($date->diffInDays($now, true) < 15) {
+            $total_seconds_for_two_wks += $item->duration;
+          }
+        }
       }
 
       $titles_per_week = $total_titles / $weeks_since_oldest_entry;
       $cours_per_week = $total_cours / $weeks_since_oldest_entry;
       $eps_per_week = $total_eps / $weeks_since_oldest_entry;
       $eps_per_day = $total_eps / $days_oldest_entry;
+
+      $watchtime_per_week = $total_seconds / $weeks_since_oldest_entry;
+      $watchtime_per_week = $watchtime_per_week / 60 / 60;
+      $watchtime_last_week = $total_seconds_for_one_wk / 60 / 60;
+      $watchtime_last_two_weeks = $total_seconds_for_two_wks / 60 / 60;
 
       return [
         'dateLastEntry' => $date_last_entry,
@@ -916,6 +939,9 @@ class EntryRepository {
         'coursPerWeek' => round($cours_per_week, 2),
         'epsPerWeek' => round($eps_per_week, 2),
         'epsPerDay' => round($eps_per_day, 2),
+        'hoursWatchedAvgPerWeek' => round($watchtime_per_week, 2),
+        'hoursWatchedLastWeek' => round($watchtime_last_week, 2),
+        'hoursWatchedLastTwoWeeks' => round($watchtime_last_two_weeks, 2),
       ];
     }
   }
