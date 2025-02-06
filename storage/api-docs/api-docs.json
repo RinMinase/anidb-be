@@ -3418,6 +3418,21 @@
                                                             "type": "integer",
                                                             "format": "int32",
                                                             "example": 0
+                                                        },
+                                                        "hoursWatchedAvgPerWeek": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "hoursWatchedLastWeek": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
+                                                        },
+                                                        "hoursWatchedLastTwoWeeks": {
+                                                            "type": "integer",
+                                                            "format": "int32",
+                                                            "example": 0
                                                         }
                                                     },
                                                     "type": "object"
@@ -7600,8 +7615,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "schema": "string",
-                                                        "example": "engine_oil"
+                                                        "$ref": "#/components/schemas/MaintenanceType"
                                                     }
                                                 }
                                             },
@@ -8073,6 +8087,24 @@
                         "format": "int32",
                         "minimum": 0,
                         "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "MaintenanceType": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "engine_oil"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Engine Oil"
                     }
                 },
                 "type": "object"
