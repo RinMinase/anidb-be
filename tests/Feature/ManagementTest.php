@@ -16,6 +16,7 @@ use App\Models\Entry;
 use App\Models\EntryOffquel;
 use App\Models\EntryRating;
 use App\Models\EntryRewatch;
+use App\Models\Genre;
 use App\Models\Partial;
 
 class ManagementTest extends BaseTestCase {
@@ -156,7 +157,20 @@ class ManagementTest extends BaseTestCase {
               'oct',
               'nov',
               'dec',
-            ]
+            ],
+            'ratings' => [],
+            'years' => [[
+              'year',
+              'value'
+            ]],
+            'seasons' => [[
+              'season',
+              'value'
+            ]],
+            'genres' => [
+              'list' => [],
+              'values' => [['genre', 'value']]
+            ],
           ]
         ],
       ]);
@@ -196,9 +210,9 @@ class ManagementTest extends BaseTestCase {
     ];
 
     $expected_graph_months = [
-      'jan' => 19,
-      'feb' => 0,
-      'mar' => 0,
+      'jan' => 21,
+      'feb' => 1,
+      'mar' => 1,
       'apr' => 1,
       'may' => 1,
       'jun' => 1,
@@ -208,6 +222,80 @@ class ManagementTest extends BaseTestCase {
       'oct' => 0,
       'nov' => 0,
       'dec' => 0,
+    ];
+
+    $expected_graph_ratings = [22, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0];
+
+    $expected_graph_years = [
+      [
+        'year' => 2000,
+        'value' => 15,
+      ],
+      [
+        'year' => 2001,
+        'value' => 2,
+      ],
+      [
+        'year' => 2011,
+        'value' => 4,
+      ],
+      [
+        'year' => 2013,
+        'value' => 1,
+      ],
+      [
+        'year' => 2014,
+        'value' => 1,
+      ],
+      [
+        'year' => 2015,
+        'value' => 4,
+      ],
+      [
+        'year' => 2016,
+        'value' => 1,
+      ]
+    ];
+
+    $expected_graph_seasons = [
+      [
+        'season' => 'None',
+        'value' => 17,
+      ],
+      [
+        'season' => 'Winter',
+        'value' => 2,
+      ],
+      [
+        'season' => 'Spring',
+        'value' => 4,
+      ],
+      [
+        'season' => 'Summer',
+        'value' => 1,
+      ]
+    ];
+
+    $expected_graph_genre_list = Genre::select('genre')
+      ->orderBy('id')
+      ->get()
+      ->pluck('genre')
+      ->toArray();
+
+    $expected_graph_genre_values = [
+      [
+        'genre' => 'Action',
+        'value' => 1,
+      ],
+      [
+        'genre' => 'Comedy',
+        'value' => 1,
+      ]
+    ];
+
+    $expected_graph_genres = [
+      'list' => $expected_graph_genre_list,
+      'values' => $expected_graph_genre_values,
     ];
 
     $response->assertStatus(200);
@@ -221,11 +309,23 @@ class ManagementTest extends BaseTestCase {
     $this->assertEquals($expected_stats, $actual['stats']);
 
     $this->assertNotNull($actual['graph']);
+
     $this->assertNotNull($actual['graph']['quality']);
     $this->assertEquals($expected_graph_quality, $actual['graph']['quality']);
 
-    $this->assertNotNull($actual['graph']);
     $this->assertNotNull($actual['graph']['months']);
     $this->assertEquals($expected_graph_months, $actual['graph']['months']);
+
+    $this->assertNotNull($actual['graph']['ratings']);
+    $this->assertEquals($expected_graph_ratings, $actual['graph']['ratings']);
+
+    $this->assertNotNull($actual['graph']['years']);
+    $this->assertEquals($expected_graph_years, $actual['graph']['years']);
+
+    $this->assertNotNull($actual['graph']['seasons']);
+    $this->assertEquals($expected_graph_seasons, $actual['graph']['seasons']);
+
+    $this->assertNotNull($actual['graph']['genres']);
+    $this->assertEquals($expected_graph_genres, $actual['graph']['genres']);
   }
 }
