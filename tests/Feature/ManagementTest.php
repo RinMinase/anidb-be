@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-
 use Tests\BaseTestCase;
 
 use Database\Seeders\BucketSeeder;
@@ -327,5 +326,37 @@ class ManagementTest extends BaseTestCase {
 
     $this->assertNotNull($actual['graph']['genres']);
     $this->assertEquals($expected_graph_genres, $actual['graph']['genres']);
+  }
+
+  public function test_should_get_data_by_year() {
+    $this->setup_config();
+
+    $test_params = ['year' => 2011];
+    $response = $this->withoutMiddleware()->get('/api/management/by-year?' . http_build_query($test_params));
+
+    $expected = [2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    $this->assertCount(count($expected), $response['data']);
+    $this->assertEquals($expected, $response['data']);
+  }
+
+  public function test_should_not_get_data_by_year_on_invalid_year() {
+    $this->setup_config();
+
+    $test_params = ['year' => -1];
+    $response = $this->withoutMiddleware()->get('/api/management/by-year?' . http_build_query($test_params));
+    $response->assertStatus(401);
+
+    $test_params = ['year' => 0];
+    $response = $this->withoutMiddleware()->get('/api/management/by-year?' . http_build_query($test_params));
+    $response->assertStatus(401);
+
+    $test_params = ['year' => 'null'];
+    $response = $this->withoutMiddleware()->get('/api/management/by-year?' . http_build_query($test_params));
+    $response->assertStatus(401);
+
+    $test_params = ['year' => 'invalid'];
+    $response = $this->withoutMiddleware()->get('/api/management/by-year?' . http_build_query($test_params));
+    $response->assertStatus(401);
   }
 }
