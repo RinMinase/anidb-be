@@ -24,7 +24,7 @@ class ToBooleanTest extends TestCase {
 
     foreach ($test_data_true as $value) {
       $actual = to_boolean($value);
-      $this->assertTrue($actual);
+      $this->assertTrue($actual, 'Error in $value=' . $value);
     }
 
     foreach ($test_data_false as $value) {
