@@ -272,3 +272,31 @@ if (!function_exists('parse_season')) {
     return $retval;
   }
 }
+
+if (!function_exists('translate_rating_10_to_5')) {
+  function translate_rating_10_to_5(string | int | null $rating, bool $null_on_empty = false) {
+    if (!is_numeric($rating) || is_null($rating) || $rating > 10 || $rating < 0) {
+      if ($null_on_empty) return null;
+      return 0;
+    }
+
+    $rating = intval($rating);
+
+    switch ($rating) {
+      case 10:
+      case 9:
+        return 5;
+      case 8:
+        return 4;
+      case 7:
+        return 3;
+      case 6:
+      case 5:
+        return 2;
+      case 0:
+        return 0;
+      default:
+        return 1;
+    }
+  }
+}
