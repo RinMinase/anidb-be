@@ -43,12 +43,22 @@ class EntryImportRepository {
       if ($has_ratings) {
         $title_id = $this->search_title_id($id_entries, $item->title);
 
+        $ratings = [
+          'audio' => $item->rating->audio ?? null,
+          'enjoyment' => $item->rating->enjoyment ?? null,
+          'graphics' => $item->rating->graphics ?? null,
+          'plot' => $item->rating->plot ?? null,
+        ];
+
+        // Remove this block when import data is not from old setup
+        foreach ($ratings as $key => $value) {
+          $ratings[$key] = translate_rating_10_to_5($value, true);
+        }
+        // ===========================================================
+
         array_push($import_ratings, [
           'id_entries' => $title_id,
-          'audio' => $item->rating->audio,
-          'enjoyment' => $item->rating->enjoyment,
-          'graphics' => $item->rating->graphics,
-          'plot' => $item->rating->plot,
+          ...$ratings,
         ]);
       }
 

@@ -962,8 +962,8 @@ class EntrySearchRepository {
         throw new SearchFilterParsingException('rating', 'Rating to should be smaller than rating from');
       }
 
-      if ($rating_from > 10 || $rating_to > 10) {
-        throw new SearchFilterParsingException('rating', 'Max value of rating is 10');
+      if ($rating_from > 5 || $rating_to > 5) {
+        throw new SearchFilterParsingException('rating', 'Max value of rating is 5');
       }
 
       if ($rating_from < 0 || $rating_to < 0) {
@@ -999,12 +999,12 @@ class EntrySearchRepository {
 
       $rating = floatval($rating);
 
-      if ($rating >= 10 && $comparator === '>') {
+      if ($rating >= 5 && $comparator === '>') {
         throw new SearchFilterParsingException('rating', 'Error in parsing string');
       }
 
-      if ($rating > 10) {
-        throw new SearchFilterParsingException('rating', 'Max value of rating is 10');
+      if ($rating > 5) {
+        throw new SearchFilterParsingException('rating', 'Max value of rating is 5');
       }
 
       if ($rating < 0) {
@@ -1025,8 +1025,8 @@ class EntrySearchRepository {
 
     $rating = floatval($value);
 
-    if ($rating > 10) {
-      throw new SearchFilterParsingException('rating', 'Max value of rating is 10');
+    if ($rating > 5) {
+      throw new SearchFilterParsingException('rating', 'Max value of rating is 5');
     }
 
     if ($rating < 0) {

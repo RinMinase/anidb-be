@@ -16,28 +16,28 @@ class RatingsRequest extends FormRequest {
    *   name="audio",
    *   in="query",
    *   example=10,
-   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=5),
    * ),
    * @OA\Parameter(
    *   parameter="entry_ratings_enjoyment",
    *   name="enjoyment",
    *   in="query",
    *   example=10,
-   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=5),
    * ),
    * @OA\Parameter(
    *   parameter="entry_ratings_graphics",
    *   name="graphics",
    *   in="query",
    *   example=10,
-   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=5),
    * ),
    * @OA\Parameter(
    *   parameter="entry_ratings_plot",
    *   name="plot",
    *   in="query",
    *   example=10,
-   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=10),
+   *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=5),
    * ),
    */
   public function rules() {
@@ -46,10 +46,10 @@ class RatingsRequest extends FormRequest {
     }
 
     return [
-      'audio' => ['integer', 'min:0', 'max:10'],
-      'enjoyment' => ['integer', 'min:0', 'max:10'],
-      'graphics' => ['integer', 'min:0', 'max:10'],
-      'plot' => ['integer', 'min:0', 'max:10'],
+      'audio' => ['nullable', 'integer', 'min:0', 'max:5'],
+      'enjoyment' => ['nullable', 'integer', 'min:0', 'max:5'],
+      'graphics' => ['nullable', 'integer', 'min:0', 'max:5'],
+      'plot' => ['nullable', 'integer', 'min:0', 'max:5'],
     ];
   }
 
