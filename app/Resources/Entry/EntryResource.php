@@ -266,7 +266,7 @@ class EntryResource extends JsonResource {
     $rating += $this->rating->enjoyment ?? 0;
     $rating += $this->rating->graphics ?? 0;
     $rating += $this->rating->plot ?? 0;
-    $rating = round($rating / 4, 2);
+    $rating = round($rating / 4, 0, PHP_ROUND_HALF_DOWN);
 
     return $rating;
   }
