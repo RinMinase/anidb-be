@@ -55,7 +55,7 @@ class ManagementRepository {
     $quality_480 = 0;
     $quality_360 = 0;
 
-    $ratings = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $ratings = [0, 0, 0, 0, 0, 0];
 
     foreach ($entries as $entry) {
       $episodes += $entry->episodes;
@@ -74,7 +74,7 @@ class ManagementRepository {
       if ($entry->id_quality === 5) $quality_360++;
 
       if ($entry->avg_rating) {
-        if ($entry->avg_rating <= 10 && $entry->avg_rating > 0) {
+        if ($entry->avg_rating <= 5 && $entry->avg_rating > 0) {
           $ratings[$entry->avg_rating]++;
         }
       } else {
