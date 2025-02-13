@@ -213,14 +213,6 @@ Route::prefix('api')
 
         Route::prefix('buckets')
           ->group(function () {
-
-            // ======= Unused =======
-            // Route::get('', [BucketController::class, 'index']);
-            // Route::post('', [BucketController::class, 'add']);
-            // Route::put('{id?}', [BucketController::class, 'edit']);
-            // Route::delete('{id}', [BucketController::class, 'delete']);
-            // ======================
-
             Route::post('import', [BucketController::class, 'import']);
           });
 
