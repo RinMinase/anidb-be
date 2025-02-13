@@ -279,11 +279,8 @@ Route::prefix('api')
             Route::put('{uuid}', [RssController::class, 'edit']);
             Route::delete('{uuid}', [RssController::class, 'delete']);
 
-            Route::put('read/{uuid}', [RssController::class, 'read']);
-            Route::delete('read/{uuid}', [RssController::class, 'unread']);
-
-            Route::put('bookmark/{uuid}', [RssController::class, 'bookmark']);
-            Route::delete('bookmark/{uuid}', [RssController::class, 'removeBookmark']);
+            Route::put('read/{uuid}', [RssController::class, 'toggle_read']);
+            Route::put('bookmark/{uuid}', [RssController::class, 'toggle_bookmark']);
           });
 
         Route::prefix('anilist')

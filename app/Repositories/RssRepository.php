@@ -57,27 +57,19 @@ class RssRepository {
       ->delete();
   }
 
-  public function read($uuid) {
-    RssItem::where('uuid', $uuid)
-      ->firstOrFail()
-      ->update(['is_read' => true]);
+  public function toggle_read($uuid) {
+    $data = RssItem::where('uuid', $uuid)->firstOrFail();
+    $value = $data->is_read;
+
+    $data->update(['is_read' => !$value]);
+    $data->save();
   }
 
-  public function unread($uuid) {
-    RssItem::where('uuid', $uuid)
-      ->firstOrFail()
-      ->update(['is_read' => false]);
-  }
+  public function toggle_bookmark($uuid) {
+    $data = RssItem::where('uuid', $uuid)->firstOrFail();
+    $value = $data->is_bookmarked;
 
-  public function bookmark($uuid) {
-    RssItem::where('uuid', $uuid)
-      ->firstOrFail()
-      ->update(['is_bookmarked' => true]);
-  }
-
-  public function removeBookmark($uuid) {
-    RssItem::where('uuid', $uuid)
-      ->firstOrFail()
-      ->update(['is_bookmarked' => false]);
+    $data->update(['is_bookmarked' => !$value]);
+    $data->save();
   }
 }

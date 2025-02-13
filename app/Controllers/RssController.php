@@ -218,36 +218,8 @@ class RssController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function read($uuid): JsonResponse {
-    $this->rssRepository->read($uuid);
-
-    return DefaultResponse::success();
-  }
-
-  /**
-   * @OA\Delete(
-   *   tags={"RSS"},
-   *   path="/api/rss/read/{rss_item_id}",
-   *   summary="Mark an RSS Item as Unread",
-   *   security={{"token":{}}},
-   *
-   *   @OA\Parameter(
-   *     name="rss_item_id",
-   *     description="RSS Item ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
-  public function unread($uuid): JsonResponse {
-    $this->rssRepository->unread($uuid);
+  public function toggle_read($uuid): JsonResponse {
+    $this->rssRepository->toggle_read($uuid);
 
     return DefaultResponse::success();
   }
@@ -274,36 +246,8 @@ class RssController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function bookmark($uuid): JsonResponse {
-    $this->rssRepository->bookmark($uuid);
-
-    return DefaultResponse::success();
-  }
-
-  /**
-   * @OA\Delete(
-   *   tags={"RSS"},
-   *   path="/api/rss/bookmark/{rss_item_id}",
-   *   summary="Delete an RSS Item from Bookmarks",
-   *   security={{"token":{}}},
-   *
-   *   @OA\Parameter(
-   *     name="rss_item_id",
-   *     description="RSS Item ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
-  public function removeBookmark($uuid): JsonResponse {
-    $this->rssRepository->removeBookmark($uuid);
+  public function toggle_bookmark($uuid): JsonResponse {
+    $this->rssRepository->toggle_bookmark($uuid);
 
     return DefaultResponse::success();
   }
