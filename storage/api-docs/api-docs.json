@@ -6104,46 +6104,7 @@
                     "RSS"
                 ],
                 "summary": "Mark an RSS Item as Read",
-                "operationId": "ba7dc3be9843ecf4ca767cb56c968630",
-                "parameters": [
-                    {
-                        "name": "rss_item_id",
-                        "in": "path",
-                        "description": "RSS Item ID",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "RSS"
-                ],
-                "summary": "Mark an RSS Item as Unread",
-                "operationId": "4caaad8d8fcfd8ef9bbd17476af2ede9",
+                "operationId": "c389f2ab547686fb383b164ba711e6f8",
                 "parameters": [
                     {
                         "name": "rss_item_id",
@@ -6184,46 +6145,7 @@
                     "RSS"
                 ],
                 "summary": "Bookmark an RSS Item",
-                "operationId": "9cb3adfecedb71623b1b08986ac54a3d",
-                "parameters": [
-                    {
-                        "name": "rss_item_id",
-                        "in": "path",
-                        "description": "RSS Item ID",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "RSS"
-                ],
-                "summary": "Delete an RSS Item from Bookmarks",
-                "operationId": "50bddabe4dbab5765f57d5fd716aa917",
+                "operationId": "e9110965096288ab93834647a46378c9",
                 "parameters": [
                     {
                         "name": "rss_item_id",
@@ -7615,7 +7537,8 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/MaintenanceType"
+                                                        "schema": "string",
+                                                        "example": "engine_oil"
                                                     }
                                                 }
                                             },
