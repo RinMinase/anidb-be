@@ -159,7 +159,7 @@ class ManagementRepository {
 
   public function get_by_year(array $values) {
     $year = $values['year'] ?? null;
-    $end = Carbon::createFromDate($year + 1, 1, 1)->startOfDay();
+    $end = Carbon::createFromDate($year, 1, 1)->endOfYear();
     $start = Carbon::createFromDate($year, 1, 1)->startOfDay();
 
     $data = DB::table('entries')
