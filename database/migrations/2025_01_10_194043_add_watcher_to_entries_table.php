@@ -20,7 +20,8 @@ return new class extends Migration {
    */
   public function down(): void {
     Schema::table('entries', function (Blueprint $table) {
-      //
+      $table->dropForeign(['id_watcher']);
+      $table->dropColumn('id_watcher');
     });
   }
 };
