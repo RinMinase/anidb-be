@@ -1575,6 +1575,104 @@
                 ]
             }
         },
+        "/api/dropdowns": {
+            "get": {
+                "tags": [
+                    "Dropdowns"
+                ],
+                "summary": "Get All Dropdowns for Adding Entries",
+                "operationId": "acf1207e20cbede59a6901600539db51",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "groups": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "qualities": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/Quality"
+                                                            }
+                                                        },
+                                                        "codecs": {
+                                                            "properties": {
+                                                                "audio": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/CodecAudio"
+                                                                    }
+                                                                },
+                                                                "video": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "$ref": "#/components/schemas/CodecVideo"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "genres": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/Genre"
+                                                            }
+                                                        },
+                                                        "watchers": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "format": "int32",
+                                                                        "example": 1
+                                                                    },
+                                                                    "label": {
+                                                                        "type": "string",
+                                                                        "example": "label"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/entries/by-bucket": {
             "get": {
                 "tags": [
@@ -10144,7 +10242,7 @@
                 "schema": {
                     "type": "integer",
                     "format": "int32",
-                    "maximum": 10,
+                    "maximum": 5,
                     "minimum": 1
                 },
                 "example": 10
@@ -10155,7 +10253,7 @@
                 "schema": {
                     "type": "integer",
                     "format": "int32",
-                    "maximum": 10,
+                    "maximum": 5,
                     "minimum": 1
                 },
                 "example": 10
@@ -10166,7 +10264,7 @@
                 "schema": {
                     "type": "integer",
                     "format": "int32",
-                    "maximum": 10,
+                    "maximum": 5,
                     "minimum": 1
                 },
                 "example": 10
@@ -10177,7 +10275,7 @@
                 "schema": {
                     "type": "integer",
                     "format": "int32",
-                    "maximum": 10,
+                    "maximum": 5,
                     "minimum": 1
                 },
                 "example": 10
