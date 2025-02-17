@@ -10,6 +10,7 @@ use App\Controllers\BucketController;
 use App\Controllers\BucketSimController;
 use App\Controllers\CatalogController;
 use App\Controllers\CodecController;
+use App\Controllers\DropdownController;
 use App\Controllers\EntryByBucketController;
 use App\Controllers\EntryByGenreController;
 use App\Controllers\EntryByNameController;
@@ -143,6 +144,10 @@ Route::prefix('api')
         Route::get('genres', [GenreController::class, 'index']);
         Route::get('qualities', [QualityController::class, 'index']);
         Route::get('priorities', [PriorityController::class, 'index']);
+
+        // All-in-one for Adding Entries
+        // Groups + Qualities + Codecs + Genres + Watchers
+        Route::get('dropdowns', [DropdownController::class, 'index']);
 
         Route::prefix('management')
           ->group(function () {
