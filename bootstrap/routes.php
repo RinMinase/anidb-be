@@ -39,6 +39,8 @@ use App\Fourleaf\Controllers\BillsController;
 use App\Fourleaf\Controllers\ElectricityController;
 use App\Fourleaf\Controllers\GasController;
 
+use App\Middleware\IsAdminRole;
+
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('integer', '[0-9]+');
@@ -147,7 +149,7 @@ Route::prefix('api')
 
         // All-in-one for Adding Entries
         // Groups + Qualities + Codecs + Genres + Watchers
-        Route::get('dropdowns', [DropdownController::class, 'index']);
+        Route::get('dropdowns', [DropdownController::class, 'index'])->middleware(IsAdminRole::class);
 
         Route::prefix('management')
           ->group(function () {
