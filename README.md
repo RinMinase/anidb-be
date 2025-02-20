@@ -59,38 +59,37 @@ DISABLE_SCRAPER  - Disables WebScraper
 
 2. Clone the project, then install the dependencies
 
-    ```
+    ```bash
     git clone https://github.com/RinMinase/anidb-be.git
     cd anidb-be
     ```
 
 3. Run the necessary docker containers
 
-    ```
-    docker-compose up -d
-    docker-compose exec php sh
+    ```bash
+    docker compose up -d
+    docker compose exec php sh
     ```
 
 4. Inside the docker image, copy the env file, install the necessary dependencies and generate the API Key
 
-    ```
+    ```bash
     cp .env.example .env
     composer install
     php artisan key:generate
     ```
 
-5. Modify the ENV file with the **necessary configuration values**
+5. Generate the necessary root password key and take note of this is as this is REQUIRED to create admin accounts
 
-6. Generate a random hex any length key from any software of preference. You may use the exxample below.
-
-    ```
-    openssl rand -hex 32
+    ```bash
+    php artisan app:generate-root-password
     ```
 
-7. Add the generated key from Step 6 to `APP_REGISTRATION_ROOT_PASSWORD` in the ENV (`.env`) file. This step is REQUIRED to create admin users.
+6. Modify the ENV file with the **necessary configuration values**
 
 8. Clear the Laravel config cache, then run the database migrations
-    ```
+
+    ```bash
     php artisan config:clear
     php artisan migrate:fresh --seed
     ```
@@ -98,13 +97,19 @@ DISABLE_SCRAPER  - Disables WebScraper
 9. Fire up your browser and go to `localhost`.
 
 **Note:**
-If you need to access the container run, `docker-compose exec php bash`
+If you need to access the container run, `docker compose exec php bash`
 
 ### Re-running the project
-1. Navigate to the project foler root then run `docker-compose up -d`
+1. Navigate inside the docker container
+
+    ```bash
+    docker compose up -d
+    docker compose exec php sh
+    ```
 
 2. Run the migrations when necessary, then install the dependencies also when necessary
-    ```
+
+    ```bash
     php artisan migrate
     composer install
     ```
@@ -112,28 +117,40 @@ If you need to access the container run, `docker-compose exec php bash`
 3. Fire up your browser and go to `localhost`.
 
 ### Running the Swagger Generator / API Documentation Generator
-1. Navigate to the project foler root then run `docker-compose up -d`
 
-2. Run the command below:
+1. Navigate inside the docker container
+
+    ```bash
+    docker compose up -d
+    docker compose exec php sh
     ```
-    composer docs
+
+2. Run the command to generate the documentations inside the container
+
+    ```bash
+    docs
     ```
 
 3. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
 ### Running the Unit Tests
-1. Navigate to the project foler root then run `docker-compose up -d`
+1. Navigate inside the docker container
+
+    ```bash
+    docker compose up -d
+    docker compose exec php sh
+    ```
 
 2. Run the command below:
-    ```
+    ```bash
     php artisan test
     ```
     or if you want to run a specific test module
-    ```
+    ```bash
     php artisan test --filter <Class Name of Test File>
     ```
     or if you want to run a specific single test
-    ```
+    ```bash
     php artisan test --filter test_function_name tests/Location/of/TestCase.php
     ```
 
