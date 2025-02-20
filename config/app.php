@@ -251,5 +251,7 @@ return [
 
   'anilist_base_uri' => env('ANILIST_BASE_URI', 'graphql.anilist.co'),
 
-  'vehicle_start_date' => env('VEHICLE_START_DATE', '2023-01-01')
+  'vehicle_start_date' => env('VEHICLE_START_DATE', '2023-01-01'),
+
+  'registration_root_password' => env('APP_REGISTRATION_ROOT_PASSWORD', ''),
 ];
