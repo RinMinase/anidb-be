@@ -5,7 +5,7 @@
         <img alt="Laravel" src="https://img.shields.io/badge/laravel-11-red.svg?logo=laravel&logoColor=white&style=for-the-badge">
     </a>
     <a href="https://php.net">
-        <img alt="PHP" src="https://img.shields.io/badge/php-8.3-blue.svg?logo=php&logoColor=white&style=for-the-badge">
+        <img alt="PHP" src="https://img.shields.io/badge/php-8.4-blue.svg?logo=php&logoColor=white&style=for-the-badge">
     </a>
 </p>
 
@@ -192,7 +192,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 
 ## Built with
 * <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 11](https://laravel.com) - Core Framework
-* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8.3](https://php.net) - Language syntax
+* <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8.4](https://php.net) - Language syntax
 * <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
 * <img width=20 height=20 src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic-480x411.png"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png"> [Swagger](https://swagger.io/) - API Documentation
