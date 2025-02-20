@@ -34,7 +34,7 @@ use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
 use App\Controllers\RssController;
 use App\Controllers\SequenceController;
-
+use App\Controllers\UserController;
 use App\Fourleaf\Controllers\BillsController;
 use App\Fourleaf\Controllers\ElectricityController;
 use App\Fourleaf\Controllers\GasController;
@@ -156,6 +156,16 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', [ManagementController::class, 'index']);
             Route::get('by-year', [ManagementController::class, 'get_by_year']);
+          });
+
+        Route::prefix('users')
+          ->middleware(IsAdminRole::class)
+          ->group(function () {
+            Route::get('', [UserController::class, 'index']);
+            Route::get('{uuid}', [UserController::class, 'get']);
+            Route::post('', [UserController::class, 'add']);
+            Route::put('{uuid}', [UserController::class, 'edit']);
+            Route::delete('{uuid}', [UserController::class, 'delete']);
           });
 
         // Non Admin Entry Routes

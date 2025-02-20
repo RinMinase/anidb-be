@@ -14,13 +14,11 @@ use App\Traits\RefreshableAutoIncrements;
  * ),
  * @OA\Schema(
  *   schema="UserDetails",
- *   @OA\Property(property="id", type="integer", format="int32", example=1),
- *   @OA\Property(
- *     property="email",
- *     type="string",
- *     format="email",
- *     example="test@mail.com",
- *   ),
+ *   @OA\Property(property="uuid", type="string", format="uuid", example="e9597119-8452-4f2b-96d8-f2b1b1d2f158"),
+ *   @OA\Property(property="username", type="string"),
+ *   @OA\Property(property="password", type="string"),
+ *   @OA\Property(property="createdAt", type="string"),
+ *   @OA\Property(property="updatedAt", type="string"),
  * ),
  */
 class User extends BaseAuthModel {
@@ -28,14 +26,14 @@ class User extends BaseAuthModel {
   use HasApiTokens, RefreshableAutoIncrements;
 
   protected $fillable = [
-    'email',
+    'uuid',
+    'username',
     'password',
   ];
 
   protected $hidden = [
+    'id',
     'password',
-    'created_at',
-    'updated_at',
   ];
 
   protected $casts = [];

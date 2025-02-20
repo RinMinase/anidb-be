@@ -6,15 +6,20 @@ use App\Exceptions\Auth\InvalidCredentialsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\User;
+use App\Repositories\UserRepository;
 
 use App\Requests\Auth\LoginRequest;
-use App\Requests\Auth\RegisterRequest;
+use App\Requests\Auth\AddEditRequest;
 
 use App\Resources\DefaultResponse;
-use App\Resources\ErrorResponse;
 
 class AuthController extends Controller {
+
+  private UserRepository $userRepository;
+
+  public function __construct(UserRepository $userRepository) {
+    $this->userRepository = $userRepository;
+  }
 
   /**
    * @OA\Post(
@@ -23,25 +28,25 @@ class AuthController extends Controller {
    *   summary="User Registration",
    *
    *   @OA\Parameter(
-   *     name="email",
+   *     name="username",
    *     in="query",
    *     required=true,
-   *     example="user@mail.com",
-   *     @OA\Schema(type="string", format="email"),
+   *     example="username",
+   *     @OA\Schema(type="string", minLength=4, maxLength=32),
    *   ),
    *   @OA\Parameter(
    *     name="password",
    *     in="query",
    *     required=true,
    *     example="password",
-   *     @OA\Schema(type="string"),
+   *     @OA\Schema(type="string", minLength=4, maxLength=32),
    *   ),
    *   @OA\Parameter(
    *     name="password_confirmation",
    *     in="query",
    *     required=true,
    *     example="password",
-   *     @OA\Schema(type="string"),
+   *     @OA\Schema(type="string", minLength=4, maxLength=32),
    *   ),
    *
    *   @OA\Response(
@@ -60,11 +65,8 @@ class AuthController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function register(RegisterRequest $request): JsonResponse {
-    $user = User::create([
-      'password' => bcrypt($request['password']),
-      'email' => $request['email']
-    ]);
+  public function register(AddEditRequest $request): JsonResponse {
+    $user = $this->userRepository->add($request->only('username', 'password'));
 
     $token = $user->createToken('API Token')
       ->plainTextToken;
@@ -86,11 +88,11 @@ class AuthController extends Controller {
    *   summary="User Login",
    *
    *   @OA\Parameter(
-   *     name="email",
+   *     name="username",
    *     in="query",
    *     required=true,
-   *     example="user@mail.com",
-   *     @OA\Schema(type="string", format="email"),
+   *     example="username",
+   *     @OA\Schema(type="string"),
    *   ),
    *   @OA\Parameter(
    *     name="password",
@@ -117,7 +119,7 @@ class AuthController extends Controller {
    * )
    */
   public function login(LoginRequest $request): JsonResponse {
-    $credentials = $request->only('email', 'password');
+    $credentials = $request->only('username', 'password');
 
     if (!Auth::attempt($credentials)) {
       throw new InvalidCredentialsException();
