@@ -139,28 +139,37 @@ Route::prefix('api')
     Route::middleware('auth:sanctum')
       ->group(function () {
 
-        Route::get('logs', [LogController::class, 'index']);
-        Route::post('import', [ImportController::class, 'index']);
+        Route::get('logs', [LogController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::post('import', [ImportController::class, 'index'])->middleware(IsAdminRole::class);
 
         // Dropdowns
-        Route::get('genres', [GenreController::class, 'index']);
-        Route::get('qualities', [QualityController::class, 'index']);
-        Route::get('priorities', [PriorityController::class, 'index']);
+        Route::get('genres', [GenreController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('qualities', [QualityController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('priorities', [PriorityController::class, 'index'])->middleware(IsAdminRole::class);
 
         // All-in-one for Adding Entries
         // Groups + Qualities + Codecs + Genres + Watchers
         Route::get('dropdowns', [DropdownController::class, 'index'])->middleware(IsAdminRole::class);
 
         Route::prefix('management')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [ManagementController::class, 'index']);
             Route::get('by-year', [ManagementController::class, 'get_by_year']);
           });
 
+        // Non Admin Entry Routes
         Route::prefix('entries')
           ->group(function () {
             Route::get('', [EntryController::class, 'index']);
             Route::get('{uuid}', [EntryController::class, 'get']);
+            Route::get('titles', [EntryController::class, 'getTitles']);
+          });
+
+        // Admin-required Entry Routes
+        Route::prefix('entries')
+          ->middleware(IsAdminRole::class)
+          ->group(function () {
             Route::post('', [EntryController::class, 'add']);
             Route::put('{uuid}', [EntryController::class, 'edit']);
             Route::delete('{uuid}', [EntryController::class, 'delete']);
@@ -173,7 +182,6 @@ Route::prefix('api')
             Route::put('img-upload/{uuid}', [EntryController::class, 'imageUpload']);
             Route::delete('img-upload/{uuid}', [EntryController::class, 'imageDelete']);
             Route::put('ratings/{uuid}', [EntryController::class, 'ratings']);
-            Route::get('titles', [EntryController::class, 'getTitles']);
 
             Route::post('rewatch/{uuid}', [EntryController::class, 'rewatchAdd']);
             Route::delete('rewatch/{uuid}', [EntryController::class, 'rewatchDelete']);
@@ -197,6 +205,7 @@ Route::prefix('api')
           });
 
         Route::prefix('catalogs')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [CatalogController::class, 'index']);
             Route::post('', [CatalogController::class, 'add']);
@@ -207,6 +216,7 @@ Route::prefix('api')
           });
 
         Route::prefix('partials')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [PartialController::class, 'index']);
             Route::get('{uuid}', [PartialController::class, 'get']);
@@ -219,11 +229,13 @@ Route::prefix('api')
           });
 
         Route::prefix('buckets')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::post('import', [BucketController::class, 'import']);
           });
 
         Route::prefix('bucket-sims')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [BucketSimController::class, 'index']);
             Route::get('{uuid}', [BucketSimController::class, 'get']);
@@ -238,6 +250,7 @@ Route::prefix('api')
           });
 
         Route::prefix('sequences')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [SequenceController::class, 'index']);
             Route::get('{id}', [SequenceController::class, 'get']);
@@ -248,6 +261,7 @@ Route::prefix('api')
           });
 
         Route::prefix('groups')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [GroupController::class, 'index']);
             Route::get('names', [GroupController::class, 'getNames']);
@@ -258,6 +272,7 @@ Route::prefix('api')
           });
 
         Route::prefix('codecs')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [CodecController::class, 'index']);
 
@@ -279,6 +294,7 @@ Route::prefix('api')
           });
 
         Route::prefix('rss')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [RssController::class, 'index']);
             Route::get('{uuid}', [RssController::class, 'get']);
@@ -291,12 +307,14 @@ Route::prefix('api')
           });
 
         Route::prefix('anilist')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('title/{integer}', [AnilistController::class, 'get']);
             Route::get('search', [AnilistController::class, 'search']);
           });
 
         Route::prefix('pc')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
 
             Route::post('import', [PCController::class, 'import']);
