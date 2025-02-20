@@ -84,6 +84,10 @@ DISABLE_SCRAPER  - Disables WebScraper
     ```bash
     php artisan app:generate-root-password
     ```
+    or you can generate your own from any application of your choosing, and add it under `APP_REGISTRATION_ROOT_PASSWORD` in your `.env` file. An example to generate one is listed below:
+    ```bash
+    openssl rand -hex 36
+    ```
 
 6. Modify the ENV file with the **necessary configuration values**
 
