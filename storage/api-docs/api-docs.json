@@ -142,37 +142,16 @@
                 "operationId": "31cfdf7ad0b73495ed2b7bb54e9d8a54",
                 "parameters": [
                     {
-                        "name": "username",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "maxLength": 32,
-                            "minLength": 4
-                        },
-                        "example": "username"
+                        "$ref": "#/components/parameters/user_register_username"
                     },
                     {
-                        "name": "password",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "maxLength": 32,
-                            "minLength": 4
-                        },
-                        "example": "password"
+                        "$ref": "#/components/parameters/user_register_password"
                     },
                     {
-                        "name": "password_confirmation",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "maxLength": 32,
-                            "minLength": 4
-                        },
-                        "example": "password"
+                        "$ref": "#/components/parameters/user_register_password_confirmation"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_register_root_password"
                     }
                 ],
                 "responses": {
@@ -216,22 +195,10 @@
                 "operationId": "d7cbb3ac96888b0e21dcf8ee1845fe40",
                 "parameters": [
                     {
-                        "name": "username",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "username"
+                        "$ref": "#/components/parameters/user_login_username"
                     },
                     {
-                        "name": "password",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "password"
+                        "$ref": "#/components/parameters/user_login_password"
                     }
                 ],
                 "responses": {
@@ -10166,6 +10133,66 @@
                     "minLength": 4
                 },
                 "example": "password"
+            },
+            "user_login_username": {
+                "name": "username",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "username"
+            },
+            "user_login_password": {
+                "name": "password",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "password"
+            },
+            "user_register_username": {
+                "name": "username",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 4
+                },
+                "example": "username"
+            },
+            "user_register_password": {
+                "name": "password",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 4
+                },
+                "example": "password"
+            },
+            "user_register_password_confirmation": {
+                "name": "password_confirmation",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 4
+                },
+                "example": "password"
+            },
+            "user_register_root_password": {
+                "name": "root_password",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "root-password"
             },
             "bucket_sim_add_edit_description": {
                 "name": "description",
