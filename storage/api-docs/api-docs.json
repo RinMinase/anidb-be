@@ -142,21 +142,24 @@
                 "operationId": "31cfdf7ad0b73495ed2b7bb54e9d8a54",
                 "parameters": [
                     {
-                        "name": "email",
+                        "name": "username",
                         "in": "query",
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "format": "email"
+                            "maxLength": 32,
+                            "minLength": 4
                         },
-                        "example": "user@mail.com"
+                        "example": "username"
                     },
                     {
                         "name": "password",
                         "in": "query",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 4
                         },
                         "example": "password"
                     },
@@ -165,7 +168,9 @@
                         "in": "query",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 32,
+                            "minLength": 4
                         },
                         "example": "password"
                     }
@@ -211,14 +216,13 @@
                 "operationId": "d7cbb3ac96888b0e21dcf8ee1845fe40",
                 "parameters": [
                     {
-                        "name": "email",
+                        "name": "username",
                         "in": "query",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "format": "email"
+                            "type": "string"
                         },
-                        "example": "user@mail.com"
+                        "example": "username"
                     },
                     {
                         "name": "password",
@@ -6566,6 +6570,231 @@
                 ]
             }
         },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get all non-admin users",
+                "operationId": "51392a3867f8e0ef2c4f0292de045389",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/UserDetails"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add a non-admin user",
+                "operationId": "8f9ce76211b2c842c935680e31077ced",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/user_add_edit_username"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_add_edit_password"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_add_edit_password_confirmation"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{user_uuid}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a non-admin user",
+                "operationId": "90995aa531818103fe1711c7761be538",
+                "parameters": [
+                    {
+                        "name": "user_uuid",
+                        "in": "path",
+                        "description": "User UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/UserDetails"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Edit a non-admin user",
+                "operationId": "28247db7fefe706ccfb9fefca09e72fd",
+                "parameters": [
+                    {
+                        "name": "user_uuid",
+                        "in": "path",
+                        "description": "User UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_add_edit_username"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_add_edit_password"
+                    },
+                    {
+                        "$ref": "#/components/parameters/user_add_edit_password_confirmation"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete a non-admin user",
+                "operationId": "fe278d5c564ca36546d21eb666362a7b",
+                "parameters": [
+                    {
+                        "name": "user_uuid",
+                        "in": "path",
+                        "description": "User UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
         "/api/fourleaf/bills/electricity": {
             "get": {
                 "tags": [
@@ -8530,15 +8759,22 @@
             },
             "UserDetails": {
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 1
-                    },
-                    "email": {
+                    "uuid": {
                         "type": "string",
-                        "format": "email",
-                        "example": "test@mail.com"
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -9445,6 +9681,29 @@
                     }
                 }
             },
+            "InvalidRoleException": {
+                "description": "Invaid Role Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 403,
+                            "message": "You should be an admin to access this"
+                        }
+                    }
+                }
+            },
             "JsonParsingException": {
                 "description": "Partial Parsing Error",
                 "content": {
@@ -9874,6 +10133,39 @@
                         "last12mos"
                     ]
                 }
+            },
+            "user_add_edit_username": {
+                "name": "username",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 4
+                },
+                "example": "username"
+            },
+            "user_add_edit_password": {
+                "name": "password",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 4
+                },
+                "example": "password"
+            },
+            "user_add_edit_password_confirmation": {
+                "name": "password_confirmation",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 4
+                },
+                "example": "password"
             },
             "bucket_sim_add_edit_description": {
                 "name": "description",
