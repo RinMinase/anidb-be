@@ -81,13 +81,21 @@ DISABLE_SCRAPER  - Disables WebScraper
 
 5. Modify the ENV file with the **necessary configuration values**
 
-6. Clear the Laravel config cache, then run the database migrations
+6. Generate a random hex any length key from any software of preference. You may use the exxample below.
+
+    ```
+    openssl rand -hex 32
+    ```
+
+7. Add the generated key from Step 6 to `APP_REGISTRATION_ROOT_PASSWORD` in the ENV (`.env`) file. This step is REQUIRED to create admin users.
+
+8. Clear the Laravel config cache, then run the database migrations
     ```
     php artisan config:clear
     php artisan migrate:fresh --seed
     ```
 
-6. Fire up your browser and go to `localhost`.
+9. Fire up your browser and go to `localhost`.
 
 **Note:**
 If you need to access the container run, `docker-compose exec php bash`
