@@ -17,11 +17,12 @@ class UserRepository {
       ->firstOrFail();
   }
 
-  public function add(array $values) {
+  public function add(array $values, $is_admin = false) {
     return User::create([
       'uuid' => Str::uuid()->toString(),
       'username' => $values['username'],
       'password' => bcrypt($values['password']),
+      'is_admin' => $is_admin,
     ]);
   }
 

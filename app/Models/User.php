@@ -29,6 +29,7 @@ class User extends BaseAuthModel {
     'uuid',
     'username',
     'password',
+    'is_admin',
   ];
 
   protected $hidden = [

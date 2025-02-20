@@ -2,15 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Exceptions\Auth\InvalidCredentialsException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
+use App\Exceptions\Auth\InvalidCredentialsException;
 use App\Repositories\UserRepository;
-
 use App\Requests\Auth\LoginRequest;
-use App\Requests\Auth\AddEditRequest;
-
+use App\Requests\Auth\RegisterRequest;
 use App\Resources\DefaultResponse;
 
 class AuthController extends Controller {
@@ -27,27 +26,10 @@ class AuthController extends Controller {
    *   path="/api/auth/register",
    *   summary="User Registration",
    *
-   *   @OA\Parameter(
-   *     name="username",
-   *     in="query",
-   *     required=true,
-   *     example="username",
-   *     @OA\Schema(type="string", minLength=4, maxLength=32),
-   *   ),
-   *   @OA\Parameter(
-   *     name="password",
-   *     in="query",
-   *     required=true,
-   *     example="password",
-   *     @OA\Schema(type="string", minLength=4, maxLength=32),
-   *   ),
-   *   @OA\Parameter(
-   *     name="password_confirmation",
-   *     in="query",
-   *     required=true,
-   *     example="password",
-   *     @OA\Schema(type="string", minLength=4, maxLength=32),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/user_register_username"),
+   *   @OA\Parameter(ref="#/components/parameters/user_register_password"),
+   *   @OA\Parameter(ref="#/components/parameters/user_register_password_confirmation"),
+   *   @OA\Parameter(ref="#/components/parameters/user_register_root_password"),
    *
    *   @OA\Response(
    *     response=200,
@@ -65,8 +47,19 @@ class AuthController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function register(AddEditRequest $request): JsonResponse {
-    $user = $this->userRepository->add($request->only('username', 'password'));
+  public function register(RegisterRequest $request): JsonResponse {
+    $body = $request->only('username', 'password', 'root_password');
+
+    // Root password is required to create admin accounts
+    if (!config('app.registration_root_password')) {
+      throw new AuthenticationException();
+    }
+
+    if (config('app.registration_root_password') !== $body['root_password']) {
+      throw new AuthenticationException();
+    }
+
+    $user = $this->userRepository->add($body, true);
 
     $token = $user->createToken('API Token')
       ->plainTextToken;
@@ -87,20 +80,8 @@ class AuthController extends Controller {
    *   path="/api/auth/login",
    *   summary="User Login",
    *
-   *   @OA\Parameter(
-   *     name="username",
-   *     in="query",
-   *     required=true,
-   *     example="username",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="password",
-   *     in="query",
-   *     required=true,
-   *     example="password",
-   *     @OA\Schema(type="string"),
-   *   ),
+   *   @OA\Parameter(ref="#/components/parameters/user_login_username"),
+   *   @OA\Parameter(ref="#/components/parameters/user_login_password"),
    *
    *   @OA\Response(
    *     response=200,
