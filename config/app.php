@@ -239,12 +239,6 @@ return [
 
   ],
 
-  'scraper' => [
-    'disabled' => env('DISABLE_SCRAPER', false),
-    'base_uri' => env('SCRAPER_BASE_URI', 'example.com'),
-    'release_base_uri' => env('RELEASE_BASE_URI', 'api.example.com'),
-  ],
-
   'platform' => env('APP_PLATFORM', 'production'),
 
   'logs_to_keep' => env('LOGS_TO_KEEP', 200),
