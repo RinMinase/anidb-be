@@ -45,14 +45,27 @@ class LogRepository {
   public static function generateLogs(
     $table_changed = null,
     $id_changed = null,
-    $desc = null,
+    string | array $desc = null,
     $action = null,
   ) {
+    $description = '';
+
+    $desc_parts = [];
+    if ($desc && is_array($desc) && count($desc)) {
+      foreach ($desc as $key => $value) {
+        array_push($desc_parts, $key . '=' . $value);
+      }
+
+      $description = implode(', ', $desc_parts);;
+    } else {
+      $description = $desc;
+    }
+
     $data = [
       'uuid' => Str::uuid()->toString(),
       'table_changed' => $table_changed,
       'id_changed' => $id_changed,
-      'description' => $desc,
+      'description' => $description,
       'action' => $action,
     ];
 
