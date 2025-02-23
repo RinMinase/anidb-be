@@ -18,26 +18,48 @@ class UserRepository {
   }
 
   public function add(array $values, $is_admin = false) {
-    return User::create([
-      'uuid' => Str::uuid()->toString(),
+    $uid = Str::uuid()->toString();
+    $user = User::create([
+      'uuid' => $uid,
       'username' => $values['username'],
       'password' => bcrypt($values['password']),
       'is_admin' => $is_admin,
     ]);
+
+    $log_data = [
+      'username' => $values['username'],
+      'is_admin' => $is_admin,
+    ];
+
+    LogRepository::generateLogs('users', $uid, $log_data, 'add');
+
+    return $user;
   }
 
   public function edit(array $values, $uuid) {
-    return User::where('uuid', $uuid)
+    $user = User::where('uuid', $uuid)
       ->firstOrFail()
       ->update([
         'username' => $values['username'],
         'password' => bcrypt($values['password']),
       ]);
+
+    $log_data = [
+      'username' => $values['username'],
+    ];
+
+    LogRepository::generateLogs('users', $uuid, $log_data, 'edit');
+
+    return $user;
   }
 
   public function delete($uuid) {
-    return User::where('uuid', $uuid)
+    $user = User::where('uuid', $uuid)
       ->firstOrFail()
       ->delete();
+
+    LogRepository::generateLogs('users', $uuid, null, 'delete');
+
+    return $user;
   }
 }
