@@ -50,9 +50,10 @@ class AddEditRequest extends FormRequest {
         'string',
         'min:4',
         'max:32',
+        'alpha_num:ascii',
         Rule::unique('users')->ignore($id ?? null)
       ],
-      'password' => ['required', 'string', 'min:4', 'max:32', 'confirmed'],
+      'password' => ['required', 'string', 'min:4', 'max:32', 'alpha_num:ascii', 'confirmed'],
     ];
   }
 
