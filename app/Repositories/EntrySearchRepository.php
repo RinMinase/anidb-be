@@ -948,11 +948,11 @@ class EntrySearchRepository {
       $rating_to = trim(end($parts));
 
       if (!is_numeric($rating_from)) {
-        throw new SearchFilterParsingException('rating', 'Rating from should be numeric and maxes out to 10');
+        throw new SearchFilterParsingException('rating', 'Rating from should be numeric and maxes out to 5');
       }
 
       if (!is_numeric($rating_to)) {
-        throw new SearchFilterParsingException('rating', 'Rating to should be numeric and maxes out to 10');
+        throw new SearchFilterParsingException('rating', 'Rating to should be numeric and maxes out to 5');
       }
 
       $rating_from = floatval($rating_from);
