@@ -2648,30 +2648,30 @@ class EntrySearchTest extends BaseTestCase {
 
   public function test_should_parse_rating_value_with_range() {
     $expected = [
-      'rating_from' => 3,
-      'rating_to' => 6,
+      'rating_from' => 2,
+      'rating_to' => 3,
       'comparator' => null,
     ];
 
-    $value = 'from 3 to 6';
+    $value = 'from 2 to 3';
     $actual = EntrySearchRepository::search_parse_rating($value);
     $this->assertEquals($expected, $actual);
 
-    $value = '3 to 6';
+    $value = '2 to 3';
     $actual = EntrySearchRepository::search_parse_rating($value);
     $this->assertEquals($expected, $actual);
 
     $expected = [
       'rating_from' => 3.3,
-      'rating_to' => 6.75,
+      'rating_to' => 4.75,
       'comparator' => null,
     ];
 
-    $value = 'from 3.3 to 6.75';
+    $value = 'from 3.3 to 4.75';
     $actual = EntrySearchRepository::search_parse_rating($value);
     $this->assertEquals($expected, $actual);
 
-    $value = '3.3 to 6.75';
+    $value = '3.3 to 4.75';
     $actual = EntrySearchRepository::search_parse_rating($value);
     $this->assertEquals($expected, $actual);
   }
@@ -2700,12 +2700,12 @@ class EntrySearchTest extends BaseTestCase {
 
   public function test_should_parse_rating_value_with_comparators() {
     $expected = [
-      'rating_from' => 10,
+      'rating_from' => 5,
       'rating_to' => null,
       'comparator' => '>=',
     ];
 
-    $values = ['>= 10', 'gte 10', 'greater than equal 10', 'greater than or equal 10'];
+    $values = ['>= 5', 'gte 5', 'greater than equal 5', 'greater than or equal 5'];
     foreach ($values as $value) {
       $actual = EntrySearchRepository::search_parse_rating($value);
       $this->assertEquals($expected, $actual);
@@ -2849,6 +2849,18 @@ class EntrySearchTest extends BaseTestCase {
       SearchFilterParsingException::class
     );
 
+    $value = '> 5';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = 'gt 5';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
     $value = '10 to 10';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_rating($value),
@@ -2867,6 +2879,24 @@ class EntrySearchTest extends BaseTestCase {
       SearchFilterParsingException::class
     );
 
+    $value = '6';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '5.1';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '10';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
     $value = '10.1';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_rating($value),
@@ -2880,6 +2910,12 @@ class EntrySearchTest extends BaseTestCase {
     );
 
     $value = '-0.1';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_rating($value),
+      SearchFilterParsingException::class
+    );
+
+    $value = '-1';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_rating($value),
       SearchFilterParsingException::class

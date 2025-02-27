@@ -223,7 +223,7 @@ class ManagementTest extends BaseTestCase {
       'dec' => 0,
     ];
 
-    $expected_graph_ratings = [22, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0];
+    $expected_graph_ratings = [22, 0, 1, 0, 1, 0];
 
     $expected_graph_years = [
       [
@@ -312,11 +312,11 @@ class ManagementTest extends BaseTestCase {
     $this->assertNotNull($actual['graph']['quality']);
     $this->assertEquals($expected_graph_quality, $actual['graph']['quality']);
 
-    $this->assertNotNull($actual['graph']['months']);
-    $this->assertEquals($expected_graph_months, $actual['graph']['months']);
-
     $this->assertNotNull($actual['graph']['ratings']);
     $this->assertEquals($expected_graph_ratings, $actual['graph']['ratings']);
+
+    $this->assertNotNull($actual['graph']['months']);
+    $this->assertEquals($expected_graph_months, $actual['graph']['months']);
 
     $this->assertNotNull($actual['graph']['years']);
     $this->assertEquals($expected_graph_years, $actual['graph']['years']);

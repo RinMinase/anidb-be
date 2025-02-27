@@ -778,6 +778,21 @@ class ImportTest extends BaseTestCase {
       ],
     ];
 
+    $expected_translated_rating = [
+      [
+        'audio' => translate_rating_10_to_5($content[0]['rating']['audio']),
+        'enjoyment' => translate_rating_10_to_5($content[0]['rating']['enjoyment']),
+        'graphics' => translate_rating_10_to_5($content[0]['rating']['graphics']),
+        'plot' => translate_rating_10_to_5($content[0]['rating']['plot']),
+      ],
+      [
+        'audio' => translate_rating_10_to_5($content[1]['rating']['audio']),
+        'enjoyment' => translate_rating_10_to_5($content[1]['rating']['enjoyment']),
+        'graphics' => translate_rating_10_to_5($content[1]['rating']['graphics']),
+        'plot' => translate_rating_10_to_5($content[1]['rating']['plot']),
+      ]
+      ];
+
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
     $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file]);
@@ -797,7 +812,7 @@ class ImportTest extends BaseTestCase {
       ->toArray();
 
     $this->assertNotNull($actual_1);
-    $this->assertEqualsCanonicalizing($content[0]['rating'], $actual_1);
+    $this->assertEqualsCanonicalizing($expected_translated_rating[0], $actual_1);
 
     $entry_id_2 = Entry::where('title', $content[1]['title'])->first()->id;
     $actual_2 = EntryRating::select('audio', 'enjoyment', 'graphics', 'plot')
@@ -806,7 +821,7 @@ class ImportTest extends BaseTestCase {
       ->toArray();
 
     $this->assertNotNull($actual_2);
-    $this->assertEqualsCanonicalizing($content[1]['rating'], $actual_2);
+    $this->assertEqualsCanonicalizing($expected_translated_rating[1], $actual_2);
   }
 
   public function test_should_not_import_entries_when_no_file_is_attached() {

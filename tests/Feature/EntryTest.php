@@ -55,10 +55,10 @@ class EntryTest extends BaseTestCase {
   // cached static value throughout the whole test, make single call only to API
   private static $entry_1_image_url = null;
 
-  private $entry_1_rating_audio = 6;
-  private $entry_1_rating_enjoyment = 5;
-  private $entry_1_rating_graphics = 4;
-  private $entry_1_rating_plot = 3;
+  private $entry_1_rating_audio = 4;
+  private $entry_1_rating_enjoyment = 3;
+  private $entry_1_rating_graphics = 2;
+  private $entry_1_rating_plot = 1;
 
   private $entry_1_rewatch_id = 99999;
   private $entry_1_rewatch_uuid = 'e16593ad-ed01-4314-b4b1-0120ba734f90';
@@ -1838,89 +1838,26 @@ class EntryTest extends BaseTestCase {
     $this->assertEqualsCanonicalizing($params, $actual['rating']);
   }
 
-  public function test_should_add_partial_ratings_to_entry() {
+  public function test_should_nullify_other_ratings_when_adding_partial_ratings_to_entry() {
     $this->setup_config();
 
-    $params_audio = ['audio' => 1];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_2, $params_audio);
-
-    $response->assertStatus(200);
-
     $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_2)
+      ->where('id', $this->entry_id_1)
       ->first()
       ->toArray();
 
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals(null, $actual['rating']['enjoyment']);
-    $this->assertEquals(null, $actual['rating']['graphics']);
-    $this->assertEquals(null, $actual['rating']['plot']);
+    $this->assertEquals($this->entry_1_rating_audio, $actual['rating']['audio']);
+    $this->assertEquals($this->entry_1_rating_enjoyment, $actual['rating']['enjoyment']);
+    $this->assertEquals($this->entry_1_rating_graphics, $actual['rating']['graphics']);
+    $this->assertEquals($this->entry_1_rating_plot, $actual['rating']['plot']);
+    $this->assertNotNull($actual['rating']['audio']);
+    $this->assertNotNull($actual['rating']['enjoyment']);
+    $this->assertNotNull($actual['rating']['graphics']);
+    $this->assertNotNull($actual['rating']['plot']);
 
-    $params_enjoyment = ['enjoyment' => 2];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_2, $params_enjoyment);
-
-    $response->assertStatus(200);
-
-    $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_2)
-      ->first()
-      ->toArray();
-
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals(null, $actual['rating']['graphics']);
-    $this->assertEquals(null, $actual['rating']['plot']);
-
-    $params_graphics = ['graphics' => 3];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_2, $params_graphics);
-
-    $response->assertStatus(200);
-
-    $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_2)
-      ->first()
-      ->toArray();
-
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals($params_graphics['graphics'], $actual['rating']['graphics']);
-    $this->assertEquals(null, $actual['rating']['plot']);
-
-    $params_plot = ['plot' => 4];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_2, $params_plot);
-
-    $response->assertStatus(200);
-
-    $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_2)
-      ->first()
-      ->toArray();
-
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals($params_graphics['graphics'], $actual['rating']['graphics']);
-    $this->assertEquals($params_plot['plot'], $actual['rating']['plot']);
-  }
-
-  public function test_should_edit_partial_ratings_to_entry() {
-    $this->setup_config();
-
-    $existing_ratings = [
-      'audio' => $this->entry_1_rating_audio,
-      'enjoyment' => $this->entry_1_rating_enjoyment,
-      'graphics' => $this->entry_1_rating_graphics,
-      'plot' => $this->entry_1_rating_plot,
+    $params_audio = [
+      'audio' => 1,
     ];
-
-    $params_audio = ['audio' => 1];
 
     $response = $this->withoutMiddleware()
       ->put('/api/entries/ratings/' . $this->entry_uuid_1, $params_audio);
@@ -1933,60 +1870,9 @@ class EntryTest extends BaseTestCase {
       ->toArray();
 
     $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($existing_ratings['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals($existing_ratings['graphics'], $actual['rating']['graphics']);
-    $this->assertEquals($existing_ratings['plot'], $actual['rating']['plot']);
-
-    $params_enjoyment = ['enjoyment' => 2];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_1, $params_enjoyment);
-
-    $response->assertStatus(200);
-
-    $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_1)
-      ->first()
-      ->toArray();
-
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals($existing_ratings['graphics'], $actual['rating']['graphics']);
-    $this->assertEquals($existing_ratings['plot'], $actual['rating']['plot']);
-
-    $params_graphics = ['graphics' => 3];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_1, $params_graphics);
-
-    $response->assertStatus(200);
-
-    $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_1)
-      ->first()
-      ->toArray();
-
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals($params_graphics['graphics'], $actual['rating']['graphics']);
-    $this->assertEquals($existing_ratings['plot'], $actual['rating']['plot']);
-
-    $params_plot = ['plot' => 4];
-
-    $response = $this->withoutMiddleware()
-      ->put('/api/entries/ratings/' . $this->entry_uuid_1, $params_plot);
-
-    $response->assertStatus(200);
-
-    $actual = Entry::with('rating')
-      ->where('id', $this->entry_id_1)
-      ->first()
-      ->toArray();
-
-    $this->assertEquals($params_audio['audio'], $actual['rating']['audio']);
-    $this->assertEquals($params_enjoyment['enjoyment'], $actual['rating']['enjoyment']);
-    $this->assertEquals($params_graphics['graphics'], $actual['rating']['graphics']);
-    $this->assertEquals($params_plot['plot'], $actual['rating']['plot']);
+    $this->assertEquals(null, $actual['rating']['enjoyment']);
+    $this->assertEquals(null, $actual['rating']['graphics']);
+    $this->assertEquals(null, $actual['rating']['plot']);
   }
 
   public function test_should_not_add_or_edit_ratings_to_entry_on_form_errors() {

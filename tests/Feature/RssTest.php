@@ -526,7 +526,7 @@ class RssTest extends BaseTestCase {
     $response->assertStatus(404);
   }
 
-  public function test_should_mark_rss_item_as_read_successfully() {
+  public function test_should_toggle_rss_item_as_read_or_unread_successfully() {
     $this->setup_config();
 
     $actual = RssItem::where('uuid', $this->rss_item_uuid_1)->first()->toArray();
@@ -542,17 +542,22 @@ class RssTest extends BaseTestCase {
 
     $this->assertNotNull($actual);
     $this->assertTrue($actual['is_read']);
-  }
 
-  public function test_should_mark_rss_item_as_unread_successfully() {
-    $this->setup_config();
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $this->rss_item_uuid_1);
+
+    $response->assertStatus(200);
+
+    $actual = RssItem::where('uuid', $this->rss_item_uuid_1)->first()->toArray();
+
+    $this->assertNotNull($actual);
+    $this->assertFalse($actual['is_read']);
 
     $actual = RssItem::where('uuid', $this->rss_item_uuid_2)->first()->toArray();
 
     $this->assertNotNull($actual);
     $this->assertTrue($actual['is_read']);
 
-    $response = $this->withoutMiddleware()->delete('/api/rss/read/' . $this->rss_item_uuid_2);
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $this->rss_item_uuid_2);
 
     $response->assertStatus(200);
 
@@ -560,6 +565,15 @@ class RssTest extends BaseTestCase {
 
     $this->assertNotNull($actual);
     $this->assertFalse($actual['is_read']);
+
+    $response = $this->withoutMiddleware()->put('/api/rss/read/' . $this->rss_item_uuid_2);
+
+    $response->assertStatus(200);
+
+    $actual = RssItem::where('uuid', $this->rss_item_uuid_2)->first()->toArray();
+
+    $this->assertNotNull($actual);
+    $this->assertTrue($actual['is_read']);
   }
 
   public function test_should_not_mark_rss_item_as_read_or_unread_when_id_is_used_instead_of_uuid() {
@@ -584,7 +598,7 @@ class RssTest extends BaseTestCase {
     $response->assertStatus(404);
   }
 
-  public function test_should_bookmark_rss_item_successfully() {
+  public function test_should_toggle_bookmarking_rss_item_successfully() {
     $this->setup_config();
 
     $actual = RssItem::where('uuid', $this->rss_item_uuid_1)->first()->toArray();
@@ -600,17 +614,22 @@ class RssTest extends BaseTestCase {
 
     $this->assertNotNull($actual);
     $this->assertTrue($actual['is_bookmarked']);
-  }
 
-  public function test_should_remove_rss_item_from_bookmarks_successfully() {
-    $this->setup_config();
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $this->rss_item_uuid_1);
+
+    $response->assertStatus(200);
+
+    $actual = RssItem::where('uuid', $this->rss_item_uuid_1)->first()->toArray();
+
+    $this->assertNotNull($actual);
+    $this->assertFalse($actual['is_bookmarked']);
 
     $actual = RssItem::where('uuid', $this->rss_item_uuid_2)->first()->toArray();
 
     $this->assertNotNull($actual);
     $this->assertTrue($actual['is_bookmarked']);
 
-    $response = $this->withoutMiddleware()->delete('/api/rss/bookmark/' . $this->rss_item_uuid_2);
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $this->rss_item_uuid_2);
 
     $response->assertStatus(200);
 
@@ -618,6 +637,15 @@ class RssTest extends BaseTestCase {
 
     $this->assertNotNull($actual);
     $this->assertFalse($actual['is_bookmarked']);
+
+    $response = $this->withoutMiddleware()->put('/api/rss/bookmark/' . $this->rss_item_uuid_2);
+
+    $response->assertStatus(200);
+
+    $actual = RssItem::where('uuid', $this->rss_item_uuid_2)->first()->toArray();
+
+    $this->assertNotNull($actual);
+    $this->assertTrue($actual['is_bookmarked']);
   }
 
   public function test_should_not_toggle_bookmark_on_rss_item_when_id_is_used_instead_of_uuid() {

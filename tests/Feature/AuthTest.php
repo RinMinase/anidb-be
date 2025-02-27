@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
-use Carbon\Carbon;
 use Tests\BaseTestCase;
+
+use Carbon\Carbon;
 
 use App\Models\User;
 
@@ -14,9 +15,23 @@ class AuthTest extends BaseTestCase {
 
   // Class variables
   private $user_id_1 = 99999;
+  private $user_id_2 = 99998;
+  private $user_id_3 = 99997;
 
-  private $user_email = 'testing-mail@testmail.com';
-  private $user_password = 'sample_test_password';
+  private $user_uuid_1 = '53e2087f-5441-4d63-9991-07ced5a4e0e4';
+  private $user_uuid_2 = '0329e0ca-d567-43c9-b337-dc81003e1415';
+  private $user_uuid_3 = '3be3273d-b97c-41ec-8bf6-b1b7a6c83950';
+
+  private $user_username_1 = 'testingusername';
+  private $user_password_1 = 'testingpassword';
+  private $user_username_2 = 'testingadminusername';
+  private $user_password_2 = 'testingadminpassword';
+  private $user_username_3 = 'testingusername2';
+  private $user_password_3 = 'testingpassword2';
+
+  private $user_is_admin_1 = false;
+  private $user_is_admin_2 = true;
+  private $user_is_admin_3 = false;
 
   // Backup related tables
   private function setup_backup() {
@@ -40,8 +55,28 @@ class AuthTest extends BaseTestCase {
     $test_users = [
       [
         'id' => $this->user_id_1,
-        'email' => $this->user_email,
-        'password' => bcrypt($this->user_password),
+        'uuid' => $this->user_uuid_1,
+        'username' => $this->user_username_1,
+        'password' => bcrypt($this->user_password_1),
+        'is_admin' => $this->user_is_admin_1,
+        'created_at' => $timestamp,
+        'updated_at' => $timestamp,
+      ],
+      [
+        'id' => $this->user_id_2,
+        'uuid' => $this->user_uuid_2,
+        'username' => $this->user_username_2,
+        'password' => bcrypt($this->user_password_2),
+        'is_admin' => $this->user_is_admin_2,
+        'created_at' => $timestamp,
+        'updated_at' => $timestamp,
+      ],
+      [
+        'id' => $this->user_id_3,
+        'uuid' => $this->user_uuid_3,
+        'username' => $this->user_username_3,
+        'password' => bcrypt($this->user_password_3),
+        'is_admin' => $this->user_is_admin_3,
         'created_at' => $timestamp,
         'updated_at' => $timestamp,
       ],
@@ -66,8 +101,15 @@ class AuthTest extends BaseTestCase {
     $this->setup_config();
 
     $response = $this->post('/api/auth/login', [
-      'email' => $this->user_email,
-      'password' => $this->user_password,
+      'username' => $this->user_username_1,
+      'password' => $this->user_password_1,
+    ]);
+
+    $response->assertStatus(200);
+
+    $response = $this->post('/api/auth/login', [
+      'username' => $this->user_username_2,
+      'password' => $this->user_password_2,
     ]);
 
     $response->assertStatus(200);
@@ -76,11 +118,11 @@ class AuthTest extends BaseTestCase {
   public function test_should_not_login_on_invalid_credentials() {
     $this->setup_config();
 
-    $test_email = 'unit_testing@mail.com';
+    $test_username = 'nonexistinguser';
     $test_password = 'e9597119-8452-4f2b-96d8-f2b1b1d2f158';
 
     $response = $this->post('/api/auth/login', [
-      'email' => $test_email,
+      'username' => $test_username,
       'password' => $test_password,
     ]);
 
@@ -88,77 +130,147 @@ class AuthTest extends BaseTestCase {
       ->assertJson(['message' => 'Credentials does not match.']);
 
     $response = $this->post('/api/auth/login', [
-      'email' => $this->user_email,
+      'username' => $this->user_username_1,
       'password' => $test_password,
     ]);
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Credentials does not match.']);
-  }
-
-  public function test_should_not_login_on_invalid_email() {
-    $this->setup_config();
-
-    $test_email = 'invalid email';
-    $test_password = 'e9597119-8452-4f2b-96d8-f2b1b1d2f158';
 
     $response = $this->post('/api/auth/login', [
-      'email' => $test_email,
-      'password' => $test_password,
+      'username' => $test_username,
+      'password' => $this->user_password_1,
     ]);
 
     $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['email']]);
+      ->assertJson(['message' => 'Credentials does not match.']);
   }
 
   public function test_should_not_login_on_blank_email_or_password() {
     $response = $this->post('/api/auth/login');
 
     $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['email', 'password']]);
+      ->assertJsonStructure(['data' => ['username', 'password']]);
   }
 
-  public function test_should_register_successfully() {
-    $test_email = 'unit_testing@mail.com';
-    $test_password = 'e9597119-8452-4f2b-96d8-f2b1b1d2f158';
+  public function test_should_register_admin_successfully() {
+    $test_username = 'testingusername';
+    $test_password = 'testingpassword';
 
     $response = $this->post('/api/auth/register', [
-      'email' => $test_email,
+      'username' => $test_username,
       'password' => $test_password,
       'password_confirmation' => $test_password,
+      'root_password' => config('app.registration_root_password'),
     ]);
 
     $response->assertStatus(200);
   }
 
-  public function test_should_not_register_on_invalid_email_or_passwords() {
-    $test_email = 'invalid email';
-    $test_password = '12345';
+  public function test_should_not_register_admin_on_invalid_root_password() {
+    $test_username = 'unittestingusername';
+    $test_password = 'unittestingpassword';
 
     $response = $this->post('/api/auth/register', [
-      'email' => $test_email,
+      'username' => $test_username,
       'password' => $test_password,
       'password_confirmation' => $test_password,
     ]);
 
-    $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['email', 'password']]);
+    $response->assertStatus(401)->assertJsonStructure(['data' => ['root_password']]);
+
+    $invalid_root_password = '';
+    $response = $this->post('/api/auth/register', [
+      'username' => $test_username,
+      'password' => $test_password,
+      'password_confirmation' => $test_password,
+      'root_password' => $invalid_root_password,
+    ]);
+
+    $response->assertStatus(401)->assertJsonStructure(['data' => ['root_password']]);
+
+    $invalid_root_password = 'invalidpassword';
+    $response = $this->post('/api/auth/register', [
+      'username' => $test_username,
+      'password' => $test_password,
+      'password_confirmation' => $test_password,
+      'root_password' => $invalid_root_password,
+    ]);
+
+    $response->assertStatus(401)->assertJson(['message' => 'Unauthorized']);
   }
 
-  public function test_should_not_register_on_blank_email_or_password() {
-    $response = $this->post('/api/auth/register', []);
+  public function test_should_not_register_admin_on_invalid_form() {
+    $response = $this->post('/api/auth/register', [
+      'root_password' => config('app.registration_root_password'),
+    ]);
 
     $response->assertStatus(401)
-      ->assertJsonStructure(['data' => ['email', 'password']]);
+      ->assertJsonStructure(['data' => ['username', 'password']]);
+
+
+    $valid_username = 'testingusername';
+    $valid_password = 'testingpassword';
+
+    $invalid_usernames = [
+      null,
+      '',
+      'invalid username',
+      'invalid_username',
+      'invalid-username',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_usernames as $key => $value) {
+      $response = $this->post('/api/auth/register', [
+        'username' => $value,
+        'password' => $valid_password,
+        'password_confirmation' => $valid_password,
+        'root_password' => config('app.registration_root_password'),
+      ]);
+
+      $this->assertArrayHasKey('username', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
+
+    $invalid_passwords = [
+      null,
+      '',
+      'invalid password',
+      'invalid_password',
+      'invalid-password',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_passwords as $key => $value) {
+      $response = $this->post('/api/auth/register', [
+        'username' => $valid_username,
+        'password' => $value,
+        'password_confirmation' => $value,
+        'root_password' => config('app.registration_root_password'),
+      ]);
+
+      $this->assertArrayHasKey('password', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
   }
 
-  public function test_should_not_register_on_invalid_password_confirmation() {
-    $test_email = 'unit_testing@mail.com';
-    $test_password = 'e9597119-8452-4f2b-96d8-f2b1b1d2f158';
+  public function test_should_not_register_admin_on_invalid_password_confirmation() {
+    $test_username = 'testingusername';
+    $test_password = 'testingpassword';
 
     $response = $this->post('/api/auth/register', [
-      'email' => $test_email,
+      'username' => $test_username,
       'password' => $test_password,
+      'root_password' => config('app.registration_root_password'),
     ]);
 
     $response->assertStatus(401)
@@ -169,8 +281,17 @@ class AuthTest extends BaseTestCase {
     $this->setup_config();
 
     $this->post('/api/auth/login', [
-      'email' => $this->user_email,
-      'password' => $this->user_password,
+      'username' => $this->user_username_1,
+      'password' => $this->user_password_1,
+    ]);
+
+    $response = $this->post('/api/auth/logout');
+
+    $response->assertStatus(200);
+
+    $this->post('/api/auth/login', [
+      'username' => $this->user_username_2,
+      'password' => $this->user_password_2,
     ]);
 
     $response = $this->post('/api/auth/logout');
@@ -189,8 +310,8 @@ class AuthTest extends BaseTestCase {
     $this->setup_config();
 
     $this->post('/api/auth/login', [
-      'email' => $this->user_email,
-      'password' => $this->user_password,
+      'username' => $this->user_username_1,
+      'password' => $this->user_password_1,
     ]);
 
     $response = $this->get('/api/auth/user');
@@ -198,10 +319,180 @@ class AuthTest extends BaseTestCase {
     $response->assertStatus(200);
 
     $expected = [
-      'id' => $this->user_id_1,
-      'email' => $this->user_email,
+      'uuid' => $this->user_uuid_1,
+      'username' => $this->user_username_1,
+      'isAdmin' => $this->user_is_admin_1,
     ];
 
-    $this->assertEquals($expected, $response['data']);
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'],
+      ['uuid', 'username', 'isAdmin']
+    );
+  }
+
+  public function test_should_get_admin_user_information_successfully() {
+    $this->setup_config();
+
+    $this->post('/api/auth/login', [
+      'username' => $this->user_username_2,
+      'password' => $this->user_password_2,
+    ]);
+
+    $response = $this->get('/api/auth/user');
+
+    $response->assertStatus(200);
+
+    $expected = [
+      'uuid' => $this->user_uuid_2,
+      'username' => $this->user_username_2,
+      'isAdmin' => $this->user_is_admin_2,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'],
+      ['uuid', 'username', 'isAdmin']
+    );
+  }
+
+  public function test_should_get_all_non_admin_users_successfully() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->get('/api/users');
+
+
+    $response->assertStatus(200)
+      ->assertJsonStructure([
+        'data' => [['uuid', 'username', 'createdAt', 'updatedAt']]
+      ]);
+
+    $actual_user_ids = collect($response['data'])->pluck('uuid')->toArray();
+
+    $expected_user_ids = [
+      $this->user_uuid_1,
+      $this->user_uuid_3,
+    ];
+
+    $this->assertEqualsCanonicalizing($expected_user_ids, $actual_user_ids);
+  }
+
+  public function test_should_register_regular_user_successfully() {
+    $test_username = 'testingusername';
+    $test_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->post('/api/users', [
+      'username' => $test_username,
+      'password' => $test_password,
+      'password_confirmation' => $test_password,
+    ]);
+
+    $response->assertStatus(200);
+  }
+
+  public function test_should_not_register_regular_user_on_invalid_form() {
+    $response = $this->withoutMiddleware()->post('/api/users', []);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['username', 'password']]);
+
+
+    $valid_username = 'testingusername';
+    $valid_password = 'testingpassword';
+
+    $invalid_usernames = [
+      null,
+      '',
+      'invalid username',
+      'invalid_username',
+      'invalid-username',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_usernames as $key => $value) {
+      $response = $this->withoutMiddleware()->post('/api/users', [
+        'username' => $value,
+        'password' => $valid_password,
+        'password_confirmation' => $valid_password,
+      ]);
+
+      $this->assertArrayHasKey('username', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
+
+    $invalid_passwords = [
+      null,
+      '',
+      'invalid password',
+      'invalid_password',
+      'invalid-password',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_passwords as $key => $value) {
+      $response = $this->withoutMiddleware()->post('/api/users', [
+        'username' => $valid_username,
+        'password' => $value,
+        'password_confirmation' => $value,
+      ]);
+
+      $this->assertArrayHasKey('password', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
+  }
+
+  public function test_should_not_register_regular_user_on_invalid_password_confirmation() {
+    $test_username = 'testingusername';
+    $test_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->post('/api/users', [
+      'username' => $test_username,
+      'password' => $test_password,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['password']]);
+  }
+
+  public function test_should_not_register_regular_user_on_duplicate_username() {
+    $this->setup_config();
+
+    $test_username = 'testingusername';
+    $test_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->post('/api/users', [
+      'username' => $test_username,
+      'password' => $test_password,
+      'password_confirmation' => $test_password,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['username']]);
+  }
+
+  public function test_should_edit_any_user_type_successfully() {
+  }
+
+  public function test_should_not_edit_any_user_type_on_invalid_form() {
+  }
+
+  public function test_should_not_edit_any_user_type_on_invalid_password_confirmation() {
+  }
+
+  public function test_should_delete_regular_user_successfully() {
+  }
+
+  public function test_should_not_delete_regular_user_when_id_is_used_instead_of_uuid() {
+  }
+
+  public function test_should_not_delete_non_existent_user() {
   }
 }
