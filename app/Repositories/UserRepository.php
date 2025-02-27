@@ -55,6 +55,7 @@ class UserRepository {
 
   public function delete($uuid) {
     $user = User::where('uuid', $uuid)
+      ->where('is_admin', false)
       ->firstOrFail()
       ->delete();
 
