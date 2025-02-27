@@ -2,10 +2,11 @@
 
 namespace App\Fourleaf\Repositories;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+
 use App\Fourleaf\Models\Electricity;
 use App\Fourleaf\Models\Settings;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class ElectricityRepository {
   public function get(int $year, int $month) {
