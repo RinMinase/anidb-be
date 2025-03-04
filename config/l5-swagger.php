@@ -11,10 +11,8 @@ return [
       ],
 
       'routes' => ($is_prod) ? [] : [
-        /*
-          * Route for accessing api documentation interface
-        */
-        'api' => 'docs/',
+        // Route is overriden by actual routes found on routes.php
+        'api' => 'api-docs/',
       ],
       'paths' => [
         /*
