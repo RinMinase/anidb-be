@@ -55,3 +55,4 @@ services:
       - '${DB_PORT:-5432}:5432'
     volumes:
       - db:/var/lib/postgresql/data
+    command: -c shared_buffers=512MB
