@@ -20,7 +20,7 @@
     "require": {
         "php": "^8.1",
         "cloudinary-labs/cloudinary-laravel": "~2.2.3",
-        "darkaonline/l5-swagger": "8.6.3",
+        "darkaonline/l5-swagger": "~9.0.1",
         "laravel/framework": "~11.43.2",
         "laravel/sanctum": "~4.0.8",
         "loilo/fuse": "~7.1.1",
