@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Tpetry\PostgresqlEnhanced\Schema\Blueprint;
+use Tpetry\PostgresqlEnhanced\Support\Facades\Schema;
 
 class CreatePersonalAccessTokensTable extends Migration {
   /**
@@ -12,6 +12,8 @@ class CreatePersonalAccessTokensTable extends Migration {
    */
   public function up() {
     Schema::create('personal_access_tokens', function (Blueprint $table) {
+      $table->unlogged();
+
       $table->id();
       $table->morphs('tokenable');
       $table->string('name');
@@ -20,6 +22,8 @@ class CreatePersonalAccessTokensTable extends Migration {
       $table->timestamp('last_used_at')->nullable();
       $table->timestamp('expires_at')->nullable();
       $table->timestamps();
+
+      $table->unlogged(false);
     });
   }
 
