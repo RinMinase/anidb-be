@@ -83,7 +83,7 @@
     <div class="nav">
       @if($isProd == false)
         <p class="item">
-          <a href="/docs">Docs</a>
+          <a href="/api-docs">Docs</a>
         </p>
       @endif
       <p class="item source">

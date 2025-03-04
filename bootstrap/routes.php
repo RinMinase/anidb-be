@@ -55,9 +55,9 @@ Route::middleware('web')
     Route::view('/', 'index', ['isProd' => $isProd])->name('home');
 
     if (!$isProd) {
-      Route::get('/docs', function () {
-        $apidocJsonFile = URL::to('/') . '/docs/api-docs.json';
-        $useAbsolutePath = config('l5-swagger.documentations.default.paths.use_absolute_path', true);
+      Route::get('/api-docs', function () {
+        $apidocJsonFile = URL::to('/') . '/docs';
+        $useAbsolutePath = config('l5-swagger.documentations.default.paths.use_absolute_path');
 
         return view('docs', [
           'documentation' => 'default',
@@ -66,7 +66,7 @@ Route::middleware('web')
         ]);
       });
     } else {
-      Route::get('/docs', function () {
+      Route::get('/api-docs', function () {
         throw new NotFoundHttpException();
       });
     }
