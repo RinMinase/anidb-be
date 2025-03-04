@@ -44,9 +44,10 @@
       box-shadow: none;
       background: none;
 
-      margin: -85px 0 12px auto;
-      /* margin-right: calc((100vw - 1460px) / 2); */
-      margin-right: 0;
+      margin-top: -85px;
+      margin-bottom: 12px;
+      margin-left: auto;
+      margin-right: calc((100vw - 1460px) / 2);
 
       position: relative;
       height: 67px;
@@ -61,6 +62,18 @@
       position: absolute;
       right: 0;
       width: auto;
+    }
+
+    .swagger-ui .topbar .topbar-wrapper {
+      gap: 32px;
+    }
+
+    .swagger-ui .topbar .topbar-wrapper .link {
+      flex-grow: unset;
+    }
+
+    .swagger-ui .topbar .topbar-wrapper .download-url-wrapper {
+      flex-grow: 1;
     }
 
     .information-container.wrapper {
