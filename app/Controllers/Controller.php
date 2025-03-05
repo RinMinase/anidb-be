@@ -36,7 +36,6 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Import")
  * @OA\Tag(name="Logs")
  * @OA\Tag(name="Management")
- * @OA\Tag(name="RSS")
  * @OA\Tag(name="Sequence")
  * @OA\Tag(name="PC")
  * @OA\Tag(name="Fourleaf - Gas")
