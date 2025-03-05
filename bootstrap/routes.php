@@ -303,19 +303,6 @@ Route::prefix('api')
               });
           });
 
-        Route::prefix('rss')
-          ->middleware(IsAdminRole::class)
-          ->group(function () {
-            Route::get('', [RssController::class, 'index']);
-            Route::get('{uuid}', [RssController::class, 'get']);
-            Route::post('', [RssController::class, 'add']);
-            Route::put('{uuid}', [RssController::class, 'edit']);
-            Route::delete('{uuid}', [RssController::class, 'delete']);
-
-            Route::put('read/{uuid}', [RssController::class, 'toggle_read']);
-            Route::put('bookmark/{uuid}', [RssController::class, 'toggle_bookmark']);
-          });
-
         Route::prefix('anilist')
           ->middleware(IsAdminRole::class)
           ->group(function () {

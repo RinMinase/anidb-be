@@ -28,9 +28,6 @@ class DatabaseSeeder extends Seeder {
       PartialSeeder::class,     // test data
       SequenceSeeder::class,    // test data
 
-      RssSeeder::class,         // test data
-      RssItemsSeeder::class,    // test data
-
       // Four leaf seeds
       FourleafSettingsSeeder::class,
       FourleafGasSeeder::class,
