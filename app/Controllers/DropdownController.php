@@ -2,13 +2,15 @@
 
 namespace App\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
 use App\Repositories\CodecRepository;
 use App\Repositories\EntryRepository;
-use Illuminate\Http\JsonResponse;
-
 use App\Repositories\GenreRepository;
 use App\Repositories\GroupRepository;
 use App\Repositories\QualityRepository;
+
 use App\Resources\DefaultResponse;
 
 class DropdownController extends Controller {
@@ -39,6 +41,15 @@ class DropdownController extends Controller {
    *   path="/api/dropdowns",
    *   summary="Get All Dropdowns for Adding Entries",
    *   security={{"token":{}}},
+   *
+   *   @OA\Parameter(
+   *     name="query",
+   *     description="Comma-separated types of dropdowns to be requested",
+   *     in="query",
+   *     example="groups,qualities,codecs,genres,watchers",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -90,15 +101,57 @@ class DropdownController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(): JsonResponse {
+  public function index(Request $request): JsonResponse {
+    $query = $request->query('query');
+
+    $query_split = explode(',', $query);
+
+    foreach ($query_split as $key => $value) {
+      $query_split[$key] = trim($value);
+    }
+
+    $query_valid_value = false;
+    $data = [];
+
+    if (in_array('groups', $query_split)) {
+      $data['groups'] = $this->groupRepository->getNames();
+      $query_valid_value = true;
+    }
+
+    if (in_array('qualities', $query_split)) {
+      $data['qualities'] = $this->qualityRepository->getAll();
+      $query_valid_value = true;
+    }
+
+    if (in_array('codecs', $query_split)) {
+      $data['codecs'] = $this->codecRepository->getAll();
+      $query_valid_value = true;
+    }
+
+    if (in_array('genres', $query_split)) {
+      $data['genres'] = $this->genreRepository->getAll();
+      $query_valid_value = true;
+    }
+
+    if (in_array('watchers', $query_split)) {
+      $data['watchers'] = $this->entryRepository->get_watchers();
+      $query_valid_value = true;
+    }
+
+    if (!$query_valid_value) {
+      return DefaultResponse::success(null, [
+        'data' => [
+          'groups' => $this->groupRepository->getNames(),
+          'qualities' => $this->qualityRepository->getAll(),
+          'codecs' => $this->codecRepository->getAll(),
+          'genres' => $this->genreRepository->getAll(),
+          'watchers' => $this->entryRepository->get_watchers(),
+        ],
+      ]);
+    }
+
     return DefaultResponse::success(null, [
-      'data' => [
-        'groups' => $this->groupRepository->getNames(),
-        'qualities' => $this->qualityRepository->getAll(),
-        'codecs' => $this->codecRepository->getAll(),
-        'genres' => $this->genreRepository->getAll(),
-        'watchers' => $this->entryRepository->get_watchers(),
-      ],
+      'data' => $data,
     ]);
   }
 }
