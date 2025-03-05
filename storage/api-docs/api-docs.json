@@ -1553,6 +1553,17 @@
                 ],
                 "summary": "Get All Dropdowns for Adding Entries",
                 "operationId": "acf1207e20cbede59a6901600539db51",
+                "parameters": [
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Comma-separated types of dropdowns to be requested",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "groups,qualities,codecs"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
