@@ -35,7 +35,7 @@ class AuthTest extends BaseTestCase {
 
   // Backup related tables
   private function setup_backup() {
-    $hidden_columns = ['password', 'created_at', 'updated_at'];
+    $hidden_columns = ['id', 'password'];
     $this->user_backup = User::all()->makeVisible($hidden_columns)->toArray();
   }
 
@@ -479,20 +479,237 @@ class AuthTest extends BaseTestCase {
   }
 
   public function test_should_edit_any_user_type_successfully() {
+    $this->setup_config();
+
+    $test_username = 'newusername';
+    $valid_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_1, [
+      'username' => $test_username,
+      'password' => $valid_password,
+      'password_confirmation' => $valid_password,
+    ]);
+
+    $response->assertStatus(200);
+
+    $actual = User::select('username')->where('uuid', $this->user_uuid_1)->get()->first();
+
+    $this->assertEquals($test_username, $actual->username);
+  }
+
+  public function test_should_not_edit_any_user_type_when_id_is_used_instead_of_uuid() {
+    $this->setup_config();
+
+    $test_username = 'newusername';
+    $valid_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_id_1, [
+      'username' => $test_username,
+      'password' => $valid_password,
+      'password_confirmation' => $valid_password,
+    ]);
+
+    $response->assertStatus(404);
+  }
+
+  public function test_should_not_edit_non_existent_user() {
+    $this->setup_config();
+
+    $invalid_id = -1;
+    $test_username = 'newusername';
+    $valid_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->put('/api/users/' . $invalid_id, [
+      'username' => $test_username,
+      'password' => $valid_password,
+      'password_confirmation' => $valid_password,
+    ]);
+
+    $response->assertStatus(404);
   }
 
   public function test_should_not_edit_any_user_type_on_invalid_form() {
+    $this->setup_config();
+
+
+    // Normal User
+    $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_1, []);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['username', 'password']]);
+
+
+    $valid_username = 'testingusername';
+    $valid_password = 'testingpassword';
+
+    $invalid_usernames = [
+      null,
+      '',
+      'invalid username',
+      'invalid_username',
+      'invalid-username',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_usernames as $key => $value) {
+      $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_1, [
+        'username' => $value,
+        'password' => $valid_password,
+        'password_confirmation' => $valid_password,
+      ]);
+
+      $this->assertArrayHasKey('username', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
+
+    $invalid_passwords = [
+      null,
+      '',
+      'invalid password',
+      'invalid_password',
+      'invalid-password',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_passwords as $key => $value) {
+      $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_1, [
+        'username' => $valid_username,
+        'password' => $value,
+        'password_confirmation' => $value,
+      ]);
+
+      $this->assertArrayHasKey('password', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
+
+    // Admin User
+    $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_2, []);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['username', 'password']]);
+
+
+    $valid_username = 'testingusername';
+    $valid_password = 'testingpassword';
+
+    $invalid_usernames = [
+      null,
+      '',
+      'invalid username',
+      'invalid_username',
+      'invalid-username',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_usernames as $key => $value) {
+      $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_2, [
+        'username' => $value,
+        'password' => $valid_password,
+        'password_confirmation' => $valid_password,
+      ]);
+
+      $this->assertArrayHasKey('username', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
+
+    $invalid_passwords = [
+      null,
+      '',
+      'invalid password',
+      'invalid_password',
+      'invalid-password',
+      '123',
+      'str',
+      rand_str(32 + 1),
+      rand_str(32 + 1, true),
+    ];
+
+    foreach ($invalid_passwords as $key => $value) {
+      $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_2, [
+        'username' => $valid_username,
+        'password' => $value,
+        'password_confirmation' => $value,
+      ]);
+
+      $this->assertArrayHasKey('password', $response['data'], 'Error on $key = ' . $key);
+
+      $response->assertStatus(401);
+    }
   }
 
   public function test_should_not_edit_any_user_type_on_invalid_password_confirmation() {
+    $this->setup_config();
+
+    $test_username = 'testingusername';
+    $test_password = 'testingpassword';
+
+    $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_1, [
+      'username' => $test_username,
+      'password' => $test_password,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['password']]);
+
+    $test_username = 'testingadminusername';
+    $test_password = 'testingadminpassword';
+
+    $response = $this->withoutMiddleware()->put('/api/users/' . $this->user_uuid_2, [
+      'username' => $test_username,
+      'password' => $test_password,
+    ]);
+
+    $response->assertStatus(401)
+      ->assertJsonStructure(['data' => ['password']]);
   }
 
   public function test_should_delete_regular_user_successfully() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->delete('/api/users/' . $this->user_uuid_1);
+
+    $response->assertStatus(200);
+
+    $actual = User::select()->where('uuid', $this->user_uuid_1)->get()->first();
+
+    $this->assertNull($actual);
   }
 
   public function test_should_not_delete_regular_user_when_id_is_used_instead_of_uuid() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->delete('/api/users/' . $this->user_id_1);
+
+    $response->assertStatus(404);
   }
 
   public function test_should_not_delete_non_existent_user() {
+    $this->setup_config();
+
+    $invalid_id = -1;
+
+    $response = $this->withoutMiddleware()->delete('/api/users/' . $invalid_id);
+
+    $response->assertStatus(404);
+  }
+
+  public function test_should_not_delete_admin_user() {
+    $this->setup_config();
+
+    $response = $this->withoutMiddleware()->delete('/api/users/' . $this->user_uuid_2);
+
+    $response->assertStatus(404);
   }
 }
