@@ -141,12 +141,12 @@ Route::prefix('api')
         Route::get('logs', [LogController::class, 'index'])->middleware(IsAdminRole::class);
         Route::post('import', [ImportController::class, 'index'])->middleware(IsAdminRole::class);
 
-        Route::prefix('backup')
+        Route::prefix('export')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::post('sql', [ImportController::class, 'backup_sql']);
-            Route::post('csv', [ImportController::class, 'backup_csv']);
-            Route::post('json', [ImportController::class, 'backup_json']);
+            Route::post('sql', [ImportController::class, 'export_sql']);
+            Route::post('csv', [ImportController::class, 'export_csv']);
+            Route::post('json', [ImportController::class, 'export_json']);
           });
 
         // Dropdowns
