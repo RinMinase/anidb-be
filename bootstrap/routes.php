@@ -138,15 +138,28 @@ Route::prefix('api')
     Route::middleware('auth:sanctum')
       ->group(function () {
 
-        Route::get('logs', [LogController::class, 'index'])->middleware(IsAdminRole::class);
-        Route::post('import', [ImportController::class, 'index'])->middleware(IsAdminRole::class);
-
-        Route::prefix('export')
+        // Importing from old system
+        Route::prefix('archaic')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::post('sql', [ImportController::class, 'export_sql']);
-            Route::post('csv', [ImportController::class, 'export_csv']);
-            Route::post('json', [ImportController::class, 'export_json']);
+            Route::post('import', [ImportController::class, 'index']);
+            Route::post('entries/import', [EntryController::class, 'import']);
+            Route::post('buckets/import', [BucketController::class, 'import']);
+            Route::post('sequences/import', [SequenceController::class, 'import']);
+            Route::post('groups/import', [GroupController::class, 'import']);
+          });
+
+        Route::get('import', [ImportController::class, 'import_new_format'])->middleware(IsAdminRole::class);
+
+        Route::prefix('exports')
+          ->middleware(IsAdminRole::class)
+          ->group(function () {
+            Route::get('', [ExportController::class, 'index']);
+            Route::get('{uuid}', [ExportController::class, 'download']);
+
+            Route::post('sql', [ExportController::class, 'generate_sql']);
+            Route::post('json', [ExportController::class, 'generate_json']);
+            Route::post('xlsx', [ExportController::class, 'generate_xlsx']);
           });
 
         // Dropdowns
@@ -157,6 +170,8 @@ Route::prefix('api')
         // All-in-one for Adding Entries
         // Groups + Qualities + Codecs + Genres + Watchers
         Route::get('dropdowns', [DropdownController::class, 'index'])->middleware(IsAdminRole::class);
+
+        Route::get('logs', [LogController::class, 'index'])->middleware(IsAdminRole::class);
 
         Route::prefix('management')
           ->middleware(IsAdminRole::class)
@@ -192,7 +207,6 @@ Route::prefix('api')
             Route::delete('{uuid}', [EntryController::class, 'delete']);
             Route::get('search', [EntryController::class, 'search']);
             Route::get('watchers', [EntryController::class, 'get_watchers']);
-            Route::post('import', [EntryController::class, 'import']);
 
             Route::post('{uuid}/offquel/{uuid2}', [EntryController::class, 'add_offquel']);
             Route::delete('{uuid}/offquel/{uuid2}', [EntryController::class, 'delete_offquel']);
@@ -245,12 +259,6 @@ Route::prefix('api')
             Route::put('multi/{uuid}', [PartialController::class, 'edit_multiple']);
           });
 
-        Route::prefix('buckets')
-          ->middleware(IsAdminRole::class)
-          ->group(function () {
-            Route::post('import', [BucketController::class, 'import']);
-          });
-
         Route::prefix('bucket-sims')
           ->middleware(IsAdminRole::class)
           ->group(function () {
@@ -274,7 +282,6 @@ Route::prefix('api')
             Route::post('', [SequenceController::class, 'add']);
             Route::put('{id?}', [SequenceController::class, 'edit']);
             Route::delete('{id}', [SequenceController::class, 'delete']);
-            Route::post('import', [SequenceController::class, 'import']);
           });
 
         Route::prefix('groups')
@@ -285,7 +292,6 @@ Route::prefix('api')
             Route::post('', [GroupController::class, 'add']);
             Route::put('{uuid}', [GroupController::class, 'edit']);
             Route::delete('{uuid}', [GroupController::class, 'delete']);
-            Route::post('import', [GroupController::class, 'import']);
           });
 
         Route::prefix('codecs')
