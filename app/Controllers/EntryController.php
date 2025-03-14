@@ -417,8 +417,8 @@ class EntryController extends Controller {
 
   /**
    * @OA\Post(
-   *   tags={"Import"},
-   *   path="/api/entries/import",
+   *   tags={"Import - Archaic"},
+   *   path="/api/archaic/import/entries",
    *   summary="Import a JSON file to seed data for entries table",
    *   security={{"token":{}}},
    *

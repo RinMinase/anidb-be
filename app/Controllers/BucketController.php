@@ -19,8 +19,8 @@ class BucketController extends Controller {
 
   /**
    * @OA\Post(
-   *   tags={"Import"},
-   *   path="/api/buckets/import",
+   *   tags={"Import - Archaic"},
+   *   path="/api/archaic/import/buckets",
    *   summary="Import a JSON file to seed data for buckets table",
    *   security={{"token":{}}},
    *

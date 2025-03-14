@@ -142,11 +142,11 @@ Route::prefix('api')
         Route::prefix('archaic')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::post('import', [ImportController::class, 'index']);
-            Route::post('entries/import', [EntryController::class, 'import']);
-            Route::post('buckets/import', [BucketController::class, 'import']);
-            Route::post('sequences/import', [SequenceController::class, 'import']);
-            Route::post('groups/import', [GroupController::class, 'import']);
+            Route::post('import', [ImportController::class, 'import_archaic_format']);
+            Route::post('import/entries', [EntryController::class, 'import']);
+            Route::post('import/buckets', [BucketController::class, 'import']);
+            Route::post('import/sequences', [SequenceController::class, 'import']);
+            Route::post('import/groups', [GroupController::class, 'import']);
           });
 
         Route::get('import', [ImportController::class, 'import_new_format'])->middleware(IsAdminRole::class);

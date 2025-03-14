@@ -157,8 +157,8 @@ class GroupController extends Controller {
 
   /**
    * @OA\Post(
-   *   tags={"Import"},
-   *   path="/api/groups/import",
+   *   tags={"Import - Archaic"},
+   *   path="/api/archaic/import/groups",
    *   summary="Import a JSON file to seed data for groups table",
    *   security={{"token":{}}},
    *

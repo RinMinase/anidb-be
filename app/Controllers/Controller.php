@@ -34,6 +34,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Tag(name="Entry Specific")
  * @OA\Tag(name="Group")
  * @OA\Tag(name="Import")
+ * @OA\Tag(name="Import - Archaic")
  * @OA\Tag(name="Logs")
  * @OA\Tag(name="Management")
  * @OA\Tag(name="Sequence")

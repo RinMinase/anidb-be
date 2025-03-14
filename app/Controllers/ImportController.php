@@ -25,8 +25,8 @@ class ImportController extends Controller {
    *   @OA\Property(property="total", type="integer", format="int32", example=0),
    * ),
    * @OA\Post(
-   *   tags={"Import"},
-   *   path="/api/import",
+   *   tags={"Import - Archaic"},
+   *   path="/api/archaic/import",
    *   summary="Import a JSON file to seed data for all tables",
    *   security={{"token":{}}},
    *
@@ -63,7 +63,7 @@ class ImportController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function index(ImportRequest $request): JsonResponse {
+  public function import_archaic_format(ImportRequest $request): JsonResponse {
     $file = $request->file('file')->get();
 
     if (!is_json($file)) {

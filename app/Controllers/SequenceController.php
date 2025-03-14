@@ -177,8 +177,8 @@ class SequenceController extends Controller {
 
   /**
    * @OA\Post(
-   *   tags={"Import"},
-   *   path="/api/sequences/import",
+   *   tags={"Import - Archaic"},
+   *   path="/api/archaic/import/sequences",
    *   summary="Import a JSON file to seed data for sequences table",
    *   security={{"token":{}}},
    *
