@@ -53,7 +53,8 @@ class ApplicationTest extends BaseTestCase {
       if (
         str_contains($uri, 'api/') &&
         !str_contains($uri, 'api/oauth') &&
-        !str_contains($uri, 'api/fourleaf/')
+        !str_contains($uri, 'api/fourleaf/') &&
+        !str_contains($uri, 'api/local/temp/')
       ) {
         $uri = str_replace('{uuid}', $uuid, $uri);
         $uri = str_replace('{id}', $id, $uri);
