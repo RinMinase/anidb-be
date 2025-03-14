@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as IlluminateConsoleKernel;
 
+use App\Console\Commands\PruneOldLogData;
+
 class ConsoleKernel extends IlluminateConsoleKernel {
   /**
    * Define the application's command schedule.
@@ -13,7 +15,7 @@ class ConsoleKernel extends IlluminateConsoleKernel {
    * @return void
    */
   protected function schedule(Schedule $schedule) {
-    // $schedule->command('inspire')->hourly();
+    $schedule->command(PruneOldLogData::class)->daily();
   }
 
   /**
