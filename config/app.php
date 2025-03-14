@@ -112,9 +112,8 @@ return [
     App\Providers\RouteServiceProvider::class,
 
     /**
-     * Third party providers
-     */
-    CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
+   * Third party providers
+   */
   ],
 
   /*
@@ -169,9 +168,6 @@ return [
     'URL' => Illuminate\Support\Facades\URL::class,
     'Validator' => Illuminate\Support\Facades\Validator::class,
     'View' => Illuminate\Support\Facades\View::class,
-
-    'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
-
   ],
 
   /*
@@ -184,4 +180,5 @@ return [
   'anilist_base_uri' => env('ANILIST_BASE_URI', 'graphql.anilist.co'),
   'vehicle_start_date' => env('VEHICLE_START_DATE', '2023-01-01'),
   'registration_root_password' => env('APP_REGISTRATION_ROOT_PASSWORD', ''),
+  'cloudinary_url' => env('CLOUDINARY_URL', ''),
 ];

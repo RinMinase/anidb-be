@@ -3,7 +3,8 @@
 namespace App\Repositories;
 
 use Carbon\Carbon;
-use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
 use Fuse\Fuse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,15 @@ use App\Resources\Entry\EntryBySequenceResource;
 use App\Resources\Entry\EntrySummaryResource;
 
 class EntryRepository {
+
+  private $cloudinary = null;
+
+  public function __construct() {
+    $config = new Configuration(config('app.cloudinary_url'));
+    $cloudinary = new Cloudinary($config);
+
+    $this->cloudinary = $cloudinary;
+  }
 
   public function getAll(array $values) {
     // Search Parameters
@@ -653,7 +663,7 @@ class EntryRepository {
 
     if (!empty($entry->image)) {
       $image_id = pathinfo($entry->image);
-      (new UploadApi())->destroy('entries/' . $image_id['filename']);
+      $this->cloudinary->uploadApi()->destroy('entries/' . $image_id['filename']);
     }
 
     $imageSettings = [
@@ -661,7 +671,7 @@ class EntryRepository {
       'folder' => 'entries',
     ];
 
-    $imageUpload = (new UploadApi())->upload($image, $imageSettings);
+    $imageUpload = $this->cloudinary->uploadApi()->upload($image, $imageSettings);
     $imageUrl = $imageUpload['secure_url'];
 
     $entry->image = $imageUrl;
@@ -673,7 +683,7 @@ class EntryRepository {
 
     if (!empty($entry->image)) {
       $image_id = pathinfo($entry->image);
-      (new UploadApi())->destroy('entries/' . $image_id['filename']);
+      $this->cloudinary->uploadApi()->destroy('entries/' . $image_id['filename']);
 
       $entry->image = null;
       $entry->save();

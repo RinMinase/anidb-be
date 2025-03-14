@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use Error;
 use Carbon\Carbon;
-use Cloudinary\Api\Admin\AdminApi;
-use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Tests\BaseTestCase;
@@ -112,7 +112,10 @@ class EntryTest extends BaseTestCase {
     if (self::$entry_1_image_url === null) {
       echo PHP_EOL . 'INFO: API call to Cloudinary:AdminAPI:asset' . PHP_EOL;
 
-      $image_url = (new AdminApi())->asset($this->entry_1_image)['url'];
+      $config = new Configuration(config('app.cloudinary_url'));
+      $cloudinary = new Cloudinary($config);
+
+      $image_url = $cloudinary->adminApi()->asset($this->entry_1_image)['url'];
 
       if (!$image_url) {
         throw new Error('Image URL was not acquired');
@@ -1722,7 +1725,10 @@ class EntryTest extends BaseTestCase {
     } finally {
       // Remove Cloudinary image¡
       if ($cloudinary_image) {
-        (new UploadApi())->destroy('entries/' . $cloudinary_image);
+        $config = new Configuration(config('app.cloudinary_url'));
+        $cloudinary = new Cloudinary($config);
+
+        $cloudinary->uploadApi()->destroy('entries/' . $cloudinary_image);
         echo PHP_EOL . 'INFO: API call to Cloudinary:UploadAPI:destroy' . PHP_EOL;
       }
     }
