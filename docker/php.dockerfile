@@ -14,9 +14,10 @@ RUN set -xe; \
 RUN set -xe; \
     apk add --no-cache \
     libpng-dev \
-    libjpeg-turbo-dev
+    libjpeg-turbo-dev \
+    libwebp-dev
 
-RUN docker-php-ext-configure gd --with-jpeg
+RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
 ###########################################################################
