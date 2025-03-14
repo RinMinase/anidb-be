@@ -45,7 +45,7 @@ class LogRepository {
   public static function generateLogs(
     $table_changed = null,
     $id_changed = null,
-    string | array $desc = null,
+    string | array | null $desc = null,
     $action = null,
   ) {
     $description = '';
@@ -70,7 +70,10 @@ class LogRepository {
     ];
 
     Log::create($data);
+    self::remove_old_logs();
+  }
 
+  public static function remove_old_logs() {
     // Keeps the latest 200 entries in logs
     $last_id = Log::latest()->pluck('id')->first();
     Log::where('id', '<=', $last_id - config('app.logs_to_keep'))
