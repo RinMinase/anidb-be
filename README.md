@@ -16,35 +16,13 @@ _Add info here_
 
 ### Environmental variables setup
 
-> Note: You can disable specific modules
-
-This is done by setting these specific ENV flags to true, to disable them.
-
-```
-DISABLE_SCRAPER  - Disables WebScraper
-```
-
 1. Database
 
     Definition of terms:
-    - **DB_CONNECTION** - the database configuration being used by Laravel
-    - **DATABASE_URL** - this is populated whenever an online database is being used
     - **DB_HOST** - docker **container name** of the database
     - **DB_PORT** - port used by the database
     - **DB_DATABASE** - database username
     - **DB_PASSWORD** - database password
-
-    These are the configuration options for the database:
-
-    ```
-    DB_CONNECTION=pgsql
-    DATABASE_URL=
-    DB_HOST=anidb-pgsql
-    DB_PORT=5432
-    DB_DATABASE=anidb
-    DB_USERNAME=postgres
-    DB_PASSWORD=postgres
-    ```
 
     **Notes :** DB_HOST **should** use docker container name of db, by default this is 'anidb-pgsql', but yours could be different. You can check this by running `docker ps` then check the container name of the `postgres` container.
 
@@ -55,7 +33,8 @@ DISABLE_SCRAPER  - Disables WebScraper
 
 
 ### Running the project
-1. [Download](https://www.docker.com/products/docker-desktop) and install `Docker for Windows`.
+
+1. [Download](https://www.docker.com/products/docker-desktop) and install Docker.
 
 2. Clone the project, then install the dependencies
 
@@ -84,30 +63,29 @@ DISABLE_SCRAPER  - Disables WebScraper
     ```bash
     php artisan app:generate-root-password
     ```
-    or you can generate your own from any application of your choosing, and add it under `APP_REGISTRATION_ROOT_PASSWORD` in your `.env` file. An example to generate one is listed below:
+    or you can generate your own from any application, and add it under `APP_REGISTRATION_ROOT_PASSWORD` in your `.env` file. Example:
     ```bash
     openssl rand -hex 36
     ```
 
-6. Modify the ENV file with the **necessary configuration values**
-
-8. Clear the Laravel config cache, then run the database migrations
+6. Cache the config file, then run the database migrations
 
     ```bash
-    php artisan config:clear
+    php artisan config:cache
     php artisan migrate:fresh --seed
     ```
 
-9. Fire up your browser and go to `localhost`.
+7. Fire up your browser and go to `localhost`.
 
 **Note:**
-If you need to access the container run, `docker compose exec php bash`
+If you need to access the container run, `docker compose exec php sh`
+
 
 ### Re-running the project
-1. Navigate inside the docker container
+
+1. Navigate inside the `php` docker container
 
     ```bash
-    docker compose up -d
     docker compose exec php sh
     ```
 
@@ -120,14 +98,29 @@ If you need to access the container run, `docker compose exec php bash`
 
 3. Fire up your browser and go to `localhost`.
 
-### Running the Swagger Generator / API Documentation Generator
 
-1. Navigate inside the docker container
+### Running scheduled tasks
+
+1. Navigate inside the `php` docker container
+
+2. Run the command to run the scheduled tasks manually
 
     ```bash
-    docker compose up -d
-    docker compose exec php sh
+    php artisan schedule:run
     ```
+
+There are a few commands specific to running tasks:
+
+| Name              | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| `schedule:run`    | `Runs the scheduled tasks manually` **with respect to cron** |
+| `schedule:work`   | `Runs the scheduler daemon / worker`                         |
+| `schedule:list`   | `Lists the upcoming tasks to be run`                         |
+
+
+### Running the Swagger Generator / API Documentation Generator
+
+1. Navigate inside the `php` docker container
 
 2. Run the command to generate the documentations inside the container
 
@@ -138,20 +131,15 @@ If you need to access the container run, `docker compose exec php bash`
 3. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
 ### Running the Unit Tests
-1. Navigate inside the docker container
-
-    ```bash
-    docker compose up -d
-    docker compose exec php sh
-    ```
+1. Navigate inside the `php` docker container
 
 2. Run the command below:
     ```bash
     php artisan test
     ```
     or if you want to run a specific test module
-    ```bash
-    php artisan test --filter <Class Name of Test File>
+    ```
+    php artisan test --filter <Class name of Test File | function name>
     ```
     or if you want to run a specific single test
     ```bash
@@ -167,6 +155,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 | `pa` or `artisan` | `php artisan`           |
 | `docs`            | `composer docs`         |
 | `dump` or `da`    | `composer dumpautoload` |
+
 
 ### Project Structure
     .
