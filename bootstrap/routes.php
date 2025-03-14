@@ -18,6 +18,7 @@ use App\Controllers\EntryBySequenceController;
 use App\Controllers\EntryByYearController;
 use App\Controllers\EntryController;
 use App\Controllers\EntryLastController;
+use App\Controllers\ExportController;
 use App\Controllers\GenreController;
 use App\Controllers\GroupController;
 use App\Controllers\ImportController;
@@ -123,6 +124,11 @@ Route::prefix('api')
   ->namespace('App\Controllers')
   ->group(function () {
 
+    Route::get('local/temp/{path}', [ExportController::class, 'download'])
+      ->where('path', '(.*)')
+      ->middleware('signed')
+      ->name('files.download');
+
     Route::prefix('auth')
       ->group(function () {
         Route::post('register', [AuthController::class, 'register']);
@@ -155,7 +161,7 @@ Route::prefix('api')
           ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [ExportController::class, 'index']);
-            Route::get('{uuid}', [ExportController::class, 'download']);
+            Route::get('{uuid}', [ExportController::class, 'generate_download_url']);
 
             Route::post('sql', [ExportController::class, 'generate_sql']);
             Route::post('json', [ExportController::class, 'generate_json']);
