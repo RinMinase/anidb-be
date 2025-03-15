@@ -23,7 +23,6 @@
         "darkaonline/l5-swagger": "~9.0.1",
         "laravel/framework": "~11.44.1",
         "laravel/sanctum": "~4.0.8",
-        "loilo/fuse": "~7.1.1",
         "nesbot/carbon": "~3.8.6",
         "tpetry/laravel-postgresql-enhanced": "~2.3.4"
     },
