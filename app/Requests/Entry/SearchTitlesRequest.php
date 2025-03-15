@@ -48,17 +48,12 @@ class SearchTitlesRequest extends FormRequest {
   }
 
   public function failedValidation(Validator $validator) {
+    /** @disregard TypeInvalid */
     throw new HttpResponseException(
       response()->json([
         'status' => 401,
         'data' => $validator->errors(),
       ], 401)
     );
-  }
-
-  public function messages() {
-    $validation = require config_path('validation.php');
-
-    return array_merge($validation, []);
   }
 }
