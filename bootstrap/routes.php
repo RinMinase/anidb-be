@@ -54,6 +54,23 @@ Route::middleware('web')
 
     Route::view('/', 'index', ['isProd' => $isProd])->name('home');
 
+    Route::get('/health', function () {
+      $exception = null;
+
+      try {
+        // Check database layer
+        // Check API layer
+        // Check Scraper layer
+        // Check cloudinary layer
+
+        // throw new Exception('Trigger exception');
+      } catch (Exception $e) {
+        $exception = $e->getMessage();
+      }
+
+      return view('health', ['exception' => $exception]);
+    });
+
     if (!$isProd) {
       Route::get('/api-docs', function () {
         $apidocJsonFile = URL::to('/') . '/docs';
