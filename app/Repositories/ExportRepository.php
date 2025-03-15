@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 
 use App\Exceptions\Export\FileIncompleteException;
@@ -26,7 +27,7 @@ class ExportRepository {
       return Storage::temporaryUrl($file, now()->addMinutes(10));
     }
 
-    throw new ModelNotFoundException;
+    throw new ModelNotFoundException();
   }
 
   public function download($path) {
