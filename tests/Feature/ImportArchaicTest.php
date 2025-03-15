@@ -14,7 +14,7 @@ use App\Models\Group;
 // use App\Models\PCSetup;
 use App\Models\Sequence;
 
-class ImportTest extends BaseTestCase {
+class ImportArchaicTest extends BaseTestCase {
 
   // Backup related variables
   private $bucket_backup = null;
@@ -115,7 +115,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/buckets/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/buckets/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -131,12 +131,12 @@ class ImportTest extends BaseTestCase {
   }
 
   public function test_should_not_import_buckets_when_no_file_is_attached() {
-    $response = $this->withoutMiddleware()->post('/api/buckets/import/');
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/buckets/');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
 
-    $response = $this->withoutMiddleware()->post('/api/buckets/import/', ['file' => null]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/buckets/', ['file' => null]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -145,7 +145,7 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_buckets_when_file_type_is_invalid() {
     $file = UploadedFile::fake()->create('test_file.txt');
 
-    $response = $this->withoutMiddleware()->post('/api/buckets/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/buckets/', ['file' => $file]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -154,14 +154,14 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_buckets_when_json_content_is_invalid() {
     $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
 
-    $response = $this->withoutMiddleware()->post('/api/buckets/import/', ['file' => $file_1]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/buckets/', ['file' => $file_1]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
 
     $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
 
-    $response = $this->withoutMiddleware()->post('/api/buckets/import/', ['file' => $file_2]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/buckets/', ['file' => $file_2]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
@@ -180,7 +180,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/groups/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/groups/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -196,12 +196,12 @@ class ImportTest extends BaseTestCase {
   }
 
   public function test_should_not_import_groups_when_no_file_is_attached() {
-    $response = $this->withoutMiddleware()->post('/api/groups/import/');
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/groups/');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
 
-    $response = $this->withoutMiddleware()->post('/api/groups/import/', ['file' => null]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/groups/', ['file' => null]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -210,7 +210,7 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_groups_when_file_type_is_invalid() {
     $file = UploadedFile::fake()->create('test_file.txt');
 
-    $response = $this->withoutMiddleware()->post('/api/groups/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/groups/', ['file' => $file]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -219,14 +219,14 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_groups_when_json_content_is_invalid() {
     $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
 
-    $response = $this->withoutMiddleware()->post('/api/groups/import/', ['file' => $file_1]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/groups/', ['file' => $file_1]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
 
     $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
 
-    $response = $this->withoutMiddleware()->post('/api/groups/import/', ['file' => $file_2]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/groups/', ['file' => $file_2]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
@@ -441,7 +441,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/sequences/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/sequences/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -470,12 +470,12 @@ class ImportTest extends BaseTestCase {
   }
 
   public function test_should_not_import_sequences_when_no_file_is_attached() {
-    $response = $this->withoutMiddleware()->post('/api/sequences/import/');
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/sequences/');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
 
-    $response = $this->withoutMiddleware()->post('/api/sequences/import/', ['file' => null]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/sequences/', ['file' => null]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -484,7 +484,7 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_sequences_when_file_type_is_invalid() {
     $file = UploadedFile::fake()->create('test_file.txt');
 
-    $response = $this->withoutMiddleware()->post('/api/sequences/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/sequences/', ['file' => $file]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -493,14 +493,14 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_sequences_when_json_content_is_invalid() {
     $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
 
-    $response = $this->withoutMiddleware()->post('/api/sequences/import/', ['file' => $file_1]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/sequences/', ['file' => $file_1]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
 
     $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
 
-    $response = $this->withoutMiddleware()->post('/api/sequences/import/', ['file' => $file_2]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/sequences/', ['file' => $file_2]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
@@ -539,7 +539,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -606,7 +606,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -680,7 +680,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -791,11 +791,11 @@ class ImportTest extends BaseTestCase {
         'graphics' => translate_rating_10_to_5($content[1]['rating']['graphics']),
         'plot' => translate_rating_10_to_5($content[1]['rating']['plot']),
       ]
-      ];
+    ];
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -825,12 +825,12 @@ class ImportTest extends BaseTestCase {
   }
 
   public function test_should_not_import_entries_when_no_file_is_attached() {
-    $response = $this->withoutMiddleware()->post('/api/entries/import/');
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => null]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => null]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -839,7 +839,7 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_entries_when_file_type_is_invalid() {
     $file = UploadedFile::fake()->create('test_file.txt');
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -848,14 +848,14 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_entries_when_json_content_is_invalid() {
     $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file_1]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file_1]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
 
     $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
 
-    $response = $this->withoutMiddleware()->post('/api/entries/import/', ['file' => $file_2]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/entries/', ['file' => $file_2]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
@@ -924,7 +924,7 @@ class ImportTest extends BaseTestCase {
 
     $file = UploadedFile::fake()->createWithContent('test_file.json', json_encode($content));
 
-    $response = $this->withoutMiddleware()->post('/api/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/', ['file' => $file]);
 
     $response->assertStatus(200)
       ->assertJson([
@@ -962,12 +962,12 @@ class ImportTest extends BaseTestCase {
   }
 
   public function test_should_not_import_data_when_no_file_is_attached() {
-    $response = $this->withoutMiddleware()->post('/api/import/');
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
 
-    $response = $this->withoutMiddleware()->post('/api/import/', ['file' => null]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/', ['file' => null]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -976,7 +976,7 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_data_when_file_type_is_invalid() {
     $file = UploadedFile::fake()->create('test_file.txt');
 
-    $response = $this->withoutMiddleware()->post('/api/import/', ['file' => $file]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/', ['file' => $file]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['file']]);
@@ -985,14 +985,14 @@ class ImportTest extends BaseTestCase {
   public function test_should_not_import_data_when_json_content_is_invalid() {
     $file_1 = UploadedFile::fake()->createWithContent('test_file.json', '{malformedjson}');
 
-    $response = $this->withoutMiddleware()->post('/api/import/', ['file' => $file_1]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/', ['file' => $file_1]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
 
     $file_2 = UploadedFile::fake()->createWithContent('test_file.json', 'invalid json');
 
-    $response = $this->withoutMiddleware()->post('/api/import/', ['file' => $file_2]);
+    $response = $this->withoutMiddleware()->post('/api/archaic/import/', ['file' => $file_2]);
 
     $response->assertStatus(400)
       ->assertJson(['message' => 'The file is an invalid JSON']);
