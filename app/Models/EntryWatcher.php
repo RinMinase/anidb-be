@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -32,6 +32,4 @@ class EntryWatcher extends Model {
   ];
 
   protected $hidden = [];
-
-  protected $casts = [];
 }

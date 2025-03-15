@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class PCInfo extends Model {
 
@@ -25,8 +25,6 @@ class PCInfo extends Model {
   protected $hidden = [
     'id',
   ];
-
-  protected $casts = [];
 
   public function owner() {
     return $this->belongsTo(PCOwner::class, 'id_owner');

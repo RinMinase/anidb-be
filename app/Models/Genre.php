@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -23,6 +23,4 @@ class Genre extends Model {
   protected $fillable = [];
 
   protected $hidden = [];
-
-  protected $casts = [];
 }

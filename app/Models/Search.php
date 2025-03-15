@@ -15,10 +15,12 @@ class Search extends Model {
     'id',
   ];
 
-  protected $casts = [
-    'updated_at' => 'datetime:Y-m-d H:i:s',
-    'created_at' => 'datetime:Y-m-d H:i:s',
-  ];
+  protected function casts(): array {
+    return [
+      'updated_at' => 'datetime:Y-m-d H:i:s',
+      'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+  }
 
   public function user() {
     return $this->belongsTo(User::class, 'id_user');

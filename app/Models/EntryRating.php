@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class EntryRating extends Model {
 
@@ -28,6 +28,4 @@ class EntryRating extends Model {
     'updated_at',
     'deleted_at',
   ];
-
-  protected $casts = [];
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -51,7 +51,9 @@ class Log extends Model {
     'id',
   ];
 
-  protected $casts = [
-    'created_at' => 'datetime:Y-m-d H:i:s',
-  ];
+  protected function casts(): array {
+    return [
+      'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+  }
 }

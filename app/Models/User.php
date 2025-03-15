@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as BaseAuthModel;
 use Laravel\Sanctum\HasApiTokens;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -35,8 +35,6 @@ class User extends BaseAuthModel {
     'id',
     'password',
   ];
-
-  protected $casts = [];
 
   public function searches() {
     return $this->hasOne(Search::class, 'id_user');

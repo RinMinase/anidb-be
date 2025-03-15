@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class EntryGenre extends Model {
 
@@ -21,8 +21,6 @@ class EntryGenre extends Model {
   protected $hidden = [
     'id_entries',
   ];
-
-  protected $casts = [];
 
   public function genre() {
     return $this->belongsTo(Genre::class, 'id_genres');

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class EntryRewatch extends Model {
 
@@ -22,6 +22,4 @@ class EntryRewatch extends Model {
     'id',
     'id_entries',
   ];
-
-  protected $casts = [];
 }

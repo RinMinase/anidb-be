@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class Entry extends Model {
 
@@ -42,9 +42,11 @@ class Entry extends Model {
     'deleted_at',
   ];
 
-  protected $casts = [
-    'created_at' => 'datetime:Y-m-d H:i:s',
-  ];
+  protected function casts(): array {
+    return [
+      'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+  }
 
   public function quality() {
     return $this->belongsTo(Quality::class, 'id_quality');

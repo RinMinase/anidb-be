@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class EntryOffquel extends Model {
 
@@ -21,8 +21,6 @@ class EntryOffquel extends Model {
   protected $hidden = [
     'id_entries',
   ];
-
-  protected $casts = [];
 
   public function entry() {
     return $this->belongsTo(Entry::class, 'id_entries_offquel');

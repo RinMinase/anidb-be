@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -32,8 +32,6 @@ class PCOwner extends Model {
   protected $hidden = [
     'id',
   ];
-
-  protected $casts = [];
 
   public function infos() {
     return $this->hasMany(PCInfo::class, 'id_owner');
