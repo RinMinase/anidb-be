@@ -31,6 +31,9 @@
         justify-content: space-between;
         padding: 10px;
       }
+      .nav .left {
+        display: flex;
+      }
       .nav .item {
         margin: 0 10px;
         padding: 10px;
@@ -81,11 +84,16 @@
 
   <body>
     <div class="nav">
+      <div class="left">
       @if($isProd == false)
         <p class="item">
           <a href="/api-docs">Docs</a>
         </p>
       @endif
+      <p class="item">
+        <a href="/health">Health</a>
+      </p>
+    </div>
       <p class="item source">
         <a
           href="https://github.com/RinMinase/anidb-be"
