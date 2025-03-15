@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Fuse\Fuse;
 use Illuminate\Support\Str;
 
 use App\Exceptions\Partial\ParsingException;
@@ -15,61 +14,36 @@ use App\Resources\Partial\PartialWithCatalogResource;
 
 class PartialRepository {
 
-  public function getAll(array $values) {
+  public function get_all(array $values) {
     // Search Parameters
     $query = $values['query'] ?? '';
 
     // Ordering Parameters
-    $column = $values['column'] ?? 'id_catalog';
+    $column = $values['column'] ?? null;
     $order = $values['order'] ?? 'asc';
 
     // Pagination Parameters
     $limit = isset($values['limit']) ? intval($values['limit']) : 30;
     $page = isset($values['page']) ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+    $nulls = $order === 'asc' ? 'first' : 'last';
 
     $data = Partial::select()->with('catalog');
     $fuzzy_ids = [];
 
     if (!empty($query)) {
-      $names = Partial::select('uuid', 'title')->get()->toArray();
+      $data = $data->whereRaw('similarity(partials.title, \'' . $query . '\') >= 0.15');
 
-      $fuse = new Fuse($names, [
-        'keys' => ['title'],
-        'threshold' => 0.2,
-      ]);
-
-      $fuzzy_names = $fuse->search($query);
-
-      foreach ($fuzzy_names as $fuzzy_name) {
-        $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
-      }
-
-      if (count($fuzzy_ids)) {
-        $case_string = 'CASE ';
-        foreach ($fuzzy_ids as $key => $fuzzy_id) {
-          $data = $data->orWhere('uuid', $fuzzy_id);
-          $case_string .= 'WHEN uuid=\'' . $fuzzy_id . '\' THEN ' . $key + 1 . ' ';
-        }
-        $case_string .= 'END';
-
-        if (isset($column) && isset($order)) {
-          $nulls = $order === 'asc' ? 'first' : 'last';
-          $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
-        } else {
-          // if no order and column, sort by fuzzy search
-          $data = $data->orderByRaw($case_string);
-        }
-
-        $data = $data->orderBy('id');
+      if (isset($column) && isset($order)) {
+        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
+      } else {
+        $data = $data->orderByRaw('similarity(partials.title, \'' . $query . '\') DESC');
       }
     } else {
-      if (isset($column) && isset($order)) {
-        $nulls = $order === 'asc' ? 'first' : 'last';
-        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
-      }
+      $data = $data->orderByRaw($column ?? 'id_catalog' . ' ' . $order . ' NULLS ' . $nulls);
     }
 
+    $data = $data->orderBy('title', 'asc')->orderBy('id');
     $total = $data->count();
     $total_pages = intval(ceil($total / $limit));
     $has_next = $page < $total_pages;

@@ -59,13 +59,9 @@ class PartialController extends Controller {
    * )
    */
   public function index(GetAllRequest $request) {
-    $data = $this->partialRepository->getAll($request->only(
-      'query',
-      'column',
-      'order',
-      'page',
-      'limit',
-    ));
+    $data = $this->partialRepository->get_all(
+      $request->only('query', 'column', 'order', 'page', 'limit')
+    );
 
     return DefaultResponse::success(null, [
       'data' => $data['data'],

@@ -72,7 +72,7 @@ class EntryController extends Controller {
    * )
    */
   public function index(GetAllRequest $request): JsonResponse {
-    $data = $this->entryRepository->getAll(
+    $data = $this->entryRepository->get_all(
       $request->only('query', 'column', 'order', 'limit', 'page')
     );
 
@@ -734,9 +734,9 @@ class EntryController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function getTitles(SearchTitlesRequest $request): JsonResponse {
+  public function get_titles(SearchTitlesRequest $request): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->entryRepository->getTitles(
+      'data' => $this->entryRepository->get_titles(
         $request->get('id'),
         $request->get('id_excluded') ?? false,
         $request->get('needle') ?? '',

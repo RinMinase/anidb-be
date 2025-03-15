@@ -201,7 +201,7 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', [EntryController::class, 'index']);
             Route::get('{uuid}', [EntryController::class, 'get']);
-            Route::get('titles', [EntryController::class, 'getTitles']);
+            Route::get('titles', [EntryController::class, 'get_titles']);
           });
 
         // Admin-required Entry Routes

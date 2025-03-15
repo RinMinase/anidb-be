@@ -5,7 +5,6 @@ namespace App\Repositories;
 use Carbon\Carbon;
 use Cloudinary\Cloudinary;
 use Cloudinary\Configuration\Configuration;
-use Fuse\Fuse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -36,72 +35,43 @@ class EntryRepository {
     $this->cloudinary = $cloudinary;
   }
 
-  public function getAll(array $values) {
+  public function get_all(array $values) {
     // Search Parameters
     $query = $values['query'] ?? '';
 
     // Ordering Parameters
-    $column = $values['column'] ?? 'id_quality';
+    $column = $values['column'] ?? null;
     $order = $values['order'] ?? 'asc';
 
     // Pagination Parameters
     $limit = isset($values['limit']) ? intval($values['limit']) : 50;
     $page = isset($values['page']) ? intval($values['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+    $nulls = $order === 'asc' ? 'first' : 'last';
 
     $data = Entry::select()->with('rating');
     $fuzzy_ids = [];
 
     if (!empty($query)) {
-      $names = Entry::select('uuid', 'title', 'release_season')
-        ->addSelect('encoder_audio', 'encoder_video', 'encoder_subs')
-        ->get()
-        ->toArray();
+      $data = $data->where(function ($q) use ($query) {
+        $q->orWhereRaw('similarity(entries.title, \'' . $query . '\') >= 0.15')
+          ->orWhereRaw('similarity(entries.release_season, \'' . $query . '\') >= 0.25')
+          ->orWhereRaw('similarity(entries.release_year::text, \'' . $query . '\') = 1')
+          ->orWhereRaw('similarity(entries.encoder_audio, \'' . $query . '\') >= 0.15')
+          ->orWhereRaw('similarity(entries.encoder_video, \'' . $query . '\') >= 0.15')
+          ->orWhereRaw('similarity(entries.encoder_subs, \'' . $query . '\') >= 0.15');
+      });
 
-      $fuse = new Fuse($names, [
-        'keys' => [
-          'title',
-          'release_season',
-          'encoder_audio',
-          'encoder_video',
-          'encoder_subs',
-        ],
-        'threshold' => 0.2,
-      ]);
-
-      $fuzzy_names = $fuse->search($query);
-
-      foreach ($fuzzy_names as $fuzzy_name) {
-        $fuzzy_ids[] = $fuzzy_name['item']['uuid'];
-      }
-
-      if (count($fuzzy_ids)) {
-        $case_string = 'CASE ';
-        foreach ($fuzzy_ids as $key => $fuzzy_id) {
-          $data = $data->orWhere('uuid', $fuzzy_id);
-          $case_string .= 'WHEN uuid=\'' . $fuzzy_id . '\' THEN ' . $key + 1 . ' ';
-        }
-        $case_string .= 'END';
-
-        if (isset($column) && isset($order)) {
-          $nulls = $order === 'asc' ? 'first' : 'last';
-          $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
-        } else {
-          // if no order and column, sort by fuzzy search
-          $data = $data->orderByRaw($case_string);
-        }
-
-        $data = $data->orderBy('id');
+      if (isset($column) && isset($order)) {
+        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls);
+      } else {
+        $data = $data->orderByRaw('similarity(entries.title, \'' . $query . '\') DESC');
       }
     } else {
-      if (isset($column) && isset($order)) {
-        $nulls = $order === 'asc' ? 'first' : 'last';
-        $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls)
-          ->orderBy('title', 'asc')
-          ->orderBy('id', 'asc');
-      }
+      $data = $data->orderByRaw($column ?? 'id_quality' . ' ' . $order . ' NULLS ' . $nulls);
     }
 
+    $data = $data->orderBy('entries.title', 'asc')->orderBy('id');
     $total = $data->count();
     $total_pages = intval(ceil($total / $limit));
     $has_next = $page < $total_pages;
@@ -717,73 +687,31 @@ class EntryRepository {
       ->delete();
   }
 
-  public function getTitles($id, bool $id_excluded, ?string $needle) {
+  public function get_titles($id, bool $id_excluded, ?string $needle) {
+    $data = Entry::select('uuid', 'title');
+
     if (!empty($needle)) {
-      $names = Entry::select('uuid', 'title')
-        ->where('uuid', '!=', $id)
-        ->get()
-        ->toArray();
-
-      $fuse = new Fuse($names, ['keys' => ['title']]);
-      $fuzzy_names = $fuse->search($needle, ['limit' => 14]);
-
-      $current_title = null;
-      if (!$id_excluded) {
-        $current_title = Entry::select('uuid', 'title')
-          ->where('uuid', $id)
-          ->first();
-      }
-
-      $final_array = [];
-
-      if (!$id_excluded && $current_title) {
-        array_push($final_array, [
-          'id' => $current_title['uuid'],
-          'title' => $current_title['title'],
-        ]);
-      }
-
-      foreach ($fuzzy_names as $fuzzy_name) {
-        array_push($final_array, [
-          'id' => $fuzzy_name['item']['uuid'],
-          'title' => $fuzzy_name['item']['title'],
-        ]);
-      }
-
-      return $final_array;
-    } else {
-      $titles = Entry::select('uuid', 'title')
-        ->where('uuid', '!=', $id)
-        ->orderBy('title')
-        ->take(14)
-        ->get()
-        ->toArray();
-
-      $current_title = null;
-      if (!$id_excluded) {
-        $current_title = Entry::select('uuid', 'title')
-          ->where('uuid', $id)
-          ->first();
-      }
-
-      $final_array = [];
-
-      if (!$id_excluded && $current_title) {
-        array_push($final_array, [
-          'id' => $current_title['uuid'],
-          'title' => $current_title['title'],
-        ]);
-      }
-
-      foreach ($titles as $value) {
-        array_push($final_array, [
-          'id' => $value['uuid'],
-          'title' => $value['title'],
-        ]);
-      }
-
-      return $final_array;
+      $data = $data->whereRaw('similarity(title, \'' . $needle . '\') >= 0.15')
+        ->orderByRaw('similarity(title, \'' . $needle . '\') DESC');
     }
+
+    if ($id_excluded) {
+      $data = $data->where('uuid', '!=', $id);
+    }
+
+    $data = $data
+      ->orderBy('title', 'asc')
+      ->orderBy('id', 'asc')
+      ->limit(15)
+      ->get()
+      ->toArray();
+
+    foreach ($data as $key => $value) {
+      $data[$key]['id'] = $data[$key]['uuid'];
+      unset($data[$key]['uuid']);
+    }
+
+    return $data;
   }
 
   public function get_watchers() {
