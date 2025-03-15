@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Console\PruneOldLogData;
 use App\Exceptions\CustomException;
-
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -34,6 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
   })
 
   ->withExceptions(function (Exceptions $exceptions) {
+    Integration::handles($exceptions);
+
     $exceptions->render(function (Exception $e) {
       if ($e instanceof MethodNotAllowedHttpException)
         return response()->json(['status' => 400, 'message' => 'Invalid requestssss'], 400);
