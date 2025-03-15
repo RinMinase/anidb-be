@@ -4,7 +4,7 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -57,6 +57,4 @@ class BillsElectricity extends Model {
   protected $hidden = [
     'id'
   ];
-
-  protected $casts = [];
 }

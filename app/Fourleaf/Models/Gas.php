@@ -4,7 +4,7 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -34,6 +34,4 @@ class Gas extends Model {
   ];
 
   protected $hidden = [];
-
-  protected $casts = [];
 }

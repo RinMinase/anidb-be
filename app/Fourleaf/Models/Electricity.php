@@ -4,7 +4,7 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -26,7 +26,9 @@ class Electricity extends Model {
 
   protected $hidden = [];
 
-  protected $casts = [
-    'datetime' => 'datetime:Y-m-d H:i',
-  ];
+  protected function casts(): array {
+    return [
+      'datetime' => 'datetime:Y-m-d H:i'
+    ];
+  }
 }

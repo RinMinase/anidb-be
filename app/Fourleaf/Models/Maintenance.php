@@ -4,7 +4,7 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 class Maintenance extends Model {
 
@@ -20,8 +20,6 @@ class Maintenance extends Model {
   ];
 
   protected $hidden = [];
-
-  protected $casts = [];
 
   public function parts() {
     return $this->hasMany(MaintenancePart::class, 'id_fourleaf_maintenance');

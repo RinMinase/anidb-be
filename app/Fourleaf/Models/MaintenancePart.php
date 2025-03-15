@@ -4,7 +4,7 @@ namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Traits\RefreshableAutoIncrements;
+use App\Models\Traits\RefreshableAutoIncrements;
 
 /**
  * @OA\Schema(
@@ -26,8 +26,6 @@ class MaintenancePart extends Model {
   ];
 
   protected $hidden = [];
-
-  protected $casts = [];
 
   public function type() {
     return $this->belongsTo(MaintenancePartType::class, 'id_fourleaf_maintenance_type');
