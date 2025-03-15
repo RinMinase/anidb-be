@@ -302,13 +302,13 @@
                 ]
             }
         },
-        "/api/buckets/import": {
+        "/api/archaic/import/buckets": {
             "post": {
                 "tags": [
-                    "Import"
+                    "Import - Archaic"
                 ],
                 "summary": "Import a JSON file to seed data for buckets table",
-                "operationId": "9a965f62b5a54805017bc2a953f1e14f",
+                "operationId": "ded3aafb95b4e058db5ba64b03e0888e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1561,7 +1561,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "groups,qualities,codecs"
+                        "example": "groups,qualities,codecs,genres,watchers"
                     }
                 ],
                 "responses": {
@@ -2891,13 +2891,13 @@
                 ]
             }
         },
-        "/api/entries/import": {
+        "/api/archaic/import/entries": {
             "post": {
                 "tags": [
-                    "Import"
+                    "Import - Archaic"
                 ],
                 "summary": "Import a JSON file to seed data for entries table",
-                "operationId": "e785b0fe96f59915e0a14d08a85e7e57",
+                "operationId": "a73c3c0d7c9f5505c430bef847f20a2c",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3298,7 +3298,7 @@
                     "Entry"
                 ],
                 "summary": "Search Entry titles - For First Season Title, Prequel and Sequel",
-                "operationId": "3f43b8fa0b3da95705bcd9ffce241635",
+                "operationId": "9b08350bd26b5cf67e3489fe56baf7c1",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/entry_search_titles_id"
@@ -3524,6 +3524,115 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/exports": {
+            "get": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Get All Exports",
+                "operationId": "b4b14559f518a78faec71f92d120ad7b",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Export"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/exports/{export_id}": {
+            "get": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Get Single Export",
+                "operationId": "7c31231f2ba48d73ff0f9e55116b6bef",
+                "parameters": [
+                    {
+                        "name": "export_id",
+                        "in": "path",
+                        "description": "Export UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "example": "https://download.url?expires=00000&signature=<signature>"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ExportFileIncompleteResponse"
                     },
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
@@ -3791,13 +3900,13 @@
                 ]
             }
         },
-        "/api/groups/import": {
+        "/api/archaic/import/groups": {
             "post": {
                 "tags": [
-                    "Import"
+                    "Import - Archaic"
                 ],
                 "summary": "Import a JSON file to seed data for groups table",
-                "operationId": "1c902ab05f2343a325fd5bfdda105c88",
+                "operationId": "5c2c1eb836fd83f16ea82c55e902e387",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3851,13 +3960,13 @@
                 ]
             }
         },
-        "/api/import": {
+        "/api/archaic/import": {
             "post": {
                 "tags": [
-                    "Import"
+                    "Import - Archaic"
                 ],
                 "summary": "Import a JSON file to seed data for all tables",
-                "operationId": "1b207f753c71f9141c62e2468fb0c199",
+                "operationId": "e740180181f3399721b6e805cdfda2ac",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3964,35 +4073,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "properties": {
-                                                            "uuid": {
-                                                                "type": "string",
-                                                                "format": "uuid",
-                                                                "example": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
-                                                            },
-                                                            "tableChanged": {
-                                                                "type": "string",
-                                                                "example": "marathon"
-                                                            },
-                                                            "idChanged": {
-                                                                "type": "string",
-                                                                "example": 1
-                                                            },
-                                                            "description": {
-                                                                "type": "string",
-                                                                "example": "title changed from 'old' to 'new'"
-                                                            },
-                                                            "action": {
-                                                                "type": "string",
-                                                                "example": "add"
-                                                            },
-                                                            "createdAt": {
-                                                                "type": "string",
-                                                                "format": "date-time",
-                                                                "example": "2020-01-01 00:00:00"
-                                                            }
-                                                        },
-                                                        "type": "object"
+                                                        "$ref": "#/components/schemas/Log"
                                                     }
                                                 }
                                             },
@@ -6130,13 +6211,13 @@
                 ]
             }
         },
-        "/api/sequences/import": {
+        "/api/archaic/import/sequences": {
             "post": {
                 "tags": [
-                    "Import"
+                    "Import - Archaic"
                 ],
                 "summary": "Import a JSON file to seed data for sequences table",
-                "operationId": "6294a111c8eeb0bce46f45ef2698d9ba",
+                "operationId": "68531d4871aef6c60f4b5afeee82c4d6",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -8133,6 +8214,38 @@
                     "color": "#ffffff"
                 }
             },
+            "Export": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "json"
+                    },
+                    "expires": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    },
+                    "isFinished": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "isAutomated": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
             "Genre": {
                 "properties": {
                     "id": {
@@ -8164,6 +8277,37 @@
                     "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
                     "name": "Sample Group Name"
                 }
+            },
+            "Log": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "9ef81943-78f0-4d1c-a831-a59fb5af339c"
+                    },
+                    "tableChanged": {
+                        "type": "string",
+                        "example": "marathon"
+                    },
+                    "idChanged": {
+                        "type": "string",
+                        "example": 1
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "title changed from 'old' to 'new'"
+                    },
+                    "action": {
+                        "type": "string",
+                        "example": "add"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
             },
             "PCComponent": {
                 "properties": {
@@ -9252,6 +9396,29 @@
                             "data": {
                                 "offquel_id": "{{ validation message }}"
                             }
+                        }
+                    }
+                }
+            },
+            "ExportFileIncompleteResponse": {
+                "description": "Export File Incomplete Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 400,
+                            "message": "The file is still incomplete"
                         }
                     }
                 }
@@ -11651,6 +11818,9 @@
         },
         {
             "name": "Import"
+        },
+        {
+            "name": "Import - Archaic"
         },
         {
             "name": "Logs"
