@@ -56,3 +56,15 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     command: -c shared_buffers=512MB
+
+  dbui:
+    container_name: anidb-pgsql-gui
+    image: sosedoff/pgweb:0.16.2
+    profiles: [optional]
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      - PGWEB_DATABASE_URL=postgres://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-anidb-pgsql}:${DB_PORT:-5432}/${DB_DATABASE:-anidb}?sslmode=disable
+    depends_on:
+      - db
