@@ -88,6 +88,27 @@ _Add info here_
 If you need to access the container run, `docker compose exec php sh`
 
 
+### Running the optional containers
+
+List of **optional** containers:
+
+| Name   | Description                                                                |
+| ------ | -------------------------------------------------------------------------- |
+| dbui   | GUI for postgres using [sosedoff/pgweb](https://github.com/sosedoff/pgweb) |
+
+You can run them individually by:
+
+```bash
+docker compose up -d <name>
+```
+
+Or run all of them by:
+
+```bash
+docker compose up -d --profile optional
+```
+
+
 ### Re-running the project
 
 1. Navigate inside the `php` docker container
