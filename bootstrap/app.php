@@ -1,7 +1,5 @@
 <?php
 
-/* Create The Application */
-
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,6 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Console\PruneOldLogData;
 use App\Exceptions\CustomException;
+use App\Middleware\ShouldHaveApiKey;
+use App\Middleware\VerifyCsrfToken;
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -25,10 +25,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
   ->withMiddleware(function (Middleware $middleware) {
     $middleware->web(replace: [
-      Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class => App\Middleware\VerifyCsrfToken::class,
+      Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class => VerifyCsrfToken::class,
     ]);
 
     $middleware->api(prepend: [
+      ShouldHaveApiKey::class,
       'throttle:api',
     ]);
   })
