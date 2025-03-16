@@ -6,23 +6,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 class GenerateRootPassword extends Command {
-  /**
-   * The name and signature of the console command.
-   *
-   * @var string
-   */
   protected $signature = 'app:generate-root-password';
+  protected $description = 'Generate a Root Password for admin registration and store it in .env';
 
-  /**
-   * The console command description.
-   *
-   * @var string
-   */
-  protected $description = 'Command description';
-
-  /**
-   * Execute the console command.
-   */
   public function handle() {
     $rand_key = Str::random(36);
     $path = base_path('.env');
@@ -38,6 +24,6 @@ class GenerateRootPassword extends Command {
       );
     }
 
-    $this->info('Key Generated: ' . $rand_key);
+    $this->info('Root Key Generated: ' . $rand_key);
   }
 }
