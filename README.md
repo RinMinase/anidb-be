@@ -50,7 +50,7 @@ _Add info here_
     docker compose exec php sh
     ```
 
-4. Inside the docker image, copy the env file, install the necessary dependencies and generate the API Key
+4. Inside the docker image, copy the env file, install the necessary dependencies and generate the necessary key for laravel
 
     ```bash
     cp .env.example .env
@@ -58,17 +58,24 @@ _Add info here_
     php artisan key:generate
     ```
 
-5. Generate the necessary root password key and take note of this is as this is REQUIRED to create admin accounts
+5. Generate the necessary API key and take note of this is as this is REQUIRED to access the API
 
     ```bash
-    php artisan app:generate-root-password
+    php artisan app:api-key
     ```
-    or you can generate your own from any application, and add it under `APP_REGISTRATION_ROOT_PASSWORD` in your `.env` file. Example:
+    or you can generate your own from any application, and add it under `API_KEY` in your `.env` file. Example:
     ```bash
     openssl rand -hex 36
     ```
 
-6. Cache the config file, then run the database migrations
+6. Generate the necessary root password key and take note of this is as this is REQUIRED to create admin accounts
+
+    ```bash
+    php artisan app:generate-root-password
+    ```
+    or generate your own, and add it under `APP_REGISTRATION_ROOT_PASSWORD` in your `.env` file.
+
+7. Cache the config file, then run the database migrations
 
     ```bash
     php artisan config:cache
@@ -101,7 +108,7 @@ If you need to access the container run, `docker compose exec php sh`
 
 ### Running scheduled tasks
 
-1. Navigate inside the `php` docker container
+1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
 
 2. Run the command to run the scheduled tasks manually
 
@@ -120,7 +127,7 @@ There are a few commands specific to running tasks:
 
 ### Running the Swagger Generator / API Documentation Generator
 
-1. Navigate inside the `php` docker container
+1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
 
 2. Run the command to generate the documentations inside the container
 
@@ -131,7 +138,7 @@ There are a few commands specific to running tasks:
 3. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
 ### Running the Unit Tests
-1. Navigate inside the `php` docker container
+1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
 
 2. Run the command below:
     ```bash
