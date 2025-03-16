@@ -20,7 +20,7 @@ class EntryBySequenceController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-sequence/{sequence_id}",
    *   summary="Get All Sequence Stats with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="sequence_id",

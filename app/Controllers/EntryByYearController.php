@@ -20,7 +20,7 @@ class EntryByYearController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-year",
    *   summary="Get All By Year Stats with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -78,7 +78,7 @@ class EntryByYearController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-year/{year}",
    *   summary="Get All By Year Stats with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="year",

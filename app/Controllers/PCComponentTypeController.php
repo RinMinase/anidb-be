@@ -21,7 +21,7 @@ class PCComponentTypeController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/types",
    *   summary="Get All PC Component Types",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -53,7 +53,7 @@ class PCComponentTypeController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/types",
    *   summary="Add a PC Component Type",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_type"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_type_name"),
@@ -75,7 +75,7 @@ class PCComponentTypeController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/types/{type_id}",
    *   summary="Edit a PC Component Type",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="type_id",
@@ -106,7 +106,7 @@ class PCComponentTypeController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/types/{type_id}",
    *   summary="Delete a PC Component Type",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="type_id",

@@ -21,7 +21,7 @@ class EntryLastController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/last",
    *   summary="Get Latest Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/entry_last_items"),
    *

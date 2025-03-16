@@ -23,6 +23,7 @@ class ElectricityController extends Controller {
    *   tags={"Fourleaf - Electricity"},
    *   path="/api/fourleaf/electricity",
    *   summary="Fourleaf API - Get Electricity Overview",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_electricity_get_year"),
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_electricity_get_month"),
@@ -103,6 +104,7 @@ class ElectricityController extends Controller {
    *   tags={"Fourleaf - Electricity"},
    *   path="/api/fourleaf/electricity",
    *   summary="Fourleaf API - Add an Electricity data point",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_electricity_add_edit_datetime"),
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_electricity_add_edit_reading"),
@@ -127,6 +129,7 @@ class ElectricityController extends Controller {
    *   tags={"Fourleaf - Electricity"},
    *   path="/api/fourleaf/electricity/{electricity_id}",
    *   summary="Fourleaf API - Edit an Electricity data point",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="electricity_id",
@@ -162,6 +165,7 @@ class ElectricityController extends Controller {
    *   tags={"Fourleaf - Electricity"},
    *   path="/api/fourleaf/electricity/{electricity_id}",
    *   summary="Fourleaf API - Delete an Electricity data point",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="electricity_id",

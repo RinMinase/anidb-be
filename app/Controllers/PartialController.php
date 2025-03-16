@@ -29,7 +29,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials",
    *   summary="Get All Partials in All Catalogs",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/partial_get_all_query"),
    *   @OA\Parameter(ref="#/components/parameters/partial_get_all_column"),
@@ -74,7 +74,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials/{partial_id}",
    *   summary="Get Partial Entry",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="partial_id",
@@ -126,7 +126,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials",
    *   summary="Add a Partial Entry",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_id_catalog"),
    *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_id_priority"),
@@ -150,7 +150,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials/multi",
    *   summary="Multi Add a Partial Entry",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_data"),
    *   @OA\Parameter(ref="#/components/parameters/partial_add_edit_multiple_season"),
@@ -214,7 +214,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials/{partial_id}",
    *   summary="Edit a Partial Entry",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="partial_id",
@@ -248,7 +248,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials/multi/{catalog_id}",
    *   summary="Multi Edit a Partial Entry",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="catalog_id",
@@ -321,7 +321,7 @@ class PartialController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/partials/{partial_id}",
    *   summary="Delete a Partial Entry",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="partial_id",

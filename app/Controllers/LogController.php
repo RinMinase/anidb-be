@@ -23,7 +23,7 @@ class LogController extends Controller {
    *   tags={"Logs"},
    *   path="/api/logs",
    *   summary="Get All Logs",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/log_search_column"),
    *   @OA\Parameter(ref="#/components/parameters/log_search_order"),

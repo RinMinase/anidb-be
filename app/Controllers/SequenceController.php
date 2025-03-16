@@ -23,7 +23,7 @@ class SequenceController extends Controller {
    *   tags={"Sequence"},
    *   path="/api/sequences",
    *   summary="Get All Sequences",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -55,7 +55,7 @@ class SequenceController extends Controller {
    *   tags={"Sequence"},
    *   path="/api/sequences/{sequence_id}",
    *   summary="Get Sequence",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="sequence_id",
@@ -94,7 +94,7 @@ class SequenceController extends Controller {
    *   tags={"Sequence"},
    *   path="/api/sequences",
    *   summary="Add a Sequence",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_title"),
    *   @OA\Parameter(ref="#/components/parameters/sequence_add_edit_date_from"),
@@ -118,7 +118,7 @@ class SequenceController extends Controller {
    *   tags={"Sequence"},
    *   path="/api/sequences/{sequence_id}",
    *   summary="Edit a Sequence",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="sequence_id",
@@ -152,7 +152,7 @@ class SequenceController extends Controller {
    *   tags={"Sequence"},
    *   path="/api/sequences/{sequence_id}",
    *   summary="Delete a Sequence",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="sequence_id",
@@ -180,7 +180,7 @@ class SequenceController extends Controller {
    *   tags={"Import - Archaic"},
    *   path="/api/archaic/import/sequences",
    *   summary="Import a JSON file to seed data for sequences table",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,

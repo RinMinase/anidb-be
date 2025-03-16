@@ -21,7 +21,7 @@ class GenreController extends Controller {
    *   tags={"Dropdowns"},
    *   path="/api/genres",
    *   summary="Get All Genres",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",

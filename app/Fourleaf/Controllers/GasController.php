@@ -27,6 +27,7 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas",
    *   summary="Fourleaf API - Get Gas Overview",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"),
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"),
@@ -184,6 +185,7 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/odo",
    *   summary="Fourleaf API - Get Odometer by Year",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_odo_year"),
    *
@@ -221,6 +223,7 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/fuel",
    *   summary="Fourleaf API - Get Fuel List",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_column"),
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_order"),
@@ -263,6 +266,7 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/fuel",
    *   summary="Fourleaf API - Add a Fuel data",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
@@ -295,6 +299,7 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/fuel/{gas_id}",
    *   summary="Fourleaf API - Edit a Fuel data",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="gas_id",
@@ -338,6 +343,7 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/fuel/{gas_id}",
    *   summary="Fourleaf API - Delete a Fuel data",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="gas_id",
@@ -364,6 +370,8 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/maintenance",
    *   summary="Fourleaf API - Get Maintenance List",
+   *   security={{"api-key": {}}},
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -417,6 +425,8 @@ class GasController extends Controller {
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/maintenance/parts",
    *   summary="Fourleaf API - Get Maintenance Parts List",
+   *   security={{"api-key": {}}},
+   *
    *   @OA\Response(
    *     response=200,
    *     description="Success",

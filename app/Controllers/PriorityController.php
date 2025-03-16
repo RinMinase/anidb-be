@@ -21,7 +21,7 @@ class PriorityController extends Controller {
    *   tags={"Dropdowns"},
    *   path="/api/priorities",
    *   summary="Get All Priorities",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",

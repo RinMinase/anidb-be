@@ -23,7 +23,7 @@ class GroupController extends Controller {
    *   tags={"Group"},
    *   path="/api/groups",
    *   summary="Get All Groups",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -55,7 +55,7 @@ class GroupController extends Controller {
    *   tags={"Group"},
    *   path="/api/groups/names",
    *   summary="Get All Group Names",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -83,7 +83,7 @@ class GroupController extends Controller {
    *   tags={"Group"},
    *   path="/api/groups",
    *   summary="Add a Group",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/group_add_edit_name"),
    *
@@ -103,7 +103,7 @@ class GroupController extends Controller {
    *   tags={"Group"},
    *   path="/api/groups/{group_id}",
    *   summary="Edit a Group",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="group_id",
@@ -132,7 +132,7 @@ class GroupController extends Controller {
    *   tags={"Group"},
    *   path="/api/groups/{group_id}",
    *   summary="Delete a Group",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="group_id",
@@ -160,7 +160,7 @@ class GroupController extends Controller {
    *   tags={"Import - Archaic"},
    *   path="/api/archaic/import/groups",
    *   summary="Import a JSON file to seed data for groups table",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,

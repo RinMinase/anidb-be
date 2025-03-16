@@ -23,7 +23,7 @@ class PCOwnerController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/owners",
    *   summary="Get All PC Owners",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -68,7 +68,7 @@ class PCOwnerController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/owners/{owner_uuid}",
    *   summary="Get PC Owner",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="owner_uuid",
@@ -106,7 +106,7 @@ class PCOwnerController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/owners",
    *   summary="Add a PC Owner",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_owner_name"),
    *
@@ -126,7 +126,7 @@ class PCOwnerController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/owners/{owner_uuid}",
    *   summary="Edit a PC Owner",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="owner_uuid",
@@ -158,7 +158,7 @@ class PCOwnerController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/owners/{owner_uuid}",
    *   summary="Delete a PC Owner",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="owner_uuid",
@@ -186,7 +186,7 @@ class PCOwnerController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/owners/import",
    *   summary="Import a JSON file to add (does not delete existing) data for PC owners table",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,

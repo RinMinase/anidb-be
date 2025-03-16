@@ -21,7 +21,7 @@ class EntryByGenreController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-genre",
    *   summary="Get All By Genre Stats with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -60,7 +60,7 @@ class EntryByGenreController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-genre/{genre}",
    *   summary="Get All Entries by Genre",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="genre",

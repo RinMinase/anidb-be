@@ -21,7 +21,7 @@ class UserController extends Controller {
    *   tags={"User"},
    *   path="/api/users",
    *   summary="Get all non-admin users",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -53,7 +53,7 @@ class UserController extends Controller {
    *   tags={"User"},
    *   path="/api/users/{user_uuid}",
    *   summary="Get a non-admin user",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="user_uuid",
@@ -91,7 +91,7 @@ class UserController extends Controller {
    *   tags={"User"},
    *   path="/api/users",
    *   summary="Add a non-admin user",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/user_add_edit_username"),
    *   @OA\Parameter(ref="#/components/parameters/user_add_edit_password"),
@@ -113,7 +113,7 @@ class UserController extends Controller {
    *   tags={"User"},
    *   path="/api/users/{user_uuid}",
    *   summary="Edit a non-admin user",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="user_uuid",
@@ -144,7 +144,7 @@ class UserController extends Controller {
    *   tags={"User"},
    *   path="/api/users/{user_uuid}",
    *   summary="Delete a non-admin user",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="user_uuid",

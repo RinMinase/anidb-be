@@ -21,7 +21,7 @@ class QualityController extends Controller {
    *   tags={"Dropdowns"},
    *   path="/api/qualities",
    *   summary="Get All Qualities",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",

@@ -21,7 +21,7 @@ class EntryByNameController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-name",
    *   summary="Get All By Name Stats with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -63,7 +63,7 @@ class EntryByNameController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-name/{letter}",
    *   summary="Get All Entries by Name",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="letter",

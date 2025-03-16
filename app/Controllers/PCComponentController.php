@@ -24,7 +24,7 @@ class PCComponentController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/components",
    *   summary="Get All PC Components",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_search_component_id_type"),
    *   @OA\Parameter(ref="#/components/parameters/pc_search_component_limit"),
@@ -64,7 +64,7 @@ class PCComponentController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/components/{component_id}",
    *   summary="Get All PC Components",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="component_id",
@@ -102,7 +102,7 @@ class PCComponentController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/components",
    *   summary="Add a PC Component",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_id_type"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_component_name"),
@@ -138,7 +138,7 @@ class PCComponentController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/components/{component_id}",
    *   summary="Edit a PC Component",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="component_id",
@@ -186,7 +186,7 @@ class PCComponentController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/components/{component_id}",
    *   summary="Delete a PC Component",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="component_id",
@@ -214,7 +214,7 @@ class PCComponentController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/components/import",
    *   summary="Import a JSON file to add (does not delete existing) data for PC components table",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,

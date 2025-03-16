@@ -24,7 +24,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims",
    *   summary="Get All Bucket Sims",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -56,7 +56,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_info_id}",
    *   summary="Get Stats of Bucket Sim with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="bucket_info_id",
@@ -119,7 +119,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims",
    *   summary="Add a Bucket Sim",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_edit_description"),
    *   @OA\Parameter(ref="#/components/parameters/bucket_sim_add_edit_buckets"),
@@ -140,7 +140,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_sim_id}",
    *   summary="Edit a Bucket Sim",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="bucket_sim_id",
@@ -173,7 +173,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/{bucket_sim_id}",
    *   summary="Delete a Bucket Sim",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="bucket_sim_id",
@@ -201,7 +201,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/save/{bucket_sim_id}",
    *   summary="Save Bucket Sim as Current Bucket",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="bucket_sim_id",
@@ -229,7 +229,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/clone/{bucket_sim_id}",
    *   summary="Clone Bucket Sim",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="bucket_sim_id",
@@ -280,7 +280,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/preview",
    *   summary="Preview a Bucket Sim",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/bucket_sim_preview_buckets"),
    *
@@ -337,7 +337,7 @@ class BucketSimController extends Controller {
    *   tags={"Bucket Simulation"},
    *   path="/api/bucket-sims/backup",
    *   summary="Backup current buckets to sim list",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),

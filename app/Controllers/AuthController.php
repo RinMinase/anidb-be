@@ -126,7 +126,7 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/logout",
    *   summary="User Logout",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),

@@ -21,7 +21,7 @@ class ExportController extends Controller {
    *   tags={"Import"},
    *   path="/api/exports",
    *   summary="Get All Exports",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Response(
    *     response=200,
@@ -54,7 +54,7 @@ class ExportController extends Controller {
    *   tags={"Import"},
    *   path="/api/exports/{export_id}",
    *   summary="Get Single Export",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="export_id",

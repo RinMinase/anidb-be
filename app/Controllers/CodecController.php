@@ -23,7 +23,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs",
    *   summary="Get All Codecs",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -63,7 +63,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/audio",
    *   summary="Get All Audio Codecs",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -95,7 +95,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/audio",
    *   summary="Add an Audio Codec",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_codec"),
    *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_order"),
@@ -116,7 +116,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/audio/{audio_codec_id}",
    *   summary="Edit an Audio Codec",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="audio_codec_id",
@@ -146,7 +146,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/audio/{audio_codec_id}",
    *   summary="Delete an Audio Codec",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="audio_codec_id",
@@ -174,7 +174,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/video",
    *   summary="Get All Video Codecs",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -206,7 +206,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/video",
    *   summary="Add a Video Codec",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_codec"),
    *   @OA\Parameter(ref="#/components/parameters/codec_add_edit_order"),
@@ -227,7 +227,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/video/{video_codec_id}",
    *   summary="Edit a Video Codec",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="video_codec_id",
@@ -257,7 +257,7 @@ class CodecController extends Controller {
    *   tags={"Codec"},
    *   path="/api/codecs/video/{video_codec_id}",
    *   summary="Delete an Video Codec",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="video_codec_id",

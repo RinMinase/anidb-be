@@ -23,6 +23,7 @@ class BillsController extends Controller {
    *   tags={"Fourleaf - Bills"},
    *   path="/api/fourleaf/bills/electricity",
    *   summary="Fourleaf API - Get Electricity Bills by Year",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_bills_electricity_get_year"),
    *
@@ -58,6 +59,7 @@ class BillsController extends Controller {
    *   tags={"Fourleaf - Bills"},
    *   path="/api/fourleaf/bills/electricity",
    *   summary="Fourleaf API - Add an Electricity Bill data point",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_bills_electricity_add_edit_date"),
    *   @OA\Parameter(ref="#/components/parameters/fourleaf_bills_electricity_add_edit_kwh"),
@@ -78,6 +80,7 @@ class BillsController extends Controller {
    *   tags={"Fourleaf - Bills"},
    *   path="/api/fourleaf/bills/electricity/{electricity_bill_uuid}",
    *   summary="Fourleaf API - Edit an Electricity Bill data point",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="electricity_bill_uuid",
@@ -108,6 +111,7 @@ class BillsController extends Controller {
    *   tags={"Fourleaf - Bills"},
    *   path="/api/fourleaf/bills/electricity/{electricity_bill_uuid}",
    *   summary="Fourleaf API - Delete an Electricity Bill data point",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="electricity_bill_uuid",

@@ -24,7 +24,7 @@ class AnilistController extends Controller {
    *   tags={"AniList"},
    *   path="/api/anilist/title/{title_id}",
    *   summary="Retrieve Title Information",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="title_id",
@@ -71,7 +71,7 @@ class AnilistController extends Controller {
    *   tags={"AniList"},
    *   path="/api/anilist/search",
    *   summary="Query Titles",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="query",

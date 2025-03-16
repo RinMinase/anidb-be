@@ -21,7 +21,7 @@ class ManagementController extends Controller {
    *   tags={"Management"},
    *   path="/api/management",
    *   summary="Get Management Information",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Response(
    *     response=200,
@@ -53,7 +53,7 @@ class ManagementController extends Controller {
    *   tags={"Management"},
    *   path="/api/management/by-year",
    *   summary="Get Titles Watched per Month of Year",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/management_get_by_year_year"),
    *

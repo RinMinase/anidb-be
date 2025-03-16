@@ -40,7 +40,7 @@ class DropdownController extends Controller {
    *   tags={"Dropdowns"},
    *   path="/api/dropdowns",
    *   summary="Get All Dropdowns for Adding Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="query",

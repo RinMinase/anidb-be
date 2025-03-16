@@ -28,7 +28,7 @@ class ImportController extends Controller {
    *   tags={"Import - Archaic"},
    *   path="/api/archaic/import",
    *   summary="Import a JSON file to seed data for all tables",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,

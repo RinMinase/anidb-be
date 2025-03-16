@@ -36,7 +36,7 @@ class PCController extends Controller {
    *   tags={"Import"},
    *   path="/api/pc/import",
    *   summary="Import a JSON file to add (does not delete existing) data for all PC-related tables",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,

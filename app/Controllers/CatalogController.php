@@ -23,7 +23,7 @@ class CatalogController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/catalogs",
    *   summary="Get All Catalogs",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -69,7 +69,7 @@ class CatalogController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/catalogs/{catalog_id}/partials",
    *   summary="Get Partials in Catalog",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="catalog_id",
@@ -131,7 +131,7 @@ class CatalogController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/catalogs",
    *   summary="Add a Catalog",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/catalog_add_edit_season"),
    *   @OA\Parameter(ref="#/components/parameters/catalog_add_edit_year"),
@@ -152,7 +152,7 @@ class CatalogController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/catalogs/{catalog_id}",
    *   summary="Edit a Catalog",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="catalog_id",
@@ -182,7 +182,7 @@ class CatalogController extends Controller {
    *   tags={"Catalog"},
    *   path="/api/catalogs/{catalog_id}",
    *   summary="Delete a Catalog",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="catalog_id",

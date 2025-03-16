@@ -20,7 +20,7 @@ class EntryByBucketController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-bucket",
    *   summary="Get All Bucket Stats with Entries",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *   @OA\Response(
    *     response=200,
    *     description="Success",
@@ -70,7 +70,7 @@ class EntryByBucketController extends Controller {
    *   tags={"Entry Specific"},
    *   path="/api/entries/by-bucket/{bucket_id}",
    *   summary="Get All Entries by Bucket",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="bucket_id",

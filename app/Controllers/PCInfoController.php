@@ -25,7 +25,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos/{info_uuid}",
    *   summary="Get a PC Info",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="info_uuid",
@@ -79,7 +79,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos",
    *   summary="Add a PC Info",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_id_owner"),
    *   @OA\Parameter(ref="#/components/parameters/pc_add_edit_info_label"),
@@ -105,7 +105,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos/{info_uuid}",
    *   summary="Edit a PC Info",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="info_uuid",
@@ -141,7 +141,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos/{info_uuid}",
    *   summary="Delete a PC Info",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="info_uuid",
@@ -169,7 +169,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos/import",
    *   summary="Import a JSON file to add (does not delete existing) data for PC infos table",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
    *     required=true,
@@ -221,7 +221,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos/{info_uuid}/duplicate",
    *   summary="Duplicate a PC Info",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
@@ -239,7 +239,7 @@ class PCInfoController extends Controller {
    *   tags={"PC"},
    *   path="/api/pc/infos/{info_uuid}/hide",
    *   summary="Set a PC Info to either shown or hidden",
-   *   security={{"token":{}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Parameter(
    *     name="info_uuid",

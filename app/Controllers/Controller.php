@@ -23,6 +23,13 @@ use Illuminate\Routing\Controller as BaseController;
  *   scheme="bearer",
  * ),
  *
+ * @OA\SecurityScheme(
+ *   securityScheme="api-key",
+ *   in="header",
+ *   name="x-api-key",
+ *   type="apiKey",
+ * ),
+ *
  * // For Ordering Purposes
  * @OA\Tag(name="User")
  * @OA\Tag(name="AniList")
