@@ -12,9 +12,24 @@
 ## Introduction
 _Add info here_
 
+## Table Of Contents
+
+- [Getting Started](#getting-started)
+    - [Environment variables setup](#environment-variables-setup)
+    - [Running the project](#running-the-project)
+    - [Running the optional containers](#running-the-optional-containers)
+    - [Re-running the project](#re-running-the-project)
+    - [Running scheduled tasks](#running-scheduled-tasks)
+    - [Running the Swagger Generator / API Documentation Generator](#running-the-swagger-generator--api-documentation-generator)
+    - [Running the Unit Tests](#running-the-unit-tests)
+    - [Project shorthands / aliases inside the PHP Docker container](#project-shorthands--aliases-inside-the-php-docker-container)
+- [Project Structure](#project-structure)
+- [Project Tech Stack](#built-with)
+
 ## Getting Started
 
-### Environmental variables setup
+### Environment variables setup
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 1. Database
 
@@ -33,6 +48,7 @@ _Add info here_
 
 
 ### Running the project
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 1. [Download](https://www.docker.com/products/docker-desktop) and install Docker.
 
@@ -49,6 +65,8 @@ _Add info here_
     docker compose up -d
     docker compose exec php sh
     ```
+
+    This runs only the necessary containers. As for running the optional containers, please see the section [below](#running-the-optional-containers).
 
 4. Inside the docker image, copy the env file, install the necessary dependencies and generate the necessary key for laravel
 
@@ -89,6 +107,7 @@ If you need to access the container run, `docker compose exec php sh`
 
 
 ### Running the optional containers
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 List of **optional** containers:
 
@@ -110,6 +129,7 @@ docker compose up -d --profile optional
 
 
 ### Re-running the project
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 1. Navigate inside the `php` docker container
 
@@ -128,6 +148,7 @@ docker compose up -d --profile optional
 
 
 ### Running scheduled tasks
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
 
@@ -147,6 +168,7 @@ There are a few commands specific to running tasks:
 
 
 ### Running the Swagger Generator / API Documentation Generator
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
 
@@ -159,6 +181,8 @@ There are a few commands specific to running tasks:
 3. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
 ### Running the Unit Tests
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
+
 1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
 
 2. Run the command below:
@@ -175,6 +199,7 @@ There are a few commands specific to running tasks:
     ```
 
 ### Project shorthands / aliases inside the PHP Docker container
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 This shortcuts were created to reduce the need to keep typing the same long commands over and over again.
 
@@ -185,7 +210,9 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 | `dump` or `da`    | `composer dumpautoload` |
 
 
-### Project Structure
+## Project Structure
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
+
     .
     ├── app/                     # Application source code
     │   ├── docs.blade.php       # Swagger page template
