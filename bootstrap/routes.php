@@ -6,41 +6,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Middleware\IsAdminRole;
 
-use App\Controllers\AnilistController;
-use App\Controllers\AuthController;
-use App\Controllers\BucketController;
-use App\Controllers\BucketSimController;
-use App\Controllers\CatalogController;
-use App\Controllers\CodecController;
-use App\Controllers\DropdownController;
-use App\Controllers\EntryByBucketController;
-use App\Controllers\EntryByGenreController;
-use App\Controllers\EntryByNameController;
-use App\Controllers\EntryBySequenceController;
-use App\Controllers\EntryByYearController;
-use App\Controllers\EntryController;
-use App\Controllers\EntryLastController;
-use App\Controllers\ExportController;
-use App\Controllers\GenreController;
-use App\Controllers\GroupController;
-use App\Controllers\ImportController;
-use App\Controllers\LogController;
-use App\Controllers\ManagementController;
-use App\Controllers\PartialController;
-use App\Controllers\PCComponentController;
-use App\Controllers\PCComponentTypeController;
-use App\Controllers\PCController;
-use App\Controllers\PCInfoController;
-use App\Controllers\PCOwnerController;
-use App\Controllers\PCSetupController;
-use App\Controllers\PriorityController;
-use App\Controllers\QualityController;
-use App\Controllers\SequenceController;
-use App\Controllers\UserController;
-use App\Fourleaf\Controllers\BillsController;
-use App\Fourleaf\Controllers\ElectricityController;
-use App\Fourleaf\Controllers\GasController;
-
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('integer', '[0-9]+');
@@ -99,38 +64,38 @@ Route::prefix('api')
 
         Route::prefix('gas')
           ->group(function () {
-            Route::get('', [GasController::class, 'get']);
+            Route::get('', [\App\Fourleaf\Controllers\GasController::class, 'get']);
 
-            Route::get('odo', [GasController::class, 'getOdo']);
+            Route::get('odo', [\App\Fourleaf\Controllers\GasController::class, 'getOdo']);
 
-            Route::get('fuel', [GasController::class, 'getFuel']);
-            Route::post('fuel', [GasController::class, 'addFuel']);
-            Route::put('fuel/{id}', [GasController::class, 'editFuel']);
-            Route::delete('fuel/{id}', [GasController::class, 'deleteFuel']);
+            Route::get('fuel', [\App\Fourleaf\Controllers\GasController::class, 'getFuel']);
+            Route::post('fuel', [\App\Fourleaf\Controllers\GasController::class, 'addFuel']);
+            Route::put('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'editFuel']);
+            Route::delete('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'deleteFuel']);
 
-            Route::get('maintenance', [GasController::class, 'getMaintenance']);
-            Route::get('maintenance/parts', [GasController::class, 'getMaintenanceParts']);
-            Route::post('maintenance', [GasController::class, 'addMaintenance']);
-            Route::put('maintenance/{id}', [GasController::class, 'editMaintenance']);
-            Route::delete('maintenance/{id}', [GasController::class, 'deleteMaintenance']);
+            Route::get('maintenance', [\App\Fourleaf\Controllers\GasController::class, 'getMaintenance']);
+            Route::get('maintenance/parts', [\App\Fourleaf\Controllers\GasController::class, 'getMaintenanceParts']);
+            Route::post('maintenance', [\App\Fourleaf\Controllers\GasController::class, 'addMaintenance']);
+            Route::put('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'editMaintenance']);
+            Route::delete('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'deleteMaintenance']);
           });
 
         Route::prefix('electricity')
           ->group(function () {
-            Route::get('', [ElectricityController::class, 'get']);
-            Route::post('', [ElectricityController::class, 'add']);
-            Route::put('{id}', [ElectricityController::class, 'edit']);
-            Route::delete('{id}', [ElectricityController::class, 'delete']);
+            Route::get('', [\App\Fourleaf\Controllers\ElectricityController::class, 'get']);
+            Route::post('', [\App\Fourleaf\Controllers\ElectricityController::class, 'add']);
+            Route::put('{id}', [\App\Fourleaf\Controllers\ElectricityController::class, 'edit']);
+            Route::delete('{id}', [\App\Fourleaf\Controllers\ElectricityController::class, 'delete']);
           });
 
         Route::prefix('bills')
           ->group(function () {
             Route::prefix('electricity')
               ->group(function () {
-                Route::get('', [BillsController::class, 'get']);
-                Route::post('', [BillsController::class, 'add']);
-                Route::put('{uuid}', [BillsController::class, 'edit']);
-                Route::delete('{uuid}', [BillsController::class, 'delete']);
+                Route::get('', [\App\Fourleaf\Controllers\BillsController::class, 'get']);
+                Route::post('', [\App\Fourleaf\Controllers\BillsController::class, 'add']);
+                Route::put('{uuid}', [\App\Fourleaf\Controllers\BillsController::class, 'edit']);
+                Route::delete('{uuid}', [\App\Fourleaf\Controllers\BillsController::class, 'delete']);
               });
           });
       });
@@ -141,20 +106,20 @@ Route::prefix('api')
   ->namespace('App\Controllers')
   ->group(function () {
 
-    Route::get('local/temp/{path}', [ExportController::class, 'download'])
+    Route::get('local/temp/{path}', [\App\Controllers\ExportController::class, 'download'])
       ->where('path', '(.*)')
       ->middleware('signed')
       ->name('files.download');
 
     Route::prefix('auth')
       ->group(function () {
-        Route::post('register', [AuthController::class, 'register']);
-        Route::post('login', [AuthController::class, 'login'])->name('login');
+        Route::post('register', [\App\Controllers\AuthController::class, 'register']);
+        Route::post('login', [\App\Controllers\AuthController::class, 'login'])->name('login');
 
         Route::middleware('auth:sanctum')
           ->group(function () {
-            Route::get('user', [AuthController::class, 'getUser']);
-            Route::post('logout', [AuthController::class, 'logout']);
+            Route::get('user', [\App\Controllers\AuthController::class, 'getUser']);
+            Route::post('logout', [\App\Controllers\AuthController::class, 'logout']);
           });
       });
 
@@ -165,236 +130,236 @@ Route::prefix('api')
         Route::prefix('archaic')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::post('import', [ImportController::class, 'import_archaic_format']);
-            Route::post('import/entries', [EntryController::class, 'import']);
-            Route::post('import/buckets', [BucketController::class, 'import']);
-            Route::post('import/sequences', [SequenceController::class, 'import']);
-            Route::post('import/groups', [GroupController::class, 'import']);
+            Route::post('import', [\App\Controllers\ImportController::class, 'import_archaic_format']);
+            Route::post('import/entries', [\App\Controllers\EntryController::class, 'import']);
+            Route::post('import/buckets', [\App\Controllers\BucketController::class, 'import']);
+            Route::post('import/sequences', [\App\Controllers\SequenceController::class, 'import']);
+            Route::post('import/groups', [\App\Controllers\GroupController::class, 'import']);
           });
 
-        Route::get('import', [ImportController::class, 'import_new_format'])->middleware(IsAdminRole::class);
+        Route::get('import', [\App\Controllers\ImportController::class, 'import_new_format'])->middleware(IsAdminRole::class);
 
         Route::prefix('exports')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [ExportController::class, 'index']);
-            Route::get('{uuid}', [ExportController::class, 'generate_download_url']);
+            Route::get('', [\App\Controllers\ExportController::class, 'index']);
+            Route::get('{uuid}', [\App\Controllers\ExportController::class, 'generate_download_url']);
 
-            Route::post('sql', [ExportController::class, 'generate_sql']);
-            Route::post('json', [ExportController::class, 'generate_json']);
-            Route::post('xlsx', [ExportController::class, 'generate_xlsx']);
+            Route::post('sql', [\App\Controllers\ExportController::class, 'generate_sql']);
+            Route::post('json', [\App\Controllers\ExportController::class, 'generate_json']);
+            Route::post('xlsx', [\App\Controllers\ExportController::class, 'generate_xlsx']);
           });
 
         // Dropdowns
-        Route::get('genres', [GenreController::class, 'index'])->middleware(IsAdminRole::class);
-        Route::get('qualities', [QualityController::class, 'index'])->middleware(IsAdminRole::class);
-        Route::get('priorities', [PriorityController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('genres', [\App\Controllers\GenreController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('qualities', [\App\Controllers\QualityController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('priorities', [\App\Controllers\PriorityController::class, 'index'])->middleware(IsAdminRole::class);
 
         // All-in-one for Adding Entries
         // Groups + Qualities + Codecs + Genres + Watchers
-        Route::get('dropdowns', [DropdownController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('dropdowns', [\App\Controllers\DropdownController::class, 'index'])->middleware(IsAdminRole::class);
 
-        Route::get('logs', [LogController::class, 'index'])->middleware(IsAdminRole::class);
+        Route::get('logs', [\App\Controllers\LogController::class, 'index'])->middleware(IsAdminRole::class);
 
         Route::prefix('management')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [ManagementController::class, 'index']);
-            Route::get('by-year', [ManagementController::class, 'get_by_year']);
+            Route::get('', [\App\Controllers\ManagementController::class, 'index']);
+            Route::get('by-year', [\App\Controllers\ManagementController::class, 'get_by_year']);
           });
 
         Route::prefix('users')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [UserController::class, 'index']);
-            Route::get('{uuid}', [UserController::class, 'get']);
-            Route::post('', [UserController::class, 'add']);
-            Route::put('{uuid}', [UserController::class, 'edit']);
-            Route::delete('{uuid}', [UserController::class, 'delete']);
+            Route::get('', [\App\Controllers\UserController::class, 'index']);
+            Route::get('{uuid}', [\App\Controllers\UserController::class, 'get']);
+            Route::post('', [\App\Controllers\UserController::class, 'add']);
+            Route::put('{uuid}', [\App\Controllers\UserController::class, 'edit']);
+            Route::delete('{uuid}', [\App\Controllers\UserController::class, 'delete']);
           });
 
         // Non Admin Entry Routes
         Route::prefix('entries')
           ->group(function () {
-            Route::get('', [EntryController::class, 'index']);
-            Route::get('{uuid}', [EntryController::class, 'get']);
-            Route::get('titles', [EntryController::class, 'get_titles']);
+            Route::get('', [\App\Controllers\EntryController::class, 'index']);
+            Route::get('{uuid}', [\App\Controllers\EntryController::class, 'get']);
+            Route::get('titles', [\App\Controllers\EntryController::class, 'get_titles']);
           });
 
         // Admin-required Entry Routes
         Route::prefix('entries')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::post('', [EntryController::class, 'add']);
-            Route::put('{uuid}', [EntryController::class, 'edit']);
-            Route::delete('{uuid}', [EntryController::class, 'delete']);
-            Route::get('search', [EntryController::class, 'search']);
-            Route::get('watchers', [EntryController::class, 'get_watchers']);
+            Route::post('', [\App\Controllers\EntryController::class, 'add']);
+            Route::put('{uuid}', [\App\Controllers\EntryController::class, 'edit']);
+            Route::delete('{uuid}', [\App\Controllers\EntryController::class, 'delete']);
+            Route::get('search', [\App\Controllers\EntryController::class, 'search']);
+            Route::get('watchers', [\App\Controllers\EntryController::class, 'get_watchers']);
 
-            Route::post('{uuid}/offquel/{uuid2}', [EntryController::class, 'add_offquel']);
-            Route::delete('{uuid}/offquel/{uuid2}', [EntryController::class, 'delete_offquel']);
-            Route::put('img-upload/{uuid}', [EntryController::class, 'imageUpload']);
-            Route::delete('img-upload/{uuid}', [EntryController::class, 'imageDelete']);
-            Route::put('ratings/{uuid}', [EntryController::class, 'ratings']);
+            Route::post('{uuid}/offquel/{uuid2}', [\App\Controllers\EntryController::class, 'add_offquel']);
+            Route::delete('{uuid}/offquel/{uuid2}', [\App\Controllers\EntryController::class, 'delete_offquel']);
+            Route::put('img-upload/{uuid}', [\App\Controllers\EntryController::class, 'imageUpload']);
+            Route::delete('img-upload/{uuid}', [\App\Controllers\EntryController::class, 'imageDelete']);
+            Route::put('ratings/{uuid}', [\App\Controllers\EntryController::class, 'ratings']);
 
-            Route::post('rewatch/{uuid}', [EntryController::class, 'rewatchAdd']);
-            Route::delete('rewatch/{uuid}', [EntryController::class, 'rewatchDelete']);
+            Route::post('rewatch/{uuid}', [\App\Controllers\EntryController::class, 'rewatchAdd']);
+            Route::delete('rewatch/{uuid}', [\App\Controllers\EntryController::class, 'rewatchDelete']);
 
-            Route::get('last', [EntryLastController::class, 'index']);
+            Route::get('last', [\App\Controllers\EntryLastController::class, 'index']);
 
-            Route::get('by-name', [EntryByNameController::class, 'index']);
-            Route::get('by-name/{letter}', [EntryByNameController::class, 'get']);
+            Route::get('by-name', [\App\Controllers\EntryByNameController::class, 'index']);
+            Route::get('by-name/{letter}', [\App\Controllers\EntryByNameController::class, 'get']);
 
-            Route::get('by-year', [EntryByYearController::class, 'index']);
-            Route::get('by-year/{year}', [EntryByYearController::class, 'get']);
-            Route::get('by-year/uncategorized', [EntryByYearController::class, 'get']);
+            Route::get('by-year', [\App\Controllers\EntryByYearController::class, 'index']);
+            Route::get('by-year/{year}', [\App\Controllers\EntryByYearController::class, 'get']);
+            Route::get('by-year/uncategorized', [\App\Controllers\EntryByYearController::class, 'get']);
 
-            Route::get('by-genre', [EntryByGenreController::class, 'index']);
-            Route::get('by-genre/{string}', [EntryByGenreController::class, 'get']);
+            Route::get('by-genre', [\App\Controllers\EntryByGenreController::class, 'index']);
+            Route::get('by-genre/{string}', [\App\Controllers\EntryByGenreController::class, 'get']);
 
-            Route::get('by-bucket', [EntryByBucketController::class, 'index']);
-            Route::get('by-bucket/{id}', [EntryByBucketController::class, 'get']);
+            Route::get('by-bucket', [\App\Controllers\EntryByBucketController::class, 'index']);
+            Route::get('by-bucket/{id}', [\App\Controllers\EntryByBucketController::class, 'get']);
 
-            Route::get('by-sequence/{id}', [EntryBySequenceController::class, 'index']);
+            Route::get('by-sequence/{id}', [\App\Controllers\EntryBySequenceController::class, 'index']);
           });
 
         Route::prefix('catalogs')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [CatalogController::class, 'index']);
-            Route::post('', [CatalogController::class, 'add']);
-            Route::put('{uuid}', [CatalogController::class, 'edit']);
-            Route::delete('{uuid}', [CatalogController::class, 'delete']);
+            Route::get('', [\App\Controllers\CatalogController::class, 'index']);
+            Route::post('', [\App\Controllers\CatalogController::class, 'add']);
+            Route::put('{uuid}', [\App\Controllers\CatalogController::class, 'edit']);
+            Route::delete('{uuid}', [\App\Controllers\CatalogController::class, 'delete']);
 
-            Route::get('{uuid}/partials', [CatalogController::class, 'get']);
+            Route::get('{uuid}/partials', [\App\Controllers\CatalogController::class, 'get']);
           });
 
         Route::prefix('partials')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [PartialController::class, 'index']);
-            Route::get('{uuid}', [PartialController::class, 'get']);
-            Route::post('', [PartialController::class, 'add']);
-            Route::put('{uuid}', [PartialController::class, 'edit']);
-            Route::delete('{uuid}', [PartialController::class, 'delete']);
+            Route::get('', [\App\Controllers\PartialController::class, 'index']);
+            Route::get('{uuid}', [\App\Controllers\PartialController::class, 'get']);
+            Route::post('', [\App\Controllers\PartialController::class, 'add']);
+            Route::put('{uuid}', [\App\Controllers\PartialController::class, 'edit']);
+            Route::delete('{uuid}', [\App\Controllers\PartialController::class, 'delete']);
 
-            Route::post('multi', [PartialController::class, 'add_multiple']);
-            Route::put('multi/{uuid}', [PartialController::class, 'edit_multiple']);
+            Route::post('multi', [\App\Controllers\PartialController::class, 'add_multiple']);
+            Route::put('multi/{uuid}', [\App\Controllers\PartialController::class, 'edit_multiple']);
           });
 
         Route::prefix('bucket-sims')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [BucketSimController::class, 'index']);
-            Route::get('{uuid}', [BucketSimController::class, 'get']);
-            Route::post('', [BucketSimController::class, 'add']);
-            Route::put('{uuid}', [BucketSimController::class, 'edit']);
-            Route::delete('{uuid}', [BucketSimController::class, 'delete']);
+            Route::get('', [\App\Controllers\BucketSimController::class, 'index']);
+            Route::get('{uuid}', [\App\Controllers\BucketSimController::class, 'get']);
+            Route::post('', [\App\Controllers\BucketSimController::class, 'add']);
+            Route::put('{uuid}', [\App\Controllers\BucketSimController::class, 'edit']);
+            Route::delete('{uuid}', [\App\Controllers\BucketSimController::class, 'delete']);
 
-            Route::post('save/{uuid}', [BucketSimController::class, 'saveBucket']);
-            Route::post('clone/{uuid}', [BucketSimController::class, 'clone']);
-            Route::post('preview', [BucketSimController::class, 'preview']);
-            Route::post('backup', [BucketSimController::class, 'backup']);
+            Route::post('save/{uuid}', [\App\Controllers\BucketSimController::class, 'saveBucket']);
+            Route::post('clone/{uuid}', [\App\Controllers\BucketSimController::class, 'clone']);
+            Route::post('preview', [\App\Controllers\BucketSimController::class, 'preview']);
+            Route::post('backup', [\App\Controllers\BucketSimController::class, 'backup']);
           });
 
         Route::prefix('sequences')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [SequenceController::class, 'index']);
-            Route::get('{id}', [SequenceController::class, 'get']);
-            Route::post('', [SequenceController::class, 'add']);
-            Route::put('{id?}', [SequenceController::class, 'edit']);
-            Route::delete('{id}', [SequenceController::class, 'delete']);
+            Route::get('', [\App\Controllers\SequenceController::class, 'index']);
+            Route::get('{id}', [\App\Controllers\SequenceController::class, 'get']);
+            Route::post('', [\App\Controllers\SequenceController::class, 'add']);
+            Route::put('{id?}', [\App\Controllers\SequenceController::class, 'edit']);
+            Route::delete('{id}', [\App\Controllers\SequenceController::class, 'delete']);
           });
 
         Route::prefix('groups')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [GroupController::class, 'index']);
-            Route::get('names', [GroupController::class, 'getNames']);
-            Route::post('', [GroupController::class, 'add']);
-            Route::put('{uuid}', [GroupController::class, 'edit']);
-            Route::delete('{uuid}', [GroupController::class, 'delete']);
+            Route::get('', [\App\Controllers\GroupController::class, 'index']);
+            Route::get('names', [\App\Controllers\GroupController::class, 'getNames']);
+            Route::post('', [\App\Controllers\GroupController::class, 'add']);
+            Route::put('{uuid}', [\App\Controllers\GroupController::class, 'edit']);
+            Route::delete('{uuid}', [\App\Controllers\GroupController::class, 'delete']);
           });
 
         Route::prefix('codecs')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('', [CodecController::class, 'index']);
+            Route::get('', [\App\Controllers\CodecController::class, 'index']);
 
             Route::prefix('audio')
               ->group(function () {
-                Route::get('', [CodecController::class, 'getAudio']);
-                Route::post('', [CodecController::class, 'addAudio']);
-                Route::put('{id}', [CodecController::class, 'editAudio']);
-                Route::delete('{id}', [CodecController::class, 'deleteAudio']);
+                Route::get('', [\App\Controllers\CodecController::class, 'getAudio']);
+                Route::post('', [\App\Controllers\CodecController::class, 'addAudio']);
+                Route::put('{id}', [\App\Controllers\CodecController::class, 'editAudio']);
+                Route::delete('{id}', [\App\Controllers\CodecController::class, 'deleteAudio']);
               });
 
             Route::prefix('video')
               ->group(function () {
-                Route::get('', [CodecController::class, 'getVideo']);
-                Route::post('', [CodecController::class, 'addVideo']);
-                Route::put('{id}', [CodecController::class, 'editVideo']);
-                Route::delete('{id}', [CodecController::class, 'deleteVideo']);
+                Route::get('', [\App\Controllers\CodecController::class, 'getVideo']);
+                Route::post('', [\App\Controllers\CodecController::class, 'addVideo']);
+                Route::put('{id}', [\App\Controllers\CodecController::class, 'editVideo']);
+                Route::delete('{id}', [\App\Controllers\CodecController::class, 'deleteVideo']);
               });
           });
 
         Route::prefix('anilist')
           ->middleware(IsAdminRole::class)
           ->group(function () {
-            Route::get('title/{integer}', [AnilistController::class, 'get']);
-            Route::get('search', [AnilistController::class, 'search']);
+            Route::get('title/{integer}', [\App\Controllers\AnilistController::class, 'get']);
+            Route::get('search', [\App\Controllers\AnilistController::class, 'search']);
           });
 
         Route::prefix('pc')
           ->middleware(IsAdminRole::class)
           ->group(function () {
 
-            Route::post('import', [PCController::class, 'import']);
+            Route::post('import', [\App\Controllers\PCController::class, 'import']);
 
             Route::prefix('owners')
               ->group(function () {
-                Route::get('', [PCOwnerController::class, 'index']);
-                Route::get('{uuid}', [PCOwnerController::class, 'get']);
-                Route::post('', [PCOwnerController::class, 'add']);
-                Route::put('{uuid}', [PCOwnerController::class, 'edit']);
-                Route::delete('{uuid}', [PCOwnerController::class, 'delete']);
-                Route::post('import', [PCOwnerController::class, 'import']);
+                Route::get('', [\App\Controllers\PCOwnerController::class, 'index']);
+                Route::get('{uuid}', [\App\Controllers\PCOwnerController::class, 'get']);
+                Route::post('', [\App\Controllers\PCOwnerController::class, 'add']);
+                Route::put('{uuid}', [\App\Controllers\PCOwnerController::class, 'edit']);
+                Route::delete('{uuid}', [\App\Controllers\PCOwnerController::class, 'delete']);
+                Route::post('import', [\App\Controllers\PCOwnerController::class, 'import']);
               });
 
             Route::prefix('infos')
               ->group(function () {
-                Route::get('{uuid}', [PCInfoController::class, 'get']);
-                Route::post('', [PCInfoController::class, 'add']);
-                Route::put('{uuid}', [PCInfoController::class, 'edit']);
-                Route::delete('{uuid}', [PCInfoController::class, 'delete']);
-                Route::post('import', [PCInfoController::class, 'import']);
+                Route::get('{uuid}', [\App\Controllers\PCInfoController::class, 'get']);
+                Route::post('', [\App\Controllers\PCInfoController::class, 'add']);
+                Route::put('{uuid}', [\App\Controllers\PCInfoController::class, 'edit']);
+                Route::delete('{uuid}', [\App\Controllers\PCInfoController::class, 'delete']);
+                Route::post('import', [\App\Controllers\PCInfoController::class, 'import']);
 
-                Route::post('{uuid}/duplicate', [PCInfoController::class, 'duplicate']);
-                Route::put('{uuid}/hide', [PCInfoController::class, 'toggle_hide']);
+                Route::post('{uuid}/duplicate', [\App\Controllers\PCInfoController::class, 'duplicate']);
+                Route::put('{uuid}/hide', [\App\Controllers\PCInfoController::class, 'toggle_hide']);
               });
 
             Route::prefix('components')
               ->group(function () {
-                Route::get('', [PCComponentController::class, 'index']);
-                Route::get('{id}', [PCComponentController::class, 'get']);
-                Route::post('', [PCComponentController::class, 'add']);
-                Route::put('{id}', [PCComponentController::class, 'edit']);
-                Route::delete('{id}', [PCComponentController::class, 'delete']);
-                Route::post('import', [PCComponentController::class, 'import']);
+                Route::get('', [\App\Controllers\PCComponentController::class, 'index']);
+                Route::get('{id}', [\App\Controllers\PCComponentController::class, 'get']);
+                Route::post('', [\App\Controllers\PCComponentController::class, 'add']);
+                Route::put('{id}', [\App\Controllers\PCComponentController::class, 'edit']);
+                Route::delete('{id}', [\App\Controllers\PCComponentController::class, 'delete']);
+                Route::post('import', [\App\Controllers\PCComponentController::class, 'import']);
               });
 
             Route::prefix('setups')
               ->group(function () {
-                Route::post('import', [PCSetupController::class, 'import']);
+                Route::post('import', [\App\Controllers\PCSetupController::class, 'import']);
               });
 
             Route::prefix('types')
               ->group(function () {
-                Route::get('', [PCComponentTypeController::class, 'index']);
-                Route::post('', [PCComponentTypeController::class, 'add']);
-                Route::put('{id}', [PCComponentTypeController::class, 'edit']);
-                Route::delete('{id}', [PCComponentTypeController::class, 'delete']);
+                Route::get('', [\App\Controllers\PCComponentTypeController::class, 'index']);
+                Route::post('', [\App\Controllers\PCComponentTypeController::class, 'add']);
+                Route::put('{id}', [\App\Controllers\PCComponentTypeController::class, 'edit']);
+                Route::delete('{id}', [\App\Controllers\PCComponentTypeController::class, 'delete']);
               });
           });
       });
