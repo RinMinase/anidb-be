@@ -133,7 +133,13 @@ class AuthController extends Controller {
    * )
    */
   public function logout(): JsonResponse {
-    Auth::user()->tokens()->delete();
+    $user = Auth::user();
+
+    if ($user) {
+      $user->tokens()->delete();
+    } else {
+      throw new AuthenticationException;
+    }
 
     return DefaultResponse::success();
   }
