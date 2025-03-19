@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use App\Middleware\IsAdminRole;
+
 use App\Controllers\AnilistController;
 use App\Controllers\AuthController;
 use App\Controllers\BucketController;
@@ -25,11 +27,11 @@ use App\Controllers\ImportController;
 use App\Controllers\LogController;
 use App\Controllers\ManagementController;
 use App\Controllers\PartialController;
-use App\Controllers\PCOwnerController;
 use App\Controllers\PCComponentController;
 use App\Controllers\PCComponentTypeController;
 use App\Controllers\PCController;
 use App\Controllers\PCInfoController;
+use App\Controllers\PCOwnerController;
 use App\Controllers\PCSetupController;
 use App\Controllers\PriorityController;
 use App\Controllers\QualityController;
@@ -38,8 +40,6 @@ use App\Controllers\UserController;
 use App\Fourleaf\Controllers\BillsController;
 use App\Fourleaf\Controllers\ElectricityController;
 use App\Fourleaf\Controllers\GasController;
-
-use App\Middleware\IsAdminRole;
 
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
@@ -84,7 +84,7 @@ Route::middleware('web')
       });
     } else {
       Route::get('/api-docs', function () {
-        throw new NotFoundHttpException();
+        throw new NotFoundHttpException;
       });
     }
   });
