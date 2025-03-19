@@ -128,7 +128,7 @@ class ElectricityTest extends BaseTestCase {
     $test_datetime_1 = '1980-10-20 13:00';
     $test_reading_1 = 999;
 
-    $response = $this->post('/api/fourleaf/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/electricity', [
       'datetime' => $test_datetime_1,
       'reading' => $test_reading_1,
     ]);
@@ -138,7 +138,7 @@ class ElectricityTest extends BaseTestCase {
     $test_datetime_2 = '1980-12-20 13:00';
     $test_reading_2 = 200_000;
 
-    $response = $this->post('/api/fourleaf/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/electricity', [
       'datetime' => $test_datetime_2,
       'reading' => $test_reading_2,
     ]);
@@ -150,7 +150,7 @@ class ElectricityTest extends BaseTestCase {
     $test_datetime = '2099-10-20 13:00';
     $test_reading = 200_001;
 
-    $response = $this->post('/api/fourleaf/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/electricity', [
       'datetime' => $test_datetime,
       'reading' => $test_reading,
     ]);

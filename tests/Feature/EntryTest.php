@@ -422,6 +422,7 @@ class EntryTest extends BaseTestCase {
     $test_page = 2;
     $test_limit = 1;
     $test_query = 'series title season';
+
     $response = $this->withoutMiddleware()->get(
       '/api/entries?page=' . $test_page .
         '&limit=' . $test_limit .
@@ -461,13 +462,14 @@ class EntryTest extends BaseTestCase {
       $this->entry_uuid_1,
       $this->entry_uuid_4,
       $this->entry_uuid_5,
+      $this->entry_uuid_2,
     ];
 
     $actual_data = $response['data'][0];
     $actual_meta = $response['meta'];
 
     $expected_total_results = count($expected_possible_titles);
-    $expected_total_pages = ceil($expected_total_results / $test_limit);
+    $expected_total_pages = intval(ceil($expected_total_results / $test_limit));
     $expected_has_next = $test_page < $expected_total_pages;
     $expected_meta = [
       'page' => $test_page,
