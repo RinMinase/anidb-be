@@ -204,7 +204,7 @@ class BillsElectricityTest extends BaseTestCase {
     $test_kwh = 5000;
     $test_cost = 1234.12;
 
-    $response = $this->post('/api/fourleaf/bills/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/bills/electricity', [
       'date' => $test_date,
       'kwh' => $test_kwh,
       'cost' => $test_cost,
@@ -220,7 +220,7 @@ class BillsElectricityTest extends BaseTestCase {
   }
 
   public function test_should_not_add_data_on_form_errors() {
-    $response = $this->post('/api/fourleaf/bills/electricity');
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/bills/electricity');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
@@ -229,7 +229,7 @@ class BillsElectricityTest extends BaseTestCase {
     $test_kwh = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
     $test_cost = 'string';
 
-    $response = $this->post('/api/fourleaf/bills/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/bills/electricity', [
       'date' => $test_date,
       'kwh' => $test_kwh,
       'cost' => $test_cost,
@@ -242,7 +242,7 @@ class BillsElectricityTest extends BaseTestCase {
     $test_kwh = -1;
     $test_cost = -1;
 
-    $response = $this->post('/api/fourleaf/bills/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/bills/electricity', [
       'date' => $test_date,
       'kwh' => $test_kwh,
       'cost' => $test_cost,
@@ -255,7 +255,7 @@ class BillsElectricityTest extends BaseTestCase {
     $test_valid_cost = 123.12;
     $test_kwh = 'string';
 
-    $response = $this->post('/api/fourleaf/bills/electricity', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/bills/electricity', [
       'date' => $test_valid_date,
       'kwh' => $test_kwh,
       'cost' => $test_valid_cost,
@@ -272,11 +272,12 @@ class BillsElectricityTest extends BaseTestCase {
     $test_kwh = 5000;
     $test_cost = 1234.12;
 
-    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_2, [
-      'date' => $test_date,
-      'kwh' => $test_kwh,
-      'cost' => $test_cost,
-    ]);
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_2, [
+        'date' => $test_date,
+        'kwh' => $test_kwh,
+        'cost' => $test_cost,
+      ]);
 
     $response->assertStatus(200);
 
@@ -300,7 +301,8 @@ class BillsElectricityTest extends BaseTestCase {
   public function test_should_not_edit_data_on_form_errors() {
     $this->setup_config();
 
-    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1);
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
@@ -309,11 +311,12 @@ class BillsElectricityTest extends BaseTestCase {
     $test_kwh = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::SMALL) + 1;
     $test_cost = 'string';
 
-    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
-      'date' => $test_date,
-      'kwh' => $test_kwh,
-      'cost' => $test_cost,
-    ]);
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
+        'date' => $test_date,
+        'kwh' => $test_kwh,
+        'cost' => $test_cost,
+      ]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
@@ -322,11 +325,12 @@ class BillsElectricityTest extends BaseTestCase {
     $test_kwh = -1;
     $test_cost = -1;
 
-    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
-      'date' => $test_date,
-      'kwh' => $test_kwh,
-      'cost' => $test_cost,
-    ]);
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
+        'date' => $test_date,
+        'kwh' => $test_kwh,
+        'cost' => $test_cost,
+      ]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['date', 'kwh', 'cost']]);
@@ -335,11 +339,12 @@ class BillsElectricityTest extends BaseTestCase {
     $test_valid_cost = 123.12;
     $test_kwh = 'string';
 
-    $response = $this->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
-      'date' => $test_valid_date,
-      'kwh' => $test_kwh,
-      'cost' => $test_valid_cost,
-    ]);
+    $response = $this->withoutMiddleware()
+      ->put('/api/fourleaf/bills/electricity/' . $this->bills_electricity_uuid_1, [
+        'date' => $test_valid_date,
+        'kwh' => $test_kwh,
+        'cost' => $test_valid_cost,
+      ]);
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['kwh']]);
