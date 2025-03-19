@@ -100,14 +100,14 @@ class AuthTest extends BaseTestCase {
   public function test_should_login_successfully() {
     $this->setup_config();
 
-    $response = $this->post('/api/auth/login', [
+    $response = $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_1,
       'password' => $this->user_password_1,
     ]);
 
     $response->assertStatus(200);
 
-    $response = $this->post('/api/auth/login', [
+    $response = $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_2,
       'password' => $this->user_password_2,
     ]);
@@ -121,7 +121,7 @@ class AuthTest extends BaseTestCase {
     $test_username = 'nonexistinguser';
     $test_password = 'e9597119-8452-4f2b-96d8-f2b1b1d2f158';
 
-    $response = $this->post('/api/auth/login', [
+    $response = $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $test_username,
       'password' => $test_password,
     ]);
@@ -129,7 +129,7 @@ class AuthTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJson(['message' => 'Credentials does not match.']);
 
-    $response = $this->post('/api/auth/login', [
+    $response = $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_1,
       'password' => $test_password,
     ]);
@@ -137,7 +137,7 @@ class AuthTest extends BaseTestCase {
     $response->assertStatus(401)
       ->assertJson(['message' => 'Credentials does not match.']);
 
-    $response = $this->post('/api/auth/login', [
+    $response = $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $test_username,
       'password' => $this->user_password_1,
     ]);
@@ -147,7 +147,7 @@ class AuthTest extends BaseTestCase {
   }
 
   public function test_should_not_login_on_blank_email_or_password() {
-    $response = $this->post('/api/auth/login');
+    $response = $this->withoutMiddleware()->post('/api/auth/login');
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['username', 'password']]);
@@ -157,7 +157,7 @@ class AuthTest extends BaseTestCase {
     $test_username = 'testingusername';
     $test_password = 'testingpassword';
 
-    $response = $this->post('/api/auth/register', [
+    $response = $this->withoutMiddleware()->post('/api/auth/register', [
       'username' => $test_username,
       'password' => $test_password,
       'password_confirmation' => $test_password,
@@ -171,7 +171,7 @@ class AuthTest extends BaseTestCase {
     $test_username = 'unittestingusername';
     $test_password = 'unittestingpassword';
 
-    $response = $this->post('/api/auth/register', [
+    $response = $this->withoutMiddleware()->post('/api/auth/register', [
       'username' => $test_username,
       'password' => $test_password,
       'password_confirmation' => $test_password,
@@ -180,7 +180,7 @@ class AuthTest extends BaseTestCase {
     $response->assertStatus(401)->assertJsonStructure(['data' => ['root_password']]);
 
     $invalid_root_password = '';
-    $response = $this->post('/api/auth/register', [
+    $response = $this->withoutMiddleware()->post('/api/auth/register', [
       'username' => $test_username,
       'password' => $test_password,
       'password_confirmation' => $test_password,
@@ -190,7 +190,7 @@ class AuthTest extends BaseTestCase {
     $response->assertStatus(401)->assertJsonStructure(['data' => ['root_password']]);
 
     $invalid_root_password = 'invalidpassword';
-    $response = $this->post('/api/auth/register', [
+    $response = $this->withoutMiddleware()->post('/api/auth/register', [
       'username' => $test_username,
       'password' => $test_password,
       'password_confirmation' => $test_password,
@@ -201,7 +201,7 @@ class AuthTest extends BaseTestCase {
   }
 
   public function test_should_not_register_admin_on_invalid_form() {
-    $response = $this->post('/api/auth/register', [
+    $response = $this->withoutMiddleware()->post('/api/auth/register', [
       'root_password' => config('app.registration_root_password'),
     ]);
 
@@ -225,7 +225,7 @@ class AuthTest extends BaseTestCase {
     ];
 
     foreach ($invalid_usernames as $key => $value) {
-      $response = $this->post('/api/auth/register', [
+      $response = $this->withoutMiddleware()->post('/api/auth/register', [
         'username' => $value,
         'password' => $valid_password,
         'password_confirmation' => $valid_password,
@@ -250,7 +250,7 @@ class AuthTest extends BaseTestCase {
     ];
 
     foreach ($invalid_passwords as $key => $value) {
-      $response = $this->post('/api/auth/register', [
+      $response = $this->withoutMiddleware()->post('/api/auth/register', [
         'username' => $valid_username,
         'password' => $value,
         'password_confirmation' => $value,
@@ -267,7 +267,7 @@ class AuthTest extends BaseTestCase {
     $test_username = 'testingusername';
     $test_password = 'testingpassword';
 
-    $response = $this->post('/api/auth/register', [
+    $response = $this->withoutMiddleware()->post('/api/auth/register', [
       'username' => $test_username,
       'password' => $test_password,
       'root_password' => config('app.registration_root_password'),
@@ -280,27 +280,27 @@ class AuthTest extends BaseTestCase {
   public function test_should_logout_successfully() {
     $this->setup_config();
 
-    $this->post('/api/auth/login', [
+    $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_1,
       'password' => $this->user_password_1,
     ]);
 
-    $response = $this->post('/api/auth/logout');
+    $response = $this->withoutMiddleware()->post('/api/auth/logout');
 
     $response->assertStatus(200);
 
-    $this->post('/api/auth/login', [
+    $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_2,
       'password' => $this->user_password_2,
     ]);
 
-    $response = $this->post('/api/auth/logout');
+    $response = $this->withoutMiddleware()->post('/api/auth/logout');
 
     $response->assertStatus(200);
   }
 
   public function test_should_not_logout_on_invalid_session() {
-    $response = $this->post('/api/auth/logout');
+    $response = $this->withoutMiddleware()->post('/api/auth/logout');
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);
@@ -309,7 +309,7 @@ class AuthTest extends BaseTestCase {
   public function test_should_get_user_information_successfully() {
     $this->setup_config();
 
-    $this->post('/api/auth/login', [
+    $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_1,
       'password' => $this->user_password_1,
     ]);
@@ -334,7 +334,7 @@ class AuthTest extends BaseTestCase {
   public function test_should_get_admin_user_information_successfully() {
     $this->setup_config();
 
-    $this->post('/api/auth/login', [
+    $this->withoutMiddleware()->post('/api/auth/login', [
       'username' => $this->user_username_2,
       'password' => $this->user_password_2,
     ]);
