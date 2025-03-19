@@ -573,7 +573,7 @@ class CatalogTest extends BaseTestCase {
       ->get('/api/partials?query=' . $test_query);
 
     $response->assertStatus(200)
-      ->assertJsonCount(2, 'data')
+      ->assertJsonCount(4, 'data')
       ->assertJsonStructure([
         'data' => [[
           'uuid',
@@ -584,9 +584,9 @@ class CatalogTest extends BaseTestCase {
       ]);
 
     $expected = [
-      'uuid' => $this->partial_uuid_3,
-      'catalog' => $this->catalog_season_2 . ' ' . $this->catalog_year_2,
-      'title' => $this->partial_title_3,
+      'uuid' => $this->partial_uuid_2,
+      'catalog' => $this->catalog_season_1 . ' ' . $this->catalog_year_1,
+      'title' => $this->partial_title_2,
     ];
 
     $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
@@ -596,9 +596,9 @@ class CatalogTest extends BaseTestCase {
     );
 
     $expected = [
-      'uuid' => $this->partial_uuid_2,
-      'catalog' => $this->catalog_season_1 . ' ' . $this->catalog_year_1,
-      'title' => $this->partial_title_2,
+      'uuid' => $this->partial_uuid_3,
+      'catalog' => $this->catalog_season_2 . ' ' . $this->catalog_year_2,
+      'title' => $this->partial_title_3,
     ];
 
     $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
@@ -622,7 +622,7 @@ class CatalogTest extends BaseTestCase {
       );
 
     $response->assertStatus(200)
-      ->assertJsonCount(2, 'data')
+      ->assertJsonCount(4, 'data')
       ->assertJsonStructure([
         'data' => [[
           'uuid',
@@ -645,6 +645,18 @@ class CatalogTest extends BaseTestCase {
     );
 
     $expected = [
+      'uuid' => $this->partial_uuid_1,
+      'catalog' => $this->catalog_season_1 . ' ' . $this->catalog_year_1,
+      'title' => $this->partial_title_1,
+    ];
+
+    $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
+      $expected,
+      $response['data'][1],
+      array_keys($expected),
+    );
+
+    $expected = [
       'uuid' => $this->partial_uuid_3,
       'catalog' => $this->catalog_season_2 . ' ' . $this->catalog_year_2,
       'title' => $this->partial_title_3,
@@ -652,7 +664,7 @@ class CatalogTest extends BaseTestCase {
 
     $this->assertArrayIsEqualToArrayOnlyConsideringListOfKeys(
       $expected,
-      $response['data'][1],
+      $response['data'][2],
       array_keys($expected),
     );
   }
