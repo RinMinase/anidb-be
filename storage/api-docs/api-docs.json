@@ -185,7 +185,12 @@
                     "500": {
                         "$ref": "#/components/responses/Failed"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
             }
         },
         "/api/auth/login": {
@@ -232,7 +237,12 @@
                     "500": {
                         "$ref": "#/components/responses/Failed"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
             }
         },
         "/api/auth/logout": {

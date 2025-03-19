@@ -25,6 +25,7 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/register",
    *   summary="User Registration",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/user_register_username"),
    *   @OA\Parameter(ref="#/components/parameters/user_register_password"),
@@ -79,6 +80,7 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/login",
    *   summary="User Login",
+   *   security={{"api-key": {}}},
    *
    *   @OA\Parameter(ref="#/components/parameters/user_login_username"),
    *   @OA\Parameter(ref="#/components/parameters/user_login_password"),
@@ -127,6 +129,7 @@ class AuthController extends Controller {
    *   path="/api/auth/logout",
    *   summary="User Logout",
    *   security={{"token":{}, "api-key": {}}},
+   *
    *   @OA\Response(response=200, ref="#/components/responses/Success"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
@@ -150,6 +153,7 @@ class AuthController extends Controller {
    *   path="/api/auth/user",
    *   summary="Get User",
    *   security={{"token": {}}},
+   *
    *   @OA\Response(
    *     response=200,
    *     description="OK",
@@ -162,6 +166,7 @@ class AuthController extends Controller {
    *       }
    *     )
    *   ),
+   *
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
