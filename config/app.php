@@ -1,14 +1,6 @@
 <?php
 
 return [
-
-  // Application-related config
-  'name' => env('APP_NAME', 'Rin\'s AniDB API'),
-  'timezone' => 'UTC',
-  'locale' => 'en',
-  'fallback_locale' => 'en',
-  'faker_locale' => 'en_US',
-
   /*
    |--------------------------------------------------------------------------
    | Application Environment
@@ -48,44 +40,6 @@ return [
    */
 
   'url' => env('APP_URL', null),
-  'asset_url' => env('ASSET_URL', null),
-
-  /*
-   |--------------------------------------------------------------------------
-   | Encryption Key
-   |--------------------------------------------------------------------------
-   |
-   | This key is used by the Illuminate encrypter service and should be set
-   | to a random, 32 character string, otherwise these encrypted strings
-   | will not be safe. Please do this before deploying an application!
-   |
-   */
-
-  'key' => env('APP_KEY'),
-  'cipher' => 'AES-256-CBC',
-  'previous_keys' => [
-    ...array_filter(
-      explode(',', env('APP_PREVIOUS_KEYS', ''))
-    ),
-  ],
-
-  /*
-    |--------------------------------------------------------------------------
-    | Maintenance Mode Driver
-    |--------------------------------------------------------------------------
-    |
-    | These configuration options determine the driver used to determine and
-    | manage Laravel's "maintenance mode" status. The "cache" driver will
-    | allow maintenance mode to be controlled across multiple machines.
-    |
-    | Supported drivers: "file", "cache"
-    |
-    */
-
-  'maintenance' => [
-    'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-    'store' => env('APP_MAINTENANCE_STORE', 'database'),
-  ],
 
   /*
    |--------------------------------------------------------------------------
