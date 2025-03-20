@@ -13,6 +13,8 @@ return new class extends Migration {
       $table->id();
       $table->string('type');
       $table->string('label');
+      $table->integer('km')->nullable();
+      $table->smallInteger('year')->nullable();
     });
   }
 

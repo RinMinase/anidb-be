@@ -17,18 +17,78 @@ class FourleafMaintenanceSeeder extends Seeder {
    */
   public function run() {
     $types = [
-      ['type' => 'ac_coolant', 'label' => 'AC Coolant'],
-      ['type' => 'battery', 'label' => 'Battery'],
-      ['type' => 'brake_fluid', 'label' => 'Brake Fluid'],
-      ['type' => 'brake_sanding', 'label' => 'Brake Sanding'],
-      ['type' => 'engine_oil', 'label' => 'Engine Oil'],
-      ['type' => 'power_steering_fluid', 'label' => 'Power Steering Fluid'],
-      ['type' => 'radiator_fluid', 'label' => 'Radiator Fluid'],
-      ['type' => 'spark_plugs', 'label' => 'Spark Plugs'],
-      ['type' => 'tires_rotation', 'label' => 'Tires Rotation'],
-      ['type' => 'tires_change', 'label' => 'Tires Change'],
-      ['type' => 'transmission', 'label' => 'Transmission Fluid'],
-      ['type' => 'others', 'label' => 'Others'],
+      [
+        'type' => 'ac_coolant',
+        'label' => 'AC Coolant',
+        'km' => null,
+        'year' => 3
+      ],
+      [
+        'type' => 'battery',
+        'label' => 'Battery',
+        'km' => null,
+        'year' => 3
+      ],
+      [
+        'type' => 'brake_fluid',
+        'label' => 'Brake Fluid',
+        'km' => 50_000,
+        'year' => 2
+      ],
+      [
+        'type' => 'brake_sanding',
+        'label' => 'Brake Sanding',
+        'km' => 10_000,
+        'year' => 1
+      ],
+      [
+        'type' => 'engine_oil',
+        'label' => 'Engine Oil',
+        'km' => 8_000,
+        'year' => 1
+      ],
+      [
+        'type' => 'power_steering_fluid',
+        'label' => 'Power Steering Fluid',
+        'km' => 100_000,
+        'year' => 5
+      ],
+      [
+        'type' => 'radiator_fluid',
+        'label' => 'Radiator Fluid',
+        'km' => 50_000,
+        'year' => 3
+      ],
+      [
+        'type' => 'spark_plugs',
+        'label' => 'Spark Plugs',
+        'km' => 50_000,
+        'year' => null
+      ],
+      [
+        'type' => 'tires_rotation',
+        'label' => 'Tires Rotation',
+        'km' => 20_000,
+        'year' => null
+      ],
+      [
+        'type' => 'tires_change',
+        'label' => 'Tires Change',
+        'km' => null,
+        'year' => 5
+      ],
+      [
+        'type' => 'transmission',
+        'label' => 'Transmission Fluid',
+        'km' => 50_000,
+        'year' => 2
+      ],
+      [
+        'type' => 'others',
+        'label' => 'Others',
+        'km' => null,
+        'year' => null
+      ],
     ];
 
     foreach ($types as $key => $item) {
