@@ -10,7 +10,8 @@ use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use App\Console\PruneOldLogData;
+use App\Commands\BackupDatabase;
+use App\Commands\PruneOldLogData;
 use App\Exceptions\CustomException;
 use App\Middleware\ShouldHaveApiKey;
 use App\Middleware\VerifyCsrfToken;
@@ -64,6 +65,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
   ->withSchedule(function (Schedule $schedule) {
     $schedule->command(PruneOldLogData::class)->daily();
+    $schedule->command(BackupDatabase::class)->daily();
   })
 
   ->create();
