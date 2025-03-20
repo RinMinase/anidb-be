@@ -79,7 +79,7 @@ _Add info here_
 5. Generate the necessary API key and take note of this is as this is REQUIRED to access the API
 
     ```bash
-    php artisan app:api-key
+    php artisan app:generate-api-key
     ```
     or you can generate your own from any application, and add it under `API_KEY` in your `.env` file. Example:
     ```bash
