@@ -5,11 +5,7 @@ use Tpetry\PostgresqlEnhanced\Schema\Blueprint;
 use Tpetry\PostgresqlEnhanced\Support\Facades\Schema;
 
 class CreatePasswordResetsTable extends Migration {
-  /**
-   * Run the migrations.
-   *
-   * @return void
-   */
+
   public function up() {
     Schema::create('password_resets', function (Blueprint $table) {
       $table->unlogged();
@@ -22,11 +18,6 @@ class CreatePasswordResetsTable extends Migration {
     });
   }
 
-  /**
-   * Reverse the migrations.
-   *
-   * @return void
-   */
   public function down() {
     Schema::dropIfExists('password_resets');
   }
