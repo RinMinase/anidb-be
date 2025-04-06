@@ -14,7 +14,6 @@ return new class extends Migration {
       $table->uuid('id')->default(DB::raw('(gen_random_uuid())'))->primary();
 
       $table->enum('type', ['json', 'sql', 'xlsx'])->default('json');
-      $table->timestamp('expires');
       $table->boolean('is_finished');
       $table->boolean('is_automated');
 
