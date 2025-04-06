@@ -3714,6 +3714,35 @@
                 ]
             }
         },
+        "/api/exports/json": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Generate JSON Export",
+                "operationId": "225ab71337e10047d8d2797341f33b89",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ExportFileIncompleteResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/genres": {
             "get": {
                 "tags": [
@@ -8258,6 +8287,16 @@
                     "label": {
                         "type": "string",
                         "example": "Engine Oil"
+                    },
+                    "km": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 10000
+                    },
+                    "year": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2000
                     }
                 },
                 "type": "object"
