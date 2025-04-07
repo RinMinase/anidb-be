@@ -48,6 +48,8 @@ return [
    */
   'platform' => env('APP_PLATFORM', 'production'),
   'logs_to_keep' => env('LOGS_TO_KEEP', 200),
+  'backups_to_keep' => env('BACKUPS_TO_KEEP', 30),
+  'backups_max_days' => env('BACKUPS_MAX_DAYS', 60),
   'anilist_base_uri' => env('ANILIST_BASE_URI', 'graphql.anilist.co'),
   'vehicle_start_date' => env('VEHICLE_START_DATE', '2023-01-01'),
   'registration_root_password' => env('APP_REGISTRATION_ROOT_PASSWORD', ''),
