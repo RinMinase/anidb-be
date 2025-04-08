@@ -12,7 +12,7 @@ services:
       args:
         - PHP_VERSION=8.4.5
         - ALPINE_VERSION=3.21
-        - COMPOSER_VERSION=2.8.6
+        - COMPOSER_VERSION=2.8.8
     volumes:
       - ./:/var/www
     expose:
