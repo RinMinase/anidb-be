@@ -3714,6 +3714,83 @@
                 ]
             }
         },
+        "/api/local/temp/{filename}": {
+            "get": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Download Export File",
+                "operationId": "d29b61f29b0db09daddcdc5991dbc9c0",
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "path",
+                        "description": "UUID plus filetype",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158.json"
+                    },
+                    {
+                        "name": "expires",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "signature",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ExportFileIncompleteResponse"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "status": 403,
+                                    "message": "Invalid signature provided"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/exports/json": {
             "post": {
                 "tags": [

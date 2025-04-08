@@ -94,7 +94,38 @@ class ExportController extends Controller {
     ]);
   }
 
-  // No API Docs for actual download link
+  /**
+   * @OA\Get(
+   *   tags={"Import"},
+   *   path="/api/local/temp/{filename}",
+   *   summary="Download Export File",
+   *   security={{"token":{}, "api-key": {}}},
+   *
+   *   @OA\Parameter(
+   *     name="filename",
+   *     description="UUID plus filetype",
+   *     in="path",
+   *     required=true,
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158.json",
+   *     @OA\Schema(type="string"),
+   *   ),
+   *   @OA\Parameter(name="expires", in="query", required=true, @OA\Schema(type="string")),
+   *   @OA\Parameter(name="signature", in="query", required=true, @OA\Schema(type="string")),
+   *
+   *   @OA\Response(response=200, description="OK", @OA\Schema(type="file")),
+   *   @OA\Response(response=400, ref="#/components/responses/ExportFileIncompleteResponse"),
+   *   @OA\Response(
+   *     response=403,
+   *     description="Forbidden",
+   *     @OA\JsonContent(
+   *       example={"status": 403, "message": "Invalid signature provided"},
+   *       @OA\Property(property="status", type="integer", format="int32"),
+   *       @OA\Property(property="message", type="string"),
+   *     ),
+   *   ),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
   public function download(string $path): BinaryFileResponse {
     $data = $this->exportRepository->download($path);
 
