@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+
 return [
 
   /*
@@ -65,7 +67,7 @@ return [
 
   'middleware' => [
     'verify_csrf_token' => App\Middleware\VerifyCsrfToken::class,
-    'encrypt_cookies' => App\Middleware\EncryptCookies::class,
+    'encrypt_cookies' => Illuminate\Cookie\Middleware\EncryptCookies::class
   ],
 
 ];
