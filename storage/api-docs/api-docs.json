@@ -3743,6 +3743,64 @@
                 ]
             }
         },
+        "/api/exports/sql": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Generate SQL Export",
+                "operationId": "dc28c2a1f566c4e572d574d6194779e0",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ExportFileIncompleteResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/exports/xlsx": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "summary": "Generate XLSX (Excel File) Export",
+                "operationId": "1a114885840a433319f885d59e4c87d6",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/ExportFileIncompleteResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/genres": {
             "get": {
                 "tags": [
@@ -8465,11 +8523,6 @@
                     "type": {
                         "type": "string",
                         "example": "json"
-                    },
-                    "expires": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2020-01-01 00:00:00"
                     },
                     "isFinished": {
                         "type": "boolean",
