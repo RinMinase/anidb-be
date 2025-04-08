@@ -114,7 +114,7 @@ class ExportController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function generate_json() : JsonResponse {
+  public function generate_json(): JsonResponse {
     ExportRepository::generate_export(ExportTypesEnum::JSON, false);
 
     return DefaultResponse::success();
@@ -133,7 +133,7 @@ class ExportController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function generate_sql() : JsonResponse {
+  public function generate_sql(): JsonResponse {
     ExportRepository::generate_export(ExportTypesEnum::SQL, false);
 
     return DefaultResponse::success();
@@ -152,7 +152,7 @@ class ExportController extends Controller {
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
-  public function generate_xlsx() : JsonResponse {
+  public function generate_xlsx(): JsonResponse {
     ExportRepository::generate_export(ExportTypesEnum::XLSX, false);
 
     return DefaultResponse::success();
