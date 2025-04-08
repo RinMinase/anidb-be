@@ -28,6 +28,6 @@ class MaintenancePart extends Model {
   protected $hidden = [];
 
   public function type() {
-    return $this->belongsTo(MaintenancePartType::class, 'id_fourleaf_maintenance_type');
+    return $this->belongsTo(MaintenanceType::class, 'id_fourleaf_maintenance_type');
   }
 }
