@@ -17,22 +17,24 @@ class ExportRepository {
   }
 
   public function get_download_url($uuid) {
-    $export = Export::where('id', $uuid)->get()->firstOrFail();
+    $export = Export::where('id', $uuid)->firstOrFail();
 
     if (!$export->is_finished) {
       throw new FileIncompleteException;
     }
 
-    $file = storage_path('app/db-dumps/') . $export->id . '.' . $export->type;
-
-    if (file_exists($file)) {
-      return Storage::temporaryUrl($file, now()->addMinutes(10));
+    if (!Storage::disk('local')->exists('db-dumps/' . $export->id . '.' . $export->type)) {
+      throw new ModelNotFoundException;
     }
 
-    throw new ModelNotFoundException();
+    return Storage::disk('local')->temporaryUrl($export->id . '.' . $export->type, now()->addMinutes(10));
   }
 
   public function download($path) {
+    if (!Storage::disk('local')->exists('db-dumps/' . $path)) {
+      throw new ModelNotFoundException;
+    }
+
     $has_matches = preg_match(
       '/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.(\w+)/',
       $path,
@@ -40,18 +42,22 @@ class ExportRepository {
     );
 
     if ($has_matches && $matches[1] && $matches[2]) {
-      $export = Export::where('id', $matches[1])->get()->firstOrFail();
+      $export = Export::where('id', $matches[1])->firstOrFail();
+
+      if (!$export->is_finished) {
+        throw new FileIncompleteException;
+      }
 
       $filename = $export->created_at;
       $filename = str_replace(':', '-', $filename);
       $filename = str_replace(' ', '_', $filename);
       $filename .= $export->is_automated ? '_automated' : '';
-      $filename .= $export->type;
+      $filename .= '.' . $export->type;
 
       $headers = ['Content-Type' => 'application/' . $matches[2]];
 
       return [
-        'file' => $path,
+        'file' => Storage::disk('local')->path('db-dumps/' . $path),
         'filename' => $filename,
         'headers' => $headers,
       ];
