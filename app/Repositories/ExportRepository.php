@@ -5,7 +5,9 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 
+use App\Enums\ExportTypesEnum;
 use App\Exceptions\Export\FileIncompleteException;
+use App\Jobs\ProcessExports;
 use App\Models\Export;
 
 class ExportRepository {
@@ -56,5 +58,16 @@ class ExportRepository {
     }
 
     throw new ModelNotFoundException;
+  }
+
+  public static function generate_export(ExportTypesEnum $type, bool $is_automated) {
+    Export::create([
+      'type' => $type->value,
+      "is_finished" => false,
+      'is_automated' => $is_automated,
+    ]);
+
+    // Dispatches to background task queue
+    ProcessExports::dispatch();
   }
 }
