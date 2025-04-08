@@ -310,7 +310,8 @@
                 },
                 "security": [
                     {
-                        "token": []
+                        "token": [],
+                        "api-key": []
                     }
                 ]
             }

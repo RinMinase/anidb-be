@@ -152,7 +152,7 @@ class AuthController extends Controller {
    *   tags={"User"},
    *   path="/api/auth/user",
    *   summary="Get User",
-   *   security={{"token": {}}},
+   *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\Response(
    *     response=200,
