@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -50,6 +51,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
       if ($e instanceof ModelNotFoundException)
         return response()->json(['status' => 404, 'message' => 'The provided ID is invalid, or the item does not exist'], 404);
+
+      if ($e instanceof InvalidSignatureException)
+        return response()->json(['status' => 403, 'message' => 'Invalid signature provided'], 403);
 
       $is_prod = config('app.platform') != 'local';
       $has_no_custom_exception = !$e instanceof CustomException;
