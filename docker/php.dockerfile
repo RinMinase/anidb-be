@@ -54,7 +54,8 @@ RUN echo "alias pa='php artisan'" >> "$ENV" \
   && echo "alias da='composer dumpautoload'" >> "$ENV" \
   && echo "alias dump='composer dumpautoload'" >> "$ENV" \
   && echo "alias doc='composer docs'" >> "$ENV" \
-  && echo "alias docs='composer docs'" >> "$ENV"
+  && echo "alias docs='composer docs'" >> "$ENV" \
+  && echo "alias clear-cache='composer clear-cache'" >> "$ENV"
 
 ###########################################################################
 # Final Setup
