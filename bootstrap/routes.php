@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use App\Middleware\IsAdminRole;
+use App\Middleware\ShouldHaveApiKey;
 
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
@@ -109,6 +110,7 @@ Route::prefix('api')
     Route::get('local/temp/{path}', [\App\Controllers\ExportController::class, 'download'])
       ->where('path', '(.*)')
       ->middleware('signed')
+      ->withoutMiddleware(ShouldHaveApiKey::class)
       ->name('files.download');
 
     Route::prefix('auth')
