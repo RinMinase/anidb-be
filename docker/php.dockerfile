@@ -21,12 +21,13 @@ RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
 ###########################################################################
-# PostgreSQL
+# PostgreSQL & Client (pg_dump)
 ###########################################################################
 
 RUN set -xe; \
     apk add --no-cache \
-    postgresql-dev
+    postgresql-dev \
+    postgresql-client
 
 RUN docker-php-ext-install pdo pdo_pgsql
 
