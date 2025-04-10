@@ -65,21 +65,18 @@ class ProcessExports implements ShouldQueue {
       $type = ExportTypesEnum::tryFrom($value->type);
 
       if ($type === ExportTypesEnum::SQL) {
-        $this->process_sql($id);
+        if (config('app.platform') === 'production') {
+          $this->process_heroku_sql($id);
+        } else {
+          $this->process_sql($id);
+        }
       } elseif ($type === ExportTypesEnum::XLSX) {
-        $contents = $this->process_xlsx();
-
-        // generate file
-        $path = Storage::disk('local')->path("db-dumps/{$id}.xlsx");
-        $file = fopen($path, 'w');
-        fwrite($file, $contents);
-        fclose($file);
+        $this->process_xlsx($id);
       } else {
-        // defaults to JSON
         $this->process_json($id);
       }
 
-      // // change status to finished
+      // change status to finished
       $value->is_finished = true;
       $value->save();
     }
@@ -118,7 +115,7 @@ class ProcessExports implements ShouldQueue {
     $for_deletion->delete();
   }
 
-  public function process_sql(string $uuid): void {
+  private function process_sql(string $uuid) {
     $tables = [
       'bucket_sim_infos',
       'bucket_sims',
@@ -173,11 +170,15 @@ class ProcessExports implements ShouldQueue {
       ->dumpToFile(Storage::disk('local')->path('db-dumps/'. $uuid . '.sql'));
   }
 
-  private function process_xlsx(): string {
-    return '';
+  private function process_heroku_sql(string $uuid) {
+    Storage::disk('local')->put("db-dumps/{$uuid}.sql", '');
   }
 
-  public function process_json(string $uuid): void {
+  private function process_xlsx(string $uuid) {
+    Storage::disk('local')->put("db-dumps/{$uuid}.xlsx", '');
+  }
+
+  private function process_json(string $uuid) {
     // Buckets
     $hidden_columns = ['id', 'created_at', 'updated_at'];
     $bucket_sim_infos = BucketSimInfo::all()->makeVisible($hidden_columns)->toArray();
@@ -300,7 +301,6 @@ class ProcessExports implements ShouldQueue {
 
     $contents = json_encode($data, JSON_PRETTY_PRINT);
 
-    // generate file
     Storage::disk('local')->put("db-dumps/{$uuid}.json", $contents);
   }
 }
