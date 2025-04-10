@@ -23,6 +23,7 @@
         "darkaonline/l5-swagger": "~9.0.1",
         "laravel/framework": "~12.8.1",
         "laravel/sanctum": "~4.0.8",
+        "nelexa/zip": "~4.0.2",
         "nesbot/carbon": "~3.9.0",
         "sentry/sentry-laravel": "~4.13.0",
         "spatie/db-dumper": "~3.8.0",
