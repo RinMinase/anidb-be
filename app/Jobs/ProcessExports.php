@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Spatie\DbDumper\Databases\PostgreSql as PostgreSqlDumper;
 
 use App\Enums\ExportTypesEnum;
 
@@ -59,24 +61,24 @@ class ProcessExports implements ShouldQueue {
 
     foreach ($unfinished_exports as $value) {
       $id = $value->id;
-      $type = $value->type;
+      $type = ExportTypesEnum::tryFrom($value->type);
 
-      $contents = '';
       if ($type === ExportTypesEnum::SQL) {
-        $contents = $this->process_sql();
+        $this->process_sql($id);
       } elseif ($type === ExportTypesEnum::XLSX) {
         $contents = $this->process_xlsx();
+
+        // generate file
+        $path = Storage::disk('local')->path("db-dumps/{$id}.xlsx");
+        $file = fopen($path, 'w');
+        fwrite($file, $contents);
+        fclose($file);
       } else {
         // defaults to JSON
-        $contents = $this->process_json();
+        $this->process_json($id);
       }
 
-      // generate file
-      $file = fopen(storage_path("app/db-dumps/{$id}.{$type}"), 'w');
-      fwrite($file, $contents);
-      fclose($file);
-
-      // change status to finished
+      // // change status to finished
       $value->is_finished = true;
       $value->save();
     }
@@ -115,15 +117,66 @@ class ProcessExports implements ShouldQueue {
     $for_deletion->delete();
   }
 
-  private function process_sql(): string {
-    return '';
+  public function process_sql(string $uuid): void {
+    $tables = [
+      'bucket_sim_infos',
+      'bucket_sims',
+      'buckets',
+      'catalogs',
+      'codecs_audio',
+      'codecs_video',
+      'entries',
+      'entries_genre',
+      'entries_offquel',
+      'entries_rating',
+      'entries_rewatch',
+      'entries_watchers',
+      'exports',
+      'fourleaf_bills_electricity',
+      'fourleaf_electricity',
+      'fourleaf_gas',
+      'fourleaf_maintenance',
+      'fourleaf_maintenance_parts',
+      'fourleaf_maintenance_types',
+      'fourleaf_settings',
+      'genres',
+      'groups',
+      'logs',
+      'partials',
+      'pc_component_types',
+      'pc_components',
+      'pc_infos',
+      'pc_owners',
+      'pc_setups',
+      'priorities',
+      'qualities',
+      'sequences',
+    ];
+
+    $connection_url = env('DATABASE_URL') ?? config('database.connections.pgsql.url');
+
+    if (!$connection_url) {
+      $config = config('database.connections.pgsql');
+
+      $connection_url = 'postgresql://';
+      $connection_url .= $config['username'] . ':';
+      $connection_url .= $config['password'] . '@';
+      $connection_url .= $config['host'] . ':';
+      $connection_url .= $config['port'] . '/';
+      $connection_url .= $config['database'];
+    }
+
+    PostgreSqlDumper::create()
+      ->setDatabaseUrl($connection_url)
+      ->includeTables($tables)
+      ->dumpToFile(Storage::disk('local')->path('db-dumps/'. $uuid . '.sql'));
   }
 
   private function process_xlsx(): string {
     return '';
   }
 
-  public function process_json(): string {
+  public function process_json(string $uuid): void {
     // Buckets
     $hidden_columns = ['id', 'created_at', 'updated_at'];
     $bucket_sim_infos = BucketSimInfo::all()->makeVisible($hidden_columns)->toArray();
@@ -147,7 +200,7 @@ class ProcessExports implements ShouldQueue {
     $entries_watchers = EntryWatcher::all()->toArray();
 
     $hidden_columns = ['id_entries'];
-    $entries_genres = EntryGenre::all()->makeVisible($hidden_columns)->toArray();
+    $entries_genre = EntryGenre::all()->makeVisible($hidden_columns)->toArray();
 
     $hidden_columns = ['id', 'id_entries'];
     $entries_rewatch = EntryRewatch::all()->makeVisible($hidden_columns)->toArray();
@@ -202,7 +255,6 @@ class ProcessExports implements ShouldQueue {
     $fourleaf_maintenance_parts = MaintenancePart::all()->toArray();
     $fourleaf_maintenance_types = MaintenanceType::all()->toArray();
 
-
     $data = [
       'bucket_sim_infos' => $bucket_sim_infos,
       'bucket_sims' => $bucket_sims,
@@ -213,7 +265,7 @@ class ProcessExports implements ShouldQueue {
       'sequences' => $sequences,
 
       'entries_watchers' => $entries_watchers,
-      'entries_genres' => $entries_genres,
+      'entries_genre' => $entries_genre,
       'entries_rewatch' => $entries_rewatch,
       'entries_rating' => $entries_rating,
       'entries_offquel' => $entries_offquel,
@@ -243,6 +295,9 @@ class ProcessExports implements ShouldQueue {
       'fourleaf_maintenance_types' => $fourleaf_maintenance_types,
     ];
 
-    return json_encode($data, JSON_PRETTY_PRINT);
+    $contents = json_encode($data, JSON_PRETTY_PRINT);
+
+    // generate file
+    Storage::disk('local')->put("db-dumps/{$uuid}.json", $contents);
   }
 }
