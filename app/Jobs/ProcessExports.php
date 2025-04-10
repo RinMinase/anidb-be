@@ -65,18 +65,18 @@ class ProcessExports implements ShouldQueue {
       $type = ExportTypesEnum::tryFrom($value->type);
 
       if ($type === ExportTypesEnum::SQL) {
-        if (config('app.platform') === 'production') {
-          $this->process_heroku_sql($id);
-        } else {
-          $this->process_sql($id);
-        }
+        // if (config('app.platform') === 'production') {
+        //   $this->process_heroku_sql($id);
+        // } else {
+        $this->process_sql($id);
+        // }
       } elseif ($type === ExportTypesEnum::XLSX) {
         $this->process_xlsx($id);
       } else {
         $this->process_json($id);
       }
 
-      // change status to finished
+      // Change status to finished
       $value->is_finished = true;
       $value->save();
     }
@@ -167,12 +167,12 @@ class ProcessExports implements ShouldQueue {
     PostgreSqlDumper::create()
       ->setDatabaseUrl($connection_url)
       ->includeTables($tables)
-      ->dumpToFile(Storage::disk('local')->path('db-dumps/'. $uuid . '.sql'));
+      ->dumpToFile(Storage::disk('local')->path('db-dumps/' . $uuid . '.sql'));
   }
 
-  private function process_heroku_sql(string $uuid) {
-    Storage::disk('local')->put("db-dumps/{$uuid}.sql", '');
-  }
+  // private function process_heroku_sql(string $uuid) {
+  //   Storage::disk('local')->put("db-dumps/{$uuid}.sql", '');
+  // }
 
   private function process_xlsx(string $uuid) {
     Storage::disk('local')->put("db-dumps/{$uuid}.xlsx", '');
