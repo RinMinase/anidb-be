@@ -21,6 +21,17 @@ RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install gd
 
 ###########################################################################
+# PHPSpreadsheet (all envs)
+###########################################################################
+
+RUN set -xe; \
+    apk add --no-cache \
+    libzip-dev \
+    zip
+
+RUN docker-php-ext-install zip
+
+###########################################################################
 # PostgreSQL & Client (pg_dump)
 ###########################################################################
 
