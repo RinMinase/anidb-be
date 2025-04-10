@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "ext-gd": "*",
         "cloudinary/cloudinary_php": "~3.1.0",
         "darkaonline/l5-swagger": "~9.0.1",
         "laravel/framework": "~12.8.1",
