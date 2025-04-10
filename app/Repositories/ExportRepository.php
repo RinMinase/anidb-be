@@ -4,9 +4,12 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
+use PhpZip\Exception\ZipException;
+use PhpZip\ZipFile;
 
 use App\Enums\ExportTypesEnum;
 use App\Exceptions\Export\FileIncompleteException;
+use App\Exceptions\Export\ZipFileProcessException;
 use App\Jobs\ProcessExports;
 use App\Models\Export;
 
@@ -27,43 +30,45 @@ class ExportRepository {
       throw new ModelNotFoundException;
     }
 
-    return Storage::disk('local')->temporaryUrl($export->id . '.' . $export->type, now()->addMinutes(10));
+    return Storage::disk('local')->temporaryUrl($export->id, now()->addMinutes(10));
   }
 
-  public function download($path) {
-    if (!Storage::disk('local')->exists('db-dumps/' . $path)) {
-      throw new ModelNotFoundException;
+  public function download(string $uuid) {
+    $export = Export::where('id', $uuid)->firstOrFail();
+    $filename = $export->id . '.' . $export->type;
+
+    if (!$export->is_finished) {
+      throw new FileIncompleteException;
     }
 
-    $has_matches = preg_match(
-      '/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.(\w+)/',
-      $path,
-      $matches
-    );
-
-    if ($has_matches && $matches[1] && $matches[2]) {
-      $export = Export::where('id', $matches[1])->firstOrFail();
-
-      if (!$export->is_finished) {
-        throw new FileIncompleteException;
-      }
-
-      $filename = $export->created_at;
-      $filename = str_replace(':', '-', $filename);
-      $filename = str_replace(' ', '_', $filename);
-      $filename .= $export->is_automated ? '_automated' : '';
-      $filename .= '.' . $export->type;
-
-      $headers = ['Content-Type' => 'application/' . $matches[2]];
-
-      return [
-        'file' => Storage::disk('local')->path('db-dumps/' . $path),
-        'filename' => $filename,
-        'headers' => $headers,
-      ];
+    if (!Storage::disk('local')->exists('db-dumps/' . $filename)) {
+      throw new ZipFileProcessException;
     }
 
-    throw new ModelNotFoundException;
+    $zip = new ZipFile();
+
+    try {
+      $zip->addFile(Storage::disk('local')->path('db-dumps/' . $filename))
+        ->saveAsFile(Storage::disk('local')->path('db-dumps/temp.zip'))
+        ->close();
+    } catch (ZipException) {
+      throw new ZipFileProcessException;
+    } finally {
+      $zip->close();
+    }
+
+    // Filename format <yyyy-mm-dd_hh-mm-ss><_automated>.zip
+    $zip_filename = $export->created_at;
+    $zip_filename = str_replace(':', '-', $zip_filename);
+    $zip_filename = str_replace(' ', '_', $zip_filename);
+    $zip_filename .= $export->is_automated ? '_automated' : '';
+    $zip_filename .= '.zip';
+
+    return [
+      'file' => Storage::disk('local')->path('db-dumps/temp.zip'),
+      'filename' => $zip_filename,
+      'headers' => ['Content-Type' => 'application/zip'],
+    ];
   }
 
   public static function generate_export(ExportTypesEnum $type, bool $is_automated) {

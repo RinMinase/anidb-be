@@ -85,6 +85,7 @@ class ExportController extends Controller {
    *   ),
    *   @OA\Response(response=400, ref="#/components/responses/ExportFileIncompleteResponse"),
    *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
    *   @OA\Response(response=500, ref="#/components/responses/Failed"),
    * )
    */
@@ -103,11 +104,11 @@ class ExportController extends Controller {
    *
    *   @OA\Parameter(
    *     name="filename",
-   *     description="UUID plus filetype",
+   *     description="UUID",
    *     in="path",
    *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158.json",
-   *     @OA\Schema(type="string"),
+   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+   *     @OA\Schema(type="string", format="uuid"),
    *   ),
    *   @OA\Parameter(name="expires", in="query", required=true, @OA\Schema(type="string")),
    *   @OA\Parameter(name="signature", in="query", required=true, @OA\Schema(type="string")),
@@ -123,11 +124,12 @@ class ExportController extends Controller {
    *       @OA\Property(property="message", type="string"),
    *     ),
    *   ),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
+   *   @OA\Response(response=500, ref="#/components/responses/ExportDownloadFailedResponse"),
    * )
    */
-  public function download(string $path): BinaryFileResponse {
-    $data = $this->exportRepository->download($path);
+  public function download(string $uuid): BinaryFileResponse {
+    $data = $this->exportRepository->download($uuid);
 
     return response()->download($data['file'], $data['filename'], $data['headers']);
   }
@@ -188,4 +190,28 @@ class ExportController extends Controller {
 
     return DefaultResponse::success();
   }
+}
+
+/**
+ * @OA\Response(
+ *   response="ExportDownloadFailedResponse",
+ *   description="Other Error Responses",
+ *   @OA\JsonContent(
+ *     examples={
+ *       @OA\Examples(
+ *         example="ZipFileProcessErrorExample",
+ *         ref="#/components/examples/ZipFileProcessErrorExample",
+ *       ),
+ *       @OA\Examples(
+ *         example="BasicFailedExample",
+ *         summary="Basic Failed Error",
+ *         value={"status": 500, "message": "Failed"},
+ *       ),
+ *     },
+ *     @OA\Property(property="status", type="integer", format="int32"),
+ *     @OA\Property(property="message", type="string"),
+ *   ),
+ * )
+ */
+class ExportDownloadFailedResponse {
 }
