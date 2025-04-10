@@ -8,7 +8,7 @@ RUN set -xe; \
     bash
 
 ###########################################################################
-# PHPSpreadsheet & Image Upload Testing
+# PHPSpreadsheet (all envs) & Image Upload Testing (only local)
 ###########################################################################
 
 RUN set -xe; \
