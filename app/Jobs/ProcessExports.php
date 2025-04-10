@@ -38,12 +38,13 @@ use App\Models\Priority;
 use App\Models\Quality;
 use App\Models\Sequence;
 
-use App\Fourleaf\Models\BillsElectricity;
-use App\Fourleaf\Models\Electricity;
-use App\Fourleaf\Models\Gas;
-use App\Fourleaf\Models\Maintenance;
-use App\Fourleaf\Models\MaintenancePart;
-use App\Fourleaf\Models\MaintenanceType;
+use App\Fourleaf\Models\BillsElectricity as FourleafBillsElectricity;
+use App\Fourleaf\Models\Electricity as FourleafElectricity;
+use App\Fourleaf\Models\Gas as FourleafGas;
+use App\Fourleaf\Models\Maintenance as FourleafMaintenance;
+use App\Fourleaf\Models\MaintenancePart as FourleafMaintenancePart;
+use App\Fourleaf\Models\MaintenanceType as FourleafMaintenanceType;
+use App\Fourleaf\Models\Settings as FourleafSettings;
 
 class ProcessExports implements ShouldQueue {
 
@@ -247,13 +248,14 @@ class ProcessExports implements ShouldQueue {
 
     // Fourleaf
     $hidden_columns = ['id'];
-    $fourleaf_bills_electricity = BillsElectricity::all()->makeVisible($hidden_columns)->toArray();
+    $fourleaf_bills_electricity = FourleafBillsElectricity::all()->makeVisible($hidden_columns)->toArray();
 
-    $fourleaf_electricity = Electricity::all()->toArray();
-    $fourleaf_gas = Gas::all()->toArray();
-    $fourleaf_maintenance = Maintenance::all()->toArray();
-    $fourleaf_maintenance_parts = MaintenancePart::all()->toArray();
-    $fourleaf_maintenance_types = MaintenanceType::all()->toArray();
+    $fourleaf_electricity = FourleafElectricity::all()->toArray();
+    $fourleaf_gas = FourleafGas::all()->toArray();
+    $fourleaf_maintenance = FourleafMaintenance::all()->toArray();
+    $fourleaf_maintenance_parts = FourleafMaintenancePart::all()->toArray();
+    $fourleaf_maintenance_types = FourleafMaintenanceType::all()->toArray();
+    $fourleaf_settings = FourleafSettings::all()->toArray();
 
     $data = [
       'bucket_sim_infos' => $bucket_sim_infos,
@@ -293,6 +295,7 @@ class ProcessExports implements ShouldQueue {
       'fourleaf_maintenance' => $fourleaf_maintenance,
       'fourleaf_maintenance_parts' => $fourleaf_maintenance_parts,
       'fourleaf_maintenance_types' => $fourleaf_maintenance_types,
+      'fourleaf_settings' => $fourleaf_settings,
     ];
 
     $contents = json_encode($data, JSON_PRETTY_PRINT);
