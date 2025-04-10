@@ -3703,6 +3703,9 @@
                     "401": {
                         "$ref": "#/components/responses/Unauthorized"
                     },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
                     "500": {
                         "$ref": "#/components/responses/Failed"
                     }
@@ -3726,12 +3729,13 @@
                     {
                         "name": "filename",
                         "in": "path",
-                        "description": "UUID plus filetype",
+                        "description": "UUID",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "uuid"
                         },
-                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158.json"
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
                         "name": "expires",
@@ -3780,8 +3784,11 @@
                             }
                         }
                     },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
                     "500": {
-                        "$ref": "#/components/responses/Failed"
+                        "$ref": "#/components/responses/ExportDownloadFailedResponse"
                     }
                 },
                 "security": [
@@ -9640,6 +9647,37 @@
                     }
                 }
             },
+            "ExportDownloadFailedResponse": {
+                "description": "Other Error Responses",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "examples": {
+                            "ZipFileProcessErrorExample": {
+                                "$ref": "#/components/examples/ZipFileProcessErrorExample"
+                            },
+                            "BasicFailedExample": {
+                                "summary": "Basic Failed Error",
+                                "value": {
+                                    "status": 500,
+                                    "message": "Failed"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "AnilistConnectionErrorResponse": {
                 "description": "Connection Error",
                 "content": {
@@ -9791,6 +9829,29 @@
                         "example": {
                             "status": 400,
                             "message": "The file is still incomplete"
+                        }
+                    }
+                }
+            },
+            "ZipFileProcessException": {
+                "description": "Export Zip File Process Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 500,
+                            "message": "Error in processing zip file."
                         }
                     }
                 }
@@ -12146,6 +12207,13 @@
                 "value": {
                     "status": 500,
                     "message": "Issues in parsing AniList response."
+                }
+            },
+            "ZipFileProcessErrorExample": {
+                "summary": "Export Zip File Process Error",
+                "value": {
+                    "status": 500,
+                    "message": "Error in processing zip file."
                 }
             }
         },
