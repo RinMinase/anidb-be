@@ -25,6 +25,7 @@
         "laravel/sanctum": "~4.0.8",
         "nesbot/carbon": "~3.9.0",
         "sentry/sentry-laravel": "~4.13.0",
+        "spatie/db-dumper": "~3.8.0",
         "tpetry/laravel-postgresql-enhanced": "~2.4.0"
     },
     "require-dev": {
