@@ -3,11 +3,15 @@
 namespace App\Jobs;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Spatie\DbDumper\Databases\PostgreSql as PostgreSqlDumper;
 
 use App\Enums\ExportTypesEnum;
@@ -174,8 +178,22 @@ class ProcessExports implements ShouldQueue {
   //   Storage::disk('local')->put("db-dumps/{$uuid}.sql", '');
   // }
 
-  private function process_xlsx(string $uuid) {
-    Storage::disk('local')->put("db-dumps/{$uuid}.xlsx", '');
+  public function process_xlsx(string $uuid) {
+    // Setup Spreadsheet
+    $spreadsheet = new Spreadsheet();
+    $spreadsheet->getDefaultStyle()->getFont()->setSize(12);
+
+    // Entries
+    $entries_sheet = $spreadsheet->getActiveSheet();
+    $entries_sheet = $this->process_xlsx_entries($entries_sheet);
+
+    // Buckets
+    $buckets_sheet = $spreadsheet->createSheet();
+    $buckets_sheet = $this->process_xlsx_buckets($buckets_sheet);
+
+    // Process Spreadsheet
+    $writer = new Xlsx($spreadsheet);
+    $writer->save(Storage::disk('local')->path("db-dumps/{$uuid}.xlsx"));
   }
 
   private function process_json(string $uuid) {
@@ -302,5 +320,185 @@ class ProcessExports implements ShouldQueue {
     $contents = json_encode($data, JSON_PRETTY_PRINT);
 
     Storage::disk('local')->put("db-dumps/{$uuid}.json", $contents);
+  }
+
+  private function process_xlsx_entries(Worksheet $sheet) {
+    // Fetch Data
+    $subquery = EntryRewatch::select('id_entries', 'date_rewatched')
+      ->whereIn('date_rewatched', function ($where_in) {
+        $where_in->select(DB::raw('max(date_rewatched)'))
+          ->from('entries_rewatch')
+          ->groupBy('id_entries');
+      });
+
+    $entries_query = Entry::select()
+      ->with('quality')
+      ->with('offquels')
+      ->with('genres')
+      ->with('rating')
+      ->with('watcher')
+      ->leftJoinSub($subquery, 'rewatch', function ($join) {
+        $join->on('entries.id', '=', 'rewatch.id_entries');
+      })
+      ->orderBy('id_quality')
+      ->orderBy('title')
+      ->orderBy('id')
+      ->get()
+      ->makeVisible(['id', 'id_quality', 'updated_at', 'deleted_at']);
+
+    // Process Sheet
+    $sheet->setTitle("Entries")->freezePane('E2');
+
+    $sheet->setCellValue('A1', 'ID')
+      ->setCellValue('B1', 'UUID') // Hidden on sheet
+      ->setCellValue('C1', 'Quality')
+      ->setCellValue('D1', 'Title')
+      ->setCellValue('E1', 'First Finished')
+      ->setCellValue('F1', 'Last Finished')
+      ->setCellValue('G1', 'Duration')
+      ->setCellValue('H1', 'Filesize')
+      ->setCellValue('I1', 'Eps')
+      ->setCellValue('J1', 'OVAS')
+      ->setCellValue('K1', 'Sp')
+      ->setCellValue('L1', 'Season No.')
+      ->setCellValue('M1', 'Series Title')
+      ->setCellValue('N1', 'Prequel')
+      ->setCellValue('O1', 'Sequel')
+      ->setCellValue('P1', 'Release Season')
+      ->setCellValue('Q1', 'Release Year')
+      ->setCellValue('R1', 'Enc. Video')
+      ->setCellValue('S1', 'Enc. Audio')
+      ->setCellValue('T1', 'Enc. Subs')
+      ->setCellValue('U1', 'Is HDR?')
+      ->setCellValue('V1', 'Video Codec')
+      ->setCellValue('W1', 'Audio Codec')
+      ->setCellValue('X1', 'Variants')
+      ->setCellValue('Y1', 'Remarks');
+
+    $sheet->getRowDimension('1')->setRowHeight(20, 'pt');
+
+    $sheet->getColumnDimension('A')->setAutoSize(true);
+    $sheet->getColumnDimension('B')->setWidth(190, 'pt')->setVisible(false);
+    $sheet->getColumnDimension('C')->setAutoSize(true);
+    $sheet->getColumnDimension('D')->setAutoSize(true);
+    $sheet->getColumnDimension('E')->setAutoSize(true);
+    $sheet->getColumnDimension('F')->setAutoSize(true);
+    $sheet->getColumnDimension('G')->setAutoSize(true);
+    $sheet->getColumnDimension('H')->setAutoSize(true);
+    $sheet->getColumnDimension('I')->setAutoSize(true);
+    $sheet->getColumnDimension('J')->setAutoSize(true);
+    $sheet->getColumnDimension('K')->setAutoSize(true);
+    $sheet->getColumnDimension('L')->setAutoSize(true);
+    $sheet->getColumnDimension('M')->setAutoSize(true);
+    $sheet->getColumnDimension('N')->setAutoSize(true);
+    $sheet->getColumnDimension('O')->setAutoSize(true);
+    $sheet->getColumnDimension('P')->setAutoSize(true);
+    $sheet->getColumnDimension('Q')->setAutoSize(true);
+    $sheet->getColumnDimension('R')->setAutoSize(true);
+    $sheet->getColumnDimension('S')->setAutoSize(true);
+    $sheet->getColumnDimension('T')->setAutoSize(true);
+    $sheet->getColumnDimension('U')->setAutoSize(true);
+    $sheet->getColumnDimension('V')->setAutoSize(true);
+    $sheet->getColumnDimension('W')->setAutoSize(true);
+    $sheet->getColumnDimension('X')->setAutoSize(true);
+    $sheet->getColumnDimension('Y')->setAutoSize(true);
+
+    // Header
+    $sheet->getStyle('1:1')->applyFromArray([
+      'font' => ['bold' => true],
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+      ],
+      'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+        'startColor' => ['rgb' => '00A6F4'],
+      ],
+    ]);
+
+    // UUID column
+    $sheet->getStyle('B:B')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Title column
+    $sheet->getStyle('C:C')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // First & Last Finished columns
+    $sheet->getStyle('E:F')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Duration column
+    $sheet->getStyle('G:G')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Filesize column
+    $sheet->getStyle('H:H')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Episodes / OVAs / Spcials columns
+    $sheet->getStyle('I:K')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Placing the data
+    foreach ($entries_query as $index => $value) {
+      $row = $index + 2;
+
+      $sheet->setCellValue("A{$row}", $value->id)
+        ->setCellValue("B{$row}", $value->uuid)
+        ->setCellValue("C{$row}", $value->quality->quality)
+        ->setCellValue("D{$row}", $value->title)
+        ->setCellValue("E{$row}", $value->date_finished)
+        ->setCellValue("F{$row}", $value->date_rewatched)
+        ->setCellValue(
+          "G{$row}",
+          $value->duration ?
+            CarbonInterval::seconds($value->duration ?? 0)->cascade()->format('%hh %im %ss') :
+            '-'
+        )
+        ->setCellValue("H{$row}", parse_filesize($value->filesize))
+        ->setCellValue("I{$row}", $value->episodes ?: '')
+        ->setCellValue("J{$row}", $value->ovas ?: '')
+        ->setCellValue("K{$row}", $value->specials ?: '');
+
+      // Quality column cell data formatting
+      $bg_color = null;
+      if ($value->quality->id === 1) $bg_color = 'ff99cc'; // uhd
+      if ($value->quality->id === 2) $bg_color = '99ff99'; // fhd
+      if ($value->quality->id === 3) $bg_color = '99ccff'; // hd
+      if ($value->quality->id === 4) $bg_color = 'ffcc66'; // hq
+
+      if ($bg_color) {
+        $sheet->getStyle("C{$row}")
+          ->getFill()
+          ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+          ->getStartColor()
+          ->setRGB($bg_color);
+      }
+    }
+
+    return $sheet;
+  }
+
+  private function process_xlsx_buckets(Worksheet $sheet) {
+    $sheet->setTitle('Buckets');
   }
 }
