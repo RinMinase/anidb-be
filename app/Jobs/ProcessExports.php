@@ -14,8 +14,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Spatie\DbDumper\Databases\PostgreSql as PostgreSqlDumper;
 
-use App\Enums\ExportTypesEnum;
-
 use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
@@ -49,6 +47,9 @@ use App\Fourleaf\Models\Maintenance as FourleafMaintenance;
 use App\Fourleaf\Models\MaintenancePart as FourleafMaintenancePart;
 use App\Fourleaf\Models\MaintenanceType as FourleafMaintenanceType;
 use App\Fourleaf\Models\Settings as FourleafSettings;
+
+use App\Enums\ExportTypesEnum;
+use App\Repositories\EntryRepository;
 
 class ProcessExports implements ShouldQueue {
 
@@ -190,6 +191,9 @@ class ProcessExports implements ShouldQueue {
     // Buckets
     $buckets_sheet = $spreadsheet->createSheet();
     $buckets_sheet = $this->process_xlsx_buckets($buckets_sheet);
+
+    // Reset cursor / selected cell
+    $spreadsheet->setActiveSheetIndexByName('Entries')->setSelectedCell('A1');
 
     // Process Spreadsheet
     $writer = new Xlsx($spreadsheet);
@@ -360,20 +364,20 @@ class ProcessExports implements ShouldQueue {
       ->setCellValue('I1', 'Eps')
       ->setCellValue('J1', 'OVAS')
       ->setCellValue('K1', 'Sp')
-      ->setCellValue('L1', 'Season No.')
-      ->setCellValue('M1', 'Series Title')
+      ->setCellValue('L1', 'Series Title')
+      ->setCellValue('M1', 'Season No.')
       ->setCellValue('N1', 'Prequel')
       ->setCellValue('O1', 'Sequel')
-      ->setCellValue('P1', 'Release Season')
-      ->setCellValue('Q1', 'Release Year')
-      ->setCellValue('R1', 'Enc. Video')
-      ->setCellValue('S1', 'Enc. Audio')
-      ->setCellValue('T1', 'Enc. Subs')
-      ->setCellValue('U1', 'Is HDR?')
-      ->setCellValue('V1', 'Video Codec')
-      ->setCellValue('W1', 'Audio Codec')
-      ->setCellValue('X1', 'Variants')
-      ->setCellValue('Y1', 'Remarks');
+      ->setCellValue('P1', 'Release')
+      ->setCellValue('Q1', 'Enc. Video')
+      ->setCellValue('R1', 'Enc. Audio')
+      ->setCellValue('S1', 'Enc. Subs')
+      ->setCellValue('T1', 'Is HDR?')
+      ->setCellValue('U1', 'Video Codec')
+      ->setCellValue('V1', 'Audio Codec')
+      ->setCellValue('W1', 'Variants')
+      ->setCellValue('X1', 'Remarks')
+      ->setCellValue('Y1', 'Watched by');
 
     $sheet->getRowDimension('1')->setRowHeight(20, 'pt');
 
@@ -458,6 +462,41 @@ class ProcessExports implements ShouldQueue {
       ],
     ]);
 
+    // Season No.
+    $sheet->getStyle('M:M')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Release
+    $sheet->getStyle('P:P')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Encoders
+    $sheet->getStyle('Q:S')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // HDR
+    $sheet->getStyle('T:T')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Watcher
+    $sheet->getStyle('Y:Y')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
     // Placing the data
     foreach ($entries_query as $index => $value) {
       $row = $index + 2;
@@ -477,7 +516,22 @@ class ProcessExports implements ShouldQueue {
         ->setCellValue("H{$row}", parse_filesize($value->filesize))
         ->setCellValue("I{$row}", $value->episodes ?: '')
         ->setCellValue("J{$row}", $value->ovas ?: '')
-        ->setCellValue("K{$row}", $value->specials ?: '');
+        ->setCellValue("K{$row}", $value->specials ?: '')
+        ->setCellValue("L{$row}", $value->season_first_title ? $value->season_first_title->title : '')
+        ->setCellValue("M{$row}", $value->season_number)
+        ->setCellValue("N{$row}", $value->prequel ? $value->prequel->title : '')
+        ->setCellValue("O{$row}", $value->sequel ? $value->sequel->title : '')
+        ->setCellValue("P{$row}", $value->release_season . ' ' . ($value->release_year ?? ''))
+        ->setCellValue("Q{$row}", $value->encoder_video)
+        ->setCellValue("R{$row}", $value->encoder_audio)
+        ->setCellValue("S{$row}", $value->encoder_subs)
+        ->setCellValue("T{$row}", $value->codec_hdr ? 'YES' : '')
+        ->setCellValue("U{$row}", $value->codec_video ? $value->codec_video->codec : '')
+        ->setCellValue("V{$row}", $value->codec_audio ? $value->codec_audio->codec : '')
+        ->setCellValue("W{$row}", $value->variants)
+        ->setCellValue("X{$row}", $value->remarks)
+        ->setCellValue("Y{$row}", $value->watcher ? $value->watcher->label : '')
+      ;
 
       // Quality column cell data formatting
       $bg_color = null;
@@ -493,6 +547,24 @@ class ProcessExports implements ShouldQueue {
           ->getStartColor()
           ->setRGB($bg_color);
       }
+
+      // HDR column cell data formatting
+      if ($value->codec_hdr) {
+        $sheet->getStyle("T{$row}")
+          ->getFill()
+          ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+          ->getStartColor()
+          ->setRGB('FCE257');
+      }
+
+      // Watcher column cell data formatting
+      if ($value->watcher) {
+        $sheet->getStyle("Y{$row}")
+          ->getFill()
+          ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+          ->getStartColor()
+          ->setRGB(substr($value->watcher->color, 1));
+      }
     }
 
     return $sheet;
@@ -500,5 +572,63 @@ class ProcessExports implements ShouldQueue {
 
   private function process_xlsx_buckets(Worksheet $sheet) {
     $sheet->setTitle('Buckets');
+
+    // Fetch data
+    $buckets = new EntryRepository()->getBuckets();
+
+    // Process sheet
+    $sheet->setCellValue('A1', 'ID')
+      ->setCellValue('B1', 'From')
+      ->setCellValue('C1', 'To')
+      ->setCellValue('D1', 'Free')
+      ->setCellValue('E1', 'Used')
+      ->setCellValue('F1', 'Percentage Used')
+      ->setCellValue('G1', 'Storage Size')
+      ->setCellValue('H1', 'Titles');
+
+    $sheet->getRowDimension('1')->setRowHeight(20, 'pt');
+
+    $sheet->getColumnDimension('A')->setAutoSize(true);
+    $sheet->getColumnDimension('B')->setAutoSize(true);
+    $sheet->getColumnDimension('C')->setAutoSize(true);
+    $sheet->getColumnDimension('D')->setAutoSize(true);
+    $sheet->getColumnDimension('E')->setAutoSize(true);
+    $sheet->getColumnDimension('F')->setAutoSize(true);
+    $sheet->getColumnDimension('G')->setAutoSize(true);
+    $sheet->getColumnDimension('H')->setAutoSize(true);
+
+    // Header
+    $sheet->getStyle('1:1')->applyFromArray([
+      'font' => ['bold' => true],
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+      ],
+      'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+        'startColor' => ['rgb' => '00A6F4'],
+      ],
+    ]);
+
+    // All columns
+    $sheet->getStyle('A:H')->applyFromArray([
+      'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+      ],
+    ]);
+
+    // Placing the data
+    foreach ($buckets as $index => $value) {
+      $row = $index + 2;
+
+      $sheet->setCellValue("A{$row}", $value['id'])
+        ->setCellValue("B{$row}", $value['from'])
+        ->setCellValue("C{$row}", $value['to'])
+        ->setCellValue("D{$row}", $value['free'])
+        ->setCellValue("E{$row}", $value['used'])
+        ->setCellValue("F{$row}", $value['percent'])
+        ->setCellValue("G{$row}", $value['total'])
+        ->setCellValue("H{$row}", $value['titles']);
+    }
   }
 }
