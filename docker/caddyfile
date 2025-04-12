@@ -1,7 +1,11 @@
+{
+	auto_https disable_redirects
+}
+
 :80 {
 	root * /srv/public
 	php_fastcgi php:9000
 
-	file_server
+	file_server browse
 	encode gzip zstd
 }
