@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="https://laravel.com">
-        <img alt="Laravel" src="https://img.shields.io/badge/laravel-11-red.svg?logo=laravel&logoColor=white&style=for-the-badge">
+        <img alt="Laravel" src="https://img.shields.io/badge/laravel-12-red.svg?logo=laravel&logoColor=white&style=for-the-badge">
     </a>
     <a href="https://php.net">
         <img alt="PHP" src="https://img.shields.io/badge/php-8.4-blue.svg?logo=php&logoColor=white&style=for-the-badge">
@@ -36,7 +36,8 @@ _Add info here_
     Definition of terms:
     - **DB_HOST** - docker **container name** of the database
     - **DB_PORT** - port used by the database
-    - **DB_DATABASE** - database username
+    - **DB_DATABASE** - database name
+    - **DB_USERNAME** - database username
     - **DB_PASSWORD** - database password
 
     **Notes :** DB_HOST **should** use docker container name of db, by default this is 'anidb-pgsql', but yours could be different. You can check this by running `docker ps` then check the container name of the `postgres` container.
@@ -93,14 +94,13 @@ _Add info here_
     ```
     or generate your own, and add it under `APP_REGISTRATION_ROOT_PASSWORD` in your `.env` file.
 
-7. Cache the config file, then run the database migrations
+7. Run the database migrations
 
     ```bash
-    php artisan config:cache
     php artisan migrate:fresh --seed
     ```
 
-7. Fire up your browser and go to `localhost`.
+7. Lastly, fire up your browser and go to `localhost`.
 
 **Note:**
 If you need to access the container run, `docker compose exec php sh`
@@ -111,9 +111,9 @@ If you need to access the container run, `docker compose exec php sh`
 
 List of **optional** containers:
 
-| Name   | Description                                                                |
-| ------ | -------------------------------------------------------------------------- |
-| dbui   | GUI for postgres using [sosedoff/pgweb](https://github.com/sosedoff/pgweb) |
+| Name   | Description    |
+| ------ | -------------- |
+| (none) | None as of yet |
 
 You can run them individually by:
 
@@ -180,6 +180,7 @@ There are a few commands specific to running tasks:
 
 3. Fire up your browser and go to `localhost/docs` to open Swagger UI.
 
+
 ### Running the Unit Tests
 <sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
@@ -197,6 +198,7 @@ There are a few commands specific to running tasks:
     ```bash
     php artisan test --filter test_function_name tests/Location/of/TestCase.php
     ```
+
 
 ### Project shorthands / aliases inside the PHP Docker container
 <sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
@@ -226,10 +228,9 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     ├── database/                # Database migrations and seeders
     ├── docker/                  # Docker functions
     │   ├── php-config/          # PHP settings for docker
-    │   ├── sites/               # Nginx sites for docker
-    │   ├── nginx.dockerfile     # Nginx container docker file
+    │   ├── caddyfile            # Caddy container docker file
     │   ├── php.dockerfile       # PHP container docker file
-    │   └── ...                  # Other docker files
+    │   └── ...                  # Other docker-related files
     ├── public/                  # Project entry point
     ├── tests/                   # Project test files
     ├── .czrc                    # Commitizen configuration file
@@ -238,16 +239,17 @@ This shortcuts were created to reduce the need to keep typing the same long comm
     ├── Procfile                 # Heroku process file
     └── ...                      # Other project files
 
+
 ## Built with
-* <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 11](https://laravel.com) - Core Framework
+* <img width=20 height=20 src="https://laravel.com/img/favicon/favicon.ico"> [Laravel 12](https://laravel.com) - Core Framework
 * <img width=20 height=20 src="https://www.php.net/favicon.ico"> [PHP 8.4](https://php.net) - Language syntax
 * <img width=20 height=20 src="https://www.postgresql.org/favicon.ico"> [PostgreSQL](https://www.postgresql.org) - Database
+* <img width=20 height=20 src="https://caddyserver.com/resources/images/favicon.png"> [Caddy](https://caddyserver.com/) - Local HTTP Server
 * <img width=20 height=20 src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic-480x411.png"> [Docker](https://www.docker.com) - Container platform
 * <img width=20 height=20 src="https://sentry.io/static/favicon-46f8676a36982f8eb852ac6860387755.ico"> [Sentry](https://sentry.io/) - Application Monitoring
 * <img width=20 height=20 src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png"> [Swagger](https://swagger.io/) - API Documentation
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](https://www.heroku.com) - Hosting and Continuous Integration (CI) service
 * <img width=20 height=20 src="https://phpunit.de/favicon-32x32.png"> [PHPUnit](https://phpunit.de/) - Unit Testing
-* <img width=20 height=20 src="https://restfulapi.net/wp-content/uploads/rest.png"> [RESTful API](https://restfulapi.net) - HTTP Requests Architecture
 
 ## Deployed to
 * <img width=20 height=20 src="https://www.herokucdn.com/favicons/favicon.ico"> [Heroku](http://rin-anidb.herokuapp.com)
