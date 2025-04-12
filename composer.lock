@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a962e76f952c4c1f729d6bc66c21a21",
+    "content-hash": "6285e59e32abccdd1545259e4cdca0c1",
     "packages": [
         {
             "name": "brick/math",
@@ -7141,16 +7141,16 @@
         },
         {
             "name": "tpetry/laravel-postgresql-enhanced",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tpetry/laravel-postgresql-enhanced.git",
-                "reference": "fc6488bd2fcac1e9956b61ad148582ac85702869"
+                "reference": "e4745fb416e2ca648b8fc80deba29b9832c5d5b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tpetry/laravel-postgresql-enhanced/zipball/fc6488bd2fcac1e9956b61ad148582ac85702869",
-                "reference": "fc6488bd2fcac1e9956b61ad148582ac85702869",
+                "url": "https://api.github.com/repos/tpetry/laravel-postgresql-enhanced/zipball/e4745fb416e2ca648b8fc80deba29b9832c5d5b8",
+                "reference": "e4745fb416e2ca648b8fc80deba29b9832c5d5b8",
                 "shasum": ""
             },
             "require": {
@@ -7209,9 +7209,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tpetry/laravel-postgresql-enhanced/issues",
-                "source": "https://github.com/tpetry/laravel-postgresql-enhanced/tree/2.4.0"
+                "source": "https://github.com/tpetry/laravel-postgresql-enhanced/tree/2.4.1"
             },
-            "time": "2025-03-27T12:13:04+00:00"
+            "time": "2025-04-11T07:00:36+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
