@@ -17,6 +17,8 @@ _Add info here_
 - [Getting Started](#getting-started)
     - [Environment variables setup](#environment-variables-setup)
     - [Running the project](#running-the-project)
+    - [Job / Commands / Schedule updates](#job--commands--schedule-updates-and-restarting-the-supervisor)
+    - [Managing the supervisor](#managing-the-supervisor)
     - [Running the optional containers](#running-the-optional-containers)
     - [Re-running the project](#re-running-the-project)
     - [Running scheduled tasks](#running-scheduled-tasks)
@@ -100,10 +102,54 @@ _Add info here_
     php artisan migrate:fresh --seed
     ```
 
-7. Lastly, fire up your browser and go to `localhost`.
+8. Lastly, fire up your browser and go to `localhost`.
 
 **Note:**
 If you need to access the container run, `docker compose exec php sh`
+
+
+### Job / Commands / Schedule updates and restarting the supervisor
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
+
+In cases there are any updates to:
+- Jobs (found on `app/Jobs`)
+- Commands (found on `app/Commands`)
+- Schedules (found on `bootstrap/app.php` under `withSchedule`)
+
+Please run the following: 
+
+1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
+
+2. Run the command to restart the <worker> group (`queue-worker` and `schedule-worker`)
+
+    ```bash
+    supervisorctl restart worker:
+    ```
+
+
+### Managing the supervisor
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
+
+This application runs supervisor on the `php` container. Supervisor runs these tasks:
+
+| Task Name       | Group   | Command                     | Description                    |
+| --------------- | ------- | --------------------------- | ------------------------------ |
+| php-fpm         | -       | `php-fpm`                   | Runs FastCGI Process Manager   |
+| queue-worker    | worker  | `php artisan queue:work`    | Runs Laravel's Queue worker    |
+| schedule-worker | worker  | `php artisan schedule:work` | Runs Laravel's Schedule worker |
+
+To manage the supervisor the commands below can be used:
+
+| Command                           | Description                                    |
+| --------------------------------- | ---------------------------------------------- |
+| supervisorctl reread              | Re-reads changes in supervisor config files    |
+| supervisorctl update              | Updates supervisor with changes after `reread` |
+| supervisorctl status              | Check status of all running tasks              |
+| supervisorctl start <task name>   | Starts the task                                |
+| supervisorctl stop <task name>    | Stops the task                                 |
+| supervisorctl restart <task name> | Restarts the task                              |
+
+**Please note:** Supervisor logs are kept in `./docker/logs/supervisor.log`
 
 
 ### Running the optional containers
@@ -147,7 +193,19 @@ docker compose up -d --profile optional
 3. Fire up your browser and go to `localhost`.
 
 
-### Running scheduled tasks
+### Running the queue manually
+<sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
+
+1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
+
+2. Run the command to run the worker for the queue
+
+    ```bash
+    php artisan queue:work
+    ```
+
+
+### Running the scheduled tasks manually
 <sub><sup>[Return to the table of contents](#table-of-contents)</sup></sub>
 
 1. Navigate inside the `php` docker container [[how]](#re-running-the-project)
@@ -155,7 +213,7 @@ docker compose up -d --profile optional
 2. Run the command to run the scheduled tasks manually
 
     ```bash
-    php artisan schedule:run
+    php artisan schedule:work
     ```
 
 There are a few commands specific to running tasks:
@@ -163,7 +221,7 @@ There are a few commands specific to running tasks:
 | Name              | Description                                                  |
 | ----------------- | ------------------------------------------------------------ |
 | `schedule:run`    | `Runs the scheduled tasks manually` **with respect to cron** |
-| `schedule:work`   | `Runs the scheduler daemon / worker`                         |
+| `schedule:work`   | `Runs the scheduler worker`                                  |
 | `schedule:list`   | `Lists the upcoming tasks to be run`                         |
 
 
@@ -210,6 +268,7 @@ This shortcuts were created to reduce the need to keep typing the same long comm
 | `pa` or `artisan` | `php artisan`           |
 | `docs`            | `composer docs`         |
 | `dump` or `da`    | `composer dumpautoload` |
+| `sv`              | `supervisorctl` |
 
 
 ## Project Structure
