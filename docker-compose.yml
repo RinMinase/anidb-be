@@ -17,6 +17,7 @@ services:
         - COMPOSER_VERSION=2.8.8
     volumes:
       - ./:/srv
+      - ./docker/logs/:/etc/supervisor/logs
     expose:
       - "9000"
     working_dir: /srv

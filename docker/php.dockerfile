@@ -43,6 +43,18 @@ RUN set -xe; \
 RUN docker-php-ext-install pdo pdo_pgsql
 
 ###########################################################################
+# Supervisor (For Laravel Queue & Schedule workers + PHP-FPM)
+###########################################################################
+
+RUN set -xe; \
+    apk add --no-cache \
+    supervisor
+
+RUN mkdir -p "/etc/supervisor/logs"
+
+COPY ./php-config/supervisord.conf /etc/supervisord.conf
+
+###########################################################################
 # Composer
 ###########################################################################
 
@@ -67,7 +79,8 @@ RUN echo "alias pa='php artisan'" >> "$ENV" \
   && echo "alias dump='composer dumpautoload'" >> "$ENV" \
   && echo "alias doc='composer docs'" >> "$ENV" \
   && echo "alias docs='composer docs'" >> "$ENV" \
-  && echo "alias clear-cache='composer clear-cache'" >> "$ENV"
+  && echo "alias clear-cache='composer clear-cache'" >> "$ENV" \
+  && echo "alias sv='supervisorctl'" >> "$ENV"
 
 ###########################################################################
 # Final Setup
@@ -80,4 +93,7 @@ COPY ./php-config/php-fpm.conf /usr/local/etc/php-fpm.d/
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-CMD ["php-fpm"]
+###########################################################################
+# Run Supervisor
+###########################################################################
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
