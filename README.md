@@ -102,7 +102,13 @@ _Add info here_
     php artisan migrate:fresh --seed
     ```
 
-8. Lastly, fire up your browser and go to `localhost`.
+8. (Optional) If you want to start the `scheduler` and `queue` workers
+
+    ```bash
+    supervisorctl start worker:
+    ```
+
+9. Lastly, fire up your browser and go to `localhost`.
 
 **Note:**
 If you need to access the container run, `docker compose exec php sh`
