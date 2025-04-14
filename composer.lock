@@ -4271,16 +4271,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "4.10.0",
+            "version": "4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "2af937d47d8aadb8dab0b1d7b9557e495dd12856"
+                "reference": "ebf67deb9902b6da58a4b3383cbd12fed3f4f555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/2af937d47d8aadb8dab0b1d7b9557e495dd12856",
-                "reference": "2af937d47d8aadb8dab0b1d7b9557e495dd12856",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/ebf67deb9902b6da58a4b3383cbd12fed3f4f555",
+                "reference": "ebf67deb9902b6da58a4b3383cbd12fed3f4f555",
                 "shasum": ""
             },
             "require": {
@@ -4344,7 +4344,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/4.10.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/4.11.0"
             },
             "funding": [
                 {
@@ -4356,7 +4356,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-11-06T07:44:19+00:00"
+            "time": "2025-04-14T09:04:23+00:00"
         },
         {
             "name": "sentry/sentry-laravel",
@@ -4575,16 +4575,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.20.8",
+            "version": "v5.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "255142acd00d5e978d6faae5fdce532de103fc1b"
+                "reference": "fceaec605072fbc717a04895bd19814d9a1c8e6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/255142acd00d5e978d6faae5fdce532de103fc1b",
-                "reference": "255142acd00d5e978d6faae5fdce532de103fc1b",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/fceaec605072fbc717a04895bd19814d9a1c8e6d",
+                "reference": "fceaec605072fbc717a04895bd19814d9a1c8e6d",
                 "shasum": ""
             },
             "type": "library",
@@ -4630,9 +4630,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.20.8"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.21.0"
             },
-            "time": "2025-04-10T11:40:44+00:00"
+            "time": "2025-04-13T19:37:38+00:00"
         },
         {
             "name": "symfony/clock",
