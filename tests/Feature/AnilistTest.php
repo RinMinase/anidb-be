@@ -7,10 +7,10 @@ use Tests\BaseTestCase;
 class AnilistTest extends BaseTestCase {
 
   public function test_should_search_by_search_keyword_successfully() {
-    $search_keyword = "ten";
+    $test_params = [ 'query' => 'ten' ];
 
     $response = $this->withoutMiddleware()
-      ->get('/api/anilist/search?query=' . $search_keyword);
+      ->get('/api/anilist/search?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(10, 'data')
@@ -23,9 +23,8 @@ class AnilistTest extends BaseTestCase {
   }
 
   public function test_should_not_search_on_no_auth() {
-    $search_keyword = "ten";
-
-    $response = $this->get('/api/anilist/search?query=' . $search_keyword);
+    $test_params = [ 'query' => 'ten' ];
+    $response = $this->get('/api/anilist/search?' . http_build_query($test_params));
 
     $response->assertStatus(401)
       ->assertJson(['message' => 'Unauthorized']);

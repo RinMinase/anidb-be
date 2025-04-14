@@ -64,10 +64,13 @@ class ElectricityTest extends BaseTestCase {
   public function test_should_get_all_data() {
     $this->setup_config();
 
+    $test_params = [
+      'year' => $this->year,
+      'month' => $this->month
+    ];
+
     $response = $this->withoutMiddleware()
-      ->get(
-        '/api/fourleaf/electricity?year=' . $this->year . '&month=' . $this->month
-      );
+      ->get('/api/fourleaf/electricity?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -107,12 +110,13 @@ class ElectricityTest extends BaseTestCase {
   }
 
   public function test_should_return_blank_entries_on_no_data_dates() {
-    $invalid_month = 2;
+    $test_params = [
+      'year' => $this->year,
+      'month' => 2
+    ];
 
     $response = $this->withoutMiddleware()
-      ->get(
-        '/api/fourleaf/electricity?year=' . $this->year . '&month=' . $invalid_month
-      );
+      ->get('/api/fourleaf/electricity?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonStructure([

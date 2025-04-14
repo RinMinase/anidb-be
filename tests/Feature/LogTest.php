@@ -8,8 +8,6 @@ use Tests\BaseTestCase;
 use App\Models\Log;
 use App\Repositories\LogRepository;
 
-use function PHPSTORM_META\map;
-
 class LogTest extends BaseTestCase {
 
   // Backup related variables
@@ -123,9 +121,8 @@ class LogTest extends BaseTestCase {
   public function test_should_get_all_data_sorted_by_column() {
     $this->setup_config();
 
-    $test_column = 'created_at';
-
-    $response = $this->withoutMiddleware()->get('/api/logs?column=' . $test_column);
+    $test_params = [ 'column' => 'created_at' ];
+    $response = $this->withoutMiddleware()->get('/api/logs?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -156,13 +153,8 @@ class LogTest extends BaseTestCase {
   public function test_should_get_all_data_ordered() {
     $this->setup_config();
 
-    $test_column = 'created_at';
-    $test_order = 'desc';
-
-    $response = $this->withoutMiddleware()->get(
-      '/api/logs?column=' . $test_column .
-        '&order=' . $test_order
-    );
+    $test_params = [ 'column' => 'created_at', 'order' => 'desc' ];
+    $response = $this->withoutMiddleware()->get('/api/logs?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -193,17 +185,14 @@ class LogTest extends BaseTestCase {
   public function test_should_get_all_data_by_page() {
     $this->setup_config();
 
-    $test_column = 'created_at';
-    $test_order = 'desc';
-    $test_page = 2;
-    $test_limit = 1;
+    $test_params = [
+      'column' => 'created_at',
+      'order' => 'desc',
+      'page' => 2,
+      'limit' => 1,
+    ];
 
-    $response = $this->withoutMiddleware()->get(
-      '/api/logs?column=' . $test_column .
-        '&order=' . $test_order .
-        '&page=' . $test_page .
-        '&limit=' . $test_limit
-    );
+    $response = $this->withoutMiddleware()->get('/api/logs?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -234,17 +223,14 @@ class LogTest extends BaseTestCase {
   public function test_should_get_all_data_with_limit() {
     $this->setup_config();
 
-    $test_column = 'created_at';
-    $test_order = 'desc';
-    $test_page = 1;
-    $test_limit = 2;
+    $test_params = [
+      'column' => 'created_at',
+      'order' => 'desc',
+      'page' => 1,
+      'limit' => 2,
+    ];
 
-    $response = $this->withoutMiddleware()->get(
-      '/api/logs?column=' . $test_column .
-        '&order=' . $test_order .
-        '&page=' . $test_page .
-        '&limit=' . $test_limit
-    );
+    $response = $this->withoutMiddleware()->get('/api/logs?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -266,7 +252,7 @@ class LogTest extends BaseTestCase {
         ]
       ]);
 
-    $this->assertCount($test_limit, $response['data'],);
+    $this->assertCount($test_params['limit'], $response['data'],);
   }
 
   public function test_should_create_data_with_static_function_call() {

@@ -315,13 +315,12 @@ class EntryTest extends BaseTestCase {
   public function test_should_get_and_verify_paginated_data() {
     $this->setup_config();
 
-    $test_page = 2;
-    $test_limit = 2;
+    $test_params = ['page' => 2, 'limit' => 2];
     $response = $this->withoutMiddleware()
-      ->get('/api/entries?page=' . $test_page . '&limit=' . $test_limit);
+      ->get('/api/entries?' . http_build_query($test_params));
 
     $response->assertStatus(200)
-      ->assertJsonCount($test_limit, 'data')
+      ->assertJsonCount($test_params['limit'], 'data')
       ->assertJsonStructure([
         'data' => [[
           'id',
@@ -351,12 +350,12 @@ class EntryTest extends BaseTestCase {
 
     $actual_meta = $response['meta'];
 
-    $expected_total_pages = ceil($this->total_entry_count / $test_limit);
-    $expected_has_next = $test_page < $expected_total_pages;
+    $expected_total_pages = ceil($this->total_entry_count / $test_params['limit']);
+    $expected_has_next = $test_params['page'] < $expected_total_pages;
     $expected_meta = [
-      'page' => $test_page,
-      'limit' => $test_limit,
-      'results' => $test_limit,
+      'page' => $test_params['page'],
+      'limit' => $test_params['limit'],
+      'results' => $test_params['limit'],
       'totalResults' => $this->total_entry_count,
       'totalPages' => $expected_total_pages,
       'hasNext' => $expected_has_next,
@@ -368,8 +367,8 @@ class EntryTest extends BaseTestCase {
   public function test_should_search_all_data_by_title() {
     $this->setup_config();
 
-    $test_query = 'another solo';
-    $response = $this->withoutMiddleware()->get('/api/entries?query=' . $test_query);
+    $test_params = [ 'query' => 'another solo' ];
+    $response = $this->withoutMiddleware()->get('/api/entries?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
@@ -419,18 +418,17 @@ class EntryTest extends BaseTestCase {
   public function test_should_search_and_verify_paginated_data() {
     $this->setup_config();
 
-    $test_page = 2;
-    $test_limit = 1;
-    $test_query = 'series title season';
+    $test_params = [
+      'query' => 'series title season',
+      'page' => 2,
+      'limit' => 1,
+    ];
 
-    $response = $this->withoutMiddleware()->get(
-      '/api/entries?page=' . $test_page .
-        '&limit=' . $test_limit .
-        '&query=' . $test_query
-    );
+    $response = $this->withoutMiddleware()
+      ->get('/api/entries?' . http_build_query($test_params));
 
     $response->assertStatus(200)
-      ->assertJsonCount($test_limit, 'data')
+      ->assertJsonCount($test_params['limit'], 'data')
       ->assertJsonStructure([
         'data' => [[
           'id',
@@ -469,12 +467,12 @@ class EntryTest extends BaseTestCase {
     $actual_meta = $response['meta'];
 
     $expected_total_results = count($expected_possible_titles);
-    $expected_total_pages = intval(ceil($expected_total_results / $test_limit));
-    $expected_has_next = $test_page < $expected_total_pages;
+    $expected_total_pages = intval(ceil($expected_total_results / $test_params['limit']));
+    $expected_has_next = $test_params['page'] < $expected_total_pages;
     $expected_meta = [
-      'page' => $test_page,
-      'limit' => $test_limit,
-      'results' => $test_limit,
+      'page' => $test_params['page'],
+      'limit' => $test_params['limit'],
+      'results' => $test_params['limit'],
       'totalResults' => $expected_total_results,
       'totalPages' => $expected_total_pages,
       'hasNext' => $expected_has_next,
@@ -2102,8 +2100,8 @@ class EntryTest extends BaseTestCase {
       ->assertJsonCount($this->total_entry_count, 'data')
       ->assertJsonStructure(['data']);
 
-    $needle = 'another solo';
-    $response = $this->withoutMiddleware()->get('/api/entries/titles?needle=' . $needle);
+    $test_params = ['needle' => 'another solo'];
+    $response = $this->withoutMiddleware()->get('/api/entries/titles?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
@@ -2113,8 +2111,9 @@ class EntryTest extends BaseTestCase {
   public function test_should_return_searched_titles_inluding_a_single_title() {
     $this->setup_config();
 
-    $included_id = $this->entry_uuid_1;
-    $response = $this->withoutMiddleware()->get('/api/entries/titles?id=' . $included_id);
+    // Included id
+    $test_params = ['id' => $this->entry_uuid_1];
+    $response = $this->withoutMiddleware()->get('/api/entries/titles?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount($this->total_entry_count, 'data')
@@ -2123,7 +2122,7 @@ class EntryTest extends BaseTestCase {
     $actual = current(
       array_filter(
         $response['data'],
-        fn($item) => $item['id'] === $included_id
+        fn($item) => $item['id'] === $test_params['id']
       )
     );
 
@@ -2157,9 +2156,9 @@ class EntryTest extends BaseTestCase {
   }
 
   public function test_should_not_return_searched_titles_when_entry_id_is_used_instead_of_uuid() {
-    $excluded_id = $this->entry_id_1;
-
-    $response = $this->withoutMiddleware()->get('/api/entries/titles?id=' . $excluded_id);
+    // Excluded ID
+    $test_params = [ 'id' => $this->entry_id_1 ];
+    $response = $this->withoutMiddleware()->get('/api/entries/titles?' . http_build_query($test_params));
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['id']]);

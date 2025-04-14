@@ -525,13 +525,13 @@ class CatalogTest extends BaseTestCase {
   public function test_should_get_partials_in_all_catalogs_and_verify_paginated_data() {
     $this->setup_config();
 
-    $test_page = 2;
-    $test_limit = 2;
+    $test_params = ['page' => 2, 'limit' => 2];
+
     $response = $this->withoutMiddleware()
-      ->get('/api/partials?page=' . $test_page . '&limit=' . $test_limit);
+      ->get('/api/partials?' . http_build_query($test_params));
 
     $response->assertStatus(200)
-      ->assertJsonCount($test_limit, 'data')
+      ->assertJsonCount($test_params['limit'], 'data')
       ->assertJsonStructure([
         'data' => [[
           'uuid',
@@ -551,12 +551,12 @@ class CatalogTest extends BaseTestCase {
 
     $actual_meta = $response['meta'];
 
-    $expected_total_pages = intval(ceil($this->total_partial_count / $test_limit));
-    $expected_has_next = $test_page < $expected_total_pages;
+    $expected_total_pages = intval(ceil($this->total_partial_count / $test_params['limit']));
+    $expected_has_next = $test_params['page'] < $expected_total_pages;
     $expected_meta = [
-      'page' => $test_page,
-      'limit' => $test_limit,
-      'results' => $test_limit,
+      'page' => $test_params['page'],
+      'limit' => $test_params['limit'],
+      'results' => $test_params['limit'],
       'totalResults' => $this->total_partial_count,
       'totalPages' => $expected_total_pages,
       'hasNext' => $expected_has_next,
@@ -568,9 +568,9 @@ class CatalogTest extends BaseTestCase {
   public function test_should_get_partials_in_all_catalogs_and_search_title() {
     $this->setup_config();
 
-    $test_query = 'for searching title';
+    $test_params = ['query' => 'for searching title'];
     $response = $this->withoutMiddleware()
-      ->get('/api/partials?query=' . $test_query);
+      ->get('/api/partials?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(4, 'data')
@@ -611,15 +611,14 @@ class CatalogTest extends BaseTestCase {
   public function test_should_get_partials_in_all_catalogs_and_search_title_with_column_ordering() {
     $this->setup_config();
 
-    $test_query = 'for searching title';
-    $test_column = 'id_catalog';
-    $test_order = 'desc';
+    $test_params = [
+      'query' => 'for searching title',
+      'column' => 'id_catalog',
+      'order' => 'desc',
+    ];
+
     $response = $this->withoutMiddleware()
-      ->get(
-        '/api/partials?query=' . $test_query
-          . '&column=' . $test_column
-          . '&order=' . $test_order
-      );
+      ->get('/api/partials?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(4, 'data')
@@ -670,32 +669,27 @@ class CatalogTest extends BaseTestCase {
   }
 
   public function test_should_not_get_partials_in_all_catalogs_on_form_errors() {
-    $test_column = 'invalid_column';
-    $test_order = 'invalid_order';
-    $test_page = 'string';
-    $test_limit = 'string';
+    $test_params = [
+      'column' => 'invalid_column',
+      'order' => 'invalid_order',
+      'page' => 'string',
+      'limit' => 'string',
+    ];
 
     $response = $this->withoutMiddleware()
-      ->get(
-        '/api/partials?column=' . $test_column
-          . '&order=' . $test_order
-          . '&page=' . $test_page
-          . '&limit=' . $test_limit
-      );
+      ->get('/api/partials?' . http_build_query($test_params));
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['column', 'order', 'page', 'limit']]);
 
-    $test_column = 1;
-    $test_page = -1;
-    $test_limit = -1;
+    $test_params = [
+      'column' => 1,
+      'page' => -1,
+      'limit' => -1,
+    ];
 
     $response = $this->withoutMiddleware()
-      ->get(
-        '/api/partials?column=' . $test_column
-          . '&page=' . $test_page
-          . '&limit=' . $test_limit
-      );
+      ->get('/api/partials?' . http_build_query($test_params));
 
     $response->assertStatus(401)
       ->assertJsonStructure(['data' => ['column', 'page', 'limit']]);

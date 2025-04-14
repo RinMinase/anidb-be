@@ -130,9 +130,9 @@ class BillsElectricityTest extends BaseTestCase {
   public function test_should_get_all_data_with_year_param_successfully() {
     $this->setup_config();
 
-    $year = 2019;
+    $test_params = ['year' => 2019];
     $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/bills/electricity?year=' . $year);
+      ->get('/api/fourleaf/bills/electricity?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
@@ -146,9 +146,9 @@ class BillsElectricityTest extends BaseTestCase {
         ]]
       ]);
 
-    $year = 2020;
+    $test_params = ['year' => 2020];
     $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/bills/electricity?year=' . $year);
+      ->get('/api/fourleaf/bills/electricity?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(2, 'data')
@@ -162,9 +162,9 @@ class BillsElectricityTest extends BaseTestCase {
         ]]
       ]);
 
-    $year = 2021;
+    $test_params = ['year' => 2021];
     $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/bills/electricity?year=' . $year);
+      ->get('/api/fourleaf/bills/electricity?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(1, 'data')
@@ -178,9 +178,9 @@ class BillsElectricityTest extends BaseTestCase {
         ]]
       ]);
 
-    $year = 2022;
+    $test_params = ['year' => 2022];
     $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/bills/electricity?year=' . $year);
+      ->get('/api/fourleaf/bills/electricity?' . http_build_query($test_params));
 
     $response->assertStatus(200)
       ->assertJsonCount(0, 'data');
@@ -193,7 +193,7 @@ class BillsElectricityTest extends BaseTestCase {
 
     foreach ($year as $key => $value) {
       $response = $this->withoutMiddleware()
-        ->get('/api/fourleaf/bills/electricity?year=' . $value);
+        ->get('/api/fourleaf/bills/electricity?' . http_build_query(['year' => $value]));
 
       $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
     }
