@@ -153,31 +153,23 @@ class EntryLastTest extends BaseTestCase {
 
     $expected_count = 20;
 
-    $items = 19;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 19]))
       ->assertStatus(200)
       ->assertJsonCount($expected_count, 'data');
 
-    $items = 10;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 10]))
       ->assertStatus(200)
       ->assertJsonCount($expected_count, 'data');
 
-    $items = 5;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 5]))
       ->assertStatus(200)
       ->assertJsonCount($expected_count, 'data');
 
-    $items = 1;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 1]))
       ->assertStatus(200)
       ->assertJsonCount($expected_count, 'data');
   }
@@ -188,29 +180,30 @@ class EntryLastTest extends BaseTestCase {
     $items = 25;
 
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 25]))
       ->assertStatus(200)
       ->assertJsonCount($items, 'data');
 
     $items = 30;
 
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 30]))
       ->assertStatus(200)
       ->assertJsonCount($items, 'data');
 
     $items = 40;
 
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 40]))
       ->assertStatus(200)
       ->assertJsonCount($items, 'data');
 
-    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY);
     $expected_count = $this->entry_count;
 
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query([
+        'items' => max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY)
+      ]))
       ->assertStatus(200)
       ->assertJsonCount($expected_count, 'data');
   }
@@ -218,31 +211,25 @@ class EntryLastTest extends BaseTestCase {
   public function test_should_not_get_all_latest_entries_on_form_errors() {
     $this->setup_config();
 
-    $items = max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY) + 1;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query([
+        'items' => max_int(IntegerTypesEnum::SIGNED, IntegerSizesEnum::TINY) + 1
+      ]))
       ->assertStatus(401)
       ->assertJsonStructure(['data' => ['items']]);
 
-    $items = -1;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => -1]))
       ->assertStatus(401)
       ->assertJsonStructure(['data' => ['items']]);
 
-    $items = 0;
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 0]))
       ->assertStatus(401)
       ->assertJsonStructure(['data' => ['items']]);
 
-    $items = "string";
-
     $this->withoutMiddleware()
-      ->get('/api/entries/last?items=' . $items)
+      ->get('/api/entries/last?' . http_build_query(['items' => 'string']))
       ->assertStatus(401)
       ->assertJsonStructure(['data' => ['items']]);
   }
