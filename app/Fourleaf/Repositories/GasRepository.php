@@ -29,7 +29,11 @@ class GasRepository {
 
     $km_per_month = $this->calculateKMperMonth($mileage);
     $maintenance = $this->calculateMaintenanceStatus($mileage);
-    $last_maintenance = $this->fetchLastMaintenanceDates();
+
+    // TODO: Temporarily blanked array due to changes in maintenance types
+    // $last_maintenance = $this->fetchLastMaintenanceDates();
+    $last_maintenance = [];
+
     $avg_efficiency_list = $this->calculateEfficiencyList($avg_efficiency_type);
     $last_efficiency = $avg_efficiency_list[array_key_last($avg_efficiency_list)];
 
