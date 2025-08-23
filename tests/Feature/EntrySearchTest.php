@@ -1552,7 +1552,7 @@ class EntrySearchTest extends BaseTestCase {
       ->assertJsonCount(1, 'data');
 
     $actual_ids = collect($response['data'])->pluck('id')->toArray();
-    $this->assertContains($this->entry_uuid_1);
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
 
     $test_params = [
       'rewatches' => '>= 1',
@@ -2609,6 +2609,16 @@ class EntrySearchTest extends BaseTestCase {
     $value = '3 to 6';
     $actual = EntrySearchRepository::search_parse_count($value, 'test_field');
     $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'count_from' => 0,
+      'count_to' => 2,
+      'comparator' => null,
+    ];
+
+    $value = '0 to 2';
+    $actual = EntrySearchRepository::search_parse_count($value, 'test_field');
+    $this->assertEquals($expected, $actual);
   }
 
   public function test_should_parse_count_value_with_absolute_value() {
@@ -2619,6 +2629,16 @@ class EntrySearchTest extends BaseTestCase {
     ];
 
     $value = '3';
+    $actual = EntrySearchRepository::search_parse_count($value, 'test_field');
+    $this->assertEquals($expected, $actual);
+
+    $expected = [
+      'count_from' => 0,
+      'count_to' => null,
+      'comparator' => null,
+    ];
+
+    $value = '0';
     $actual = EntrySearchRepository::search_parse_count($value, 'test_field');
     $this->assertEquals($expected, $actual);
   }
@@ -2671,6 +2691,18 @@ class EntrySearchTest extends BaseTestCase {
       $actual = EntrySearchRepository::search_parse_count($value, 'test_field');
       $this->assertEquals($expected, $actual);
     }
+
+    $expected = [
+      'count_from' => 0,
+      'count_to' => null,
+      'comparator' => '>',
+    ];
+
+    $values = ['> 0', 'gt 0', 'greater than 0'];
+    foreach ($values as $value) {
+      $actual = EntrySearchRepository::search_parse_count($value, 'test_field');
+      $this->assertEquals($expected, $actual);
+    }
   }
 
   public function test_should_return_null_on_parsing_empty_count() {
@@ -2703,6 +2735,12 @@ class EntrySearchTest extends BaseTestCase {
     );
 
     $value = '> < 6';
+    $this->assertThrows(
+      fn() => EntrySearchRepository::search_parse_count($value, 'test_field'),
+      SearchFilterParsingException::class
+    );
+
+    $value = '< 0';
     $this->assertThrows(
       fn() => EntrySearchRepository::search_parse_count($value, 'test_field'),
       SearchFilterParsingException::class
