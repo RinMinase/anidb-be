@@ -168,38 +168,42 @@ if (!function_exists('parse_comparator')) {
 
 if (!function_exists('get_comparator')) {
   function get_comparator(string $comparator_text) {
-    $comparator_text = strtolower($comparator_text);
-    $comparator_text = str_replace('more than', 'greater than', $comparator_text);
+    try {
+      $comparator_text = strtolower($comparator_text);
+      $comparator_text = str_replace('more than', 'greater than', $comparator_text);
 
-    $comparators = [
-      'greater than or equal',
-      'greater than equal',
-      'greater than',
-      'less than or equal',
-      'less than equal',
-      'less than',
-      'gte',
-      'gt',
-      'lte',
-      'lt',
-      '>=',
-      '<=',
-      '>',
-      '<',
-    ];
+      $comparators = [
+        'greater than or equal',
+        'greater than equal',
+        'greater than',
+        'less than or equal',
+        'less than equal',
+        'less than',
+        'gte',
+        'gt',
+        'lte',
+        'lt',
+        '>=',
+        '<=',
+        '>',
+        '<',
+      ];
 
-    foreach ($comparators as $comparator) {
-      $index = strpos($comparator_text, $comparator);
-      if ($index !== false) {
-        // Check if the right side of comparator text is a space
-        // Check if the comparator has no left side
-        if ($comparator_text[$index + strlen($comparator)] === ' ' && $index === 0) {
-          return $comparator;
+      foreach ($comparators as $comparator) {
+        $index = strpos($comparator_text, $comparator);
+        if ($index !== false) {
+          // Check if the right side of comparator text is a space
+          // Check if the comparator has no left side
+          if ($comparator_text[$index + strlen($comparator)] === ' ' && $index === 0) {
+            return $comparator;
+          }
         }
       }
-    }
 
-    return null;
+      return null;
+    } catch (Error) {
+      return null;
+    }
   }
 }
 

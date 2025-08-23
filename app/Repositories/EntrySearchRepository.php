@@ -364,11 +364,11 @@ class EntrySearchRepository {
       ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
       ->groupBy('entries.id');
 
-    $data = $data->addSelect('derived_table.total_rewatch_count')
-      ->leftJoinSub($subquery, 'derived_table', function ($query) {
-        $query->on('derived_table.id', '=', 'entries.id');
+    $data = $data->addSelect('derived_table_rewatches.total_rewatch_count')
+      ->leftJoinSub($subquery, 'derived_table_rewatches', function ($query) {
+        $query->on('derived_table_rewatches.id', '=', 'entries.id');
       })
-      ->groupByRaw('entries.id, derived_table.total_rewatch_count');
+      ->groupByRaw('entries.id, derived_table_rewatches.total_rewatch_count');
 
     if (!empty($search_rewatches)) {
       $from = $search_rewatches['count_from'];
@@ -386,7 +386,7 @@ class EntrySearchRepository {
 
     // Handling column and order
     if ($column === 'total_rewatch_count') {
-      $column = 'derived_table.total_rewatch_count';
+      $column = 'derived_table_rewatches.total_rewatch_count';
     }
 
     $nulls = $order === 'asc' ? 'first' : 'last';
@@ -411,8 +411,8 @@ class EntrySearchRepository {
         ) as avg_rating'))
         ->leftJoin('entries_rating', 'entry_sub.id', '=', 'entries_rating.id_entries');
 
-      $data = $data->leftJoinSub($rating_subquery, 'derived_table', function ($query) {
-        $query->on('derived_table.id', '=', 'entries.id');
+      $data = $data->leftJoinSub($rating_subquery, 'derived_table_rating', function ($query) {
+        $query->on('derived_table_rating.id', '=', 'entries.id');
       });
 
       if ($comparator) {
@@ -890,7 +890,7 @@ class EntrySearchRepository {
   }
 
   public static function search_parse_count($value, string $field) {
-    if (!$value) return null;
+    if (!$value && $value !== '0') return null;
 
     // Range ::
     // - {value} to {value}
@@ -942,6 +942,10 @@ class EntrySearchRepository {
       }
 
       $count = intval($count);
+
+      if ($comparator === '<' && !$count) {
+        throw new SearchFilterParsingException($field, 'Number should be positive');
+      }
 
       return [
         'count_from' => $count,
