@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\EntryOrderColumnsEnum;
 use Error;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidFormatException;
@@ -357,22 +358,35 @@ class EntrySearchRepository {
       }
     }
 
+    // Adding Rewatch Count to column
+    $subquery = Entry::select(DB::raw('entries.id'))
+      ->addSelect(DB::raw('coalesce(count(entries_rewatch.id), 0) as total_rewatch_count'))
+      ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
+      ->groupBy('entries.id');
+
+    $data = $data->addSelect('derived_table.total_rewatch_count')
+      ->leftJoinSub($subquery, 'derived_table', function ($query) {
+        $query->on('derived_table.id', '=', 'entries.id');
+      })
+      ->groupByRaw('entries.id, derived_table.total_rewatch_count');
+
     if (!empty($search_rewatches)) {
       $from = $search_rewatches['count_from'];
       $to = $search_rewatches['count_to'];
       $comparator = $search_rewatches['comparator'];
 
-      $data = $data->addSelect(DB::raw('coalesce(count(entries_rewatch.id), 0) as total_rewatch_count'))
-        ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
-        ->groupBy('entries.id');
-
       if ($comparator) {
-        $data = $data->havingRaw('coalesce(count(entries_rewatch.id), 0) ' . $comparator . ' ' . $from);
+        $data = $data->where('total_rewatch_count', $comparator, $from);
       } else if (!$to) {
-        $data = $data->havingRaw('coalesce(count(entries_rewatch.id), 0) = ' . $from);
+        $data = $data->where('total_rewatch_count', $from);
       } else {
-        $data = $data->havingRaw('coalesce(count(entries_rewatch.id), 0) BETWEEN ? AND ?', [$from, $to]);
+        $data = $data->whereBetween('total_rewatch_count', [$from, $to]);
       }
+    }
+
+    // Handling column and order
+    if ($column === 'total_rewatch_count') {
+      $column = 'derived_table.total_rewatch_count';
     }
 
     $nulls = $order === 'asc' ? 'first' : 'last';

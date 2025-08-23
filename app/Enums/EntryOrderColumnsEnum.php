@@ -13,4 +13,5 @@ enum EntryOrderColumnsEnum: string {
   case RELEASE_YEAR = 'release_year';
   case RELEASE_SEASON = 'release_season';
   case REMARKS = 'remarks';
+  case TOTAL_REWATCH_COUNT = 'total_rewatch_count';
 }
