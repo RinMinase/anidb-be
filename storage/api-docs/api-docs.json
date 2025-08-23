@@ -2880,6 +2880,9 @@
                         "$ref": "#/components/parameters/entry_search_genres"
                     },
                     {
+                        "$ref": "#/components/parameters/entry_search_rewatches"
+                    },
+                    {
                         "$ref": "#/components/parameters/entry_search_watcher"
                     },
                     {
@@ -10987,6 +10990,15 @@
                 "schema": {
                     "type": "string"
                 }
+            },
+            "entry_search_rewatches": {
+                "name": "rewatches",
+                "in": "query",
+                "description": "Could be absolute value: 3<br>Range: 10 to 12<br>Comparators > 1",
+                "schema": {
+                    "type": "string"
+                },
+                "example": "> 1"
             },
             "entry_search_watcher": {
                 "name": "watcher",

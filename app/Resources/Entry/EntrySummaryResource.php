@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Resources\Genre\GenreResource;
+use Error;
 
 /**
  * @OA\Schema(
@@ -65,7 +66,7 @@ class EntrySummaryResource extends JsonResource {
       'filesize' => parse_filesize($this->filesize ?? 0),
 
       'rewatched' => (bool) count($this->rewatches),
-      'rewatchCount' => count($this->rewatches) ?? 0,
+      'rewatchCount' => $this->total_rewatch_count ?? count($this->rewatches) ?? 0,
 
       'episodes' => $this->episodes ?? 0,
       'ovas' => $this->ovas ?? 0,

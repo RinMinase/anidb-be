@@ -49,6 +49,7 @@ class EntrySearchRepository {
     $search_codec_video = self::search_parse_codec($values['codec_video'] ?? null, 'video');
     $search_codec_audio = self::search_parse_codec($values['codec_audio'] ?? null, 'audio');
     $search_genres = self::search_parse_genres($values['genres'] ?? null);
+    $search_rewatches = self::search_parse_count($values['rewatches'] ?? null, 'rewatches');
     $search_watcher = $values['watcher'] ?? null;
 
     // Ordering Parameters
@@ -356,6 +357,24 @@ class EntrySearchRepository {
       }
     }
 
+    if (!empty($search_rewatches)) {
+      $from = $search_rewatches['count_from'];
+      $to = $search_rewatches['count_to'];
+      $comparator = $search_rewatches['comparator'];
+
+      $data = $data->addSelect(DB::raw('coalesce(count(entries_rewatch.id), 0) as total_rewatch_count'))
+        ->leftJoin('entries_rewatch', 'entries.id', '=', 'entries_rewatch.id_entries')
+        ->groupBy('entries.id');
+
+      if ($comparator) {
+        $data = $data->havingRaw('coalesce(count(entries_rewatch.id), 0) ' . $comparator . ' ' . $from);
+      } else if (!$to) {
+        $data = $data->havingRaw('coalesce(count(entries_rewatch.id), 0) = ' . $from);
+      } else {
+        $data = $data->havingRaw('coalesce(count(entries_rewatch.id), 0) BETWEEN ? AND ?', [$from, $to]);
+      }
+    }
+
     $nulls = $order === 'asc' ? 'first' : 'last';
     $data = $data->orderByRaw($column . ' ' . $order . ' NULLS ' . $nulls)
       ->orderBy('title', 'asc');
@@ -411,6 +430,7 @@ class EntrySearchRepository {
         'stats' => $stats,
       ];
     }
+
 
     return [
       'data' => EntrySummaryResource::collection($data),

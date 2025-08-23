@@ -66,12 +66,15 @@ class EntrySearchTest extends BaseTestCase {
 
   private $entry_1_rewatch_id = 99999;
   private $entry_2_rewatch_id = 99998;
+  private $entry_3_rewatch_id = 99997;
 
   private $entry_1_rewatch_uuid = 'e16593ad-ed01-4314-b4b1-0120ba734f90';
   private $entry_2_rewatch_uuid = '1c8cb214-a87b-4d91-8ba0-4d956612e1e1';
+  private $entry_3_rewatch_uuid = '6a7c4bbb-5bfb-4c8e-8dfa-eac7f0dd7b50';
 
   private $entry_date_rewatch_1 = '2001-03-01';
   private $entry_date_rewatch_2 = '2001-05-01';
+  private $entry_date_rewatch_3 = '2001-06-01';
 
   // Backup related tables
   private function setup_backup() {
@@ -270,6 +273,11 @@ class EntrySearchTest extends BaseTestCase {
       'id_entries' => $this->entry_id_1,
       'uuid' => $this->entry_2_rewatch_uuid,
       'date_rewatched' => $this->entry_date_rewatch_2,
+    ], [
+      'id' => $this->entry_3_rewatch_id,
+      'id_entries' => $this->entry_id_2,
+      'uuid' => $this->entry_3_rewatch_uuid,
+      'date_rewatched' => $this->entry_date_rewatch_3,
     ]];
 
     Entry::insert($test_entries);
@@ -1529,6 +1537,61 @@ class EntrySearchTest extends BaseTestCase {
 
     $actual_ids = collect($response['data'])->pluck('id')->toArray();
     $this->assertContains($this->entry_uuid_1, $actual_ids);
+  }
+
+  public function test_should_search_rewatch_count_data_successfully() {
+    $this->setup_config();
+
+    $test_params = [
+      'rewatches' => '> 1',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1);
+
+    $test_params = [
+      'rewatches' => '>= 1',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(2, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_1, $actual_ids);
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'rewatches' => '1',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(1, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_2, $actual_ids);
+
+    $test_params = [
+      'rewatches' => '0',
+    ];
+
+    $response = $this->withoutMiddleware()->get('/api/entries/search?' . http_build_query($test_params));
+
+    $response->assertStatus(200)
+      ->assertJsonCount(3, 'data');
+
+    $actual_ids = collect($response['data'])->pluck('id')->toArray();
+    $this->assertContains($this->entry_uuid_3, $actual_ids);
+    $this->assertContains($this->entry_uuid_4, $actual_ids);
+    $this->assertContains($this->entry_uuid_5, $actual_ids);
   }
 
   public function test_should_not_search_all_data_when_any_filter_is_invalid() {

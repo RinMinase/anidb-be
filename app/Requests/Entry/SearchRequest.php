@@ -177,6 +177,15 @@ class SearchRequest extends FormRequest {
    * ),
    *
    * @OA\Parameter(
+   *   parameter="entry_search_rewatches",
+   *   name="rewatches",
+   *   description="Could be absolute value: 3<br>Range: 10 to 12<br>Comparators > 1",
+   *   in="query",
+   *   example="> 1",
+   *   @OA\Schema(type="string"),
+   * ),
+   *
+   * @OA\Parameter(
    *   parameter="entry_search_watcher",
    *   name="watcher",
    *   description="ID of watcher (null = any, 0 = null in DB)",
@@ -229,6 +238,7 @@ class SearchRequest extends FormRequest {
       'codec_audio' => ['string'],
 
       'genres' => ['string'],
+      'rewatches' => ['string'],
       'watcher' => ['integer', 'min:0'],
 
       'column' => [new Enum(EntryOrderColumnsEnum::class)],
