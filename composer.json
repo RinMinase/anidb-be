@@ -30,7 +30,7 @@
         "phpoffice/phpspreadsheet": "~4.1.0",
         "sentry/sentry-laravel": "~4.15.1",
         "spatie/db-dumper": "~3.8.0",
-        "tpetry/laravel-postgresql-enhanced": "~2.4.1"
+        "tpetry/laravel-postgresql-enhanced": "~3.0.0"
     },
     "require-dev": {
         "nunomaduro/collision": "~8.8.2",
