@@ -12,9 +12,9 @@ services:
       context: ./docker
       dockerfile: php.dockerfile
       args:
-        - PHP_VERSION=8.4.5
+        - PHP_VERSION=8.4.14
         - ALPINE_VERSION=3.21
-        - COMPOSER_VERSION=2.8.8
+        - COMPOSER_VERSION=2.9.2
     volumes:
       - ./:/srv
       - ./docker/logs/:/etc/supervisor/logs
