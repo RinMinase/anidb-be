@@ -21,20 +21,20 @@
         "php": "^8.1",
         "ext-gd": "*",
         "ext-zip": "*",
-        "cloudinary/cloudinary_php": "~3.1.1",
+        "cloudinary/cloudinary_php": "~3.1.2",
         "darkaonline/l5-swagger": "~9.0.1",
-        "laravel/framework": "~12.25.0",
+        "laravel/framework": "~12.39.0",
         "laravel/sanctum": "~4.2.0",
         "nelexa/zip": "~4.0.2",
-        "nesbot/carbon": "~3.10.2",
+        "nesbot/carbon": "~3.10.3",
         "phpoffice/phpspreadsheet": "~4.1.0",
         "sentry/sentry-laravel": "~4.15.1",
         "spatie/db-dumper": "~3.8.0",
-        "tpetry/laravel-postgresql-enhanced": "~3.0.0"
+        "tpetry/laravel-postgresql-enhanced": "~3.4.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "~8.8.2",
-        "phpunit/phpunit": "~12.3.6",
+        "nunomaduro/collision": "~8.8.3",
+        "phpunit/phpunit": "~12.4.3",
         "spatie/laravel-ignition": "~2.9.1"
     },
     "autoload": {
