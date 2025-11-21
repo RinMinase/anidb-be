@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder {
   /**
@@ -11,6 +14,23 @@ class DatabaseSeeder extends Seeder {
    * @return void
    */
   public function run() {
+    // Only seed users on local env
+    if (config('app.env') === 'local' && config('app.platform') === 'local') {
+      User::create([
+        'uuid' => Str::uuid()->toString(),
+        'username' => 'admin',
+        'password' => bcrypt('pass'),
+        'is_admin' => true,
+      ]);
+
+      User::create([
+        'uuid' => Str::uuid()->toString(),
+        'username' => 'user',
+        'password' => bcrypt('pass'),
+        'is_admin' => false,
+      ]);
+    }
+
     $this->call([
       CodecAudioSeeder::class,
       CodecVideoSeeder::class,
