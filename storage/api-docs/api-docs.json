@@ -7959,6 +7959,78 @@
                     }
                 ]
             }
+        },
+        "/api/fourleaf/gas/import": {
+            "post": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+                "operationId": "136b253cb7bbec22f1fdb7b9899d350f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "gas": {
+                                                            "$ref": "#/components/schemas/DefaultImportSchema"
+                                                        },
+                                                        "maintenance": {
+                                                            "$ref": "#/components/schemas/DefaultImportSchema"
+                                                        },
+                                                        "maintenanceParts": {
+                                                            "$ref": "#/components/schemas/DefaultImportSchema"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
         }
     },
     "components": {
