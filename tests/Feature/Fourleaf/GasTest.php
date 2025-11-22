@@ -9,6 +9,7 @@ use Tests\BaseTestCase;
 use App\Fourleaf\Models\Gas;
 use App\Fourleaf\Models\Maintenance;
 use App\Fourleaf\Models\MaintenancePart;
+use App\Fourleaf\Models\MaintenanceType;
 
 class GasTest extends BaseTestCase {
 
@@ -92,10 +93,12 @@ class GasTest extends BaseTestCase {
       'odometer' => 90_000,
     ]);
 
+    $engine_oil_id = MaintenanceType::where('type', 'engine_oil')->first()->id;
+
     MaintenancePart::insert([
       'id' => $this->maintenance_part_id_1,
       'id_fourleaf_maintenance' => $this->maintenance_id_1,
-      'part' => 'engine_oil',
+      'id_fourleaf_maintenance_type' => $engine_oil_id,
     ]);
   }
 
@@ -160,17 +163,7 @@ class GasTest extends BaseTestCase {
               'tires',
             ],
           ],
-          'lastMaintenance' => [
-            'acCoolant',
-            'battery',
-            'brakeFluid',
-            'engineOil',
-            'powerSteeringFluid',
-            'radiatorFluid',
-            'sparkPlugs',
-            'tires',
-            'transmissionFluid',
-          ],
+          'lastMaintenance',
         ],
       ]);
   }
@@ -501,7 +494,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 123.45;
     $test_liters_filled = 12.34;
 
-    $response = $this->post('/api/fourleaf/gas/fuel', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/gas/fuel', [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -530,7 +523,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 'string';
     $test_liters_filled = 'string';
 
-    $response = $this->post('/api/fourleaf/gas/fuel', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/gas/fuel', [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -553,7 +546,7 @@ class GasTest extends BaseTestCase {
     $test_from_bars = 1;
     $test_to_bars = 999;
 
-    $response = $this->post('/api/fourleaf/gas/fuel', [
+    $response = $this->withoutMiddleware()->post('/api/fourleaf/gas/fuel', [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -578,7 +571,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 123.45;
     $test_liters_filled = 12.34;
 
-    $response = $this->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
+    $response = $this->withoutMiddleware()->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -609,7 +602,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 'string';
     $test_liters_filled = 'string';
 
-    $response = $this->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
+    $response = $this->withoutMiddleware()->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -632,7 +625,7 @@ class GasTest extends BaseTestCase {
     $test_from_bars = 1;
     $test_to_bars = 999;
 
-    $response = $this->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
+    $response = $this->withoutMiddleware()->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -650,7 +643,7 @@ class GasTest extends BaseTestCase {
   public function test_should_delete_fuel_data_successfully() {
     $this->setup_config();
 
-    $response = $this->delete('/api/fourleaf/gas/fuel/' . $this->gas_id_1);
+    $response = $this->withoutMiddleware()->delete('/api/fourleaf/gas/fuel/' . $this->gas_id_1);
 
     $response->assertStatus(200);
 
@@ -662,7 +655,7 @@ class GasTest extends BaseTestCase {
   public function test_should_not_delete_fuel_data_on_invalid_id() {
     $invalid_id = 100_000;
 
-    $response = $this->delete('/api/fourleaf/gas/fuel/' . $invalid_id);
+    $response = $this->withoutMiddleware()->delete('/api/fourleaf/gas/fuel/' . $invalid_id);
 
     $response->assertStatus(404);
   }
