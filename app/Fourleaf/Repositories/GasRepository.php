@@ -11,6 +11,7 @@ use App\Fourleaf\Exceptions\Gas\InvalidYearException;
 use App\Fourleaf\Models\Gas;
 use App\Fourleaf\Models\Maintenance;
 use App\Fourleaf\Models\MaintenancePart;
+use App\Fourleaf\Models\MaintenanceType;
 
 class GasRepository {
   /**
@@ -190,6 +191,89 @@ class GasRepository {
       'spark_plugs',
       'tires',
       'transmission',
+    ];
+  }
+
+  public function import(array $gas, array $maintenance) {
+    $import_gas = [];
+
+    foreach ($gas as $item) {
+      $is_valid_entry = !empty($item->date) &&
+        isset($item->from_bars) &&
+        isset($item->to_bars) &&
+        !empty($item->odometer);
+
+      if (!empty($item) && $is_valid_entry) {
+        $data = [
+          'date' => $item->date,
+          'from_bars' => $item->from_bars,
+          'to_bars' => $item->to_bars,
+          'odometer' => $item->odometer,
+          'price_per_liter' => $item->price_per_liter ?? null,
+          'liters_filled' => $item->liters_filled ?? null,
+        ];
+
+        array_push($import_gas, $data);
+      }
+    }
+
+    Gas::truncate();
+    Gas::refreshAutoIncrements();
+    Gas::insert($import_gas);
+    Gas::refreshAutoIncrements();
+
+    $count_maintenance = 0;
+    $count_maintenance_parts = 0;
+
+    $maintenance_types = MaintenanceType::all();
+
+    Maintenance::truncate();
+    MaintenancePart::truncate();
+
+    Maintenance::refreshAutoIncrements();
+
+    foreach ($maintenance as $item) {
+      $is_valid_entry = !empty($item->date) &&
+        !empty($item->description) &&
+        !empty($item->odometer) &&
+        !empty($item->parts) &&
+        is_array($item->parts);
+
+      if (!empty($item) && $is_valid_entry) {
+        $data = [
+          'date' => $item->date,
+          'description' => $item->description,
+          'odometer' => $item->odometer,
+        ];
+
+        $data_types = [];
+
+        foreach ($item->parts as $tentative_part) {
+          $partial_type = $maintenance_types->where('type', $tentative_part)->first();
+
+          if ($partial_type) array_push($data_types, $partial_type->id);
+        }
+
+        $partial_data_id = Maintenance::insertGetId($data);
+        $count_maintenance++;
+
+        foreach ($data_types as $proper_part_id) {
+          MaintenancePart::create([
+            'id_fourleaf_maintenance' => $partial_data_id,
+            'id_fourleaf_maintenance_type' => $proper_part_id,
+          ]);
+
+          $count_maintenance_parts++;
+        }
+      }
+    }
+
+    Maintenance::refreshAutoIncrements();
+
+    return [
+      'gas' => count($import_gas),
+      'maintenance' => $count_maintenance,
+      'parts' => $count_maintenance_parts,
     ];
   }
 

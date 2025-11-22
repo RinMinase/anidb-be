@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Controllers\Controller;
 use App\Resources\DefaultResponse;
 
+use App\Requests\ImportRequest;
 use App\Fourleaf\Repositories\GasRepository;
 use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
 use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
@@ -449,6 +450,97 @@ class GasController extends Controller {
   public function getMaintenanceParts(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->gasRepository->getMaintenanceParts()
+    ]);
+  }
+
+  /**
+   * @OA\Post(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/import",
+   *   summary="Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+   *   security={{"token":{}, "api-key": {}}},
+   *
+   *   @OA\RequestBody(
+   *     required=true,
+   *     @OA\MediaType(
+   *       mediaType="multipart/form-data",
+   *       @OA\Schema(
+   *         type="object",
+   *         @OA\Property(property="file", type="string", format="binary"),
+   *       ),
+   *     ),
+   *   ),
+   *
+   *   @OA\Response(
+   *     response=200,
+   *     description="Success",
+   *     @OA\JsonContent(
+   *       allOf={
+   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
+   *         @OA\Schema(
+   *           @OA\Property(
+   *             property="data",
+   *             @OA\Property(property="gas", ref="#/components/schemas/DefaultImportSchema"),
+   *             @OA\Property(property="maintenance", ref="#/components/schemas/DefaultImportSchema"),
+   *             @OA\Property(property="maintenanceParts", ref="#/components/schemas/DefaultImportSchema"),
+   *           ),
+   *         ),
+   *       },
+   *     ),
+   *   ),
+   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function import(ImportRequest $request): JsonResponse {
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      throw new JsonParsingException();
+    }
+
+    $data = json_decode($file);
+
+    $countGasData = 0;
+    $totalGasData = 0;
+    $countMaintenanceData = 0;
+    $totalMaintenanceData = 0;
+    $countMaintenancePartsData = 0;
+    $totalMaintenancePartsData = 0;
+
+    if (isset($data->gas) || isset($data->maintenance)) {
+      $totalGasData = count($data->gas);
+      $totalMaintenanceData = count($data->maintenance);
+
+      if (is_array($data->maintenance)) {
+        foreach ($data->maintenance as $item) {
+          if (!empty($item->parts) && is_array($item->parts)) {
+            $totalMaintenancePartsData += count($item->parts);
+          }
+        }
+      }
+
+      $importCounts = $this->gasRepository->import($data->gas, $data->maintenance);
+      $countGasData = $importCounts['gas'];
+      $countMaintenanceData = $importCounts['maintenance'];
+      $countMaintenancePartsData = $importCounts['parts'];
+    }
+
+    return DefaultResponse::success(null, [
+      'data' => [
+        'gas' => [
+          'acceptedImports' => $countGasData,
+          'totalJsonEntries' => $totalGasData,
+        ],
+        'maintenance' => [
+          'acceptedImports' => $countMaintenanceData,
+          'totalJsonEntries' => $totalMaintenanceData,
+        ],
+        'maintenanceParts' => [
+          'acceptedImports' => $countMaintenancePartsData,
+          'totalJsonEntries' => $totalMaintenancePartsData,
+        ]
+      ],
     ]);
   }
 }

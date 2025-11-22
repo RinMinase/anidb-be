@@ -79,6 +79,8 @@ Route::prefix('api')
             Route::post('maintenance', [\App\Fourleaf\Controllers\GasController::class, 'addMaintenance']);
             Route::put('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'editMaintenance']);
             Route::delete('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'deleteMaintenance']);
+
+            Route::post('import', [\App\Fourleaf\Controllers\GasController::class, 'import']);
           });
 
         Route::prefix('electricity')
