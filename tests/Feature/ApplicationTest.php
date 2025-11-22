@@ -202,9 +202,10 @@ class ApplicationTest extends BaseTestCase {
     }
 
     $not_expected = ['message' => 'Unauthorized'];
+    $headers = ['x-api-key' => config('app.api_key')];
 
     foreach ($get_routes as $route) {
-      $response = $this->get($route);
+      $response = $this->withHeaders($headers)->get($route);
       $this->curr_method = 'GET';
       $this->curr_url = $route;
 
@@ -213,7 +214,7 @@ class ApplicationTest extends BaseTestCase {
     }
 
     foreach ($post_routes as $route) {
-      $response = $this->post($route);
+      $response = $this->withHeaders($headers)->post($route);
       $this->curr_method = 'POST';
       $this->curr_url = $route;
 
@@ -222,7 +223,7 @@ class ApplicationTest extends BaseTestCase {
     }
 
     foreach ($put_routes as $route) {
-      $response = $this->put($route);
+      $response = $this->withHeaders($headers)->put($route);
       $this->curr_method = 'PUT';
       $this->curr_url = $route;
 
@@ -231,7 +232,7 @@ class ApplicationTest extends BaseTestCase {
     }
 
     foreach ($delete_routes as $route) {
-      $response = $this->delete($route);
+      $response = $this->withHeaders($headers)->delete($route);
       $this->curr_method = 'DELETE';
       $this->curr_url = $route;
 
@@ -241,6 +242,73 @@ class ApplicationTest extends BaseTestCase {
       } else {
         $response->assertStatus(404);
       }
+    }
+  }
+
+  public function test_fourleaf_routes_should_not_be_accessible_without_api_key() {
+    $id = -1;
+    $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
+
+    $raw_routes = Route::getRoutes()->getRoutesByMethod();
+
+    $post_routes = [];
+    $put_routes = [];
+    $delete_routes = [];
+
+    foreach ($raw_routes['POST'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        array_push($post_routes, '/' . $uri);
+      }
+    }
+
+    foreach ($raw_routes['PUT'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        $uri = str_replace('{uuid}', $uuid, $uri);
+        $uri = str_replace('{id}', $id, $uri);
+
+        array_push($put_routes, '/' . $uri);
+      }
+    }
+
+    foreach ($raw_routes['DELETE'] as $route) {
+      $uri = $route->uri();
+
+      if (str_contains($uri, 'api/fourleaf')) {
+        $uri = str_replace('{uuid}', $uuid, $uri);
+        $uri = str_replace('{id}', $id, $uri);
+
+        array_push($delete_routes, '/' . $uri);
+      }
+    }
+
+    $expected = ['message' => 'Unauthorized'];
+
+    foreach ($post_routes as $route) {
+      $response = $this->post($route);
+      $this->curr_method = 'POST';
+      $this->curr_url = $route;
+
+      $response->assertStatus(401)->assertJson($expected);
+    }
+
+    foreach ($put_routes as $route) {
+      $response = $this->put($route);
+      $this->curr_method = 'PUT';
+      $this->curr_url = $route;
+
+      $response->assertStatus(401)->assertJson($expected);
+    }
+
+    foreach ($delete_routes as $route) {
+      $response = $this->delete($route);
+      $this->curr_method = 'DELETE';
+      $this->curr_url = $route;
+
+      $response->assertStatus(401)->assertJson($expected);
     }
   }
 }
