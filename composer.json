@@ -27,7 +27,7 @@
         "laravel/sanctum": "~4.2.0",
         "nelexa/zip": "~4.0.2",
         "nesbot/carbon": "~3.10.3",
-        "phpoffice/phpspreadsheet": "~4.1.0",
+        "phpoffice/phpspreadsheet": "~5.3.0",
         "sentry/sentry-laravel": "~4.19.0",
         "spatie/db-dumper": "~3.8.0",
         "tpetry/laravel-postgresql-enhanced": "~3.5.0"
@@ -81,10 +81,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "allow-plugins": {},
-        "audit": {
-            "ignore": ["PKSA-64jn-3d9t-gncx"]
-        }
+        "allow-plugins": {}
     },
     "minimum-stability": "stable",
     "prefer-stable": true
