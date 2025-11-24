@@ -54,6 +54,9 @@ RUN mkdir -p "/etc/supervisor/logs"
 
 COPY ./php-config/supervisord.conf /etc/supervisord.conf
 
+# Silence deprecation warnings from pkg_resources
+ENV PYTHONWARNINGS=ignore::UserWarning
+
 ###########################################################################
 # Composer
 ###########################################################################
