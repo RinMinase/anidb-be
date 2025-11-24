@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
+use ZipArchive;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
-use PhpZip\Exception\ZipException;
-use PhpZip\ZipFile;
 
 use App\Enums\ExportTypesEnum;
 use App\Exceptions\Export\FileIncompleteException;
@@ -45,17 +45,29 @@ class ExportRepository {
       throw new ZipFileProcessException;
     }
 
-    $zip = new ZipFile();
+    $zip = new ZipArchive();
 
-    try {
-      $zip->addFile(Storage::disk('local')->path('db-dumps/' . $filename))
-        ->saveAsFile(Storage::disk('local')->path('db-dumps/temp.zip'))
-        ->close();
-    } catch (ZipException) {
+    $zip_response = $zip->open(
+      Storage::disk('local')->path('db-dumps/temp.zip'),
+      ZipArchive::CREATE
+    );
+
+    // Handle zip-related errors on opening
+    if ($zip_response !== true) {
       throw new ZipFileProcessException;
-    } finally {
-      $zip->close();
     }
+
+    $zip_response = $zip->addFile(
+      Storage::disk('local')->path('db-dumps/' . $filename),
+      $filename
+    );
+
+    // Handle zip-related errors on adding files
+    if ($zip_response !== true) {
+      throw new ZipFileProcessException;
+    }
+
+    $zip->close();
 
     // Filename format <yyyy-mm-dd_hh-mm-ss><_automated>.zip
     $zip_filename = $export->created_at;
