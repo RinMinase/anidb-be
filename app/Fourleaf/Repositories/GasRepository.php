@@ -5,6 +5,7 @@ namespace App\Fourleaf\Repositories;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\Fourleaf\Exceptions\Gas\InvalidYearException;
 
@@ -194,6 +195,10 @@ class GasRepository {
     ];
   }
 
+  /**
+   * Import / Export functions
+   */
+
   public function import(array $gas, array $maintenance) {
     $import_gas = [];
 
@@ -274,6 +279,60 @@ class GasRepository {
       'gas' => count($import_gas),
       'maintenance' => $count_maintenance,
       'parts' => $count_maintenance_parts,
+    ];
+  }
+
+  public function export() {
+    $gas_data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'price_per_liter', 'liters_filled')
+      ->get()
+      ->toArray();
+
+    $maintenance_data = Maintenance::select('date', 'description', 'odometer')
+      ->addSelect(DB::raw('\'[\' || string_agg(fourleaf_maintenance_types.type, \', \') || \']\' AS raw_parts'))
+      ->leftJoin(
+        'fourleaf_maintenance_parts',
+        'fourleaf_maintenance_parts.id_fourleaf_maintenance',
+        '=',
+        'fourleaf_maintenance.id'
+      )
+      ->leftJoin(
+        'fourleaf_maintenance_types',
+        'fourleaf_maintenance_types.id',
+        '=',
+        'fourleaf_maintenance_parts.id_fourleaf_maintenance_type'
+      )
+      ->groupBy(
+        'fourleaf_maintenance.id',
+        'fourleaf_maintenance.date',
+        'fourleaf_maintenance.description',
+        'fourleaf_maintenance.odometer'
+      )
+      ->orderBy('fourleaf_maintenance.id')
+      ->get()
+      ->toArray();
+
+    foreach ($maintenance_data as &$row) {
+      $types = trim($row["raw_parts"], "[]"); // remove brackets
+      $row["parts"] = array_map('trim', explode(',', $types)); // split into array
+      unset($row["raw_parts"]); // remove original key
+    }
+
+    $object_for_export = [
+      'gas' => $gas_data,
+      'maintenance' => $maintenance_data,
+    ];
+
+    $data = json_encode($object_for_export, JSON_PRETTY_PRINT);
+
+    // Create the json file
+    $filename = 'gas_' . now()->timestamp . '.json';
+
+    Storage::disk('local')->put("db-dumps/{$filename}", $data);
+
+    return [
+      'file' => Storage::disk('local')->path("db-dumps/{$filename}"),
+      'filename' => $filename,
+      'headers' => ['Content-Type' => 'application/json'],
     ];
   }
 

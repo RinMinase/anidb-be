@@ -3,11 +3,12 @@
 namespace App\Fourleaf\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use App\Controllers\Controller;
 use App\Resources\DefaultResponse;
-
 use App\Requests\ImportRequest;
+
 use App\Fourleaf\Repositories\GasRepository;
 use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
 use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
@@ -457,7 +458,7 @@ class GasController extends Controller {
    * @OA\Post(
    *   tags={"Fourleaf - Gas"},
    *   path="/api/fourleaf/gas/import",
-   *   summary="Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+   *   summary="Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
    *   security={{"token":{}, "api-key": {}}},
    *
    *   @OA\RequestBody(
@@ -542,5 +543,22 @@ class GasController extends Controller {
         ]
       ],
     ]);
+  }
+
+  /**
+   * @OA\Post(
+   *   tags={"Fourleaf - Gas"},
+   *   path="/api/fourleaf/gas/export",
+   *   summary="Fourleaf API - Export all Fuel and Maintenance data",
+   *   security={{"api-key": {}}},
+   *
+   *   @OA\Response(response=200, description="OK", @OA\Schema(type="file")),
+   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
+   * )
+   */
+  public function export(): BinaryFileResponse {
+    $data = $this->gasRepository->export();
+
+    return response()->download($data['file'], $data['filename'], $data['headers']);
   }
 }
