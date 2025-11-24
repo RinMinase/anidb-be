@@ -335,6 +335,13 @@
     }
   </style>
 
+  <!-- Additional overrides -->
+  <style>
+    .title > span {
+      display: inline-flex;
+    }
+  </style>
+
   <!-- API counter styles -->
   <style>
     #api-stats ul li {
@@ -344,13 +351,13 @@
       font-size: 14px;
       font-weight: bold;
       color: #fff;
-      margin-left: 2px;
+      margin-right: 2px;
     }
   </style>
 </head>
 
 <body>
-  <div id="api-stats" style="display:none; position: absolute; top: 138px; left: 476px; font-family: sans-serif;">
+  <div id="api-stats" style="display:none; position: absolute; top: 150px; left: calc(50vw - 710px + 452px); font-family: sans-serif;">
     <ul style="list-style: none; padding-left: 0; margin-block: 0;">
       <li style="background-color: #673ab7;">All APIs: <span id="api-count-all">0</span></li>
       <li style="background-color: #4caf50;">GET : <span id="api-count-get">0</span></li>
