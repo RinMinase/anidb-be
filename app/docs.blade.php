@@ -334,9 +334,32 @@
       }
     }
   </style>
+
+  <!-- API counter styles -->
+  <style>
+    #api-stats ul li {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      margin-left: 2px;
+    }
+  </style>
 </head>
 
 <body>
+  <div id="api-stats" style="display:none; position: absolute; top: 138px; left: 476px; font-family: sans-serif;">
+    <ul style="list-style: none; padding-left: 0; margin-block: 0;">
+      <li style="background-color: #673ab7;">All APIs: <span id="api-count-all">0</span></li>
+      <li style="background-color: #4caf50;">GET : <span id="api-count-get">0</span></li>
+      <li style="background-color: #1E88E5;">POST : <span id="api-count-post">0</span></li>
+      <li style="background-color: #F57C00;">PUT : <span id="api-count-put">0</span></li>
+      <li style="background-color: #D32F2F;">DELETE : <span id="api-count-delete">0</span></li>
+    </ul>
+  </div>
+
   <div id="swagger-ui"></div>
 
   <script src="{{ l5_swagger_asset($documentation, 'swagger-ui-bundle.js') }}"></script>
@@ -372,9 +395,38 @@
         persistAuthorization: "{!! config('l5-swagger.defaults.ui.authorization.persist_authorization') ? 'true' : 'false' !!}",
         defaultModelsExpandDepth: -1,
         displayRequestDuration: true,
+
+        onComplete: function() {
+          const specImmutable = ui.specSelectors.specJson();
+          if (!specImmutable) return;
+
+          const spec = specImmutable.toJS();
+          if (!spec.paths || Object.keys(spec.paths).length === 0) return;
+
+          const paths = spec.paths;
+          let counts = { all: 0, get: 0, post: 0, put: 0, delete: 0 };
+
+          for (let path in paths) {
+            for (let method in paths[path]) {
+              const m = method.toLowerCase();
+              counts.all++;
+
+              if (counts[m] !== undefined) counts[m]++;
+            }
+          }
+
+          document.getElementById('api-count-all').innerText = counts.all;
+          document.getElementById('api-count-get').innerText = counts.get;
+          document.getElementById('api-count-post').innerText = counts.post;
+          document.getElementById('api-count-put').innerText = counts.put;
+          document.getElementById('api-count-delete').innerText = counts.delete;
+
+          // Done loading, show the statistics container now
+          document.getElementById('api-stats').style.display = 'block';
+        }
       })
 
-      window.ui = ui
+      window.ui = ui;
 
       @if (in_array('oauth2', array_column(config('l5-swagger.defaults.securityDefinitions.securitySchemes'), 'type')))
         ui.initOAuth({
@@ -384,6 +436,7 @@
       @endif
     }
   </script>
+
 </body>
 
 </html>
