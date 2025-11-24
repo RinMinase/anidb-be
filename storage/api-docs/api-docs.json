@@ -7965,7 +7965,7 @@
                 "tags": [
                     "Fourleaf - Gas"
                 ],
-                "summary": "Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+                "summary": "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
                 "operationId": "136b253cb7bbec22f1fdb7b9899d350f",
                 "requestBody": {
                     "required": true,
@@ -8027,6 +8027,28 @@
                 "security": [
                     {
                         "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/fourleaf/gas/export": {
+            "post": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Export all Fuel and Maintenance data",
+                "operationId": "77a937a19a47bf2c640c74d6a74a33dc",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
                         "api-key": []
                     }
                 ]
