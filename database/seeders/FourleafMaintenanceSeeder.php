@@ -106,7 +106,7 @@ class FourleafMaintenanceSeeder extends Seeder {
         'odometer' => 1400,
       ],
       [
-        'date' => '2024-01-01',
+        'date' => '2024-08-29',
         'description' => 'PMS Labor',
         'odometer' => 6600,
       ],
