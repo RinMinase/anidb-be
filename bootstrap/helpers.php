@@ -32,6 +32,13 @@ if (!function_exists('parse_filesize')) {
       return "";
     }
 
+    $is_negative = false;
+
+    if ($size < 0) {
+      $is_negative = true;
+      $size = abs($size);
+    }
+
     if ($size < $KB) {
       $filesize = $size ?? 0 . " B";
     } else if ($size < $MB) {
@@ -54,7 +61,12 @@ if (!function_exists('parse_filesize')) {
       $filesize = round($size / $TB, 2) . " TB";
     }
 
-    return $filesize;
+    // Check if first character is 0
+    if ($filesize[0] === '0' || !$is_negative) {
+      return $filesize;
+    }
+
+    return '-' . $filesize;
   }
 }
 
