@@ -28,6 +28,28 @@ class ParseFilesizeTest extends TestCase {
     $this->assertEquals($expected, $actual);
   }
 
+  public function test_should_parse_negative_byte_filesize_and_return_filesize_string() {
+    $test_filesize = -1_864;
+    $actual = parse_filesize($test_filesize);
+    $expected = '-1.82 KB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_321_206;
+    $actual = parse_filesize($test_filesize);
+    $expected = '-1.26 MB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_320_702_444;
+    $actual = parse_filesize($test_filesize);
+    $expected = '-1.23 GB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_693_247_906_776;
+    $actual = parse_filesize($test_filesize);
+    $expected = '-1.54 TB';
+    $this->assertEquals($expected, $actual);
+  }
+
   public function test_should_parse_filesize_with_forced_unit_in_kb() {
     $test_forced_unit = 'KB';
 
@@ -49,6 +71,26 @@ class ParseFilesizeTest extends TestCase {
     $test_filesize = 1_693_247_906_776;
     $actual = parse_filesize($test_filesize, $test_forced_unit);
     $expected = '1653562408.96 KB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_864;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1.82 KB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_321_206;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1290.24 KB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_320_702_444;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1289748.48 KB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_693_247_906_776;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1653562408.96 KB';
     $this->assertEquals($expected, $actual);
   }
 
@@ -74,6 +116,26 @@ class ParseFilesizeTest extends TestCase {
     $actual = parse_filesize($test_filesize, $test_forced_unit);
     $expected = '1614807.04 MB';
     $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_864;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '0 MB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_321_206;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1.26 MB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_320_702_444;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1259.52 MB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_693_247_906_776;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1614807.04 MB';
+    $this->assertEquals($expected, $actual);
   }
 
   public function test_should_parse_filesize_with_forced_unit_in_gb() {
@@ -98,6 +160,26 @@ class ParseFilesizeTest extends TestCase {
     $actual = parse_filesize($test_filesize, $test_forced_unit);
     $expected = '1576.96 GB';
     $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_864;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '0 GB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_321_206;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '0 GB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_320_702_444;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1.23 GB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_693_247_906_776;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1576.96 GB';
+    $this->assertEquals($expected, $actual);
   }
 
   public function test_should_parse_filesize_with_forced_unit_in_tb() {
@@ -121,6 +203,26 @@ class ParseFilesizeTest extends TestCase {
     $test_filesize = 1_693_247_906_776;
     $actual = parse_filesize($test_filesize, $test_forced_unit);
     $expected = '1.54 TB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_864;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '0 TB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_321_206;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '0 TB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_320_702_444;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '0 TB';
+    $this->assertEquals($expected, $actual);
+
+    $test_filesize = -1_693_247_906_776;
+    $actual = parse_filesize($test_filesize, $test_forced_unit);
+    $expected = '-1.54 TB';
     $this->assertEquals($expected, $actual);
   }
 
