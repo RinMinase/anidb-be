@@ -357,6 +357,19 @@ class EntryRepository {
       $percent = round(($used / $total) * 100, 0);
       $titles = count($entries);
 
+      $purchase_date_text = $bucket->purchase_date;
+
+      if ($bucket->purchase_date) {
+        $date_target = Carbon::parse($bucket->purchase_date);
+        $days = $date_target->addDay()->diffInDays(Carbon::now(), false);
+        $days = ceil(max(0, $days));
+
+        $years = intdiv($days, 365);
+        $days = $days % 365;
+
+        $purchase_date_text .= " ({$years}y {$days}d)";
+      }
+
       array_push($bucketValues, [
         'id' => $bucket->id ?? $index + 1,
         'from' => $bucket->from,
@@ -368,6 +381,7 @@ class EntryRepository {
         'total' => parse_filesize($total),
         'rawTotal' => $total,
         'titles' => $titles,
+        'purchaseDate' => $purchase_date_text,
       ]);
 
       $entries_full_size += $entries_size;
@@ -388,6 +402,7 @@ class EntryRepository {
       'total' => parse_filesize($bucket_full_size),
       'rawTotal' => $bucket_full_size,
       'titles' => $count_full_size,
+      'purchaseDate' => null,
     ]);
 
     $returnValue = array_merge($returnValue, $bucketValues);
