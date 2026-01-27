@@ -7,6 +7,11 @@ use PHPUnit\Framework\TestCase;
 class ParseFilesizeTest extends TestCase {
 
   public function test_should_parse_byte_filesize_and_return_filesize_string() {
+    $test_filesize = 0;
+    $actual = parse_filesize($test_filesize);
+    $expected = '0 B';
+    $this->assertEquals($expected, $actual);
+
     $test_filesize = 1_864;
     $actual = parse_filesize($test_filesize);
     $expected = '1.82 KB';
@@ -247,13 +252,6 @@ class ParseFilesizeTest extends TestCase {
     $test_filesize = 1_693_247_906_776;
     $actual = parse_filesize($test_filesize, $test_forced_unit);
     $expected = '1.54 TB';
-    $this->assertEquals($expected, $actual);
-  }
-
-  public function test_should_return_blank_string_on_zero_filesize() {
-    $test_filesize = 0;
-    $actual = parse_filesize($test_filesize);
-    $expected = '';
     $this->assertEquals($expected, $actual);
   }
 
