@@ -28,9 +28,8 @@ if (!function_exists('parse_filesize')) {
     $GB = 1024 * $MB;
     $TB = 1024 * $GB;
 
-    if ($size === 0 || empty($size)) {
-      return "";
-    }
+    if ($size === 0) return "0 B";
+    if (!is_numeric($size) || is_null($size)) return "";
 
     $is_negative = false;
 
