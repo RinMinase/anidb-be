@@ -22,7 +22,8 @@ class BucketSimSeeder extends Seeder {
       [
         'uuid' => $uuid_1,
         'description' => '6 Buckets',
-      ], [
+      ],
+      [
         'uuid' => $uuid_2,
         'description' => '10 Buckets',
       ],
@@ -41,81 +42,112 @@ class BucketSimSeeder extends Seeder {
         'from' => 'a',
         'to' => 'd',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-01-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_1,
         'from' => 'e',
         'to' => 'h',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-03-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_1,
         'from' => 'i',
         'to' => 'l',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-05-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_1,
         'from' => 'm',
         'to' => 'p',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-07-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_1,
         'from' => 'q',
         'to' => 'u',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-09-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_1,
         'from' => 'v',
         'to' => 'z',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-10-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'a',
         'to' => 'b',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-11-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'c',
         'to' => 'e',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2020-12-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'f',
         'to' => 'g',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-01-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'h',
         'to' => 'j',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-02-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'k',
         'to' => 'k',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-03-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'l',
         'to' => 'l',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-04-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'm',
         'to' => 'n',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-05-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 'o',
         'to' => 'r',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-06-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 's',
         'to' => 's',
         'size' => 2_000_339_066_880,
-      ], [
+        'purchase_date' => '2021-08-01',
+      ],
+      [
         'id_sim_info' => $id_sim_info_2,
         'from' => 't',
         'to' => 'z',
         'size' => 2_000_339_066_880,
+        'purchase_date' => '2021-10-01',
       ],
     ];
 
