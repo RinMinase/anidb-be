@@ -12,6 +12,7 @@ use App\Models\Traits\RefreshableAutoIncrements;
  *   @OA\Property(property="from", type="string", minLength=1, maxLength=1, example="a"),
  *   @OA\Property(property="to", type="string", minLength=1, maxLength=1, example="d"),
  *   @OA\Property(property="size", type="integer", format="int64", example=2000339066880),
+ *   @OA\Property(property="purchaseDate", type="string", format="date", example="2020-01-20"),
  * )
  */
 class Bucket extends Model {
@@ -22,6 +23,7 @@ class Bucket extends Model {
     'from',
     'to',
     'size',
+    'purchase_date',
   ];
 
   protected $hidden = [];
