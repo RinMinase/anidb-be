@@ -540,6 +540,11 @@
                                                                 "type": "integer",
                                                                 "format": "int32",
                                                                 "example": 1
+                                                            },
+                                                            "purchaseDate": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2020-01-20"
                                                             }
                                                         },
                                                         "type": "object"
@@ -1764,6 +1769,10 @@
                                                                 "type": "integer",
                                                                 "format": "int32",
                                                                 "example": 1
+                                                            },
+                                                            "purchaseDate": {
+                                                                "type": "string",
+                                                                "format": "date"
                                                             }
                                                         },
                                                         "type": "object"
@@ -8615,6 +8624,11 @@
                         "type": "integer",
                         "format": "int64",
                         "example": 2000339066880
+                    },
+                    "purchaseDate": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2020-01-20"
                     }
                 },
                 "type": "object"

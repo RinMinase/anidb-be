@@ -47,6 +47,7 @@ class EntryByBucketController extends Controller {
    *                 example=1000169533440,
    *               ),
    *               @OA\Property(property="titles", type="integer", format="int32", example=1),
+   *               @OA\Property(property="purchaseDate", type="string", format="date"),
    *             ),
    *           ),
    *         ),
