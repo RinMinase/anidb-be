@@ -340,6 +340,10 @@
     .title > span {
       display: inline-flex;
     }
+
+    .dark-mode-toggle {
+      display: none
+    }
   </style>
 
   <!-- API counter styles -->
@@ -430,6 +434,9 @@
 
           // Done loading, show the statistics container now
           document.getElementById('api-stats').style.display = 'block';
+
+
+          document.documentElement.classList.remove("dark-mode");
         }
       })
 
