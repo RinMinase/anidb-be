@@ -265,11 +265,18 @@ class EntryByNameTest extends BaseTestCase {
     $this->assertEquals($expected_p_count, $actual_p['titles']);
     $this->assertEquals($expected_z_count, $actual_z['titles']);
 
-    $this->assertEquals($expected_0_count * $this->filesize || '', $actual_0['filesize']);
-    $this->assertEquals($expected_a_count * $this->filesize || '', $actual_a['filesize']);
-    $this->assertEquals($expected_d_count * $this->filesize || '', $actual_d['filesize']);
-    $this->assertEquals($expected_g_count * $this->filesize || '', $actual_g['filesize']);
-    $this->assertEquals($expected_p_count * $this->filesize || '', $actual_p['filesize']);
-    $this->assertEquals($expected_z_count * $this->filesize || '', $actual_z['filesize']);
+    $expected_0_filesize = parse_filesize($expected_0_count * $this->filesize);
+    $expected_a_filesize = parse_filesize($expected_a_count * $this->filesize);
+    $expected_d_filesize = parse_filesize($expected_d_count * $this->filesize);
+    $expected_g_filesize = parse_filesize($expected_g_count * $this->filesize);
+    $expected_p_filesize = parse_filesize($expected_p_count * $this->filesize);
+    $expected_z_filesize = parse_filesize($expected_z_count * $this->filesize);
+
+    $this->assertEquals($expected_0_filesize, $actual_0['filesize']);
+    $this->assertEquals($expected_a_filesize, $actual_a['filesize']);
+    $this->assertEquals($expected_d_filesize, $actual_d['filesize']);
+    $this->assertEquals($expected_g_filesize, $actual_g['filesize']);
+    $this->assertEquals($expected_p_filesize, $actual_p['filesize']);
+    $this->assertEquals($expected_z_filesize, $actual_z['filesize']);
   }
 }

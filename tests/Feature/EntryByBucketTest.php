@@ -183,6 +183,7 @@ class EntryByBucketTest extends BaseTestCase {
           'total',
           'rawTotal',
           'titles',
+          'purchaseDate',
         ]],
       ]);
 
@@ -198,6 +199,7 @@ class EntryByBucketTest extends BaseTestCase {
         'total' => '3.64 TB',
         'rawTotal' => $this->bucket_size_1 + $this->bucket_size_2,
         'titles' => 2,
+        'purchaseDate' => null,
       ],
       [
         'id' => $this->bucket_id_1,
@@ -210,6 +212,7 @@ class EntryByBucketTest extends BaseTestCase {
         'total' => '1.82 TB',
         'rawTotal' => $this->bucket_size_1,
         'titles' => 1,
+        'purchaseDate' => null,
       ],
       [
         'id' => $this->bucket_id_2,
@@ -222,6 +225,7 @@ class EntryByBucketTest extends BaseTestCase {
         'total' => '1.82 TB',
         'rawTotal' => $this->bucket_size_2,
         'titles' => 1,
+        'purchaseDate' => null,
       ]
     ];
 
