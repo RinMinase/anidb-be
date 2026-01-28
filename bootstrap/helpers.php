@@ -29,7 +29,7 @@ if (!function_exists('parse_filesize')) {
     $TB = 1024 * $GB;
 
     if ($size === 0) return "0 B";
-    if (!is_numeric($size) || is_null($size)) return "";
+    if (!is_numeric($size) || !$size) return "";
 
     $is_negative = false;
 
@@ -39,7 +39,7 @@ if (!function_exists('parse_filesize')) {
     }
 
     if ($size < $KB) {
-      $filesize = $size ?? 0 . " B";
+      $filesize = ($size ?? 0) . " B";
     } else if ($size < $MB) {
       $filesize = round($size / $KB, 2) . " KB";
     } else if ($size < $GB) {
