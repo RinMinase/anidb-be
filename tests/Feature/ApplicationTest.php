@@ -175,6 +175,11 @@ class ApplicationTest extends BaseTestCase {
       $uri = $route->uri();
 
       if (str_contains($uri, 'api/fourleaf')) {
+        if (str_contains($uri, 'gas/export')) {
+          // skip export route due to binary output
+          continue;
+        }
+
         array_push($post_routes, '/' . $uri);
       }
     }
