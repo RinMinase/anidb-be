@@ -12,6 +12,11 @@ class ParseFilesizeTest extends TestCase {
     $expected = '0 B';
     $this->assertEquals($expected, $actual);
 
+    $test_filesize = 100;
+    $actual = parse_filesize($test_filesize);
+    $expected = '100 B';
+    $this->assertEquals($expected, $actual);
+
     $test_filesize = 1_864;
     $actual = parse_filesize($test_filesize);
     $expected = '1.82 KB';
