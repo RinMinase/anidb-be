@@ -852,6 +852,11 @@
                                                                 "type": "integer",
                                                                 "format": "int32",
                                                                 "example": 1
+                                                            },
+                                                            "purchaseDate": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2020-01-20"
                                                             }
                                                         },
                                                         "type": "object"
