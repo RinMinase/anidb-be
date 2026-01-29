@@ -350,12 +350,34 @@
   <style>
     #api-stats ul li {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 2px 10px;
       border-radius: 99px;
       font-size: 14px;
       font-weight: bold;
-      color: #fff;
       margin-right: 2px;
+    }
+
+    html {
+      #api-stats ul li {
+        color: #fff;
+
+        &.all-api-summary { background-color: #8f50ff; }
+        &.get-summary { background-color: #61affe; }
+        &.post-summary { background-color: #49cc90; }
+        &.put-summary { background-color: #fca130; }
+        &.delete-summary { background-color: #f93e3e; }
+      }
+
+      &.dark-mode #api-stats ul li {
+        color: #080a0b;
+
+        &.all-api-summary { background-color: #7c46dd; }
+        &.get-summary { background-color: #55a1ff; }
+        &.post-summary { background-color: #00b572; }
+        &.put-summary { background-color: #ff7d35; }
+        &.delete-summary { background-color: #eb6156; }
+      }
+
     }
   </style>
 </head>
@@ -363,11 +385,11 @@
 <body>
   <div id="api-stats" style="display:none; position: absolute; top: 150px; left: calc(50vw - 710px + 452px); font-family: sans-serif;">
     <ul style="list-style: none; padding-left: 0; margin-block: 0;">
-      <li style="background-color: #673ab7;">All APIs: <span id="api-count-all">0</span></li>
-      <li style="background-color: #1E88E5;">GET : <span id="api-count-get">0</span></li>
-      <li style="background-color: #4caf50;">POST : <span id="api-count-post">0</span></li>
-      <li style="background-color: #F57C00;">PUT : <span id="api-count-put">0</span></li>
-      <li style="background-color: #D32F2F;">DELETE : <span id="api-count-delete">0</span></li>
+      <li class="all-api-summary">All APIs: <span id="api-count-all">0</span></li>
+      <li class="get-summary">GET : <span id="api-count-get">0</span></li>
+      <li class="post-summary">POST : <span id="api-count-post">0</span></li>
+      <li class="put-summary">PUT : <span id="api-count-put">0</span></li>
+      <li class="delete-summary">DELETE : <span id="api-count-delete">0</span></li>
     </ul>
   </div>
 
