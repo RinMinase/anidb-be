@@ -364,8 +364,8 @@
   <div id="api-stats" style="display:none; position: absolute; top: 150px; left: calc(50vw - 710px + 452px); font-family: sans-serif;">
     <ul style="list-style: none; padding-left: 0; margin-block: 0;">
       <li style="background-color: #673ab7;">All APIs: <span id="api-count-all">0</span></li>
-      <li style="background-color: #4caf50;">GET : <span id="api-count-get">0</span></li>
-      <li style="background-color: #1E88E5;">POST : <span id="api-count-post">0</span></li>
+      <li style="background-color: #1E88E5;">GET : <span id="api-count-get">0</span></li>
+      <li style="background-color: #4caf50;">POST : <span id="api-count-post">0</span></li>
       <li style="background-color: #F57C00;">PUT : <span id="api-count-put">0</span></li>
       <li style="background-color: #D32F2F;">DELETE : <span id="api-count-delete">0</span></li>
     </ul>
