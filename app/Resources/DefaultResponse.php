@@ -2,24 +2,29 @@
 
 namespace App\Resources;
 
+use OpenApi\Attributes as OA;
+
 class DefaultResponse {
 
-  /**
-   * @OA\Response(
-   *   response="Success",
-   *   description="Success",
-   *   @OA\JsonContent(
-   *     example={"status": 200, "message": "Success"},
-   *     @OA\Property(property="status", type="integer", format="int32"),
-   *     @OA\Property(property="message", type="string"),
-   *   ),
-   * ),
-   * @OA\Schema(
-   *   schema="DefaultSuccess",
-   *   @OA\Property(property="status", type="integer", format="int32", example=200),
-   *   @OA\Property(property="message", type="string", example="Success"),
-   * )
-   */
+  #[OA\Response(
+    response: "Success",
+    description: "Success",
+    content: new OA\JsonContent(
+      example: ["status" => 200, "message" => "Success"],
+      properties: [
+        new OA\Property(property: "status", type: "integer", format: "int32"),
+        new OA\Property(property: "message", type: "string"),
+      ]
+    )
+  )]
+
+  #[OA\Schema(
+    schema: "DefaultSuccess",
+    properties: [
+      new OA\Property(property: "status", type: "integer", format: "int32", example: 200),
+      new OA\Property(property: "message", type: "string", example: "Success"),
+    ]
+  )]
   public static function success(string $message = null, array $data = []) {
     $defaultResponse = [
       'status' => 200,
