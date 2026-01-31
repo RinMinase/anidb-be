@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="id", type="integer", format="int32", example=1),
- *   @OA\Property(property="title", type="string", example="Summer List"),
- *   @OA\Property(property="dateFrom", type="string", format="date", example="2020-01-01"),
- *   @OA\Property(property="dateTo", type="string", format="date", example="2020-02-01"),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "integer", format: "int32", example: 1),
+    new OA\Property(property: "title", type: "string", example: "Summer List"),
+    new OA\Property(property: "dateFrom", type: "string", format: "date", example: "2020-01-01"),
+    new OA\Property(property: "dateTo", type: "string", format: "date", example: "2020-02-01"),
+  ]
+)]
 class Sequence extends Model {
 
   use RefreshableAutoIncrements;

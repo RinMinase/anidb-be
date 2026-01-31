@@ -3,21 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   example={
- *     "id": 1,
- *     "label": "label",
- *     "color": "#ffffff",
- *   },
- *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="label", type="string"),
- *   @OA\Property(property="color", type="string", description="Color hex code"),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "integer", format: "int32", example: 1),
+    new OA\Property(property: "label", type: "string", example: 'label'),
+    new OA\Property(property: "color", type: "string", description: "Color hex code", example: '#ffffff'),
+  ]
+)]
 class EntryWatcher extends Model {
 
   use RefreshableAutoIncrements;

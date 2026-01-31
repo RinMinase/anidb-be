@@ -3,19 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   example={
- *     "id": 1,
- *     "priority": "High",
- *   },
- *   @OA\Property(property="id", type="integer", format="int32"),
- *   @OA\Property(property="priority", type="string", enum={"High", "Normal", "Low"}),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "integer", example: 1),
+    new OA\Property(property: "priority", type: "string", example: "High", enum: ["High", "Normal", "Low"]),
+  ]
+)]
 class Priority extends Model {
 
   use RefreshableAutoIncrements;

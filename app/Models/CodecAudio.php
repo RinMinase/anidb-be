@@ -3,22 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="id", type="integer", format="int32", example=1),
- *   @OA\Property(property="codec", type="string", example="AAC 2.0"),
- *   @OA\Property(
- *     property="order",
- *     type="integer",
- *     format="int32",
- *     nullable=true,
- *     example=null,
- *   ),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "integer", example: 1),
+    new OA\Property(property: "codec", type: "string", example: "AAC 2.0"),
+    new OA\Property(property: "order", type: "integer", nullable: true, example: null),
+  ]
+)]
 class CodecAudio extends Model {
 
   use RefreshableAutoIncrements;

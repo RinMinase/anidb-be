@@ -4,22 +4,26 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as BaseAuthModel;
 use Laravel\Sanctum\HasApiTokens;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   schema="UserToken",
- *   @OA\Property(property="token", type="string", example="alphanumeric token"),
- * ),
- * @OA\Schema(
- *   schema="UserDetails",
- *   @OA\Property(property="uuid", type="string", format="uuid", example="e9597119-8452-4f2b-96d8-f2b1b1d2f158"),
- *   @OA\Property(property="username", type="string"),
- *   @OA\Property(property="createdAt", type="string"),
- *   @OA\Property(property="updatedAt", type="string"),
- * ),
- */
+#[OA\Schema(
+  schema: "UserToken",
+  properties: [
+    new OA\Property(property: "token", type: "string", example: "alphanumeric token"),
+  ]
+)]
+
+#[OA\Schema(
+  schema: "UserDetails",
+  properties: [
+    new OA\Property(property: "uuid", type: "string", format: "uuid", example: "e9597119-8452-4f2b-96d8-f2b1b1d2f158"),
+    new OA\Property(property: "username", type: "string"),
+    new OA\Property(property: "createdAt", type: "string"),
+    new OA\Property(property: "updatedAt", type: "string"),
+  ]
+)]
 class User extends BaseAuthModel {
 
   use HasApiTokens, RefreshableAutoIncrements;
