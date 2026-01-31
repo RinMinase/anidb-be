@@ -25,10 +25,23 @@ class ApplicationTest extends BaseTestCase {
     $response->assertStatus(200);
   }
 
-  public function test_api_documentation_page_should_be_accessible() {
-    $response = $this->get('/docs');
+  public function test_health_page_should_be_accessible() {
+    $response = $this->get('/health');
 
     $response->assertStatus(200);
+  }
+
+  public function test_api_documentation_page_should_be_accessible() {
+    $response = $this->get('/api-docs');
+
+    $response->assertStatus(200);
+  }
+
+  public function test_api_documentation_manifest_should_not_be_accessible() {
+    $response = $this->get('/docs');
+
+    $response->assertStatus(403)
+      ->assertJson(['message' => 'Direct access to JSON is forbidden']);
   }
 
   public function test_routes_should_not_be_accessible_when_not_authenticated() {
