@@ -63,7 +63,9 @@ return [
       'middleware' => [
         'api' => [],
         'asset' => [],
-        'docs' => [],
+        'docs' => [
+          \App\Middleware\ApiManifestGuard::class,
+        ],
         'oauth2_callback' => [],
       ],
 
