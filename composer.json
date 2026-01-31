@@ -22,7 +22,7 @@
         "ext-gd": "*",
         "ext-zip": "*",
         "cloudinary/cloudinary_php": "~3.1.2",
-        "darkaonline/l5-swagger": "~9.0.1",
+        "darkaonline/l5-swagger": "~10.1.0",
         "laravel/framework": "~12.49.0",
         "laravel/sanctum": "~4.3.0",
         "nesbot/carbon": "~3.11.0",
