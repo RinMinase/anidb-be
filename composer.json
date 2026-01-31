@@ -25,7 +25,7 @@
         "darkaonline/l5-swagger": "~10.1.0",
         "laravel/framework": "~12.49.0",
         "laravel/sanctum": "~4.3.0",
-        "nesbot/carbon": "~3.11.0",
+        "nesbot/carbon": "~3.11.1",
         "phpoffice/phpspreadsheet": "~5.4.0",
         "sentry/sentry-laravel": "~4.20.1",
         "spatie/db-dumper": "~3.8.3",
