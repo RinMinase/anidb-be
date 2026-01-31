@@ -23,7 +23,7 @@ class AnilistController extends Controller {
   #[OA\Get(
     path: "/api/anilist/title/{title_id}",
     summary: "Retrieve Title Information",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["AniList"],
     parameters: [
       new OA\Parameter(
@@ -67,7 +67,7 @@ class AnilistController extends Controller {
   #[OA\Get(
     path: "/api/anilist/search",
     summary: "Query Titles",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["AniList"],
     parameters: [
       new OA\Parameter(

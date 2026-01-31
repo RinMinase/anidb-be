@@ -49,6 +49,7 @@ class SearchRequest extends FormRequest {
     name: 'episodes',
     description: 'Could be absolute value: 3<br>Range: 10 to 12<br>Comparators > 12',
     in: 'query',
+    example: '>= 12',
     schema: new OA\Schema(type: 'string')
   )]
   #[OA\Parameter(
@@ -138,6 +139,7 @@ class SearchRequest extends FormRequest {
     name: 'codec_video',
     description: 'Comma separated IDs of video codecs',
     in: 'query',
+    example: '1,2',
     schema: new OA\Schema(type: 'string')
   )]
   #[OA\Parameter(

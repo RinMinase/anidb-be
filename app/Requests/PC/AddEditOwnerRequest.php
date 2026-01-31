@@ -14,7 +14,6 @@ class AddEditOwnerRequest extends FormRequest {
     name: "name",
     in: "query",
     required: true,
-    example: "username",
     schema: new OA\Schema(type: "string", minLength: 1, maxLength: 64),
   )]
   public function rules() {

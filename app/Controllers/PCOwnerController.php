@@ -22,7 +22,7 @@ class PCOwnerController extends Controller {
   #[OA\Get(
     path: "/api/pc/owners",
     summary: "Get All PC Owners",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     responses: [
       new OA\Response(
@@ -58,7 +58,7 @@ class PCOwnerController extends Controller {
   #[OA\Get(
     path: "/api/pc/owners/{owner_uuid}",
     summary: "Get PC Owner",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(
@@ -96,7 +96,7 @@ class PCOwnerController extends Controller {
   #[OA\Post(
     path: "/api/pc/owners",
     summary: "Add a PC Owner",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/pc_add_edit_owner_name")
@@ -116,7 +116,7 @@ class PCOwnerController extends Controller {
   #[OA\Put(
     path: "/api/pc/owners/{owner_uuid}",
     summary: "Edit a PC Owner",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(
@@ -148,7 +148,7 @@ class PCOwnerController extends Controller {
   #[OA\Delete(
     path: "/api/pc/owners/{owner_uuid}",
     summary: "Delete a PC Owner",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(name: "owner_uuid", description: "Owner UUID", in: "path", required: true, example: "e9597119-8452-4f2b-96d8-f2b1b1d2f158", schema: new OA\Schema(type: "string", format: "uuid"))
@@ -169,7 +169,7 @@ class PCOwnerController extends Controller {
   #[OA\Post(
     path: "/api/pc/owners/import",
     summary: "Import a JSON file to add (does not delete existing) data for PC owners table",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     requestBody: new OA\RequestBody(
       required: true,

@@ -132,7 +132,7 @@ class AuthController extends Controller {
     path: "/api/auth/logout",
     tags: ["User"],
     summary: "User Logout",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     responses: [
       new OA\Response(response: 200, ref: "#/components/responses/Success"),
       new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
@@ -155,7 +155,7 @@ class AuthController extends Controller {
     path: "/api/auth/user",
     tags: ["User"],
     summary: "Get User",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     responses: [
       new OA\Response(
         response: 200,

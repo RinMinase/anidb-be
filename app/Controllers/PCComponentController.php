@@ -24,7 +24,7 @@ class PCComponentController extends Controller {
     tags: ["PC"],
     path: "/api/pc/components",
     summary: "Get All PC Components",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/pc_search_component_id_type"),
       new OA\Parameter(ref: "#/components/parameters/pc_search_component_limit"),
@@ -64,7 +64,7 @@ class PCComponentController extends Controller {
     tags: ["PC"],
     path: "/api/pc/components/{component_id}",
     summary: "Get a single PC Component",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     parameters: [
       new OA\Parameter(
         name: "component_id",
@@ -102,7 +102,7 @@ class PCComponentController extends Controller {
     tags: ["PC"],
     path: "/api/pc/components",
     summary: "Add a PC Component",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/pc_add_edit_component_id_type"),
       new OA\Parameter(ref: "#/components/parameters/pc_add_edit_component_name"),
@@ -138,7 +138,7 @@ class PCComponentController extends Controller {
     tags: ["PC"],
     path: "/api/pc/components/{component_id}",
     summary: "Edit a PC Component",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     parameters: [
       new OA\Parameter(
         name: "component_id",
@@ -186,7 +186,7 @@ class PCComponentController extends Controller {
     tags: ["PC"],
     path: "/api/pc/components/{component_id}",
     summary: "Delete a PC Component",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     parameters: [
       new OA\Parameter(
         name: "component_id",
@@ -214,7 +214,7 @@ class PCComponentController extends Controller {
     tags: ["PC"],
     path: "/api/pc/components/import",
     summary: "Import a JSON file to add (does not delete existing) data for PC components table",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     requestBody: new OA\RequestBody(
       required: true,
       content: new OA\MediaType(

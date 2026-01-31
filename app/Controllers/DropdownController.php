@@ -39,7 +39,7 @@ class DropdownController extends Controller {
   #[OA\Get(
     path: "/api/dropdowns",
     summary: "Get All Dropdowns for Adding Entries",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["Dropdowns"],
     parameters: [
       new OA\Parameter(

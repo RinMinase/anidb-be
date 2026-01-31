@@ -21,7 +21,7 @@ class PCSetupController extends Controller {
     tags: ["PC"],
     path: "/api/pc/setups/import",
     summary: "Import a JSON file to add (does not delete existing) data for PC setups table",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     requestBody: new OA\RequestBody(
       required: true,
       content: new OA\MediaType(

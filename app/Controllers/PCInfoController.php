@@ -23,7 +23,7 @@ class PCInfoController extends Controller {
   #[OA\Get(
     path: "/api/pc/infos/{info_uuid}",
     summary: "Get a PC Info",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(
@@ -76,7 +76,7 @@ class PCInfoController extends Controller {
   #[OA\Post(
     path: "/api/pc/infos",
     summary: "Add a PC Info",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/pc_add_edit_info_id_owner"),
@@ -102,7 +102,7 @@ class PCInfoController extends Controller {
   #[OA\Put(
     path: "/api/pc/infos/{info_uuid}",
     summary: "Edit a PC Info",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(
@@ -138,7 +138,7 @@ class PCInfoController extends Controller {
   #[OA\Delete(
     path: "/api/pc/infos/{info_uuid}",
     summary: "Delete a PC Info",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(
@@ -166,7 +166,7 @@ class PCInfoController extends Controller {
   #[OA\Post(
     path: "/api/pc/infos/import",
     summary: "Import a JSON file to add (does not delete existing) data for PC infos table",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     requestBody: new OA\RequestBody(
       required: true,
@@ -219,7 +219,7 @@ class PCInfoController extends Controller {
   #[OA\Post(
     path: "/api/pc/infos/{info_uuid}/duplicate",
     summary: "Duplicate a PC Info",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     responses: [
       new OA\Response(response: 200, ref: "#/components/responses/Success"),
@@ -236,7 +236,7 @@ class PCInfoController extends Controller {
   #[OA\Put(
     path: "/api/pc/infos/{info_uuid}/hide",
     summary: "Set a PC Info to either shown or hidden",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
       new OA\Parameter(

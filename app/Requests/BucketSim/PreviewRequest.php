@@ -17,7 +17,7 @@ class PreviewRequest extends FormRequest {
     description: 'Bucket JSON String',
     in: 'query',
     required: true,
-    example: '[{""from"":""a"",""to"":""i"",""size"":2000339066880},{""from"":""j"",""to"":""z"",""size"":2000339066880}]',
+    example: '[{"from":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":2000339066880}]',
     schema: new OA\Schema(type: 'string')
   )]
   public function rules() {

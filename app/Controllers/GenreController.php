@@ -21,7 +21,7 @@ class GenreController extends Controller {
     path: "/api/genres",
     tags: ["Dropdowns"],
     summary: "Get All Genres",
-    security: [["token" => []], ["api-key" => []]],
+    security: [["token" => [], "api-key" => []]],
     responses: [
       new OA\Response(
         response: 200,
@@ -41,6 +41,8 @@ class GenreController extends Controller {
           ]
         )
       ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
   public function index(): JsonResponse {
