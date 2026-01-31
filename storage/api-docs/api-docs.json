@@ -2282,7 +2282,7 @@
                                                                 "description": "null value on uncategorized entries",
                                                                 "type": "integer",
                                                                 "format": "int32",
-                                                                "example": "2020",
+                                                                "example": 2020,
                                                                 "nullable": true
                                                             },
                                                             "count": {
@@ -2554,12 +2554,6 @@
                         "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
-                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
-                    },
-                    {
-                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
-                    },
-                    {
                         "$ref": "#/components/parameters/entry_add_edit_release_year"
                     },
                     {
@@ -2722,12 +2716,6 @@
                     },
                     {
                         "$ref": "#/components/parameters/entry_add_edit_encoder_video"
-                    },
-                    {
-                        "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
-                    },
-                    {
-                        "$ref": "#/components/parameters/entry_add_edit_encoder_subs"
                     },
                     {
                         "$ref": "#/components/parameters/entry_add_edit_encoder_audio"
@@ -3773,7 +3761,15 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "$ref": "#/components/responses/ExportFileIncompleteResponse"
@@ -4568,7 +4564,7 @@
                 "tags": [
                     "PC"
                 ],
-                "summary": "Get All PC Components",
+                "summary": "Get a single PC Component",
                 "operationId": "dcb986c70a2f15bc67ee9ce6106e64db",
                 "parameters": [
                     {
@@ -7332,10 +7328,6 @@
                                                             "properties": {
                                                                 "efficiency": {
                                                                     "properties": {
-                                                                        "<date>": {
-                                                                            "type": "string",
-                                                                            "example": "<value>"
-                                                                        },
                                                                         "2020-10-20": {
                                                                             "type": "number",
                                                                             "format": "float",
@@ -7346,10 +7338,6 @@
                                                                 },
                                                                 "gas": {
                                                                     "properties": {
-                                                                        "<date>": {
-                                                                            "type": "string",
-                                                                            "example": "<value>"
-                                                                        },
                                                                         "2020-10-20": {
                                                                             "type": "number",
                                                                             "format": "float",
@@ -7663,7 +7651,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "schema": "integer"
+                                                        "type": "integer"
                                                     },
                                                     "example": [
                                                         123,
@@ -7951,7 +7939,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "schema": "string",
+                                                        "type": "string",
                                                         "example": "engine_oil"
                                                     }
                                                 }
@@ -8055,7 +8043,15 @@
                 "operationId": "77a937a19a47bf2c640c74d6a74a33dc",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -8282,7 +8278,11 @@
                             "ratings": {
                                 "description": "Titles watched per rating -- rating values per index",
                                 "type": "array",
-                                "items": {}
+                                "items": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "example": 10
+                                }
                             },
                             "months": {
                                 "description": "Titles watched per month",
@@ -8357,7 +8357,7 @@
                                     "properties": {
                                         "year": {
                                             "type": "string",
-                                            "example": 2010
+                                            "example": "2010"
                                         },
                                         "value": {
                                             "type": "integer",
@@ -8389,7 +8389,10 @@
                                 "properties": {
                                     "list": {
                                         "type": "array",
-                                        "items": {}
+                                        "items": {
+                                            "type": "string",
+                                            "example": "Action"
+                                        }
                                     },
                                     "values": {
                                         "type": "array",
@@ -8428,7 +8431,7 @@
                         "format": "int16",
                         "maximum": 32767,
                         "minimum": 0,
-                        "example": "123"
+                        "example": 123
                     },
                     "cost": {
                         "type": "number",
@@ -8642,23 +8645,20 @@
                 "properties": {
                     "uuid": {
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     "description": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Sample Buckets"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                    "description": "Sample Buckets"
-                }
+                "type": "object"
             },
             "CodecAudio": {
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32",
                         "example": 1
                     },
                     "codec": {
@@ -8667,7 +8667,6 @@
                     },
                     "order": {
                         "type": "integer",
-                        "format": "int32",
                         "example": null,
                         "nullable": true
                     }
@@ -8686,7 +8685,6 @@
                     },
                     "order": {
                         "type": "integer",
-                        "format": "int32",
                         "example": null,
                         "nullable": true
                     }
@@ -8697,22 +8695,20 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "label": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "label"
                     },
                     "color": {
                         "description": "Color hex code",
-                        "type": "string"
+                        "type": "string",
+                        "example": "#ffffff"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "id": 1,
-                    "label": "label",
-                    "color": "#ffffff"
-                }
+                "type": "object"
             },
             "Export": {
                 "properties": {
@@ -8761,17 +8757,15 @@
                 "properties": {
                     "uuid": {
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Sample Group Name"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "uuid": "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-                    "name": "Sample Group Name"
-                }
+                "type": "object"
             },
             "Log": {
                 "properties": {
@@ -8901,7 +8895,7 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "example": 1
                     },
                     "priority": {
                         "type": "string",
@@ -8909,14 +8903,11 @@
                             "High",
                             "Normal",
                             "Low"
-                        ]
+                        ],
+                        "example": "High"
                     }
                 },
-                "type": "object",
-                "example": {
-                    "id": 1,
-                    "priority": "High"
-                }
+                "type": "object"
             },
             "Quality": {
                 "properties": {
@@ -9824,8 +9815,7 @@
                         "schema": {
                             "properties": {
                                 "status": {
-                                    "type": "integer",
-                                    "format": "int32"
+                                    "type": "integer"
                                 },
                                 "message": {
                                     "type": "string"
@@ -9877,7 +9867,9 @@
                                     "properties": {
                                         "genres": {
                                             "type": "array",
-                                            "items": {}
+                                            "items": {
+                                                "type": "string"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -9920,7 +9912,9 @@
                         "example": {
                             "status": 401,
                             "data": {
-                                "offquel_id": "{{ validation message }}"
+                                "offquel_id": [
+                                    "{{ validation message }}"
+                                ]
                             }
                         }
                     }
@@ -10870,6 +10864,25 @@
                 },
                 "example": 20
             },
+            "entry_offquels_data_deepobject": {
+                "name": "data",
+                "in": "query",
+                "description": "Array of offquel UUIDs",
+                "required": true,
+                "style": "deepObject",
+                "explode": true,
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "example": [
+                        "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+                        "786f90ce-87a6-4096-833b-a4a1db740f3d"
+                    ]
+                }
+            },
             "entry_offquels_data": {
                 "name": "data",
                 "in": "query",
@@ -10888,7 +10901,7 @@
                     "maximum": 5,
                     "minimum": 1
                 },
-                "example": 10
+                "example": 5
             },
             "entry_ratings_enjoyment": {
                 "name": "enjoyment",
@@ -10899,7 +10912,7 @@
                     "maximum": 5,
                     "minimum": 1
                 },
-                "example": 10
+                "example": 5
             },
             "entry_ratings_graphics": {
                 "name": "graphics",
@@ -10910,7 +10923,7 @@
                     "maximum": 5,
                     "minimum": 1
                 },
-                "example": 10
+                "example": 5
             },
             "entry_ratings_plot": {
                 "name": "plot",
@@ -10921,7 +10934,7 @@
                     "maximum": 5,
                     "minimum": 1
                 },
-                "example": 10
+                "example": 5
             },
             "entry_search_quality": {
                 "name": "quality",
