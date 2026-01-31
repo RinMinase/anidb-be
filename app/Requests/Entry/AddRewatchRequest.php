@@ -5,21 +5,20 @@ namespace App\Requests\Entry;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use OpenApi\Attributes as OA;
 
 use App\Models\Entry;
 
 class AddRewatchRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="entry_add_rewatch_date_rewatched",
-   *   name="date_rewatched",
-   *   in="query",
-   *   required=true,
-   *   example="2022-01-23",
-   *   @OA\Schema(type="string", format="date"),
-   * ),
-   */
+  #[OA\Parameter(
+    parameter: 'entry_add_rewatch_date_rewatched',
+    name: 'date_rewatched',
+    in: 'query',
+    required: true,
+    example: '2022-01-23',
+    schema: new OA\Schema(type: 'string', format: 'date')
+  )]
   public function rules() {
     if ($this->route('uuid')) {
       Entry::where('uuid', $this->route('uuid'))->firstOrFail();

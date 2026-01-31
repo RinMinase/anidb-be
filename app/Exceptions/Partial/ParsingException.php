@@ -2,19 +2,21 @@
 
 namespace App\Exceptions\Partial;
 
+use OpenApi\Attributes as OA;
+
 use App\Exceptions\CustomException;
 
-/**
- * @OA\Response(
- *   response="PartialParsingResponse",
- *   description="Partial Parsing Error",
- *   @OA\JsonContent(
- *     example={"status": 400, "message": "There was a problem in parsing your request"},
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
+#[OA\Response(
+  response: "PartialParsingResponse",
+  description: "Partial Parsing Error",
+  content: new OA\JsonContent(
+    example: ["status" => 400, "message" => "There was a problem in parsing your request"],
+    properties: [
+      new OA\Property(property: "status", type: "integer", format: "int32"),
+      new OA\Property(property: "message", type: "string"),
+    ]
+  )
+)]
 class ParsingException extends CustomException {
 
   public ?string $field = null;

@@ -2,27 +2,29 @@
 
 namespace App\Exceptions\Entry;
 
+use OpenApi\Attributes as OA;
+
 use App\Exceptions\CustomException;
 
-/**
- * @OA\Response(
- *   response="EntryParsingResponse",
- *   description="Partial Parsing Error",
- *   @OA\JsonContent(
- *     example={
- *       "status": 401,
- *       "data": {
- *         "offquel_id": "{{ validation message }}"
- *       }
- *     },
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(
- *       property="data",
- *       @OA\Property(property="offquel_id", type="string"),
- *     ),
- *   ),
- * )
- */
+#[OA\Response(
+  response: "EntryParsingResponse",
+  description: "Partial Parsing Error",
+  content: new OA\JsonContent(
+    example: [
+      "status" => 401,
+      "data" => ["offquel_id" => ["{{ validation message }}"]]
+    ],
+    properties: [
+      new OA\Property(property: "status", type: "integer", format: "int32"),
+      new OA\Property(
+        property: "data",
+        properties: [
+          new OA\Property(property: "offquel_id", type: "string"),
+        ]
+      ),
+    ]
+  )
+)]
 class ParsingException extends CustomException {
 
   protected $error_message = '';

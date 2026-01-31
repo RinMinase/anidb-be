@@ -5,35 +5,34 @@ namespace App\Requests\Partial;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use OpenApi\Attributes as OA;
 
 class AddEditRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="partial_add_edit_id_catalog",
-   *   name="id_catalog",
-   *   in="query",
-   *   required=true,
-   *   example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *   @OA\Schema(type="string", format="uuid"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="partial_add_edit_id_priority",
-   *   name="id_priority",
-   *   in="query",
-   *   required=true,
-   *   example=1,
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="partial_add_edit_title",
-   *   name="title",
-   *   in="query",
-   *   required=true,
-   *   example="Partial Title",
-   *   @OA\Schema(type="string", minLength=1, maxLength=256),
-   * ),
-   */
+  #[OA\Parameter(
+    parameter: "partial_add_edit_id_catalog",
+    name: "id_catalog",
+    in: "query",
+    required: true,
+    example: "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
+    schema: new OA\Schema(type: "string", format: "uuid")
+  )]
+  #[OA\Parameter(
+    parameter: "partial_add_edit_id_priority",
+    name: "id_priority",
+    in: "query",
+    required: true,
+    example: 1,
+    schema: new OA\Schema(type: "integer", format: "int32")
+  )]
+  #[OA\Parameter(
+    parameter: "partial_add_edit_title",
+    name: "title",
+    in: "query",
+    required: true,
+    example: "Partial Title",
+    schema: new OA\Schema(type: "string", minLength: 1, maxLength: 256)
+  )]
   public function rules() {
     return [
       'id_catalog' => ['required', 'uuid', 'exists:catalogs,uuid'],

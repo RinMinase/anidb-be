@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use OpenApi\Attributes as OA;
 
 use App\Enums\SeasonsEnum;
 
@@ -20,165 +21,30 @@ use App\Rules\YearRule;
 
 class AddEditRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_id_quality",
-   *   name="id_quality",
-   *   in="query",
-   *   required=true,
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_title",
-   *   name="title",
-   *   in="query",
-   *   required=true,
-   *   @OA\Schema(type="string", minLength=1, maxLength=256),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_date_finished",
-   *   name="date_finished",
-   *   in="query",
-   *   @OA\Schema(type="string", format="date"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_duration",
-   *   name="duration",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int64"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_filesize",
-   *   name="filesize",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int64"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_episodes",
-   *   name="episodes",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_ovas",
-   *   name="ovas",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_specials",
-   *   name="specials",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_season_number",
-   *   name="season_number",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32")
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_season_first_title_id",
-   *   name="season_first_title_id",
-   *   in="query",
-   *   @OA\Schema(type="string", format="uuid")
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_prequel_id",
-   *   name="prequel_id",
-   *   in="query",
-   *   @OA\Schema(type="string", format="uuid"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_sequel_id",
-   *   name="sequel_id",
-   *   in="query",
-   *   @OA\Schema(type="string", format="uuid"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_encoder_video",
-   *   name="encoder_video",
-   *   in="query",
-   *   @OA\Schema(type="string"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_encoder_audio",
-   *   name="encoder_audio",
-   *   in="query",
-   *   @OA\Schema(type="string"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_encoder_subs",
-   *   name="encoder_subs",
-   *   in="query",
-   *   @OA\Schema(type="string"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_release_year",
-   *   name="release_year",
-   *   in="query",
-   *   example="",
-   *   @OA\Schema(ref="#/components/schemas/YearSchema"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_release_season",
-   *   name="release_season",
-   *   in="query",
-   *   @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_variants",
-   *   name="variants",
-   *   in="query",
-   *   @OA\Schema(type="string"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_remarks",
-   *   name="remarks",
-   *   in="query",
-   *   @OA\Schema(type="string"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_id_codec_audio",
-   *   name="id_codec_audio",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_id_codec_video",
-   *   name="id_codec_video",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_codec_hdr",
-   *   name="codec_hdr",
-   *   in="query",
-   *   @OA\Schema(type="boolean"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_genres",
-   *   name="genres",
-   *   in="query",
-   *   description="Comma-separated genre IDs",
-   *   @OA\Schema(type="string"),
-   * ),
-   *
-   * @OA\Parameter(
-   *   parameter="entry_add_edit_id_watcher",
-   *   name="id_watcher",
-   *   in="query",
-   *   @OA\Schema(type="integer", format="int32"),
-   * ),
-   */
+  #[OA\Parameter(parameter: 'entry_add_edit_id_quality', name: 'id_quality', in: 'query', required: true, schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_title', name: 'title', in: 'query', required: true, schema: new OA\Schema(type: 'string', maxLength: 256, minLength: 1))]
+  #[OA\Parameter(parameter: 'entry_add_edit_date_finished', name: 'date_finished', in: 'query', schema: new OA\Schema(type: 'string', format: 'date'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_duration', name: 'duration', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int64'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_filesize', name: 'filesize', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int64'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_episodes', name: 'episodes', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_ovas', name: 'ovas', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_specials', name: 'specials', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_season_number', name: 'season_number', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_season_first_title_id', name: 'season_first_title_id', in: 'query', schema: new OA\Schema(type: 'string', format: 'uuid'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_prequel_id', name: 'prequel_id', in: 'query', schema: new OA\Schema(type: 'string', format: 'uuid'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_sequel_id', name: 'sequel_id', in: 'query', schema: new OA\Schema(type: 'string', format: 'uuid'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_encoder_video', name: 'encoder_video', in: 'query', schema: new OA\Schema(type: 'string'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_encoder_audio', name: 'encoder_audio', in: 'query', schema: new OA\Schema(type: 'string'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_encoder_subs', name: 'encoder_subs', in: 'query', schema: new OA\Schema(type: 'string'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_release_year', name: 'release_year', in: 'query', example: '', schema: new OA\Schema(ref: '#/components/schemas/YearSchema'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_release_season', name: 'release_season', in: 'query', schema: new OA\Schema(type: 'string', enum: ['Winter', 'Spring', 'Summer', 'Fall']))]
+  #[OA\Parameter(parameter: 'entry_add_edit_variants', name: 'variants', in: 'query', schema: new OA\Schema(type: 'string'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_remarks', name: 'remarks', in: 'query', schema: new OA\Schema(type: 'string'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_id_codec_audio', name: 'id_codec_audio', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_id_codec_video', name: 'id_codec_video', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_codec_hdr', name: 'codec_hdr', in: 'query', schema: new OA\Schema(type: 'boolean'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_genres', name: 'genres', in: 'query', description: 'Comma-separated genre IDs', schema: new OA\Schema(type: 'string'))]
+  #[OA\Parameter(parameter: 'entry_add_edit_id_watcher', name: 'id_watcher', in: 'query', schema: new OA\Schema(type: 'integer', format: 'int32'))]
   public function rules() {
     $today = date("Y-m-d H:i:s", strtotime("+8 hours"));
     $date_validation = 'before_or_equal:' . $today;

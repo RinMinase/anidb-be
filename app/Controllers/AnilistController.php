@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 use App\Repositories\AnilistRepository;
 
@@ -19,43 +20,40 @@ class AnilistController extends Controller {
     $this->anilistRepository = $anilistRepository;
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"AniList"},
-   *   path="/api/anilist/title/{title_id}",
-   *   summary="Retrieve Title Information",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="title_id",
-   *     description="Title ID",
-   *     in="path",
-   *     required=true,
-   *     example="101280",
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             ref="#/components/schemas/AnilistTitleResource",
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=429, ref="#/components/responses/AnilistRateLimitErrorResponse"),
-   *   @OA\Response(response=500, ref="#/components/responses/AnilistOtherErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/AnilistConnectionErrorResponse"),
-   * )
-   */
+  #[OA\Get(
+    path: "/api/anilist/title/{title_id}",
+    summary: "Retrieve Title Information",
+    security: [["token" => []], ["api-key" => []]],
+    tags: ["AniList"],
+    parameters: [
+      new OA\Parameter(
+        name: "title_id",
+        description: "Title ID",
+        in: "path",
+        required: true,
+        example: "101280",
+        schema: new OA\Schema(type: "integer", format: "int32")
+      )
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(properties: [
+              new OA\Property(property: "data", ref: "#/components/schemas/AnilistTitleResource"),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+      new OA\Response(response: 429, ref: "#/components/responses/AnilistRateLimitErrorResponse"),
+      new OA\Response(response: 500, ref: "#/components/responses/AnilistOtherErrorResponse"),
+      new OA\Response(response: 503, ref: "#/components/responses/AnilistConnectionErrorResponse"),
+    ]
+  )]
   public function get($id = 101280): JsonResponse {
     $data = $this->anilistRepository->get($id);
 
@@ -66,44 +64,44 @@ class AnilistController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"AniList"},
-   *   path="/api/anilist/search",
-   *   summary="Query Titles",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="query",
-   *     description="Title Search String",
-   *     in="query",
-   *     required=true,
-   *     example="tensei",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/AnilistSearchResource"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=429, ref="#/components/responses/AnilistRateLimitErrorResponse"),
-   *   @OA\Response(response=500, ref="#/components/responses/AnilistOtherErrorResponse"),
-   *   @OA\Response(response=503, ref="#/components/responses/AnilistConnectionErrorResponse"),
-   * )
-   */
+  #[OA\Get(
+    path: "/api/anilist/search",
+    summary: "Query Titles",
+    security: [["token" => []], ["api-key" => []]],
+    tags: ["AniList"],
+    parameters: [
+      new OA\Parameter(
+        name: "query",
+        description: "Title Search String",
+        in: "query",
+        required: true,
+        example: "tensei",
+        schema: new OA\Schema(type: "string")
+      )
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(properties: [
+              new OA\Property(
+                property: "data",
+                type: "array",
+                items: new OA\Items(ref: "#/components/schemas/AnilistSearchResource")
+              ),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+      new OA\Response(response: 429, ref: "#/components/responses/AnilistRateLimitErrorResponse"),
+      new OA\Response(response: 500, ref: "#/components/responses/AnilistOtherErrorResponse"),
+      new OA\Response(response: 503, ref: "#/components/responses/AnilistConnectionErrorResponse"),
+    ]
+  )]
   public function search(Request $request): JsonResponse {
     $data = $this->anilistRepository->search($request->only('query'));
     $data = collect($data['Page']['media']);
@@ -114,25 +112,19 @@ class AnilistController extends Controller {
   }
 }
 
-/**
- * @OA\Response(
- *   response="AnilistOtherErrorResponse",
- *   description="Other Error Responses",
- *   @OA\JsonContent(
- *     examples={
- *       @OA\Examples(
- *         example="AnilistConfigErrorExample",
- *         ref="#/components/examples/AnilistConfigErrorExample",
- *       ),
- *       @OA\Examples(
- *         example="AnilistParsingErrorExample",
- *         ref="#/components/examples/AnilistParsingErrorExample",
- *       ),
- *     },
- *     @OA\Property(property="status", type="integer", format="int32"),
- *     @OA\Property(property="message", type="string"),
- *   ),
- * )
- */
+#[OA\Response(
+  response: "AnilistOtherErrorResponse",
+  description: "Other Error Responses",
+  content: new OA\JsonContent(
+    properties: [
+      new OA\Property(property: "status", type: "integer", format: "int32"),
+      new OA\Property(property: "message", type: "string"),
+    ],
+    examples: [
+      new OA\Examples(example: "AnilistConfigErrorExample", ref: "#/components/examples/AnilistConfigErrorExample"),
+      new OA\Examples(example: "AnilistParsingErrorExample", ref: "#/components/examples/AnilistParsingErrorExample"),
+    ]
+  )
+)]
 class AnilistOtherErrorResponse {
 }

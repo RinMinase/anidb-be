@@ -5,21 +5,38 @@ namespace App\Requests\Entry;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use OpenApi\Attributes as OA;
 
 use App\Models\Entry;
 
 class OffquelsRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="entry_offquels_data",
-   *   name="data",
-   *   in="query",
-   *   required=true,
-   *   example="data[0]=e9597119-8452-4f2b-96d8-f2b1b1d2f158&data[1]=786f90ce-87a6-4096-833b-a4a1db740f3d",
-   *   @OA\Schema(type="string"),
-   * ),
-   */
+  // Possible modification / improvement using deepObject
+  #[OA\Parameter(
+    parameter: 'entry_offquels_data_deepobject',
+    name: 'data',
+    in: 'query',
+    required: true,
+    style: 'deepObject',
+    explode: true,
+    description: 'Array of offquel UUIDs',
+    schema: new OA\Schema(
+      type: 'array',
+      items: new OA\Items(type: 'string', format: 'uuid'),
+      example: ["e9597119-8452-4f2b-96d8-f2b1b1d2f158", "786f90ce-87a6-4096-833b-a4a1db740f3d"]
+    )
+  )]
+
+  // Original parameter
+  #[OA\Parameter(
+    parameter: 'entry_offquels_data',
+    name: 'data',
+    in: 'query',
+    required: true,
+    example: 'data[0]=e9597119-8452-4f2b-96d8-f2b1b1d2f158&data[1]=786f90ce-87a6-4096-833b-a4a1db740f3d',
+    schema: new OA\Schema(type: 'string')
+  )]
+
   public function rules() {
     vdd($this->route('uuid'));
 

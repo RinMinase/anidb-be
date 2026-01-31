@@ -6,36 +6,35 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OA;
 
 use App\Models\PCComponentType;
 
 class AddEditComponentTypeRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="pc_add_edit_component_type_type",
-   *   name="type",
-   *   in="query",
-   *   required=true,
-   *   example="sample type",
-   *   @OA\Schema(type="string", minLength=1, maxLength=32),
-   * ),
-   * @OA\Parameter(
-   *   parameter="pc_add_edit_component_type_name",
-   *   name="name",
-   *   in="query",
-   *   required=true,
-   *   example="sample type",
-   *   @OA\Schema(type="string", minLength=1, maxLength=32),
-   * ),
-   * @OA\Parameter(
-   *   parameter="pc_add_edit_component_type_is_peripheral",
-   *   name="is_peripheral",
-   *   in="query",
-   *   example=true,
-   *   @OA\Schema(type="boolean"),
-   * ),
-   */
+  #[OA\Parameter(
+    parameter: "pc_add_edit_component_type_type",
+    name: "type",
+    in: "query",
+    required: true,
+    example: "sample type",
+    schema: new OA\Schema(type: "string", minLength: 1, maxLength: 32)
+  )]
+  #[OA\Parameter(
+    parameter: "pc_add_edit_component_type_name",
+    name: "name",
+    in: "query",
+    required: true,
+    example: "sample type",
+    schema: new OA\Schema(type: "string", minLength: 1, maxLength: 32)
+  )]
+  #[OA\Parameter(
+    parameter: "pc_add_edit_component_type_is_peripheral",
+    name: "is_peripheral",
+    in: "query",
+    example: true,
+    schema: new OA\Schema(type: "boolean")
+  )]
   public function rules() {
     if ($this->route('id')) {
       $id = PCComponentType::where('id', $this->route('id'))

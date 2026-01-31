@@ -3,13 +3,14 @@
 namespace App\Resources\Anilist;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="id", type="string", example="12345"),
- *   @OA\Property(property="title", type="string", example="Sample Title"),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "string", example: "12345"),
+    new OA\Property(property: "title", type: "string", example: "Sample Title"),
+  ]
+)]
 class AnilistSearchResource extends JsonResource {
 
   public function toArray($request) {

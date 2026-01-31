@@ -2,15 +2,15 @@
 
 namespace App\Exceptions\Anilist;
 
+use OpenApi\Attributes as OA;
+
 use App\Exceptions\CustomException;
 
-/**
- * @OA\Examples(
- *   example="AnilistParsingErrorExample",
- *   summary="Parsing Error",
- *   value={"status": 500, "message": "Issues in parsing AniList response."},
- * ),
- */
+#[OA\Examples(
+  example: "AnilistParsingErrorExample",
+  summary: "Parsing Error",
+  value: ["status" => 500, "message" => "Issues in parsing AniList response."]
+)]
 class ParsingException extends CustomException {
 
   public function render() {

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 use App\Repositories\CodecRepository;
 use App\Repositories\EntryRepository;
@@ -35,72 +36,49 @@ class DropdownController extends Controller {
     $this->entryRepository = $entryRepository;
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Dropdowns"},
-   *   path="/api/dropdowns",
-   *   summary="Get All Dropdowns for Adding Entries",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="query",
-   *     description="Comma-separated types of dropdowns to be requested",
-   *     in="query",
-   *     example="groups,qualities,codecs,genres,watchers",
-   *     @OA\Schema(type="string"),
-   *   ),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *
-   *             @OA\Property(property="groups", type="array", @OA\Items(type="string")),
-   *             @OA\Property(
-   *               property="qualities",
-   *               type="array",
-   *               @OA\Items(ref="#/components/schemas/Quality"),
-   *             ),
-   *             @OA\Property(
-   *               property="codecs",
-   *               @OA\Property(
-   *                 property="audio",
-   *                 type="array",
-   *                 @OA\Items(ref="#/components/schemas/CodecAudio"),
-   *               ),
-   *               @OA\Property(
-   *                 property="video",
-   *                 type="array",
-   *                 @OA\Items(ref="#/components/schemas/CodecVideo"),
-   *               ),
-   *             ),
-   *             @OA\Property(
-   *               property="genres",
-   *               type="array",
-   *               @OA\Items(ref="#/components/schemas/Genre"),
-   *             ),
-   *             @OA\Property(
-   *               property="watchers",
-   *               type="array",
-   *               @OA\Items(
-   *                 @OA\Property(property="id", type="integer", format="int32", example=1),
-   *                 @OA\Property(property="label", type="string", example="label"),
-   *               ),
-   *             ),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    path: "/api/dropdowns",
+    summary: "Get All Dropdowns for Adding Entries",
+    security: [["token" => []], ["api-key" => []]],
+    tags: ["Dropdowns"],
+    parameters: [
+      new OA\Parameter(
+        name: "query",
+        description: "Comma-separated types of dropdowns to be requested",
+        in: "query",
+        example: "groups,qualities,codecs,genres,watchers",
+        schema: new OA\Schema(type: "string")
+      )
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(properties: [
+              new OA\Property(property: "data", properties: [
+                new OA\Property(property: "groups", type: "array", items: new OA\Items(type: "string")),
+                new OA\Property(property: "qualities", type: "array", items: new OA\Items(ref: "#/components/schemas/Quality")),
+                new OA\Property(property: "codecs", properties: [
+                  new OA\Property(property: "audio", type: "array", items: new OA\Items(ref: "#/components/schemas/CodecAudio")),
+                  new OA\Property(property: "video", type: "array", items: new OA\Items(ref: "#/components/schemas/CodecVideo")),
+                ]),
+                new OA\Property(property: "genres", type: "array", items: new OA\Items(ref: "#/components/schemas/Genre")),
+                new OA\Property(property: "watchers", type: "array", items: new OA\Items(properties: [
+                  new OA\Property(property: "id", type: "integer", format: "int32", example: 1),
+                  new OA\Property(property: "label", type: "string", example: "label"),
+                ])),
+              ]),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function index(Request $request): JsonResponse {
     $query = $request->query('query');
 

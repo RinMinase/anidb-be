@@ -6,37 +6,36 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OA;
 
 use App\Models\User;
 
 class AddEditRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="user_add_edit_username",
-   *   name="username",
-   *   in="query",
-   *   required=true,
-   *   example="username",
-   *   @OA\Schema(type="string", minLength=4, maxLength=32),
-   * ),
-   * @OA\Parameter(
-   *   parameter="user_add_edit_password",
-   *   name="password",
-   *   in="query",
-   *   required=true,
-   *   example="password",
-   *   @OA\Schema(type="string", minLength=4, maxLength=32),
-   * ),
-   * @OA\Parameter(
-   *   parameter="user_add_edit_password_confirmation",
-   *   name="password_confirmation",
-   *   in="query",
-   *   required=true,
-   *   example="password",
-   *   @OA\Schema(type="string", minLength=4, maxLength=32),
-   * ),
-   */
+  #[OA\Parameter(
+    parameter: 'user_add_edit_username',
+    name: 'username',
+    in: 'query',
+    required: true,
+    example: 'username',
+    schema: new OA\Schema(type: 'string', minLength: 4, maxLength: 32)
+  )]
+  #[OA\Parameter(
+    parameter: 'user_add_edit_password',
+    name: 'password',
+    in: 'query',
+    required: true,
+    example: 'password',
+    schema: new OA\Schema(type: 'string', minLength: 4, maxLength: 32)
+  )]
+  #[OA\Parameter(
+    parameter: 'user_add_edit_password_confirmation',
+    name: 'password_confirmation',
+    in: 'query',
+    required: true,
+    example: 'password',
+    schema: new OA\Schema(type: 'string', minLength: 4, maxLength: 32)
+  )]
   public function rules() {
     if ($this->route('uuid')) {
       $id = User::where('uuid', $this->route('uuid'))

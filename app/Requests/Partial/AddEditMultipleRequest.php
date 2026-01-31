@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
+use OpenApi\Attributes as OA;
 
 use App\Enums\SeasonsEnum;
 
@@ -13,32 +14,30 @@ use App\Rules\YearRule;
 
 class AddEditMultipleRequest extends FormRequest {
 
-  /**
-   * @OA\Parameter(
-   *   parameter="partial_add_edit_multiple_data",
-   *   name="data",
-   *   in="query",
-   *   required=true,
-   *   example="low[0]=Title Low 1&normal[0]=Title Normal 1&normal[1]=Title Normal 2&high[0]=Title High 1",
-   *   @OA\Schema(type="string"),
-   * ),
-   * @OA\Parameter(
-   *   parameter="partial_add_edit_multiple_season",
-   *   name="season",
-   *   in="query",
-   *   required=true,
-   *   example="Winter",
-   *   @OA\Schema(type="string", enum={"Winter", "Spring", "Summer", "Fall"}),
-   * ),
-   * @OA\Parameter(
-   *   parameter="partial_add_edit_multiple_year",
-   *   name="year",
-   *   in="query",
-   *   required=true,
-   *   example=2021,
-   *   @OA\Schema(ref="#/components/schemas/YearSchema"),
-   * ),
-   */
+  #[OA\Parameter(
+    parameter: "partial_add_edit_multiple_data",
+    name: "data",
+    in: "query",
+    required: true,
+    example: "low[0]=Title Low 1&normal[0]=Title Normal 1&normal[1]=Title Normal 2&high[0]=Title High 1",
+    schema: new OA\Schema(type: "string")
+  )]
+  #[OA\Parameter(
+    parameter: "partial_add_edit_multiple_season",
+    name: "season",
+    in: "query",
+    required: true,
+    example: "Winter",
+    schema: new OA\Schema(type: "string", enum: ["Winter", "Spring", "Summer", "Fall"])
+  )]
+  #[OA\Parameter(
+    parameter: "partial_add_edit_multiple_year",
+    name: "year",
+    in: "query",
+    required: true,
+    example: 2021,
+    schema: new OA\Schema(ref: "#/components/schemas/YearSchema")
+  )]
   public function rules() {
     return [
       'data' => ['required', 'string'],

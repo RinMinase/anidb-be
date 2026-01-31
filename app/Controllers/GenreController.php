@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
 
 use App\Repositories\GenreRepository;
 
@@ -16,32 +17,32 @@ class GenreController extends Controller {
     $this->genreRepository = $genreRepository;
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Dropdowns"},
-   *   path="/api/genres",
-   *   summary="Get All Genres",
-   *   security={{"token":{}, "api-key": {}}},
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/Genre"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    path: "/api/genres",
+    tags: ["Dropdowns"],
+    summary: "Get All Genres",
+    security: [["token" => []], ["api-key" => []]],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  type: "array",
+                  items: new OA\Items(ref: "#/components/schemas/Genre")
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+    ]
+  )]
   public function index(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->genreRepository->getAll(),

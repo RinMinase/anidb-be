@@ -2,11 +2,10 @@
 
 namespace App\Controllers;
 
-use TypeError;
 use Illuminate\Http\JsonResponse;
 
 use App\Exceptions\JsonParsingException;
-use App\Exceptions\Entry\ParsingException;
+// use App\Exceptions\Entry\ParsingException;
 
 use App\Repositories\EntryRepository;
 use App\Repositories\EntrySearchRepository;
@@ -16,7 +15,7 @@ use App\Requests\Entry\AddEditRequest;
 use App\Requests\Entry\AddRewatchRequest;
 use App\Requests\Entry\GetAllRequest;
 use App\Requests\Entry\ImageUploadRequest;
-use App\Requests\Entry\OffquelsRequest;
+// use App\Requests\Entry\OffquelsRequest;
 use App\Requests\Entry\RatingsRequest;
 use App\Requests\Entry\SearchRequest;
 use App\Requests\Entry\SearchTitlesRequest;
@@ -37,40 +36,42 @@ class EntryController extends Controller {
     $this->entrySearchRepository = $entrySearchRepository;
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Entry"},
-   *   path="/api/entries",
-   *   summary="Get All Entries",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_query"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_column"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_order"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_page"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_get_all_limit"),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="OK",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(ref="#/components/schemas/Pagination"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
-   *           ),
-   *         ),
-   *       },
-   *     )
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ['Entry'],
+    path: '/api/entries',
+    summary: 'Get All Entries',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(ref: '#/components/parameters/entry_get_all_query'),
+      new OA\Parameter(ref: '#/components/parameters/entry_get_all_column'),
+      new OA\Parameter(ref: '#/components/parameters/entry_get_all_order'),
+      new OA\Parameter(ref: '#/components/parameters/entry_get_all_page'),
+      new OA\Parameter(ref: '#/components/parameters/entry_get_all_limit'),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(ref: '#/components/schemas/Pagination'),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: 'data',
+                  type: 'array',
+                  items: new OA\Items(ref: '#/components/schemas/EntrySummaryResource')
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function index(GetAllRequest $request): JsonResponse {
     $data = $this->entryRepository->get_all(
       $request->only('query', 'column', 'order', 'limit', 'page')
@@ -82,93 +83,84 @@ class EntryController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Entry"},
-   *   path="/api/entries/{entry_id}",
-   *   summary="Get an Entry",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="OK",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(property="data", ref="#/components/schemas/EntryResource"),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ['Entry'],
+    path: '/api/entries/{entry_id}',
+    summary: 'Get an Entry',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        description: 'Entry ID',
+        in: 'path',
+        required: true,
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: 'data', ref: '#/components/schemas/EntryResource'),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function get($id): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => new EntryResource($this->entryRepository->get($id)),
     ]);
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Entry"},
-   *   path="/api/entries",
-   *   summary="Add an Entry",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_date_finished"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_duration"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_filesize"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_episodes"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_ovas"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_specials"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_number"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_first_title_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_prequel_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_sequel_id"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_year"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_season"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_variants"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_remarks"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_genres"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_watcher"),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ['Entry'],
+    path: '/api/entries',
+    summary: 'Add an Entry',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_quality'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_title'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_date_finished'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_duration'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_filesize'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_episodes'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_ovas'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_specials'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_season_number'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_season_first_title_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_prequel_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_sequel_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_encoder_video'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_encoder_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_encoder_subs'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_release_year'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_release_season'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_variants'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_remarks'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_codec_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_codec_video'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_codec_hdr'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_genres'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_watcher'),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function add(AddEditRequest $request): JsonResponse {
     $this->entryRepository->add(
       $request->only(
@@ -203,64 +195,52 @@ class EntryController extends Controller {
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Put(
-   *   tags={"Entry"},
-   *   path="/api/entries/{entry_id}",
-   *   summary="Edit an Entry",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_title"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_date_finished"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_duration"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_filesize"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_episodes"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_ovas"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_specials"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_number"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_season_first_title_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_prequel_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_sequel_id"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_encoder_subs"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_year"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_release_season"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_variants"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_remarks"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_codec_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_codec_hdr"),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_genres"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_edit_id_watcher"),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Put(
+    tags: ['Entry'],
+    path: '/api/entries/{entry_id}',
+    summary: 'Edit an Entry',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_quality'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_title'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_date_finished'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_duration'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_filesize'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_episodes'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_ovas'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_specials'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_season_number'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_season_first_title_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_prequel_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_sequel_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_encoder_video'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_encoder_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_encoder_subs'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_release_year'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_release_season'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_variants'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_remarks'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_codec_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_codec_video'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_codec_hdr'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_genres'),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_watcher'),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function edit(AddEditRequest $request, $uuid): JsonResponse {
     $this->entryRepository->edit(
       $request->only(
@@ -296,91 +276,90 @@ class EntryController extends Controller {
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Delete(
-   *   tags={"Entry"},
-   *   path="/api/entries/{entry_id}",
-   *   summary="Delete an Entry",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Delete(
+    tags: ['Entry'],
+    path: '/api/entries/{entry_id}',
+    summary: 'Delete an Entry',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        description: 'Entry ID',
+        in: 'path',
+        required: true,
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function delete($id): JsonResponse {
     $this->entryRepository->delete($id);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Entry"},
-   *   path="/api/entries/search",
-   *   summary="Search All Entries",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_quality"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_title"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_date"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_filesize"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_episodes"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_ovas"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_specials"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_encoder_subs"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_release"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_rating"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_remarks"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_has_remarks"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_has_image"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_is_hdr"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_codec_video"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_codec_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_genres"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_rewatches"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_watcher"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_column"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_order"),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="OK",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/EntrySummaryResource"),
-   *           ),
-   *           @OA\Property(
-   *             property="stats",
-   *             @OA\Property(property="totalFiltered", type="integer", format="int64", example=1),
-   *             @OA\Property(property="totalEntries", type="integer", format="int64", example=42),
-   *           ),
-   *         ),
-   *       },
-   *     )
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ['Entry'],
+    path: '/api/entries/search',
+    summary: 'Search All Entries',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(ref: '#/components/parameters/entry_search_quality'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_title'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_date'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_filesize'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_episodes'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_ovas'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_specials'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_encoder'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_encoder_video'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_encoder_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_encoder_subs'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_release'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_rating'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_remarks'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_has_remarks'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_has_image'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_is_hdr'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_codec_video'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_codec_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_genres'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_rewatches'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_watcher'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_column'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_order'),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(properties: [
+              new OA\Property(
+                property: 'data',
+                type: 'array',
+                items: new OA\Items(ref: '#/components/schemas/EntrySummaryResource')
+              ),
+              new OA\Property(property: 'stats', properties: [
+                new OA\Property(property: 'totalFiltered', type: 'integer', format: 'int64', example: 1),
+                new OA\Property(property: 'totalEntries', type: 'integer', format: 'int64', example: 42),
+              ]),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function search(SearchRequest $request): JsonResponse {
     $data = $this->entrySearchRepository->search(
       $request->only(
@@ -417,40 +396,41 @@ class EntryController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Import - Archaic"},
-   *   path="/api/archaic/import/entries",
-   *   summary="Import a JSON file to seed data for entries table",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\RequestBody(
-   *     required=true,
-   *     @OA\MediaType(
-   *       mediaType="multipart/form-data",
-   *       @OA\Schema(
-   *         type="object",
-   *         @OA\Property(property="file", type="string", format="binary"),
-   *       ),
-   *     ),
-   *   ),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(property="data", ref="#/components/schemas/DefaultImportSchema"),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ['Import - Archaic'],
+    path: '/api/archaic/import/entries',
+    summary: 'Import a JSON file to seed data for entries table',
+    security: [['token' => [], 'api-key' => []]],
+    requestBody: new OA\RequestBody(
+      required: true,
+      content: new OA\MediaType(
+        mediaType: 'multipart/form-data',
+        schema: new OA\Schema(
+          properties: [
+            new OA\Property(property: 'file', type: 'string', format: 'binary'),
+          ]
+        )
+      )
+    ),
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'Success',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: 'data', ref: '#/components/schemas/DefaultImportSchema'),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function import(ImportRequest $request): JsonResponse {
     $file = $request->file('file')->get();
 
@@ -469,173 +449,164 @@ class EntryController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Entry"},
-   *   path="/api/entries/{entry_id}/offquel/{entry_offquel_id}",
-   *   summary="Add Entry Offquel",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="entry_offquel_id",
-   *     description="Entry Offquel ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/EntryParsingResponse"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ['Entry'],
+    path: '/api/entries/{entry_id}/offquel/{entry_offquel_id}',
+    summary: 'Add Entry Offquel',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+      new OA\Parameter(
+        name: 'entry_offquel_id',
+        in: 'path',
+        required: true,
+        description: 'Entry Offquel ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/EntryParsingResponse'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function add_offquel($entry_uuid, $offquel_uuid): JsonResponse {
     $this->entryRepository->add_offquel($entry_uuid, $offquel_uuid);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Delete(
-   *   tags={"Entry"},
-   *   path="/api/entries/{entry_id}/offquel/{entry_offquel_id}",
-   *   summary="Delete Entry Offquel",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *   @OA\Parameter(
-   *     name="entry_offquel_id",
-   *     description="Entry Offquel ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/EntryParsingResponse"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Delete(
+    tags: ['Entry'],
+    path: '/api/entries/{entry_id}/offquel/{entry_offquel_id}',
+    summary: 'Delete Entry Offquel',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+      new OA\Parameter(
+        name: 'entry_offquel_id',
+        in: 'path',
+        required: true,
+        description: 'Entry Offquel ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/EntryParsingResponse'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function delete_offquel($entry_uuid, $offquel_uuid): JsonResponse {
     $this->entryRepository->delete_offquel($entry_uuid, $offquel_uuid);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Entry"},
-   *   path="/api/entries/img-upload/{entry_id}",
-   *   summary="Upload an Image to Entry",
-   *   description="POST request with '_method' in parameters, because PHP can't populate files in PUT/PATCH requests :: Ref. https://stackoverflow.com/a/65009135",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\RequestBody(
-   *     required=true,
-   *     @OA\MediaType(
-   *       mediaType="multipart/form-data",
-   *       @OA\Schema(
-   *         type="object",
-   *         @OA\Property(property="_method", type="string", example="PUT"),
-   *         @OA\Property(property="image", type="string", format="binary"),
-   *       ),
-   *     ),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ['Entry'],
+    path: '/api/entries/img-upload/{entry_id}',
+    summary: 'Upload an Image to Entry',
+    description: "POST request with '_method' in parameters, because PHP can't populate files in PUT/PATCH requests :: Ref. https://stackoverflow.com/a/65009135",
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: '87d66263-269c-4f7c-9fb8-dd78c4408ff6',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    requestBody: new OA\RequestBody(
+      required: true,
+      content: new OA\MediaType(
+        mediaType: 'multipart/form-data',
+        schema: new OA\Schema(properties: [
+          new OA\Property(property: '_method', type: 'string', example: 'PUT'),
+          new OA\Property(property: 'image', type: 'string', format: 'binary'),
+        ])
+      )
+    ),
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function imageUpload(ImageUploadRequest $request, $uuid): JsonResponse {
     $this->entryRepository->upload($request->file('image')->getRealPath(), $uuid);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Delete(
-   *   tags={"Entry"},
-   *   path="/api/entries/img-upload/{entry_id}",
-   *   summary="Delete an Image of an Entry",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="87d66263-269c-4f7c-9fb8-dd78c4408ff6",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Delete(
+    tags: ['Entry'],
+    path: '/api/entries/img-upload/{entry_id}',
+    summary: 'Delete an Image of an Entry',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(name: 'entry_id', in: 'path', required: true, description: 'Entry ID', example: '87d66263-269c-4f7c-9fb8-dd78c4408ff6', schema: new OA\Schema(type: 'string', format: 'uuid')),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function imageDelete($uuid): JsonResponse {
     $this->entryRepository->deleteImage($uuid);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Put(
-   *   tags={"Entry"},
-   *   path="/api/entries/ratings/{entry_id}",
-   *   summary="Edit Entry Ratings",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_audio"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_enjoyment"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_graphics"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_ratings_plot"),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Put(
+    tags: ['Entry'],
+    path: '/api/entries/ratings/{entry_id}',
+    summary: 'Edit Entry Ratings',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+      new OA\Parameter(ref: '#/components/parameters/entry_ratings_audio'),
+      new OA\Parameter(ref: '#/components/parameters/entry_ratings_enjoyment'),
+      new OA\Parameter(ref: '#/components/parameters/entry_ratings_graphics'),
+      new OA\Parameter(ref: '#/components/parameters/entry_ratings_plot'),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function ratings(RatingsRequest $request, $uuid): JsonResponse {
     $this->entryRepository->ratings(
       $request->only('audio', 'enjoyment', 'graphics', 'plot'),
@@ -645,97 +616,93 @@ class EntryController extends Controller {
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Entry"},
-   *   path="/api/entries/rewatch/{entry_id}",
-   *   summary="Add an Entry Rewatch",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_id",
-   *     description="Entry ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *   @OA\Parameter(ref="#/components/parameters/entry_add_rewatch_date_rewatched"),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ['Entry'],
+    path: '/api/entries/rewatch/{entry_id}',
+    summary: 'Add an Entry Rewatch',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+      new OA\Parameter(ref: '#/components/parameters/entry_add_rewatch_date_rewatched'),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function rewatchAdd(AddRewatchRequest $request, $uuid): JsonResponse {
     $this->entryRepository->rewatchAdd($request->only('date_rewatched'), $uuid);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Delete(
-   *   tags={"Entry"},
-   *   path="/api/entries/rewatch/{entry_rewatch_id}",
-   *   summary="Delete an Entry Rewatch",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="entry_rewatch_id",
-   *     description="Entry Rewatch ID",
-   *     in="path",
-   *     required=true,
-   *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
-   *     @OA\Schema(type="string", format="uuid"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Delete(
+    tags: ['Entry'],
+    path: '/api/entries/rewatch/{entry_rewatch_id}',
+    summary: 'Delete an Entry Rewatch',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_rewatch_id',
+        in: 'path',
+        required: true,
+        description: 'Entry Rewatch ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function rewatchDelete($uuid): JsonResponse {
     $this->entryRepository->rewatchDelete($uuid);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Entry"},
-   *   path="/api/entries/titles",
-   *   summary="Search Entry titles - For First Season Title, Prequel and Sequel",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_id"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_id_excluded"),
-   *   @OA\Parameter(ref="#/components/parameters/entry_search_titles_needle"),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="OK",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(
-   *               @OA\Property(property="id", type="string", example="e9597119-8452-4f2b-96d8-f2b1b1d2f158"),
-   *               @OA\Property(property="title", type="string", example="title 1"),
-   *             ),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ['Entry'],
+    path: '/api/entries/titles',
+    summary: 'Search Entry titles - For First Season Title, Prequel and Sequel',
+    security: [['token' => []], ['api-key' => []]],
+    parameters: [
+      new OA\Parameter(ref: '#/components/parameters/entry_search_titles_id'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_titles_id_excluded'),
+      new OA\Parameter(ref: '#/components/parameters/entry_search_titles_needle'),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(properties: [
+              new OA\Property(property: 'data', type: 'array', items: new OA\Items(properties: [
+                new OA\Property(property: 'id', type: 'string', example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158'),
+                new OA\Property(property: 'title', type: 'string', example: 'title 1'),
+              ])),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function get_titles(SearchTitlesRequest $request): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->entryRepository->get_titles(
@@ -746,36 +713,31 @@ class EntryController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Entry"},
-   *   path="/api/entries/watchers",
-   *   summary="Get list of Entry Watchers",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="OK",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(
-   *               @OA\Property(property="id", type="integer", format="int32", example=1),
-   *               @OA\Property(property="label", type="string", example="label"),
-   *             ),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ['Entry'],
+    path: '/api/entries/watchers',
+    summary: 'Get list of Entry Watchers',
+    security: [['token' => []], ['api-key' => []]],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(properties: [
+              new OA\Property(property: 'data', type: 'array', items: new OA\Items(properties: [
+                new OA\Property(property: 'id', type: 'integer', format: 'int32', example: 1),
+                new OA\Property(property: 'label', type: 'string', example: 'label'),
+              ])),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
   public function get_watchers(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->entryRepository->get_watchers(),
