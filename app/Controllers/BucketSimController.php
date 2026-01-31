@@ -282,7 +282,7 @@ class BucketSimController extends Controller {
     ]);
   }
 
-  #[OA\Get(
+  #[OA\Post(
     tags: ['Bucket Simulation'],
     path: '/api/bucket-sims/preview',
     summary: 'Preview a Bucket Sim',

@@ -129,7 +129,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries',
     summary: 'Add an Entry',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(ref: '#/components/parameters/entry_add_edit_id_quality'),
       new OA\Parameter(ref: '#/components/parameters/entry_add_edit_title'),
@@ -200,7 +200,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/{entry_id}',
     summary: 'Edit an Entry',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_id',
@@ -309,7 +309,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/search',
     summary: 'Search All Entries',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(ref: '#/components/parameters/entry_search_quality'),
       new OA\Parameter(ref: '#/components/parameters/entry_search_title'),
@@ -454,7 +454,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/{entry_id}/offquel/{entry_offquel_id}',
     summary: 'Add Entry Offquel',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_id',
@@ -490,7 +490,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/{entry_id}/offquel/{entry_offquel_id}',
     summary: 'Delete Entry Offquel',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_id',
@@ -527,7 +527,7 @@ class EntryController extends Controller {
     path: '/api/entries/img-upload/{entry_id}',
     summary: 'Upload an Image to Entry',
     description: "POST request with '_method' in parameters, because PHP can't populate files in PUT/PATCH requests :: Ref. https://stackoverflow.com/a/65009135",
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_id',
@@ -565,7 +565,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/img-upload/{entry_id}',
     summary: 'Delete an Image of an Entry',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(name: 'entry_id', in: 'path', required: true, description: 'Entry ID', example: '87d66263-269c-4f7c-9fb8-dd78c4408ff6', schema: new OA\Schema(type: 'string', format: 'uuid')),
     ],
@@ -586,7 +586,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/ratings/{entry_id}',
     summary: 'Edit Entry Ratings',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_id',
@@ -621,7 +621,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/rewatch/{entry_id}',
     summary: 'Add an Entry Rewatch',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_id',
@@ -650,7 +650,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/rewatch/{entry_rewatch_id}',
     summary: 'Delete an Entry Rewatch',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
         name: 'entry_rewatch_id',
@@ -678,7 +678,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/titles',
     summary: 'Search Entry titles - For First Season Title, Prequel and Sequel',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(ref: '#/components/parameters/entry_search_titles_id'),
       new OA\Parameter(ref: '#/components/parameters/entry_search_titles_id_excluded'),
@@ -718,7 +718,7 @@ class EntryController extends Controller {
     tags: ['Entry'],
     path: '/api/entries/watchers',
     summary: 'Get list of Entry Watchers',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     responses: [
       new OA\Response(
         response: 200,

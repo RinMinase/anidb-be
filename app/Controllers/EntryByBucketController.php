@@ -20,7 +20,7 @@ class EntryByBucketController extends Controller {
     tags: ['Entry Specific'],
     path: '/api/entries/by-bucket',
     summary: 'Get All Bucket Stats with Entries',
-    security: [['token' => []], ['api-key' => []]],
+    security: [['token' => [], 'api-key' => []]],
     responses: [
       new OA\Response(
         response: 200,
