@@ -5,25 +5,24 @@ namespace App\Fourleaf\Requests\Electricity;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Parameter(
- *   parameter="fourleaf_electricity_get_year",
- *   name="year",
- *   in="query",
- *   required=true,
- *   example=2020,
- *   @OA\Schema(type="integer", format="int32", minimum=1900),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_electricity_get_month",
- *   name="month",
- *   in="query",
- *   required=true,
- *   example=1,
- *   @OA\Schema(type="integer", format="int32", minimum=1, maximum=12),
- * ),
- */
+#[OA\Parameter(
+  parameter: 'fourleaf_electricity_get_year',
+  name: 'year',
+  in: 'query',
+  required: true,
+  example: 2020,
+  schema: new OA\Schema(type: 'integer', format: 'int32', minimum: 1900)
+)]
+#[OA\Parameter(
+  parameter: 'fourleaf_electricity_get_month',
+  name: 'month',
+  in: 'query',
+  required: true,
+  example: 1,
+  schema: new OA\Schema(type: 'integer', format: 'int32', minimum: 1, maximum: 12)
+)]
 class GetRequest extends FormRequest {
   public function rules() {
     return [

@@ -3,16 +3,17 @@
 namespace App\Fourleaf\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="date", type="string", example="2020-10-20"),
- *   @OA\Property(property="part", type="string", example="Engine Oil Change"),
- *   @OA\Property(property="odometer", type="integer", format="int32", minimum=0, example=1000),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "date", type: "string", example: "2020-10-20"),
+    new OA\Property(property: "part", type: "string", example: "Engine Oil Change"),
+    new OA\Property(property: "odometer", type: "integer", format: "int32", minimum: 0, example: 1000),
+  ]
+)]
 class MaintenancePart extends Model {
 
   use RefreshableAutoIncrements;

@@ -6,24 +6,23 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
+use OpenApi\Attributes as OA;
 
 use App\Fourleaf\Enums\AvgEfficiencyTypeEnum;
 use App\Fourleaf\Enums\EfficiencyGraphTypeEnum;
 
-/**
- * @OA\Parameter(
- *   parameter="fourleaf_gas_get_gas_avg_efficiency_type",
- *   name="avg_efficiency_type",
- *   in="query",
- *   @OA\Schema(type="string", default="all", enum={"all","last5", "last10"}),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_gas_get_gas_efficiency_graph_type",
- *   name="efficiency_graph_type",
- *   in="query",
- *   @OA\Schema(type="string", default="last20data", enum={"last20data","last12mos"}),
- * ),
- */
+#[OA\Parameter(
+  parameter: "fourleaf_gas_get_gas_avg_efficiency_type",
+  name: "avg_efficiency_type",
+  in: "query",
+  schema: new OA\Schema(type: "string", default: "all", enum: ["all", "last5", "last10"])
+)]
+#[OA\Parameter(
+  parameter: "fourleaf_gas_get_gas_efficiency_graph_type",
+  name: "efficiency_graph_type",
+  in: "query",
+  schema: new OA\Schema(type: "string", default: "last20data", enum: ["last20data", "last12mos"])
+)]
 class GetRequest extends FormRequest {
   public function rules() {
     return [

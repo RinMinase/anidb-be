@@ -5,50 +5,49 @@ namespace App\Fourleaf\Requests\Gas;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Parameter(
- *   parameter="fourleaf_gas_add_edit_fuel_date",
- *   name="date",
- *   in="query",
- *   required=true,
- *   example="2020-10-20",
- *   @OA\Schema(type="string"),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_gas_add_edit_fuel_from_bars",
- *   name="from_bars",
- *   in="query",
- *   required=true,
- *   @OA\Schema(type="integer", format="int32", minimum=0, maximum=9),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_gas_add_edit_fuel_to_bars",
- *   name="to_bars",
- *   in="query",
- *   required=true,
- *   @OA\Schema(type="integer", format="int32", minimum=0, maximum=9),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_gas_add_edit_fuel_odometer",
- *   name="odometer",
- *   in="query",
- *   required=true,
- *   @OA\Schema(type="integer", format="int32", minimum=0, maximum=100000),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_gas_add_edit_fuel_price_per_liter",
- *   name="price_per_liter",
- *   in="query",
- *   @OA\Schema(type="number", minimum=0, maximum=150),
- * ),
- * @OA\Parameter(
- *   parameter="fourleaf_gas_add_edit_fuel_liters_filled",
- *   name="liters_filled",
- *   in="query",
- *   @OA\Schema(type="number", minimum=0, maximum=40),
- * ),
- */
+#[OA\Parameter(
+  parameter: "fourleaf_gas_add_edit_fuel_date",
+  name: "date",
+  in: "query",
+  required: true,
+  example: "2020-10-20",
+  schema: new OA\Schema(type: "string")
+)]
+#[OA\Parameter(
+  parameter: "fourleaf_gas_add_edit_fuel_from_bars",
+  name: "from_bars",
+  in: "query",
+  required: true,
+  schema: new OA\Schema(type: "integer", format: "int32", minimum: 0, maximum: 9)
+)]
+#[OA\Parameter(
+  parameter: "fourleaf_gas_add_edit_fuel_to_bars",
+  name: "to_bars",
+  in: "query",
+  required: true,
+  schema: new OA\Schema(type: "integer", format: "int32", minimum: 0, maximum: 9)
+)]
+#[OA\Parameter(
+  parameter: "fourleaf_gas_add_edit_fuel_odometer",
+  name: "odometer",
+  in: "query",
+  required: true,
+  schema: new OA\Schema(type: "integer", format: "int32", minimum: 0, maximum: 100000)
+)]
+#[OA\Parameter(
+  parameter: "fourleaf_gas_add_edit_fuel_price_per_liter",
+  name: "price_per_liter",
+  in: "query",
+  schema: new OA\Schema(type: "number", minimum: 0, maximum: 150)
+)]
+#[OA\Parameter(
+  parameter: "fourleaf_gas_add_edit_fuel_liters_filled",
+  name: "liters_filled",
+  in: "query",
+  schema: new OA\Schema(type: "number", minimum: 0, maximum: 40)
+)]
 class AddEditFuelRequest extends FormRequest {
   public function rules() {
     $today = date("Y-m-d", strtotime("+8 hours"));

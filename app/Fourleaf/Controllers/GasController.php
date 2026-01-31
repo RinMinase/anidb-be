@@ -3,6 +3,7 @@
 namespace App\Fourleaf\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use App\Controllers\Controller;
@@ -24,143 +25,179 @@ class GasController extends Controller {
     $this->gasRepository = $gasRepository;
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas",
-   *   summary="Fourleaf API - Get Gas Overview",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *
-   *             @OA\Property(
-   *               property="stats",
-   *               @OA\Property(property="averageEfficiency", type="float", minimum=0, example=12.23),
-   *               @OA\Property(property="lastEfficiency", type="float", minimum=0, example=12.23),
-   *               @OA\Property(property="mileage", type="integer", format="int32", minimum=0, example=1000),
-   *               @OA\Property(property="age", type="string", example="1 year, 2 months"),
-   *               @OA\Property(property="kmPerMonth", type="float", minimum=0, example=12.23),
-   *             ),
-   *
-   *             @OA\Property(
-   *               property="graph",
-   *               @OA\Property(
-   *                 property="efficiency",
-   *                 @OA\Property(property="<date>", type="string", example="<value>"),
-   *                 @OA\Property(property="2020-10-20", type="float", example=12.23),
-   *               ),
-   *               @OA\Property(
-   *                 property="gas",
-   *                 @OA\Property(property="<date>", type="string", example="<value>"),
-   *                 @OA\Property(property="2020-10-20", type="float", example=12.23),
-   *               ),
-   *             ),
-   *
-   *             @OA\Property(
-   *               property="maintenance",
-   *               @OA\Property(
-   *                 property="km",
-   *                 @OA\Property(property="engineOil", type="string", example="normal"),
-   *                 @OA\Property(property="tires", type="string", example="normal"),
-   *                 @OA\Property(property="transmissionFluid", type="string", example="normal"),
-   *                 @OA\Property(property="brakeFluid", type="string", example="normal"),
-   *                 @OA\Property(property="radiatorFluid", type="string", example="normal"),
-   *                 @OA\Property(property="sparkPlugs", type="string", example="normal"),
-   *                 @OA\Property(property="powerSteeringFluid", type="string", example="normal"),
-   *               ),
-   *               @OA\Property(
-   *                 property="year",
-   *                 @OA\Property(property="engineOil", type="string", example="normal"),
-   *                 @OA\Property(property="transmissionFluid", type="string", example="normal"),
-   *                 @OA\Property(property="brakeFluid", type="string", example="normal"),
-   *                 @OA\Property(property="battery", type="string", example="normal"),
-   *                 @OA\Property(property="radiatorFluid", type="string", example="normal"),
-   *                 @OA\Property(property="acCoolant", type="string", example="normal"),
-   *                 @OA\Property(property="powerSteeringFluid", type="string", example="normal"),
-   *                 @OA\Property(property="tires", type="string", example="normal"),
-   *               ),
-   *             ),
-   *
-   *             @OA\Property(
-   *               property="lastMaintenance",
-   *               @OA\Property(
-   *                 property="km",
-   *                 @OA\Property(property="engineOil", type="string", example="2024-01-01"),
-   *                 @OA\Property(property="tires", type="string", example="2024-01-01"),
-   *                 @OA\Property(property="transmissionFluid", type="string", example="2024-01-01"),
-   *                 @OA\Property(property="brakeFluid", type="string", example="2024-01-01"),
-   *                 @OA\Property(property="radiatorFluid", type="string", example="2024-01-01"),
-   *                 @OA\Property(property="sparkPlugs", type="string", example="2024-01-01"),
-   *                 @OA\Property(property="powerSteeringFluid", type="string", example="2024-01-01"),
-   *               ),
-   *               @OA\Property(
-   *                 property="year",
-   *                 @OA\Property(
-   *                   property="acCoolant",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="battery",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="brakeFluid",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="engineOil",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="powerSteeringFluid",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="radiatorFluid",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="sparkPlugs",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="tires",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *                 @OA\Property(
-   *                   property="transmissionFluid",
-   *                   @OA\Property(property="date", type="string", example="2024-01-01"),
-   *                   @OA\Property(property="odometer", type="number", minimum=0, maximum=100000, example=2000),
-   *                 ),
-   *               ),
-   *             ),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas",
+    summary: "Fourleaf API - Get Gas Overview",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  properties: [
+                    new OA\Property(
+                      property: "stats",
+                      properties: [
+                        new OA\Property(property: "averageEfficiency", type: "number", format: "float", minimum: 0, example: 12.23),
+                        new OA\Property(property: "lastEfficiency", type: "number", format: "float", minimum: 0, example: 12.23),
+                        new OA\Property(property: "mileage", type: "integer", format: "int32", minimum: 0, example: 1000),
+                        new OA\Property(property: "age", type: "string", example: "1 year, 2 months"),
+                        new OA\Property(property: "kmPerMonth", type: "number", format: "float", minimum: 0, example: 12.23),
+                      ]
+                    ),
+                    new OA\Property(
+                      property: "graph",
+                      properties: [
+                        new OA\Property(
+                          property: "efficiency",
+                          properties: [
+                            new OA\Property(property: "2020-10-20", type: "number", format: "float", example: 12.23),
+                          ]
+                        ),
+                        new OA\Property(
+                          property: "gas",
+                          properties: [
+                            new OA\Property(property: "2020-10-20", type: "number", format: "float", example: 12.23),
+                          ]
+                        ),
+                      ]
+                    ),
+                    new OA\Property(
+                      property: "maintenance",
+                      properties: [
+                        new OA\Property(
+                          property: "km",
+                          properties: [
+                            new OA\Property(property: "engineOil", type: "string", example: "normal"),
+                            new OA\Property(property: "tires", type: "string", example: "normal"),
+                            new OA\Property(property: "transmissionFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "brakeFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "radiatorFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "sparkPlugs", type: "string", example: "normal"),
+                            new OA\Property(property: "powerSteeringFluid", type: "string", example: "normal"),
+                          ]
+                        ),
+                        new OA\Property(
+                          property: "year",
+                          properties: [
+                            new OA\Property(property: "engineOil", type: "string", example: "normal"),
+                            new OA\Property(property: "transmissionFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "brakeFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "battery", type: "string", example: "normal"),
+                            new OA\Property(property: "radiatorFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "acCoolant", type: "string", example: "normal"),
+                            new OA\Property(property: "powerSteeringFluid", type: "string", example: "normal"),
+                            new OA\Property(property: "tires", type: "string", example: "normal"),
+                          ]
+                        ),
+                      ]
+                    ),
+                    new OA\Property(
+                      property: "lastMaintenance",
+                      properties: [
+                        new OA\Property(
+                          property: "km",
+                          properties: [
+                            new OA\Property(property: "engineOil", type: "string", example: "2024-01-01"),
+                            new OA\Property(property: "tires", type: "string", example: "2024-01-01"),
+                            new OA\Property(property: "transmissionFluid", type: "string", example: "2024-01-01"),
+                            new OA\Property(property: "brakeFluid", type: "string", example: "2024-01-01"),
+                            new OA\Property(property: "radiatorFluid", type: "string", example: "2024-01-01"),
+                            new OA\Property(property: "sparkPlugs", type: "string", example: "2024-01-01"),
+                            new OA\Property(property: "powerSteeringFluid", type: "string", example: "2024-01-01"),
+                          ]
+                        ),
+                        new OA\Property(
+                          property: "year",
+                          properties: [
+                            new OA\Property(
+                              property: "acCoolant",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "battery",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "brakeFluid",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "engineOil",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "powerSteeringFluid",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "radiatorFluid",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "sparkPlugs",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "tires",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                            new OA\Property(
+                              property: "transmissionFluid",
+                              properties: [
+                                new OA\Property(property: "date", type: "string", example: "2024-01-01"),
+                                new OA\Property(property: "odometer", type: "number", minimum: 0, maximum: 100000, example: 2000)
+                              ]
+                            ),
+                          ]
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function get(GetRequest $request): JsonResponse {
     /**
      * Average Efficiency Types:
@@ -182,36 +219,38 @@ class GasController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/odo",
-   *   summary="Fourleaf API - Get Odometer by Year",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_odo_year"),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             example={123, 234},
-   *             @OA\Items(schema="integer"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/FourleafGasInvalidYearResponse"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/odo",
+    summary: "Fourleaf API - Get Odometer by Year",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_odo_year"),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  type: "array",
+                  example: [123, 234],
+                  items: new OA\Items(type: "integer")
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: "#/components/responses/FourleafGasInvalidYearResponse"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function getOdo(GetOdoRequest $request): JsonResponse {
     $data = $this->gasRepository->getOdo($request->get('year'));
 
@@ -220,38 +259,36 @@ class GasController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/fuel",
-   *   summary="Fourleaf API - Get Fuel List",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_column"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_order"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_page"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_get_fuel_limit"),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(ref="#/components/schemas/Pagination"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/Gas"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/fuel",
+    summary: "Fourleaf API - Get Fuel List",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_column"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_order"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_page"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_limit"),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(ref: "#/components/schemas/Pagination"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: "data", type: "array", items: new OA\Items(ref: "#/components/schemas/Gas")),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function getFuel(GetFuelRequest $request): JsonResponse {
     $data = $this->gasRepository->getFuel(
       $request->only('column', 'order', 'limit', 'page')
@@ -263,24 +300,24 @@ class GasController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/fuel",
-   *   summary="Fourleaf API - Add a Fuel data",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    path: "/api/fourleaf/gas/fuel",
+    summary: "Fourleaf API - Add a Fuel data",
+    security: [["api-key" => []]],
+    tags: ["Fourleaf - Gas"],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled")
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: "#/components/responses/Success"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed")
+    ]
+  )]
   public function addFuel(AddEditFuelRequest $request): JsonResponse {
     $this->gasRepository->addFuel(
       $request->only(
@@ -296,34 +333,33 @@ class GasController extends Controller {
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Put(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/fuel/{gas_id}",
-   *   summary="Fourleaf API - Edit a Fuel data",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="gas_id",
-   *     description="Gas ID",
-   *     in="path",
-   *     required=true,
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
-   *   @OA\Parameter(ref="#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Put(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/fuel/{gas_id}",
+    summary: "Fourleaf API - Edit a Fuel data",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(
+        name: "gas_id",
+        description: "Gas ID",
+        in: "path",
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int32")
+      ),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: "#/components/responses/Success"),
+      new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function editFuel(AddEditFuelRequest $request, $id): JsonResponse {
     $this->gasRepository->editFuel(
       $request->only(
@@ -340,59 +376,53 @@ class GasController extends Controller {
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Delete(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/fuel/{gas_id}",
-   *   summary="Fourleaf API - Delete a Fuel data",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Parameter(
-   *     name="gas_id",
-   *     description="Gas ID",
-   *     in="path",
-   *     required=true,
-   *     example=1,
-   *     @OA\Schema(type="integer", format="int32"),
-   *   ),
-   *
-   *   @OA\Response(response=200, ref="#/components/responses/Success"),
-   *   @OA\Response(response=404, ref="#/components/responses/NotFound"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Delete(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/fuel/{gas_id}",
+    summary: "Fourleaf API - Delete a Fuel data",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(name: "gas_id", description: "Gas ID", in: "path", required: true, example: 1, schema: new OA\Schema(type: "integer", format: "int32")),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: "#/components/responses/Success"),
+      new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function deleteFuel($id): JsonResponse {
     $this->gasRepository->deleteFuel($id);
 
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/maintenance",
-   *   summary="Fourleaf API - Get Maintenance List",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(ref="#/components/schemas/MaintenanceResource"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/maintenance",
+    summary: "Fourleaf API - Get Maintenance List",
+    security: [["api-key" => []]],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  type: "array",
+                  items: new OA\Items(ref: "#/components/schemas/MaintenanceResource")
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function getMaintenance(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => MaintenanceResource::collection(
@@ -422,77 +452,77 @@ class GasController extends Controller {
     return DefaultResponse::success();
   }
 
-  /**
-   * @OA\Get(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/maintenance/parts",
-   *   summary="Fourleaf API - Get Maintenance Parts List",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             type="array",
-   *             @OA\Items(schema="string", example="engine_oil"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/maintenance/parts",
+    summary: "Fourleaf API - Get Maintenance Parts List",
+    security: [["api-key" => []]],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: "data", type: "array", items: new OA\Items(type: "string", example: "engine_oil")),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function getMaintenanceParts(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->gasRepository->getMaintenanceParts()
     ]);
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/import",
-   *   summary="Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
-   *   security={{"token":{}, "api-key": {}}},
-   *
-   *   @OA\RequestBody(
-   *     required=true,
-   *     @OA\MediaType(
-   *       mediaType="multipart/form-data",
-   *       @OA\Schema(
-   *         type="object",
-   *         @OA\Property(property="file", type="string", format="binary"),
-   *       ),
-   *     ),
-   *   ),
-   *
-   *   @OA\Response(
-   *     response=200,
-   *     description="Success",
-   *     @OA\JsonContent(
-   *       allOf={
-   *         @OA\Schema(ref="#/components/schemas/DefaultSuccess"),
-   *         @OA\Schema(
-   *           @OA\Property(
-   *             property="data",
-   *             @OA\Property(property="gas", ref="#/components/schemas/DefaultImportSchema"),
-   *             @OA\Property(property="maintenance", ref="#/components/schemas/DefaultImportSchema"),
-   *             @OA\Property(property="maintenanceParts", ref="#/components/schemas/DefaultImportSchema"),
-   *           ),
-   *         ),
-   *       },
-   *     ),
-   *   ),
-   *   @OA\Response(response=401, ref="#/components/responses/Unauthorized"),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/import",
+    summary: "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+    security: [["token" => [], "api-key" => []]],
+    requestBody: new OA\RequestBody(
+      required: true,
+      content: new OA\MediaType(
+        mediaType: "multipart/form-data",
+        schema: new OA\Schema(
+          properties: [
+            new OA\Property(property: "file", type: "string", format: "binary"),
+          ]
+        )
+      )
+    ),
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  properties: [
+                    new OA\Property(property: "gas", ref: "#/components/schemas/DefaultImportSchema"),
+                    new OA\Property(property: "maintenance", ref: "#/components/schemas/DefaultImportSchema"),
+                    new OA\Property(property: "maintenanceParts", ref: "#/components/schemas/DefaultImportSchema"),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function import(ImportRequest $request): JsonResponse {
     $file = $request->file('file')->get();
 
@@ -545,17 +575,16 @@ class GasController extends Controller {
     ]);
   }
 
-  /**
-   * @OA\Post(
-   *   tags={"Fourleaf - Gas"},
-   *   path="/api/fourleaf/gas/export",
-   *   summary="Fourleaf API - Export all Fuel and Maintenance data",
-   *   security={{"api-key": {}}},
-   *
-   *   @OA\Response(response=200, description="OK", @OA\Schema(type="file")),
-   *   @OA\Response(response=500, ref="#/components/responses/Failed"),
-   * )
-   */
+  #[OA\Post(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/export",
+    summary: "Fourleaf API - Export all Fuel and Maintenance data",
+    security: [["api-key" => []]],
+    responses: [
+      new OA\Response(response: 200, description: "OK", content: new OA\JsonContent(type: "string", format: "binary")),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function export(): BinaryFileResponse {
     $data = $this->gasRepository->export();
 
