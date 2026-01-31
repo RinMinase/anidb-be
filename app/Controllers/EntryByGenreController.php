@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes as OA;
 
 use App\Repositories\EntryRepository;
 use App\Resources\DefaultResponse;
