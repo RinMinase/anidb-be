@@ -3,25 +3,26 @@
 namespace App\Resources\PC;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="id", type="integer", format="int32", example=1),
- *   @OA\Property(property="type", ref="#/components/schemas/PCComponentType"),
- *   @OA\Property(property="name", type="string", example="Component Name"),
- *   @OA\Property(property="description", type="string", example="Component Description"),
- *   @OA\Property(property="count", type="integer", example=2),
- *   @OA\Property(property="isHidden", type="boolean", example=false),
- *   @OA\Property(property="price", type="integer", example=1234),
- *   @OA\Property(property="priceFormatted", type="string", example="1,234"),
- *   @OA\Property(property="priceEstimate", type="integer", example=1234),
- *   @OA\Property(property="priceEstimateFormatted", type="string", example="1,234"),
- *   @OA\Property(property="purhcaseDate", type="string", example="2020-10-10"),
- *   @OA\Property(property="purhcaseLocation", type="string", example="Location"),
- *   @OA\Property(property="purhcaseNotes", type="string", example="Notes"),
- *   @OA\Property(property="isOnhand", type="boolean", example=true),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "integer", format: "int32", example: 1),
+    new OA\Property(property: "type", ref: "#/components/schemas/PCComponentType"),
+    new OA\Property(property: "name", type: "string", example: "Component Name"),
+    new OA\Property(property: "description", type: "string", example: "Component Description"),
+    new OA\Property(property: "count", type: "integer", example: 2),
+    new OA\Property(property: "isHidden", type: "boolean", example: false),
+    new OA\Property(property: "price", type: "integer", example: 1234),
+    new OA\Property(property: "priceFormatted", type: "string", example: "1,234"),
+    new OA\Property(property: "priceEstimate", type: "integer", example: 1234),
+    new OA\Property(property: "priceEstimateFormatted", type: "string", example: "1,234"),
+    new OA\Property(property: "purhcaseDate", type: "string", example: "2020-10-10"),
+    new OA\Property(property: "purhcaseLocation", type: "string", example: "Location"),
+    new OA\Property(property: "purhcaseNotes", type: "string", example: "Notes"),
+    new OA\Property(property: "isOnhand", type: "boolean", example: true),
+  ]
+)]
 class PCSetupSummaryResource extends JsonResource {
 
   public function toArray($request) {

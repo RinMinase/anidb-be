@@ -3,20 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   @OA\Property(
- *     property="uuid",
- *     type="string",
- *     format="uuid",
- *     example="e9597119-8452-4f2b-96d8-f2b1b1d2f158",
- *   ),
- *   @OA\Property(property="name", type="string"),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "uuid", type: "string", format: "uuid", example: "e9597119-8452-4f2b-96d8-f2b1b1d2f158"),
+    new OA\Property(property: "name", type: "string"),
+  ]
+)]
 class PCOwner extends Model {
 
   use RefreshableAutoIncrements;

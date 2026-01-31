@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OpenApi\Attributes as OA;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-/**
- * @OA\Schema(
- *   @OA\Property(property="id", type="integer", format="int64", example=1),
- *   @OA\Property(property="type", type="string", example="cpu"),
- *   @OA\Property(property="name", type="string", example="CPU"),
- *   @OA\Property(property="is_peripheral", type="boolean", example=true),
- * )
- */
+#[OA\Schema(
+  properties: [
+    new OA\Property(property: "id", type: "integer", format: "int64", example: 1),
+    new OA\Property(property: "type", type: "string", example: "cpu"),
+    new OA\Property(property: "name", type: "string", example: "CPU"),
+    new OA\Property(property: "is_peripheral", type: "boolean", example: true),
+  ]
+)]
 class PCComponentType extends Model {
 
   use RefreshableAutoIncrements;
