@@ -16,8 +16,9 @@ class AppServiceProvider extends ServiceProvider {
 
   public function boot() {
     RateLimiter::for('api', function (Request $request) {
-      return Limit::perMinute(60)
-        ->by(optional($request->user())->id ?: $request->ip());
+      $clientId = $request->user()?->id ?: $request->ip();
+
+      return Limit::perMinute(60)->by($clientId);
     });
 
     Storage::disk('local')->buildTemporaryUrlsUsing(function ($path, $expiration, $options) {
