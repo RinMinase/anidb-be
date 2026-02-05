@@ -184,6 +184,7 @@ class EntryByBucketTest extends BaseTestCase {
           'rawTotal',
           'titles',
           'purchaseDate',
+          'lastSixSn',
         ]],
       ]);
 
@@ -200,6 +201,7 @@ class EntryByBucketTest extends BaseTestCase {
         'rawTotal' => $this->bucket_size_1 + $this->bucket_size_2,
         'titles' => 2,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ],
       [
         'id' => $this->bucket_id_1,
@@ -213,6 +215,7 @@ class EntryByBucketTest extends BaseTestCase {
         'rawTotal' => $this->bucket_size_1,
         'titles' => 1,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ],
       [
         'id' => $this->bucket_id_2,
@@ -226,6 +229,7 @@ class EntryByBucketTest extends BaseTestCase {
         'rawTotal' => $this->bucket_size_2,
         'titles' => 1,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ]
     ];
 

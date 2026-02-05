@@ -39,10 +39,12 @@ class BucketSimTest extends BaseTestCase {
   private $bucket_sim_to_1 = 'm';
   private $bucket_sim_size_1 = 2_000_339_066_880;
   private $bucket_sim_purchase_date_1 = '2020-01-20';
+  private $bucket_sim_last_six_sn_1 = 'AAA111';
   private $bucket_sim_from_2 = 'n';
   private $bucket_sim_to_2 = 'z';
   private $bucket_sim_size_2 = 2_000_339_066_880;
   private $bucket_sim_purchase_date_2 = '2021-02-21';
+  private $bucket_sim_last_six_sn_2 = 'BBB111';
 
   private $bucket_id_1 = 99999;
   private $bucket_id_2 = 99998;
@@ -52,14 +54,17 @@ class BucketSimTest extends BaseTestCase {
   private $bucket_to_1 = 'd';
   private $bucket_size_1 = 2_000_339_066_880;
   private $bucket_purchase_date_1 = '2020-10-20';
+  private $bucket_last_six_sn_1 = 'AAA999';
   private $bucket_from_2 = 'e';
   private $bucket_to_2 = 'j';
   private $bucket_size_2 = 2_000_339_066_880;
   private $bucket_purchase_date_2 = '2021-11-21';
+  private $bucket_last_six_sn_2 = 'BBB888';
   private $bucket_from_3 = 'k';
   private $bucket_to_3 = 'z';
   private $bucket_size_3 = 2_000_339_066_880;
   private $bucket_purchase_date_3 = '2022-12-22';
+  private $bucket_last_six_sn_3 = 'CCC777';
 
   private $entry_id_1 = 99999;
   private $entry_id_2 = 99998;
@@ -146,6 +151,7 @@ class BucketSimTest extends BaseTestCase {
         'to' => $this->bucket_sim_to_1,
         'size' => $this->bucket_sim_size_1,
         'purchase_date' => $this->bucket_sim_purchase_date_1,
+        'last_six_sn' => $this->bucket_sim_last_six_sn_1,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
       ],
@@ -156,6 +162,7 @@ class BucketSimTest extends BaseTestCase {
         'to' => $this->bucket_sim_to_2,
         'size' => $this->bucket_sim_size_2,
         'purchase_date' => $this->bucket_sim_purchase_date_2,
+        'last_six_sn' => $this->bucket_sim_last_six_sn_2,
         'created_at' => '2020-01-01 13:00:00',
         'updated_at' => '2020-01-01 13:00:00',
       ]
@@ -168,6 +175,7 @@ class BucketSimTest extends BaseTestCase {
         'to' => $this->bucket_to_1,
         'size' => $this->bucket_size_1,
         'purchase_date' => $this->bucket_purchase_date_1,
+        'last_six_sn' => $this->bucket_last_six_sn_1,
         'created_at' => '2022-01-01 13:00:00',
         'updated_at' => '2022-01-01 13:00:00',
       ],
@@ -177,6 +185,7 @@ class BucketSimTest extends BaseTestCase {
         'to' => $this->bucket_to_2,
         'size' => $this->bucket_size_2,
         'purchase_date' => $this->bucket_purchase_date_2,
+        'last_six_sn' => $this->bucket_last_six_sn_2,
         'created_at' => '2022-01-01 13:00:00',
         'updated_at' => '2022-01-01 13:00:00',
       ],
@@ -186,6 +195,7 @@ class BucketSimTest extends BaseTestCase {
         'to' => $this->bucket_to_3,
         'size' => $this->bucket_size_3,
         'purchase_date' => $this->bucket_purchase_date_3,
+        'last_six_sn' => $this->bucket_last_six_sn_3,
         'created_at' => '2022-01-01 13:00:00',
         'updated_at' => '2022-01-01 13:00:00',
       ],
@@ -497,7 +507,8 @@ class BucketSimTest extends BaseTestCase {
           'total',
           'rawTotal',
           'titles',
-          'purchaseDate'
+          'purchaseDate',
+          'lastSixSn',
         ]],
         'stats' => [
           'uuid',
@@ -518,6 +529,7 @@ class BucketSimTest extends BaseTestCase {
         'rawTotal' => $this->bucket_sim_size_1 + $this->bucket_sim_size_2,
         'titles' => 3,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ],
       [
         'id' => 1,
@@ -531,6 +543,7 @@ class BucketSimTest extends BaseTestCase {
         'rawTotal' => $this->bucket_sim_size_1,
         'titles' => 2,
         'purchaseDate' => $this->generate_purchase_date($this->bucket_sim_purchase_date_1),
+        'lastSixSn' => $this->bucket_sim_last_six_sn_1,
       ],
       [
         'id' => 2,
@@ -544,6 +557,7 @@ class BucketSimTest extends BaseTestCase {
         'rawTotal' => $this->bucket_sim_size_2,
         'titles' => 1,
         'purchaseDate' => $this->generate_purchase_date($this->bucket_sim_purchase_date_2),
+        'lastSixSn' => $this->bucket_sim_last_six_sn_2,
       ]
     ];
 
@@ -713,7 +727,8 @@ class BucketSimTest extends BaseTestCase {
           'total',
           'rawTotal',
           'titles',
-          'purchaseDate'
+          'purchaseDate',
+          'lastSixSn',
         ]],
       ]);
 
@@ -730,6 +745,7 @@ class BucketSimTest extends BaseTestCase {
         'rawTotal' => 2000339066880 + 1000169533440,
         'titles' => 3,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ],
       [
         'id' => 1,
@@ -743,6 +759,7 @@ class BucketSimTest extends BaseTestCase {
         'rawTotal' => 2000339066880,
         'titles' => 1,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ],
       [
         'id' => 2,
@@ -756,6 +773,7 @@ class BucketSimTest extends BaseTestCase {
         'rawTotal' => 1000169533440,
         'titles' => 2,
         'purchaseDate' => null,
+        'lastSixSn' => null,
       ]
     ];
 
