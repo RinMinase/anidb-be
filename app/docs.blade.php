@@ -15,17 +15,23 @@
 
   <!-- Topbar overrides -->
   <style>
+    html {
+      /* Prevention of layout shifting */
+      overflow-y: scroll;
+    }
+
     .swagger-ui .topbar .wrapper .topbar-wrapper {
-      justify-content: space-between;
+      justify-content: flex-end;
       flex-direction: row;
       align-items: center;
+      height: 42px;
 
       a.link {
         display: none;
       }
 
       .download-url-wrapper {
-        margin-left: unset;
+        display: none;
       }
     }
 
@@ -209,6 +215,49 @@
 
     }
   </style>
+
+  <!-- Search Bar -->
+  <style>
+    .custom-search-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .custom-search-input {
+        width: 100%;
+        padding: 6px 10px 6px 35px !important;
+        outline: none;
+        color: #3b4151;
+        max-width: 600px;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 10px;
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+      }
+    }
+
+    html.dark-mode {
+      .custom-search-wrapper {
+        .custom-search-input {
+          border: 1px solid #62a03f !important;
+        }
+
+        .search-icon {
+          color: #62a03f;
+        }
+      }
+    }
+
+    .opblock.filter-hidden,
+    .opblock-tag-section.filter-hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -259,6 +308,9 @@
         displayRequestDuration: true,
 
         onComplete: function() {
+
+          /* ========== BLOCK :: API COUNTER ==========*/
+
           const specImmutable = ui.specSelectors.specJson();
           if (!specImmutable) return;
 
@@ -285,6 +337,62 @@
 
           // Done loading, show the statistics container now
           document.getElementById('api-stats').style.display = 'block';
+
+          /* =============== END BLOCK ================*/
+
+
+          /* ========== BLOCK :: SEARCH BAR ==========*/
+
+          // Inject input before dark mode toggle
+          const topbarWrapper = document.querySelector('.topbar-wrapper');
+          const darkModeToggle = document.querySelector('.dark-mode-toggle');
+
+          if (topbarWrapper && darkModeToggle) {
+            const searchHtml = `
+              <div class="custom-search-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="search-icon">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+                <input type="text" id="api-search-bar" class="custom-search-input" placeholder="Search descriptions (e.g. 'login')...">
+              </div>
+            `;
+
+            darkModeToggle.insertAdjacentHTML('beforebegin', searchHtml);
+          }
+
+          // Handle search behavior
+          const searchBar = document.getElementById('api-search-bar');
+
+          if (searchBar) {
+            searchBar.addEventListener('input', function() {
+              const query = this.value.toLowerCase();
+              const operations = document.querySelectorAll('.opblock');
+
+              operations.forEach(op => {
+                const descEl = op.querySelector('.opblock-summary-description');
+                const description = descEl ? descEl.textContent.toLowerCase() : "";
+
+                if (description.includes(query)) {
+                  op.classList.remove('filter-hidden');
+                } else {
+                  op.classList.add('filter-hidden');
+                }
+              });
+
+              // Hide headers that have no endpoints after query
+              document.querySelectorAll('.opblock-tag-section').forEach(section => {
+                const visibleOps = section.querySelectorAll('.opblock:not(.filter-hidden)').length;
+
+                if (query !== "" && visibleOps === 0) {
+                  section.classList.add('filter-hidden');
+                } else {
+                  section.classList.remove('filter-hidden');
+                }
+              });
+            });
+          }
+
+          /* =============== BLOCK END =============== */
         }
       })
 
