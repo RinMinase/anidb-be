@@ -16,6 +16,7 @@ class BucketSim extends Model {
     'to',
     'size',
     'purchase_date',
+    'last_six_sn',
   ];
 
   protected $hidden = [

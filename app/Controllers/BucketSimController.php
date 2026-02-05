@@ -94,6 +94,7 @@ class BucketSimController extends Controller {
                       new OA\Property(property: 'rawTotal', type: 'integer', format: 'int64', example: 1000169533440),
                       new OA\Property(property: 'titles', type: 'integer', format: 'int32', example: 1),
                       new OA\Property(property: 'purchaseDate', type: 'string', format: 'date', example: '2020-01-20'),
+                      new OA\Property(property: "lastSixSn", type: "string", example: "ABC123"),
                     ]
                   )
                 ),
@@ -315,6 +316,7 @@ class BucketSimController extends Controller {
                       new OA\Property(property: 'rawTotal', type: 'integer', format: 'int64', example: 1000169533440),
                       new OA\Property(property: 'titles', type: 'integer', format: 'int32', example: 1),
                       new OA\Property(property: 'purchaseDate', type: 'string', format: 'date', example: '2020-01-20'),
+                      new OA\Property(property: "lastSixSn", type: "string", example: "ABC123"),
                     ]
                   )
                 ),

@@ -43,6 +43,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'd',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-01-01',
+        'last_six_sn' => 'AAA111',
       ],
       [
         'id_sim_info' => $id_sim_info_1,
@@ -50,6 +51,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'h',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-03-01',
+        'last_six_sn' => 'BBB222',
       ],
       [
         'id_sim_info' => $id_sim_info_1,
@@ -57,6 +59,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'l',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-05-01',
+        'last_six_sn' => 'CCC333',
       ],
       [
         'id_sim_info' => $id_sim_info_1,
@@ -64,6 +67,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'p',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-07-01',
+        'last_six_sn' => 'DDD444',
       ],
       [
         'id_sim_info' => $id_sim_info_1,
@@ -71,6 +75,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'u',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-09-01',
+        'last_six_sn' => 'EEE555',
       ],
       [
         'id_sim_info' => $id_sim_info_1,
@@ -78,6 +83,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'z',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-10-01',
+        'last_six_sn' => 'FFF666',
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -85,6 +91,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'b',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-11-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -92,6 +99,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'e',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2020-12-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -99,6 +107,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'g',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-01-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -106,6 +115,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'j',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-02-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -113,6 +123,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'k',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-03-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -120,6 +131,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'l',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-04-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -127,6 +139,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'n',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-05-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -134,6 +147,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'r',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-06-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -141,6 +155,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 's',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-08-01',
+        'last_six_sn' => null,
       ],
       [
         'id_sim_info' => $id_sim_info_2,
@@ -148,6 +163,7 @@ class BucketSimSeeder extends Seeder {
         'to' => 'z',
         'size' => 2_000_339_066_880,
         'purchase_date' => '2021-10-01',
+        'last_six_sn' => null,
       ],
     ];
 

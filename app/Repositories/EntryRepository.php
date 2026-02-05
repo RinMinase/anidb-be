@@ -382,6 +382,7 @@ class EntryRepository {
         'rawTotal' => $total,
         'titles' => $titles,
         'purchaseDate' => $purchase_date_text,
+        'lastSixSn' => $bucket->last_six_sn,
       ]);
 
       $entries_full_size += $entries_size;
@@ -403,6 +404,7 @@ class EntryRepository {
       'rawTotal' => $bucket_full_size,
       'titles' => $count_full_size,
       'purchaseDate' => null,
+      'lastSixSn' => null,
     ]);
 
     $returnValue = array_merge($returnValue, $bucketValues);

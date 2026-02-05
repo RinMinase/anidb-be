@@ -20,7 +20,7 @@ class BucketSimRepository {
   public function get($uuid) {
     $info = BucketSimInfo::where('uuid', $uuid)->firstOrFail();
 
-    $buckets = BucketSim::select('from', 'to', 'size', 'purchase_date')
+    $buckets = BucketSim::select('from', 'to', 'size', 'purchase_date', 'last_six_sn')
       ->where('id_sim_info', $info->id)
       ->orderBy('from')
       ->get();
