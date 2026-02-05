@@ -545,6 +545,10 @@
                                                                 "type": "string",
                                                                 "format": "date",
                                                                 "example": "2020-01-20"
+                                                            },
+                                                            "lastSixSn": {
+                                                                "type": "string",
+                                                                "example": "ABC123"
                                                             }
                                                         },
                                                         "type": "object"
@@ -857,6 +861,10 @@
                                                                 "type": "string",
                                                                 "format": "date",
                                                                 "example": "2020-01-20"
+                                                            },
+                                                            "lastSixSn": {
+                                                                "type": "string",
+                                                                "example": "ABC123"
                                                             }
                                                         },
                                                         "type": "object"
@@ -1778,6 +1786,10 @@
                                                             "purchaseDate": {
                                                                 "type": "string",
                                                                 "format": "date"
+                                                            },
+                                                            "lastSixSn": {
+                                                                "type": "string",
+                                                                "example": "ABC123"
                                                             }
                                                         },
                                                         "type": "object"
@@ -8637,6 +8649,10 @@
                         "type": "string",
                         "format": "date",
                         "example": "2020-01-20"
+                    },
+                    "lastSixSn": {
+                        "type": "string",
+                        "example": "ABC123"
                     }
                 },
                 "type": "object"
