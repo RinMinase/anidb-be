@@ -11,10 +11,12 @@ return new class extends Migration {
   public function up(): void {
     Schema::table('buckets', function (Blueprint $table) {
       $table->date('purchase_date')->nullable();
+      $table->string('last_six_sn')->nullable();
     });
 
     Schema::table('bucket_sims', function (Blueprint $table) {
       $table->date('purchase_date')->nullable();
+      $table->string('last_six_sn')->nullable();
     });
   }
 
@@ -24,10 +26,12 @@ return new class extends Migration {
   public function down(): void {
     Schema::table('buckets', function (Blueprint $table) {
       $table->dropColumn('purchase_date');
+      $table->dropColumn('last_six_sn');
     });
 
     Schema::table('bucket_sims', function (Blueprint $table) {
       $table->dropColumn('purchase_date');
+      $table->dropColumn('last_six_sn');
     });
   }
 };
