@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder {
       // Four leaf seeds
       FourleafSettingsSeeder::class,
       FourleafGasSeeder::class,
+      FourleafMaintenanceTypeSeeder::class,
       FourleafMaintenanceSeeder::class,
       FourleafBillsElectricitySeeder::class,
 
