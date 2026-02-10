@@ -100,6 +100,8 @@ class FourleafMaintenanceTypeSeeder extends Seeder {
         'id' => $key + 1,
         'type' => $item['type'],
         'label' => $item['label'],
+        'km' => $item['km'],
+        'year' => $item['year'],
       ]);
     }
 
