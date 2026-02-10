@@ -400,49 +400,23 @@ class GasRepository {
   private function calculateMaintenanceStatus(int $mileage) {
     $ageYears = $this->calculateAgeYears();
 
-    $maintenance = [
-      'km' => [
-        'engine_oil' => 'normal',
-        'tires' => 'normal',
-        'transmission_fluid' => 'normal',
-        'brake_fluid' => 'normal',
-        'radiator_fluid' => 'normal',
-        'spark_plugs' => 'normal',
-        'power_steering_fluid' => 'normal',
-      ],
-      'year' => [
-        'engine_oil' => 'normal',
-        'transmission_fluid' => 'normal',
-        'brake_fluid' => 'normal',
-        'battery' => 'normal',
-        'radiator_fluid' => 'normal',
-        'ac_coolant' => 'normal',
-        'power_steering_fluid' => 'normal',
-        'tires' => 'normal',
-      ],
-    ];
+    $maintenance_types = MaintenanceType::all()->toArray();
+    $maintenance = ['km' => [], 'year' => []];
+    $limits = ['km' => [], 'year' => []];
 
-    $limits = [
-      'km' => [
-        'engine_oil' => 8000,
-        'tires' => 20000,
-        'transmission_fluid' => 50000,
-        'brake_fluid' => 50000,
-        'radiator_fluid' => 50000,
-        'spark_plugs' => 50000,
-        'power_steering_fluid' => 100000,
-      ],
-      'year' => [
-        'engine_oil' => 1,
-        'transmission_fluid' => 2,
-        'brake_fluid' => 2,
-        'battery' => 3,
-        'radiator_fluid' => 3,
-        'ac_coolant' => 3,
-        'power_steering_fluid' => 5,
-        'tires' => 5,
-      ],
-    ];
+    foreach ($maintenance_types as $type) {
+      foreach ($type as $key => $value) {
+        if ($key === 'km' && $value !== null) {
+          $maintenance['km'][$type['type']] = 'normal';
+          $limits['km'][$type['type']] = $type['km'];
+        }
+
+        if ($key === 'year' && $value !== null) {
+          $maintenance['year'][$type['type']] = 'normal';
+          $limits['year'][$type['type']] = $type['year'];
+        }
+      }
+    }
 
     foreach (array_keys($maintenance) as $type) {
       foreach (array_keys($maintenance[$type]) as $key) {
