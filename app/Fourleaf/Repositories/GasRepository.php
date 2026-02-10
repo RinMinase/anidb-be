@@ -24,6 +24,11 @@ class GasRepository {
     $efficiency_graph_type = $efficiency_graph_type ?? 'last20data';
 
     $age = $this->calculateAge();
+
+    $age_split = explode(',', $age, 2);
+    $age_split_year = trim($age_split[0]);
+    $age_split_months = trim($age_split[1]);
+
     $mileage = Gas::select('odometer')
       ->orderBy('date', 'desc')
       ->first()
@@ -66,6 +71,8 @@ class GasRepository {
         'last_efficiency' => $last_efficiency,
         'mileage' => $mileage,
         'age' => $age,
+        'age_split_year' => $age_split_year,
+        'age_split_months' => $age_split_months,
         'km_per_month' => $km_per_month,
       ],
       'graph' => [
