@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 use App\Fourleaf\Exceptions\Gas\InvalidYearException;
 
@@ -81,6 +82,52 @@ class GasRepository {
       ],
       'maintenance' => $maintenance,
       'last_maintenance' => $last_maintenance,
+    ];
+  }
+
+  public function getGuide() {
+    $types = MaintenanceType::all()->toArray();
+
+    $kms = [];
+    $years = [];
+
+    foreach ($types as $type) {
+      foreach ($type as $key => $value) {
+        if ($key === 'km' && $value !== null) {
+          array_push($kms, [
+            'type' => $type['type'],
+            'typeCamel' => Str::camel($type['type']),
+            'label' => $type['label'],
+            'km' => $type['km'],
+          ]);
+        }
+
+        if ($key === 'year' && $value !== null) {
+          array_push($years, [
+            'type' => $type['type'],
+            'typeCamel' => Str::camel($type['type']),
+            'label' => $type['label'],
+            'year' => $type['year'],
+          ]);
+        }
+      }
+    }
+
+    usort($kms, function ($a, $b) {
+      $cmp = $a['km'] <=> $b['km'];
+      if ($cmp === 0) return $a['type'] <=> $b['type'];
+      return $cmp;
+    });
+
+    usort($years, function ($a, $b) {
+      $cmp = $a['year'] <=> $b['year'];
+      if ($cmp === 0) return $a['type'] <=> $b['type'];
+      return $cmp;
+    });
+
+    return [
+      'km' => $kms,
+      'year' => $years,
     ];
   }
 

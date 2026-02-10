@@ -590,4 +590,10 @@ class GasController extends Controller {
 
     return response()->download($data['file'], $data['filename'], $data['headers']);
   }
+
+  public function getGuide(): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->gasRepository->getGuide()
+    ]);
+  }
 }

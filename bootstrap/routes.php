@@ -66,6 +66,7 @@ Route::prefix('api')
         Route::prefix('gas')
           ->group(function () {
             Route::get('', [\App\Fourleaf\Controllers\GasController::class, 'get']);
+            Route::get('guide', [\App\Fourleaf\Controllers\GasController::class, 'getGuide']);
 
             Route::get('odo', [\App\Fourleaf\Controllers\GasController::class, 'getOdo']);
 
