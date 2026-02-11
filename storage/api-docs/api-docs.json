@@ -7281,14 +7281,6 @@
                 ],
                 "summary": "Fourleaf API - Get Gas Overview",
                 "operationId": "d679f648d13aefed74254182e134b2d0",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -7332,31 +7324,6 @@
                                                                     "format": "float",
                                                                     "minimum": 0,
                                                                     "example": 12.23
-                                                                }
-                                                            },
-                                                            "type": "object"
-                                                        },
-                                                        "graph": {
-                                                            "properties": {
-                                                                "efficiency": {
-                                                                    "properties": {
-                                                                        "2020-10-20": {
-                                                                            "type": "number",
-                                                                            "format": "float",
-                                                                            "example": 12.23
-                                                                        }
-                                                                    },
-                                                                    "type": "object"
-                                                                },
-                                                                "gas": {
-                                                                    "properties": {
-                                                                        "2020-10-20": {
-                                                                            "type": "number",
-                                                                            "format": "float",
-                                                                            "example": 12.23
-                                                                        }
-                                                                    },
-                                                                    "type": "object"
                                                                 }
                                                             },
                                                             "type": "object"
@@ -7680,6 +7647,107 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/FourleafGasInvalidYearResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/fourleaf/gas/efficiency": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Gas Efficiency",
+                "operationId": "378754f022bf5fa8c9b33d3f29727c86",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/fourleaf_gas_get_gas_efficiency_type"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "2020-10-20": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 12.23
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/fourleaf/gas/prices": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Gas Prices",
+                "operationId": "b9b851ab51d2931d39b65ed58811e649",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "2020-10-20": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 12.23
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "$ref": "#/components/responses/Failed"
@@ -10353,6 +10421,18 @@
                     "minimum": 0
                 }
             },
+            "fourleaf_gas_get_gas_efficiency_type": {
+                "name": "type",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "last20data",
+                    "enum": [
+                        "last20data",
+                        "last12mos"
+                    ]
+                }
+            },
             "fourleaf_gas_get_fuel_column": {
                 "name": "column",
                 "in": "query",
@@ -10409,31 +10489,6 @@
                     "$ref": "#/components/schemas/YearSchema"
                 },
                 "example": "2020"
-            },
-            "fourleaf_gas_get_gas_avg_efficiency_type": {
-                "name": "avg_efficiency_type",
-                "in": "query",
-                "schema": {
-                    "type": "string",
-                    "default": "all",
-                    "enum": [
-                        "all",
-                        "last5",
-                        "last10"
-                    ]
-                }
-            },
-            "fourleaf_gas_get_gas_efficiency_graph_type": {
-                "name": "efficiency_graph_type",
-                "in": "query",
-                "schema": {
-                    "type": "string",
-                    "default": "last20data",
-                    "enum": [
-                        "last20data",
-                        "last12mos"
-                    ]
-                }
             },
             "user_add_edit_username": {
                 "name": "username",

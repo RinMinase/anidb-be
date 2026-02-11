@@ -31,10 +31,6 @@ class GasController extends Controller {
     path: "/api/fourleaf/gas",
     summary: "Fourleaf API - Get Gas Overview",
     security: [["api-key" => []]],
-    parameters: [
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_gas_avg_efficiency_type"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_gas_efficiency_graph_type"),
-    ],
     responses: [
       new OA\Response(
         response: 200,
@@ -55,23 +51,6 @@ class GasController extends Controller {
                         new OA\Property(property: "mileage", type: "integer", format: "int32", minimum: 0, example: 1000),
                         new OA\Property(property: "age", type: "string", example: "1 year, 2 months"),
                         new OA\Property(property: "kmPerMonth", type: "number", format: "float", minimum: 0, example: 12.23),
-                      ]
-                    ),
-                    new OA\Property(
-                      property: "graph",
-                      properties: [
-                        new OA\Property(
-                          property: "efficiency",
-                          properties: [
-                            new OA\Property(property: "2020-10-20", type: "number", format: "float", example: 12.23),
-                          ]
-                        ),
-                        new OA\Property(
-                          property: "gas",
-                          properties: [
-                            new OA\Property(property: "2020-10-20", type: "number", format: "float", example: 12.23),
-                          ]
-                        ),
                       ]
                     ),
                     new OA\Property(
@@ -199,21 +178,8 @@ class GasController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function get(GetRequest $request): JsonResponse {
-    /**
-     * Average Efficiency Types:
-     * - "all" (default) - all data points are averaged
-     * - "last5" - last 5 data points are averaged
-     * - "last10" - last 10 data points are averaged
-     *
-     * Efficiency Graph Types:
-     * - "last20data" (default) - last 20 data points
-     * - "last12mos" - last 12 months (per month efficiency, averaged)
-     */
-    $data = $this->gasRepository->get(
-      $request->get('avg_efficiency_type'),
-      $request->get('efficiency_graph_type'),
-    );
+  public function get(): JsonResponse {
+    $data = $this->gasRepository->get();
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -260,7 +226,49 @@ class GasController extends Controller {
     ]);
   }
 
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/efficiency",
+    summary: "Fourleaf API - Get Gas Efficiency",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_gas_efficiency_type"),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  properties: [
+                    new OA\Property(property: "2020-10-20", type: "number", format: "float", example: 12.23),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function getEfficiency(GetEfficiencyRequest $request): JsonResponse {
+    /**
+     * Average Efficiency Types:
+     * - "all" (default) - all data points are averaged
+     * - "last5" - last 5 data points are averaged
+     * - "last10" - last 10 data points are averaged
+     *
+     * Efficiency Graph Types:
+     * - "last20data" (default) - last 20 data points
+     * - "last12mos" - last 12 months (per month efficiency, averaged)
+     */
+
     $data = $this->gasRepository->getEfficiency($request->get('type'));
 
     return DefaultResponse::success(null, [
@@ -268,6 +276,35 @@ class GasController extends Controller {
     ]);
   }
 
+
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/prices",
+    summary: "Fourleaf API - Get Gas Prices",
+    security: [["api-key" => []]],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  properties: [
+                    new OA\Property(property: "2020-10-20", type: "number", format: "float", example: 12.23),
+                  ]
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function getPrices(): JsonResponse {
     $data = $this->gasRepository->getPrices();
 
