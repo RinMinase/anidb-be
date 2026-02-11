@@ -13,6 +13,7 @@ use App\Requests\ImportRequest;
 use App\Fourleaf\Repositories\GasRepository;
 use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
 use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
+use App\Fourleaf\Requests\Gas\GetEfficiencyRequest;
 use App\Fourleaf\Requests\Gas\GetFuelRequest;
 use App\Fourleaf\Requests\Gas\GetOdoRequest;
 use App\Fourleaf\Requests\Gas\GetRequest;
@@ -253,6 +254,22 @@ class GasController extends Controller {
   )]
   public function getOdo(GetOdoRequest $request): JsonResponse {
     $data = $this->gasRepository->getOdo($request->get('year'));
+
+    return DefaultResponse::success(null, [
+      'data' => $data,
+    ]);
+  }
+
+  public function getEfficiency(GetEfficiencyRequest $request): JsonResponse {
+    $data = $this->gasRepository->getEfficiency($request->get('type'));
+
+    return DefaultResponse::success(null, [
+      'data' => $data,
+    ]);
+  }
+
+  public function getPrices(): JsonResponse {
+    $data = $this->gasRepository->getPrices();
 
     return DefaultResponse::success(null, [
       'data' => $data,

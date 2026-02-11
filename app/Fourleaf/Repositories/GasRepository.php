@@ -132,11 +132,26 @@ class GasRepository {
   }
 
   /**
-   * Odometer Functions
+   * Graph Functions
    */
 
   public function getOdo($year) {
     return $this->calculateOdometerPerMonth(intval($year));
+  }
+
+  public function getEfficiency($type) {
+    $data = $this->calculateEfficiencyList($type);
+
+    if ($type === 'last12mos') {
+      // additional post processing group by month
+      $data = $this->postProcessEfficiencyListByMonth($data);
+    }
+
+    return $data;
+  }
+
+  public function getPrices() {
+    return $this->calculateGasList();
   }
 
   /**

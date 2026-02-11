@@ -69,6 +69,8 @@ Route::prefix('api')
             Route::get('guide', [\App\Fourleaf\Controllers\GasController::class, 'getGuide']);
 
             Route::get('odo', [\App\Fourleaf\Controllers\GasController::class, 'getOdo']);
+            Route::get('efficiency', [\App\Fourleaf\Controllers\GasController::class, 'getEfficiency']);
+            Route::get('prices', [\App\Fourleaf\Controllers\GasController::class, 'getPrices']);
 
             Route::get('fuel', [\App\Fourleaf\Controllers\GasController::class, 'getFuel']);
             Route::post('fuel', [\App\Fourleaf\Controllers\GasController::class, 'addFuel']);
