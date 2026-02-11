@@ -20,7 +20,7 @@ class GasRepository {
    * Overview Function
    */
 
-  public function get($avg_efficiency_type, $efficiency_graph_type) {
+  public function get($avg_efficiency_type = null, $efficiency_graph_type = null) {
     $avg_efficiency_type = $avg_efficiency_type ?? 'all';
     $efficiency_graph_type = $efficiency_graph_type ?? 'last20data';
 
