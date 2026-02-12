@@ -215,8 +215,12 @@ class GasRepository {
    * Maintenance Functions
    */
 
-  public function getMaintenance() {
-    return Maintenance::select()->with('parts')->get();
+  public function getMaintenanceList() {
+    return Maintenance::with('parts')->get();
+  }
+
+  public function getMaintenance($id) {
+    return Maintenance::where('id', $id)->with('parts')->firstOrFail()->toArray();
   }
 
   public function addMaintenance(array $values) {

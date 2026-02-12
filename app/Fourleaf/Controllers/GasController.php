@@ -357,7 +357,7 @@ class GasController extends Controller {
   #[OA\Get(
     tags: ["Fourleaf - Gas"],
     path: "/api/fourleaf/gas/fuel/{gas_id}",
-    summary: "Fourleaf API - Get Fuel List",
+    summary: "Fourleaf API - Get Fuel Item",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(
@@ -518,11 +518,56 @@ class GasController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function getMaintenance(): JsonResponse {
+  public function getMaintenanceList(): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => MaintenanceResource::collection(
-        $this->gasRepository->getMaintenance()
+        $this->gasRepository->getMaintenanceList()
       ),
+    ]);
+  }
+
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/maintenance/{maintenance_id}",
+    summary: "Fourleaf API - Get Maintenance Item",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(
+        name: "gas_maintenance_idid",
+        description: "Maintenance ID",
+        in: "path",
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int32")
+      ),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: "data",
+                  type: "array",
+                  items: new OA\Items(ref: "#/components/schemas/MaintenanceResource")
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
+  public function getMaintenance($id): JsonResponse {
+    $data = $this->gasRepository->getMaintenance($id);
+
+    return DefaultResponse::success(null, [
+      'data' => new MaintenanceResource($data),
     ]);
   }
 
