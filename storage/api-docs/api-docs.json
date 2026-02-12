@@ -7866,7 +7866,7 @@
                 "tags": [
                     "Fourleaf - Gas"
                 ],
-                "summary": "Fourleaf API - Get Fuel List",
+                "summary": "Fourleaf API - Get Fuel Item",
                 "operationId": "3b3d16388887c027da419a963793991e",
                 "parameters": [
                     {
@@ -8011,7 +8011,64 @@
                     "Fourleaf - Gas"
                 ],
                 "summary": "Fourleaf API - Get Maintenance List",
-                "operationId": "32bacd83765c019de86ea28faf5cf303",
+                "operationId": "44916f5ade3fb9eb5495b025ad002dcc",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/MaintenanceResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/fourleaf/gas/maintenance/{maintenance_id}": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Maintenance Item",
+                "operationId": "f186fe60ff25b37311e960d4d89fa3ec",
+                "parameters": [
+                    {
+                        "name": "gas_maintenance_idid",
+                        "in": "path",
+                        "description": "Maintenance ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -8703,8 +8760,26 @@
                 },
                 "type": "object"
             },
+            "MaintenancePartResource": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "example": "engine_oil"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Engine Oil"
+                    }
+                },
+                "type": "object"
+            },
             "MaintenanceResource": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
                     "date": {
                         "type": "string",
                         "example": "2020-10-20"
@@ -8713,30 +8788,34 @@
                         "type": "string",
                         "example": "Engine Oil Change"
                     },
-                    "parts": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "enum": [
-                                "others",
-                                "ac_coolant",
-                                "battery",
-                                "brake_fluid",
-                                "engine_oil",
-                                "power_steering_fluid",
-                                "radiator_fluid",
-                                "spark_plugs",
-                                "tires",
-                                "transmission"
-                            ],
-                            "example": "engine_oil"
-                        }
-                    },
                     "odometer": {
                         "type": "integer",
                         "format": "int32",
                         "minimum": 0,
                         "example": 1000
+                    },
+                    "parts": {
+                        "description": "Array of Parts",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MaintenancePartResource"
+                        }
+                    },
+                    "partSummaryKeys": {
+                        "description": "Array of Part types",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "engine_oil"
+                        }
+                    },
+                    "partSummaryLabels": {
+                        "description": "Array of Part labels",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Engine Oil"
+                        }
                     }
                 },
                 "type": "object"
