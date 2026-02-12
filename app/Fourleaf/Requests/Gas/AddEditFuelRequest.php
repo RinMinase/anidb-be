@@ -59,8 +59,8 @@ class AddEditFuelRequest extends FormRequest {
       'to_bars' => ['required', 'integer', 'min:0', 'max:9', 'gte:from_bars'],
       'odometer' => ['required', 'integer', 'min:0', 'max:100000'],
 
-      'price_per_liter' => ['numeric', 'min:0', 'max:150'],
-      'liters_filled' => ['numeric', 'min:0', 'max:40'],
+      'price_per_liter' => ['nullable', 'numeric', 'min:0', 'max:150'],
+      'liters_filled' => ['nullable', 'numeric', 'min:0', 'max:40'],
     ];
   }
 
