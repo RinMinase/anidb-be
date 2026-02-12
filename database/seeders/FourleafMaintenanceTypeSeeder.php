@@ -88,6 +88,18 @@ class FourleafMaintenanceTypeSeeder extends Seeder {
         'year' => 2
       ],
       [
+        'type' => 'wiper_change',
+        'label' => 'Wiper Change',
+        'km' => null,
+        'year' => 1,
+      ],
+      [
+        'type' => 'lights_change',
+        'label' => 'Lights Change',
+        'km' => null,
+        'year' => null,
+      ],
+      [
         'type' => 'others',
         'label' => 'Others',
         'km' => null,
