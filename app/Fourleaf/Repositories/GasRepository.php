@@ -158,13 +158,13 @@ class GasRepository {
    * Gas Functions
    */
 
-  public function getFuel($params) {
+  public function getFuelList($params) {
     // Ordering Parameters
     $column = $params['column'] ?? 'odometer';
     $order = $params['order'] ?? 'asc';
 
     // Pagination Parameters
-    $limit = isset($params['limit']) ? intval($params['limit']) : 30;
+    $limit = isset($params['limit']) ? intval($params['limit']) : 100;
     $page = isset($params['page']) ? intval($params['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
@@ -189,6 +189,10 @@ class GasRepository {
         'has_next' => $has_next,
       ],
     ];
+  }
+
+  public function getFuel($id) {
+    return Gas::where('id', $id)->firstOrFail()->toArray();
   }
 
   public function addFuel(array $values) {

@@ -72,7 +72,8 @@ Route::prefix('api')
             Route::get('efficiency', [\App\Fourleaf\Controllers\GasController::class, 'getEfficiency']);
             Route::get('prices', [\App\Fourleaf\Controllers\GasController::class, 'getPrices']);
 
-            Route::get('fuel', [\App\Fourleaf\Controllers\GasController::class, 'getFuel']);
+            Route::get('fuel', [\App\Fourleaf\Controllers\GasController::class, 'getFuelList']);
+            Route::get('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'getFuel']);
             Route::post('fuel', [\App\Fourleaf\Controllers\GasController::class, 'addFuel']);
             Route::put('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'editFuel']);
             Route::delete('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'deleteFuel']);

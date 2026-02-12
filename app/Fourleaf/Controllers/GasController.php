@@ -343,14 +343,55 @@ class GasController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function getFuel(GetFuelRequest $request): JsonResponse {
-    $data = $this->gasRepository->getFuel(
+  public function getFuelList(GetFuelRequest $request): JsonResponse {
+    $data = $this->gasRepository->getFuelList(
       $request->only('column', 'order', 'limit', 'page')
     );
 
     return DefaultResponse::success(null, [
       'data' => $data['data'],
       'meta' => $data['meta'],
+    ]);
+  }
+
+  #[OA\Get(
+    tags: ["Fourleaf - Gas"],
+    path: "/api/fourleaf/gas/fuel/{gas_id}",
+    summary: "Fourleaf API - Get Fuel List",
+    security: [["api-key" => []]],
+    parameters: [
+      new OA\Parameter(
+        name: "gas_id",
+        description: "Gas ID",
+        in: "path",
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int32")
+      ),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: "Success",
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: "data", ref: "#/components/schemas/Gas"),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
+  public function getFuel($id): JsonResponse {
+    $data = $this->gasRepository->getFuel($id);
+
+    return DefaultResponse::success(null, [
+      'data' => $data,
     ]);
   }
 
