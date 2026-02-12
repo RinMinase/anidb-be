@@ -7766,7 +7766,7 @@
                     "Fourleaf - Gas"
                 ],
                 "summary": "Fourleaf API - Get Fuel List",
-                "operationId": "8394dd9d4b13fb27220ccd44def301b1",
+                "operationId": "c4ee9498806a0964e9ed0346a39b3f74",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/fourleaf_gas_get_fuel_column"
@@ -7862,6 +7862,58 @@
             }
         },
         "/api/fourleaf/gas/fuel/{gas_id}": {
+            "get": {
+                "tags": [
+                    "Fourleaf - Gas"
+                ],
+                "summary": "Fourleaf API - Get Fuel List",
+                "operationId": "3b3d16388887c027da419a963793991e",
+                "parameters": [
+                    {
+                        "name": "gas_id",
+                        "in": "path",
+                        "description": "Gas ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/Gas"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "Fourleaf - Gas"
