@@ -22,7 +22,7 @@ class CarMaintenanceController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/maintenance",
-    summary: "Fourleaf API - Get Maintenance List",
+    summary: "Get Maintenance List",
     security: [["api-key" => []]],
     responses: [
       new OA\Response(
@@ -57,7 +57,7 @@ class CarMaintenanceController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/maintenance/{maintenance_id}",
-    summary: "Fourleaf API - Get Maintenance Item",
+    summary: "Get Maintenance Item",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(
@@ -122,7 +122,7 @@ class CarMaintenanceController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/maintenance/parts",
-    summary: "Fourleaf API - Get Maintenance Parts List",
+    summary: "Get Maintenance Parts List",
     security: [["api-key" => []]],
     responses: [
       new OA\Response(

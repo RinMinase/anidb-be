@@ -933,7 +933,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Gas Overview",
+                "summary": "Get Gas Overview",
                 "operationId": "7224c1188d26f6cd9a784dd4963b36af",
                 "responses": {
                     "200": {
@@ -1262,7 +1262,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Odometer by Year",
+                "summary": "Get Odometer by Year",
                 "operationId": "748edb8e3ef96e1a4fef173dddaf4f76",
                 "parameters": [
                     {
@@ -1318,7 +1318,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Gas Efficiency",
+                "summary": "Get Gas Efficiency",
                 "operationId": "76c6f103268d2cf2b92b1d98546893c6",
                 "parameters": [
                     {
@@ -1371,7 +1371,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Gas Prices",
+                "summary": "Get Gas Prices",
                 "operationId": "30dd624b28ab1b5bd807cd6b4b7ca094",
                 "responses": {
                     "200": {
@@ -1419,7 +1419,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Fuel List",
+                "summary": "Get Fuel List",
                 "operationId": "0d03f6ae467104d9f0a7f54adf0274b0",
                 "parameters": [
                     {
@@ -1478,7 +1478,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Add a Fuel data",
+                "summary": "Add a Fuel data",
                 "operationId": "e0fdd9dfd71fd0db606b0b3c1bbc154b",
                 "parameters": [
                     {
@@ -1520,7 +1520,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Fuel Item",
+                "summary": "Get Fuel Item",
                 "operationId": "e804ca3acd5ac7a7925e59beec15136b",
                 "parameters": [
                     {
@@ -1572,7 +1572,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Edit a Fuel data",
+                "summary": "Edit a Fuel data",
                 "operationId": "77428fae1c61ba6bd8197f09f1152085",
                 "parameters": [
                     {
@@ -1626,7 +1626,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Delete a Fuel data",
+                "summary": "Delete a Fuel data",
                 "operationId": "940821f159ddea74752d9b8fa66e4425",
                 "parameters": [
                     {
@@ -1664,7 +1664,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+                "summary": "Import a JSON file to REPLACE existing data for all gas and maintenance tables",
                 "operationId": "c2cf79847926d431dfdae18976bd0610",
                 "requestBody": {
                     "required": true,
@@ -1736,7 +1736,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Export all Fuel and Maintenance data",
+                "summary": "Export all Fuel and Maintenance data",
                 "operationId": "c4a9864c942dbd132a25cac012b4ab2f",
                 "responses": {
                     "200": {
@@ -1766,7 +1766,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Maintenance List",
+                "summary": "Get Maintenance List",
                 "operationId": "95617463e356044c5c93842d6ab7c890",
                 "responses": {
                     "200": {
@@ -1810,7 +1810,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Maintenance Item",
+                "summary": "Get Maintenance Item",
                 "operationId": "f860fce9619d4b9ff20d2fcc6b438662",
                 "parameters": [
                     {
@@ -1867,7 +1867,7 @@
                 "tags": [
                     "Car"
                 ],
-                "summary": "Fourleaf API - Get Maintenance Parts List",
+                "summary": "Get Maintenance Parts List",
                 "operationId": "a1f8063d7ff7662b757db1be04f90737",
                 "responses": {
                     "200": {

@@ -26,7 +26,7 @@ class CarGasController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas",
-    summary: "Fourleaf API - Get Gas Overview",
+    summary: "Get Gas Overview",
     security: [["api-key" => []]],
     responses: [
       new OA\Response(
@@ -186,7 +186,7 @@ class CarGasController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/odo",
-    summary: "Fourleaf API - Get Odometer by Year",
+    summary: "Get Odometer by Year",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/car_get_odo_year"),
@@ -226,7 +226,7 @@ class CarGasController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/efficiency",
-    summary: "Fourleaf API - Get Gas Efficiency",
+    summary: "Get Gas Efficiency",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/car_get_gas_efficiency_type"),
@@ -277,7 +277,7 @@ class CarGasController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/prices",
-    summary: "Fourleaf API - Get Gas Prices",
+    summary: "Get Gas Prices",
     security: [["api-key" => []]],
     responses: [
       new OA\Response(
@@ -313,7 +313,7 @@ class CarGasController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/fuel",
-    summary: "Fourleaf API - Get Fuel List",
+    summary: "Get Fuel List",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(ref: "#/components/parameters/car_get_fuel_column"),
@@ -354,7 +354,7 @@ class CarGasController extends Controller {
   #[OA\Get(
     tags: ["Car"],
     path: "/api/gas/fuel/{gas_id}",
-    summary: "Fourleaf API - Get Fuel Item",
+    summary: "Get Fuel Item",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(
@@ -394,7 +394,7 @@ class CarGasController extends Controller {
 
   #[OA\Post(
     path: "/api/gas/fuel",
-    summary: "Fourleaf API - Add a Fuel data",
+    summary: "Add a Fuel data",
     security: [["api-key" => []]],
     tags: ["Car"],
     parameters: [
@@ -428,7 +428,7 @@ class CarGasController extends Controller {
   #[OA\Put(
     tags: ["Car"],
     path: "/api/gas/fuel/{gas_id}",
-    summary: "Fourleaf API - Edit a Fuel data",
+    summary: "Edit a Fuel data",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(
@@ -471,7 +471,7 @@ class CarGasController extends Controller {
   #[OA\Delete(
     tags: ["Car"],
     path: "/api/gas/fuel/{gas_id}",
-    summary: "Fourleaf API - Delete a Fuel data",
+    summary: "Delete a Fuel data",
     security: [["api-key" => []]],
     parameters: [
       new OA\Parameter(name: "gas_id", description: "Gas ID", in: "path", required: true, example: 1, schema: new OA\Schema(type: "integer", format: "int32")),
@@ -497,7 +497,7 @@ class CarGasController extends Controller {
   #[OA\Post(
     tags: ["Car"],
     path: "/api/gas/import",
-    summary: "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+    summary: "Import a JSON file to REPLACE existing data for all gas and maintenance tables",
     security: [["token" => [], "api-key" => []]],
     requestBody: new OA\RequestBody(
       required: true,
@@ -591,7 +591,7 @@ class CarGasController extends Controller {
   #[OA\Post(
     tags: ["Car"],
     path: "/api/gas/export",
-    summary: "Fourleaf API - Export all Fuel and Maintenance data",
+    summary: "Export all Fuel and Maintenance data",
     security: [["api-key" => []]],
     responses: [
       new OA\Response(response: 200, description: "OK", content: new OA\JsonContent(type: "string", format: "binary")),
