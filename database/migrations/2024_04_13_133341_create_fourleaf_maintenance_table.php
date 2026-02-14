@@ -14,7 +14,7 @@ return new class extends Migration {
 
       $table->date('date');
       $table->string('description');
-      $table->mediumInteger('odometer');
+      $table->mediumInteger('odometer')->nullable();
     });
   }
 
