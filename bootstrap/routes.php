@@ -9,6 +9,7 @@ use App\Middleware\ShouldHaveApiKey;
 
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 Route::pattern('uuid2', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+Route::pattern('id', '[0-9]+');
 Route::pattern('integer', '[0-9]+');
 Route::pattern('string', '[a-zA-z%0-9 ]+');
 Route::pattern('year', '^19\d{2}|2\d{3}$');
