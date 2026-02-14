@@ -48,11 +48,8 @@ class DatabaseSeeder extends Seeder {
       PartialSeeder::class,     // test data
       SequenceSeeder::class,    // test data
 
-      // Four leaf seeds
+      // Fourleaf seeds
       FourleafSettingsSeeder::class,
-      FourleafGasSeeder::class,
-      FourleafMaintenanceTypeSeeder::class,
-      FourleafMaintenanceSeeder::class,
       FourleafBillsElectricitySeeder::class,
 
       FourleafElectricitySeeder::class,     // test data
@@ -61,6 +58,11 @@ class DatabaseSeeder extends Seeder {
       PCComponentTypeSeeder::class,
       // PCOwnerSeeder::class,   // test data
       // PCSeeder::class,        // test data
+
+      // Car seeds
+      CarGasSeeder::class,
+      CarMaintenanceTypeSeeder::class,
+      CarMaintenanceSeeder::class,
     ]);
   }
 }

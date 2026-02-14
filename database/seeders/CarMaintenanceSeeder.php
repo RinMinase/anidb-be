@@ -4,11 +4,11 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Fourleaf\Models\Maintenance;
-use App\Fourleaf\Models\MaintenancePart;
-use App\Fourleaf\Models\MaintenanceType;
+use App\Models\CarMaintenance;
+use App\Models\CarMaintenancePart;
+use App\Models\CarMaintenanceType;
 
-class FourleafMaintenanceSeeder extends Seeder {
+class CarMaintenanceSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
@@ -48,11 +48,11 @@ class FourleafMaintenanceSeeder extends Seeder {
       ],
     ];
 
-    $maintenance_types = MaintenanceType::all()->toArray();
+    $maintenance_types = CarMaintenanceType::all()->toArray();
     $indexed_types = array_column($maintenance_types, null, 'type');
 
     foreach ($data as $item) {
-      $maintenance_id = Maintenance::insertGetId([
+      $maintenance_id = CarMaintenance::insertGetId([
         'date' => $item['date'],
         'description' => $item['description'],
         'odometer' => $item['odometer'],
@@ -62,15 +62,15 @@ class FourleafMaintenanceSeeder extends Seeder {
       foreach ($item['parts'] as $part) {
         $maintenace_type_id = $indexed_types[$part]['id'] ?? null;
         array_push($for_maintenance_part, [
-          'id_fourleaf_maintenance' => $maintenance_id,
-          'id_fourleaf_maintenance_type' => $maintenace_type_id,
+          'id_car_maintenance' => $maintenance_id,
+          'id_car_maintenance_type' => $maintenace_type_id,
         ]);
       }
 
-      MaintenancePart::insert($for_maintenance_part);
+      CarMaintenancePart::insert($for_maintenance_part);
     }
 
-    Maintenance::refreshAutoIncrements();
-    MaintenancePart::refreshAutoIncrements();
+    CarMaintenance::refreshAutoIncrements();
+    CarMaintenancePart::refreshAutoIncrements();
   }
 }

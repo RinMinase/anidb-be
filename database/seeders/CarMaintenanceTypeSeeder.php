@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Fourleaf\Models\MaintenancePart;
-use App\Fourleaf\Models\MaintenanceType;
+use App\Models\CarMaintenanceType;
 
-class FourleafMaintenanceTypeSeeder extends Seeder {
+class CarMaintenanceTypeSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
@@ -108,7 +107,7 @@ class FourleafMaintenanceTypeSeeder extends Seeder {
     ];
 
     foreach ($types as $key => $item) {
-      MaintenanceType::create([
+      CarMaintenanceType::create([
         'id' => $key + 1,
         'type' => $item['type'],
         'label' => $item['label'],
@@ -116,7 +115,5 @@ class FourleafMaintenanceTypeSeeder extends Seeder {
         'year' => $item['year'],
       ]);
     }
-
-    MaintenancePart::refreshAutoIncrements();
   }
 }

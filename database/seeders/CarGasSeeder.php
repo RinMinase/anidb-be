@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Fourleaf\Models\Gas;
+use App\Models\CarGas;
 
-class FourleafGasSeeder extends Seeder {
+class CarGasSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
@@ -905,7 +905,7 @@ class FourleafGasSeeder extends Seeder {
     ];
 
     foreach ($data as $item) {
-      Gas::create($item);
+      CarGas::create($item);
     }
   }
 }
