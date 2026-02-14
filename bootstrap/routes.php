@@ -64,32 +64,6 @@ Route::prefix('api')
     Route::prefix('fourleaf')
       ->group(function () {
 
-        Route::prefix('gas')
-          ->group(function () {
-            Route::get('', [\App\Fourleaf\Controllers\GasController::class, 'get']);
-            Route::get('guide', [\App\Fourleaf\Controllers\GasController::class, 'getGuide']);
-
-            Route::get('odo', [\App\Fourleaf\Controllers\GasController::class, 'getOdo']);
-            Route::get('efficiency', [\App\Fourleaf\Controllers\GasController::class, 'getEfficiency']);
-            Route::get('prices', [\App\Fourleaf\Controllers\GasController::class, 'getPrices']);
-
-            Route::get('fuel', [\App\Fourleaf\Controllers\GasController::class, 'getFuelList']);
-            Route::get('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'getFuel']);
-            Route::post('fuel', [\App\Fourleaf\Controllers\GasController::class, 'addFuel']);
-            Route::put('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'editFuel']);
-            Route::delete('fuel/{id}', [\App\Fourleaf\Controllers\GasController::class, 'deleteFuel']);
-
-            Route::get('maintenance', [\App\Fourleaf\Controllers\GasController::class, 'getMaintenanceList']);
-            Route::get('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'getMaintenance']);
-            Route::get('maintenance/parts', [\App\Fourleaf\Controllers\GasController::class, 'getMaintenanceParts']);
-            Route::post('maintenance', [\App\Fourleaf\Controllers\GasController::class, 'addMaintenance']);
-            Route::put('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'editMaintenance']);
-            Route::delete('maintenance/{id}', [\App\Fourleaf\Controllers\GasController::class, 'deleteMaintenance']);
-
-            Route::post('import', [\App\Fourleaf\Controllers\GasController::class, 'import']);
-            Route::post('export', [\App\Fourleaf\Controllers\GasController::class, 'export']);
-          });
-
         Route::prefix('electricity')
           ->group(function () {
             Route::get('', [\App\Fourleaf\Controllers\ElectricityController::class, 'get']);
@@ -371,6 +345,38 @@ Route::prefix('api')
                 Route::post('', [\App\Controllers\PCComponentTypeController::class, 'add']);
                 Route::put('{id}', [\App\Controllers\PCComponentTypeController::class, 'edit']);
                 Route::delete('{id}', [\App\Controllers\PCComponentTypeController::class, 'delete']);
+              });
+          });
+
+        Route::prefix('gas')
+          ->group(function () {
+            Route::get('', [\App\Controllers\CarGasController::class, 'get']);
+
+            Route::get('guide', [\App\Controllers\CarGasController::class, 'getGuide']);
+            Route::get('odo', [\App\Controllers\CarGasController::class, 'getOdo']);
+            Route::get('efficiency', [\App\Controllers\CarGasController::class, 'getEfficiency']);
+            Route::get('prices', [\App\Controllers\CarGasController::class, 'getPrices']);
+
+            Route::post('import', [\App\Controllers\GasController::class, 'import']);
+            Route::post('export', [\App\Controllers\GasController::class, 'export']);
+
+            Route::prefix('fuel')
+              ->group(function () {
+                Route::get('', [\App\Controllers\CarGasController::class, 'getFuelList']);
+                Route::get('{id}', [\App\Controllers\CarGasController::class, 'getFuel']);
+                Route::post('', [\App\Controllers\CarGasController::class, 'addFuel']);
+                Route::put('{id}', [\App\Controllers\CarGasController::class, 'editFuel']);
+                Route::delete('{id}', [\App\Controllers\CarGasController::class, 'deleteFuel']);
+              });
+
+            Route::prefix('maintenance')
+              ->group(function () {
+                Route::get('', [\App\Controllers\CarMaintenanceController::class, 'getMaintenanceList']);
+                Route::get('{id}', [\App\Controllers\CarMaintenanceController::class, 'getMaintenance']);
+                Route::post('', [\App\Controllers\CarMaintenanceController::class, 'addMaintenance']);
+                Route::put('{id}', [\App\Controllers\CarMaintenanceController::class, 'editMaintenance']);
+                Route::delete('{id}', [\App\Controllers\CarMaintenanceController::class, 'deleteMaintenance']);
+                Route::get('parts', [\App\Controllers\CarMaintenanceController::class, 'getMaintenanceParts']);
               });
           });
       });
