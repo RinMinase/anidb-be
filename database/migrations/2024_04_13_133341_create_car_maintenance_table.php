@@ -9,12 +9,12 @@ return new class extends Migration {
    * Run the migrations.
    */
   public function up(): void {
-    Schema::create('fourleaf_maintenance_types', function (Blueprint $table) {
+    Schema::create('car_maintenance', function (Blueprint $table) {
       $table->id();
-      $table->string('type');
-      $table->string('label');
-      $table->integer('km')->nullable();
-      $table->smallInteger('year')->nullable();
+
+      $table->date('date');
+      $table->string('description');
+      $table->mediumInteger('odometer')->nullable();
     });
   }
 
@@ -22,6 +22,6 @@ return new class extends Migration {
    * Reverse the migrations.
    */
   public function down(): void {
-    Schema::dropIfExists('fourleaf_maintenance_types');
+    Schema::dropIfExists('car_maintenance');
   }
 };

@@ -9,7 +9,7 @@ return new class extends Migration {
    * Run the migrations.
    */
   public function up(): void {
-    Schema::create('fourleaf_gas', function (Blueprint $table) {
+    Schema::create('car_gas', function (Blueprint $table) {
       $table->id();
 
       $table->date('date');
@@ -25,6 +25,6 @@ return new class extends Migration {
    * Reverse the migrations.
    */
   public function down(): void {
-    Schema::dropIfExists('fourleaf_gas');
+    Schema::dropIfExists('car_gas');
   }
 };
