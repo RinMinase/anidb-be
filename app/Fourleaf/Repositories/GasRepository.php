@@ -220,35 +220,39 @@ class GasRepository {
   }
 
   public function getMaintenance($id) {
-    return Maintenance::where('id', $id)->with('parts')->firstOrFail()->toArray();
+    return Maintenance::where('id', $id)->with('parts')->firstOrFail();
   }
 
   public function addMaintenance(array $values) {
-    $parts = $values['parts'];
+    $parts = $values['parts'] ?? [];
     unset($values['parts']);
 
-    $maintenance_id = Maintenance::insertGetId($values);
+    $maintenance = Maintenance::create($values);
+    $part_ids = MaintenanceType::whereIn('type', $parts)->pluck('id');
 
-    $maintenance_parts = [];
-    foreach ($parts as $key => $value) {
-      if ($value) {
-        array_push($maintenance_parts, $key);
-      }
-    }
+    $partsToSave = $part_ids->map(function ($id) {
+      return ['id_fourleaf_maintenance_type' => $id];
+    })->toArray();
 
-
-    foreach ($maintenance_parts as $part) {
-      MaintenancePart::create([
-        'id_fourleaf_maintenance' => $maintenance_id,
-        'part' => $part,
-      ]);
-    }
+    $maintenance->parts()->createMany($partsToSave);
   }
 
   public function editMaintenance(array $values, $id) {
-    return Maintenance::where('id', $id)
-      ->firstOrFail()
-      ->update($values);
+    $item = Maintenance::where('id', $id)->firstOrFail();
+
+    $parts = $values['parts'] ?? [];
+    unset($values['parts']);
+
+    $item->update($values);
+    $item->parts()->delete();
+
+    $part_ids = MaintenanceType::whereIn('type', $parts)->pluck('id');
+
+    $partsToSave = $part_ids->map(function ($id) {
+      return ['id_fourleaf_maintenance_type' => $id];
+    })->toArray();
+
+    $item->parts()->createMany($partsToSave);
   }
 
   public function deleteMaintenance($id) {
@@ -258,18 +262,7 @@ class GasRepository {
   }
 
   public function getMaintenanceParts() {
-    return [
-      'others',
-      'ac_coolant',
-      'battery',
-      'brake_fluid',
-      'engine_oil',
-      'power_steering_fluid',
-      'radiator_fluid',
-      'spark_plugs',
-      'tires',
-      'transmission',
-    ];
+    return MaintenanceType::select('type', 'label')->get()->toArray();
   }
 
   /**

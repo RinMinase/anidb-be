@@ -16,7 +16,6 @@ use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
 use App\Fourleaf\Requests\Gas\GetEfficiencyRequest;
 use App\Fourleaf\Requests\Gas\GetFuelRequest;
 use App\Fourleaf\Requests\Gas\GetOdoRequest;
-use App\Fourleaf\Requests\Gas\GetRequest;
 use App\Fourleaf\Resources\Gas\MaintenanceResource;
 
 class GasController extends Controller {
@@ -572,22 +571,21 @@ class GasController extends Controller {
   }
 
   public function addMaintenance(AddEditMaintenanceRequest $request) {
-    $this->gasRepository->addMaintenance($request->only('date', 'description', 'odometer', 'parts'));
+    $values = $request->only('date', 'description', 'odometer', 'parts');
+    $this->gasRepository->addMaintenance($values);
 
     return DefaultResponse::success();
   }
 
   public function editMaintenance(AddEditMaintenanceRequest $request, $id): JsonResponse {
-    $this->gasRepository->editMaintenance(
-      $request->only('date', 'part', 'odometer'),
-      $id,
-    );
+    $values = $request->only('date', 'description', 'odometer', 'parts');
+    $this->gasRepository->editMaintenance($values, $id);
 
     return DefaultResponse::success();
   }
 
   public function deleteMaintenance($id): JsonResponse {
-    $this->gasRepository->deleteFuel($id);
+    $this->gasRepository->deleteMaintenance($id);
 
     return DefaultResponse::success();
   }
@@ -617,7 +615,7 @@ class GasController extends Controller {
   )]
   public function getMaintenanceParts(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getMaintenanceParts()
+      'data' => $this->gasRepository->getMaintenanceParts(),
     ]);
   }
 

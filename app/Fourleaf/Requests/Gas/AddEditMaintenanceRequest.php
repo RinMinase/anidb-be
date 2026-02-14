@@ -11,17 +11,9 @@ class AddEditMaintenanceRequest extends FormRequest {
     return [
       'date' => ['required', 'string', 'date', 'before_or_equal:today'],
       'description' => ['required', 'string'],
-      'parts.ac_coolant' => ['required', 'boolean'],
-      'parts.battery' => ['required', 'boolean'],
-      'parts.brake_fluid' => ['required', 'boolean'],
-      'parts.engine_oil' => ['required', 'boolean'],
-      'parts.power_steering_fluid' => ['required', 'boolean'],
-      'parts.radiator_fluid' => ['required', 'boolean'],
-      'parts.spark_plugs' => ['required', 'boolean'],
-      'parts.tires' => ['required', 'boolean'],
-      'parts.transmission' => ['required', 'boolean'],
-      'parts.others' => ['required', 'boolean'],
-      'odometer' => ['required', 'integer', 'min:0'],
+      'odometer' => ['nullable', 'integer', 'min:0'],
+      'parts' => ['required', 'array', 'min:1'],
+      'parts.*' => ['string', 'distinct', 'exists:fourleaf_maintenance_types,type'],
     ];
   }
 
