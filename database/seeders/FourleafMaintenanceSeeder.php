@@ -44,7 +44,7 @@ class FourleafMaintenanceSeeder extends Seeder {
         'date' => '2026-02-08',
         'description' => 'PMS Labor',
         'odometer' => 19998,
-        'parts' => ['engine_oil', 'brake_sanding', 'engine_wash'],
+        'parts' => ['engine_oil', 'brake_sanding', 'engine_wash', 'spark_plugs'],
       ],
     ];
 
