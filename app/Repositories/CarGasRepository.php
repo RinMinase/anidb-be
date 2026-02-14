@@ -28,7 +28,7 @@ class CarGasRepository {
 
     $age_split = explode(',', $age, 2);
     $age_split_year = trim($age_split[0]);
-    $age_split_months = trim($age_split[1]);
+    $age_split_months = trim($age_split[1] ?? '');
 
     $mileage = CarGas::select('odometer')
       ->orderBy('date', 'desc')
