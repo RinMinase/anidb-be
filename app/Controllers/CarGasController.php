@@ -24,8 +24,8 @@ class CarGasController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas",
+    tags: ["Car"],
+    path: "/api/gas",
     summary: "Fourleaf API - Get Gas Overview",
     security: [["api-key" => []]],
     responses: [
@@ -184,12 +184,12 @@ class CarGasController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/odo",
+    tags: ["Car"],
+    path: "/api/gas/odo",
     summary: "Fourleaf API - Get Odometer by Year",
     security: [["api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_odo_year"),
+      new OA\Parameter(ref: "#/components/parameters/car_get_odo_year"),
     ],
     responses: [
       new OA\Response(
@@ -224,12 +224,12 @@ class CarGasController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/efficiency",
+    tags: ["Car"],
+    path: "/api/gas/efficiency",
     summary: "Fourleaf API - Get Gas Efficiency",
     security: [["api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_gas_efficiency_type"),
+      new OA\Parameter(ref: "#/components/parameters/car_get_gas_efficiency_type"),
     ],
     responses: [
       new OA\Response(
@@ -275,8 +275,8 @@ class CarGasController extends Controller {
 
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/prices",
+    tags: ["Car"],
+    path: "/api/gas/prices",
     summary: "Fourleaf API - Get Gas Prices",
     security: [["api-key" => []]],
     responses: [
@@ -311,15 +311,15 @@ class CarGasController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/fuel",
+    tags: ["Car"],
+    path: "/api/gas/fuel",
     summary: "Fourleaf API - Get Fuel List",
     security: [["api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_column"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_order"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_page"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_get_fuel_limit"),
+      new OA\Parameter(ref: "#/components/parameters/car_get_fuel_column"),
+      new OA\Parameter(ref: "#/components/parameters/car_get_fuel_order"),
+      new OA\Parameter(ref: "#/components/parameters/car_get_fuel_page"),
+      new OA\Parameter(ref: "#/components/parameters/car_get_fuel_limit"),
     ],
     responses: [
       new OA\Response(
@@ -331,7 +331,7 @@ class CarGasController extends Controller {
             new OA\Schema(ref: "#/components/schemas/Pagination"),
             new OA\Schema(
               properties: [
-                new OA\Property(property: "data", type: "array", items: new OA\Items(ref: "#/components/schemas/Gas")),
+                new OA\Property(property: "data", type: "array", items: new OA\Items(ref: "#/components/schemas/CarGas")),
               ]
             ),
           ]
@@ -352,8 +352,8 @@ class CarGasController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/fuel/{gas_id}",
+    tags: ["Car"],
+    path: "/api/gas/fuel/{gas_id}",
     summary: "Fourleaf API - Get Fuel Item",
     security: [["api-key" => []]],
     parameters: [
@@ -375,7 +375,7 @@ class CarGasController extends Controller {
             new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
             new OA\Schema(
               properties: [
-                new OA\Property(property: "data", ref: "#/components/schemas/Gas"),
+                new OA\Property(property: "data", ref: "#/components/schemas/CarGas"),
               ]
             ),
           ]
@@ -393,17 +393,17 @@ class CarGasController extends Controller {
   }
 
   #[OA\Post(
-    path: "/api/fourleaf/gas/fuel",
+    path: "/api/gas/fuel",
     summary: "Fourleaf API - Add a Fuel data",
     security: [["api-key" => []]],
-    tags: ["Fourleaf - Gas"],
+    tags: ["Car"],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled")
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_date"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_from_bars"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_to_bars"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_odometer"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_price_per_liter"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_liters_filled")
     ],
     responses: [
       new OA\Response(response: 200, ref: "#/components/responses/Success"),
@@ -426,8 +426,8 @@ class CarGasController extends Controller {
   }
 
   #[OA\Put(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/fuel/{gas_id}",
+    tags: ["Car"],
+    path: "/api/gas/fuel/{gas_id}",
     summary: "Fourleaf API - Edit a Fuel data",
     security: [["api-key" => []]],
     parameters: [
@@ -439,12 +439,12 @@ class CarGasController extends Controller {
         example: 1,
         schema: new OA\Schema(type: "integer", format: "int32")
       ),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_date"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"),
-      new OA\Parameter(ref: "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_date"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_from_bars"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_to_bars"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_odometer"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_price_per_liter"),
+      new OA\Parameter(ref: "#/components/parameters/car_add_edit_fuel_liters_filled"),
     ],
     responses: [
       new OA\Response(response: 200, ref: "#/components/responses/Success"),
@@ -469,8 +469,8 @@ class CarGasController extends Controller {
   }
 
   #[OA\Delete(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/fuel/{gas_id}",
+    tags: ["Car"],
+    path: "/api/gas/fuel/{gas_id}",
     summary: "Fourleaf API - Delete a Fuel data",
     security: [["api-key" => []]],
     parameters: [
@@ -495,8 +495,8 @@ class CarGasController extends Controller {
   }
 
   #[OA\Post(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/import",
+    tags: ["Car"],
+    path: "/api/gas/import",
     summary: "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
     security: [["token" => [], "api-key" => []]],
     requestBody: new OA\RequestBody(
@@ -589,8 +589,8 @@ class CarGasController extends Controller {
   }
 
   #[OA\Post(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/export",
+    tags: ["Car"],
+    path: "/api/gas/export",
     summary: "Fourleaf API - Export all Fuel and Maintenance data",
     security: [["api-key" => []]],
     responses: [

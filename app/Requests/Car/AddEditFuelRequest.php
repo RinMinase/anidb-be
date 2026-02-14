@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 #[OA\Parameter(
-  parameter: "fourleaf_gas_add_edit_fuel_date",
+  parameter: "car_add_edit_fuel_date",
   name: "date",
   in: "query",
   required: true,
@@ -16,34 +16,34 @@ use OpenApi\Attributes as OA;
   schema: new OA\Schema(type: "string")
 )]
 #[OA\Parameter(
-  parameter: "fourleaf_gas_add_edit_fuel_from_bars",
+  parameter: "car_add_edit_fuel_from_bars",
   name: "from_bars",
   in: "query",
   required: true,
   schema: new OA\Schema(type: "integer", format: "int32", minimum: 0, maximum: 9)
 )]
 #[OA\Parameter(
-  parameter: "fourleaf_gas_add_edit_fuel_to_bars",
+  parameter: "car_add_edit_fuel_to_bars",
   name: "to_bars",
   in: "query",
   required: true,
   schema: new OA\Schema(type: "integer", format: "int32", minimum: 0, maximum: 9)
 )]
 #[OA\Parameter(
-  parameter: "fourleaf_gas_add_edit_fuel_odometer",
+  parameter: "car_add_edit_fuel_odometer",
   name: "odometer",
   in: "query",
   required: true,
   schema: new OA\Schema(type: "integer", format: "int32", minimum: 0, maximum: 100000)
 )]
 #[OA\Parameter(
-  parameter: "fourleaf_gas_add_edit_fuel_price_per_liter",
+  parameter: "car_add_edit_fuel_price_per_liter",
   name: "price_per_liter",
   in: "query",
   schema: new OA\Schema(type: "number", minimum: 0, maximum: 150)
 )]
 #[OA\Parameter(
-  parameter: "fourleaf_gas_add_edit_fuel_liters_filled",
+  parameter: "car_add_edit_fuel_liters_filled",
   name: "liters_filled",
   in: "query",
   schema: new OA\Schema(type: "number", minimum: 0, maximum: 40)

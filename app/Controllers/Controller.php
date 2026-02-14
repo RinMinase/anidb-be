@@ -46,7 +46,7 @@ use OpenApi\Attributes as OA;
 #[OA\Tag(name: "Management")]
 #[OA\Tag(name: "Sequence")]
 #[OA\Tag(name: "PC")]
-#[OA\Tag(name: "Fourleaf - Gas")]
+#[OA\Tag(name: "Car")]
 #[OA\Tag(name: "Fourleaf - Electricity")]
 #[OA\Tag(name: "Fourleaf - Bills")]
 

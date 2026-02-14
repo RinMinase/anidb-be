@@ -13,7 +13,7 @@ use App\Enums\CarGasOrderColumnsEnum;
 class GetFuelRequest extends FormRequest {
 
   #[OA\Parameter(
-    parameter: "fourleaf_gas_get_fuel_column",
+    parameter: "car_get_fuel_column",
     name: "column",
     description: "Order - Column to order",
     in: "query",
@@ -21,14 +21,14 @@ class GetFuelRequest extends FormRequest {
     schema: new OA\Schema(type: "string", default: "odometer")
   )]
   #[OA\Parameter(
-    parameter: "fourleaf_gas_get_fuel_order",
+    parameter: "car_get_fuel_order",
     name: "order",
     description: "Order - Direction of order column",
     in: "query",
     schema: new OA\Schema(type: "string", default: "asc", enum: ["asc", "desc"])
   )]
   #[OA\Parameter(
-    parameter: "fourleaf_gas_get_fuel_page",
+    parameter: "car_get_fuel_page",
     name: "page",
     description: "Pagination - Page to query",
     in: "query",
@@ -36,7 +36,7 @@ class GetFuelRequest extends FormRequest {
     schema: new OA\Schema(type: "integer", format: "int32", default: 1, minimum: 1)
   )]
   #[OA\Parameter(
-    parameter: "fourleaf_gas_get_fuel_limit",
+    parameter: "car_get_fuel_limit",
     name: "limit",
     description: "Pagination - Page item limit",
     in: "query",

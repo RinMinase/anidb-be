@@ -10,7 +10,7 @@ use OpenApi\Attributes as OA;
 use App\Rules\YearRule;
 
 #[OA\Parameter(
-  parameter: "fourleaf_gas_get_odo_year",
+  parameter: "car_get_odo_year",
   name: "year",
   in: "query",
   required: true,

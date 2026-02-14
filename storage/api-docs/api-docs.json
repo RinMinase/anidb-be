@@ -928,6 +928,985 @@
                 ]
             }
         },
+        "/api/gas": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Gas Overview",
+                "operationId": "7224c1188d26f6cd9a784dd4963b36af",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "stats": {
+                                                            "properties": {
+                                                                "averageEfficiency": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "minimum": 0,
+                                                                    "example": 12.23
+                                                                },
+                                                                "lastEfficiency": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "minimum": 0,
+                                                                    "example": 12.23
+                                                                },
+                                                                "mileage": {
+                                                                    "type": "integer",
+                                                                    "format": "int32",
+                                                                    "minimum": 0,
+                                                                    "example": 1000
+                                                                },
+                                                                "age": {
+                                                                    "type": "string",
+                                                                    "example": "1 year, 2 months"
+                                                                },
+                                                                "kmPerMonth": {
+                                                                    "type": "number",
+                                                                    "format": "float",
+                                                                    "minimum": 0,
+                                                                    "example": 12.23
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "maintenance": {
+                                                            "properties": {
+                                                                "km": {
+                                                                    "properties": {
+                                                                        "engineOil": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "tires": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "sparkPlugs": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "year": {
+                                                                    "properties": {
+                                                                        "engineOil": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "battery": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "acCoolant": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        },
+                                                                        "tires": {
+                                                                            "type": "string",
+                                                                            "example": "normal"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "lastMaintenance": {
+                                                            "properties": {
+                                                                "km": {
+                                                                    "properties": {
+                                                                        "engineOil": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "tires": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "sparkPlugs": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "type": "string",
+                                                                            "example": "2024-01-01"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "year": {
+                                                                    "properties": {
+                                                                        "acCoolant": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "battery": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "brakeFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "engineOil": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "powerSteeringFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "radiatorFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "sparkPlugs": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "tires": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        },
+                                                                        "transmissionFluid": {
+                                                                            "properties": {
+                                                                                "date": {
+                                                                                    "type": "string",
+                                                                                    "example": "2024-01-01"
+                                                                                },
+                                                                                "odometer": {
+                                                                                    "type": "number",
+                                                                                    "maximum": 100000,
+                                                                                    "minimum": 0,
+                                                                                    "example": 2000
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/odo": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Odometer by Year",
+                "operationId": "748edb8e3ef96e1a4fef173dddaf4f76",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/car_get_odo_year"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer"
+                                                    },
+                                                    "example": [
+                                                        123,
+                                                        234
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/CarInvalidYearResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/efficiency": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Gas Efficiency",
+                "operationId": "76c6f103268d2cf2b92b1d98546893c6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/car_get_gas_efficiency_type"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "2020-10-20": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 12.23
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/prices": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Gas Prices",
+                "operationId": "30dd624b28ab1b5bd807cd6b4b7ca094",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "2020-10-20": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 12.23
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/fuel": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Fuel List",
+                "operationId": "0d03f6ae467104d9f0a7f54adf0274b0",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/car_get_fuel_column"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_get_fuel_order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_get_fuel_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_get_fuel_limit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/Pagination"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/CarGas"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Add a Fuel data",
+                "operationId": "e0fdd9dfd71fd0db606b0b3c1bbc154b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_from_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_to_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_odometer"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_price_per_liter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_liters_filled"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/fuel/{gas_id}": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Fuel Item",
+                "operationId": "e804ca3acd5ac7a7925e59beec15136b",
+                "parameters": [
+                    {
+                        "name": "gas_id",
+                        "in": "path",
+                        "description": "Gas ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/CarGas"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Edit a Fuel data",
+                "operationId": "77428fae1c61ba6bd8197f09f1152085",
+                "parameters": [
+                    {
+                        "name": "gas_id",
+                        "in": "path",
+                        "description": "Gas ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_from_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_to_bars"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_odometer"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_price_per_liter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/car_add_edit_fuel_liters_filled"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Delete a Fuel data",
+                "operationId": "940821f159ddea74752d9b8fa66e4425",
+                "parameters": [
+                    {
+                        "name": "gas_id",
+                        "in": "path",
+                        "description": "Gas ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/import": {
+            "post": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
+                "operationId": "c2cf79847926d431dfdae18976bd0610",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "gas": {
+                                                            "$ref": "#/components/schemas/DefaultImportSchema"
+                                                        },
+                                                        "maintenance": {
+                                                            "$ref": "#/components/schemas/DefaultImportSchema"
+                                                        },
+                                                        "maintenanceParts": {
+                                                            "$ref": "#/components/schemas/DefaultImportSchema"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/export": {
+            "post": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Export all Fuel and Maintenance data",
+                "operationId": "c4a9864c942dbd132a25cac012b4ab2f",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/maintenance": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Maintenance List",
+                "operationId": "95617463e356044c5c93842d6ab7c890",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/MaintenanceResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/maintenance/{maintenance_id}": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Maintenance Item",
+                "operationId": "f860fce9619d4b9ff20d2fcc6b438662",
+                "parameters": [
+                    {
+                        "name": "gas_maintenance_idid",
+                        "in": "path",
+                        "description": "Maintenance ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/MaintenanceResource"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/gas/maintenance/parts": {
+            "get": {
+                "tags": [
+                    "Car"
+                ],
+                "summary": "Fourleaf API - Get Maintenance Parts List",
+                "operationId": "a1f8063d7ff7662b757db1be04f90737",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "engine_oil"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/catalogs": {
             "get": {
                 "tags": [
@@ -7273,985 +8252,6 @@
                     }
                 ]
             }
-        },
-        "/api/fourleaf/gas": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Gas Overview",
-                "operationId": "d679f648d13aefed74254182e134b2d0",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "stats": {
-                                                            "properties": {
-                                                                "averageEfficiency": {
-                                                                    "type": "number",
-                                                                    "format": "float",
-                                                                    "minimum": 0,
-                                                                    "example": 12.23
-                                                                },
-                                                                "lastEfficiency": {
-                                                                    "type": "number",
-                                                                    "format": "float",
-                                                                    "minimum": 0,
-                                                                    "example": 12.23
-                                                                },
-                                                                "mileage": {
-                                                                    "type": "integer",
-                                                                    "format": "int32",
-                                                                    "minimum": 0,
-                                                                    "example": 1000
-                                                                },
-                                                                "age": {
-                                                                    "type": "string",
-                                                                    "example": "1 year, 2 months"
-                                                                },
-                                                                "kmPerMonth": {
-                                                                    "type": "number",
-                                                                    "format": "float",
-                                                                    "minimum": 0,
-                                                                    "example": 12.23
-                                                                }
-                                                            },
-                                                            "type": "object"
-                                                        },
-                                                        "maintenance": {
-                                                            "properties": {
-                                                                "km": {
-                                                                    "properties": {
-                                                                        "engineOil": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "tires": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "transmissionFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "brakeFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "radiatorFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "sparkPlugs": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "powerSteeringFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        }
-                                                                    },
-                                                                    "type": "object"
-                                                                },
-                                                                "year": {
-                                                                    "properties": {
-                                                                        "engineOil": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "transmissionFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "brakeFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "battery": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "radiatorFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "acCoolant": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "powerSteeringFluid": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        },
-                                                                        "tires": {
-                                                                            "type": "string",
-                                                                            "example": "normal"
-                                                                        }
-                                                                    },
-                                                                    "type": "object"
-                                                                }
-                                                            },
-                                                            "type": "object"
-                                                        },
-                                                        "lastMaintenance": {
-                                                            "properties": {
-                                                                "km": {
-                                                                    "properties": {
-                                                                        "engineOil": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        },
-                                                                        "tires": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        },
-                                                                        "transmissionFluid": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        },
-                                                                        "brakeFluid": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        },
-                                                                        "radiatorFluid": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        },
-                                                                        "sparkPlugs": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        },
-                                                                        "powerSteeringFluid": {
-                                                                            "type": "string",
-                                                                            "example": "2024-01-01"
-                                                                        }
-                                                                    },
-                                                                    "type": "object"
-                                                                },
-                                                                "year": {
-                                                                    "properties": {
-                                                                        "acCoolant": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "battery": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "brakeFluid": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "engineOil": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "powerSteeringFluid": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "radiatorFluid": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "sparkPlugs": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "tires": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        },
-                                                                        "transmissionFluid": {
-                                                                            "properties": {
-                                                                                "date": {
-                                                                                    "type": "string",
-                                                                                    "example": "2024-01-01"
-                                                                                },
-                                                                                "odometer": {
-                                                                                    "type": "number",
-                                                                                    "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
-                                                                                }
-                                                                            },
-                                                                            "type": "object"
-                                                                        }
-                                                                    },
-                                                                    "type": "object"
-                                                                }
-                                                            },
-                                                            "type": "object"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/odo": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Odometer by Year",
-                "operationId": "25279572a67e99915b2cca5d6ea21ed7",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_odo_year"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "integer"
-                                                    },
-                                                    "example": [
-                                                        123,
-                                                        234
-                                                    ]
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/FourleafGasInvalidYearResponse"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/efficiency": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Gas Efficiency",
-                "operationId": "378754f022bf5fa8c9b33d3f29727c86",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_gas_efficiency_type"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "2020-10-20": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "example": 12.23
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/prices": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Gas Prices",
-                "operationId": "b9b851ab51d2931d39b65ed58811e649",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "2020-10-20": {
-                                                            "type": "number",
-                                                            "format": "float",
-                                                            "example": 12.23
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/fuel": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Fuel List",
-                "operationId": "c4ee9498806a0964e9ed0346a39b3f74",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_column"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_order"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_get_fuel_limit"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/Pagination"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/Gas"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Add a Fuel data",
-                "operationId": "e25d12c1276da6fc5c57101568728425",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_date"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/fuel/{gas_id}": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Fuel Item",
-                "operationId": "3b3d16388887c027da419a963793991e",
-                "parameters": [
-                    {
-                        "name": "gas_id",
-                        "in": "path",
-                        "description": "Gas ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "$ref": "#/components/schemas/Gas"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Edit a Fuel data",
-                "operationId": "0b36eaf9f498957199fb70d625e42dc3",
-                "parameters": [
-                    {
-                        "name": "gas_id",
-                        "in": "path",
-                        "description": "Gas ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_date"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_from_bars"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_to_bars"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_odometer"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_price_per_liter"
-                    },
-                    {
-                        "$ref": "#/components/parameters/fourleaf_gas_add_edit_fuel_liters_filled"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Delete a Fuel data",
-                "operationId": "bcac675bc404d5af0b0ba7f2d80a9640",
-                "parameters": [
-                    {
-                        "name": "gas_id",
-                        "in": "path",
-                        "description": "Gas ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/Success"
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/NotFound"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/maintenance": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Maintenance List",
-                "operationId": "44916f5ade3fb9eb5495b025ad002dcc",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/MaintenanceResource"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/maintenance/{maintenance_id}": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Maintenance Item",
-                "operationId": "f186fe60ff25b37311e960d4d89fa3ec",
-                "parameters": [
-                    {
-                        "name": "gas_maintenance_idid",
-                        "in": "path",
-                        "description": "Maintenance ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        },
-                        "example": 1
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "$ref": "#/components/schemas/MaintenanceResource"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/maintenance/parts": {
-            "get": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Get Maintenance Parts List",
-                "operationId": "81be9c74a129358ca1d32a3d3a925a2f",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "engine_oil"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/import": {
-            "post": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Import a JSON file to REPLACE existing data for all gas and maintenance tables",
-                "operationId": "136b253cb7bbec22f1fdb7b9899d350f",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "file": {
-                                        "type": "string",
-                                        "format": "binary"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/components/schemas/DefaultSuccess"
-                                        },
-                                        {
-                                            "properties": {
-                                                "data": {
-                                                    "properties": {
-                                                        "gas": {
-                                                            "$ref": "#/components/schemas/DefaultImportSchema"
-                                                        },
-                                                        "maintenance": {
-                                                            "$ref": "#/components/schemas/DefaultImportSchema"
-                                                        },
-                                                        "maintenanceParts": {
-                                                            "$ref": "#/components/schemas/DefaultImportSchema"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/Unauthorized"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "token": [],
-                        "api-key": []
-                    }
-                ]
-            }
-        },
-        "/api/fourleaf/gas/export": {
-            "post": {
-                "tags": [
-                    "Fourleaf - Gas"
-                ],
-                "summary": "Fourleaf API - Export all Fuel and Maintenance data",
-                "operationId": "77a937a19a47bf2c640c74d6a74a33dc",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/Failed"
-                    }
-                },
-                "security": [
-                    {
-                        "api-key": []
-                    }
-                ]
-            }
         }
     },
     "components": {
@@ -8654,99 +8654,6 @@
                 },
                 "type": "object"
             },
-            "Gas": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 1
-                    },
-                    "date": {
-                        "type": "string",
-                        "example": "2020-10-20"
-                    },
-                    "fromBars": {
-                        "type": "integer",
-                        "format": "int32",
-                        "maximum": 9,
-                        "minimum": 0,
-                        "example": 1
-                    },
-                    "toBars": {
-                        "type": "integer",
-                        "format": "int32",
-                        "maximum": 9,
-                        "minimum": 0,
-                        "example": 1
-                    },
-                    "odometer": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": 0,
-                        "example": 1000
-                    },
-                    "pricePerLiter": {
-                        "type": "number",
-                        "format": "float",
-                        "minimum": 0,
-                        "example": 12.23
-                    },
-                    "litersFilled": {
-                        "type": "number",
-                        "format": "float",
-                        "minimum": 0,
-                        "example": 12.23
-                    }
-                },
-                "type": "object"
-            },
-            "MaintenancePart": {
-                "properties": {
-                    "date": {
-                        "type": "string",
-                        "example": "2020-10-20"
-                    },
-                    "part": {
-                        "type": "string",
-                        "example": "Engine Oil Change"
-                    },
-                    "odometer": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": 0,
-                        "example": 1000
-                    }
-                },
-                "type": "object"
-            },
-            "MaintenanceType": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 1
-                    },
-                    "type": {
-                        "type": "string",
-                        "example": "engine_oil"
-                    },
-                    "label": {
-                        "type": "string",
-                        "example": "Engine Oil"
-                    },
-                    "km": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 10000
-                    },
-                    "year": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 2000
-                    }
-                },
-                "type": "object"
-            },
             "FourleafSettings": {
                 "properties": {
                     "key": {
@@ -8756,66 +8663,6 @@
                     "value": {
                         "type": "string",
                         "example": "some value"
-                    }
-                },
-                "type": "object"
-            },
-            "MaintenancePartResource": {
-                "properties": {
-                    "type": {
-                        "type": "string",
-                        "example": "engine_oil"
-                    },
-                    "label": {
-                        "type": "string",
-                        "example": "Engine Oil"
-                    }
-                },
-                "type": "object"
-            },
-            "MaintenanceResource": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "date": {
-                        "type": "string",
-                        "example": "2020-10-20"
-                    },
-                    "description": {
-                        "type": "string",
-                        "example": "Engine Oil Change"
-                    },
-                    "odometer": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": 0,
-                        "example": 1000
-                    },
-                    "parts": {
-                        "description": "Array of Parts",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/MaintenancePartResource"
-                        }
-                    },
-                    "partSummaryKeys": {
-                        "description": "Array of Part types",
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "example": "engine_oil"
-                        }
-                    },
-                    "partSummaryLabels": {
-                        "description": "Array of Part labels",
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "example": "Engine Oil"
-                        }
                     }
                 },
                 "type": "object"
@@ -8866,6 +8713,99 @@
                     "description": {
                         "type": "string",
                         "example": "Sample Buckets"
+                    }
+                },
+                "type": "object"
+            },
+            "CarGas": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20"
+                    },
+                    "fromBars": {
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 9,
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "toBars": {
+                        "type": "integer",
+                        "format": "int32",
+                        "maximum": 9,
+                        "minimum": 0,
+                        "example": 1
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1000
+                    },
+                    "pricePerLiter": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 12.23
+                    },
+                    "litersFilled": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0,
+                        "example": 12.23
+                    }
+                },
+                "type": "object"
+            },
+            "CarMaintenancePart": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20"
+                    },
+                    "part": {
+                        "type": "string",
+                        "example": "Engine Oil Change"
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1000
+                    }
+                },
+                "type": "object"
+            },
+            "CarMaintenanceType": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "engine_oil"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Engine Oil"
+                    },
+                    "km": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 10000
+                    },
+                    "year": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 2000
                     }
                 },
                 "type": "object"
@@ -9231,6 +9171,66 @@
                     "premiered": {
                         "type": "string",
                         "example": "Winter 2020"
+                    }
+                },
+                "type": "object"
+            },
+            "MaintenancePartResource": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "example": "engine_oil"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Engine Oil"
+                    }
+                },
+                "type": "object"
+            },
+            "MaintenanceResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Engine Oil Change"
+                    },
+                    "odometer": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1000
+                    },
+                    "parts": {
+                        "description": "Array of Parts",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MaintenancePartResource"
+                        }
+                    },
+                    "partSummaryKeys": {
+                        "description": "Array of Part types",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "engine_oil"
+                        }
+                    },
+                    "partSummaryLabels": {
+                        "description": "Array of Part labels",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Engine Oil"
+                        }
                     }
                 },
                 "type": "object"
@@ -10068,6 +10068,29 @@
                     }
                 }
             },
+            "CarInvalidYearResponse": {
+                "description": "Car - Gas Invalid Year Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "example": {
+                            "status": 401,
+                            "message": "The year is invalid"
+                        }
+                    }
+                }
+            },
             "EntryGenreResponse": {
                 "description": "Invalid Genre Error",
                 "content": {
@@ -10246,29 +10269,6 @@
                         "example": {
                             "status": 400,
                             "message": "There was a problem in parsing your request"
-                        }
-                    }
-                }
-            },
-            "FourleafGasInvalidYearResponse": {
-                "description": "Fourleaf - Gas Invalid Year Error",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "properties": {
-                                "status": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                },
-                                "message": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        },
-                        "example": {
-                            "status": 401,
-                            "message": "The year is invalid"
                         }
                     }
                 }
@@ -10492,135 +10492,6 @@
                 },
                 "example": 1
             },
-            "fourleaf_gas_add_edit_fuel_date": {
-                "name": "date",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "2020-10-20"
-            },
-            "fourleaf_gas_add_edit_fuel_from_bars": {
-                "name": "from_bars",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "maximum": 9,
-                    "minimum": 0
-                }
-            },
-            "fourleaf_gas_add_edit_fuel_to_bars": {
-                "name": "to_bars",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "maximum": 9,
-                    "minimum": 0
-                }
-            },
-            "fourleaf_gas_add_edit_fuel_odometer": {
-                "name": "odometer",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "maximum": 100000,
-                    "minimum": 0
-                }
-            },
-            "fourleaf_gas_add_edit_fuel_price_per_liter": {
-                "name": "price_per_liter",
-                "in": "query",
-                "schema": {
-                    "type": "number",
-                    "maximum": 150,
-                    "minimum": 0
-                }
-            },
-            "fourleaf_gas_add_edit_fuel_liters_filled": {
-                "name": "liters_filled",
-                "in": "query",
-                "schema": {
-                    "type": "number",
-                    "maximum": 40,
-                    "minimum": 0
-                }
-            },
-            "fourleaf_gas_get_gas_efficiency_type": {
-                "name": "type",
-                "in": "query",
-                "schema": {
-                    "type": "string",
-                    "default": "last20data",
-                    "enum": [
-                        "last20data",
-                        "last12mos"
-                    ]
-                }
-            },
-            "fourleaf_gas_get_fuel_column": {
-                "name": "column",
-                "in": "query",
-                "description": "Order - Column to order",
-                "schema": {
-                    "type": "string",
-                    "default": "odometer"
-                },
-                "example": "odometer"
-            },
-            "fourleaf_gas_get_fuel_order": {
-                "name": "order",
-                "in": "query",
-                "description": "Order - Direction of order column",
-                "schema": {
-                    "type": "string",
-                    "default": "asc",
-                    "enum": [
-                        "asc",
-                        "desc"
-                    ]
-                }
-            },
-            "fourleaf_gas_get_fuel_page": {
-                "name": "page",
-                "in": "query",
-                "description": "Pagination - Page to query",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "default": 1,
-                    "minimum": 1
-                },
-                "example": 1
-            },
-            "fourleaf_gas_get_fuel_limit": {
-                "name": "limit",
-                "in": "query",
-                "description": "Pagination - Page item limit",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "default": 30,
-                    "maximum": 9999,
-                    "minimum": 1
-                },
-                "example": 30
-            },
-            "fourleaf_gas_get_odo_year": {
-                "name": "year",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "$ref": "#/components/schemas/YearSchema"
-                },
-                "example": "2020"
-            },
             "user_add_edit_username": {
                 "name": "username",
                 "in": "query",
@@ -10745,6 +10616,135 @@
                     "type": "string"
                 },
                 "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
+            },
+            "car_add_edit_fuel_date": {
+                "name": "date",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "2020-10-20"
+            },
+            "car_add_edit_fuel_from_bars": {
+                "name": "from_bars",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 9,
+                    "minimum": 0
+                }
+            },
+            "car_add_edit_fuel_to_bars": {
+                "name": "to_bars",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 9,
+                    "minimum": 0
+                }
+            },
+            "car_add_edit_fuel_odometer": {
+                "name": "odometer",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "maximum": 100000,
+                    "minimum": 0
+                }
+            },
+            "car_add_edit_fuel_price_per_liter": {
+                "name": "price_per_liter",
+                "in": "query",
+                "schema": {
+                    "type": "number",
+                    "maximum": 150,
+                    "minimum": 0
+                }
+            },
+            "car_add_edit_fuel_liters_filled": {
+                "name": "liters_filled",
+                "in": "query",
+                "schema": {
+                    "type": "number",
+                    "maximum": 40,
+                    "minimum": 0
+                }
+            },
+            "car_get_gas_efficiency_type": {
+                "name": "type",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "default": "last20data",
+                    "enum": [
+                        "last20data",
+                        "last12mos"
+                    ]
+                }
+            },
+            "car_get_fuel_column": {
+                "name": "column",
+                "in": "query",
+                "description": "Order - Column to order",
+                "schema": {
+                    "type": "string",
+                    "default": "odometer"
+                },
+                "example": "odometer"
+            },
+            "car_get_fuel_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column",
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "car_get_fuel_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "car_get_fuel_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 30,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 30
+            },
+            "car_get_odo_year": {
+                "name": "year",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
             },
             "catalog_add_edit_season": {
                 "name": "season",
@@ -12620,7 +12620,7 @@
             "name": "PC"
         },
         {
-            "name": "Fourleaf - Gas"
+            "name": "Car"
         },
         {
             "name": "Fourleaf - Electricity"

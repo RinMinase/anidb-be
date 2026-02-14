@@ -20,8 +20,8 @@ class CarMaintenanceController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/maintenance",
+    tags: ["Car"],
+    path: "/api/gas/maintenance",
     summary: "Fourleaf API - Get Maintenance List",
     security: [["api-key" => []]],
     responses: [
@@ -55,8 +55,8 @@ class CarMaintenanceController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/maintenance/{maintenance_id}",
+    tags: ["Car"],
+    path: "/api/gas/maintenance/{maintenance_id}",
     summary: "Fourleaf API - Get Maintenance Item",
     security: [["api-key" => []]],
     parameters: [
@@ -120,8 +120,8 @@ class CarMaintenanceController extends Controller {
   }
 
   #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/maintenance/parts",
+    tags: ["Car"],
+    path: "/api/gas/maintenance/parts",
     summary: "Fourleaf API - Get Maintenance Parts List",
     security: [["api-key" => []]],
     responses: [
