@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Feature\Fourleaf;
+namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use Tests\BaseTestCase;
 
-use App\Fourleaf\Models\Gas;
-use App\Fourleaf\Models\Maintenance;
-use App\Fourleaf\Models\MaintenancePart;
-use App\Fourleaf\Models\MaintenanceType;
+use App\Models\CarGas;
+use App\Models\CarMaintenance;
+use App\Models\CarMaintenancePart;
+use App\Models\CarMaintenanceType;
 
-class GasTest extends BaseTestCase {
+class CarTest extends BaseTestCase {
 
   // Backup related variables
   private $gas_backup = null;
@@ -40,32 +40,32 @@ class GasTest extends BaseTestCase {
 
   // Backup related tables
   private function setup_backup() {
-    $this->gas_backup = Gas::all()->toArray();
-    $this->maintenance_backup = Maintenance::all()->toArray();
-    $this->maintenance_part_backup = MaintenancePart::all()->toArray();
+    $this->gas_backup = CarGas::all()->toArray();
+    $this->maintenance_backup = CarMaintenance::all()->toArray();
+    $this->maintenance_part_backup = CarMaintenancePart::all()->toArray();
   }
 
   // Restore related tables
   private function setup_restore() {
-    Gas::truncate();
-    Gas::insert($this->gas_backup);
-    Gas::refreshAutoIncrements();
+    CarGas::truncate();
+    CarGas::insert($this->gas_backup);
+    CarGas::refreshAutoIncrements();
 
-    Maintenance::truncate(); // cascaded to maintenance parts
+    CarMaintenance::truncate(); // cascaded to maintenance parts
 
-    Maintenance::insert($this->maintenance_backup);
-    Maintenance::refreshAutoIncrements();
+    CarMaintenance::insert($this->maintenance_backup);
+    CarMaintenance::refreshAutoIncrements();
 
-    MaintenancePart::insert($this->maintenance_part_backup);
-    MaintenancePart::refreshAutoIncrements();
+    CarMaintenancePart::insert($this->maintenance_part_backup);
+    CarMaintenancePart::refreshAutoIncrements();
   }
 
   // Setup data for testing
   private function setup_config() {
-    Gas::truncate();
-    Maintenance::truncate();
+    CarGas::truncate();
+    CarMaintenance::truncate();
 
-    Gas::insert([
+    CarGas::insert([
       [
         'id' => $this->gas_id_1,
         'date' => $this->gas_date_1,
@@ -86,19 +86,19 @@ class GasTest extends BaseTestCase {
       ]
     ]);
 
-    Maintenance::insert([
+    CarMaintenance::insert([
       'id' => $this->maintenance_id_1,
       'date' => '2090-04-29',
       'description' => 'PMS Labor',
       'odometer' => 90_000,
     ]);
 
-    $engine_oil_id = MaintenanceType::where('type', 'engine_oil')->first()->id;
+    $engine_oil_id = CarMaintenanceType::where('type', 'engine_oil')->first()->id;
 
-    MaintenancePart::insert([
+    CarMaintenancePart::insert([
       'id' => $this->maintenance_part_id_1,
-      'id_fourleaf_maintenance' => $this->maintenance_id_1,
-      'id_fourleaf_maintenance_type' => $engine_oil_id,
+      'id_car_maintenance' => $this->maintenance_id_1,
+      'id_car_maintenance_type' => $engine_oil_id,
     ]);
   }
 
@@ -122,7 +122,7 @@ class GasTest extends BaseTestCase {
 
     $response = $this->withoutMiddleware()
       ->get(
-        '/api/fourleaf/gas?avg_efficiency_type=' .
+        '/api/gas?avg_efficiency_type=' .
           $avg_efficiency_type .
           '&efficiency_graph_type=' .
           $efficiency_graph_type
@@ -143,25 +143,8 @@ class GasTest extends BaseTestCase {
             'gas',
           ],
           'maintenance' => [
-            'km' => [
-              'engineOil',
-              'tires',
-              'transmissionFluid',
-              'brakeFluid',
-              'radiatorFluid',
-              'sparkPlugs',
-              'powerSteeringFluid',
-            ],
-            'year' => [
-              'engineOil',
-              'transmissionFluid',
-              'brakeFluid',
-              'battery',
-              'radiatorFluid',
-              'acCoolant',
-              'powerSteeringFluid',
-              'tires',
-            ],
+            'km',
+            'year',
           ],
           'lastMaintenance',
         ],
@@ -174,8 +157,8 @@ class GasTest extends BaseTestCase {
       Carbon::setTestNow(Carbon::parse('2023-05-20'));
       Config::set('app.vehicle_start_date', '2023-04-25');
 
-      Gas::truncate();
-      Gas::refreshAutoIncrements();
+      CarGas::truncate();
+      CarGas::refreshAutoIncrements();
 
       $test_data = [
         [
@@ -213,7 +196,7 @@ class GasTest extends BaseTestCase {
       ];
 
       foreach ($test_data as $item) {
-        Gas::create($item);
+        CarGas::create($item);
       }
 
       $avg_efficiency_type = 'all';
@@ -221,7 +204,7 @@ class GasTest extends BaseTestCase {
 
       $response = $this->withoutMiddleware()
         ->get(
-          '/api/fourleaf/gas?avg_efficiency_type=' .
+          '/api/gas?avg_efficiency_type=' .
             $avg_efficiency_type .
             '&efficiency_graph_type=' .
             $efficiency_graph_type
@@ -266,7 +249,7 @@ class GasTest extends BaseTestCase {
   public function test_should_get_all_fuel_data() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/fuel');
+    $response = $this->withoutMiddleware()->get('/api/gas/fuel');
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -310,7 +293,7 @@ class GasTest extends BaseTestCase {
 
     $test_column = 'price_per_liter';
 
-    $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/fuel?column=' . $test_column);
+    $response = $this->withoutMiddleware()->get('/api/gas/fuel?column=' . $test_column);
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -357,7 +340,7 @@ class GasTest extends BaseTestCase {
 
     $response = $this->withoutMiddleware()
       ->get(
-        '/api/fourleaf/gas/fuel?column=' . $test_column .
+        '/api/gas/fuel?column=' . $test_column .
           '&order=' . $test_order
       );
 
@@ -408,7 +391,7 @@ class GasTest extends BaseTestCase {
 
     $response = $this->withoutMiddleware()
       ->get(
-        '/api/fourleaf/gas/fuel?column=' . $test_column .
+        '/api/gas/fuel?column=' . $test_column .
           '&order=' . $test_order .
           '&page=' . $test_page .
           '&limit=' . $test_limit
@@ -452,7 +435,7 @@ class GasTest extends BaseTestCase {
 
     $response = $this->withoutMiddleware()
       ->get(
-        '/api/fourleaf/gas/fuel?column=' . $test_column .
+        '/api/gas/fuel?column=' . $test_column .
           '&order=' . $test_order .
           '&page=' . $test_page .
           '&limit=' . $test_limit
@@ -494,7 +477,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 123.45;
     $test_liters_filled = 12.34;
 
-    $response = $this->withoutMiddleware()->post('/api/fourleaf/gas/fuel', [
+    $response = $this->withoutMiddleware()->post('/api/gas/fuel', [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -505,7 +488,7 @@ class GasTest extends BaseTestCase {
 
     $response->assertStatus(200);
 
-    $actual = Gas::where('date', $test_date)->first();
+    $actual = CarGas::where('date', $test_date)->first();
 
     $this->assertEquals($test_date, $actual->date);
     $this->assertEquals($test_from_bars, $actual->from_bars);
@@ -523,7 +506,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 'string';
     $test_liters_filled = 'string';
 
-    $response = $this->withoutMiddleware()->post('/api/fourleaf/gas/fuel', [
+    $response = $this->withoutMiddleware()->post('/api/gas/fuel', [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -546,7 +529,7 @@ class GasTest extends BaseTestCase {
     $test_from_bars = 1;
     $test_to_bars = 999;
 
-    $response = $this->withoutMiddleware()->post('/api/fourleaf/gas/fuel', [
+    $response = $this->withoutMiddleware()->post('/api/gas/fuel', [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -571,7 +554,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 123.45;
     $test_liters_filled = 12.34;
 
-    $response = $this->withoutMiddleware()->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
+    $response = $this->withoutMiddleware()->put('/api/gas/fuel/' . $this->gas_id_1, [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -582,7 +565,7 @@ class GasTest extends BaseTestCase {
 
     $response->assertStatus(200);
 
-    $actual = Gas::where('date', $test_date)
+    $actual = CarGas::where('date', $test_date)
       ->where('odometer', $test_odometer)
       ->first();
 
@@ -602,7 +585,7 @@ class GasTest extends BaseTestCase {
     $test_price_per_liter = 'string';
     $test_liters_filled = 'string';
 
-    $response = $this->withoutMiddleware()->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
+    $response = $this->withoutMiddleware()->put('/api/gas/fuel/' . $this->gas_id_1, [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -625,7 +608,7 @@ class GasTest extends BaseTestCase {
     $test_from_bars = 1;
     $test_to_bars = 999;
 
-    $response = $this->withoutMiddleware()->put('/api/fourleaf/gas/fuel/' . $this->gas_id_1, [
+    $response = $this->withoutMiddleware()->put('/api/gas/fuel/' . $this->gas_id_1, [
       'date' => $test_date,
       'from_bars' => $test_from_bars,
       'to_bars' => $test_to_bars,
@@ -643,11 +626,11 @@ class GasTest extends BaseTestCase {
   public function test_should_delete_fuel_data_successfully() {
     $this->setup_config();
 
-    $response = $this->withoutMiddleware()->delete('/api/fourleaf/gas/fuel/' . $this->gas_id_1);
+    $response = $this->withoutMiddleware()->delete('/api/gas/fuel/' . $this->gas_id_1);
 
     $response->assertStatus(200);
 
-    $actual = Gas::where('id', $this->gas_id_1)->first();
+    $actual = CarGas::where('id', $this->gas_id_1)->first();
 
     $this->assertNull($actual);
   }
@@ -655,7 +638,7 @@ class GasTest extends BaseTestCase {
   public function test_should_not_delete_fuel_data_on_invalid_id() {
     $invalid_id = 100_000;
 
-    $response = $this->withoutMiddleware()->delete('/api/fourleaf/gas/fuel/' . $invalid_id);
+    $response = $this->withoutMiddleware()->delete('/api/gas/fuel/' . $invalid_id);
 
     $response->assertStatus(404);
   }
@@ -672,7 +655,7 @@ class GasTest extends BaseTestCase {
 
       $year = 2090;
 
-      $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $year);
+      $response = $this->withoutMiddleware()->get('/api/gas/odo?year=' . $year);
 
       $response->assertStatus(200)
         ->assertJsonStructure(['data']);
@@ -687,8 +670,8 @@ class GasTest extends BaseTestCase {
       // Mock date values
       Carbon::setTestNow(Carbon::parse('2023-12-31'));
 
-      Gas::truncate();
-      Gas::refreshAutoIncrements();
+      CarGas::truncate();
+      CarGas::refreshAutoIncrements();
 
       $test_data = [
         ['date' => '2021-12-30', 'from_bars' => 8, 'to_bars' => 8, 'odometer' => 100],
@@ -706,11 +689,11 @@ class GasTest extends BaseTestCase {
       ];
 
       foreach ($test_data as $item) {
-        Gas::create($item);
+        CarGas::create($item);
       }
 
       $year = 2022;
-      $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $year);
+      $response = $this->withoutMiddleware()->get('/api/gas/odo?year=' . $year);
 
       $expected_data = [50, 100, 0, 0, 0, 100, 200, 0, 0, 0, 0, 50];
 
@@ -730,7 +713,7 @@ class GasTest extends BaseTestCase {
 
       // No year passed
       $response = $this->withoutMiddleware()
-        ->get('/api/fourleaf/gas/odo')
+        ->get('/api/gas/odo')
         ->assertStatus(401);
 
       // Data is on year 2090
@@ -739,17 +722,17 @@ class GasTest extends BaseTestCase {
       $invalid_years = ['', 'invalid', false, true, 1800, 1899, 3000, 3100];
 
       foreach ($invalid_years_past as $key => $value) {
-        $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $value);
+        $response = $this->withoutMiddleware()->get('/api/gas/odo?year=' . $value);
         $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
       }
 
       foreach ($invalid_years_future as $key => $value) {
-        $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $value);
+        $response = $this->withoutMiddleware()->get('/api/gas/odo?year=' . $value);
         $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
       }
 
       foreach ($invalid_years as $key => $value) {
-        $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $value);
+        $response = $this->withoutMiddleware()->get('/api/gas/odo?year=' . $value);
         $this->assertEquals(401, $response['status'], 'Error in $key=' . $key);
       }
     } finally {
@@ -767,7 +750,7 @@ class GasTest extends BaseTestCase {
 
       $year = 2090;
 
-      $response = $this->withoutMiddleware()->get('/api/fourleaf/gas/odo?year=' . $year);
+      $response = $this->withoutMiddleware()->get('/api/gas/odo?year=' . $year);
 
       $response->assertStatus(200)
         ->assertJsonStructure(['data']);
@@ -784,7 +767,7 @@ class GasTest extends BaseTestCase {
     $this->setup_config();
 
     $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/gas/maintenance');
+      ->get('/api/gas/maintenance');
 
     $response->assertStatus(200)
       ->assertJsonStructure([
@@ -801,7 +784,7 @@ class GasTest extends BaseTestCase {
     $this->setup_config();
 
     $response = $this->withoutMiddleware()
-      ->get('/api/fourleaf/gas/maintenance/parts');
+      ->get('/api/gas/maintenance/parts');
 
     $response->assertStatus(200)
       ->assertJsonStructure(['data' => [[]]]);
