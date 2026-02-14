@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Controllers;
+namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -10,19 +10,17 @@ use App\Controllers\Controller;
 use App\Resources\DefaultResponse;
 use App\Requests\ImportRequest;
 
-use App\Fourleaf\Repositories\GasRepository;
-use App\Fourleaf\Requests\Gas\AddEditFuelRequest;
-use App\Fourleaf\Requests\Gas\AddEditMaintenanceRequest;
-use App\Fourleaf\Requests\Gas\GetEfficiencyRequest;
-use App\Fourleaf\Requests\Gas\GetFuelRequest;
-use App\Fourleaf\Requests\Gas\GetOdoRequest;
-use App\Fourleaf\Resources\Gas\MaintenanceResource;
+use App\Repositories\CarGasRepository;
+use App\Requests\Car\AddEditFuelRequest;
+use App\Requests\Car\GetEfficiencyRequest;
+use App\Requests\Car\GetFuelRequest;
+use App\Requests\Car\GetOdoRequest;
 
-class GasController extends Controller {
-  private GasRepository $gasRepository;
+class CarGasController extends Controller {
+  private CarGasRepository $carGasRepository;
 
-  public function __construct(GasRepository $gasRepository) {
-    $this->gasRepository = $gasRepository;
+  public function __construct(CarGasRepository $carGasRepository) {
+    $this->carGasRepository = $carGasRepository;
   }
 
   #[OA\Get(
@@ -178,7 +176,7 @@ class GasController extends Controller {
     ]
   )]
   public function get(): JsonResponse {
-    $data = $this->gasRepository->get();
+    $data = $this->carGasRepository->get();
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -213,12 +211,12 @@ class GasController extends Controller {
           ]
         )
       ),
-      new OA\Response(response: 401, ref: "#/components/responses/FourleafGasInvalidYearResponse"),
+      new OA\Response(response: 401, ref: "#/components/responses/CarInvalidYearResponse"),
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
   public function getOdo(GetOdoRequest $request): JsonResponse {
-    $data = $this->gasRepository->getOdo($request->get('year'));
+    $data = $this->carGasRepository->getOdo($request->get('year'));
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -268,7 +266,7 @@ class GasController extends Controller {
      * - "last12mos" - last 12 months (per month efficiency, averaged)
      */
 
-    $data = $this->gasRepository->getEfficiency($request->get('type'));
+    $data = $this->carGasRepository->getEfficiency($request->get('type'));
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -305,7 +303,7 @@ class GasController extends Controller {
     ]
   )]
   public function getPrices(): JsonResponse {
-    $data = $this->gasRepository->getPrices();
+    $data = $this->carGasRepository->getPrices();
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -343,7 +341,7 @@ class GasController extends Controller {
     ]
   )]
   public function getFuelList(GetFuelRequest $request): JsonResponse {
-    $data = $this->gasRepository->getFuelList(
+    $data = $this->carGasRepository->getFuelList(
       $request->only('column', 'order', 'limit', 'page')
     );
 
@@ -387,7 +385,7 @@ class GasController extends Controller {
     ]
   )]
   public function getFuel($id): JsonResponse {
-    $data = $this->gasRepository->getFuel($id);
+    $data = $this->carGasRepository->getFuel($id);
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -413,7 +411,7 @@ class GasController extends Controller {
     ]
   )]
   public function addFuel(AddEditFuelRequest $request): JsonResponse {
-    $this->gasRepository->addFuel(
+    $this->carGasRepository->addFuel(
       $request->only(
         'date',
         'from_bars',
@@ -455,7 +453,7 @@ class GasController extends Controller {
     ]
   )]
   public function editFuel(AddEditFuelRequest $request, $id): JsonResponse {
-    $this->gasRepository->editFuel(
+    $this->carGasRepository->editFuel(
       $request->only(
         'date',
         'from_bars',
@@ -485,137 +483,14 @@ class GasController extends Controller {
     ]
   )]
   public function deleteFuel($id): JsonResponse {
-    $this->gasRepository->deleteFuel($id);
+    $this->carGasRepository->deleteFuel($id);
 
     return DefaultResponse::success();
   }
 
-  #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/maintenance",
-    summary: "Fourleaf API - Get Maintenance List",
-    security: [["api-key" => []]],
-    responses: [
-      new OA\Response(
-        response: 200,
-        description: "Success",
-        content: new OA\JsonContent(
-          allOf: [
-            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
-            new OA\Schema(
-              properties: [
-                new OA\Property(
-                  property: "data",
-                  type: "array",
-                  items: new OA\Items(ref: "#/components/schemas/MaintenanceResource")
-                ),
-              ]
-            ),
-          ]
-        )
-      ),
-      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
-    ]
-  )]
-  public function getMaintenanceList(): JsonResponse {
+  public function getGuide(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => MaintenanceResource::collection(
-        $this->gasRepository->getMaintenanceList()
-      ),
-    ]);
-  }
-
-  #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/maintenance/{maintenance_id}",
-    summary: "Fourleaf API - Get Maintenance Item",
-    security: [["api-key" => []]],
-    parameters: [
-      new OA\Parameter(
-        name: "gas_maintenance_idid",
-        description: "Maintenance ID",
-        in: "path",
-        required: true,
-        example: 1,
-        schema: new OA\Schema(type: "integer", format: "int32")
-      ),
-    ],
-    responses: [
-      new OA\Response(
-        response: 200,
-        description: "Success",
-        content: new OA\JsonContent(
-          allOf: [
-            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
-            new OA\Schema(
-              properties: [
-                new OA\Property(
-                  property: "data",
-                  type: "array",
-                  items: new OA\Items(ref: "#/components/schemas/MaintenanceResource")
-                ),
-              ]
-            ),
-          ]
-        )
-      ),
-      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
-    ]
-  )]
-  public function getMaintenance($id): JsonResponse {
-    $data = $this->gasRepository->getMaintenance($id);
-
-    return DefaultResponse::success(null, [
-      'data' => new MaintenanceResource($data),
-    ]);
-  }
-
-  public function addMaintenance(AddEditMaintenanceRequest $request) {
-    $values = $request->only('date', 'description', 'odometer', 'parts');
-    $this->gasRepository->addMaintenance($values);
-
-    return DefaultResponse::success();
-  }
-
-  public function editMaintenance(AddEditMaintenanceRequest $request, $id): JsonResponse {
-    $values = $request->only('date', 'description', 'odometer', 'parts');
-    $this->gasRepository->editMaintenance($values, $id);
-
-    return DefaultResponse::success();
-  }
-
-  public function deleteMaintenance($id): JsonResponse {
-    $this->gasRepository->deleteMaintenance($id);
-
-    return DefaultResponse::success();
-  }
-
-  #[OA\Get(
-    tags: ["Fourleaf - Gas"],
-    path: "/api/fourleaf/gas/maintenance/parts",
-    summary: "Fourleaf API - Get Maintenance Parts List",
-    security: [["api-key" => []]],
-    responses: [
-      new OA\Response(
-        response: 200,
-        description: "Success",
-        content: new OA\JsonContent(
-          allOf: [
-            new OA\Schema(ref: "#/components/schemas/DefaultSuccess"),
-            new OA\Schema(
-              properties: [
-                new OA\Property(property: "data", type: "array", items: new OA\Items(type: "string", example: "engine_oil")),
-              ]
-            ),
-          ]
-        )
-      ),
-      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
-    ]
-  )]
-  public function getMaintenanceParts(): JsonResponse {
-    return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getMaintenanceParts(),
+      'data' => $this->carGasRepository->getGuide()
     ]);
   }
 
@@ -689,7 +564,7 @@ class GasController extends Controller {
         }
       }
 
-      $importCounts = $this->gasRepository->import($data->gas, $data->maintenance);
+      $importCounts = $this->carGasRepository->import($data->gas, $data->maintenance);
       $countGasData = $importCounts['gas'];
       $countMaintenanceData = $importCounts['maintenance'];
       $countMaintenancePartsData = $importCounts['parts'];
@@ -724,14 +599,8 @@ class GasController extends Controller {
     ]
   )]
   public function export(): BinaryFileResponse {
-    $data = $this->gasRepository->export();
+    $data = $this->carGasRepository->export();
 
     return response()->download($data['file'], $data['filename'], $data['headers']);
-  }
-
-  public function getGuide(): JsonResponse {
-    return DefaultResponse::success(null, [
-      'data' => $this->gasRepository->getGuide()
-    ]);
   }
 }

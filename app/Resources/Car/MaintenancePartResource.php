@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Resources\Gas;
+namespace App\Resources\Car;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;

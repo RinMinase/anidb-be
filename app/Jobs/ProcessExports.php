@@ -39,13 +39,13 @@ use App\Models\PCSetup;
 use App\Models\Priority;
 use App\Models\Quality;
 use App\Models\Sequence;
+use App\Models\CarGas;
+use App\Models\CarMaintenance;
+use App\Models\CarMaintenancePart;
+use App\Models\CarMaintenanceType;
 
 use App\Fourleaf\Models\BillsElectricity as FourleafBillsElectricity;
 use App\Fourleaf\Models\Electricity as FourleafElectricity;
-use App\Fourleaf\Models\Gas as FourleafGas;
-use App\Fourleaf\Models\Maintenance as FourleafMaintenance;
-use App\Fourleaf\Models\MaintenancePart as FourleafMaintenancePart;
-use App\Fourleaf\Models\MaintenanceType as FourleafMaintenanceType;
 use App\Fourleaf\Models\Settings as FourleafSettings;
 
 use App\Enums\ExportTypesEnum;
@@ -125,6 +125,10 @@ class ProcessExports implements ShouldQueue {
       'bucket_sim_infos',
       'bucket_sims',
       'buckets',
+      'car_gas',
+      'car_maintenance',
+      'car_maintenance_parts',
+      'car_maintenance_types',
       'catalogs',
       'codecs_audio',
       'codecs_video',
@@ -137,10 +141,6 @@ class ProcessExports implements ShouldQueue {
       'exports',
       'fourleaf_bills_electricity',
       'fourleaf_electricity',
-      'fourleaf_gas',
-      'fourleaf_maintenance',
-      'fourleaf_maintenance_parts',
-      'fourleaf_maintenance_types',
       'fourleaf_settings',
       'genres',
       'groups',
@@ -269,15 +269,17 @@ class ProcessExports implements ShouldQueue {
 
     $pc_setups = PCSetup::all()->toArray();
 
+    // Car
+    $car_gas = CarGas::all()->toArray();
+    $car_maintenance = CarMaintenance::all()->toArray();
+    $car_maintenance_parts = CarMaintenancePart::all()->toArray();
+    $car_maintenance_types = CarMaintenanceType::all()->toArray();
+
     // Fourleaf
     $hidden_columns = ['id'];
     $fourleaf_bills_electricity = FourleafBillsElectricity::all()->makeVisible($hidden_columns)->toArray();
 
     $fourleaf_electricity = FourleafElectricity::all()->toArray();
-    $fourleaf_gas = FourleafGas::all()->toArray();
-    $fourleaf_maintenance = FourleafMaintenance::all()->toArray();
-    $fourleaf_maintenance_parts = FourleafMaintenancePart::all()->toArray();
-    $fourleaf_maintenance_types = FourleafMaintenanceType::all()->toArray();
     $fourleaf_settings = FourleafSettings::all()->toArray();
 
     $data = [
@@ -312,12 +314,13 @@ class ProcessExports implements ShouldQueue {
       'pc_infos' => $pc_infos,
       'pc_setups' => $pc_setups,
 
+      'car_gas' => $car_gas,
+      'car_maintenance' => $car_maintenance,
+      'car_maintenance_parts' => $car_maintenance_parts,
+      'car_maintenance_types' => $car_maintenance_types,
+
       'fourleaf_bills_electricity' => $fourleaf_bills_electricity,
       'fourleaf_electricity' => $fourleaf_electricity,
-      'fourleaf_gas' => $fourleaf_gas,
-      'fourleaf_maintenance' => $fourleaf_maintenance,
-      'fourleaf_maintenance_parts' => $fourleaf_maintenance_parts,
-      'fourleaf_maintenance_types' => $fourleaf_maintenance_types,
       'fourleaf_settings' => $fourleaf_settings,
     ];
 

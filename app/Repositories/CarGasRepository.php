@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Repositories;
+namespace App\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-use App\Fourleaf\Exceptions\Gas\InvalidYearException;
+use App\Exceptions\Car\InvalidYearException;
 
-use App\Fourleaf\Models\Gas;
-use App\Fourleaf\Models\Maintenance;
-use App\Fourleaf\Models\MaintenancePart;
-use App\Fourleaf\Models\MaintenanceType;
+use App\Models\CarGas;
+use App\Models\CarMaintenance;
+use App\Models\CarMaintenancePart;
+use App\Models\CarMaintenanceType;
 
-class GasRepository {
+class CarGasRepository {
   /**
    * Overview Function
    */
@@ -30,7 +30,7 @@ class GasRepository {
     $age_split_year = trim($age_split[0]);
     $age_split_months = trim($age_split[1]);
 
-    $mileage = Gas::select('odometer')
+    $mileage = CarGas::select('odometer')
       ->orderBy('date', 'desc')
       ->first()
       ->odometer;
@@ -86,7 +86,7 @@ class GasRepository {
   }
 
   public function getGuide() {
-    $types = MaintenanceType::all()->toArray();
+    $types = CarMaintenanceType::all()->toArray();
 
     $kms = [];
     $years = [];
@@ -168,7 +168,7 @@ class GasRepository {
     $page = isset($params['page']) ? intval($params['page']) : 1;
     $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
 
-    $gas = Gas::orderBy($column, $order)
+    $gas = CarGas::orderBy($column, $order)
       ->orderBy('id', 'asc');
 
     $total = $gas->count();
@@ -192,77 +192,23 @@ class GasRepository {
   }
 
   public function getFuel($id) {
-    return Gas::where('id', $id)->firstOrFail()->toArray();
+    return CarGas::where('id', $id)->firstOrFail()->toArray();
   }
 
   public function addFuel(array $values) {
-    return Gas::create($values);
+    return CarGas::create($values);
   }
 
   public function editFuel(array $values, $id) {
-    return Gas::where('id', $id)
+    return CarGas::where('id', $id)
       ->firstOrFail()
       ->update($values);
   }
 
   public function deleteFuel($id) {
-    return Gas::where('id', $id)
+    return CarGas::where('id', $id)
       ->firstOrFail()
       ->delete();
-  }
-
-  /**
-   * Maintenance Functions
-   */
-
-  public function getMaintenanceList() {
-    return Maintenance::with('parts')->get();
-  }
-
-  public function getMaintenance($id) {
-    return Maintenance::where('id', $id)->with('parts')->firstOrFail();
-  }
-
-  public function addMaintenance(array $values) {
-    $parts = $values['parts'] ?? [];
-    unset($values['parts']);
-
-    $maintenance = Maintenance::create($values);
-    $part_ids = MaintenanceType::whereIn('type', $parts)->pluck('id');
-
-    $partsToSave = $part_ids->map(function ($id) {
-      return ['id_fourleaf_maintenance_type' => $id];
-    })->toArray();
-
-    $maintenance->parts()->createMany($partsToSave);
-  }
-
-  public function editMaintenance(array $values, $id) {
-    $item = Maintenance::where('id', $id)->firstOrFail();
-
-    $parts = $values['parts'] ?? [];
-    unset($values['parts']);
-
-    $item->update($values);
-    $item->parts()->delete();
-
-    $part_ids = MaintenanceType::whereIn('type', $parts)->pluck('id');
-
-    $partsToSave = $part_ids->map(function ($id) {
-      return ['id_fourleaf_maintenance_type' => $id];
-    })->toArray();
-
-    $item->parts()->createMany($partsToSave);
-  }
-
-  public function deleteMaintenance($id) {
-    return Maintenance::where('id', $id)
-      ->firstOrFail()
-      ->delete();
-  }
-
-  public function getMaintenanceParts() {
-    return MaintenanceType::select('type', 'label')->get()->toArray();
   }
 
   /**
@@ -292,20 +238,20 @@ class GasRepository {
       }
     }
 
-    Gas::truncate();
-    Gas::refreshAutoIncrements();
-    Gas::insert($import_gas);
-    Gas::refreshAutoIncrements();
+    CarGas::truncate();
+    CarGas::refreshAutoIncrements();
+    CarGas::insert($import_gas);
+    CarGas::refreshAutoIncrements();
 
     $count_maintenance = 0;
     $count_maintenance_parts = 0;
 
-    $maintenance_types = MaintenanceType::all();
+    $maintenance_types = CarMaintenanceType::all();
 
-    Maintenance::truncate();
-    MaintenancePart::truncate();
+    CarMaintenance::truncate();
+    CarMaintenancePart::truncate();
 
-    Maintenance::refreshAutoIncrements();
+    CarMaintenance::refreshAutoIncrements();
 
     foreach ($maintenance as $item) {
       $is_valid_entry = !empty($item->date) &&
@@ -329,13 +275,13 @@ class GasRepository {
           if ($partial_type) array_push($data_types, $partial_type->id);
         }
 
-        $partial_data_id = Maintenance::insertGetId($data);
+        $partial_data_id = CarMaintenance::insertGetId($data);
         $count_maintenance++;
 
         foreach ($data_types as $proper_part_id) {
-          MaintenancePart::create([
-            'id_fourleaf_maintenance' => $partial_data_id,
-            'id_fourleaf_maintenance_type' => $proper_part_id,
+          CarMaintenancePart::create([
+            'id_car_maintenance' => $partial_data_id,
+            'id_car_maintenance_type' => $proper_part_id,
           ]);
 
           $count_maintenance_parts++;
@@ -343,7 +289,7 @@ class GasRepository {
       }
     }
 
-    Maintenance::refreshAutoIncrements();
+    CarMaintenance::refreshAutoIncrements();
 
     return [
       'gas' => count($import_gas),
@@ -353,31 +299,31 @@ class GasRepository {
   }
 
   public function export() {
-    $gas_data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'price_per_liter', 'liters_filled')
+    $gas_data = CarGas::select('date', 'from_bars', 'to_bars', 'odometer', 'price_per_liter', 'liters_filled')
       ->get()
       ->toArray();
 
-    $maintenance_data = Maintenance::select('date', 'description', 'odometer')
-      ->addSelect(DB::raw('\'[\' || string_agg(fourleaf_maintenance_types.type, \', \') || \']\' AS raw_parts'))
+    $maintenance_data = CarMaintenance::select('date', 'description', 'odometer')
+      ->addSelect(DB::raw('\'[\' || string_agg(car_maintenance_types.type, \', \') || \']\' AS raw_parts'))
       ->leftJoin(
-        'fourleaf_maintenance_parts',
-        'fourleaf_maintenance_parts.id_fourleaf_maintenance',
+        'car_maintenance_parts',
+        'car_maintenance_parts.id_car_maintenance',
         '=',
-        'fourleaf_maintenance.id'
+        'car_maintenance.id'
       )
       ->leftJoin(
-        'fourleaf_maintenance_types',
-        'fourleaf_maintenance_types.id',
+        'car_maintenance_types',
+        'car_maintenance_types.id',
         '=',
-        'fourleaf_maintenance_parts.id_fourleaf_maintenance_type'
+        'car_maintenance_parts.id_car_maintenance_type'
       )
       ->groupBy(
-        'fourleaf_maintenance.id',
-        'fourleaf_maintenance.date',
-        'fourleaf_maintenance.description',
-        'fourleaf_maintenance.odometer'
+        'car_maintenance.id',
+        'car_maintenance.date',
+        'car_maintenance.description',
+        'car_maintenance.odometer'
       )
-      ->orderBy('fourleaf_maintenance.id')
+      ->orderBy('car_maintenance.id')
       ->get()
       ->toArray();
 
@@ -470,7 +416,7 @@ class GasRepository {
   private function calculateMaintenanceStatus(int $mileage) {
     $ageYears = $this->calculateAgeYears();
 
-    $maintenance_types = MaintenanceType::all()->toArray();
+    $maintenance_types = CarMaintenanceType::all()->toArray();
     $maintenance = ['km' => [], 'year' => []];
     $limits = ['km' => [], 'year' => []];
 
@@ -527,7 +473,7 @@ class GasRepository {
   private function calculateEfficiencyList(string $avg_efficiency_type): array {
     $data = [];
 
-    $data = Gas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled');
+    $data = CarGas::select('date', 'from_bars', 'to_bars', 'odometer', 'liters_filled');
 
     if ($avg_efficiency_type === 'last20data') {
       $data = $data->orderBy('date', 'desc')
@@ -649,7 +595,7 @@ class GasRepository {
   }
 
   private function calculateOdometerPerMonth(int $year) {
-    $min_year = Gas::select(DB::raw('min(date)'))->firstOrFail();
+    $min_year = CarGas::select(DB::raw('min(date)'))->firstOrFail();
     $min_year = Carbon::parse($min_year['min'])->year;
     $max_year = Carbon::now()->year;
 
@@ -660,7 +606,7 @@ class GasRepository {
     $start_date = Carbon::createFromDate($year)->startOfYear()->subMonths(3)->startOfMonth();
     $end_date = Carbon::createFromDate($year)->endOfYear();
 
-    $odo_data = Gas::select(DB::raw('date_trunc(\'month\', date) as txn_month'))
+    $odo_data = CarGas::select(DB::raw('date_trunc(\'month\', date) as txn_month'))
       ->addselect(DB::raw('min(odometer) as min_odo'))
       ->addselect(DB::raw('max(odometer) as max_odo'))
       ->where('date', '>=', $start_date)
@@ -707,7 +653,7 @@ class GasRepository {
   private function calculateGasList(): array {
     $gas_list = [];
 
-    $data = Gas::select('date', 'price_per_liter')
+    $data = CarGas::select('date', 'price_per_liter')
       ->whereNotNull('price_per_liter')
       ->orderBy('date', 'desc')
       ->limit(20)
@@ -720,61 +666,5 @@ class GasRepository {
     }
 
     return $gas_list;
-  }
-
-  private function fetchLastMaintenanceDates(): array {
-    $last_maintenance = MaintenancePart::select('part')
-      ->addselect(DB::raw('max(odometer) as odometer'))
-      ->addselect(DB::raw('max(date) as date'))
-      ->leftJoin('fourleaf_maintenance', function ($join) {
-        $join->on(
-          'fourleaf_maintenance_parts.id_fourleaf_maintenance',
-          '=',
-          'fourleaf_maintenance.id',
-        );
-      })
-      ->groupBy('part')
-      ->orderBy('part', 'asc')
-      ->get()
-      ->keyBy('part');
-
-    return [
-      'ac_coolant' => [
-        'date' => $last_maintenance->get('ac_coolant') ? $last_maintenance->get('ac_coolant')->date : null,
-        'odometer' => $last_maintenance->get('ac_coolant') ? $last_maintenance->get('ac_coolant')->odometer : null,
-      ],
-      'battery' => [
-        'date' => $last_maintenance->get('battery') ? $last_maintenance->get('battery')->date : null,
-        'odometer' => $last_maintenance->get('battery') ? $last_maintenance->get('battery')->odometer : null,
-      ],
-      'brake_fluid' => [
-        'date' => $last_maintenance->get('brake_fluid') ? $last_maintenance->get('brake_fluid')->date : null,
-        'odometer' => $last_maintenance->get('brake_fluid') ? $last_maintenance->get('brake_fluid')->odometer : null,
-      ],
-      'engine_oil' => [
-        'date' => $last_maintenance->get('engine_oil') ? $last_maintenance->get('engine_oil')->date : null,
-        'odometer' => $last_maintenance->get('engine_oil') ? $last_maintenance->get('engine_oil')->odometer : null,
-      ],
-      'power_steering_fluid' => [
-        'date' => $last_maintenance->get('power_steering_fluid') ? $last_maintenance->get('power_steering_fluid')->date : null,
-        'odometer' => $last_maintenance->get('power_steering_fluid') ? $last_maintenance->get('power_steering_fluid')->odometer : null,
-      ],
-      'radiator_fluid' => [
-        'date' => $last_maintenance->get('radiator_fluid') ? $last_maintenance->get('radiator_fluid')->date : null,
-        'odometer' => $last_maintenance->get('radiator_fluid') ? $last_maintenance->get('radiator_fluid')->odometer : null,
-      ],
-      'spark_plugs' => [
-        'date' => $last_maintenance->get('spark_plugs') ? $last_maintenance->get('spark_plugs')->date : null,
-        'odometer' => $last_maintenance->get('spark_plugs') ? $last_maintenance->get('spark_plugs')->odometer : null,
-      ],
-      'tires' => [
-        'date' => $last_maintenance->get('tires') ? $last_maintenance->get('tires')->date : null,
-        'odometer' => $last_maintenance->get('tires') ? $last_maintenance->get('tires')->odometer : null,
-      ],
-      'transmission_fluid' => [
-        'date' => $last_maintenance->get('transmission_fluid') ? $last_maintenance->get('transmission_fluid')->date : null,
-        'odometer' => $last_maintenance->get('transmission_fluid') ? $last_maintenance->get('transmission_fluid')->odometer : null,
-      ],
-    ];
   }
 }

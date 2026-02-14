@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Fourleaf\Enums;
+namespace App\Enums;
 
-enum GetGasOrderColumnsEnum: string {
+enum CarGasOrderColumnsEnum: string {
   case DATE = 'date';
   case ODOMETER = 'odometer';
   case PRICE_PER_LITER = 'price_per_liter';

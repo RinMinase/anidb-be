@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Fourleaf\Enums;
+namespace App\Enums;
 
-enum AvgEfficiencyTypeEnum: string {
+enum CarAvgEfficiencyTypeEnum: string {
   case ALL = 'all';
   case LAST5 = 'last5';
   case LAST10 = 'last10';

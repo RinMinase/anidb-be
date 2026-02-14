@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Requests\Gas;
+namespace App\Requests\Car;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

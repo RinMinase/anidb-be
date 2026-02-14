@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Fourleaf\Exceptions\Gas;
+namespace App\Exceptions\Car;
 
 use OpenApi\Attributes as OA;
 
 use App\Exceptions\CustomException;
 
 #[OA\Response(
-  response: "FourleafGasInvalidYearResponse",
+  response: "CarInvalidYearResponse",
   description: "Fourleaf - Gas Invalid Year Error",
   content: new OA\JsonContent(
     example: ["status" => 401, "message" => "The year is invalid"],

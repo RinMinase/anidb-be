@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Requests\Gas;
+namespace App\Requests\Car;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +13,7 @@ class AddEditMaintenanceRequest extends FormRequest {
       'description' => ['required', 'string'],
       'odometer' => ['nullable', 'integer', 'min:0'],
       'parts' => ['required', 'array', 'min:1'],
-      'parts.*' => ['string', 'distinct', 'exists:fourleaf_maintenance_types,type'],
+      'parts.*' => ['string', 'distinct', 'exists:car_maintenance_types,type'],
     ];
   }
 

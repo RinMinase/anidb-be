@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Fourleaf\Enums;
+namespace App\Enums;
 
-enum EfficiencyGraphTypeEnum: string {
+enum CarEfficiencyGraphTypeEnum: string {
   case LAST20DATA = 'last20data';
   case LAST12MOS = 'last12mos';
 }

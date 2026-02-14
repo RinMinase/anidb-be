@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Requests\Gas;
+namespace App\Requests\Car;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,7 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
 use OpenApi\Attributes as OA;
 
-use App\Fourleaf\Enums\GetGasOrderColumnsEnum;
+use App\Enums\CarGasOrderColumnsEnum;
 
 class GetFuelRequest extends FormRequest {
 
@@ -45,7 +45,7 @@ class GetFuelRequest extends FormRequest {
   )]
   public function rules() {
     return [
-      'column' => [new Enum(GetGasOrderColumnsEnum::class)],
+      'column' => [new Enum(CarGasOrderColumnsEnum::class)],
       'order' => ['in:asc,desc,ASC,DESC'],
       'page' => ['integer', 'min:1'],
       'limit' => ['integer', 'min:1', 'max:9999'],
