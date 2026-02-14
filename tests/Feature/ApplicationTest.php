@@ -45,8 +45,8 @@ class ApplicationTest extends BaseTestCase {
   }
 
   public function test_routes_should_not_be_accessible_when_not_authenticated() {
-    $id = -1;
-    $integer = 1;
+    $id = 9999999999;
+    $integer = 9999999999;
     $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
     $uuid2 = '9b693f7c-bc6f-4c1d-b5b2-342f1d6d6004';
     $string = 'searchstring';
@@ -105,6 +105,7 @@ class ApplicationTest extends BaseTestCase {
       if (str_contains($uri, 'api/') && !str_contains($uri, 'api/fourleaf/')) {
         $uri = str_replace('{uuid}', $uuid, $uri);
         $uri = str_replace('{id}', $id, $uri);
+        $uri = str_replace('{id?}', $id, $uri);
         $uri = str_replace('{integer}', $id, $uri);
 
         array_push($put_routes, '/' . $uri);
@@ -161,7 +162,7 @@ class ApplicationTest extends BaseTestCase {
   }
 
   public function test_fourleaf_routes_should_be_accessible() {
-    $id = -1;
+    $id = 9999999999;
     $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
 
     $raw_routes = Route::getRoutes()->getRoutesByMethod();
@@ -175,11 +176,6 @@ class ApplicationTest extends BaseTestCase {
       $uri = $route->uri();
 
       if (str_contains($uri, 'api/fourleaf')) {
-        if (str_contains($uri, 'gas/odo')) {
-          // skip odo route due to parameters
-          continue;
-        }
-
         array_push($get_routes, '/' . $uri);
       }
     }
@@ -188,11 +184,6 @@ class ApplicationTest extends BaseTestCase {
       $uri = $route->uri();
 
       if (str_contains($uri, 'api/fourleaf')) {
-        if (str_contains($uri, 'gas/export')) {
-          // skip export route due to binary output
-          continue;
-        }
-
         array_push($post_routes, '/' . $uri);
       }
     }
@@ -264,7 +255,7 @@ class ApplicationTest extends BaseTestCase {
   }
 
   public function test_fourleaf_routes_should_not_be_accessible_without_api_key() {
-    $id = -1;
+    $id = 9999999999;
     $uuid = 'b02f89f8-794d-4eba-a5f8-5d09fc3d741d';
 
     $raw_routes = Route::getRoutes()->getRoutesByMethod();
