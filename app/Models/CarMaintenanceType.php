@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OA;
@@ -16,11 +16,11 @@ use App\Models\Traits\RefreshableAutoIncrements;
     new OA\Property(property: "year", type: "integer", format: "int32", example: 2000),
   ]
 )]
-class MaintenanceType extends Model {
+class CarMaintenanceType extends Model {
 
   use RefreshableAutoIncrements;
 
-  protected $table = 'fourleaf_maintenance_types';
+  protected $table = 'car_maintenance_types';
   public $timestamps = null;
 
   protected $fillable = [

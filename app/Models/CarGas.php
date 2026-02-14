@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OA;
@@ -18,11 +18,11 @@ use App\Models\Traits\RefreshableAutoIncrements;
     new OA\Property(property: "litersFilled", type: "number", format: "float", minimum: 0, example: 12.23),
   ]
 )]
-class Gas extends Model {
+class CarGas extends Model {
 
   use RefreshableAutoIncrements;
 
-  protected $table = 'fourleaf_gas';
+  protected $table = 'car_gas';
   public $timestamps = null;
 
   protected $fillable = [

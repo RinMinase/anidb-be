@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Fourleaf\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Traits\RefreshableAutoIncrements;
 
-class Maintenance extends Model {
+class CarMaintenance extends Model {
 
   use RefreshableAutoIncrements;
 
-  protected $table = 'fourleaf_maintenance';
+  protected $table = 'car_maintenance';
   public $timestamps = null;
 
   protected $fillable = [
@@ -22,6 +22,6 @@ class Maintenance extends Model {
   protected $hidden = [];
 
   public function parts() {
-    return $this->hasMany(MaintenancePart::class, 'id_fourleaf_maintenance');
+    return $this->hasMany(CarMaintenancePart::class, 'id_car_maintenance');
   }
 }

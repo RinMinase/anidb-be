@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Fourleaf\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use OpenApi\Attributes as OA;
@@ -14,25 +14,25 @@ use App\Models\Traits\RefreshableAutoIncrements;
     new OA\Property(property: "odometer", type: "integer", format: "int32", minimum: 0, example: 1000),
   ]
 )]
-class MaintenancePart extends Model {
+class CarMaintenancePart extends Model {
 
   use RefreshableAutoIncrements;
 
-  protected $table = 'fourleaf_maintenance_parts';
+  protected $table = 'car_maintenance_parts';
   public $timestamps = null;
 
   protected $fillable = [
-    'id_fourleaf_maintenance',
-    'id_fourleaf_maintenance_type',
+    'id_car_maintenance',
+    'id_car_maintenance_type',
   ];
 
   protected $hidden = [];
 
   public function maintenance() {
-    return $this->belongsTo(Maintenance::class, 'id_fourleaf_maintenance');
+    return $this->belongsTo(CarMaintenance::class, 'id_car_maintenance');
   }
 
   public function type() {
-    return $this->belongsTo(MaintenanceType::class, 'id_fourleaf_maintenance_type');
+    return $this->belongsTo(CarMaintenanceType::class, 'id_car_maintenance_type');
   }
 }
