@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Fourleaf\Models\Settings;
+use App\Models\AppSetting;
 
-class FourleafSettingsSeeder extends Seeder {
+class AppSettingSeeder extends Seeder {
   /**
    * Run the database seeds.
    *
@@ -21,7 +21,7 @@ class FourleafSettingsSeeder extends Seeder {
     ];
 
     foreach ($data as $item) {
-      Settings::create($item);
+      AppSetting::create($item);
     }
   }
 }

@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Spatie\DbDumper\Databases\PostgreSql as PostgreSqlDumper;
 
+use App\Models\AppSetting;
 use App\Models\Bucket;
 use App\Models\BucketSim;
 use App\Models\BucketSimInfo;
@@ -46,7 +47,6 @@ use App\Models\CarMaintenanceType;
 
 use App\Fourleaf\Models\BillsElectricity as FourleafBillsElectricity;
 use App\Fourleaf\Models\Electricity as FourleafElectricity;
-use App\Fourleaf\Models\Settings as FourleafSettings;
 
 use App\Enums\ExportTypesEnum;
 use App\Repositories\EntryRepository;
@@ -122,6 +122,7 @@ class ProcessExports implements ShouldQueue {
 
   private function process_sql(string $uuid) {
     $tables = [
+      'app_settings',
       'bucket_sim_infos',
       'bucket_sims',
       'buckets',
@@ -141,7 +142,6 @@ class ProcessExports implements ShouldQueue {
       'exports',
       'fourleaf_bills_electricity',
       'fourleaf_electricity',
-      'fourleaf_settings',
       'genres',
       'groups',
       'logs',
@@ -201,6 +201,9 @@ class ProcessExports implements ShouldQueue {
   }
 
   private function process_json(string $uuid) {
+    // Settings
+    $app_settings = AppSetting::all()->toArray();
+
     // Buckets
     $hidden_columns = ['id', 'created_at', 'updated_at'];
     $bucket_sim_infos = BucketSimInfo::all()->makeVisible($hidden_columns)->toArray();
@@ -280,9 +283,10 @@ class ProcessExports implements ShouldQueue {
     $fourleaf_bills_electricity = FourleafBillsElectricity::all()->makeVisible($hidden_columns)->toArray();
 
     $fourleaf_electricity = FourleafElectricity::all()->toArray();
-    $fourleaf_settings = FourleafSettings::all()->toArray();
 
     $data = [
+      'app_settings' => $app_settings,
+
       'bucket_sim_infos' => $bucket_sim_infos,
       'bucket_sims' => $bucket_sims,
       'buckets' => $buckets,
@@ -321,7 +325,6 @@ class ProcessExports implements ShouldQueue {
 
       'fourleaf_bills_electricity' => $fourleaf_bills_electricity,
       'fourleaf_electricity' => $fourleaf_electricity,
-      'fourleaf_settings' => $fourleaf_settings,
     ];
 
     $contents = json_encode($data, JSON_PRETTY_PRINT);

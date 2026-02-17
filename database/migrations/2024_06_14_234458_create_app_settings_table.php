@@ -9,10 +9,11 @@ return new class extends Migration {
    * Run the migrations.
    */
   public function up(): void {
-    Schema::create('fourleaf_settings', function (Blueprint $table) {
+    Schema::create('app_settings', function (Blueprint $table) {
       $table->id();
-      $table->string('key');
+      $table->string('key')->unique();
       $table->string('value');
+      $table->timestamps();
     });
   }
 
@@ -20,6 +21,6 @@ return new class extends Migration {
    * Reverse the migrations.
    */
   public function down(): void {
-    Schema::dropIfExists('fourleaf_settings');
+    Schema::dropIfExists('app_settings');
   }
 };

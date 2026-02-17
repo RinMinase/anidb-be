@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder {
     }
 
     $this->call([
+      AppSettingSeeder::class,
+
       CodecAudioSeeder::class,
       CodecVideoSeeder::class,
       PrioritySeeder::class,
@@ -48,12 +50,6 @@ class DatabaseSeeder extends Seeder {
       PartialSeeder::class,     // test data
       SequenceSeeder::class,    // test data
 
-      // Fourleaf seeds
-      FourleafSettingsSeeder::class,
-      FourleafBillsElectricitySeeder::class,
-
-      FourleafElectricitySeeder::class,     // test data
-
       // PC Seeds
       PCComponentTypeSeeder::class,
       // PCOwnerSeeder::class,   // test data
@@ -63,6 +59,10 @@ class DatabaseSeeder extends Seeder {
       CarGasSeeder::class,
       CarMaintenanceTypeSeeder::class,
       CarMaintenanceSeeder::class,
+
+      // Fourleaf seeds
+      FourleafBillsElectricitySeeder::class,
+      FourleafElectricitySeeder::class,     // test data
     ]);
   }
 }

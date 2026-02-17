@@ -379,5 +379,15 @@ Route::prefix('api')
                 Route::get('parts', [\App\Controllers\CarMaintenanceController::class, 'getMaintenanceParts']);
               });
           });
+
+        Route::prefix('app-settings')
+          ->middleware(IsAdminRole::class)
+          ->group(function () {
+            Route::get('', [\App\Controllers\AppSettingController::class, 'index']);
+            Route::get('{id}', [\App\Controllers\AppSettingController::class, 'get']);
+            Route::post('', [\App\Controllers\AppSettingController::class, 'add']);
+            Route::put('{id}', [\App\Controllers\AppSettingController::class, 'edit']);
+            Route::delete('{id}', [\App\Controllers\AppSettingController::class, 'delete']);
+          });
       });
   });

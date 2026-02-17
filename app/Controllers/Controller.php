@@ -32,6 +32,7 @@ use OpenApi\Attributes as OA;
 
 // For Ordering Purposes
 #[OA\Tag(name: "User")]
+#[OA\Tag(name: "App Settings")]
 #[OA\Tag(name: "AniList")]
 #[OA\Tag(name: "Bucket Simulation")]
 #[OA\Tag(name: "Catalog")]
