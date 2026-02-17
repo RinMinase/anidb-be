@@ -349,6 +349,7 @@ Route::prefix('api')
           });
 
         Route::prefix('gas')
+          ->middleware(IsAdminRole::class)
           ->group(function () {
             Route::get('', [\App\Controllers\CarGasController::class, 'get']);
 
