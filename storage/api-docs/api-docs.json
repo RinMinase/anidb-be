@@ -135,6 +135,233 @@
                 ]
             }
         },
+        "/api/app-settings": {
+            "get": {
+                "tags": [
+                    "App Settings"
+                ],
+                "summary": "Get All Application Settings",
+                "operationId": "3a9da188580fcfbde72018ff7aae03d6",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/AppSetting"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "App Settings"
+                ],
+                "summary": "Add an Application Setting",
+                "operationId": "f253046dbc4a4589d289f337970d8e53",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/app_setting_add_edit_key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/app_setting_add_edit_value"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/app-settings/{settings_id}": {
+            "get": {
+                "tags": [
+                    "App Settings"
+                ],
+                "summary": "Get an Application Setting",
+                "operationId": "33ed1efe6874d656e346dce12462bcc4",
+                "parameters": [
+                    {
+                        "name": "settings_id",
+                        "in": "path",
+                        "description": "Settings ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/AppSetting"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "App Settings"
+                ],
+                "summary": "Edit an Application Setting",
+                "operationId": "3aa3a1033d1a6a313ea12120dd844545",
+                "parameters": [
+                    {
+                        "name": "settings_id",
+                        "in": "path",
+                        "description": "Settings ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/app_setting_add_edit_key"
+                    },
+                    {
+                        "$ref": "#/components/parameters/app_setting_add_edit_value"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "App Settings"
+                ],
+                "summary": "Delete Application a Setting",
+                "operationId": "3ffacc48437ad44b8fc70754ba2f7dc9",
+                "parameters": [
+                    {
+                        "name": "settings_id",
+                        "in": "path",
+                        "description": "Settings ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/auth/register": {
             "post": {
                 "tags": [
@@ -8654,8 +8881,13 @@
                 },
                 "type": "object"
             },
-            "FourleafSettings": {
+            "AppSetting": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "example": 1
+                    },
                     "key": {
                         "type": "string",
                         "example": "some key"
@@ -8663,6 +8895,16 @@
                     "value": {
                         "type": "string",
                         "example": "some value"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2020-01-01 00:00:00"
                     }
                 },
                 "type": "object"
@@ -10491,6 +10733,30 @@
                     "minimum": 1
                 },
                 "example": 1
+            },
+            "app_setting_add_edit_key": {
+                "name": "key",
+                "in": "query",
+                "description": "Application Settings Key",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "minLength": 1
+                },
+                "example": "unique-key-name"
+            },
+            "app_setting_add_edit_value": {
+                "name": "value",
+                "in": "query",
+                "description": "Application Settings Value",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "minLength": 1
+                },
+                "example": "value"
             },
             "user_add_edit_username": {
                 "name": "username",
@@ -12576,6 +12842,9 @@
     "tags": [
         {
             "name": "User"
+        },
+        {
+            "name": "App Settings"
         },
         {
             "name": "AniList"

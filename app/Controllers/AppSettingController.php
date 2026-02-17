@@ -149,7 +149,7 @@ class AppSettingController extends Controller {
   #[OA\Delete(
     tags: ['App Settings'],
     path: '/api/app-settings/{settings_id}',
-    summary: 'Deleten Application a Setting',
+    summary: 'Delete Application a Setting',
     security: [['token' => [], 'api-key' => []]],
     parameters: [
       new OA\Parameter(
