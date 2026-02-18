@@ -122,7 +122,7 @@ Route::prefix('api')
             Route::post('import/groups', [\App\Controllers\GroupController::class, 'import']);
           });
 
-        Route::get('import', [\App\Controllers\ImportController::class, 'import_new_format'])->middleware(IsAdminRole::class);
+        // Route::get('import', [\App\Controllers\ImportController::class, 'import_new_format'])->middleware(IsAdminRole::class);
 
         Route::prefix('exports')
           ->middleware(IsAdminRole::class)
