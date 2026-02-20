@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 use App\Fourleaf\Models\Electricity;
-use App\Fourleaf\Models\Settings;
+use App\Models\AppSetting;
 
 class ElectricityRepository {
   public function get(int $year, int $month) {
@@ -27,7 +27,7 @@ class ElectricityRepository {
       ->get()
       ->toArray();
 
-    $kwh_value = (float) Settings::where('key', 'kwh_price')->first()->value;
+    $kwh_value = (float) AppSetting::where('key', 'kwh_price')->first()->value;
     $daily_values = count($data) ? $this->calculateDailyValues($data, $kwh_value) : [];
     $weekly_values = count($data) ? $this->calculateWeeklyValues($data, $kwh_value) : [];
     $month_starts_at = 'test';
