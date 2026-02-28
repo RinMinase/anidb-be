@@ -28,7 +28,7 @@
         "nesbot/carbon": "~3.11.1",
         "phpoffice/phpspreadsheet": "~5.4.0",
         "sentry/sentry-laravel": "~4.21.0",
-        "spatie/db-dumper": "~3.8.3",
+        "spatie/db-dumper": "~4.0.0",
         "tpetry/laravel-postgresql-enhanced": "~3.5.0"
     },
     "require-dev": {
