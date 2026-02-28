@@ -390,5 +390,16 @@ Route::prefix('api')
             Route::put('{id}', [\App\Controllers\AppSettingController::class, 'edit']);
             Route::delete('{id}', [\App\Controllers\AppSettingController::class, 'delete']);
           });
+
+
+        Route::prefix('recipes')
+          ->middleware(IsAdminRole::class)
+          ->group(function () {
+            Route::get('', [\App\Controllers\RecipeController::class, 'index']);
+            Route::get('{id}', [\App\Controllers\RecipeController::class, 'get']);
+            Route::post('', [\App\Controllers\RecipeController::class, 'add']);
+            Route::put('{id}', [\App\Controllers\RecipeController::class, 'edit']);
+            Route::delete('{id}', [\App\Controllers\RecipeController::class, 'delete']);
+          });
       });
   });
