@@ -99,6 +99,18 @@ class CarMaintenanceTypeSeeder extends Seeder {
         'year' => null,
       ],
       [
+        'type' => 'fuel_filter',
+        'label' => 'Fuel Filter',
+        'km' => 30_000,
+        'year' => null,
+      ],
+      [
+        'type' => 'cabin_filter',
+        'label' => 'Cabin Filter',
+        'km' => 20_000,
+        'year' => 1,
+      ],
+      [
         'type' => 'others',
         'label' => 'Others',
         'km' => null,

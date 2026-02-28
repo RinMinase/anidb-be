@@ -902,6 +902,22 @@ class CarGasSeeder extends Seeder {
         'price_per_liter' => 61.24,
         'liters_filled' => 15.140,
       ],
+      [
+        'date' => '2026-02-15',
+        'from_bars' => 4,
+        'to_bars' => 9,
+        'odometer' => 20165,
+        'price_per_liter' => 61.84,
+        'liters_filled' => 14.982,
+      ],
+      [
+        'date' => '2026-02-28',
+        'from_bars' => 3,
+        'to_bars' => 9,
+        'odometer' => 20389,
+        'price_per_liter' => 59.6,
+        'liters_filled' => 18.455,
+      ],
     ];
 
     foreach ($data as $item) {
