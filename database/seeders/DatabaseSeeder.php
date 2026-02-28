@@ -60,6 +60,9 @@ class DatabaseSeeder extends Seeder {
       CarMaintenanceTypeSeeder::class,
       CarMaintenanceSeeder::class,
 
+      // Other seeders
+      RecipeSeeder::class,    // test data
+
       // Fourleaf seeds
       FourleafBillsElectricitySeeder::class,
       FourleafElectricitySeeder::class,     // test data
