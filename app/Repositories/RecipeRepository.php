@@ -2,16 +2,59 @@
 
 namespace App\Repositories;
 
+use Cloudinary\Cloudinary;
+use Cloudinary\Configuration\Configuration;
+use Cloudinary\Transformation\Resize;
+
 use App\Models\Recipe;
 
 class RecipeRepository {
 
+  private $cloudinary = null;
+
+  public function __construct() {
+    $config = new Configuration(config('app.cloudinary_url'));
+    $cloudinary = new Cloudinary($config);
+
+    $this->cloudinary = $cloudinary;
+  }
+
   public function get_all() {
-    return Recipe::select('id', 'title', 'description', 'created_at', 'updated_at')->get();
+    $data = Recipe::select('id', 'title', 'description', 'image_id', 'created_at', 'updated_at')->get();
+
+    foreach ($data as $item) {
+      $image_id = $item['image_id'];
+      unset($item['image_id']);
+
+      $url = $this->cloudinary->image('recipes/' . $image_id)
+        ->resize(Resize::fill(256, 256))
+        ->toUrl();
+
+      $item['image_url'] = $url;
+    }
+
+    return $data;
   }
 
   public function get($id) {
-    return Recipe::where('id', $id)->firstOrFail();
+    $data = Recipe::where('id', $id)->firstOrFail();
+
+
+    $image_id = $data['image_id'];
+    unset($data['image_id']);
+
+    $url = $this->cloudinary->image('recipes/' . $image_id)
+      ->resize(Resize::fill(256, 256))
+      ->toUrl();
+
+    $url_lg = $this->cloudinary->image('recipes/' . $image_id)
+      ->resize(Resize::fill(1024, 320))
+      ->toUrl();
+
+    $data['image_url'] = $url;
+    $data['image_url_lg'] = $url_lg;
+
+    return $data;
   }
 
   public function add(array $values) {
