@@ -20,6 +20,7 @@ use App\Models\Traits\RefreshableAutoIncrements;
       items: new OA\Items(type: 'string', example: 'Ingredient 1')
     ),
     new OA\Property(property: "instructions", type: "string", example: '## Sample Instructions Markdown'),
+    new OA\Property(property: "imageUrl", type: "string", example: 'http://example.com/image-url'),
   ]
 )]
 class Recipe extends Model {
@@ -31,6 +32,7 @@ class Recipe extends Model {
     'description',
     'ingredients',
     'instructions',
+    'image_id'
   ];
 
   protected $hidden = [];
@@ -38,7 +40,7 @@ class Recipe extends Model {
   protected function casts(): array {
     return [
       'ingredients' => ArrayCast::class,
-      'updated_at' => 'datetime:Y/m/d H:i:s',
+      'updated_at' => 'datetime:Y-m-d H:i:s',
       'created_at' => 'datetime:Y-m-d H:i:s',
     ];
   }

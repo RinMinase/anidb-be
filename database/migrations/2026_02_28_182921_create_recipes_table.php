@@ -21,6 +21,7 @@ return new class extends Migration {
 
     Schema::table('recipes', function (Blueprint $table) {
       $table->longText('instructions')->nullable();
+      $table->string('image_id')->nullable();
       $table->timestamps();
       $table->softDeletes();
     });
