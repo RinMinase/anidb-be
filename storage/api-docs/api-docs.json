@@ -9586,6 +9586,14 @@
                     "instructions": {
                         "type": "string",
                         "example": "## Sample Instructions Markdown"
+                    },
+                    "imageUrl": {
+                        "type": "string",
+                        "example": "http://example.com/image-url"
+                    },
+                    "imageUrlLg": {
+                        "type": "string",
+                        "example": "http://example.com/image-url-lg"
                     }
                 },
                 "type": "object"

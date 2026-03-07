@@ -21,6 +21,7 @@ use App\Models\Traits\RefreshableAutoIncrements;
     ),
     new OA\Property(property: "instructions", type: "string", example: '## Sample Instructions Markdown'),
     new OA\Property(property: "imageUrl", type: "string", example: 'http://example.com/image-url'),
+    new OA\Property(property: "imageUrlLg", type: "string", example: 'http://example.com/image-url-lg'),
   ]
 )]
 class Recipe extends Model {
