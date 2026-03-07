@@ -23,14 +23,19 @@ class RecipeRepository {
     $data = Recipe::select('id', 'title', 'description', 'image_id', 'created_at', 'updated_at')->get();
 
     foreach ($data as $item) {
-      $image_id = $item['image_id'];
-      unset($item['image_id']);
+      if ($item['image_id']) {
+        $image_id = $item['image_id'];
+        unset($item['image_id']);
 
-      $url = $this->cloudinary->image('recipes/' . $image_id)
-        ->resize(Resize::fill(256, 256))
-        ->toUrl();
+        $url = $this->cloudinary->image('recipes/' . $image_id)
+          ->resize(Resize::fill(256, 256))
+          ->toUrl();
 
-      $item['image_url'] = $url;
+        $item['image_url'] = $url;
+      } else {
+        unset($item['image_id']);
+        $item['image_url'] = null;
+      }
     }
 
     return $data;
@@ -39,20 +44,25 @@ class RecipeRepository {
   public function get($id) {
     $data = Recipe::where('id', $id)->firstOrFail();
 
+    if ($data['image_id']) {
+      $image_id = $data['image_id'];
+      unset($data['image_id']);
 
-    $image_id = $data['image_id'];
-    unset($data['image_id']);
+      $url = $this->cloudinary->image('recipes/' . $image_id)
+        ->resize(Resize::fill(256, 256))
+        ->toUrl();
 
-    $url = $this->cloudinary->image('recipes/' . $image_id)
-      ->resize(Resize::fill(256, 256))
-      ->toUrl();
+      $url_lg = $this->cloudinary->image('recipes/' . $image_id)
+        ->resize(Resize::fill(1024, 320))
+        ->toUrl();
 
-    $url_lg = $this->cloudinary->image('recipes/' . $image_id)
-      ->resize(Resize::fill(1024, 320))
-      ->toUrl();
-
-    $data['image_url'] = $url;
-    $data['image_url_lg'] = $url_lg;
+      $data['image_url'] = $url;
+      $data['image_url_lg'] = $url_lg;
+    } else {
+      unset($data['image_id']);
+      $data['image_url'] = null;
+      $data['image_url_lg'] = null;
+    }
 
     return $data;
   }
