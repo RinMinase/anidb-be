@@ -567,7 +567,14 @@ class EntryController extends Controller {
     summary: 'Delete an Image of an Entry',
     security: [['token' => [], 'api-key' => []]],
     parameters: [
-      new OA\Parameter(name: 'entry_id', in: 'path', required: true, description: 'Entry ID', example: '87d66263-269c-4f7c-9fb8-dd78c4408ff6', schema: new OA\Schema(type: 'string', format: 'uuid')),
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: '87d66263-269c-4f7c-9fb8-dd78c4408ff6',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
     ],
     responses: [
       new OA\Response(response: 200, ref: '#/components/responses/Success'),
