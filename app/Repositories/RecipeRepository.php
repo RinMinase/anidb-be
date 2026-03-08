@@ -5,6 +5,7 @@ namespace App\Repositories;
 use Cloudinary\Cloudinary;
 use Cloudinary\Configuration\Configuration;
 use Cloudinary\Transformation\Resize;
+use Illuminate\Support\Str;
 
 use App\Models\Recipe;
 
@@ -77,5 +78,38 @@ class RecipeRepository {
 
   public function delete($id) {
     Recipe::where('id', $id)->firstOrFail()->delete();
+  }
+
+  public function uploadImage($image, $id) {
+    $recipe = Recipe::where('id', $id)->firstOrFail();
+
+    if (!empty($recipe->image_id)) {
+      // delete previous image on storage
+      $this->cloudinary->uploadApi()->destroy('recipes/' . $recipe->image_id);
+    }
+
+    $new_image_id = Str::uuid()->toString();
+    $image_settings = [
+      'quality' => '90',
+      'folder' => 'recipes',
+      'public_id' => $new_image_id,
+      'overwrite' => false,
+    ];
+
+    $this->cloudinary->uploadApi()->upload($image, $image_settings);
+
+    $recipe->image_id = $new_image_id;
+    $recipe->save();
+  }
+
+  public function deleteImage($id) {
+    $recipe = Recipe::where('id', $id)->firstOrFail();
+
+    if (!empty($recipe->image_id)) {
+      $this->cloudinary->uploadApi()->destroy('recipes/' . $recipe->image_id);
+
+      $recipe->image_id = null;
+      $recipe->save();
+    }
   }
 }

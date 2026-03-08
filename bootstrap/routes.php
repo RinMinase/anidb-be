@@ -400,6 +400,9 @@ Route::prefix('api')
             Route::post('', [\App\Controllers\RecipeController::class, 'add']);
             Route::put('{id}', [\App\Controllers\RecipeController::class, 'edit']);
             Route::delete('{id}', [\App\Controllers\RecipeController::class, 'delete']);
+
+            Route::put('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageUpload']);
+            Route::delete('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageDelete']);
           });
       });
   });

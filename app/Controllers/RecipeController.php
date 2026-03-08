@@ -7,6 +7,7 @@ use OpenApi\Attributes as OA;
 
 use App\Repositories\RecipeRepository;
 use App\Requests\Recipe\AddEditRequest;
+use App\Requests\Recipe\ImageUploadRequest;
 use App\Resources\DefaultResponse;
 
 class RecipeController extends Controller {
@@ -175,6 +176,73 @@ class RecipeController extends Controller {
   )]
   public function delete($id): JsonResponse {
     $this->recipeRepository->delete($id);
+
+    return DefaultResponse::success();
+  }
+
+  #[OA\Post(
+    tags: ['Recipes'],
+    path: '/api/recipes/img-upload/{recipe_id}',
+    summary: 'Upload an Image to Recipe',
+    description: "POST request with '_method' in parameters, because PHP can't populate files in PUT/PATCH requests :: Ref. https://stackoverflow.com/a/65009135",
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'recipe_id',
+        description: 'Recipe ID',
+        in: 'path',
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: 'integer', format: 'int32')
+      ),
+    ],
+    requestBody: new OA\RequestBody(
+      required: true,
+      content: new OA\MediaType(
+        mediaType: 'multipart/form-data',
+        schema: new OA\Schema(properties: [
+          new OA\Property(property: '_method', type: 'string', example: 'PUT'),
+          new OA\Property(property: 'image', type: 'string', format: 'binary'),
+        ])
+      )
+    ),
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function imageUpload(ImageUploadRequest $request, $id): JsonResponse {
+    $this->recipeRepository->uploadImage($request->file('image')->getRealPath(), $id);
+
+    return DefaultResponse::success();
+  }
+
+  #[OA\Delete(
+    tags: ['Recipes'],
+    path: '/api/entries/img-upload/{recipe_id}',
+    summary: 'Delete an Image of a Recipe',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'recipe_id',
+        description: 'Recipe ID',
+        in: 'path',
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: 'integer', format: 'int32')
+      ),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function imageDelete($id): JsonResponse {
+    $this->recipeRepository->deleteImage($id);
 
     return DefaultResponse::success();
   }
