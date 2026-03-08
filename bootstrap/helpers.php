@@ -87,6 +87,58 @@ if (!function_exists('is_uuid')) {
   }
 }
 
+if (!function_exists('is_url')) {
+  function is_url($url): bool {
+    if (!is_string($url) || empty(trim($url))) {
+      return false;
+    }
+
+    // Syntax follows RFC 2396/3986 patterns
+    if (!filter_var($url, FILTER_VALIDATE_URL)) {
+      return false;
+    }
+
+    // Illegal character validation
+    if (preg_match('/[\\\|<>]/', $url)) {
+      return false;
+    }
+
+    // Only allow http and https and reject others
+    $scheme = parse_url($url, PHP_URL_SCHEME);
+    if (!in_array($scheme, ['http', 'https'])) {
+      return false;
+    }
+
+    // Block all URLs with credentials
+    $parts = parse_url($url);
+    if (isset($parts['user']) || isset($parts['pass'])) {
+      return false;
+    }
+
+    // Domain checking: reject all IP addresses and localhost
+    $host = parse_url($url, PHP_URL_HOST);
+
+    if (!$host) {
+      return false;
+    }
+
+    if (
+      preg_match('/^[0-9.]+$/', $host) ||
+      str_contains($host, '[') ||
+      substr_count($host, ':') >= 2
+    ) {
+      return false;
+    }
+
+    if (strtolower($host) === 'localhost') {
+      return false;
+    }
+
+    // Otherwise return true
+    return true;
+  }
+}
+
 if (!function_exists('to_boolean')) {
   function to_boolean($value, $null_on_fail = false) {
     if ($null_on_fail) {
