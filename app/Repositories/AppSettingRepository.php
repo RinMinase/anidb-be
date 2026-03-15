@@ -22,6 +22,10 @@ class AppSettingRepository {
     return AppSetting::where('id', $id)->update($values);
   }
 
+  public function editByKey(string $key, string $value) {
+    return AppSetting::where('key', $key)->update(['value' => $value]);
+  }
+
   public function delete($id) {
     return AppSetting::where('id', $id)->firstOrFail()->delete();
   }
