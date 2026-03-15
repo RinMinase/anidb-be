@@ -3,14 +3,13 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 use App\Repositories\BucketSimRepository;
-
 use App\Requests\BucketSim\AddEditRequest;
-use App\Requests\BucketSim\PreviewRequest;
-
 use App\Resources\DefaultResponse;
+use App\Rules\JsonRule;
 
 class BucketSimController extends Controller {
 
@@ -289,7 +288,14 @@ class BucketSimController extends Controller {
     summary: 'Preview a Bucket Sim',
     security: [['token' => [], 'api-key' => []]],
     parameters: [
-      new OA\Parameter(ref: '#/components/parameters/bucket_sim_preview_buckets'),
+      new OA\Parameter(
+        name: 'buckets',
+        description: 'Bucket JSON String',
+        in: 'query',
+        required: true,
+        example: '[{"from":"a","to":"i","size":2000339066880},{"from":"j","to":"z","size":2000339066880}]',
+        schema: new OA\Schema(type: 'string')
+      ),
     ],
     responses: [
       new OA\Response(
@@ -331,10 +337,10 @@ class BucketSimController extends Controller {
       new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
-  public function preview(PreviewRequest $request): JsonResponse {
-    $data = $this->bucketSimRepository->preview(
-      $request->only('buckets'),
-    );
+  public function preview(Request $request): JsonResponse {
+    $values = $request->validate(['buckets' => ['required', 'string', new JsonRule]]);
+
+    $data = $this->bucketSimRepository->preview($values);
 
     return DefaultResponse::success(null, [
       'data' => $data

@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OpenApi\Attributes as OA;
 
 use App\Exceptions\Auth\InvalidCredentialsException;
 use App\Repositories\UserRepository;
-use App\Requests\Auth\LoginRequest;
 use App\Requests\Auth\RegisterRequest;
 use App\Resources\DefaultResponse;
 
@@ -84,8 +84,20 @@ class AuthController extends Controller {
     summary: "User Login",
     security: [["api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/user_login_username"),
-      new OA\Parameter(ref: "#/components/parameters/user_login_password"),
+      new OA\Parameter(
+        name: "username",
+        in: "query",
+        required: true,
+        example: "username",
+        schema: new OA\Schema(type: "string"),
+      ),
+      new OA\Parameter(
+        name: "password",
+        in: "query",
+        required: true,
+        example: "password",
+        schema: new OA\Schema(type: "string"),
+      ),
     ],
     responses: [
       new OA\Response(
@@ -106,8 +118,11 @@ class AuthController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function login(LoginRequest $request): JsonResponse {
-    $credentials = $request->only('username', 'password');
+  public function login(Request $request): JsonResponse {
+    $credentials = $request->validate([
+      'username' => ['required', 'string'],
+      'password' => ['required', 'string']
+    ]);
 
     if (!Auth::attempt($credentials)) {
       throw new InvalidCredentialsException();

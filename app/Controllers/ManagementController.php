@@ -3,10 +3,10 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 use App\Repositories\ManagementRepository;
-use App\Requests\Management\GetByYearRequest;
 use App\Resources\DefaultResponse;
 
 class ManagementController extends Controller {
@@ -56,7 +56,12 @@ class ManagementController extends Controller {
     summary: 'Get Titles Watched per Month of Year',
     security: [['token' => [], 'api-key' => []]],
     parameters: [
-      new OA\Parameter(ref: '#/components/parameters/management_get_by_year_year'),
+      new OA\Parameter(
+        name: "year",
+        in: "query",
+        example: "2020",
+        schema: new OA\Schema(ref: "#/components/schemas/YearSchema")
+      ),
     ],
     responses: [
       new OA\Response(
@@ -80,11 +85,11 @@ class ManagementController extends Controller {
       new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
-  public function get_by_year(GetByYearRequest $request): JsonResponse {
+  public function get_by_year(Request $request): JsonResponse {
+    $values = $request->validate(['year' => ['nullable', new YearRule]]);
+
     return DefaultResponse::success(null, [
-      'data' => $this->managementRepository->get_by_year(
-        $request->only('year')
-      ),
+      'data' => $this->managementRepository->get_by_year($values),
     ]);
   }
 }

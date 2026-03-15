@@ -3,12 +3,12 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 use App\Repositories\PCComponentRepository;
 use App\Requests\PC\AddEditComponentRequest;
 use App\Requests\ImportRequest;
-use App\Requests\PC\SearchComponentRequest;
 use App\Resources\DefaultResponse;
 use App\Resources\PC\PCComponentResource;
 
@@ -26,8 +26,18 @@ class PCComponentController extends Controller {
     summary: "Get All PC Components",
     security: [["token" => [], "api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/pc_search_component_id_type"),
-      new OA\Parameter(ref: "#/components/parameters/pc_search_component_limit"),
+      new OA\Parameter(
+        name: "id_type",
+        in: "query",
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int32")
+      ),
+      new OA\Parameter(
+        name: "limit",
+        in: "query",
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int32", minimum: 1, maximum: 9999)
+      ),
     ],
     responses: [
       new OA\Response(
@@ -50,10 +60,13 @@ class PCComponentController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function index(SearchComponentRequest $request): JsonResponse {
-    $data = $this->pcComponentRepository->getAll(
-      $request->only('id_type', 'limit'),
-    );
+  public function index(Request $request): JsonResponse {
+    $values = $request->validate([
+      'id_type' => ['nullable', 'integer', 'exists:pc_component_types,id'],
+      'limit' => ['nullable', 'integer', 'min:1', 'max:99999'],
+    ]);
+
+    $data = $this->pcComponentRepository->getAll($values);
 
     return DefaultResponse::success(null, [
       'data' => PCComponentResource::collection($data),

@@ -3,12 +3,12 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 use App\Exceptions\JsonParsingException;
 use App\Repositories\GroupRepository;
 use App\Requests\ImportRequest;
-use App\Requests\Group\AddEditRequest;
 use App\Resources\DefaultResponse;
 
 class GroupController extends Controller {
@@ -89,7 +89,13 @@ class GroupController extends Controller {
     summary: 'Add a Group',
     security: [['token' => [], 'api-key' => []]],
     parameters: [
-      new OA\Parameter(ref: '#/components/parameters/group_add_edit_name'),
+      new OA\Parameter(
+        name: 'name',
+        in: 'query',
+        required: true,
+        example: 'Sample Group Name',
+        schema: new OA\Schema(type: 'string', minLength: 1, maxLength: 64)
+      ),
     ],
     responses: [
       new OA\Response(response: 200, ref: '#/components/responses/Success'),
@@ -97,8 +103,10 @@ class GroupController extends Controller {
       new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
-  public function add(AddEditRequest $request): JsonResponse {
-    $this->groupRepository->add($request->only('name'));
+  public function add(Request $request): JsonResponse {
+    $values = $request->validate(['name' => ['required', 'string', 'max:64']]);
+
+    $this->groupRepository->add($values);
 
     return DefaultResponse::success();
   }
@@ -117,7 +125,13 @@ class GroupController extends Controller {
         example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
         schema: new OA\Schema(type: 'string', format: 'uuid')
       ),
-      new OA\Parameter(ref: '#/components/parameters/group_add_edit_name'),
+      new OA\Parameter(
+        name: 'name',
+        in: 'query',
+        required: true,
+        example: 'Sample Group Name',
+        schema: new OA\Schema(type: 'string', minLength: 1, maxLength: 64)
+      ),
     ],
     responses: [
       new OA\Response(response: 200, ref: '#/components/responses/Success'),
@@ -126,8 +140,10 @@ class GroupController extends Controller {
       new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
-  public function edit(AddEditRequest $request, $uuid): JsonResponse {
-    $this->groupRepository->edit($request->only('name'), $uuid);
+  public function edit(Request $request, $uuid): JsonResponse {
+    $values = $request->validate(['name' => ['required', 'string', 'max:64']]);
+
+    $this->groupRepository->edit($values, $uuid);
 
     return DefaultResponse::success();
   }

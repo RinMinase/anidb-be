@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 use App\Repositories\PCOwnerRepository;
@@ -24,6 +25,9 @@ class PCOwnerController extends Controller {
     summary: "Get All PC Owners",
     security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/pc_get_owners_show_hidden"),
+    ],
     responses: [
       new OA\Response(
         response: 200,
@@ -99,7 +103,12 @@ class PCOwnerController extends Controller {
     security: [["token" => [], "api-key" => []]],
     tags: ["PC"],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/pc_add_edit_owner_name")
+      new OA\Parameter(
+        name: "name",
+        in: "query",
+        required: true,
+        schema: new OA\Schema(type: "string", minLength: 1, maxLength: 64),
+      ),
     ],
     responses: [
       new OA\Response(response: 200, ref: "#/components/responses/Success"),
@@ -107,8 +116,10 @@ class PCOwnerController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function add(AddEditOwnerRequest $request): JsonResponse {
-    $this->pcOwnerRepository->add($request->only('name'));
+  public function add(Request $request): JsonResponse {
+    $values = $request->validate(['name' => ['required', 'string', 'max:64']]);
+
+    $this->pcOwnerRepository->add($values);
 
     return DefaultResponse::success();
   }
@@ -127,7 +138,12 @@ class PCOwnerController extends Controller {
         example: "e9597119-8452-4f2b-96d8-f2b1b1d2f158",
         schema: new OA\Schema(type: "string", format: "uuid")
       ),
-      new OA\Parameter(ref: "#/components/parameters/pc_add_edit_owner_name"),
+      new OA\Parameter(
+        name: "name",
+        in: "query",
+        required: true,
+        schema: new OA\Schema(type: "string", minLength: 1, maxLength: 64),
+      ),
     ],
     responses: [
       new OA\Response(response: 200, ref: "#/components/responses/Success"),
@@ -137,10 +153,9 @@ class PCOwnerController extends Controller {
     ]
   )]
   public function edit(AddEditOwnerRequest $request, $uuid): JsonResponse {
-    $this->pcOwnerRepository->edit(
-      $request->only('name'),
-      $uuid
-    );
+    $values = $request->validate(['name' => ['required', 'string', 'max:64']]);
+
+    $this->pcOwnerRepository->edit($values, $uuid);
 
     return DefaultResponse::success();
   }

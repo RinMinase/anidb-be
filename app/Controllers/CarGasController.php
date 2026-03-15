@@ -3,18 +3,18 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-use App\Controllers\Controller;
+use App\Enums\CarEfficiencyGraphTypeEnum;
 use App\Resources\DefaultResponse;
 use App\Requests\ImportRequest;
-
 use App\Repositories\CarGasRepository;
 use App\Requests\Car\AddEditFuelRequest;
-use App\Requests\Car\GetEfficiencyRequest;
 use App\Requests\Car\GetFuelRequest;
 use App\Requests\Car\GetOdoRequest;
+use App\Rules\YearRule;
 
 class CarGasController extends Controller {
   private CarGasRepository $carGasRepository;
@@ -189,7 +189,13 @@ class CarGasController extends Controller {
     summary: "Get Odometer by Year",
     security: [["api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/car_get_odo_year"),
+      new OA\Parameter(
+        name: "year",
+        in: "query",
+        required: true,
+        example: "2020",
+        schema: new OA\Schema(ref: "#/components/schemas/YearSchema")
+      ),
     ],
     responses: [
       new OA\Response(
@@ -216,7 +222,9 @@ class CarGasController extends Controller {
     ]
   )]
   public function getOdo(GetOdoRequest $request): JsonResponse {
-    $data = $this->carGasRepository->getOdo($request->get('year'));
+    $values = $request->validate(['year' => [new YearRule]]);
+
+    $data = $this->carGasRepository->getOdo($values['year']);
 
     return DefaultResponse::success(null, [
       'data' => $data,
@@ -229,7 +237,15 @@ class CarGasController extends Controller {
     summary: "Get Gas Efficiency",
     security: [["api-key" => []]],
     parameters: [
-      new OA\Parameter(ref: "#/components/parameters/car_get_gas_efficiency_type"),
+      new OA\Parameter(
+        name: "type",
+        in: "query",
+        schema: new OA\Schema(
+          type: "string",
+          default: "last20data",
+          enum: ["last20data", "last12mos"]
+        )
+      ),
     ],
     responses: [
       new OA\Response(
@@ -254,7 +270,7 @@ class CarGasController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function getEfficiency(GetEfficiencyRequest $request): JsonResponse {
+  public function getEfficiency(Request $request): JsonResponse {
     /**
      * Average Efficiency Types:
      * - "all" (default) - all data points are averaged
@@ -266,7 +282,11 @@ class CarGasController extends Controller {
      * - "last12mos" - last 12 months (per month efficiency, averaged)
      */
 
-    $data = $this->carGasRepository->getEfficiency($request->get('type'));
+    $values = $request->validate([
+      'type' => [new Enum(CarEfficiencyGraphTypeEnum::class)],
+    ]);
+
+    $data = $this->carGasRepository->getEfficiency($values['type']);
 
     return DefaultResponse::success(null, [
       'data' => $data,

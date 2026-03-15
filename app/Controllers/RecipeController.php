@@ -3,11 +3,11 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 use App\Repositories\RecipeRepository;
 use App\Requests\Recipe\AddEditRequest;
-use App\Requests\Recipe\ImageUploadRequest;
 use App\Resources\DefaultResponse;
 
 class RecipeController extends Controller {
@@ -213,7 +213,9 @@ class RecipeController extends Controller {
       new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
-  public function imageUpload(ImageUploadRequest $request, $id): JsonResponse {
+  public function imageUpload(Request $request, $id): JsonResponse {
+    $request->validate(['image' => ['required', 'image', 'mimes:jpeg,jpg,png', 'max:4096']]);
+
     $this->recipeRepository->uploadImage($request->file('image')->getRealPath(), $id);
 
     return DefaultResponse::success();
