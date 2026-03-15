@@ -429,10 +429,22 @@
                 "operationId": "d7cbb3ac96888b0e21dcf8ee1845fe40",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/user_login_username"
+                        "name": "username",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "username"
                     },
                     {
-                        "$ref": "#/components/parameters/user_login_password"
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "password"
                     }
                 ],
                 "responses": {
@@ -1017,7 +1029,14 @@
                 "operationId": "aea7e9c4f2bcc821c8198382865dcb18",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/bucket_sim_preview_buckets"
+                        "name": "buckets",
+                        "in": "query",
+                        "description": "Bucket JSON String",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
                     }
                 ],
                 "responses": {
@@ -1493,7 +1512,13 @@
                 "operationId": "748edb8e3ef96e1a4fef173dddaf4f76",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/car_get_odo_year"
+                        "name": "year",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/YearSchema"
+                        },
+                        "example": "2020"
                     }
                 ],
                 "responses": {
@@ -1549,7 +1574,16 @@
                 "operationId": "76c6f103268d2cf2b92b1d98546893c6",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/car_get_gas_efficiency_type"
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "last20data",
+                            "enum": [
+                                "last20data",
+                                "last12mos"
+                            ]
+                        }
                     }
                 ],
                 "responses": {
@@ -5808,7 +5842,15 @@
                 "operationId": "d5e58c0df5e02a3de23c70700551aa64",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/group_add_edit_name"
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1
+                        },
+                        "example": "Sample Group Name"
                     }
                 ],
                 "responses": {
@@ -5898,7 +5940,15 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "$ref": "#/components/parameters/group_add_edit_name"
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1
+                        },
+                        "example": "Sample Group Name"
                     }
                 ],
                 "responses": {
@@ -6218,7 +6268,12 @@
                 "operationId": "204d073a3c8f92e409a5051ee6cacc95",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/management_get_by_year_year"
+                        "name": "year",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/YearSchema"
+                        },
+                        "example": "2020"
                     }
                 ],
                 "responses": {
@@ -6268,10 +6323,24 @@
                 "operationId": "881f1c5779b6039b697a518a5cf17215",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/pc_search_component_id_type"
+                        "name": "id_type",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
                     },
                     {
-                        "$ref": "#/components/parameters/pc_search_component_limit"
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "maximum": 9999,
+                            "minimum": 1
+                        },
+                        "example": 1
                     }
                 ],
                 "responses": {
@@ -7214,6 +7283,11 @@
                 ],
                 "summary": "Get All PC Owners",
                 "operationId": "cf6a52d54b36401863bda9182f9ae38e",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/pc_get_owners_show_hidden"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -7278,7 +7352,14 @@
                 "operationId": "693d52764e879e4014ca9461fcc67075",
                 "parameters": [
                     {
-                        "$ref": "#/components/parameters/pc_add_edit_owner_name"
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1
+                        }
                     }
                 ],
                 "responses": {
@@ -7376,7 +7457,14 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     {
-                        "$ref": "#/components/parameters/pc_add_edit_owner_name"
+                        "name": "name",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1
+                        }
                     }
                 ],
                 "responses": {
@@ -11573,24 +11661,6 @@
                 },
                 "example": "password"
             },
-            "user_login_username": {
-                "name": "username",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "username"
-            },
-            "user_login_password": {
-                "name": "password",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "password"
-            },
             "user_register_username": {
                 "name": "username",
                 "in": "query",
@@ -11646,16 +11716,6 @@
                 "example": "Sample 2 buckets"
             },
             "bucket_sim_add_edit_buckets": {
-                "name": "buckets",
-                "in": "query",
-                "description": "Bucket JSON String",
-                "required": true,
-                "schema": {
-                    "type": "string"
-                },
-                "example": "[{\"from\":\"a\",\"to\":\"i\",\"size\":2000339066880},{\"from\":\"j\",\"to\":\"z\",\"size\":2000339066880}]"
-            },
-            "bucket_sim_preview_buckets": {
                 "name": "buckets",
                 "in": "query",
                 "description": "Bucket JSON String",
@@ -11725,18 +11785,6 @@
                     "minimum": 0
                 }
             },
-            "car_get_gas_efficiency_type": {
-                "name": "type",
-                "in": "query",
-                "schema": {
-                    "type": "string",
-                    "default": "last20data",
-                    "enum": [
-                        "last20data",
-                        "last12mos"
-                    ]
-                }
-            },
             "car_get_fuel_column": {
                 "name": "column",
                 "in": "query",
@@ -11784,15 +11832,6 @@
                     "minimum": 1
                 },
                 "example": 30
-            },
-            "car_get_odo_year": {
-                "name": "year",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "$ref": "#/components/schemas/YearSchema"
-                },
-                "example": "2020"
             },
             "catalog_add_edit_season": {
                 "name": "season",
@@ -12474,17 +12513,6 @@
                 },
                 "example": "title"
             },
-            "group_add_edit_name": {
-                "name": "name",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 1
-                },
-                "example": "Sample Group Name"
-            },
             "log_search_column": {
                 "name": "column",
                 "in": "query",
@@ -12532,14 +12560,6 @@
                     "minimum": 1
                 },
                 "example": 30
-            },
-            "management_get_by_year_year": {
-                "name": "year",
-                "in": "query",
-                "schema": {
-                    "$ref": "#/components/schemas/YearSchema"
-                },
-                "example": "2020"
             },
             "pc_add_edit_component_id_type": {
                 "name": "id_type",
@@ -12685,16 +12705,6 @@
                 },
                 "example": "[{\"id_component\":1,\"count\":1,\"is_hidden\":false},{\"id_component\":10,\"count\":2,\"is_hidden\":true}]"
             },
-            "pc_add_edit_owner_name": {
-                "name": "name",
-                "in": "query",
-                "required": true,
-                "schema": {
-                    "type": "string",
-                    "maxLength": 64,
-                    "minLength": 1
-                }
-            },
             "pc_get_owners_show_hidden": {
                 "name": "show_hidden",
                 "in": "query",
@@ -12702,26 +12712,6 @@
                     "type": "boolean"
                 },
                 "example": true
-            },
-            "pc_search_component_id_type": {
-                "name": "id_type",
-                "in": "query",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "example": 1
-            },
-            "pc_search_component_limit": {
-                "name": "limit",
-                "in": "query",
-                "schema": {
-                    "type": "integer",
-                    "format": "int32",
-                    "maximum": 9999,
-                    "minimum": 1
-                },
-                "example": 1
             },
             "pc_setup_add_edit_label": {
                 "name": "label",
