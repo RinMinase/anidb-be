@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
+use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -54,6 +55,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
       if ($e instanceof InvalidSignatureException)
         return response()->json(['status' => 403, 'message' => 'Invalid signature provided'], 403);
+
+      if ($e instanceof ValidationException)
+        return response()->json(['status' => 401, 'message' => 'Invalid form data', 'data' => $e->errors()], 401);
 
       $is_prod = config('app.platform') != 'local';
       $has_no_custom_exception = !$e instanceof CustomException;
