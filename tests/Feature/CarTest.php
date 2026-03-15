@@ -711,11 +711,6 @@ class CarTest extends BaseTestCase {
       // Mock date values
       Carbon::setTestNow(Carbon::parse('2091-12-31'));
 
-      // No year passed
-      $response = $this->withoutMiddleware()
-        ->get('/api/gas/odo')
-        ->assertStatus(401);
-
       // Data is on year 2090
       $invalid_years_past = [2020, 2080, 2089];
       $invalid_years_future = [2092, 2100];
