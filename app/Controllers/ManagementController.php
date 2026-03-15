@@ -8,6 +8,7 @@ use OpenApi\Attributes as OA;
 
 use App\Repositories\ManagementRepository;
 use App\Resources\DefaultResponse;
+use App\Rules\YearRule;
 
 class ManagementController extends Controller {
 

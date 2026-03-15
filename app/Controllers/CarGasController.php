@@ -13,7 +13,6 @@ use App\Requests\ImportRequest;
 use App\Repositories\CarGasRepository;
 use App\Requests\Car\AddEditFuelRequest;
 use App\Requests\Car\GetFuelRequest;
-use App\Requests\Car\GetOdoRequest;
 use App\Rules\YearRule;
 
 class CarGasController extends Controller {
@@ -221,7 +220,7 @@ class CarGasController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function getOdo(GetOdoRequest $request): JsonResponse {
+  public function getOdo(Request $request): JsonResponse {
     $values = $request->validate(['year' => [new YearRule]]);
 
     $data = $this->carGasRepository->getOdo($values['year']);
