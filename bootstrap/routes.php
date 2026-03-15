@@ -71,17 +71,6 @@ Route::prefix('api')
             Route::put('{id}', [\App\Fourleaf\Controllers\ElectricityController::class, 'edit']);
             Route::delete('{id}', [\App\Fourleaf\Controllers\ElectricityController::class, 'delete']);
           });
-
-        Route::prefix('bills')
-          ->group(function () {
-            Route::prefix('electricity')
-              ->group(function () {
-                Route::get('', [\App\Fourleaf\Controllers\BillsController::class, 'get']);
-                Route::post('', [\App\Fourleaf\Controllers\BillsController::class, 'add']);
-                Route::put('{uuid}', [\App\Fourleaf\Controllers\BillsController::class, 'edit']);
-                Route::delete('{uuid}', [\App\Fourleaf\Controllers\BillsController::class, 'delete']);
-              });
-          });
       });
   });
 

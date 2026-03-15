@@ -64,7 +64,6 @@ class DatabaseSeeder extends Seeder {
       RecipeSeeder::class,    // test data
 
       // Fourleaf seeds
-      FourleafBillsElectricitySeeder::class,
       FourleafElectricitySeeder::class,     // test data
     ]);
   }
