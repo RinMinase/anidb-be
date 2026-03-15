@@ -2918,6 +2918,594 @@
                 ]
             }
         },
+        "/api/electricity/readings/": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Get all Readings",
+                "operationId": "18151292d8f89f3ae993a54891e22f60",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Electricity"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Add a Reading",
+                "operationId": "090c06a37ca171ae850c18035121105a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_datetime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_reading"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/readings/{reading_id}": {
+            "put": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Edit a Reading",
+                "operationId": "0f0a64f3a8042ca3102ab26936fabe17",
+                "parameters": [
+                    {
+                        "name": "reading_id",
+                        "in": "path",
+                        "description": "Electricity Reading ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_datetime"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_reading"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Delete a Reading",
+                "operationId": "96d505b6f6fee0f289e18bb5742d29d4",
+                "parameters": [
+                    {
+                        "name": "reading_id",
+                        "in": "path",
+                        "description": "Electricity Reading ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/per-week": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Get chart data per week",
+                "operationId": "7040a4dda6c7871f871dd7e50ed08450",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/YearSchema"
+                        },
+                        "example": "2020"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {}
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/per-month": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Get chart data per month",
+                "operationId": "d871079dc91f9c8f26d691fc84c58267",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/YearSchema"
+                        },
+                        "example": "2020"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {}
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/per-year": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Get chart data per year",
+                "operationId": "91ad451d588554de09418af03b0fd76e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {}
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/change-kwh-setting": {
+            "post": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Change KWh rate",
+                "operationId": "6e2244d168ae3ca7d216da2c98a0697d",
+                "parameters": [
+                    {
+                        "parameter": "electricity_change_kwh_setting_value",
+                        "name": "value",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": "15.12"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/appliances": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Get appliances per year",
+                "operationId": "a36c5587e26afa86c4018e40e4c76354",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/YearSchema"
+                        },
+                        "example": "2020"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id_month": {
+                                                                "type": "integer",
+                                                                "format": "int32",
+                                                                "example": 1
+                                                            },
+                                                            "month": {
+                                                                "type": "string",
+                                                                "example": "January"
+                                                            },
+                                                            "month_short": {
+                                                                "type": "string",
+                                                                "example": "Jan"
+                                                            },
+                                                            "names": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string"
+                                                                },
+                                                                "example": [
+                                                                    "Appliance 1",
+                                                                    "Appliance 2"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Add an appliance",
+                "operationId": "54118d763346b989caf0ede9f9a9518f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_appliance_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_appliance_name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/appliances/{appliance_id}": {
+            "put": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Edit an appliance",
+                "operationId": "f68623f06d074132ca2a7d8a0af5f4a6",
+                "parameters": [
+                    {
+                        "name": "appliance_id",
+                        "in": "path",
+                        "description": "Appliance ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_appliance_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_appliance_name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Electricity - Delete an appliance",
+                "operationId": "09ab66f4b93266b76790817fecc6be84",
+                "parameters": [
+                    {
+                        "name": "appliance_id",
+                        "in": "path",
+                        "description": "Appliance ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/entries/by-bucket": {
             "get": {
                 "tags": [
@@ -9010,21 +9598,6 @@
                 },
                 "type": "object"
             },
-            "Electricity": {
-                "properties": {
-                    "date": {
-                        "type": "string",
-                        "example": "2020-10-20 13:00"
-                    },
-                    "reading": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": 0,
-                        "example": 1234
-                    }
-                },
-                "type": "object"
-            },
             "AppSetting": {
                 "properties": {
                     "id": {
@@ -9228,6 +9801,39 @@
                         "type": "integer",
                         "example": null,
                         "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Electricity": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "datetime": {
+                        "type": "string",
+                        "example": "2020-10-20 13:00"
+                    },
+                    "reading": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "example": 1234
+                    }
+                },
+                "type": "object"
+            },
+            "ElectricityAppliance": {
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "example": "2020-10-20"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Example Appliance"
                     }
                 },
                 "type": "object"
@@ -11234,6 +11840,44 @@
                 },
                 "example": "1"
             },
+            "electricity_add_edit_appliance_date": {
+                "name": "date",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "example": "2020-01-01"
+            },
+            "electricity_add_edit_appliance_name": {
+                "name": "name",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "Sample Appliance"
+            },
+            "electricity_add_edit_datetime": {
+                "name": "datetime",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "example": "2020-01-01 00:00:00"
+            },
+            "electricity_add_edit_reading": {
+                "name": "reading",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "example": 100
+            },
             "entry_add_edit_id_quality": {
                 "name": "id_quality",
                 "in": "query",
@@ -13069,6 +13713,9 @@
         },
         {
             "name": "Recipes"
+        },
+        {
+            "name": "Electricity"
         },
         {
             "name": "Fourleaf - Electricity"
