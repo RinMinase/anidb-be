@@ -61,10 +61,8 @@ class DatabaseSeeder extends Seeder {
       CarMaintenanceSeeder::class,
 
       // Other seeders
-      RecipeSeeder::class,    // test data
-
-      // Fourleaf seeds
-      FourleafElectricitySeeder::class,     // test data
+      RecipeSeeder::class,        // test data
+      ElectricitySeeder::class,   // test data
     ]);
   }
 }

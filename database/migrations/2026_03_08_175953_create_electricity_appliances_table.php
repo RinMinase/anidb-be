@@ -9,11 +9,10 @@ return new class extends Migration {
    * Run the migrations.
    */
   public function up(): void {
-    Schema::create('fourleaf_electricity', function (Blueprint $table) {
+    Schema::create('electricity_appliances', function (Blueprint $table) {
       $table->id();
-
-      $table->timestamp('datetime');
-      $table->integer('reading');
+      $table->date('date');
+      $table->string('name', 256);
     });
   }
 
@@ -21,6 +20,6 @@ return new class extends Migration {
    * Reverse the migrations.
    */
   public function down(): void {
-    Schema::dropIfExists('fourleaf_electricity');
+    Schema::dropIfExists('electricity_appliances');
   }
 };

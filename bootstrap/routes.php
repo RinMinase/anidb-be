@@ -58,24 +58,6 @@ Route::middleware('web')
 
 Route::prefix('api')
   ->middleware('api')
-  ->namespace('App\Fourleaf\Controllers')
-  ->group(function () {
-
-    Route::prefix('fourleaf')
-      ->group(function () {
-
-        Route::prefix('electricity')
-          ->group(function () {
-            Route::get('', [\App\Fourleaf\Controllers\ElectricityController::class, 'get']);
-            Route::post('', [\App\Fourleaf\Controllers\ElectricityController::class, 'add']);
-            Route::put('{id}', [\App\Fourleaf\Controllers\ElectricityController::class, 'edit']);
-            Route::delete('{id}', [\App\Fourleaf\Controllers\ElectricityController::class, 'delete']);
-          });
-      });
-  });
-
-Route::prefix('api')
-  ->middleware('api')
   ->namespace('App\Controllers')
   ->group(function () {
 
@@ -392,6 +374,32 @@ Route::prefix('api')
 
             Route::put('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageUpload']);
             Route::delete('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageDelete']);
+          });
+
+        Route::prefix('electricity')
+          ->group(function () {
+
+            Route::prefix('appliances')
+              ->group(function () {
+                Route::get('', [\App\Controllers\ElectricityController::class, 'get_all_appliances']);
+                Route::post('', [\App\Controllers\ElectricityController::class, 'add_appliance']);
+                Route::put('{id}', [\App\Controllers\ElectricityController::class, 'edit_appliance']);
+                Route::delete('{id}', [\App\Controllers\ElectricityController::class, 'delete_appliance']);
+              });
+
+            Route::prefix('readings')
+              ->group(function () {
+                Route::get('', [\App\Controllers\ElectricityController::class, 'get_all_electricity']);
+                Route::post('', [\App\Controllers\ElectricityController::class, 'add_electricity']);
+                Route::put('{id}', [\App\Controllers\ElectricityController::class, 'edit_electricity']);
+                Route::delete('{id}', [\App\Controllers\ElectricityController::class, 'delete_electricity']);
+              });
+
+            Route::get('per-week', [\App\Controllers\ElectricityController::class, 'get_per_week']);
+            Route::get('per-month', [\App\Controllers\ElectricityController::class, 'get_per_month']);
+            Route::get('per-year', [\App\Controllers\ElectricityController::class, 'get_per_year']);
+
+            Route::post('change-kwh-setting', [\App\Controllers\ElectricityController::class, 'change_kwh_setting']);
           });
       });
   });
