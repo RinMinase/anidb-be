@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use OpenApi\Attributes as OA;
 
 use App\Exceptions\Auth\InvalidCredentialsException;
+use App\Repositories\LogRepository;
 use App\Repositories\UserRepository;
 use App\Requests\Auth\RegisterRequest;
 use App\Requests\Auth\ResetPasswordRequest;
@@ -207,6 +208,7 @@ class AuthController extends Controller {
     $status = Password::sendResetLink($credentials);
 
     if ($status === Password::RESET_LINK_SENT) {
+      LogRepository::generateLogs('password_reset', $credentials['email'], null, 'send-reset-link');
       return DefaultResponse::success();
     }
 
@@ -230,6 +232,7 @@ class AuthController extends Controller {
     });
 
     if ($status === Password::PASSWORD_RESET) {
+      LogRepository::generateLogs('password_reset', $credentials['email'], null, 'reset-password');
       return DefaultResponse::success();
     }
 
