@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
@@ -57,7 +58,10 @@ return Application::configure(basePath: dirname(__DIR__))
         return response()->json(['status' => 403, 'message' => 'Invalid signature provided'], 403);
 
       if ($e instanceof ValidationException)
-        return response()->json(['status' => 401, 'message' => 'Invalid form data', 'data' => $e->errors()], 401);
+        return response()->json(['status' => 401, 'data' => $e->errors()], 401);
+
+      if ($e instanceof ThrottleRequestsException)
+        return response()->json(['status' => 429, 'message' => 'Too many requests. Please try again'], 429);
 
       $is_prod = config('app.platform') != 'local';
       $has_no_custom_exception = !$e instanceof CustomException;
