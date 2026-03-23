@@ -40,6 +40,7 @@ return [
    */
 
   'url' => env('APP_URL', null),
+  'frontend_url' => env('APP_URL_FRONTEND', 'http://localhost:3000'),
 
   /*
    |--------------------------------------------------------------------------

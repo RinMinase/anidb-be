@@ -72,6 +72,9 @@ Route::prefix('api')
         Route::post('register', [\App\Controllers\AuthController::class, 'register']);
         Route::post('login', [\App\Controllers\AuthController::class, 'login'])->name('login');
 
+        Route::post('forget-password', [\App\Controllers\AuthController::class, 'sendResetLink'])->middleware('throttle:1,1');
+        Route::post('reset-password', [\App\Controllers\AuthController::class, 'resetPassword']);
+
         Route::middleware('auth:sanctum')
           ->group(function () {
             Route::get('user', [\App\Controllers\AuthController::class, 'getUser']);

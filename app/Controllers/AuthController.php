@@ -6,12 +6,15 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use OpenApi\Attributes as OA;
 
 use App\Exceptions\Auth\InvalidCredentialsException;
 use App\Repositories\UserRepository;
 use App\Requests\Auth\RegisterRequest;
+use App\Requests\Auth\ResetPasswordRequest;
 use App\Resources\DefaultResponse;
+use App\Resources\ErrorResponse;
 
 class AuthController extends Controller {
 
@@ -194,5 +197,54 @@ class AuthController extends Controller {
     return DefaultResponse::success(null, [
       'data' => auth()->user(),
     ]);
+  }
+
+  public function sendResetLink(Request $request): JsonResponse {
+    $credentials = $request->validate([
+      'email' => ['required', 'email', 'max:256', 'exists:users,email']
+    ]);
+
+    $status = Password::sendResetLink($credentials);
+
+    if ($status === Password::RESET_LINK_SENT) {
+      return DefaultResponse::success();
+    }
+
+    if ($status === Password::INVALID_USER) {
+      return ErrorResponse::unauthorized("User is invalid.");
+    }
+
+    if ($status === Password::RESET_THROTTLED) {
+      return ErrorResponse::unauthorized("Please try again in a few minutes.");
+    }
+
+    return ErrorResponse::failed();
+  }
+
+  public function resetPassword(ResetPasswordRequest $request): JsonResponse {
+    $credentials = $request->only('email', 'password', 'password_confirmation', 'token');
+
+    $status = Password::reset($credentials, function ($user, $password) {
+      $user->password = bcrypt($password);
+      $user->save();
+    });
+
+    if ($status === Password::PASSWORD_RESET) {
+      return DefaultResponse::success();
+    }
+
+    if ($status === Password::INVALID_USER) {
+      return ErrorResponse::unauthorized('User is invalid.');
+    }
+
+    if ($status === Password::INVALID_TOKEN) {
+      return ErrorResponse::unauthorized('Password reset token is invalid.');
+    }
+
+    if ($status === Password::RESET_THROTTLED) {
+      return ErrorResponse::unauthorized("Please try again in a few minutes.");
+    }
+
+    return ErrorResponse::failed();
   }
 }
