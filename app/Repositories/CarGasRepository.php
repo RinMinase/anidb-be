@@ -333,22 +333,14 @@ class CarGasRepository {
       unset($row["raw_parts"]); // remove original key
     }
 
-    $object_for_export = [
+    $for_export = [
       'gas' => $gas_data,
       'maintenance' => $maintenance_data,
     ];
 
-    $data = json_encode($object_for_export, JSON_PRETTY_PRINT);
-
-    // Create the json file
-    $filename = 'gas_' . now()->timestamp . '.json';
-
-    Storage::disk('local')->put("db-dumps/{$filename}", $data);
-
     return [
-      'file' => Storage::disk('local')->path("db-dumps/{$filename}"),
-      'filename' => $filename,
-      'headers' => ['Content-Type' => 'application/json'],
+      'data' => json_encode($for_export, JSON_PRETTY_PRINT),
+      'filename' => 'gas_' . now()->timestamp . '.json',
     ];
   }
 

@@ -332,8 +332,8 @@ Route::prefix('api')
             Route::get('efficiency', [\App\Controllers\CarGasController::class, 'getEfficiency']);
             Route::get('prices', [\App\Controllers\CarGasController::class, 'getPrices']);
 
-            Route::post('import', [\App\Controllers\GasController::class, 'import']);
-            Route::post('export', [\App\Controllers\GasController::class, 'export']);
+            Route::post('import', [\App\Controllers\CarGasController::class, 'import']);
+            Route::post('export', [\App\Controllers\CarGasController::class, 'export']);
 
             Route::prefix('fuel')
               ->group(function () {

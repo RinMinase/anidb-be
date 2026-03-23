@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 use OpenApi\Attributes as OA;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 use App\Enums\CarEfficiencyGraphTypeEnum;
 use App\Resources\DefaultResponse;
@@ -618,9 +618,11 @@ class CarGasController extends Controller {
       new OA\Response(response: 500, ref: "#/components/responses/Failed"),
     ]
   )]
-  public function export(): BinaryFileResponse {
+  public function export(): StreamedResponse {
     $data = $this->carGasRepository->export();
 
-    return response()->download($data['file'], $data['filename'], $data['headers']);
+    return response()->streamDownload(function () use ($data) {
+      echo $data['data'];
+    }, $data['filename']);
   }
 }
