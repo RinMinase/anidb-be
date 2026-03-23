@@ -184,7 +184,7 @@ class ElectricityController extends Controller {
     ]
   )]
   public function get_per_week(Request $request): JsonResponse {
-    $values = $request->validated([
+    $values = $request->validate([
       'year' => ['sometimes', new YearRule],
     ]);
 
@@ -233,7 +233,7 @@ class ElectricityController extends Controller {
     ]
   )]
   public function get_per_month(Request $request): JsonResponse {
-    $values = $request->validated([
+    $values = $request->validate([
       'year' => ['sometimes', new YearRule],
     ]);
 
@@ -360,7 +360,7 @@ class ElectricityController extends Controller {
     ]
   )]
   public function get_all_appliances(Request $request): JsonResponse {
-    $values = $request->validated([
+    $values = $request->validate([
       'year' => ['sometimes', new YearRule],
     ]);
 
