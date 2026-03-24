@@ -739,15 +739,15 @@
                                                             },
                                                             "from": {
                                                                 "type": "string",
+                                                                "example": "a",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "a"
+                                                                "minLength": 1
                                                             },
                                                             "to": {
                                                                 "type": "string",
+                                                                "example": "d",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "d"
+                                                                "minLength": 1
                                                             },
                                                             "free": {
                                                                 "type": "string",
@@ -1062,15 +1062,15 @@
                                                             },
                                                             "from": {
                                                                 "type": "string",
+                                                                "example": "a",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "a"
+                                                                "minLength": 1
                                                             },
                                                             "to": {
                                                                 "type": "string",
+                                                                "example": "d",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "d"
+                                                                "minLength": 1
                                                             },
                                                             "free": {
                                                                 "type": "string",
@@ -1200,20 +1200,20 @@
                                                                 "averageEfficiency": {
                                                                     "type": "number",
                                                                     "format": "float",
-                                                                    "minimum": 0,
-                                                                    "example": 12.23
+                                                                    "example": 12.23,
+                                                                    "minimum": 0
                                                                 },
                                                                 "lastEfficiency": {
                                                                     "type": "number",
                                                                     "format": "float",
-                                                                    "minimum": 0,
-                                                                    "example": 12.23
+                                                                    "example": 12.23,
+                                                                    "minimum": 0
                                                                 },
                                                                 "mileage": {
                                                                     "type": "integer",
                                                                     "format": "int32",
-                                                                    "minimum": 0,
-                                                                    "example": 1000
+                                                                    "example": 1000,
+                                                                    "minimum": 0
                                                                 },
                                                                 "age": {
                                                                     "type": "string",
@@ -1222,8 +1222,8 @@
                                                                 "kmPerMonth": {
                                                                     "type": "number",
                                                                     "format": "float",
-                                                                    "minimum": 0,
-                                                                    "example": 12.23
+                                                                    "example": 12.23,
+                                                                    "minimum": 0
                                                                 }
                                                             },
                                                             "type": "object"
@@ -1348,9 +1348,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1363,9 +1363,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1378,9 +1378,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1393,9 +1393,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1408,9 +1408,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1423,9 +1423,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1438,9 +1438,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1453,9 +1453,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -1468,9 +1468,9 @@
                                                                                 },
                                                                                 "odometer": {
                                                                                     "type": "number",
+                                                                                    "example": 2000,
                                                                                     "maximum": 100000,
-                                                                                    "minimum": 0,
-                                                                                    "example": 2000
+                                                                                    "minimum": 0
                                                                                 }
                                                                             },
                                                                             "type": "object"
@@ -2203,13 +2203,13 @@
                                                             },
                                                             "season": {
                                                                 "type": "string",
+                                                                "example": "Winter",
                                                                 "enum": [
                                                                     "Winter",
                                                                     "Spring",
                                                                     "Summer",
                                                                     "Fall"
-                                                                ],
-                                                                "example": "Winter"
+                                                                ]
                                                             }
                                                         },
                                                         "type": "object"
@@ -2322,13 +2322,13 @@
                                                         },
                                                         "season": {
                                                             "type": "string",
+                                                            "example": "Winter",
                                                             "enum": [
                                                                 "Winter",
                                                                 "Spring",
                                                                 "Summer",
                                                                 "Fall"
-                                                            ],
-                                                            "example": "Winter"
+                                                            ]
                                                         }
                                                     },
                                                     "type": "object"
@@ -3570,15 +3570,15 @@
                                                             },
                                                             "from": {
                                                                 "type": "string",
+                                                                "example": "a",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "a"
+                                                                "minLength": 1
                                                             },
                                                             "to": {
                                                                 "type": "string",
+                                                                "example": "d",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "d"
+                                                                "minLength": 1
                                                             },
                                                             "free": {
                                                                 "type": "string",
@@ -3860,9 +3860,9 @@
                                                         "properties": {
                                                             "letter": {
                                                                 "type": "string",
+                                                                "example": "A",
                                                                 "maxLength": 1,
-                                                                "minLength": 1,
-                                                                "example": "A"
+                                                                "minLength": 1
                                                             },
                                                             "titles": {
                                                                 "type": "integer",
@@ -3915,9 +3915,9 @@
                         "required": true,
                         "schema": {
                             "type": "string",
+                            "pattern": "^[a-zA-Z0]$",
                             "maxLength": 1,
-                            "minLength": 1,
-                            "pattern": "^[a-zA-Z0]$"
+                            "minLength": 1
                         },
                         "example": "A"
                     }
@@ -9342,32 +9342,32 @@
                             "page": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1,
-                                "example": 1
+                                "example": 1,
+                                "minimum": 1
                             },
                             "limit": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1,
-                                "example": 30
+                                "example": 30,
+                                "minimum": 1
                             },
                             "results": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 0,
-                                "example": 30
+                                "example": 30,
+                                "minimum": 0
                             },
                             "total_results": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 0,
-                                "example": 130
+                                "example": 130,
+                                "minimum": 0
                             },
                             "total_pages": {
                                 "type": "integer",
                                 "format": "int32",
-                                "minimum": 1,
-                                "example": 5
+                                "example": 5,
+                                "minimum": 1
                             },
                             "has_next": {
                                 "type": "boolean",
@@ -9383,9 +9383,9 @@
                 "title": "Year Schema",
                 "type": "integer",
                 "format": "int32",
+                "example": 2020,
                 "maximum": 2999,
-                "minimum": 1970,
-                "example": 2020
+                "minimum": 1970
             },
             "DefaultImportSchema": {
                 "title": "Default Import Schema",
@@ -9723,15 +9723,15 @@
                     },
                     "from": {
                         "type": "string",
+                        "example": "a",
                         "maxLength": 1,
-                        "minLength": 1,
-                        "example": "a"
+                        "minLength": 1
                     },
                     "to": {
                         "type": "string",
+                        "example": "d",
                         "maxLength": 1,
-                        "minLength": 1,
-                        "example": "d"
+                        "minLength": 1
                     },
                     "size": {
                         "type": "integer",
@@ -9778,34 +9778,34 @@
                     "fromBars": {
                         "type": "integer",
                         "format": "int32",
+                        "example": 1,
                         "maximum": 9,
-                        "minimum": 0,
-                        "example": 1
+                        "minimum": 0
                     },
                     "toBars": {
                         "type": "integer",
                         "format": "int32",
+                        "example": 1,
                         "maximum": 9,
-                        "minimum": 0,
-                        "example": 1
+                        "minimum": 0
                     },
                     "odometer": {
                         "type": "integer",
                         "format": "int32",
-                        "minimum": 0,
-                        "example": 1000
+                        "example": 1000,
+                        "minimum": 0
                     },
                     "pricePerLiter": {
                         "type": "number",
                         "format": "float",
-                        "minimum": 0,
-                        "example": 12.23
+                        "example": 12.23,
+                        "minimum": 0
                     },
                     "litersFilled": {
                         "type": "number",
                         "format": "float",
-                        "minimum": 0,
-                        "example": 12.23
+                        "example": 12.23,
+                        "minimum": 0
                     }
                 },
                 "type": "object"
@@ -9823,8 +9823,8 @@
                     "odometer": {
                         "type": "integer",
                         "format": "int32",
-                        "minimum": 0,
-                        "example": 1000
+                        "example": 1000,
+                        "minimum": 0
                     }
                 },
                 "type": "object"
@@ -9907,8 +9907,8 @@
                     "reading": {
                         "type": "integer",
                         "format": "int32",
-                        "minimum": 0,
-                        "example": 1234
+                        "example": 1234,
+                        "minimum": 0
                     }
                 },
                 "type": "object"
@@ -10025,6 +10025,12 @@
                         "type": "string",
                         "example": "add"
                     },
+                    "metadata": {
+                        "type": "object",
+                        "example": {
+                            "additonal_data": "sample value"
+                        }
+                    },
                     "createdAt": {
                         "type": "string",
                         "format": "date-time",
@@ -10134,12 +10140,12 @@
                     },
                     "priority": {
                         "type": "string",
+                        "example": "High",
                         "enum": [
                             "High",
                             "Normal",
                             "Low"
-                        ],
-                        "example": "High"
+                        ]
                     }
                 },
                 "type": "object"
@@ -10244,6 +10250,9 @@
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
                     "username": {
+                        "type": "string"
+                    },
+                    "email": {
                         "type": "string"
                     },
                     "createdAt": {
@@ -10355,8 +10364,8 @@
                     "odometer": {
                         "type": "integer",
                         "format": "int32",
-                        "minimum": 0,
-                        "example": 1000
+                        "example": 1000,
+                        "minimum": 0
                     },
                     "parts": {
                         "description": "Array of Parts",
@@ -10407,14 +10416,14 @@
                     },
                     "quality": {
                         "type": "string",
+                        "example": "4K 2160p",
                         "enum": [
                             "4K 2160",
                             "FHD 1080p",
                             "HD 720p",
                             "HQ 480p",
                             "LQ 360p"
-                        ],
-                        "example": "4K 2160p"
+                        ]
                     },
                     "title": {
                         "type": "string",
@@ -10473,14 +10482,14 @@
                     },
                     "quality": {
                         "type": "string",
+                        "example": "4K 2160p",
                         "enum": [
                             "4K 2160",
                             "FHD 1080p",
                             "HD 720p",
                             "HQ 480p",
                             "LQ 360p"
-                        ],
-                        "example": "4K 2160p"
+                        ]
                     },
                     "idQuality": {
                         "type": "integer",
@@ -10600,13 +10609,13 @@
                     },
                     "releaseSeason": {
                         "type": "string",
+                        "example": "Winter",
                         "enum": [
                             "Winter",
                             "Spring",
                             "Summer",
                             "Fall"
-                        ],
-                        "example": "Winter"
+                        ]
                     },
                     "releaseYear": {
                         "type": "integer",
@@ -10739,14 +10748,14 @@
                     },
                     "quality": {
                         "type": "string",
+                        "example": "4K 2160p",
                         "enum": [
                             "4K 2160",
                             "FHD 1080p",
                             "HD 720p",
                             "HQ 480p",
                             "LQ 360p"
-                        ],
-                        "example": "4K 2160p"
+                        ]
                     },
                     "title": {
                         "type": "string",
@@ -11052,12 +11061,12 @@
                     },
                     "priority": {
                         "type": "string",
+                        "example": "High",
                         "enum": [
                             "High",
                             "Normal",
                             "Low"
-                        ],
-                        "example": "High"
+                        ]
                     }
                 },
                 "type": "object"
@@ -11079,12 +11088,12 @@
                     },
                     "priority": {
                         "type": "string",
+                        "example": "High",
                         "enum": [
                             "High",
                             "Normal",
                             "Low"
-                        ],
-                        "example": "High"
+                        ]
                     }
                 },
                 "type": "object"
