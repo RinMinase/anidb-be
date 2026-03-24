@@ -12,7 +12,7 @@ services:
       context: ./docker
       dockerfile: php.dockerfile
       args:
-        - PHP_VERSION=8.5.2
+        - PHP_VERSION=8.5.4
         - ALPINE_VERSION=3.23
         - COMPOSER_VERSION=2.9.5
     volumes:
