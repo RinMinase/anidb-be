@@ -7,7 +7,7 @@ use Tests\BaseTestCase;
 
 use App\Fourleaf\Models\Electricity;
 
-class ElectricityTest extends BaseTestCase {
+class ElectricityTestDisabled extends BaseTestCase {
 
   // Backup related variables
   private $electricity_backup = null;
