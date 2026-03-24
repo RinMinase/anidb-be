@@ -39,7 +39,7 @@ services:
 
   db:
     container_name: anidb-pgsql
-    image: postgres:18.1-alpine3.22
+    image: postgres:18.3-alpine3.23
     restart: unless-stopped
     tty: true
     environment:
