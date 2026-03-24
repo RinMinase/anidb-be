@@ -2,9 +2,7 @@
 
 namespace App\Requests\PC;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 class GetOwnersRequest extends FormRequest {
@@ -26,15 +24,5 @@ class GetOwnersRequest extends FormRequest {
     $this->merge([
       'show_hidden' => to_boolean($this->show_hidden),
     ]);
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

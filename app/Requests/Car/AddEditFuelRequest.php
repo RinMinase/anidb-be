@@ -2,9 +2,7 @@
 
 namespace App\Requests\Car;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 #[OA\Parameter(
@@ -62,15 +60,5 @@ class AddEditFuelRequest extends FormRequest {
       'price_per_liter' => ['nullable', 'numeric', 'min:0', 'max:150'],
       'liters_filled' => ['nullable', 'numeric', 'min:0', 'max:40'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

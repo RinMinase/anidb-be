@@ -2,9 +2,7 @@
 
 namespace App\Requests\PC;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
 
@@ -53,15 +51,5 @@ class AddEditComponentTypeRequest extends FormRequest {
     $this->merge([
       'is_peripheral' => to_boolean($this->is_peripheral, true),
     ]);
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

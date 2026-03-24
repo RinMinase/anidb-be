@@ -2,9 +2,7 @@
 
 namespace App\Requests\Partial;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 class AddEditRequest extends FormRequest {
@@ -39,15 +37,5 @@ class AddEditRequest extends FormRequest {
       'id_priority' => ['required', 'integer', 'exists:priorities,id'],
       'title' => ['required', 'string', 'max:256'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

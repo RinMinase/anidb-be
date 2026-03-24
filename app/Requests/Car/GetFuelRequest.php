@@ -2,9 +2,7 @@
 
 namespace App\Requests\Car;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
 use OpenApi\Attributes as OA;
 
@@ -50,15 +48,5 @@ class GetFuelRequest extends FormRequest {
       'page' => ['integer', 'min:1'],
       'limit' => ['integer', 'min:1', 'max:9999'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

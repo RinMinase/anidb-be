@@ -2,9 +2,7 @@
 
 namespace App\Requests\Sequence;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 class AddEditRequest extends FormRequest {
@@ -39,15 +37,5 @@ class AddEditRequest extends FormRequest {
       'date_from' => ['required', 'date'],
       'date_to' => ['required', 'date', 'after_or_equal:date_from'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Requests\PC;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 use App\Rules\JsonRule;
@@ -61,15 +59,5 @@ class AddEditInfoRequest extends FormRequest {
       'is_active' => to_boolean($this->is_active, true),
       'is_hidden' => to_boolean($this->is_hidden, true),
     ]);
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

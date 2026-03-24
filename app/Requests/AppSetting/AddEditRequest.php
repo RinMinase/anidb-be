@@ -2,12 +2,11 @@
 
 namespace App\Requests\AppSetting;
 
-use App\Models\AppSetting;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use OpenApi\Attributes as OA;
+
+use App\Models\AppSetting;
 
 class AddEditRequest extends FormRequest {
 
@@ -45,15 +44,5 @@ class AddEditRequest extends FormRequest {
       ],
       'value' => ['required', 'string', 'max:256'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

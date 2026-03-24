@@ -2,14 +2,11 @@
 
 namespace App\Requests\Catalog;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Enum;
 use OpenApi\Attributes as OA;
 
 use App\Enums\SeasonsEnum;
-
 use App\Rules\YearRule;
 
 class AddEditRequest extends FormRequest {
@@ -35,15 +32,5 @@ class AddEditRequest extends FormRequest {
       'season' => ['required', new Enum(SeasonsEnum::class)],
       'year' => ['required', new YearRule],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

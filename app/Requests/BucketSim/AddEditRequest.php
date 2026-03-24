@@ -2,9 +2,7 @@
 
 namespace App\Requests\BucketSim;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 use App\Rules\JsonRule;
@@ -34,15 +32,5 @@ class AddEditRequest extends FormRequest {
       'description' => ['required', 'string', 'max:256'],
       'buckets' => ['required', 'string', new JsonRule],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

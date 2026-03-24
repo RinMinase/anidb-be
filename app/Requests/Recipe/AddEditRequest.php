@@ -2,9 +2,7 @@
 
 namespace App\Requests\Recipe;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -48,15 +46,5 @@ class AddEditRequest extends FormRequest {
     $this->merge([
       'ingredients' => $this->ingredients ?? [],
     ]);
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Requests\PC;
 
-use App\Rules\PositiveSignedIntRule;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
+
+use App\Rules\PositiveSignedIntRule;
 
 class AddEditComponentRequest extends FormRequest {
 
@@ -80,15 +79,5 @@ class AddEditComponentRequest extends FormRequest {
     $this->merge([
       'is_onhand' => to_boolean($this->is_onhand, true),
     ]);
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

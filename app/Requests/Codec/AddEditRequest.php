@@ -2,9 +2,7 @@
 
 namespace App\Requests\Codec;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 use App\Rules\PositiveSignedTinyIntRule;
@@ -31,15 +29,5 @@ class AddEditRequest extends FormRequest {
       'codec' => ['required', 'string', 'max:16'],
       'order' => ['integer', 'min:1', new PositiveSignedTinyIntRule],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }
