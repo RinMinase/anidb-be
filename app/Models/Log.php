@@ -14,6 +14,7 @@ use App\Models\Traits\RefreshableAutoIncrements;
     new OA\Property(property: "idChanged", type: "string", example: 1),
     new OA\Property(property: "description", type: "string", example: "title changed from 'old' to 'new'"),
     new OA\Property(property: "action", type: "string", example: "add"),
+    new OA\Property(property: "metadata", type: "object", example: ['additonal_data' => 'sample value']),
     new OA\Property(property: "createdAt", type: "string", format: "date-time", example: "2020-01-01 00:00:00"),
   ]
 )]
@@ -31,6 +32,7 @@ class Log extends Model {
     'id_changed',
     'description',
     'action',
+    'metadata',
     'created_at',
   ];
 
@@ -40,6 +42,7 @@ class Log extends Model {
 
   protected function casts(): array {
     return [
+      'metadata' => 'array',
       'created_at' => 'datetime:Y-m-d H:i:s',
     ];
   }

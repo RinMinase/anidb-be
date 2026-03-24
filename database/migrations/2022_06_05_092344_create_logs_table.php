@@ -23,6 +23,9 @@ return new class extends Migration {
       // for now: add, delete, edit is preferred
       $table->string('action', 32)->nullable();
 
+      // Additional metadata
+      $table->json('metadata')->nullable();
+
       $table->timestamp('created_at');
     });
   }

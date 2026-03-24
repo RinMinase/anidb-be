@@ -47,6 +47,7 @@ class LogRepository {
     $id_changed = null,
     string | array | null $desc = null,
     $action = null,
+    ?array $metadata = null,
   ) {
     $description = '';
 
@@ -67,6 +68,7 @@ class LogRepository {
       'id_changed' => $id_changed,
       'description' => $description,
       'action' => $action,
+      'metadata' => $metadata,
     ];
 
     Log::create($data);
