@@ -2,9 +2,7 @@
 
 namespace App\Requests\Entry;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 use App\Models\Entry;
@@ -47,15 +45,5 @@ class OffquelsRequest extends FormRequest {
     return [
       'offquel_uuid' => ['required', 'string', 'uuid'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

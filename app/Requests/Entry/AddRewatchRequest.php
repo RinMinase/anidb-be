@@ -2,9 +2,7 @@
 
 namespace App\Requests\Entry;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 use App\Models\Entry;
@@ -30,15 +28,5 @@ class AddRewatchRequest extends FormRequest {
     return [
       'date_rewatched' => ['required', 'date', $date_validation],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

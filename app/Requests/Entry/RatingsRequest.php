@@ -2,9 +2,7 @@
 
 namespace App\Requests\Entry;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 use App\Models\Entry;
@@ -50,15 +48,5 @@ class RatingsRequest extends FormRequest {
       'graphics' => ['nullable', 'integer', 'min:0', 'max:5'],
       'plot' => ['nullable', 'integer', 'min:0', 'max:5'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }

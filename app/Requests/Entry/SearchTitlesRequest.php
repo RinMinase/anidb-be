@@ -2,9 +2,7 @@
 
 namespace App\Requests\Entry;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 class SearchTitlesRequest extends FormRequest {
@@ -44,15 +42,5 @@ class SearchTitlesRequest extends FormRequest {
     $this->merge([
       'id_excluded' => to_boolean($this->get('id_excluded')),
     ]);
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }
