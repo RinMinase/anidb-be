@@ -367,7 +367,7 @@ class EntryTest extends BaseTestCase {
   public function test_should_search_all_data_by_title() {
     $this->setup_config();
 
-    $test_params = [ 'query' => 'another solo' ];
+    $test_params = ['query' => 'another solo'];
     $response = $this->withoutMiddleware()->get('/api/entries?' . http_build_query($test_params));
 
     $response->assertStatus(200)
@@ -1683,7 +1683,12 @@ class EntryTest extends BaseTestCase {
     $this->assertTrue(Str::isUrl($image_url));
 
     file_get_contents($image_url);
-    $headers = implode("\n", $http_response_header);
+    $headers = implode(
+      "\n",
+      function_exists('http_get_last_response_headers')
+        ? (http_get_last_response_headers() ?? [])
+        : ($http_response_header ?? [])
+    );
 
     if (preg_match_all("/^content-type\s*:\s*(.*)$/mi", $headers, $matches)) {
       $content_type = end($matches[1]);
@@ -1715,7 +1720,12 @@ class EntryTest extends BaseTestCase {
       $cloudinary_image = pathinfo($actual)['filename'];
 
       file_get_contents($actual);
-      $headers = implode("\n", $http_response_header);
+      $headers = implode(
+        "\n",
+        function_exists('http_get_last_response_headers')
+          ? (http_get_last_response_headers() ?? [])
+          : ($http_response_header ?? [])
+      );
 
       if (preg_match_all("/^content-type\s*:\s*(.*)$/mi", $headers, $matches)) {
         $content_type = end($matches[1]);
@@ -2157,7 +2167,7 @@ class EntryTest extends BaseTestCase {
 
   public function test_should_not_return_searched_titles_when_entry_id_is_used_instead_of_uuid() {
     // Excluded ID
-    $test_params = [ 'id' => $this->entry_id_1 ];
+    $test_params = ['id' => $this->entry_id_1];
     $response = $this->withoutMiddleware()->get('/api/entries/titles?' . http_build_query($test_params));
 
     $response->assertStatus(401)
