@@ -2,9 +2,7 @@
 
 namespace App\Fourleaf\Requests\Electricity;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use OpenApi\Attributes as OA;
 
 #[OA\Parameter(
@@ -29,15 +27,5 @@ class GetRequest extends FormRequest {
       'year' => ['required', 'integer', 'min:1900', 'max:2099'],
       'month' => ['required', 'integer', 'min:1', 'max:12'],
     ];
-  }
-
-  public function failedValidation(Validator $validator) {
-    /** @disregard TypeInvalid */
-    throw new HttpResponseException(
-      response()->json([
-        'status' => 401,
-        'data' => $validator->errors(),
-      ], 401)
-    );
   }
 }
