@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Routing\Exceptions\InvalidSignatureException;
 use Illuminate\Validation\ValidationException;
@@ -17,7 +18,8 @@ use App\Commands\BackupDatabase;
 use App\Commands\PruneOldLogData;
 use App\Exceptions\CustomException;
 use App\Middleware\ShouldHaveApiKey;
-use App\Middleware\VerifyCsrfToken;
+use App\Middleware\CustomPreventRequestForgery;
+use App\AppServiceProvider;
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -27,9 +29,13 @@ return Application::configure(basePath: dirname(__DIR__))
 
   ->withCommands([__DIR__ . '/../app/Commands'])
 
+  ->withProviders([
+    AppServiceProvider::class,
+  ])
+
   ->withMiddleware(function (Middleware $middleware) {
     $middleware->web(replace: [
-      Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class => VerifyCsrfToken::class,
+      PreventRequestForgery::class => CustomPreventRequestForgery::class,
     ]);
 
     $middleware->api(prepend: [
