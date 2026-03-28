@@ -737,6 +737,96 @@ class EntryRepository {
       ->toArray();
   }
 
+  public function get_map($uuid) {
+    $target_id = Entry::where('uuid', $uuid)->firstOrFail()->id;
+
+    $entries_raw = DB::select("
+      WITH RECURSIVE
+      -- STEP 1: Find the absolute root of the chain
+      find_root AS (
+        SELECT id, prequel_id FROM entries WHERE id = :id1
+        UNION ALL
+        SELECT e.id, e.prequel_id FROM entries e
+        INNER JOIN find_root fr ON e.id = fr.prequel_id
+      ),
+      root_entry AS (
+        SELECT id FROM find_root WHERE prequel_id IS NULL LIMIT 1
+      ),
+
+      -- STEP 2: Run bidirectional search starting from root
+      related_entries AS (
+        SELECT
+          id, uuid, title, prequel_id, sequel_id,
+          'start'::text as relation_type,
+          ARRAY[id] as visited_path
+        FROM entries
+        WHERE id = (SELECT id FROM root_entry)
+
+        UNION
+
+        SELECT
+          e.id, e.uuid, e.title, e.prequel_id, e.sequel_id,
+          CASE
+            -- Nodes from the same branch are 'sequels'
+            WHEN e.id = re.sequel_id THEN 'sequel'
+            WHEN e.id = re.prequel_id THEN 'sequel'
+            -- Otherwise, it is a side-branch
+            ELSE 'spin-off'
+          END as relation_type,
+          re.visited_path || e.id
+        FROM entries e
+        INNER JOIN related_entries re ON (
+          e.id = re.prequel_id OR
+          e.id = re.sequel_id OR
+          re.id = e.prequel_id OR
+          re.id = e.sequel_id
+        )
+        WHERE NOT (e.id = ANY(re.visited_path))
+      )
+      SELECT DISTINCT ON (id) id, uuid, title, prequel_id, sequel_id, relation_type
+      FROM related_entries
+      ORDER BY id ASC;
+    ", ['id1' => $target_id]);
+
+    /**
+     * Columns returned above:
+     * id, uuid, title, prequel_id, sequel_id, relation_type (start, sequel, spin-off)
+     */
+
+    $entries = [];
+    $links = [];
+    $idToNodeMap = [];
+
+    // Map all entries to their graph node IDs (n1, n2, etc.)
+    foreach ($entries_raw as $index => $row) {
+      $nodeId = "n" . ($index + 1);
+      $idToNodeMap[$row->id] = $nodeId;
+
+      $entries[] = [
+        'linkId' => $nodeId,
+        'title' => $row->title,
+        'entryId' => $row->uuid,
+      ];
+    }
+
+    foreach ($entries_raw as $row) {
+      if ($row->relation_type === 'start') continue;
+
+      if ($row->prequel_id && isset($idToNodeMap[$row->prequel_id])) {
+        $links[] = [
+          'from' => $idToNodeMap[$row->prequel_id],
+          'to' => $idToNodeMap[$row->id],
+          'relation' => $row->relation_type,
+        ];
+      }
+    }
+
+    return [
+      'entries' => $entries,
+      'links' => $links,
+    ];
+  }
+
   /**
    * Calculation Functions
    */

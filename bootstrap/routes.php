@@ -142,6 +142,7 @@ Route::prefix('api')
           ->group(function () {
             Route::get('', [\App\Controllers\EntryController::class, 'index']);
             Route::get('{uuid}', [\App\Controllers\EntryController::class, 'get']);
+            Route::get('{uuid}/map', [\App\Controllers\EntryController::class, 'get_map']);
             Route::get('titles', [\App\Controllers\EntryController::class, 'get_titles']);
           });
 

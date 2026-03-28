@@ -751,4 +751,53 @@ class EntryController extends Controller {
       'data' => $this->entryRepository->get_watchers(),
     ]);
   }
+
+  #[OA\Get(
+    tags: ['Entry'],
+    path: '/api/entries/{entry_id}/map',
+    summary: 'Get Title Map of entry',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'entry_id',
+        in: 'path',
+        required: true,
+        description: 'Entry ID',
+        example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158',
+        schema: new OA\Schema(type: 'string', format: 'uuid')
+      ),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(properties: [
+              new OA\Property(property: 'data', properties: [
+                new OA\Property(property: 'entries', type: 'array', items: new OA\Items(properties: [
+                  new OA\Property(property: 'linkId', type: 'string', example: 'n1'),
+                  new OA\Property(property: 'title', type: 'string', example: 'Sample Title'),
+                  new OA\Property(property: 'entryId', type: 'string', format: 'uuid', example: 'e9597119-8452-4f2b-96d8-f2b1b1d2f158'),
+                ])),
+                new OA\Property(property: 'links', type: 'string', items: new OA\Items(properties: [
+                  new OA\Property(property: 'from', type: 'string', example: 'n1'),
+                  new OA\Property(property: 'to', type: 'string', example: 'n2'),
+                  new OA\Property(property: 'relation', type: 'string', example: 'sequel'),
+                ])),
+              ]),
+            ]),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function get_map($uuid): JsonResponse {
+    return DefaultResponse::success(null, [
+      'data' => $this->entryRepository->get_map($uuid),
+    ]);
+  }
 }
