@@ -384,5 +384,118 @@ class EntrySeeder extends Seeder {
     EntryRating::insert($test_data_rating);
     EntryRewatch::insert($test_data_rewatch);
     EntryGenre::insert($test_data_genre);
+
+
+    /**
+     * Additional Entry-relational data
+     */
+    $main_1_id = Str::uuid()->toString();
+    $main_2_id = Str::uuid()->toString();
+    $main_3_id = Str::uuid()->toString();
+    $main_4_id = Str::uuid()->toString();
+    $main_5_id = Str::uuid()->toString();
+    $spin_1a_id = Str::uuid()->toString(); // connected to main 2
+    $spin_1b_id = Str::uuid()->toString(); // connected to spin 1a
+    $spin_2a_id = Str::uuid()->toString(); // connected to main 3
+    $spin_2b_id = Str::uuid()->toString(); // connected to spin 2a
+    $spin_2c_id = Str::uuid()->toString(); // connected to spin 2b
+    $spin_3a_id = Str::uuid()->toString(); // connected to spin 2a
+    $spin_3b_id = Str::uuid()->toString(); // connected to spin 2b
+    $spin_4a_id = Str::uuid()->toString(); // connected to main 1
+    $spin_4b_id = Str::uuid()->toString(); // connected to spin 4a
+    $spin_5a_id = Str::uuid()->toString(); // connected to spin 2b
+    $spin_5b_id = Str::uuid()->toString(); // connected to spin 5a
+
+    /**
+     * Diagram:
+     * =======================
+     * Main 1 -> Main 2 -> Main 3 -> Main 4 -> Main 5
+     *  |        |         └-> Spin 2A -> Spin 2B -> Spin 2C
+     *  |        |              |          └-> Spin 5A -> Spin 5B
+     *  |        |              └-> Spin 3A -> Spin 3B
+     *  |        └-> Spin 1A -> Spin 1B
+     *  └-> Spin 4A -> Spin 4B
+     */
+
+    $date_value = Carbon::parse('2001-01-01')->format('Y-m-d');
+    $datetime_value = Carbon::now()->format('Y-m-d H:i:s');
+    $addtl_relational_data = [
+      ['uuid' => $main_1_id, 'title' => 'Main 1'],
+      ['uuid' => $main_2_id, 'title' => 'Main 2'],
+      ['uuid' => $main_3_id, 'title' => 'Main 3'],
+      ['uuid' => $main_4_id, 'title' => 'Main 4'],
+      ['uuid' => $main_5_id, 'title' => 'Main 5'],
+      ['uuid' => $spin_1a_id, 'title' => 'Spin 1A'],
+      ['uuid' => $spin_1b_id, 'title' => 'Spin 1B'],
+      ['uuid' => $spin_2a_id, 'title' => 'Spin 2A'],
+      ['uuid' => $spin_2b_id, 'title' => 'Spin 2B'],
+      ['uuid' => $spin_2c_id, 'title' => 'Spin 2C'],
+      ['uuid' => $spin_3a_id, 'title' => 'Spin 3A'],
+      ['uuid' => $spin_3b_id, 'title' => 'Spin 3B'],
+      ['uuid' => $spin_4a_id, 'title' => 'Spin 4A'],
+      ['uuid' => $spin_4b_id, 'title' => 'Spin 4B'],
+      ['uuid' => $spin_5a_id, 'title' => 'Spin 5A'],
+      ['uuid' => $spin_5b_id, 'title' => 'Spin 5B'],
+    ];
+
+    foreach ($addtl_relational_data as &$item) {
+      $item['id_quality'] = $id_quality_1080;
+      $item['date_finished'] = $date_value;
+      $item['episodes'] = 1;
+      $item['created_at'] = $datetime_value;
+      $item['updated_at'] = $datetime_value;
+    }
+    unset($item);
+
+    Entry::insert($addtl_relational_data);
+
+    $main_1 = Entry::where('uuid', $main_1_id)->first();
+    $main_2 = Entry::where('uuid', $main_2_id)->first();
+    $main_3 = Entry::where('uuid', $main_3_id)->first();
+    $main_4 = Entry::where('uuid', $main_4_id)->first();
+    $main_5 = Entry::where('uuid', $main_5_id)->first();
+    $spin_1a = Entry::where('uuid', $spin_1a_id)->first();
+    $spin_1b = Entry::where('uuid', $spin_1b_id)->first();
+    $spin_2a = Entry::where('uuid', $spin_2a_id)->first();
+    $spin_2b = Entry::where('uuid', $spin_2b_id)->first();
+    $spin_2c = Entry::where('uuid', $spin_2c_id)->first();
+    $spin_3a = Entry::where('uuid', $spin_3a_id)->first();
+    $spin_3b = Entry::where('uuid', $spin_3b_id)->first();
+    $spin_4a = Entry::where('uuid', $spin_4a_id)->first();
+    $spin_4b = Entry::where('uuid', $spin_4b_id)->first();
+    $spin_5a = Entry::where('uuid', $spin_5a_id)->first();
+    $spin_5b = Entry::where('uuid', $spin_5b_id)->first();
+
+    $main_1->update(['sequel_id' => $main_2->id]);
+    $main_2->update(['prequel_id' => $main_1->id, 'sequel_id' => $main_3->id]);
+    $main_3->update(['prequel_id' => $main_2->id, 'sequel_id' => $main_4->id]);
+    $main_4->update(['prequel_id' => $main_3->id, 'sequel_id' => $main_5->id]);
+    $main_5->update(['prequel_id' => $main_4->id]);
+
+    $spin_1a->update(['prequel_id' => $main_2->id, 'sequel_id' => $spin_1b->id]);
+    $spin_1b->update(['prequel_id' => $spin_1a->id]);
+
+    $spin_2a->update(['prequel_id' => $main_3->id, 'sequel_id' => $spin_2b->id]);
+    $spin_2b->update(['prequel_id' => $spin_2a->id, 'sequel_id' => $spin_2c->id]);
+    $spin_2c->update(['prequel_id' => $spin_2b->id]);
+
+    $spin_3a->update(['prequel_id' => $spin_2a->id, 'sequel_id' => $spin_3b->id]);
+    $spin_3b->update(['prequel_id' => $spin_3a->id]);
+
+    $spin_4a->update(['prequel_id' => $main_1->id, 'sequel_id' => $spin_4b->id]);
+    $spin_4b->update(['prequel_id' => $spin_4a->id]);
+
+    $spin_5a->update(['prequel_id' => $spin_2b->id, 'sequel_id' => $spin_5b->id]);
+    $spin_5b->update(['prequel_id' => $spin_5a->id]);
+
+    $addtl_relational_data_offquels = [
+      ['id_entries' => $main_1->id, 'id_entries_offquel' => $spin_4a->id],
+      ['id_entries' => $main_2->id, 'id_entries_offquel' => $spin_1a->id],
+      ['id_entries' => $main_3->id, 'id_entries_offquel' => $spin_2a->id],
+      ['id_entries' => $spin_2a->id, 'id_entries_offquel' => $spin_3a->id],
+      ['id_entries' => $spin_2b->id, 'id_entries_offquel' => $spin_5a->id],
+    ];
+
+    EntryOffquel::insert($addtl_relational_data_offquels);
   }
 }
