@@ -55,6 +55,7 @@ class EntrySummaryResource extends JsonResource {
   public function toArray($request) {
     return [
       'id' => $this->uuid,
+      'uuid' => $this->uuid,
       'quality' => $this->quality->quality,
       'title' => $this->title,
       'dateFinished' => $this->calcDateFinished(),
