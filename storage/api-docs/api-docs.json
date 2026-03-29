@@ -10847,6 +10847,11 @@
                         "format": "uuid",
                         "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
                     },
+                    "uuid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "e9597119-8452-4f2b-96d8-f2b1b1d2f158"
+                    },
                     "quality": {
                         "type": "string",
                         "example": "4K 2160p",
