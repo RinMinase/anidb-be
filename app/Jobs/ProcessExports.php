@@ -45,9 +45,6 @@ use App\Models\CarMaintenance;
 use App\Models\CarMaintenancePart;
 use App\Models\CarMaintenanceType;
 
-use App\Fourleaf\Models\BillsElectricity as FourleafBillsElectricity;
-use App\Fourleaf\Models\Electricity as FourleafElectricity;
-
 use App\Enums\ExportTypesEnum;
 use App\Repositories\EntryRepository;
 
@@ -140,8 +137,6 @@ class ProcessExports implements ShouldQueue {
       'entries_rewatch',
       'entries_watchers',
       'exports',
-      'fourleaf_bills_electricity',
-      'fourleaf_electricity',
       'genres',
       'groups',
       'logs',
@@ -278,12 +273,6 @@ class ProcessExports implements ShouldQueue {
     $car_maintenance_parts = CarMaintenancePart::all()->toArray();
     $car_maintenance_types = CarMaintenanceType::all()->toArray();
 
-    // Fourleaf
-    $hidden_columns = ['id'];
-    $fourleaf_bills_electricity = FourleafBillsElectricity::all()->makeVisible($hidden_columns)->toArray();
-
-    $fourleaf_electricity = FourleafElectricity::all()->toArray();
-
     $data = [
       'app_settings' => $app_settings,
 
@@ -322,9 +311,6 @@ class ProcessExports implements ShouldQueue {
       'car_maintenance' => $car_maintenance,
       'car_maintenance_parts' => $car_maintenance_parts,
       'car_maintenance_types' => $car_maintenance_types,
-
-      'fourleaf_bills_electricity' => $fourleaf_bills_electricity,
-      'fourleaf_electricity' => $fourleaf_electricity,
     ];
 
     $contents = json_encode($data, JSON_PRETTY_PRINT);

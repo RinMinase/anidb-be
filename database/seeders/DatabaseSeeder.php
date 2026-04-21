@@ -62,7 +62,6 @@ class DatabaseSeeder extends Seeder {
 
       // Other seeders
       RecipeSeeder::class,        // test data
-      ElectricitySeeder::class,   // test data
     ]);
   }
 }
