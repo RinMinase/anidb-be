@@ -366,7 +366,6 @@ Route::prefix('api')
             Route::delete('{id}', [\App\Controllers\AppSettingController::class, 'delete']);
           });
 
-
         Route::prefix('recipes')
           ->middleware(IsAdminRole::class)
           ->group(function () {
@@ -378,6 +377,17 @@ Route::prefix('api')
 
             Route::put('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageUpload']);
             Route::delete('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageDelete']);
+          });
+
+        Route::prefix('electricity')
+          ->middleware(IsAdminRole::class)
+          ->group(function () {
+            Route::prefix('readings')
+              ->group(function () {
+                Route::post('import', [\App\Controllers\ElectricityReadingController::class, 'import']);
+                Route::get('month-stats', [\App\Controllers\ElectricityReadingController::class, 'getMonthStats']);
+                Route::get('year-stats', [\App\Controllers\ElectricityReadingController::class, 'getYearStats']);
+              });
           });
       });
   });

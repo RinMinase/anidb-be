@@ -49,7 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     $exceptions->render(function (Exception $e) {
       if ($e instanceof MethodNotAllowedHttpException)
-        return response()->json(['status' => 400, 'message' => 'Invalid requests'], 400);
+        return response()->json(['status' => 400, 'message' => 'Invalid request'], 400);
 
       if ($e instanceof NotFoundHttpException)
         return response()->json(['status' => 404, 'message' => 'This API endpoint does not exist'], 404);

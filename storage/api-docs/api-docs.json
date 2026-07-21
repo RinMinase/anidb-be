@@ -2952,6 +2952,186 @@
                 ]
             }
         },
+        "/api/electricity/readings/month-stats": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Get Electricity Monthly Reading Stats",
+                "operationId": "044e446679ebeb0a2766acb9b12d00d6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/electricity_get_month_stats_year"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_get_month_stats_month"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "daily": {
+                                                            "type": "object"
+                                                        },
+                                                        "monthly": {
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/readings/year-stats": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Get Electricity Yearly Reading Stats",
+                "operationId": "c6c7d303d95a6b3c69021d46436625f8",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/electricity_get_year_stats_year"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "properties": {
+                                                        "daily": {
+                                                            "type": "object"
+                                                        },
+                                                        "monthly": {
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/readings/import": {
+            "post": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Import a JSON file to seed data for electricity readings table",
+                "operationId": "34058375034e6fb1cd743ad7d3f8b52d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/DefaultImportSchema"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/entries/by-bucket": {
             "get": {
                 "tags": [
@@ -11035,6 +11215,34 @@
                 },
                 "example": "1"
             },
+            "electricity_get_month_stats_year": {
+                "name": "year",
+                "in": "query",
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
+            },
+            "electricity_get_month_stats_month": {
+                "name": "month",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "format": "int8",
+                    "maximum": 12,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "electricity_get_year_stats_year": {
+                "name": "year",
+                "in": "query",
+                "schema": {
+                    "$ref": "#/components/schemas/YearSchema"
+                },
+                "example": "2020"
+            },
             "entry_add_edit_id_quality": {
                 "name": "id_quality",
                 "in": "query",
@@ -12821,6 +13029,9 @@
         },
         {
             "name": "Recipes"
+        },
+        {
+            "name": "Electricity"
         }
     ]
 }
