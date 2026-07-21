@@ -387,6 +387,12 @@ Route::prefix('api')
                 Route::post('import', [\App\Controllers\ElectricityReadingController::class, 'import']);
                 Route::get('month-stats', [\App\Controllers\ElectricityReadingController::class, 'getMonthStats']);
                 Route::get('year-stats', [\App\Controllers\ElectricityReadingController::class, 'getYearStats']);
+
+                Route::get('', [\App\Controllers\ElectricityReadingController::class, 'index']);
+                Route::get('{id}', [\App\Controllers\ElectricityReadingController::class, 'get']);
+                Route::post('', [\App\Controllers\ElectricityReadingController::class, 'add']);
+                Route::put('{id}', [\App\Controllers\ElectricityReadingController::class, 'edit']);
+                Route::delete('{id}', [\App\Controllers\ElectricityReadingController::class, 'delete']);
               });
           });
       });

@@ -2952,6 +2952,246 @@
                 ]
             }
         },
+        "/api/electricity/readings/": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Get All Electricity Readings",
+                "operationId": "8626841abf4afd11f326c07483aa08ec",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/electricity_get_readings_order"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_get_readings_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_get_readings_limit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/Pagination"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/ElectricityReading"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/readings/{reading_id}": {
+            "get": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Get Electricity Reading",
+                "operationId": "3d25fdc1a6ddfb803ffd615e16010503",
+                "parameters": [
+                    {
+                        "name": "reading_id",
+                        "in": "path",
+                        "description": "Reading ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/ElectricityReading"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Edit an Electricity Reading",
+                "operationId": "797d7212d6fb0a5ec6fbc7d1fe0f6922",
+                "parameters": [
+                    {
+                        "name": "reading_id",
+                        "in": "path",
+                        "description": "Reading ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_reading_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_reading_reading"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Delete an Electricity Reading",
+                "operationId": "1a72d485e38a1c2090825414cdc3087c",
+                "parameters": [
+                    {
+                        "name": "reading_id",
+                        "in": "path",
+                        "description": "Reading ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/readings": {
+            "post": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Add an Electricity Reading",
+                "operationId": "bde65c9ffb5c685ed75d4881daf2b2de",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_reading_date"
+                    },
+                    {
+                        "$ref": "#/components/parameters/electricity_add_edit_reading_reading"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/Success"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
         "/api/electricity/readings/month-stats": {
             "get": {
                 "tags": [
@@ -9290,6 +9530,24 @@
                 },
                 "type": "object"
             },
+            "ElectricityReading": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2001-01-01T00:00:00.000000Z"
+                    },
+                    "reading": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "EntryWatcher": {
                 "properties": {
                     "id": {
@@ -11215,6 +11473,27 @@
                 },
                 "example": "1"
             },
+            "electricity_add_edit_reading_date": {
+                "name": "date",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "example": "2001-01-01T00:00:00.000000Z"
+            },
+            "electricity_add_edit_reading_reading": {
+                "name": "reading",
+                "in": "query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int8",
+                    "maximum": 2147483647,
+                    "minimum": 1
+                },
+                "example": 1
+            },
             "electricity_get_month_stats_year": {
                 "name": "year",
                 "in": "query",
@@ -11234,6 +11513,44 @@
                     "minimum": 1
                 },
                 "example": 1
+            },
+            "electricity_get_readings_order": {
+                "name": "order",
+                "in": "query",
+                "description": "Order - Direction of order column (date column)",
+                "schema": {
+                    "type": "string",
+                    "default": "asc",
+                    "enum": [
+                        "asc",
+                        "desc"
+                    ]
+                }
+            },
+            "electricity_get_readings_page": {
+                "name": "page",
+                "in": "query",
+                "description": "Pagination - Page to query",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 1,
+                    "minimum": 1
+                },
+                "example": 1
+            },
+            "electricity_get_readings_limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Pagination - Page item limit",
+                "schema": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 100,
+                    "maximum": 9999,
+                    "minimum": 1
+                },
+                "example": 100
             },
             "electricity_get_year_stats_year": {
                 "name": "year",

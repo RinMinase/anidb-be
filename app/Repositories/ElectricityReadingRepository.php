@@ -2,29 +2,66 @@
 
 namespace App\Repositories;
 
-use App\Models\AppSetting;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Resources\Json\JsonResource;
 
+use App\Models\AppSetting;
 use App\Models\ElectricityReading;
 
 class ElectricityReadingRepository {
 
-  public function getAll() {
+  public function getAll(array $params) {
+    // Ordering Parameters
+    $order = $params['order'] ?? 'asc';
+
+    // Pagination Parameters
+    $limit = isset($params['limit']) ? intval($params['limit']) : 100;
+    $page = isset($params['page']) ? intval($params['page']) : 1;
+    $skip = ($page > 1) ? ($page * $limit - $limit) : 0;
+
+    $data = ElectricityReading::orderBy('date', $order)
+      ->orderBy('id', 'asc');
+
+    $total = $data->count();
+    $total_pages = ceil($total / $limit);
+    $has_next = $page < $total_pages;
+
+    $data = $data->skip($skip)->paginate($limit);
+
+    return [
+      'data' => JsonResource::collection($data),
+      'meta' => [
+        'page' => $page,
+        'limit' => intval($limit),
+        'results' => count($data),
+        'total_results' => $total,
+        'total_pages' => $total_pages,
+        'has_next' => $has_next,
+      ],
+    ];
   }
 
   public function get(string $id) {
+    return ElectricityReading::where('id', $id)->firstOrFail();
   }
 
   public function add(array $values) {
+    return ElectricityReading::create($values);
   }
 
   public function edit(array $values, string $id) {
+    return ElectricityReading::where('id', $id)
+      ->firstOrFail()
+      ->update($values);
   }
 
   public function delete(string $id) {
+    return ElectricityReading::where('id', $id)
+      ->firstOrFail()
+      ->delete();
   }
 
   public function getMonthStats(string $year, string $month) {

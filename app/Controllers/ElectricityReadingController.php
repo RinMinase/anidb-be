@@ -3,14 +3,14 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-
 use OpenApi\Attributes as OA;
 
 use App\Exceptions\JsonParsingException;
 use App\Repositories\ElectricityReadingRepository;
+use App\Requests\Electricity\AddEditReadingRequest;
 use App\Requests\Electricity\GetMonthStatsRequest;
+use App\Requests\Electricity\GetReadingsRequest;
 use App\Requests\Electricity\GetYearStatsRequest;
-use App\Requests\ElectricityReading\AddEditRequest;
 use App\Requests\ImportRequest;
 use App\Resources\DefaultResponse;
 
@@ -22,32 +22,166 @@ class ElectricityReadingController extends Controller {
     $this->electricityReadingRepository = $electricityReadingRepository;
   }
 
-  public function index(): JsonResponse {
+  #[OA\Get(
+    tags: ['Electricity'],
+    path: '/api/electricity/readings/',
+    summary: 'Get All Electricity Readings',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/electricity_get_readings_order"),
+      new OA\Parameter(ref: "#/components/parameters/electricity_get_readings_page"),
+      new OA\Parameter(ref: "#/components/parameters/electricity_get_readings_limit"),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'OK',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(ref: "#/components/schemas/Pagination"),
+            new OA\Schema(
+              properties: [
+                new OA\Property(
+                  property: 'data',
+                  type: 'array',
+                  items: new OA\Items(ref: '#/components/schemas/ElectricityReading')
+                ),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function index(GetReadingsRequest $request): JsonResponse {
+    $data = $this->electricityReadingRepository->getAll(
+      $request->only('order', 'limit', 'page')
+    );
+
     return DefaultResponse::success(null, [
-      'data' => $this->electricityReadingRepository->getAll(),
+      'data' => $data['data'],
+      'meta' => $data['meta'],
     ]);
   }
 
-  public function get(): JsonResponse {
+  #[OA\Get(
+    tags: ['Electricity'],
+    path: '/api/electricity/readings/{reading_id}',
+    summary: 'Get Electricity Reading',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: 'reading_id',
+        description: 'Reading ID',
+        in: 'path',
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: 'integer', format: 'int32')
+      ),
+    ],
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'Success',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: 'data', ref: '#/components/schemas/ElectricityReading'),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 404, ref: '#/components/responses/NotFound'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function get(string $id): JsonResponse {
     return DefaultResponse::success(null, [
       'data' => $this->electricityReadingRepository->get($id),
     ]);
   }
 
-  public function add(AddEditRequest $request): JsonResponse {
+  #[OA\Post(
+    tags: ['Electricity'],
+    path: '/api/electricity/readings',
+    summary: 'Add an Electricity Reading',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(ref: "#/components/parameters/electricity_add_edit_reading_date"),
+      new OA\Parameter(ref: "#/components/parameters/electricity_add_edit_reading_reading"),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function add(AddEditReadingRequest $request): JsonResponse {
     $this->electricityReadingRepository->add($request->only('date', 'reading'));
 
     return DefaultResponse::success();
   }
 
-  public function edit(AddEditRequest $request, string $id): JsonResponse {
+  #[OA\Put(
+    tags: ['Electricity'],
+    path: '/api/electricity/readings/{reading_id}',
+    summary: 'Edit an Electricity Reading',
+    security: [['token' => [], 'api-key' => []]],
+    parameters: [
+      new OA\Parameter(
+        name: "reading_id",
+        description: "Reading ID",
+        in: "path",
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int64")
+      ),
+      new OA\Parameter(ref: "#/components/parameters/electricity_add_edit_reading_date"),
+      new OA\Parameter(ref: "#/components/parameters/electricity_add_edit_reading_reading"),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: '#/components/responses/Success'),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function edit(AddEditReadingRequest $request, string $id): JsonResponse {
     $this->electricityReadingRepository->edit($request->only('date', 'reading'), $id);
 
     return DefaultResponse::success();
   }
 
+  #[OA\Delete(
+    tags: ["Electricity"],
+    path: "/api/electricity/readings/{reading_id}",
+    summary: "Delete an Electricity Reading",
+    security: [["token" => [], "api-key" => []]],
+    parameters: [
+      new OA\Parameter(
+        name: "reading_id",
+        description: "Reading ID",
+        in: "path",
+        required: true,
+        example: 1,
+        schema: new OA\Schema(type: "integer", format: "int64")
+      ),
+    ],
+    responses: [
+      new OA\Response(response: 200, ref: "#/components/responses/Success"),
+      new OA\Response(response: 401, ref: "#/components/responses/Unauthorized"),
+      new OA\Response(response: 404, ref: "#/components/responses/NotFound"),
+      new OA\Response(response: 500, ref: "#/components/responses/Failed"),
+    ]
+  )]
   public function delete(string $id): JsonResponse {
-    $this->codecRepository->deleteAudio($id);
+    $this->electricityReadingRepository->delete($id);
 
     return DefaultResponse::success();
   }
