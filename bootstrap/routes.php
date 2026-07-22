@@ -394,6 +394,17 @@ Route::prefix('api')
                 Route::put('{id}', [\App\Controllers\ElectricityReadingController::class, 'edit']);
                 Route::delete('{id}', [\App\Controllers\ElectricityReadingController::class, 'delete']);
               });
+
+            Route::prefix('bills')
+              ->group(function () {
+                Route::get('stats', [\App\Controllers\ElectricityBillController::class, 'getYearStats']);
+
+                Route::get('', [\App\Controllers\ElectricityBillController::class, 'index']);
+                Route::get('{id}', [\App\Controllers\ElectricityBillController::class, 'get']);
+                Route::post('', [\App\Controllers\ElectricityBillController::class, 'add']);
+                Route::put('{id}', [\App\Controllers\ElectricityBillController::class, 'edit']);
+                Route::delete('{id}', [\App\Controllers\ElectricityBillController::class, 'delete']);
+              });
           });
       });
   });
