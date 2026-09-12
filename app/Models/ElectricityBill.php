@@ -46,6 +46,7 @@ class ElectricityBill extends Model {
     'period_from',
     'period_to',
 
+    'calculated_kwh_cost',
     'avg_kwh',
     'reading_from',
     'reading_to',
@@ -58,6 +59,7 @@ class ElectricityBill extends Model {
     'price_govt',
 
     'kwh_price_generation_charge',
+    'kwh_price_transmission_charge',
     'kwh_price_distribution_charge',
 
     'notes',

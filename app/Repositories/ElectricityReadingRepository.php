@@ -197,13 +197,18 @@ class ElectricityReadingRepository {
     $filled_results = collect($period)
       ->map(function (CarbonInterface $date) use ($keyed_results, &$last_valid_avg, &$last_valid_ext) {
         $formattedDate = $date->format('Y-m-d');
+        $formattedDateShort = $date->format('m-d');
 
         // record exists
         if ($keyed_results->has($formattedDate)) {
           $row = $keyed_results->get($formattedDate);
 
-          $last_valid_avg = $row->avg_per_hr;
-          $last_valid_ext = $row->extrapolated_per_day;
+          $last_valid_avg = (float) $row->avg_per_hr;
+          $last_valid_ext = (float) $row->extrapolated_per_day;
+
+          $row->day_short = $formattedDateShort;
+          $row->avg_per_hr = (float) $row->avg_per_hr;
+          $row->extrapolated_per_day = (float) $row->extrapolated_per_day;
 
           return $row;
         }
@@ -211,12 +216,13 @@ class ElectricityReadingRepository {
         // missing record
         return (object) [
           'day' => $formattedDate,
+          'day_short' => $formattedDateShort,
           'day_max_reading' => null,
           'kwh_diff' => null,
           'hour_diff' => null,
           'estimated_avg' => true,
-          'avg_per_hr' => $last_valid_avg,
-          'extrapolated_per_day' => $last_valid_ext,
+          'avg_per_hr' => (float) $last_valid_avg,
+          'extrapolated_per_day' => (float) $last_valid_ext,
         ];
       });
 
@@ -225,10 +231,9 @@ class ElectricityReadingRepository {
     $next_valid_ext = $filled_results->firstWhere('extrapolated_per_day', '!=', null)?->extrapolated_per_day;
 
     $final_results = $filled_results->map(function ($row) use ($next_valid_avg, $next_valid_ext) {
-      if ($row->avg_per_hr === null) {
-        $row->avg_per_hr = $next_valid_avg;
-        $row->extrapolated_per_day = $next_valid_ext;
-      }
+      if (!$row->avg_per_hr) $row->avg_per_hr = $next_valid_avg;
+      if (!$row->extrapolated_per_day) $row->extrapolated_per_day = $next_valid_ext;
+
       return $row;
     });
 
@@ -272,17 +277,14 @@ class ElectricityReadingRepository {
     $last_date = Carbon::parse($readings->last()->date)->startOfDay();
     $partial_days = $first_date->diffInDays($last_date) + 1;
 
-    // Calculate Avg KWh per day
+    // Calculate Avg kWh per day
     $first_reading = $readings->first()->reading;
     $last_reading = $readings->last()->reading;
     $total_kwh_reading = $last_reading - $first_reading;
     $avg_kwh_per_day = $total_kwh_reading / $partial_days;
 
-    // Fetch Cost per KWh
-    $kwh_cost_default_value = 15; // default value
-    $kwh_setting = AppSetting::where('key', 'kwh_price')->first();
-
-    $kwh_cost = $kwh_setting ? $kwh_setting->value : $kwh_cost_default_value;
+    // Fetch Cost per kWh
+    $kwh_cost = ElectricityBillRepository::calculateKwhCost();
     $total_days_of_month = $date->daysInMonth;
     $monthly_est_cost = $kwh_cost * $avg_kwh_per_day * $total_days_of_month;
 

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Exceptions\JsonParsingException;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
@@ -9,6 +10,7 @@ use App\Repositories\ElectricityBillRepository;
 use App\Requests\Electricity\AddEditReadingRequest;
 use App\Requests\Electricity\GetReadingsRequest;
 use App\Requests\Electricity\GetYearStatsRequest;
+use App\Requests\ImportRequest;
 use App\Resources\DefaultResponse;
 
 class ElectricityBillController extends Controller {
@@ -199,11 +201,8 @@ class ElectricityBillController extends Controller {
   #[OA\Get(
     tags: ['Electricity'],
     path: '/api/electricity/bills/stats',
-    summary: 'Get Electricity Bill Yearly Stats',
+    summary: 'Get Electricity Bill Stats',
     security: [['token' => [], 'api-key' => []]],
-    parameters: [
-      new OA\Parameter(ref: '#/components/parameters/electricity_get_year_stats_year'),
-    ],
     responses: [
       new OA\Response(
         response: 200,
@@ -229,11 +228,57 @@ class ElectricityBillController extends Controller {
       new OA\Response(response: 500, ref: '#/components/responses/Failed'),
     ]
   )]
-  public function getYearStats(GetYearStatsRequest $request): JsonResponse {
-    $year = $request->input('year');
-
+  public function getStats(): JsonResponse {
     return DefaultResponse::success(null, [
-      'data' => $this->electricityBillRepository->getYearStats($year),
+      'data' => $this->electricityBillRepository->getStats(),
     ]);
+  }
+
+  #[OA\Post(
+    tags: ['Electricity'],
+    path: '/api/electricity/bills/import',
+    summary: 'Import a JSON file to seed data for electricity bills table',
+    security: [['token' => [], 'api-key' => []]],
+    requestBody: new OA\RequestBody(
+      required: true,
+      content: new OA\MediaType(
+        mediaType: 'multipart/form-data',
+        schema: new OA\Schema(
+          properties: [
+            new OA\Property(property: 'file', type: 'string', format: 'binary'),
+          ]
+        )
+      )
+    ),
+    responses: [
+      new OA\Response(
+        response: 200,
+        description: 'Success',
+        content: new OA\JsonContent(
+          allOf: [
+            new OA\Schema(ref: '#/components/schemas/DefaultSuccess'),
+            new OA\Schema(
+              properties: [
+                new OA\Property(property: 'data', ref: '#/components/schemas/DefaultImportSchema'),
+              ]
+            ),
+          ]
+        )
+      ),
+      new OA\Response(response: 401, ref: '#/components/responses/Unauthorized'),
+      new OA\Response(response: 500, ref: '#/components/responses/Failed'),
+    ]
+  )]
+  public function import(ImportRequest $request): JsonResponse {
+    $file = $request->file('file')->get();
+
+    if (!is_json($file)) {
+      throw new JsonParsingException();
+    }
+
+    $data = json_decode($file);
+    $import_count = $this->electricityBillRepository->import($data);
+
+    return DefaultResponse::success();
   }
 }

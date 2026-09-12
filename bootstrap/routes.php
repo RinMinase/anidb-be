@@ -397,7 +397,8 @@ Route::prefix('api')
 
             Route::prefix('bills')
               ->group(function () {
-                Route::get('stats', [\App\Controllers\ElectricityBillController::class, 'getYearStats']);
+                Route::post('import', [\App\Controllers\ElectricityBillController::class, 'import']);
+                Route::get('stats', [\App\Controllers\ElectricityBillController::class, 'getStats']);
 
                 Route::get('', [\App\Controllers\ElectricityBillController::class, 'index']);
                 Route::get('{id}', [\App\Controllers\ElectricityBillController::class, 'get']);

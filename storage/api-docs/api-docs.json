@@ -3255,13 +3255,8 @@
                 "tags": [
                     "Electricity"
                 ],
-                "summary": "Get Electricity Bill Yearly Stats",
-                "operationId": "4e147e627a8ec0a558278f1273b207e3",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/electricity_get_year_stats_year"
-                    }
-                ],
+                "summary": "Get Electricity Bill Stats",
+                "operationId": "2bc4db3bbed418170fccff542c462400",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -3284,6 +3279,67 @@
                                                         }
                                                     },
                                                     "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/Failed"
+                    }
+                },
+                "security": [
+                    {
+                        "token": [],
+                        "api-key": []
+                    }
+                ]
+            }
+        },
+        "/api/electricity/bills/import": {
+            "post": {
+                "tags": [
+                    "Electricity"
+                ],
+                "summary": "Import a JSON file to seed data for electricity bills table",
+                "operationId": "5378b67d61d55ebd2e7e57cecc6fe426",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/DefaultSuccess"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "$ref": "#/components/schemas/DefaultImportSchema"
                                                 }
                                             },
                                             "type": "object"
