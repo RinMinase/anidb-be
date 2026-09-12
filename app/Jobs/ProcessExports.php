@@ -40,10 +40,6 @@ use App\Models\PCSetup;
 use App\Models\Priority;
 use App\Models\Quality;
 use App\Models\Sequence;
-use App\Models\CarGas;
-use App\Models\CarMaintenance;
-use App\Models\CarMaintenancePart;
-use App\Models\CarMaintenanceType;
 
 use App\Enums\ExportTypesEnum;
 use App\Repositories\EntryRepository;
@@ -123,10 +119,6 @@ class ProcessExports implements ShouldQueue {
       'bucket_sim_infos',
       'bucket_sims',
       'buckets',
-      'car_gas',
-      'car_maintenance',
-      'car_maintenance_parts',
-      'car_maintenance_types',
       'catalogs',
       'codecs_audio',
       'codecs_video',
@@ -267,12 +259,6 @@ class ProcessExports implements ShouldQueue {
 
     $pc_setups = PCSetup::all()->toArray();
 
-    // Car
-    $car_gas = CarGas::all()->toArray();
-    $car_maintenance = CarMaintenance::all()->toArray();
-    $car_maintenance_parts = CarMaintenancePart::all()->toArray();
-    $car_maintenance_types = CarMaintenanceType::all()->toArray();
-
     $data = [
       'app_settings' => $app_settings,
 
@@ -306,11 +292,6 @@ class ProcessExports implements ShouldQueue {
       'pc_owners' => $pc_owners,
       'pc_infos' => $pc_infos,
       'pc_setups' => $pc_setups,
-
-      'car_gas' => $car_gas,
-      'car_maintenance' => $car_maintenance,
-      'car_maintenance_parts' => $car_maintenance_parts,
-      'car_maintenance_types' => $car_maintenance_types,
     ];
 
     $contents = json_encode($data, JSON_PRETTY_PRINT);

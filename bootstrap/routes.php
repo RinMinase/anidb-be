@@ -323,39 +323,6 @@ Route::prefix('api')
               });
           });
 
-        Route::prefix('gas')
-          ->middleware(IsAdminRole::class)
-          ->group(function () {
-            Route::get('', [\App\Controllers\CarGasController::class, 'get']);
-
-            Route::get('guide', [\App\Controllers\CarGasController::class, 'getGuide']);
-            Route::get('odo', [\App\Controllers\CarGasController::class, 'getOdo']);
-            Route::get('efficiency', [\App\Controllers\CarGasController::class, 'getEfficiency']);
-            Route::get('prices', [\App\Controllers\CarGasController::class, 'getPrices']);
-
-            Route::post('import', [\App\Controllers\CarGasController::class, 'import']);
-            Route::post('export', [\App\Controllers\CarGasController::class, 'export']);
-
-            Route::prefix('fuel')
-              ->group(function () {
-                Route::get('', [\App\Controllers\CarGasController::class, 'getFuelList']);
-                Route::get('{id}', [\App\Controllers\CarGasController::class, 'getFuel']);
-                Route::post('', [\App\Controllers\CarGasController::class, 'addFuel']);
-                Route::put('{id}', [\App\Controllers\CarGasController::class, 'editFuel']);
-                Route::delete('{id}', [\App\Controllers\CarGasController::class, 'deleteFuel']);
-              });
-
-            Route::prefix('maintenance')
-              ->group(function () {
-                Route::get('', [\App\Controllers\CarMaintenanceController::class, 'getMaintenanceList']);
-                Route::get('{id}', [\App\Controllers\CarMaintenanceController::class, 'getMaintenance']);
-                Route::post('', [\App\Controllers\CarMaintenanceController::class, 'addMaintenance']);
-                Route::put('{id}', [\App\Controllers\CarMaintenanceController::class, 'editMaintenance']);
-                Route::delete('{id}', [\App\Controllers\CarMaintenanceController::class, 'deleteMaintenance']);
-                Route::get('parts', [\App\Controllers\CarMaintenanceController::class, 'getMaintenanceParts']);
-              });
-          });
-
         Route::prefix('app-settings')
           ->middleware(IsAdminRole::class)
           ->group(function () {
@@ -364,48 +331,6 @@ Route::prefix('api')
             Route::post('', [\App\Controllers\AppSettingController::class, 'add']);
             Route::put('{id}', [\App\Controllers\AppSettingController::class, 'edit']);
             Route::delete('{id}', [\App\Controllers\AppSettingController::class, 'delete']);
-          });
-
-        Route::prefix('recipes')
-          ->middleware(IsAdminRole::class)
-          ->group(function () {
-            Route::get('', [\App\Controllers\RecipeController::class, 'index']);
-            Route::get('{id}', [\App\Controllers\RecipeController::class, 'get']);
-            Route::post('', [\App\Controllers\RecipeController::class, 'add']);
-            Route::put('{id}', [\App\Controllers\RecipeController::class, 'edit']);
-            Route::delete('{id}', [\App\Controllers\RecipeController::class, 'delete']);
-
-            Route::put('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageUpload']);
-            Route::delete('img-upload/{id}', [\App\Controllers\RecipeController::class, 'imageDelete']);
-          });
-
-        Route::prefix('electricity')
-          ->middleware(IsAdminRole::class)
-          ->group(function () {
-            Route::prefix('readings')
-              ->group(function () {
-                Route::post('import', [\App\Controllers\ElectricityReadingController::class, 'import']);
-                Route::get('month-stats', [\App\Controllers\ElectricityReadingController::class, 'getMonthStats']);
-                Route::get('year-stats', [\App\Controllers\ElectricityReadingController::class, 'getYearStats']);
-
-                Route::get('', [\App\Controllers\ElectricityReadingController::class, 'index']);
-                Route::get('{id}', [\App\Controllers\ElectricityReadingController::class, 'get']);
-                Route::post('', [\App\Controllers\ElectricityReadingController::class, 'add']);
-                Route::put('{id}', [\App\Controllers\ElectricityReadingController::class, 'edit']);
-                Route::delete('{id}', [\App\Controllers\ElectricityReadingController::class, 'delete']);
-              });
-
-            Route::prefix('bills')
-              ->group(function () {
-                Route::post('import', [\App\Controllers\ElectricityBillController::class, 'import']);
-                Route::get('stats', [\App\Controllers\ElectricityBillController::class, 'getStats']);
-
-                Route::get('', [\App\Controllers\ElectricityBillController::class, 'index']);
-                Route::get('{id}', [\App\Controllers\ElectricityBillController::class, 'get']);
-                Route::post('', [\App\Controllers\ElectricityBillController::class, 'add']);
-                Route::put('{id}', [\App\Controllers\ElectricityBillController::class, 'edit']);
-                Route::delete('{id}', [\App\Controllers\ElectricityBillController::class, 'delete']);
-              });
           });
       });
   });

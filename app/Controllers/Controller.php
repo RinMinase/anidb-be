@@ -47,9 +47,6 @@ use OpenApi\Attributes as OA;
 #[OA\Tag(name: "Management")]
 #[OA\Tag(name: "Sequence")]
 #[OA\Tag(name: "PC")]
-#[OA\Tag(name: "Car")]
-#[OA\Tag(name: "Recipes")]
-#[OA\Tag(name: "Electricity")]
 
 class Controller extends BaseController {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
